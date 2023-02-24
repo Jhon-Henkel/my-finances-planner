@@ -1,0 +1,27 @@
+{
+    "name": "my_finances_planner/app",
+    "description": "My Finances Planner",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/",
+            "tests\\": "tests/"
+        },
+        "files": []
+    },
+    "scripts": {
+        "php-unit": "vendor/bin/phpunit tests/Unit",
+        "php-coverage": "vendor/bin/phpunit --coverage-html tests/coverage/"
+    },
+    "authors": [
+        {
+            "name": "Jhonatan Henkel",
+            "email": "jhowrf@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "kint-php/kint": "^4.1",
+        "phpunit/phpunit": "^9",
+        "mockery/mockery": "^1.5"
+    }
+}
