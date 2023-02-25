@@ -1,10 +1,12 @@
 <?php
 
-namespace App\DAO;
+namespace App\Repositories;
 
 use Illuminate\Http\Request;
-
-interface TesteDaoContract
+/**
+ * @deprecated Classe para exemplo, excluirei em breve
+ */
+interface ExampleContractModel
 {
     public function indexTeste();
     public function getModel(int $id);

@@ -6,28 +6,28 @@ use Illuminate\Http\Request;
 
 abstract class BasicBO
 {
-    public function apiIndex()
+    public function findAll()
     {
-        return $this->dao->indexTeste();
+        return $this->repository->findAll();
     }
 
-    public function apiShow(int $id)
+    public function findById(int $id)
     {
-        return $this->dao->getModel($id);
+        return $this->repository->findById($id);
     }
 
-    public function apiInsert(Request $request)
+    public function insert(Request $request)
     {
-        return $this->dao->postTeste($request);
+        return $this->repository->insert($request);
     }
 
-    public function apiUpdate(int $id, Request $request)
+    public function update(int $id, Request $request)
     {
-        return $this->dao->putTeste($id, $request);
+        return $this->repository->update($id, $request);
     }
 
-    public function apiDelete(int $id)
+    public function deleteById(int $id)
     {
-        return $this->dao->deleteTeste($id);
+        return $this->repository->deleteById($id);
     }
 }

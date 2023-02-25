@@ -2,24 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\BO\TesteBO;
+use App\BO\ConfigBO;
+use App\Enums\ConfigEnum;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
+/**
+ * @deprecated Classe para exemplo, excluirei em breve
+ */
 class testeController extends BasicController
 {
-    private TesteBO $bo;
+    private ConfigBO $bo;
 
-    public function __construct(TesteBO $bo)
+    public function __construct(ConfigBO $bo)
     {
         $this->bo = $bo;
     }
 
     public function indexTeste()
     {
-        $teste = $this->bo->apiIndex();
+        $teste = $this->bo->getConfigValue(ConfigEnum::MFP_TOKEN);
+        d($teste);
+        die();
         if (count($teste) == 0) {
             return response()->json(array(), ResponseAlias::HTTP_OK);
         }
@@ -30,7 +36,7 @@ class testeController extends BasicController
     {
         //exemplo de responses
         try {
-            $teste = $this->bo->apiShow($id);
+            $teste = $this->bo->findById($id);
             if (!$teste) {
                 return response()->json('Registro não encontrado!',ResponseAlias::HTTP_NOT_FOUND);
             }
@@ -55,16 +61,16 @@ class testeController extends BasicController
         if ($validate->fails()) {
             return response()->json($validate->errors(), ResponseAlias::HTTP_BAD_REQUEST);
         }
-        return $this->bo->apiInsert($request);
+        return $this->bo->insert($request);
     }
 
     public function putTeste(int $id, Request $request)
     {
-        return $this->bo->apiUpdate($id, $request);
+        return $this->bo->update($id, $request);
     }
 
     public function deleteTeste(int $id)
     {
-        return $this->bo->apiDelete($id);
+        return $this->bo->deleteById($id);
     }
 }

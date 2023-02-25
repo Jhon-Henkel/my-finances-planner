@@ -1,11 +1,14 @@
 <?php
 
-namespace App\DAO;
+namespace App\Repositories;
 
 use App\Models\Teste;
 use Illuminate\Http\Request;
 
-class TesteDAO implements TesteDaoContract
+/**
+ * @deprecated Classe para exemplo, excluirei em breve
+ */
+class ExampleModel implements ExampleContractModel
 {
     private Teste $model;
 
