@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\ExampleEvent;
+use App\Listeners\ExampleListener;
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -11,18 +13,14 @@ class EventServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $listen = [
-        \App\Events\ExampleEvent::class => [
-            \App\Listeners\ExampleListener::class,
-        ],
-    ];
+    protected $listen = [ExampleEvent::class => [ExampleListener::class,]];
 
     /**
      * Determine if events and listeners should be automatically discovered.
      *
      * @return bool
      */
-    public function shouldDiscoverEvents()
+    public function shouldDiscoverEvents(): bool
     {
         return false;
     }

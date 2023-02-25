@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\TesteService;
+use App\BO\TesteBO;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
-class testeController extends Controller
+class testeController extends BasicController
 {
-    private TesteService $testeService;
+    private TesteBO $bo;
 
-    public function __construct(TesteService $testeService)
+    public function __construct(TesteBO $bo)
     {
-        $this->testeService = $testeService;
+        $this->bo = $bo;
     }
 
     public function indexTeste()
     {
-        $teste = $this->testeService->indexTeste();
+        $teste = $this->bo->indexTeste();
         if (count($teste) == 0) {
             return response()->json(array(), ResponseAlias::HTTP_OK);
         }
@@ -30,7 +30,7 @@ class testeController extends Controller
     {
         //exemplo de responses
         try {
-            $teste = $this->testeService->getTeste($id);
+            $teste = $this->bo->getTeste($id);
             if (!$teste) {
                 return response()->json('Registro não encontrado!',ResponseAlias::HTTP_NOT_FOUND);
             }
@@ -55,16 +55,16 @@ class testeController extends Controller
         if ($validate->fails()) {
             return response()->json($validate->errors(), ResponseAlias::HTTP_BAD_REQUEST);
         }
-        return $this->testeService->postTeste($request);
+        return $this->bo->postTeste($request);
     }
 
     public function putTeste(int $id, Request $request)
     {
-        return $this->testeService->putTeste($id, $request);
+        return $this->bo->putTeste($id, $request);
     }
 
     public function deleteTeste(int $id)
     {
-        return $this->testeService->deleteTeste($id);
+        return $this->bo->deleteTeste($id);
     }
 }

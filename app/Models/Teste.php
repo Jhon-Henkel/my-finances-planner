@@ -12,6 +12,8 @@ class Teste extends Model
     protected $fillable = array('id', 'name');
     //podemos converter valores vindos do db, exemplo 'dateStart' => 'Timestamp'
     protected $casts = array();
+    //colunas que seão ocultadas no retorno json
+    protected $hidden = array();
     //criar automaticamente campos updated_at, created_at e deleted_at, quando não se tem isso no db, marcar como false
     public $timestamps = false;
 }

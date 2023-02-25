@@ -1,44 +1,44 @@
 <?php
 
-namespace App\Repositories;
+namespace App\DAO;
 
 use App\Models\Teste;
 use Illuminate\Http\Request;
 
-class TesteRepositoryEloquent implements TesteRepositoryInterface
+class TesteDAO implements TesteDaoContract
 {
-    private Teste $teste;
+    private Teste $model;
 
-    public function __construct(Teste $teste)
+    public function __construct(Teste $model)
     {
-        $this->teste = $teste;
+        $this->model = $model;
     }
 
     public function indexTeste()
     {
-        return $this->teste->select()->get();
+        return $this->model->select()->get();
     }
 
-    public function getTeste(int $id)
+    public function getModel(int $id)
     {
-        return $this->teste->find($id);
+        return $this->model->find($id);
     }
 
     public function postTeste(Request $request)
     {
         //O nome do campo no jsom tem que ser exatamente igual ao da coluna no db
-        return $this->teste->create($request->all());
+        return $this->model->create($request->all());
     }
 
     public function putTeste(int $id, Request $request)
     {
         //No put ele só retorna 1 ou 0, para informar se foi atualizado ou não
-        return $this->teste->where('id', $id)->update(($request->all()));
+        return $this->model->where('id', $id)->update(($request->all()));
     }
 
     public function deleteTeste(int $id)
     {
-        $teste = $this->teste->find($id);
+        $teste = $this->model->find($id);
         return $teste->delete();
     }
 }

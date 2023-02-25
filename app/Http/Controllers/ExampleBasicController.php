@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-class ExampleController extends Controller
+class ExampleBasicController extends BasicController
 {
     /**
      * Create a new controller instance.

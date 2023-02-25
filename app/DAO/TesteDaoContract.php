@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Repositories;
+namespace App\DAO;
 
 use Illuminate\Http\Request;
 
-interface TesteRepositoryInterface
+interface TesteDaoContract
 {
     public function indexTeste();
-    public function getTeste(int $id);
+    public function getModel(int $id);
     public function postTeste(Request $request);
     public function putTeste(int $id, Request $request);
     public function deleteTeste(int $id);

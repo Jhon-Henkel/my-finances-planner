@@ -9,8 +9,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            'App\Repositories\TesteRepositoryInterface',
-            'App\Repositories\TesteRepositoryEloquent'
+            'App\DAO\TesteDaoContract',
+            'App\DAO\TesteDAO'
         );
     }
 }
