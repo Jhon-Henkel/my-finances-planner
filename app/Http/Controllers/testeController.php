@@ -19,7 +19,7 @@ class testeController extends BasicController
 
     public function indexTeste()
     {
-        $teste = $this->bo->indexTeste();
+        $teste = $this->bo->apiIndex();
         if (count($teste) == 0) {
             return response()->json(array(), ResponseAlias::HTTP_OK);
         }
@@ -30,7 +30,7 @@ class testeController extends BasicController
     {
         //exemplo de responses
         try {
-            $teste = $this->bo->getTeste($id);
+            $teste = $this->bo->apiGet($id);
             if (!$teste) {
                 return response()->json('Registro não encontrado!',ResponseAlias::HTTP_NOT_FOUND);
             }
@@ -55,16 +55,16 @@ class testeController extends BasicController
         if ($validate->fails()) {
             return response()->json($validate->errors(), ResponseAlias::HTTP_BAD_REQUEST);
         }
-        return $this->bo->postTeste($request);
+        return $this->bo->apiInsert($request);
     }
 
     public function putTeste(int $id, Request $request)
     {
-        return $this->bo->putTeste($id, $request);
+        return $this->bo->apiUpdate($id, $request);
     }
 
     public function deleteTeste(int $id)
     {
-        return $this->bo->deleteTeste($id);
+        return $this->bo->apiDelete($id);
     }
 }
