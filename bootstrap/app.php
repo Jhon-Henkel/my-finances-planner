@@ -11,6 +11,10 @@ use App\Console\Kernel;
 use App\Http\Middleware\Authenticate;
 use App\Providers\AppServiceProvider;
 use App\Providers\AuthServiceProvider;
+use Illuminate\Mail\MailServiceProvider;
+use Illuminate\Mail\Mailer;
+use Illuminate\Contracts\Mail\Mailer as MailerContract;
+use Illuminate\Contracts\Mail\MailQueue;
 
 (new LoadEnvironmentVariables(dirname(__DIR__)))->bootstrap();
 
@@ -22,11 +26,16 @@ $app->withEloquent();
 $app->singleton(ExceptionHandler::class, Handler::class);
 $app->singleton(KernelContract::class, Kernel::class);
 $app->configure('app');
-// $app->middleware([App\Http\Middleware\ExampleMiddleware::class]);
+$app->configure('mail');
 $app->routeMiddleware(['auth' => Authenticate::class,]);
+// $app->middleware([App\Http\Middleware\ExampleMiddleware::class]);
+// $app->register(App\Providers\EventServiceProvider::class);
 $app->register(AppServiceProvider::class);
 $app->register(AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(MailServiceProvider::class);
+$app->alias('mailer', Mailer::class);
+$app->alias('mailer', MailerContract::class);
+$app->alias('mailer', MailQueue::class);
 $app->router->group(
     ['namespace' => 'App\Http\Controllers'],
     function ($router) {
