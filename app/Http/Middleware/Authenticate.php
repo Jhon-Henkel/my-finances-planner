@@ -9,36 +9,17 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class Authenticate
 {
-    /**
-     * The authentication guard factory instance.
-     *
-     * @var Auth
-     */
     protected Auth $auth;
 
-    /**
-     * Create a new middleware instance.
-     *
-     * @param Auth $auth
-     * @return void
-     */
     public function __construct(Auth $auth)
     {
         $this->auth = $auth;
     }
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param Request  $request
-     * @param Closure $next
-     * @param string|null  $guard
-     * @return mixed
-     */
     public function handle(Request $request, Closure $next, null|string $guard = null): mixed
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Não autorizado!', ResponseAlias::HTTP_UNAUTHORIZED);
+            return response(json_encode('Não autorizado!'), ResponseAlias::HTTP_UNAUTHORIZED);
         }
         return $next($request);
     }
