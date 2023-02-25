@@ -1,10 +1,10 @@
 <?php
 
-namespace App\BO;
+namespace App\Services;
 
 use Illuminate\Http\Request;
 
-abstract class BasicBO
+abstract class BasicService
 {
     public function findAll()
     {

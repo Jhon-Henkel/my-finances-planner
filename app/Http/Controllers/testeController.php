@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\BO\ConfigBO;
+use App\Services\ConfigService;
 use App\Enums\ConfigEnum;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
  */
 class testeController extends BasicController
 {
-    private ConfigBO $bo;
+    private ConfigService $bo;
 
-    public function __construct(ConfigBO $bo)
+    public function __construct(ConfigService $bo)
     {
         $this->bo = $bo;
     }

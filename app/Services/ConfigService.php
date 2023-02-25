@@ -1,11 +1,11 @@
 <?php
 
-namespace App\BO;
+namespace App\Services;
 
 use App\Enums\ConfigEnum;
 use App\Repositories\ConfigRepository;
 
-class ConfigBO extends BasicBO
+class ConfigService extends BasicService
 {
     protected $repository;
 
