@@ -7,7 +7,7 @@ use App\Repositories\ConfigRepository;
 
 class ConfigService extends BasicService
 {
-    protected $repository;
+    protected ConfigRepository $repository;
 
     public function __construct(ConfigRepository $repository)
     {
