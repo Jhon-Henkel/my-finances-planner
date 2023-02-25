@@ -30,7 +30,7 @@ class testeController extends BasicController
     {
         //exemplo de responses
         try {
-            $teste = $this->bo->apiGet($id);
+            $teste = $this->bo->apiShow($id);
             if (!$teste) {
                 return response()->json('Registro não encontrado!',ResponseAlias::HTTP_NOT_FOUND);
             }

@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": "^8.1",
+        "illuminate/console": "^10.1",
         "kint-php/kint": "^5.0",
         "kint-php/kint-helpers": "^5.0",
         "laravel/lumen-framework": "^10.0"
@@ -28,9 +29,15 @@
         }
     },
     "scripts": {
-        "test-unit": "vendor/bin/phpunit ./tests/Unit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html ./tests/coverage/",
-        "test-feature": "vendor/bin/phpunit ./tests/Feature"
+        "test:unit": "vendor/bin/phpunit ./tests/Unit",
+        "test:coverage": "vendor/bin/phpunit --coverage-html ./tests/coverage/",
+        "test:feature": "vendor/bin/phpunit ./tests/Feature",
+        "migration:make": "php artisan make:migration migration",
+        "migration:run": "php artisan migrate",
+        "migration:rollback": "php artisan migrate:rollback",
+        "migration:status": "php artisan migrate:status",
+        "cache:clear": "php artisan clear:cache",
+        "help": "php artisan list"
     },
     "config": {
         "optimize-autoloader": true,

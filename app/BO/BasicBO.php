@@ -11,7 +11,7 @@ abstract class BasicBO
         return $this->dao->indexTeste();
     }
 
-    public function apiGet(int $id)
+    public function apiShow(int $id)
     {
         return $this->dao->getModel($id);
     }
