@@ -33,4 +33,4 @@ RUN pecl install xdebug \
         && echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/xdebug.ini \
         && echo "xdebug.client_host = 127.0.0.1" >> /usr/local/etc/php/conf.d/xdebug.ini \
         && echo "xdebug.client_port = 9003" >> /usr/local/etc/php/conf.d/xdebug.ini \
-        && echo "xdebug.start_with_request=trigger" >> /usr/local/etc/php/conf.d/xdebug.ini;
+        && echo "xdebug.start_with_request=trigger" >> /usr/local/etc/php/conf.d/xdebug.ini \

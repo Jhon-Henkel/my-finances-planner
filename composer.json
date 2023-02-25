@@ -1,27 +1,42 @@
 {
-    "name": "my_finances_planner/app",
-    "description": "My Finances Planner",
+    "name": "my_finances_planner/lumen",
+    "description": "App for finances planner in lumen framework",
+    "keywords": ["framework", "laravel", "lumen"],
+    "license": "MIT",
     "type": "project",
+    "require": {
+        "php": "^8.1",
+        "kint-php/kint": "^5.0",
+        "kint-php/kint-helpers": "^5.0",
+        "laravel/lumen-framework": "^10.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.9.1",
+        "mockery/mockery": "^1.4.4",
+        "phpunit/phpunit": "^10.0"
+    },
     "autoload": {
         "psr-4": {
-            "src\\": "src/",
-            "tests\\": "tests/"
-        },
-        "files": []
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
-        "php-unit": "vendor/bin/phpunit tests/Unit",
-        "php-coverage": "vendor/bin/phpunit --coverage-html tests/coverage/"
+        "test-unit": "vendor/bin/phpunit ./tests/Unit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html ./tests/coverage/",
+        "test-feature": "vendor/bin/phpunit ./tests/Feature"
     },
-    "authors": [
-        {
-            "name": "Jhonatan Henkel",
-            "email": "jhowrf@gmail.com"
-        }
-    ],
-    "require-dev": {
-        "kint-php/kint": "^4.1",
-        "phpunit/phpunit": "^9",
-        "mockery/mockery": "^1.5"
-    }
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
