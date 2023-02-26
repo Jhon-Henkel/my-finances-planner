@@ -2,36 +2,47 @@
 
 namespace App\Repositories;
 
-class BasicRepository
+abstract class BasicRepository implements BasicRepositoryContract
 {
+    protected abstract function getModel();
+    protected abstract function getResource();
+
+    // todo os itens achados devem passar pelo resource
     public function findAll()
     {
-        return $this->model->all();
+        return $this->getModel()->all();
     }
 
+    // todo os itens achados devem passar pelo resource
     public function findById(int $id)
     {
-        return $this->model->find($id);
+        return $this->getModel()->find($id);
     }
 
+    // todo os itens criados devem passar pelo resource
     public function insert($item)
     {
-        return $this->model->create($item->all());
+        $array = $this->getResource()->dtoToArray($item);
+        return $this->getModel()->create($array);
     }
 
     public function update(int $id, $item)
     {
-        return $this->model->where('id', $id)->update(($item->all()));
+        $array = $this->getResource()->dtoToArray($item);
+        $this->getModel()->where('id', $id)->update($array);
+        return $this->findById($id);
     }
 
-    public function deleteById(int $id)
+    public function deleteById(int $id): bool
     {
-        $teste = $this->model->find($id);
-        return $teste->delete();
+        $item = $this->getModel()->find($id);
+        $item?->delete();
+        return true;
     }
 
+    // todo os itens achados devem passar pelo resource
     public function findByName(string $name): mixed
     {
-        return $this->model->where('name', $name)->get();
+        return $this->getModel()->where('name', $name)->get();
     }
 }

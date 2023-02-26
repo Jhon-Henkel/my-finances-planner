@@ -19,7 +19,10 @@ class Authenticate
     public function handle(Request $request, Closure $next, null|string $guard = null): mixed
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response(json_encode('Não autorizado!'), ResponseAlias::HTTP_UNAUTHORIZED);
+            return response()->json(
+                'Não autorizado, mfp-token invalido ou ausente!',
+                ResponseAlias::HTTP_UNAUTHORIZED
+            );
         }
         return $next($request);
     }

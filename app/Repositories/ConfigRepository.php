@@ -12,4 +12,14 @@ class ConfigRepository extends BasicRepository
     {
         $this->model = $model;
     }
+
+    protected function getModel(): ConfigModel
+    {
+        return $this->model;
+    }
+
+    protected function getResource()
+    {
+        // TODO: Implement getResource() method.
+    }
 }

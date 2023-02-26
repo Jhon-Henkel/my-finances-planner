@@ -2,32 +2,32 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Request;
-
-abstract class BasicService
+abstract class BasicService implements BasicServiceContract
 {
+    protected abstract function getRepository();
+
     public function findAll()
     {
-        return $this->repository->findAll();
+        return $this->getRepository()->findAll();
     }
 
     public function findById(int $id)
     {
-        return $this->repository->findById($id);
+        return $this->getRepository()->findById($id);
     }
 
-    public function insert(Request $request)
+    public function insert($request)
     {
-        return $this->repository->insert($request);
+        return $this->getRepository()->insert($request);
     }
 
-    public function update(int $id, Request $request)
+    public function update(int $id, $request)
     {
-        return $this->repository->update($id, $request);
+        return $this->getRepository()->update($id, $request);
     }
 
     public function deleteById(int $id)
     {
-        return $this->repository->deleteById($id);
+        return $this->getRepository()->deleteById($id);
     }
 }

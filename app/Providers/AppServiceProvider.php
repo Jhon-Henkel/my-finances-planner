@@ -9,8 +9,20 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            'App\Repositories\ExampleContractModel',
-            'App\Repositories\ExampleModel'
+            'App\Repositories\BasicRepositoryContract',
+            'App\Repositories\BasicRepository'
+        );
+        $this->app->bind(
+            'App\Http\BasicControllerContract',
+            'App\Http\BasicController'
+        );
+        $this->app->bind(
+            'App\Http\Resources\BasicControllerContract',
+            'App\Http\Resources\BasicController'
+        );
+        $this->app->bind(
+            'App\Services\BasicServiceContract',
+            'App\Services\BasicService'
         );
     }
 }

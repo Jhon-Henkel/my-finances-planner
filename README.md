@@ -24,3 +24,12 @@ If you discover a security vulnerability within Lumen, please send an e-mail to 
 ## License
 
 The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Como configurar o projeto:
+- docker-compose up -d
+- composer update e npm update dentro do container
+- renomear o .env.exemple para .env
+- adicionar um hash md5 no APP_KEY do arquivo .env
+- configurar o .env com as suas informações de e-mail e database
+- o hash para request se encontra na tabela config na config mfp-token
+- rodar composer run migrations:run dentro do container

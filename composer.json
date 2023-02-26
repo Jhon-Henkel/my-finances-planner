@@ -37,7 +37,7 @@
         "migration:run": "php artisan migrate",
         "migration:rollback": "php artisan migrate:rollback",
         "migration:status": "php artisan migrate:status",
-        "cache:clear": "php artisan clear:cache",
+        "cache:clear": "php artisan cache:clear",
         "help": "php artisan list"
     },
     "config": {
