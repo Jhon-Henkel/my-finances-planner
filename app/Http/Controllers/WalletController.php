@@ -43,4 +43,9 @@ class WalletController extends BasicController
     {
         return $this->resource;
     }
+
+    public function showByType(int $type)
+    {
+        return $this->service->findAllByType($type);
+    }
 }

@@ -17,4 +17,9 @@ class WalletService extends BasicService
     {
         return $this->repository;
     }
+
+    public function findAllByType(int $type)
+    {
+        return $this->repository->findAllByType($type);
+    }
 }

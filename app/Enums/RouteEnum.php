@@ -10,6 +10,8 @@ class RouteEnum
     const API_WALLET_INDEX_METHOD = 'WalletController@index';
     const API_WALLET_SHOW = 'apiWalletShow';
     const API_WALLET_SHOW_METHOD = 'WalletController@show';
+    const API_WALLET_SHOW_TYPE = 'apiWalletShowType';
+    const API_WALLET_SHOW_TYPE_METHOD = 'WalletController@showByType';
     const API_WALLET_INSERT = 'apiWalletInsert';
     const API_WALLET_INSERT_METHOD = 'WalletController@insert';
     const API_WALLET_UPDATE = 'apiWalletUpdate';
@@ -27,6 +29,10 @@ class RouteEnum
             'apiWalletShow' => array(
                 self::NAME => self::API_WALLET_SHOW,
                 self::METHOD => self::API_WALLET_SHOW_METHOD
+            ),
+            'apiWalletShowType' => array(
+                self::NAME => self::API_WALLET_SHOW_TYPE,
+                self::METHOD => self::API_WALLET_SHOW_TYPE_METHOD
             ),
             'apiWalletInsert' => array(
                 self::NAME => self::API_WALLET_INSERT,
