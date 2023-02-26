@@ -26,8 +26,9 @@ class WalletRepository extends BasicRepository
         return $this->resource;
     }
 
-    public function findAllByType(int $type): mixed
+    public function findAllByType(int $type): array
     {
-        return $this->model->where('type', $type)->get();
+        $itens = $this->model->where('type', $type)->get()->toArray();
+        return $this->resource->arrayToDtoItens($itens);
     }
 }

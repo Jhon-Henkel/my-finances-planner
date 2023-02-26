@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\WalletResource;
 use App\Services\WalletService;
+use App\VO\WalletVO;
 
 class WalletController extends BasicController
 {
@@ -44,8 +45,13 @@ class WalletController extends BasicController
         return $this->resource;
     }
 
-    public function showByType(int $type)
+    /**
+     * @param int $type
+     * @return WalletVO[]
+     */
+    public function showByType(int $type): array
     {
-        return $this->service->findAllByType($type);
+        $itens = $this->service->findAllByType($type);
+        return $this->resource->arrayDtoToVoItens($itens);
     }
 }

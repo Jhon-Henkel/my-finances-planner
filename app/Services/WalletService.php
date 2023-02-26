@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\WalletDTO;
 use App\Repositories\WalletRepository;
 
 class WalletService extends BasicService
@@ -18,7 +19,11 @@ class WalletService extends BasicService
         return $this->repository;
     }
 
-    public function findAllByType(int $type)
+    /**
+     * @param int $type
+     * @return WalletDTO[]
+     */
+    public function findAllByType(int $type): array
     {
         return $this->repository->findAllByType($type);
     }
