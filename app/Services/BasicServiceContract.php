@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 
 interface BasicServiceContract
 {
@@ -11,4 +12,5 @@ interface BasicServiceContract
     public function insert($request);
     public function update(int $id, $request);
     public function deleteById(int $id);
+    public function isInvalidRequest(Request $request, array $rules): MessageBag|bool;
 }

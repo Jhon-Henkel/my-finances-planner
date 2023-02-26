@@ -6,7 +6,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use Laravel\Lumen\Http\ResponseFactory;
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -18,19 +17,6 @@ abstract class BasicController extends BaseController implements BasicController
     protected abstract function rulesUpdate():array;
     protected abstract function getService();
     protected abstract function getResource();
-
-    protected function rulesInsertMessages(): array
-    {
-        return array(
-            'required' => 'O :attribute é obrigatório!',
-            'unique' => 'O :attribute já existe!',
-            'max' => 'O :attribute não pode ser maior que :max caracteres!',
-            'min' => 'O :attribute não pode ser menor que :min caracteres!',
-            'int' => 'O :attribute deve ser do tipo int!',
-            'string' => 'O :attribute deve ser do tipo string!',
-            'decimal' => 'O :attribute deve ser do tipo decimal com o mínimo de 0 casa e máximos de 2 casas!'
-        );
-    }
 
     public function index(): JsonResponse
     {
@@ -59,7 +45,7 @@ abstract class BasicController extends BaseController implements BasicController
     public function insert(Request $request): JsonResponse
     {
         try {
-            $invalid = $this->isInvalidRequest($request, $this->rulesInsert());
+            $invalid = $this->getService()->isInvalidRequest($request, $this->rulesInsert());
             if ($invalid instanceof MessageBag) {
                 return response()->json($invalid, ResponseAlias::HTTP_BAD_REQUEST);
             }
@@ -76,7 +62,7 @@ abstract class BasicController extends BaseController implements BasicController
     public function update(int $id, Request $request): JsonResponse
     {
         try {
-            $invalid = $this->isInvalidRequest($request, $this->rulesUpdate());
+            $invalid = $this->getService()->isInvalidRequest($request, $this->rulesUpdate());
             if ($invalid instanceof MessageBag) {
                 return response()->json($invalid, ResponseAlias::HTTP_BAD_REQUEST);
             }
@@ -96,13 +82,6 @@ abstract class BasicController extends BaseController implements BasicController
         } catch (QueryException $exception) {
             return $this->returnErrorDatabaseConnect();
         }
-    }
-
-    // todo esse método deveria estar no basicService
-    protected function isInvalidRequest(Request $request, array $rules): MessageBag|bool
-    {
-        $validate = Validator::make($request->all(), $rules, $this->rulesInsertMessages());
-        return $validate->fails() ? $validate->errors() : false;
     }
 
     protected function returnErrorDatabaseConnect(): JsonResponse

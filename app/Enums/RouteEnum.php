@@ -40,8 +40,6 @@ class RouteEnum
                 self::NAME => self::API_WALLET_DELETE,
                 self::METHOD => self::API_WALLET_DELETE_METHOD
             ),
-            //todo fazer redirecionar para 'method dont allowed' no default
-            default => array(),
         };
     }
 }
