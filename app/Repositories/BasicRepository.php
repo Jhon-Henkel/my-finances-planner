@@ -7,23 +7,23 @@ abstract class BasicRepository implements BasicRepositoryContract
     protected abstract function getModel();
     protected abstract function getResource();
 
-    // todo os itens achados devem passar pelo resource
     public function findAll()
     {
-        return $this->getModel()->all();
+        $itens = $this->getModel()->all();
+        return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
     }
 
-    // todo os itens achados devem passar pelo resource
     public function findById(int $id)
     {
-        return $this->getModel()->find($id);
+        $item = $this->getModel()->find($id);
+        return $item ? $this->getResource()->arrayToDto($item->toArray()) : null;
     }
 
-    // todo os itens criados devem passar pelo resource
     public function insert($item)
     {
         $array = $this->getResource()->dtoToArray($item);
-        return $this->getModel()->create($array);
+        $inserted = $this->getModel()->create($array)->toArray();
+        return $this->getResource()->arrayToDto($inserted);
     }
 
     public function update(int $id, $item)

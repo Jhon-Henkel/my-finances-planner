@@ -22,9 +22,8 @@ abstract class BasicController extends BaseController implements BasicController
     {
         try {
             $find = $this->getService()->findAll();
-            return count($find) == 0
-                ? response()->json(array(), ResponseAlias::HTTP_OK)
-                : response()->json($find, ResponseAlias::HTTP_OK);
+            $itens = $this->getResource()->arrayDtoToVoItens($find);
+            return response()->json($itens, ResponseAlias::HTTP_OK);
         } catch (QueryException $exception) {
             return $this->returnErrorDatabaseConnect();
         }
@@ -35,7 +34,7 @@ abstract class BasicController extends BaseController implements BasicController
         try {
             $find = $this->getService()->findById($id);
             return $find
-                ? response()->json($find, ResponseAlias::HTTP_OK)
+                ? response()->json($this->getResource()->dtoToVo($find), ResponseAlias::HTTP_OK)
                 : response()->json('Registro não encontrado!',ResponseAlias::HTTP_NOT_FOUND);
         } catch (QueryException $exception) {
             return $this->returnErrorDatabaseConnect();
@@ -52,7 +51,7 @@ abstract class BasicController extends BaseController implements BasicController
             $item = $this->getResource()->arrayToDto($request->json()->all());
             $insert = $this->getService()->insert($item);
             return $insert
-                ? response()->json($insert->getAttributes(), ResponseAlias::HTTP_CREATED)
+                ? response()->json($this->getResource()->dtoToVo($insert), ResponseAlias::HTTP_CREATED)
                 : response()->json('Erro ao inserir item.', ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
         } catch (QueryException $exception) {
             return $this->returnErrorDatabaseConnect();
@@ -68,7 +67,7 @@ abstract class BasicController extends BaseController implements BasicController
             }
             $item = $this->getResource()->arrayToDto($request->json()->all());
             $updated = $this->getService()->update($id, $item);
-            return response()->json($updated, ResponseAlias::HTTP_OK);
+            return response()->json($this->getResource()->dtoToVo($updated), ResponseAlias::HTTP_OK);
         } catch (QueryException $exception) {
             return $this->returnErrorDatabaseConnect();
         }
