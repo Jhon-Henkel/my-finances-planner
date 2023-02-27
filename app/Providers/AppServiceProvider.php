@@ -17,8 +17,8 @@ class AppServiceProvider extends ServiceProvider
             'App\Http\BasicController'
         );
         $this->app->bind(
-            'App\Http\Resources\BasicControllerContract',
-            'App\Http\Resources\BasicController'
+            'App\Resources\BasicControllerContract',
+            'App\Resources\BasicController'
         );
         $this->app->bind(
             'App\Services\BasicServiceContract',
