@@ -43,10 +43,10 @@ class WalletResource extends BasicResource
     }
 
     /**
-     * @param array $itens
+     * @param null|array $itens
      * @return WalletDTO[]
      */
-    public function arrayToDtoItens(array $itens): array
+    public function arrayToDtoItens(null|array $itens): array
     {
         if (!$itens) {
             return array();
@@ -59,10 +59,10 @@ class WalletResource extends BasicResource
     }
 
     /**
-     * @param array $itens
+     * @param null|array $itens
      * @return WalletVO[]
      */
-    public function arrayDtoToVoItens(array $itens): array
+    public function arrayDtoToVoItens(null|array $itens): array
     {
         if (!$itens) {
             return array();
