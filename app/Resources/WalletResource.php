@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Resources;
 
 use App\DTO\WalletDTO;
 use App\VO\WalletVO;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\WalletResource;
+use App\Resources\WalletResource;
 use App\Services\WalletService;
 use App\VO\WalletVO;
 

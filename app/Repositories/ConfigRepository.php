@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\ConfigResource;
 use App\Models\ConfigModel;
+use App\Resources\ConfigResource;
 
 class ConfigRepository extends BasicRepository
 {

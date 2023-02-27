@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\WalletResource;
 use App\Models\WalletModel;
+use App\Resources\WalletResource;
 
 class WalletRepository extends BasicRepository
 {
