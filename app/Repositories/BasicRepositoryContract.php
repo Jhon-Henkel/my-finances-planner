@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 interface BasicRepositoryContract
 {
-    public function findAll();
+    public function findAll(): array;
     public function findById(int $id);
     public function insert($item);
     public function update(int $id, $item);

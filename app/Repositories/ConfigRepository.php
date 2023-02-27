@@ -2,15 +2,18 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\ConfigResource;
 use App\Models\ConfigModel;
 
 class ConfigRepository extends BasicRepository
 {
     protected ConfigModel $model;
+    protected ConfigResource $resource;
 
     public function __construct(ConfigModel $model)
     {
         $this->model = $model;
+        $this->resource = app(ConfigResource::class);
     }
 
     protected function getModel(): ConfigModel
@@ -20,6 +23,6 @@ class ConfigRepository extends BasicRepository
 
     protected function getResource()
     {
-        // TODO: Implement getResource() method.
+        return $this->resource;
     }
 }

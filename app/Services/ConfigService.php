@@ -21,6 +21,6 @@ class ConfigService extends BasicService
 
     public function getConfigValue(string $configName): mixed
     {
-        return $this->repository->findByName($configName)->first()->getAttribute(ConfigEnum::VALUE);
+        return $this->repository->findByName($configName)->getValue();
     }
 }

@@ -8,7 +8,7 @@ class ConfigModel extends Model
 {
     protected $table = 'config';
     protected $fillable = array('id', 'name', 'value');
-    protected $casts = array('created_at' => 'Timestamp', 'updated_at' => 'Timestamp');
+    protected $casts = array('created_at' => 'datetime:Y-m-d H:m:s', 'updated_at' => 'datetime:Y-m-d H:m:s');
     protected $hidden = array();
     public $timestamps = false;
 }

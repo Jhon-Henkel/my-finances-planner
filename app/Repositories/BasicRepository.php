@@ -7,7 +7,7 @@ abstract class BasicRepository implements BasicRepositoryContract
     protected abstract function getModel();
     protected abstract function getResource();
 
-    public function findAll()
+    public function findAll(): array
     {
         $itens = $this->getModel()->all();
         return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
@@ -40,9 +40,9 @@ abstract class BasicRepository implements BasicRepositoryContract
         return true;
     }
 
-    // todo os itens achados devem passar pelo resource
     public function findByName(string $name): mixed
     {
-        return $this->getModel()->where('name', $name)->get();
+        $item = $this->getModel()->where('name', $name)->get();
+        return $item ? $this->getResource()->arrayToDtoItens($item->toArray()) : null;
     }
 }

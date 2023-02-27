@@ -3,7 +3,7 @@
 use Laravel\Lumen\Routing\Router;
 use App\Enums\RouteEnum;
 
-//todo fazer redirecionar para 'method not allowed' quando rota não existir
+//todo fazer redirecionar para 'method not allowed' quando rota não existir ou for inválida
 /** @var Router $router */
 $router->group(array('prefix' => 'api', 'middleware' => 'auth'), function () use ($router) {
     $router->group(array('prefix' => 'wallet'), function () use ($router) {
