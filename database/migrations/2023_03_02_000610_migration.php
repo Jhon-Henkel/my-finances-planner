@@ -12,13 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wallet', function (Blueprint $table) {
+        Schema::create('movement', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', '255')->nullable(false)->unique();
+            $table->integer('wallet_id')->unsigned();
+            $table->string('description', '255')->nullable(false)->unique();
             $table->integer('type');
             $table->decimal('amount', 60,2);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->foreign('wallet_id')->references('id')->on('wallet');
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::drop('wallet');
+        Schema::drop('movement');
     }
 };
