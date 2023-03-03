@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('movement', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('wallet_id')->unsigned();
-            $table->string('description', '255')->nullable(false)->unique();
+            $table->string('description', '255');
             $table->integer('type');
             $table->decimal('amount', 60,2);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
