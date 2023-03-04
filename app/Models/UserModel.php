@@ -14,6 +14,6 @@ class UserModel extends Model implements AuthenticatableContract, AuthorizableCo
     use Authenticatable, Authorizable, HasFactory;
 
     protected $table = 'user';
-    protected $fillable = array('name', 'email',);
+    protected $fillable = array('name', 'email');
     protected $hidden = array('password');
 }
