@@ -2,31 +2,81 @@
 
 namespace App\Resources;
 
+use App\DTO\MovementDTO;
+use App\VO\MovementVO;
+
 class MovementResource extends BasicResource
 {
 
-    public function arrayToDto(array $item)
+    public function arrayToDto(array $item): MovementDTO
     {
-        // TODO: Implement arrayToDto() method.
+        $dto = new MovementDTO();
+        $dto->setId($item['id'] ?? null);
+        $dto->setWalletId($item['walletId'] ?? $item['wallet_id']);
+        $dto->setDescription($item['description']);
+        $dto->setType($item['type']);
+        $dto->setAmount($item['amount']);
+        $dto->setCreatedAt($item['created_at'] ?? null);
+        $dto->setUpdatedAt($item['updated_at'] ?? null);
+        return $dto;
     }
 
+    /** @var MovementDTO $item */
     public function dtoToArray($item): array
     {
-        // TODO: Implement dtoToArray() method.
+        return array(
+            'wallet_id' => $item->getWalletId(),
+            'description' => $item->getDescription(),
+            'type' => $item->getType(),
+            'amount' => $item->getAmount()
+        );
     }
 
-    public function dtoToVo($item)
+    /** @var MovementDTO $item */
+    public function dtoToVo($item): MovementVO
     {
-        // TODO: Implement dtoToVo() method.
+        $vo = new MovementVO();
+        $vo->id = $item->getId();
+        $vo->walletId = $item->getWalletId();
+        $vo->description = $item->getDescription();
+        $vo->type = $item->getType();
+        $vo->amount = $item->getAmount();
+        $vo->createdAt = $item->getCreatedAt();
+        $vo->updatedAt = $item->getUpdatedAt();
+        return $vo;
     }
 
-    public function arrayToDtoItens(array $itens): mixed
+    /**
+     * todo mover para o basic
+     * @param null|array $itens
+     * @return MovementDTO[]
+     */
+    public function arrayToDtoItens(null|array $itens): array
     {
-        // TODO: Implement arrayToDtoItens() method.
+        if (!$itens) {
+            return array();
+        }
+        $itensResourced = array();
+        foreach ($itens as $item) {
+            $itensResourced[] = $this->arrayToDto($item);
+        }
+        return $itensResourced;
     }
 
-    public function arrayDtoToVoItens(array $itens): array
+    /**
+     * todo mover para o basic
+     * @param null|array $itens
+     * @return MovementDTO[]
+     */
+    public function arrayDtoToVoItens(null|array $itens): array
     {
-        // TODO: Implement arrayDtoToVoItens() method.
+        if (!$itens) {
+            return array();
+        }
+        $itensResourced = array();
+        foreach ($itens as $item) {
+            $itensResourced[] = $this->dtoToVo($item);
+        }
+        return $itensResourced;
     }
 }

@@ -43,6 +43,7 @@ class WalletResource extends BasicResource
     }
 
     /**
+     * todo mover para o basic
      * @param null|array $itens
      * @return WalletDTO[]
      */
@@ -59,6 +60,7 @@ class WalletResource extends BasicResource
     }
 
     /**
+     * todo mover para o basic
      * @param null|array $itens
      * @return WalletVO[]
      */

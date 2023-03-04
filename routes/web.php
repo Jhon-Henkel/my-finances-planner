@@ -16,4 +16,14 @@ $router->group(array('prefix' => 'api', 'middleware' => 'auth'), function () use
             $router->get('/{type}', RouteEnum::getRouteParams(RouteEnum::API_WALLET_SHOW_TYPE));
         });
     });
+    $router->group(array('prefix' => 'movement'), function () use ($router) {
+        $router->get('', RouteEnum::getRouteParams(RouteEnum::API_MOVEMENT_INDEX));
+        $router->get('/{id}', RouteEnum::getRouteParams(RouteEnum::API_MOVEMENT_SHOW));
+        $router->post('', RouteEnum::getRouteParams(RouteEnum::API_MOVEMENT_INSERT));
+        $router->put('/{id}', RouteEnum::getRouteParams(RouteEnum::API_MOVEMENT_UPDATE));
+        $router->delete('/{id}', RouteEnum::getRouteParams(RouteEnum::API_MOVEMENT_DELETE));
+        $router->group(array('prefix' => 'type'), function () use ($router) {
+            $router->get('/{type}', RouteEnum::getRouteParams(RouteEnum::API_MOVEMENT_SHOW_TYPE));
+        });
+    });
 });
