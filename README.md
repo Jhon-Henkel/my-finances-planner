@@ -33,3 +33,5 @@ Como configurar o projeto:
 - configurar o .env com as suas informações de e-mail e database
 - o hash para request se encontra na tabela config na config mfp-token
 - rodar composer run migrations:run dentro do container
+- dar permissão www-data dentro do container na pasta sessions dentro de storage/frameworks
+- dar permissão 1000 dentro do container na pasta sessions dentro de storage/logs

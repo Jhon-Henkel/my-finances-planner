@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Enums\ConfigEnum;
-use App\Models\User;
+use App\Models\UserModel;
 use App\Services\ConfigService;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
             if (!$this->isValidToken($token)) {
                 return null;
             }
-            return new User();
+            return new UserModel();
         });
     }
 
