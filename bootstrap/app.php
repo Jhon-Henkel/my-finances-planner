@@ -28,6 +28,9 @@ $app->withFacades();
 $app->withEloquent();
 $app->singleton(ExceptionHandler::class, Handler::class);
 $app->singleton(KernelContract::class, Kernel::class);
+$app->singleton('cookie', function () use ($app) {
+    return $app->loadComponent('session', 'Illuminate\Cookie\CookieServiceProvider', 'cookie');
+});
 $app->configure('app');
 $app->configure('mail');
 $app->configure('session');
@@ -41,6 +44,7 @@ $app->register(SessionServiceProvider::class);
 $app->alias('mailer', Mailer::class);
 $app->alias('mailer', MailerContract::class);
 $app->alias('mailer', MailQueue::class);
+$app->bind('Illuminate\Contracts\Cookie\QueueingFactory', 'cookie');
 $app->bind(SessionManager::class, function ($app) {
     return $app->make('session');
 });

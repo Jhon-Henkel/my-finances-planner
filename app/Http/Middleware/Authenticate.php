@@ -20,7 +20,7 @@ class Authenticate
     {
         if ($this->auth->guard($guard)->guest()) {
             return response()->json(
-                'Não autorizado, mfp-token invalido ou ausente!',
+                'Não autorizado!',
                 ResponseAlias::HTTP_UNAUTHORIZED
             );
         }

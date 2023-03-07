@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email', '255')->nullable(false)->unique();
             $table->string('password', '255')->nullable(false);
             $table->integer('status')->nullable(false);
-            $table->string('verify_hash', '255');
+            $table->string('verify_hash', '255')->default(null);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
