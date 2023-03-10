@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 /** @var Route $router */
-Route::middleware('auth:sanctum')->prefix('/api')->group(function (Request $request) {
-
+$router->prefix('/')->middleware('auth.api:api')->group(function ($router){
+    $router->get('', function () {
+        dd('caiu dentro da rota');
+    });
 });

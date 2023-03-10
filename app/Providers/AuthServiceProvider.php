@@ -2,8 +2,13 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Enums\BasicFieldsEnum;
+use App\Enums\ConfigEnum;
+use App\Models\Configurations;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +26,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Auth::viaRequest('mfp-token', function (Request $request) {
+            //todo fazer essa busca pelo service/bo
+            $mfpToken = Configurations::where(BasicFieldsEnum::NAME, ConfigEnum::MFP_TOKEN)->first()->toArray();
+            $requestToken = $request->header(ConfigEnum::MFP_TOKEN) ?? null;
+            return ($mfpToken[BasicFieldsEnum::VALUE] == $requestToken) ? new User() : null;
+        });
     }
 }
