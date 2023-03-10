@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -197,4 +197,5 @@ return array(
     */
 
     'same_site' => 'lax',
-);
+
+];

@@ -4,7 +4,7 @@
         <div class="panel-heading"><h3>Entrar no sistema</h3></div>
         <div class="panel-body">
             <form class="form-horizontal" method="post" action="{{route('logar')}}">
-{{--                {{ csrf_field() }}--}}
+                {{ csrf_field() }}
                 <div class="form-group">
                     <label for="login" class="col-sm-2 control-label">Login</label>
                     <div class="col-sm-10">

@@ -2,45 +2,25 @@
 
 namespace App\Providers;
 
-use App\Enums\ConfigEnum;
-use App\Models\UserModel;
-use App\Services\ConfigService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\ServiceProvider;
+// use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * The model to policy mappings for the application.
      *
-     * @return void
+     * @var array<class-string, class-string>
      */
-    public function register()
+    protected $policies = [
+        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+    ];
+
+    /**
+     * Register any authentication / authorization services.
+     */
+    public function boot(): void
     {
         //
-    }
-
-    public function boot()
-    {
-        // todo validar, está funcionando a autenticação de usuário mas não a de api
-        $this->app['auth']->viaRequest('api', function ($request) {
-            $token = $request->header(ConfigEnum::MFP_TOKEN) ?? '';
-            if ($this->isValidToken($token)) {
-                return new UserModel();
-            }
-            return null;
-        });
-        $this->app['auth']->viaRequest('/', function ($request) {
-            if (UserModel::isUserLogged()) {
-                return new UserModel();
-            }
-            return null;
-        });
-    }
-
-    protected function isValidToken(string $token): bool
-    {
-        $configService = app(ConfigService::class);
-        return $token === $configService->getConfigValue(ConfigEnum::MFP_TOKEN);
     }
 }

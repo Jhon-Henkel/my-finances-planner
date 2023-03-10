@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserModel;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Lumen\Http\Redirector;
-use Laravel\Lumen\Routing\Controller;
 
 class AuthController extends Controller
 {
@@ -30,8 +29,8 @@ class AuthController extends Controller
     public function login(Request $request): Redirector|RedirectResponse
     {
         $data = $request->all();
-        $user = UserModel::where('email', $data['login'])->first();
-        if (UserModel::isUserLogged() || ($user && Hash::check($data['senha'], $user->password))) {
+        $user = User::where('email', $data['login'])->first();
+        if (Auth::check() || ($user && Hash::check($data['senha'], $user->password))) {
             Auth::login($user);
             return redirect()->route('dashboard');
         }

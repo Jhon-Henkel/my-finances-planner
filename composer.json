@@ -1,22 +1,24 @@
 {
-    "name": "my_finances_planner/lumen",
-    "description": "App for finances planner in lumen framework",
-    "keywords": ["framework", "laravel", "lumen"],
-    "license": "MIT",
+    "name": "laravel/my_finances_planner",
     "type": "project",
+    "description": "App for finances planner in lumen framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
     "require": {
         "php": "^8.1",
-        "illuminate/console": "^10.1",
-        "illuminate/cookie": "^10.2",
-        "illuminate/mail": "^10.1",
-        "kint-php/kint": "^5.0",
-        "kint-php/kint-helpers": "^5.0",
-        "laravel/lumen-framework": "^10.0"
+        "guzzlehttp/guzzle": "^7.2",
+        "laravel/framework": "^10.0",
+        "laravel/sanctum": "^3.2",
+        "laravel/tinker": "^2.8"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
+        "laravel/pint": "^1.0",
+        "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
-        "phpunit/phpunit": "^10.0"
+        "nunomaduro/collision": "^7.0",
+        "phpunit/phpunit": "^10.0",
+        "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -31,6 +33,19 @@
         }
     },
     "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ],
         "test:unit": "vendor/bin/phpunit ./tests/Unit",
         "test:coverage": "vendor/bin/phpunit --coverage-html ./tests/coverage/",
         "test:feature": "vendor/bin/phpunit ./tests/Feature",
@@ -38,13 +53,23 @@
         "migration:run": "php artisan migrate",
         "migration:rollback": "php artisan migrate:rollback",
         "migration:status": "php artisan migrate:status",
+        "passport:generate-client": "php artisan passport:client --password",
         "cache:clear": "php artisan cache:clear",
         "help": "php artisan list"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
     },
     "minimum-stability": "stable",
     "prefer-stable": true
