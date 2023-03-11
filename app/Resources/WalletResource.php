@@ -5,6 +5,10 @@ namespace App\Resources;
 use App\DTO\WalletDTO;
 use App\VO\WalletVO;
 
+ /**
+ * @method WalletVO[] arrayDtoToVoItens(null|array $itens)
+ * @method WalletDTO[] arrayToDtoItens(null|array $itens)
+ */
 class WalletResource extends BasicResource
 {
     public function arrayToDto(array $item): WalletDTO
@@ -40,39 +44,5 @@ class WalletResource extends BasicResource
         $vo->createdAt = $item->getCreatedAt();
         $vo->updatedAt = $item->getUpdatedAt();
         return $vo;
-    }
-
-    /**
-     * todo mover para o basic
-     * @param null|array $itens
-     * @return WalletDTO[]
-     */
-    public function arrayToDtoItens(null|array $itens): array
-    {
-        if (!$itens) {
-            return array();
-        }
-        $itensResourced = array();
-        foreach ($itens as $item) {
-            $itensResourced[] = $this->arrayToDto($item);
-        }
-        return $itensResourced;
-    }
-
-    /**
-     * todo mover para o basic
-     * @param null|array $itens
-     * @return WalletVO[]
-     */
-    public function arrayDtoToVoItens(null|array $itens): array
-    {
-        if (!$itens) {
-            return array();
-        }
-        $itensResourced = array();
-        foreach ($itens as $item) {
-            $itensResourced[] = $this->dtoToVo($item);
-        }
-        return $itensResourced;
     }
 }

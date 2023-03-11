@@ -29,14 +29,10 @@ class ConfigurationResource extends BasicResource
 
     public function dtoToVo($item)
     {
-        // TODO: Implement dtoToVo() method.
+
     }
 
-    /**
-     * @param array $itens
-     * @return mixed
-     */
-    public function arrayToDtoItens(array $itens): mixed
+    public function arrayToDtoItens(null|array $itens): mixed
     {
         if (!$itens) {
             return array();
@@ -46,10 +42,5 @@ class ConfigurationResource extends BasicResource
             $itensResourced[] = $this->arrayToDto($item);
         }
         return reset($itensResourced);
-    }
-
-    public function arrayDtoToVoItens(array $itens): array
-    {
-        // TODO: Implement arrayDtoToVoItens() method.
     }
 }

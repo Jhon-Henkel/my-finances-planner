@@ -19,7 +19,7 @@ class ConfigurationService extends BasicService
         return $this->repository;
     }
 
-    public function getConfigValue(string $configName): mixed
+    public function findConfigValue(string $configName): mixed
     {
         return $this->repository->findByName($configName)->getValue();
     }

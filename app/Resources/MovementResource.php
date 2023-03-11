@@ -5,6 +5,10 @@ namespace App\Resources;
 use App\DTO\MovementDTO;
 use App\VO\MovementVO;
 
+ /**
+ * @method MovementVO[] arrayDtoToVoItens(null|array $itens)
+ * @method MovementDTO[] arrayToDtoItens(null|array $itens)
+ */
 class MovementResource extends BasicResource
 {
 
@@ -44,39 +48,5 @@ class MovementResource extends BasicResource
         $vo->createdAt = $item->getCreatedAt();
         $vo->updatedAt = $item->getUpdatedAt();
         return $vo;
-    }
-
-    /**
-     * todo mover para o basic
-     * @param null|array $itens
-     * @return MovementDTO[]
-     */
-    public function arrayToDtoItens(null|array $itens): array
-    {
-        if (!$itens) {
-            return array();
-        }
-        $itensResourced = array();
-        foreach ($itens as $item) {
-            $itensResourced[] = $this->arrayToDto($item);
-        }
-        return $itensResourced;
-    }
-
-    /**
-     * todo mover para o basic
-     * @param null|array $itens
-     * @return MovementDTO[]
-     */
-    public function arrayDtoToVoItens(null|array $itens): array
-    {
-        if (!$itens) {
-            return array();
-        }
-        $itensResourced = array();
-        foreach ($itens as $item) {
-            $itensResourced[] = $this->dtoToVo($item);
-        }
-        return $itensResourced;
     }
 }
