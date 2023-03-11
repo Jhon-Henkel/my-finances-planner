@@ -1,7 +1,0 @@
-.idea
-vendor
-.docker
-.phpunit.result.cache
-tests/coverage
-.phpunit.cache/
-.env
