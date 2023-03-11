@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 /** @var Route $router */
 $router->prefix('/')->group(function ($router){
     //todo quando logar, redirecionar para a página que tentou acessar, o laravel ja tem middleware pronto para isso https://laravel.com/docs/10.x/authentication#password-confirmation-protecting-routes
-    //todo ao acessar uma página que necessita de login, redirecionar para a tela de login com mensagem de sem permissão
+    //todo ao acessar uma página que necessita de login, redirecionar para a tela de login com mensagem de sem permissão (já redireciona para a tela de login).
     $router->get('home', [\App\Http\Controllers\AuthController::class, 'home'])->name('home');
     $router->get('login', [\App\Http\Controllers\AuthController::class, 'loginView'])->name('login');
     $router->post('logar', [\App\Http\Controllers\AuthController::class, 'login'])->name('logar');
