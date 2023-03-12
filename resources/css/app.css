@@ -1,0 +1,19 @@
+.login-box {
+    width: 35rem;
+    background-color: rgba(255,255,255,0.2);
+    backdrop-filter: blur(1vh);
+    -webkit-backdrop-filter: blur(1.0204081632653061vh);
+    margin: 18vh auto 0 auto;
+    top: 3vh;
+    padding: 1vh;
+    height:auto;
+    max-width: 70vh;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 1em #595757;
+}
+
+.btn-full {
+    box-shadow: 0 0 1em #595757;
+    width: -moz-available;
+    width: -webkit-fill-available;
+}
