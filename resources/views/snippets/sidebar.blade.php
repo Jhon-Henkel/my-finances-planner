@@ -1,4 +1,4 @@
-@php use App\Tools\CalendarTools; @endphp
+@php use App\Enums\RouteEnum;use App\Tools\CalendarTools; @endphp
 <div class="offcanvas offcanvas-start glass" data-bs-scroll="true" tabindex="-1" id="sidebar"
      aria-labelledby="sidebar">
     <div class="offcanvas-header">
@@ -11,7 +11,7 @@
             {{ CalendarTools::salutation(Auth::user()->name, date('H')) }}
         </h6>
         <nav class="nav flex-column ms-4 mt-5">
-            <a class="nav-link sidebar-item a-default" aria-current="page" href="{{ route('dashboard') }}">
+            <a class="nav-link sidebar-item a-default" aria-current="page" href="{{ route(RouteEnum::WEB_DASHBOARD) }}">
                 <i class="fa-solid fa-chart-line me-2"></i>
                 Dashboard
             </a>

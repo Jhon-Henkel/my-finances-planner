@@ -1,3 +1,4 @@
+@php use App\Enums\RouteEnum; @endphp
 @extends('snippets.base')
 @section('content')
     <div class="card text-center login-box glass">
@@ -6,7 +7,7 @@
             <hr>
         </div>
         <div class="card-body">
-            <form class="form-horizontal" method="post" action="{{route('logar')}}">
+            <form class="form-horizontal" method="post" action="{{ route(RouteEnum::WEB_MAKE_LOGIN) }}">
                 {{ csrf_field() }}
                 <div class="form-group">
                     <div class="input-group mb-3">

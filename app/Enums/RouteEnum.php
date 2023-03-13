@@ -16,4 +16,8 @@ class RouteEnum
     const API_MOVEMENT_INSERT = 'apiMovementInsert';
     const API_MOVEMENT_UPDATE = 'apiMovementUpdate';
     const API_MOVEMENT_DELETE = 'apiMovementDelete';
+    const WEB_LOGIN = 'login';
+    const WEB_LOGOUT = 'logout';
+    const WEB_MAKE_LOGIN = 'makeLogin';
+    const WEB_DASHBOARD = 'dashboard';
 }
