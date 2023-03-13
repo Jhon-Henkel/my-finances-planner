@@ -22,11 +22,6 @@ class AuthController extends Controller
         return view('publica');
     }
 
-    public function dashboard(): View|App|Factory|AppFoundation
-    {
-        return view(RouteEnum::WEB_DASHBOARD);
-    }
-
     public function renderLoginView(): View|App|Factory|AppFoundation
     {
         return view(ViewEnum::VIEW_LOGIN);

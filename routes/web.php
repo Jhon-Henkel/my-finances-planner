@@ -2,6 +2,7 @@
 
 use App\Enums\RouteEnum;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /** @var Route $router */
@@ -13,6 +14,6 @@ $router->prefix('/')->group(function ($router){
     $router->post('make-login', [AuthController::class, 'login'])->name(RouteEnum::WEB_MAKE_LOGIN);
     $router->get('logout', [AuthController::class, 'logout'])->name(RouteEnum::WEB_LOGOUT);
     $router->middleware('auth:sanctum')->group(function($router) {
-        $router->get('dashboard', [AuthController::class, 'dashboard'])->name(RouteEnum::WEB_DASHBOARD);
+        $router->get('dashboard', [DashboardController::class, 'renderDashboardView'])->name(RouteEnum::WEB_DASHBOARD);
     });
 });
