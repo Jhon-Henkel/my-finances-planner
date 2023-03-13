@@ -1,12 +1,40 @@
 @php use App\Tools\CalendarTools; @endphp
-<div class="offcanvas offcanvas-start glass-item" data-bs-scroll="true" tabindex="-1" id="sidebar"
+<div class="offcanvas offcanvas-start glass" data-bs-scroll="true" tabindex="-1" id="sidebar"
      aria-labelledby="sidebar">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="sidebar">
+        <h4 class="offcanvas-title" id="sidebar">
             My finances planner
-        </h5>
+        </h4>
     </div>
     <div class="offcanvas-body">
-        {{ CalendarTools::salutation(Auth::user()->name, date('H')) }}
+        <h6 class="text-center mt-3">
+            {{ CalendarTools::salutation(Auth::user()->name, date('H')) }}
+        </h6>
+        <nav class="nav flex-column ms-4 mt-5">
+            <a class="nav-link sidebar-item a-default" aria-current="page" href="{{ route('dashboard') }}">
+                <i class="fa-solid fa-chart-line me-2"></i>
+                Dashboard
+            </a>
+            <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
+                <i class="fa-solid fa-money-bill-transfer me-2"></i>
+                Movimentações
+            </a>
+            <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
+                <i class="fa-solid fa-money-bill-trend-up me-2"></i>
+                Panorama
+            </a>
+            <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
+                <i class="fa-solid fa-money-bill-wave me-2"></i>
+                Meus Ganhos
+            </a>
+            <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
+                <i class="fa-solid fa-wallet me-2"></i>
+                Carteiras
+            </a>
+            <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
+                <i class="fa-solid fa-credit-card me-2"></i>
+                Cartões
+            </a>
+        </nav>
     </div>
 </div>

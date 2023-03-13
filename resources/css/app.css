@@ -18,11 +18,24 @@ body {
     width: -webkit-fill-available;
 }
 
-.glass-item {
+.glass {
     background-color: rgba(35, 37, 70, 0.2);
     backdrop-filter: blur(1vh);
     -webkit-backdrop-filter: blur(1.0204081632653061vh);
     box-shadow: 0 0 1em #000000;
     border-radius: 10px 10px 10px 10px;
     color: #ffffff;
+}
+
+.a-default {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.sidebar-item {
+    font-size: 25px;
+}
+
+.nav-link:hover {
+    color: #02fcfc;
 }

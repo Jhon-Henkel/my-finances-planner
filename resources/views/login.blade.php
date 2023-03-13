@@ -1,6 +1,6 @@
 @extends('snippets.base')
 @section('content')
-    <div class="card text-center login-box glass-item">
+    <div class="card text-center login-box glass">
         <div>
             <h3>Login</h3>
             <hr>
