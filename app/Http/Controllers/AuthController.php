@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public function privada()
     {
-        return view('privada');
+        return view('dashboard');
     }
 
     public function loginView()
@@ -30,7 +30,7 @@ class AuthController extends Controller
     {
         $data = $request->all();
         $user = User::where('email', $data['login'])->first();
-        if (Auth::check() || ($user && Hash::check($data['senha'], $user->password))) {
+        if (Auth::check() || ($user && Hash::check($data['password'], $user->password))) {
             Auth::login($user);
             return redirect()->route('dashboard');
         }

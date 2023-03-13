@@ -1,4 +1,6 @@
 @extends('snippets.base')
 @section('content')
-    <h3>Página publica</h3>
+    <div>
+        <h3>Dashboard</h3>
+    </div>
 @endsection

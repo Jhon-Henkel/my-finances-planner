@@ -1,19 +1,28 @@
+body {
+    background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(35, 37, 70) 99.4%);
+    color: #ffffff;
+}
+
 .login-box {
-    width: 35rem;
-    background-color: rgba(255,255,255,0.2);
-    backdrop-filter: blur(1vh);
-    -webkit-backdrop-filter: blur(1.0204081632653061vh);
+    width: 30rem;
     margin: 18vh auto 0 auto;
     top: 3vh;
     padding: 1vh;
     height:auto;
     max-width: 70vh;
-    border-radius: 10px 10px 10px 10px;
-    box-shadow: 0 0 1em #595757;
 }
 
 .btn-full {
     box-shadow: 0 0 1em #595757;
     width: -moz-available;
     width: -webkit-fill-available;
+}
+
+.glass-item {
+    background-color: rgba(35, 37, 70, 0.2);
+    backdrop-filter: blur(1vh);
+    -webkit-backdrop-filter: blur(1.0204081632653061vh);
+    box-shadow: 0 0 1em #000000;
+    border-radius: 10px 10px 10px 10px;
+    color: #ffffff;
 }
