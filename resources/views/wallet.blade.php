@@ -1,4 +1,5 @@
 @php
+    use App\Enums\RouteEnum;
     use App\Enums\WalletEnum;
     use App\Services\WalletService;
     use App\Tools\CalendarTools;
@@ -28,22 +29,29 @@
             <tbody>
                 @php($wallets = app(WalletService::class)->findAll())
                 @foreach($wallets as $wallet)
-                <tr>
-                    <td class="text-center">{{ ucfirst($wallet->getName()) }}</td>
-                    <td class="text-center">{{ WalletEnum::getDescription($wallet->getType()) }}</td>
-                    <td class="text-center">{{ StringTools::moneyBr($wallet->getAmount()) }}</td>
-                    <td class="text-center">{{ CalendarTools::usToBrDate($wallet->getCreatedAt()) }}</td>
-                    <td class="text-center">{{ CalendarTools::usToBrDate($wallet->getUpdatedAt()) }}</td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-info rounded-5" onclick="edit({{ $wallet->getId() }})">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger rounded-5" onclick="deleteById({{ $wallet->getId() }})">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
-                </tr>
-               @endforeach
+                    <tr>
+                        <td class="text-center">{{ ucfirst($wallet->getName()) }}</td>
+                        <td class="text-center">{{ WalletEnum::getDescription($wallet->getType()) }}</td>
+                        <td class="text-center">{{ StringTools::moneyBr($wallet->getAmount()) }}</td>
+                        <td class="text-center">{{ CalendarTools::usToBrDate($wallet->getCreatedAt()) }}</td>
+                        <td class="text-center">{{ CalendarTools::usToBrDate($wallet->getUpdatedAt()) }}</td>
+                        <td class="text-center">
+                            <div class="ms-5" style="display: flex">
+                                <button class="btn btn-sm btn-info rounded-5 me-1" onclick="edit({{ $wallet->getId() }})">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <form method="post" action="{{ route(RouteEnum::WEB_DELETE_WALLET, $wallet->getId()) }}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" value="{{ $wallet->getId() }}">
+                                    <button class="btn btn-sm btn-danger rounded-5" type="submit">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

@@ -19,6 +19,7 @@ $router->prefix('/')->group(function ($router){
         $router->prefix('/wallet')->group(function ($router){
             $router->get('', [WalletController::class, 'renderWalletView'])->name(RouteEnum::WEB_WALLET);
             $router->post('new-wallet', [WalletController::class, 'insertFromModal'])->name(RouteEnum::WEB_NEW_WALLET);
+            $router->post('delete-wallet/{id}', [WalletController::class, 'deleteFromCrud'])->name(RouteEnum::WEB_DELETE_WALLET);
         });
     });
 });

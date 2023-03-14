@@ -73,4 +73,10 @@ class WalletController extends BasicController
         $this->service->insert($item);
         return redirect()->route(RouteEnum::WEB_WALLET);
     }
+
+    public function deleteFromCrud(int $id): RedirectResponse
+    {
+        $this->service->deleteById($id);
+        return redirect()->route(RouteEnum::WEB_WALLET);
+    }
 }
