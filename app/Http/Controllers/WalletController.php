@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Enums\RouteEnum;
 use App\Resources\WalletResource;
 use App\Services\WalletService;
+use App\Tools\RequestTools;
 use App\VO\WalletVO;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application as App;
+use Illuminate\Http\RedirectResponse;
 
 class WalletController extends BasicController
 {
@@ -63,5 +65,12 @@ class WalletController extends BasicController
     public function renderWalletView(): View|App|Factory|AppFoundation
     {
         return view(RouteEnum::WEB_WALLET);
+    }
+
+    public function insertFromModal(): RedirectResponse
+    {
+        $item = $this->resource->arrayToDto(RequestTools::imputPostAll());
+        $this->service->insert($item);
+        return redirect()->route(RouteEnum::WEB_WALLET);
     }
 }

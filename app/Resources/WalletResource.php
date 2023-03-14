@@ -17,7 +17,7 @@ class WalletResource extends BasicResource
         $dto->setId($item['id'] ?? null);
         $dto->setName($item['name']);
         $dto->setType($item['type']);
-        $dto->setAmount($item['amount']);
+        $dto->setAmount((float)$item['amount']);
         $dto->setCreatedAt($item['created_at'] ?? null);
         $dto->setUpdatedAt($item['updated_at'] ?? null);
         return $dto;

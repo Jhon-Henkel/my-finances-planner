@@ -21,4 +21,5 @@ class RouteEnum
     const WEB_MAKE_LOGIN = 'makeLogin';
     const WEB_DASHBOARD = 'dashboard';
     const WEB_WALLET = 'wallet';
+    const WEB_NEW_WALLET = 'newWallet';
 }

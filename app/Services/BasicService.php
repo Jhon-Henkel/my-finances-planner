@@ -20,14 +20,14 @@ abstract class BasicService implements BasicServiceContract
         return $this->getRepository()->findById($id);
     }
 
-    public function insert($request)
+    public function insert($item)
     {
-        return $this->getRepository()->insert($request);
+        return $this->getRepository()->insert($item);
     }
 
-    public function update(int $id, $request)
+    public function update(int $id, $item)
     {
-        return $this->getRepository()->update($id, $request);
+        return $this->getRepository()->update($id, $item);
     }
 
     public function deleteById(int $id)

@@ -16,6 +16,9 @@ $router->prefix('/')->group(function ($router){
     $router->get('logout', [AuthController::class, 'logout'])->name(RouteEnum::WEB_LOGOUT);
     $router->middleware('auth:sanctum')->group(function($router) {
         $router->get('dashboard', [DashboardController::class, 'renderDashboardView'])->name(RouteEnum::WEB_DASHBOARD);
-        $router->get('wallet', [WalletController::class, 'renderWalletView'])->name(RouteEnum::WEB_WALLET);
+        $router->prefix('/wallet')->group(function ($router){
+            $router->get('', [WalletController::class, 'renderWalletView'])->name(RouteEnum::WEB_WALLET);
+            $router->post('new-wallet', [WalletController::class, 'insertFromModal'])->name(RouteEnum::WEB_NEW_WALLET);
+        });
     });
 });

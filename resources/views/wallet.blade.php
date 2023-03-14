@@ -50,4 +50,5 @@
     @include('snippets.wallet.insertWalletModal')
     <script type="text/javascript" src="resources/js/dataTable.js"></script>
     <script type="text/javascript" src="resources/js/walletView.js"></script>
+    <script type="text/javascript" src="resources/js/tools/stringTools.js"></script>
 @endsection
