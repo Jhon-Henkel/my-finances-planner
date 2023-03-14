@@ -3,6 +3,7 @@
 use App\Enums\RouteEnum;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 /** @var Route $router */
@@ -15,5 +16,6 @@ $router->prefix('/')->group(function ($router){
     $router->get('logout', [AuthController::class, 'logout'])->name(RouteEnum::WEB_LOGOUT);
     $router->middleware('auth:sanctum')->group(function($router) {
         $router->get('dashboard', [DashboardController::class, 'renderDashboardView'])->name(RouteEnum::WEB_DASHBOARD);
+        $router->get('wallet', [WalletController::class, 'renderWalletView'])->name(RouteEnum::WEB_WALLET);
     });
 });

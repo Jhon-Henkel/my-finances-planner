@@ -8,7 +8,7 @@ class MovementEnum
     const GAIN = 6;
     const TRANSFER = 7;
 
-    protected static function getDescription(int $value): string
+    public static function getDescription(int $value): string
     {
         return match ($value) {
             self::SPENT => 'Gasto',

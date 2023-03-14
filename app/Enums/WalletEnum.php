@@ -10,7 +10,7 @@ class WalletEnum
     const MEAL_TICKET_TYPE = 8;
     const TRANSPORT_TICKET_TYPE = 9;
 
-    protected static function getDescription(int $value): string
+    public static function getDescription(int $value): string
     {
         return match ($value) {
             self::MONEY_TYPE => 'Dinheiro',

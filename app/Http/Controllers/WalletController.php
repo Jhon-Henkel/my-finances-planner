@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\RouteEnum;
 use App\Resources\WalletResource;
 use App\Services\WalletService;
 use App\VO\WalletVO;
+use Illuminate\Contracts\Foundation\Application as AppFoundation;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application as App;
 
 class WalletController extends BasicController
 {
@@ -53,5 +58,10 @@ class WalletController extends BasicController
     {
         $itens = $this->service->findAllByType($type);
         return $this->resource->arrayDtoToVoItens($itens);
+    }
+
+    public function renderWalletView(): View|App|Factory|AppFoundation
+    {
+        return view(RouteEnum::WEB_WALLET);
     }
 }

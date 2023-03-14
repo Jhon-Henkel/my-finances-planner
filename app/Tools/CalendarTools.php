@@ -14,4 +14,10 @@ class CalendarTools
             return 'Boa noite ' . $name ?? '';
         }
     }
+
+    public static function usToBrDate(string $date): string
+    {
+        $date = new \DateTime($date);
+        return $date->format('d/m/Y');
+    }
 }

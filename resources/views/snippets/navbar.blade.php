@@ -1,4 +1,6 @@
-@php use App\Enums\RouteEnum; @endphp
+@php
+    use App\Enums\RouteEnum;
+@endphp
 <nav>
     <ul class="nav justify-content-end">
         <li class="nav-item">

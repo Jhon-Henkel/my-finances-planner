@@ -1,4 +1,7 @@
-@php use App\Enums\RouteEnum;use App\Tools\CalendarTools; @endphp
+@php
+    use App\Enums\RouteEnum;
+    use App\Tools\CalendarTools;
+@endphp
 <div class="offcanvas offcanvas-start glass" data-bs-scroll="true" tabindex="-1" id="sidebar"
      aria-labelledby="sidebar">
     <div class="offcanvas-header">
@@ -27,7 +30,7 @@
                 <i class="fa-solid fa-money-bill-wave me-2"></i>
                 Meus Ganhos
             </a>
-            <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
+            <a class="nav-link sidebar-item a-default" aria-current="page" href="{{ route(RouteEnum::WEB_WALLET) }}">
                 <i class="fa-solid fa-wallet me-2"></i>
                 Carteiras
             </a>

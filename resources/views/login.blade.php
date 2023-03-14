@@ -1,4 +1,6 @@
-@php use App\Enums\RouteEnum; @endphp
+@php
+    use App\Enums\RouteEnum;
+@endphp
 @extends('snippets.base')
 @section('content')
     <div class="card text-center login-box glass">
