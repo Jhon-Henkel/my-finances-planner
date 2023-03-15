@@ -74,6 +74,13 @@ class WalletController extends BasicController
         return redirect()->route(RouteEnum::WEB_WALLET);
     }
 
+    public function updateFromModal(): RedirectResponse
+    {
+        $item = $this->resource->arrayToDto(RequestTools::imputPostAll());
+        $this->service->update($item->getId(), $item);
+        return redirect()->route(RouteEnum::WEB_WALLET);
+    }
+
     public function deleteFromCrud(int $id): RedirectResponse
     {
         $this->service->deleteById($id);

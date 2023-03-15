@@ -22,5 +22,6 @@ class RouteEnum
     const WEB_DASHBOARD = 'dashboard';
     const WEB_WALLET = 'wallet';
     const WEB_NEW_WALLET = 'newWallet';
+    const WEB_UPDATE_WALLET = 'updateWallet';
     const WEB_DELETE_WALLET = 'deleteWallet';
 }

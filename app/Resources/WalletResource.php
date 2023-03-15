@@ -14,9 +14,9 @@ class WalletResource extends BasicResource
     public function arrayToDto(array $item): WalletDTO
     {
         $dto = new WalletDTO();
-        $dto->setId($item['id'] ?? null);
+        $dto->setId((int)$item['id'] ?? null);
         $dto->setName($item['name']);
-        $dto->setType($item['type']);
+        $dto->setType((int)$item['type']);
         $dto->setAmount((float)$item['amount']);
         $dto->setCreatedAt($item['created_at'] ?? null);
         $dto->setUpdatedAt($item['updated_at'] ?? null);
@@ -27,6 +27,7 @@ class WalletResource extends BasicResource
     public function dtoToArray($item): array
     {
         return array(
+            'id' => $item->getId() ?? null,
             'name' => $item->getName(),
             'type' => $item->getType(),
             'amount' => $item->getAmount()
