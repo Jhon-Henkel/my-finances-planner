@@ -30,6 +30,7 @@ class AuthController extends Controller
 
     public function login(Request $request): Redirector|RedirectResponse
     {
+        // todo validar quantidade de tentativas de login, bloquear após 10 tentativas erradas
         $data = $request->all();
         $user = $this->findUserForAuth($data['login']);
         if ($this->validateLogin($user, $data['password'])) {
