@@ -2,7 +2,6 @@
     use App\Enums\RouteEnum;
     use App\Enums\WalletEnum;
 @endphp
-{{-- todo essa modal está praticamente igual a de insert--}}
 <div class="modal fade" id="updateWallet" data-bs-backdrop="static" data-bs-keyboard="false"
      tabindex="-1"
      aria-labelledby="staticBackdropLabel"
@@ -20,7 +19,6 @@
                       name="updateWalletForm">
                     {{ csrf_field() }}
                     <div class="form-group">
-                        {{-- todo nome não pode existir em outra carteira, validar em tempo real --}}
                         <label class="form-label" for="name">Nome:</label>
                         <input type="text" class="form-control" placeholder="My wallet" id="name-update" name="name" required>
                     </div>

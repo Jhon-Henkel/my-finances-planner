@@ -19,7 +19,6 @@
                       name="newWallet">
                     {{ csrf_field() }}
                     <div class="form-group">
-                        {{-- todo nome não pode existir, validar em tempo real --}}
                         <label class="form-label" for="name">Nome:</label>
                         <input type="text" class="form-control" placeholder="My wallet" name="name" required>
                     </div>

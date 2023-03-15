@@ -69,6 +69,8 @@
         </div>
     </div>
     {{-- todo deixar moals com fundo preto --}}
+    {{-- todo as duass modais estão praticamente iguais, abstrair --}}
+    {{-- todo validar se o nome que está sendo inserido na modal é único, senão a aplicação quebra --}}
     @include('snippets.wallet.insertWalletModal')
     @include('snippets.wallet.updateWalletModal')
     <script type="text/javascript" src="resources/js/dataTable.js"></script>
