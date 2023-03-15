@@ -15,7 +15,7 @@
         </button>
     </div>
     <div class="mt-4">
-        <table class="table table-dark table-striped table-sm" id="dataTable">
+        <table class="table table-dark table-striped table-sm table-hover table-bordered" id="dataTable">
             <thead class="table-dark">
                 <tr>
                     <th class="text-center">Nome</th>
@@ -28,6 +28,8 @@
             </thead>
             <tbody>
                 @php($wallets = app(WalletService::class)->findAll())
+                @php($totalByType = [])
+                @php($total = 0)
                 @foreach($wallets as $wallet)
                     <tr>
                         <td class="text-center">{{ ucfirst($wallet->getName()) }}</td>
@@ -50,9 +52,19 @@
                             </div>
                         </td>
                     </tr>
+                @php($totalByType[$wallet->getType()] = ($totalByType[$wallet->getType()] ?? 0) + $wallet->getAmount())
+                @php($total = $total + $wallet->getAmount())
                 @endforeach
             </tbody>
         </table>
+        @foreach($totalByType as $key => $value)
+            <div class="badge text-bg-info mt-4">
+                {{ WalletEnum::getDescription($key) }}: {{ StringTools::moneyBr($value) }}
+            </div>
+        @endforeach
+        <div class="badge text-bg-warning mt-4">
+            Total: {{ StringTools::moneyBr($total) }}
+        </div>
     </div>
     @include('snippets.wallet.insertWalletModal')
     <script type="text/javascript" src="resources/js/dataTable.js"></script>
