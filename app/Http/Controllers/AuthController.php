@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\RouteEnum;
 use App\Enums\ViewEnum;
 use App\Models\User;
+use App\Services\AuthService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application as App;
@@ -30,14 +31,23 @@ class AuthController extends Controller
     public function login(Request $request): Redirector|RedirectResponse
     {
         $data = $request->all();
-        // todo fazer esse find pelo service
-        $user = User::where('email', $data['login'])->first();
-        // todo transoformar "Auth::check() || ($user && Hash::check($data['password'], $user->password))" em metodo
-        if (Auth::check() || ($user && Hash::check($data['password'], $user->password))) {
+        $user = $this->findUserForAuth($data['login']);
+        if ($this->validateLogin($user, $data['password'])) {
             Auth::login($user);
             return redirect()->route(RouteEnum::WEB_DASHBOARD);
         }
+        // todo enviar erro de senha inválida no front
         return redirect()->route(RouteEnum::WEB_LOGIN);
+    }
+
+    protected function findUserForAuth(string $email): null|User
+    {
+        return User::where('email', $email)->first();
+    }
+
+    protected function validateLogin(?User $user, string $password):  bool
+    {
+        return Auth::check() || ($user && Hash::check($password, $user->password));
     }
 
     public function logout(): RedirectResponse

@@ -22,7 +22,7 @@ class MovementController extends BasicController
         return array(
             'description' => 'max:255|min:2|string',
             'type' => 'required|int',
-            // todo validar se walletIdexiste
+            // todo validar se walletId existe
             'walletId' => 'required|int',
             'amount' => 'required|decimal:0,2'
         );
@@ -33,7 +33,7 @@ class MovementController extends BasicController
         return array(
             'description' => 'max:255|min:2|string',
             'type' => 'required|int',
-            // todo validar se walletIdexiste
+            // todo validar se walletId existe
             'walletId' => 'required|int',
             'amount' => 'required|decimal:0,2'
         );
