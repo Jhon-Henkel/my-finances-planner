@@ -53,7 +53,6 @@
         "migration:run": "php artisan migrate",
         "migration:rollback": "php artisan migrate:rollback",
         "migration:status": "php artisan migrate:status",
-        "passport:generate-client": "php artisan passport:client --password",
         "cache:clear": "php artisan cache:clear",
         "help": "php artisan list"
     },

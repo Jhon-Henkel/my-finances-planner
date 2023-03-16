@@ -8,8 +8,8 @@ RUN apt-get update && apt-get -y --no-install-recommends install git \
     && rm -rf /var/lib/apt/lists/*
 
 # instaling node
-RUN apt-get update && apt-get install -y nodejs npm
-RUN npm install
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -  \
+    && apt-get install -y nodejs
 
 # installing zip
 RUN apt-get update && apt-get install -y zlib1g-dev libzip-dev unzip
