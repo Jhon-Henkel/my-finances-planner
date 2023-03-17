@@ -73,6 +73,9 @@
     {{-- todo validar se o nome que está sendo inserido na modal é único, senão a aplicação quebra --}}
     @include('snippets.wallet.insertWalletModal')
     @include('snippets.wallet.updateWalletModal')
+{{--    @vite('resources/js/dataTable.js')--}}
+{{--    @vite('resources/js/walletView.js')--}}
+{{--    @vite('resources/js/tools/stringTools.js')--}}
     <script type="text/javascript" src="resources/js/dataTable.js"></script>
     <script type="text/javascript" src="resources/js/walletView.js"></script>
     <script type="text/javascript" src="resources/js/tools/stringTools.js"></script>
