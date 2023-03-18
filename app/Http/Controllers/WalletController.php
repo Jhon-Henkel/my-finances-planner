@@ -69,14 +69,19 @@ class WalletController extends BasicController
 
     public function insertFromModal(): RedirectResponse
     {
-        $item = $this->resource->arrayToDto(RequestTools::imputPostAll());
+        $itemCrud = RequestTools::imputPostAll();
+        $itemCrud['id'] = null;
+        $itemCrud['amount'] = str_replace(',', '.', $itemCrud['amount']);
+        $item = $this->resource->arrayToDto($itemCrud);
         $this->service->insert($item);
         return redirect()->route(RouteEnum::WEB_WALLET);
     }
 
     public function updateFromModal(): RedirectResponse
     {
-        $item = $this->resource->arrayToDto(RequestTools::imputPostAll());
+        $itemCrud = RequestTools::imputPostAll();
+        $itemCrud['amount'] = str_replace(',', '.', $itemCrud['amount']);
+        $item = $this->resource->arrayToDto($itemCrud);
         $this->service->update($item->getId(), $item);
         return redirect()->route(RouteEnum::WEB_WALLET);
     }

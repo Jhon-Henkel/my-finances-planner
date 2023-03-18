@@ -1,7 +1,5 @@
 function edit(item) {
-    console.log(item)
-    // todo fazer o replace do ponto para virgula no amount
-    console.log(document.getElementById('amount'))
+    // todo fazer o replace do ponto para virgula no amount ao inserir na modal
     document.getElementById('name-update').value = item.name
     document.getElementById('amount-update').value = item.amount
     document.getElementById('type-update').value = item.type
