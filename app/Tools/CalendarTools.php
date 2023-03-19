@@ -24,7 +24,7 @@ class CalendarTools
     public static function usToBrDate(string $date): string
     {
         $date = new DateTime($date);
-        return $date->format('d/m/Y H:m:s');
+        return $date->format('d/m/Y H:i:s');
     }
 
     public static function getThisMonth(): string

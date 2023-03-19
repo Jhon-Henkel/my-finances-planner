@@ -6,7 +6,7 @@ class RequestTools
 {
     public static function imputPost(string $key): mixed
     {
-        return $_POST[$key];
+        return $_POST[$key] ?? null;
     }
 
     public static function imputPostAll(): array
