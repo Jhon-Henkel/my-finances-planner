@@ -3,6 +3,7 @@
 namespace App\Resources;
 
 use App\DTO\WalletDTO;
+use App\Enums\BasicFieldsEnum;
 use App\VO\WalletVO;
 
  /**
@@ -14,12 +15,12 @@ class WalletResource extends BasicResource
     public function arrayToDto(array $item): WalletDTO
     {
         $dto = new WalletDTO();
-        $dto->setId((int)$item['id'] ?? null);
-        $dto->setName($item['name']);
-        $dto->setType((int)$item['type']);
-        $dto->setAmount((float)$item['amount']);
-        $dto->setCreatedAt($item['created_at'] ?? null);
-        $dto->setUpdatedAt($item['updated_at'] ?? null);
+        $dto->setId((int)$item[BasicFieldsEnum::ID] ?? null);
+        $dto->setName($item[BasicFieldsEnum::NAME]);
+        $dto->setType((int)$item[BasicFieldsEnum::TYPE]);
+        $dto->setAmount((float)$item[BasicFieldsEnum::AMOUNT]);
+        $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
+        $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
         return $dto;
     }
 
@@ -27,10 +28,10 @@ class WalletResource extends BasicResource
     public function dtoToArray($item): array
     {
         return array(
-            'id' => $item->getId() ?? null,
-            'name' => $item->getName(),
-            'type' => $item->getType(),
-            'amount' => $item->getAmount()
+            BasicFieldsEnum::ID => $item->getId() ?? null,
+            BasicFieldsEnum::NAME => $item->getName(),
+            BasicFieldsEnum::TYPE => $item->getType(),
+            BasicFieldsEnum::AMOUNT => $item->getAmount()
         );
     }
 

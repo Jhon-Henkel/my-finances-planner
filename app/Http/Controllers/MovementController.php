@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTO\MovementDTO;
 use App\Enums\MovementEnum;
 use App\Enums\RouteEnum;
+use App\Enums\ViewEnum;
 use App\Resources\MovementResource;
 use App\Services\MovementService;
 use App\Services\WalletService;
@@ -73,7 +74,7 @@ class MovementController extends BasicController
     {
         $filter = (int)RequestTools::imputGet('filter');
         $movements = $this->service->findByPeriod($filter);
-        return view(RouteEnum::WEB_MOVEMENT, ['movements' => $movements]);
+        return view(ViewEnum::VIEW_MOVEMENT, ['movements' => $movements]);
     }
 
     public function deleteFromCrud(int $id): RedirectResponse
@@ -114,7 +115,7 @@ class MovementController extends BasicController
         return redirect()->route(RouteEnum::WEB_MOVEMENT);
     }
 
-    public function insertTransfer()
+    public function insertTransfer(): RedirectResponse
     {
         // todo melhorar esse método, a responsabilidade deve ficar no service
         $item = RequestTools::imputPostAll();

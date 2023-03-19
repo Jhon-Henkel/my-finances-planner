@@ -2,6 +2,7 @@
 
 namespace App\Tools;
 
+use App\Enums\DateEnum;
 use DateTime;
 use Exception;
 
@@ -24,19 +25,19 @@ class CalendarTools
     public static function usToBrDate(string $date): string
     {
         $date = new DateTime($date);
-        return $date->format('d/m/Y H:i:s');
+        return $date->format(DateEnum::DEFAULT_BR_DATE_FORMAT);
     }
 
     public static function getThisMonth(): string
     {
         $date = self::getDateNow();
-        return $date->format('m');
+        return $date->format(DateEnum::ONLY_MONTH);
     }
 
     public static function getThisYear(): string
     {
         $date = self::getDateNow();
-        return $date->format('Y');
+        return $date->format(DateEnum::ONLY_COMPLETE_YEAR);
     }
 
     public static function getDateNow(): DateTime

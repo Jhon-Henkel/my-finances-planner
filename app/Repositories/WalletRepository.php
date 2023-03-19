@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\BasicFieldsEnum;
 use App\Models\WalletModel;
 use App\Resources\WalletResource;
 
@@ -28,7 +29,8 @@ class WalletRepository extends BasicRepository
 
     public function findAllByType(int $type): array
     {
-        $itens = $this->model->where('type', $type)->get()->toArray();
+        // todo mover para o basic
+        $itens = $this->model->where(BasicFieldsEnum::TYPE, $type)->get()->toArray();
         return $this->resource->arrayToDtoItens($itens);
     }
 }

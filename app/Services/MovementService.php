@@ -54,7 +54,6 @@ class MovementService extends BasicService
                 $period[DateEnum::DATE_END_NAME] = $thisYear . '-12-31 23:59:59';
                 break;
             case MovementEnum::FILTER_ALL:
-                $period['all'] = 'all';
                 break;
             case MovementEnum::FILTER_THIS_MONTH:
             default:

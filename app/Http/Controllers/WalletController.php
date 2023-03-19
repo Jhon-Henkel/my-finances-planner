@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RouteEnum;
+use App\Enums\ViewEnum;
 use App\Resources\WalletResource;
 use App\Services\WalletService;
 use App\Tools\RequestTools;
@@ -64,7 +65,7 @@ class WalletController extends BasicController
 
     public function renderWalletView(): View|App|Factory|AppFoundation
     {
-        return view(RouteEnum::WEB_WALLET);
+        return view(ViewEnum::VIEW_WALLET);
     }
 
     public function insertFromModal(): RedirectResponse

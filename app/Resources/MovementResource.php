@@ -3,6 +3,7 @@
 namespace App\Resources;
 
 use App\DTO\MovementDTO;
+use App\Enums\BasicFieldsEnum;
 use App\VO\MovementVO;
 
  /**
@@ -15,14 +16,14 @@ class MovementResource extends BasicResource
     public function arrayToDto(array $item): MovementDTO
     {
         $dto = new MovementDTO();
-        $dto->setId($item['id'] ?? null);
-        $dto->setWalletId($item['walletId'] ?? $item['wallet_id']);
-        $dto->setWalletName($item['name'] ?? null);
-        $dto->setDescription($item['description']);
-        $dto->setType($item['type']);
-        $dto->setAmount($item['amount']);
-        $dto->setCreatedAt($item['created_at'] ?? null);
-        $dto->setUpdatedAt($item['updated_at'] ?? null);
+        $dto->setId($item[BasicFieldsEnum::ID] ?? null);
+        $dto->setWalletId($item[BasicFieldsEnum::WALLET_ID_JSON] ?? $item[BasicFieldsEnum::WALLET_ID_DB]);
+        $dto->setWalletName($item[BasicFieldsEnum::NAME] ?? null);
+        $dto->setDescription($item[BasicFieldsEnum::DESCRIPTION]);
+        $dto->setType($item[BasicFieldsEnum::TYPE]);
+        $dto->setAmount($item[BasicFieldsEnum::AMOUNT]);
+        $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
+        $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
         return $dto;
     }
 
@@ -30,10 +31,10 @@ class MovementResource extends BasicResource
     public function dtoToArray($item): array
     {
         return array(
-            'wallet_id' => $item->getWalletId(),
-            'description' => $item->getDescription(),
-            'type' => $item->getType(),
-            'amount' => $item->getAmount()
+            BasicFieldsEnum::WALLET_ID_DB => $item->getWalletId(),
+            BasicFieldsEnum::DESCRIPTION => $item->getDescription(),
+            BasicFieldsEnum::TYPE => $item->getType(),
+            BasicFieldsEnum::AMOUNT => $item->getAmount()
         );
     }
 

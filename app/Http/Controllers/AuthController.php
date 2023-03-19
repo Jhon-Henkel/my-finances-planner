@@ -43,6 +43,7 @@ class AuthController extends Controller
 
     protected function findUserForAuth(string $email): null|User
     {
+        // todo essa busca deveria vir do service
         return User::where('email', $email)->first();
     }
 

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTO\MovementDTO;
+use App\Enums\BasicFieldsEnum;
 use App\Enums\DateEnum;
 use App\Models\MovementModel;
 use App\Resources\MovementResource;
@@ -30,7 +31,8 @@ class MovementRepository extends BasicRepository
 
     public function findAllByType(int $type): array
     {
-        $itens = $this->model->where('type', $type)->get()->toArray();
+        // todo mover para o basic
+        $itens = $this->model->where(BasicFieldsEnum::TYPE, $type)->get()->toArray();
         return $this->resource->arrayToDtoItens($itens);
     }
 
@@ -41,7 +43,7 @@ class MovementRepository extends BasicRepository
     public function findByPeriod(array $period): array
     {
         // todo melhorar esse metodo
-        if (isset($period['all'])) {
+        if (!isset($period[DateEnum::DATE_START_NAME])) {
             $itens = $this->model::select('movements.*', 'wallets.name')
                 ->join('wallets', 'movements.wallet_id', '=', 'wallets.id')->get()->toArray();
         } else {

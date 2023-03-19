@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\RouteEnum;
+use App\Enums\ViewEnum;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,6 +12,6 @@ class DashboardController
 {
     public function renderDashboardView(): View|App|Factory|AppFoundation
     {
-        return view(RouteEnum::WEB_DASHBOARD);
+        return view(ViewEnum::VIEW_DASBOARD);
     }
 }

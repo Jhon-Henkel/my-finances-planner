@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Enums\BasicFieldsEnum;
+
 abstract class BasicRepository implements BasicRepositoryContract
 {
     protected abstract function getModel();
@@ -29,7 +31,7 @@ abstract class BasicRepository implements BasicRepositoryContract
     public function update(int $id, $item)
     {
         $array = $this->getResource()->dtoToArray($item);
-        $this->getModel()->where('id', $id)->update($array);
+        $this->getModel()->where(BasicFieldsEnum::ID, $id)->update($array);
         return $this->findById($id);
     }
 
@@ -42,7 +44,7 @@ abstract class BasicRepository implements BasicRepositoryContract
 
     public function findByName(string $name): mixed
     {
-        $item = $this->getModel()->where('name', $name)->get();
+        $item = $this->getModel()->where(BasicFieldsEnum::NAME, $name)->get();
         return $item ? $this->getResource()->arrayToDtoItens($item->toArray()) : null;
     }
 }
