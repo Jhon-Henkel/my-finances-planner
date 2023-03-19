@@ -3,6 +3,7 @@
 use App\Enums\RouteEnum;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MovementController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,9 @@ $router->prefix('/')->group(function ($router){
             $router->post('new-wallet', [WalletController::class, 'insertFromModal'])->name(RouteEnum::WEB_NEW_WALLET);
             $router->post('update-wallet', [WalletController::class, 'updateFromModal'])->name(RouteEnum::WEB_UPDATE_WALLET);
             $router->post('delete-wallet/{id}', [WalletController::class, 'deleteFromCrud'])->name(RouteEnum::WEB_DELETE_WALLET);
+        });
+        $router->prefix('/movement')->group(function ($router) {
+            $router->get('', [MovementController::class, 'renderMovementView'])->name(RouteEnum::WEB_MOVEMENT);
         });
     });
 });

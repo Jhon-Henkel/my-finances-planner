@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\DTO\MovementDTO;
+use App\Enums\DateEnum;
 use App\Models\MovementModel;
 use App\Resources\MovementResource;
 
@@ -30,5 +32,20 @@ class MovementRepository extends BasicRepository
     {
         $itens = $this->model->where('type', $type)->get()->toArray();
         return $this->resource->arrayToDtoItens($itens);
+    }
+
+    /**
+     * @param array $period
+     * @return MovementDTO[]
+     */
+    public function findByPeriod(array $period): array
+    {
+        $itens = isset($period['all'])
+            ? $this->findAll()
+            : $this->model::where('movements.created_at', '>', $period[DateEnum::DATE_START_NAME])
+                ->where('movements.created_at', '<', $period[DateEnum::DATE_END_NAME])
+                ->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
+                ->get();
+        return $this->resource->arrayToDtoItens($itens->toArray());
     }
 }

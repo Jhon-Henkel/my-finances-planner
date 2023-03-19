@@ -11,9 +11,4 @@ class WalletModel extends Model
     protected $casts = array('created_at' => 'datetime:Y-m-d H:m:s', 'updated_at' => 'datetime:Y-m-d H:m:s');
     protected $hidden = array();
     public $timestamps = false;
-
-    public function movement()
-    {
-        return $this->hasMany('App\Models\MovementModel');
-    }
 }

@@ -6,6 +6,7 @@ class MovementDTO
 {
     private null|int $id;
     private int $walletId;
+    private null|string $walletName;
     private null|string $description;
     private int $type;
     private int|float $amount;
@@ -42,6 +43,22 @@ class MovementDTO
     public function setWalletId(int $walletId): void
     {
         $this->walletId = $walletId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getWalletName(): ?string
+    {
+        return $this->walletName;
+    }
+
+    /**
+     * @param string|null $walletName
+     */
+    public function setWalletName(?string $walletName): void
+    {
+        $this->walletName = $walletName;
     }
 
     /**

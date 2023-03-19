@@ -13,4 +13,9 @@ class RequestTools
     {
         return $_POST;
     }
+
+    public static function imputGet(?string $key): mixed
+    {
+        return $_GET[$key] ?? null;
+    }
 }

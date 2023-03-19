@@ -8,13 +8,14 @@
 @endphp
 @extends('snippets.base')
 @section('content')
-    <h3>Carteiras</h3>
+    <h3 class="mt-2">Carteiras</h3>
     <div class="nav justify-content-end">
         <button class="btn btn-success rounded-5" data-bs-toggle="modal" data-bs-target="#insertWallet">
             <i class="fa-solid fa-wallet me-2"></i>
-            Inserir
+            Nova Carteira
         </button>
     </div>
+    <hr>
     <div class="mt-4">
         <table class="table table-dark table-striped table-sm table-hover table-bordered" id="dataTable">
             <thead class="table-dark">
@@ -59,23 +60,23 @@
             @endforeach
             </tbody>
         </table>
+        <hr>
+        <h6>Totais por tipo de conta:</h6>
         @foreach($totalByType as $key => $value)
-            <div class="badge text-bg-info mt-4">
+            <div class="badge text-bg-info">
                 {{ WalletEnum::getDescription($key) }}: {{ StringTools::moneyBr($value) }}
             </div>
         @endforeach
         <div class="badge text-bg-warning mt-4">
             Total: {{ StringTools::moneyBr($total) }}
         </div>
+        <hr>
     </div>
     {{-- todo deixar moals com fundo preto --}}
     {{-- todo as duass modais estão praticamente iguais, abstrair --}}
     {{-- todo validar se o nome que está sendo inserido na modal é único, senão a aplicação quebra --}}
     @include('snippets.wallet.insertWalletModal')
     @include('snippets.wallet.updateWalletModal')
-{{--    @vite('resources/js/dataTable.js')--}}
-{{--    @vite('resources/js/walletView.js')--}}
-{{--    @vite('resources/js/tools/stringTools.js')--}}
     <script type="text/javascript" src="resources/js/dataTable.js"></script>
     <script type="text/javascript" src="resources/js/walletView.js"></script>
     <script type="text/javascript" src="resources/js/tools/stringTools.js"></script>

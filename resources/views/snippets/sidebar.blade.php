@@ -18,7 +18,7 @@
                 <i class="fa-solid fa-chart-line me-2"></i>
                 Dashboard
             </a>
-            <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
+            <a class="nav-link sidebar-item a-default" aria-current="page" href="{{ route(RouteEnum::WEB_MOVEMENT) }}">
                 <i class="fa-solid fa-money-bill-transfer me-2"></i>
                 Movimentações
             </a>

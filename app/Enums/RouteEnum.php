@@ -24,4 +24,5 @@ class RouteEnum
     const WEB_NEW_WALLET = 'newWallet';
     const WEB_UPDATE_WALLET = 'updateWallet';
     const WEB_DELETE_WALLET = 'deleteWallet';
+    const WEB_MOVEMENT = 'movement';
 }

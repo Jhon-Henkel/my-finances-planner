@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\RouteEnum;
 use App\Resources\MovementResource;
 use App\Services\MovementService;
+use App\Tools\RequestTools;
 use App\VO\MovementVO;
+use Illuminate\Contracts\Foundation\Application as AppFoundation;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application as App;
 
 class MovementController extends BasicController
 {
@@ -57,5 +63,12 @@ class MovementController extends BasicController
     {
         $itens = $this->service->findAllByType($type);
         return $this->resource->arrayDtoToVoItens($itens);
+    }
+
+    public function renderMovementView(): View|App|Factory|AppFoundation
+    {
+        $filter = (int)RequestTools::imputGet('filter');
+        $movements = $this->service->findByPeriod($filter);
+        return view(RouteEnum::WEB_MOVEMENT, ['movements' => $movements]);
     }
 }
