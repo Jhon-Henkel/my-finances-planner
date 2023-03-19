@@ -1,14 +1,15 @@
 @php
     use App\Enums\MovementEnum;
     use App\Enums\RouteEnum;
+    use App\Enums\ViewEnum;
     use App\Services\WalletService;
     use App\Tools\StringTools;
     use App\Tools\CalendarTools;
 @endphp
-@extends('snippets.base')
+@extends(ViewEnum::VIEW_BASE)
 @section('content')
     <h3 class="mt-2">Movimentações</h3>
-    @include('snippets.movement.topButtons')
+    @include(ViewEnum::VIEW_MOVEMENT_TOP_BUTTONS)
     <hr>
     <table class="table table-dark table-striped table-sm table-hover table-bordered" id="dataTable">
         <thead class="table-dark">
@@ -74,9 +75,9 @@
     <hr>
     @php($wallets = app(WalletService::class)->findAll())
     {{-- todo deixar modais com fundo preto --}}
-    @include('snippets.movement.insertSpentModal')
-    @include('snippets.movement.insertGainModal')
-    @include('snippets.movement.insertTransferModal')
+    @include(ViewEnum::VIEW_SPENT_MODAL)
+    @include(ViewEnum::VIEW_GAIN_MODAL)
+    @include(ViewEnum::VIEW_TRANSFER_MODAL)
     <script type="text/javascript" src="resources/js/dataTable.js"></script>
     <script type="text/javascript" src="resources/js/tools/stringTools.js"></script>
 @endsection

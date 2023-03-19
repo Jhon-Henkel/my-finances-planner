@@ -1,12 +1,13 @@
 @php
     use App\Enums\RouteEnum;
+    use App\Enums\ViewEnum;
     use App\Enums\WalletEnum;
     use App\Resources\WalletResource;
     use App\Services\WalletService;
     use App\Tools\CalendarTools;
     use App\Tools\StringTools;
 @endphp
-@extends('snippets.base')
+@extends(ViewEnum::VIEW_BASE)
 @section('content')
     <h3 class="mt-2">Carteiras</h3>
     <div class="nav justify-content-end">
@@ -73,10 +74,9 @@
         <hr>
     </div>
     {{-- todo deixar moals com fundo preto --}}
-    {{-- todo as duass modais estão praticamente iguais, abstrair --}}
     {{-- todo validar se o nome que está sendo inserido na modal é único, senão a aplicação quebra --}}
-    @include('snippets.wallet.insertWalletModal')
-    @include('snippets.wallet.updateWalletModal')
+    @include(ViewEnum::VIEW_INSERT_WALLET_MODAL)
+    @include(ViewEnum::VIEW_UPDATE_WALLET_MODAL)
     <script type="text/javascript" src="resources/js/dataTable.js"></script>
     <script type="text/javascript" src="resources/js/walletView.js"></script>
     <script type="text/javascript" src="resources/js/tools/stringTools.js"></script>

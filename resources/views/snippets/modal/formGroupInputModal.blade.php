@@ -2,5 +2,5 @@
     <label class="form-label" for="{{ $name }}">
         {{ $title }}
     </label>
-    <input type="text" class="form-control" name="description" required>
+    <input type="text" class="form-control" name="{{ $name }}" id="{{ $name }}" required>
 </div>
