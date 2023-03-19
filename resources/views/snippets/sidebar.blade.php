@@ -28,7 +28,7 @@
             </a>
             <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
                 <i class="fa-solid fa-money-bill-wave me-2"></i>
-                Meus Ganhos
+                Ganhos Futuros
             </a>
             <a class="nav-link sidebar-item a-default" aria-current="page" href="{{ route(RouteEnum::WEB_WALLET) }}">
                 <i class="fa-solid fa-wallet me-2"></i>
@@ -36,7 +36,7 @@
             </a>
             <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
                 <i class="fa-solid fa-credit-card me-2"></i>
-                Cartões
+                Despesas Cartões
             </a>
         </nav>
     </div>

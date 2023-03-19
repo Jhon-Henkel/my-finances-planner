@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\MovementDTO;
+use App\Enums\MovementEnum;
 use App\Enums\RouteEnum;
 use App\Resources\MovementResource;
 use App\Services\MovementService;
+use App\Services\WalletService;
 use App\Tools\RequestTools;
 use App\VO\MovementVO;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application as App;
+use Illuminate\Http\RedirectResponse;
 
 class MovementController extends BasicController
 {
@@ -70,5 +74,63 @@ class MovementController extends BasicController
         $filter = (int)RequestTools::imputGet('filter');
         $movements = $this->service->findByPeriod($filter);
         return view(RouteEnum::WEB_MOVEMENT, ['movements' => $movements]);
+    }
+
+    public function deleteFromCrud(int $id): RedirectResponse
+    {
+        $this->service->deleteById($id);
+        return redirect()->route(RouteEnum::WEB_MOVEMENT);
+    }
+
+    public function insertSpent(): RedirectResponse
+    {
+        // todo melhorar esse método, a responsabilidade deve ficar no service
+        $item = RequestTools::imputPostAll();
+        $amount = str_replace('.', '', $item['amountSpent']);
+        $amount = str_replace(',', '.', $amount);
+        $gain = new MovementDTO();
+        $gain->setDescription($item['description']);
+        $gain->setAmount($amount);
+        $gain->setType(MovementEnum::SPENT);
+        $gain->setWalletId($item['wallet']);
+        $this->service->insert($gain);
+        app(WalletService::class)->updateWalletValue((float)$amount, (int)$item['wallet'], MovementEnum::SPENT);
+        return redirect()->route(RouteEnum::WEB_MOVEMENT);
+    }
+
+    public function insertGain(): RedirectResponse
+    {
+        // todo melhorar esse método, a responsabilidade deve ficar no service
+        $item = RequestTools::imputPostAll();
+        $amount = str_replace('.', '', $item['amountGain']);
+        $amount = str_replace(',', '.', $amount);
+        $gain = new MovementDTO();
+        $gain->setDescription($item['description']);
+        $gain->setAmount($amount);
+        $gain->setType(MovementEnum::GAIN);
+        $gain->setWalletId($item['wallet']);
+        $this->service->insert($gain);
+        app(WalletService::class)->updateWalletValue((float)$amount, (int)$item['wallet'], MovementEnum::GAIN);
+        return redirect()->route(RouteEnum::WEB_MOVEMENT);
+    }
+
+    public function insertTransfer()
+    {
+        // todo melhorar esse método, a responsabilidade deve ficar no service
+        $item = RequestTools::imputPostAll();
+        $amount = str_replace('.', '', $item['amountTransfer']);
+        $amount = str_replace(',', '.', $amount);
+        $gain = new MovementDTO();
+        $gain->setDescription($item['description']);
+        $gain->setAmount($amount);
+        $gain->setType(MovementEnum::GAIN);
+        $gain->setWalletId($item['walletIn']);
+        $this->service->insert($gain);
+        $gain->setWalletId($item['walletOut']);
+        $gain->setType(MovementEnum::SPENT);
+        $this->service->insert($gain);
+        app(WalletService::class)->updateWalletValue((float)$amount, (int)$item['walletIn'], MovementEnum::GAIN);
+        app(WalletService::class)->updateWalletValue((float)$amount, (int)$item['walletOut'], MovementEnum::SPENT);
+        return redirect()->route(RouteEnum::WEB_MOVEMENT);
     }
 }

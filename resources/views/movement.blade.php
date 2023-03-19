@@ -1,5 +1,7 @@
 @php
     use App\Enums\MovementEnum;
+    use App\Enums\RouteEnum;
+    use App\Services\WalletService;
     use App\Tools\StringTools;
     use App\Tools\CalendarTools;
 @endphp
@@ -24,11 +26,11 @@
         @foreach($movements as $movement)
             <tr>
                 <td class="text-center">
-                    <span class= "badge
+                    <span class="badge
                     @if($movement->getType() == MovementEnum::SPENT)
                         text-bg-danger
                     @else
-                        text-bg-sucess
+                        text-bg-success
                     @endif">
                         {{ MovementEnum::getDescription($movement->getType()) }}
                     </span>
@@ -39,16 +41,17 @@
                 <td class="text-center">{{ StringTools::moneyBr($movement->getAmount()) }}</td>
                 <td class="text-center">
                     {{-- todo adicionar ação de editar --}}
-                    <form method="post" action="#">
+                    {{-- todo No delete deve desfazer a movimentação, ou seja, retirar ou acrescentar os valores --}}
+                    <form method="post" action="{{ route(RouteEnum::WEB_DELETE_MOVEMENT, $movement->getId()) }}">
                         {{ csrf_field() }}
                         <input type="hidden" value="{{ $movement->getId() }}">
-                        <button class="btn btn-sm btn-danger rounded-5" type="submit">
+                        <button class="btn btn-sm btn-danger rounded-5" type="submit" title="Deletar">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </form>
                 </td>
             </tr>
-            @php($totalByType[$movement->getType()] = ($totalByType[$movement->getType()] ?? 0) + $movement->getAmount());
+            @php($totalByType[$movement->getType()] = ($totalByType[$movement->getType()] ?? 0) + $movement->getAmount())
         @endforeach
         </tbody>
     </table>
@@ -69,5 +72,11 @@
         </div>
     </div>
     <hr>
+    @php($wallets = app(WalletService::class)->findAll())
+    {{-- todo deixar modais com fundo preto --}}
+    @include('snippets.movement.insertSpentModal')
+    @include('snippets.movement.insertGainModal')
+    @include('snippets.movement.insertTransferModal')
     <script type="text/javascript" src="resources/js/dataTable.js"></script>
+    <script type="text/javascript" src="resources/js/tools/stringTools.js"></script>
 @endsection

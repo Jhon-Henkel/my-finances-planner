@@ -25,4 +25,22 @@ class MovementEnum
             default => 'Desconhecido'
         };
     }
+
+    public static function getCode(string $description): int
+    {
+        return match ($description) {
+            'Gasto' => self::SPENT,
+            'Ganho' => self::GAIN,
+            'Transferência' => self::TRANSFER
+        };
+    }
+
+    public static function getList(): array
+    {
+        return [
+            self::SPENT,
+            self::GAIN,
+            self::TRANSFER
+        ];
+    }
 }
