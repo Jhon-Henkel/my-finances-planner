@@ -20,14 +20,25 @@
         </tr>
         </thead>
         <tbody>
+        @php($totalByType = [])
         @foreach($movements as $movement)
             <tr>
-                <td class="text-center">{{ MovementEnum::getDescription($movement->getType()) }}</td>
+                <td class="text-center">
+                    <span class= "badge
+                    @if($movement->getType() == MovementEnum::SPENT)
+                        text-bg-danger
+                    @else
+                        text-bg-sucess
+                    @endif">
+                        {{ MovementEnum::getDescription($movement->getType()) }}
+                    </span>
+                </td>
                 <td class="text-center">{{ ucfirst($movement->getDescription()) }}</td>
                 <td class="text-center">{{ ucfirst($movement->getWalletName() ?? 'Não informado') }}</td>
                 <td class="text-center">{{ CalendarTools::usToBrDate($movement->getCreatedAt()) }}</td>
                 <td class="text-center">{{ StringTools::moneyBr($movement->getAmount()) }}</td>
                 <td class="text-center">
+                    {{-- todo adicionar ação de editar --}}
                     <form method="post" action="#">
                         {{ csrf_field() }}
                         <input type="hidden" value="{{ $movement->getId() }}">
@@ -37,9 +48,26 @@
                     </form>
                 </td>
             </tr>
+            @php($totalByType[$movement->getType()] = ($totalByType[$movement->getType()] ?? 0) + $movement->getAmount());
         @endforeach
         </tbody>
     </table>
+    <hr>
+    @php($gain = $totalByType[MovementEnum::GAIN] ?? 0)
+    @php($spent = $totalByType[MovementEnum::SPENT] ?? 0)
+    <div class="text-center">
+        <div class="badge text-bg-danger">
+            {{ StringTools::moneyBr($spent) }}
+        </div>
+        -
+        <div class="badge text-bg-success">
+            {{ StringTools::moneyBr($gain) }}
+        </div>
+        =
+        <div class="badge text-bg-warning">
+            {{ StringTools::moneyBr($gain - $spent) }}
+        </div>
+    </div>
     <hr>
     <script type="text/javascript" src="resources/js/dataTable.js"></script>
 @endsection

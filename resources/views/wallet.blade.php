@@ -67,7 +67,7 @@
                 {{ WalletEnum::getDescription($key) }}: {{ StringTools::moneyBr($value) }}
             </div>
         @endforeach
-        <div class="badge text-bg-warning mt-4">
+        <div class="badge text-bg-warning">
             Total: {{ StringTools::moneyBr($total) }}
         </div>
         <hr>
