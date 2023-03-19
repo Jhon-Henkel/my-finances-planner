@@ -17,9 +17,7 @@ class MovementResource extends BasicResource
         $dto = new MovementDTO();
         $dto->setId($item['id'] ?? null);
         $dto->setWalletId($item['walletId'] ?? $item['wallet_id']);
-        if (isset($item['name'])){
-            $dto->setWalletName($item['name']);
-        }
+        $dto->setWalletName($item['name'] ?? null);
         $dto->setDescription($item['description']);
         $dto->setType($item['type']);
         $dto->setAmount($item['amount']);
