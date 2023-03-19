@@ -40,12 +40,12 @@ class MovementRepository extends BasicRepository
      */
     public function findByPeriod(array $period): array
     {
-        $itens = isset($period['all'])
-            ? $this->findAll()
-            : $this->model::where('movements.created_at', '>', $period[DateEnum::DATE_START_NAME])
-                ->where('movements.created_at', '<', $period[DateEnum::DATE_END_NAME])
-                ->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
-                ->get();
-        return $this->resource->arrayToDtoItens($itens->toArray());
+        if (isset($period['all'])) {
+            return $this->findAll();
+        }
+        $itens = $this->model::where('movements.created_at', '>', $period[DateEnum::DATE_START_NAME])
+            ->where('movements.created_at', '<', $period[DateEnum::DATE_END_NAME])
+            ->join('wallets', 'movements.wallet_id', '=', 'wallets.id')->get()->toArray();
+        return $this->resource->arrayToDtoItens($itens);
     }
 }
