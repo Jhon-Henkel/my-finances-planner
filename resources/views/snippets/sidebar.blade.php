@@ -14,28 +14,53 @@
             {{ CalendarTools::salutation(Auth::user()->name, date('H')) }}
         </h6>
         <nav class="nav flex-column ms-4 mt-5">
-            <a class="nav-link sidebar-item a-default" aria-current="page" href="{{ route(RouteEnum::WEB_DASHBOARD) }}">
+            <a class="nav-link sidebar-item a-default"
+               aria-current="page"
+               href="{{ route(RouteEnum::WEB_DASHBOARD) }} "
+               title="Dashboard">
                 <i class="fa-solid fa-chart-line me-2"></i>
                 Dashboard
             </a>
-            <a class="nav-link sidebar-item a-default" aria-current="page" href="{{ route(RouteEnum::WEB_MOVEMENT) }}">
+            <a class="nav-link sidebar-item a-default"
+               aria-current="page"
+               href="{{ route(RouteEnum::WEB_MOVEMENT) }}"
+               title="Movimentações">
                 <i class="fa-solid fa-money-bill-transfer me-2"></i>
                 Movimentações
             </a>
-            <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
+            <a class="nav-link sidebar-item a-default"
+               aria-current="page"
+               href="#"
+               title="Panorama">
                 <i class="fa-solid fa-money-bill-trend-up me-2"></i>
                 Panorama
             </a>
-            <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
+            <a class="nav-link sidebar-item a-default"
+               aria-current="page"
+               href="#"
+               title="Ganhos Futuros">
                 <i class="fa-solid fa-money-bill-wave me-2"></i>
                 Ganhos Futuros
             </a>
-            <a class="nav-link sidebar-item a-default" aria-current="page" href="{{ route(RouteEnum::WEB_WALLET) }}">
+            <a class="nav-link sidebar-item a-default"
+               aria-current="page"
+               href="{{ route(RouteEnum::WEB_WALLET) }}"
+               title="Carteiras">
                 <i class="fa-solid fa-wallet me-2"></i>
                 Carteiras
             </a>
-            <a class="nav-link sidebar-item a-default" aria-current="page" href="#">
+            <a class="nav-link sidebar-item a-default"
+               aria-current="page"
+               href="#"
+               title="Gerenciar Cartões">
                 <i class="fa-solid fa-credit-card me-2"></i>
+                Gerenciar Cartões
+            </a>
+            <a class="nav-link sidebar-item a-default"
+               aria-current="page"
+               href="#"
+               title="Despesas Cartões">
+                <i class="fa-solid fa-hand-holding-dollar"></i>
                 Despesas Cartões
             </a>
         </nav>

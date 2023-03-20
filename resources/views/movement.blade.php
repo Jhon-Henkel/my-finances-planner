@@ -33,7 +33,12 @@
                     @else
                         text-bg-success
                     @endif">
-                        {{ MovementEnum::getDescription($movement->getType()) }}
+                        @if($movement->getType() == MovementEnum::SPENT)
+                            <i class="fa-solid fa-arrow-up"></i>
+                        @else
+                            <i class="fa-solid fa-arrow-down"></i>
+                        @endif
+                        <i class="fa-solid fa-money-bill-1-wave"></i>
                     </span>
                 </td>
                 <td class="text-center">{{ ucfirst($movement->getDescription()) }}</td>

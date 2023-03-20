@@ -32,18 +32,20 @@
             data-bs-toggle="modal"
             data-bs-target="#insertSpent"
             title="Nova despesa">
-        <i class="fa-solid fa-minus"></i>
+        <i class="fa-solid fa-arrow-up"></i>
+        <i class="fa-solid fa-money-bill-1-wave"></i>
     </button>
     <button class="btn btn-success rounded-5 me-2"
             data-bs-toggle="modal"
             data-bs-target="#insertGain"
             title="Novo ganho">
-        <i class="fa-solid fa-plus"></i>
+        <i class="fa-solid fa-arrow-down"></i>
+        <i class="fa-solid fa-money-bill-1-wave"></i>
     </button>
     <button class="btn btn-warning rounded-5"
             data-bs-toggle="modal"
             data-bs-target="#insertTransfer"
             title="Nova transferência">
-        <i class="fa-solid fa-arrow-down-up-across-line"></i>
+        <i class="fa-solid fa-money-bill-transfer"></i>
     </button>
 </div>

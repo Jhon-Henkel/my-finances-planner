@@ -15,8 +15,8 @@ class MovementEnum
     public static function getDescription(int $value): string
     {
         return match ($value) {
-            self::SPENT => 'Gasto',
-            self::GAIN => 'Ganho',
+            self::SPENT => 'Saída',
+            self::GAIN => 'Entrada',
             self::TRANSFER => 'Transferência',
             self::FILTER_THIS_MONTH => 'Este mês',
             self::FILTER_LAST_MONTH => 'Ultimo mês',
@@ -29,8 +29,8 @@ class MovementEnum
     public static function getCode(string $description): int
     {
         return match ($description) {
-            'Gasto' => self::SPENT,
-            'Ganho' => self::GAIN,
+            'Entrada' => self::SPENT,
+            'Saída' => self::GAIN,
             'Transferência' => self::TRANSFER
         };
     }

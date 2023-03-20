@@ -11,7 +11,10 @@
 @section('content')
     <h3 class="mt-2">Carteiras</h3>
     <div class="nav justify-content-end">
-        <button class="btn btn-success rounded-5" data-bs-toggle="modal" data-bs-target="#insertWallet">
+        <button class="btn btn-success rounded-5"
+                data-bs-toggle="modal"
+                data-bs-target="#insertWallet"
+                title="Cadastrar Carteira">
             <i class="fa-solid fa-wallet me-2"></i>
             Nova Carteira
         </button>
@@ -43,13 +46,14 @@
                     <td class="text-center">
                         <div class="ms-5" style="display: flex">
                             <button class="btn btn-sm btn-info rounded-5 me-1"
+                                    title="Editar"
                                     onclick="edit({{ json_encode(app(WalletResource::class)->dtoToArray($wallet)) }})">
                                 <i class="fa-solid fa-pen"></i>
                             </button>
                             <form method="post" action="{{ route(RouteEnum::WEB_DELETE_WALLET, $wallet->getId()) }}">
                                 {{ csrf_field() }}
                                 <input type="hidden" value="{{ $wallet->getId() }}">
-                                <button class="btn btn-sm btn-danger rounded-5" type="submit">
+                                <button class="btn btn-sm btn-danger rounded-5" type="submit" title="Deletar">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </form>

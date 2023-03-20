@@ -120,17 +120,18 @@ class MovementController extends BasicController
     {
         // todo melhorar esse método, a responsabilidade deve ficar no service
         $item = RequestTools::imputPostAll();
+        $amount = StringTools::crudMoneyToFloat($item['amountTransfer']);
         $gain = new MovementDTO();
         $gain->setDescription($item['description']);
-        $gain->setAmount(StringTools::crudMoneyToFloat($item['amountTransfer']));
+        $gain->setAmount($amount);
         $gain->setType(MovementEnum::GAIN);
         $gain->setWalletId($item['walletIn']);
         $this->service->insert($gain);
         $gain->setWalletId($item['walletOut']);
         $gain->setType(MovementEnum::SPENT);
         $this->service->insert($gain);
-        app(WalletService::class)->updateWalletValue((float)$amount, (int)$item['walletIn'], MovementEnum::GAIN);
-        app(WalletService::class)->updateWalletValue((float)$amount, (int)$item['walletOut'], MovementEnum::SPENT);
+        app(WalletService::class)->updateWalletValue($amount, (int)$item['walletIn'], MovementEnum::GAIN);
+        app(WalletService::class)->updateWalletValue($amount, (int)$item['walletOut'], MovementEnum::SPENT);
         return redirect()->route(RouteEnum::WEB_MOVEMENT);
     }
 }
