@@ -81,6 +81,12 @@ abstract class BasicController extends Controller implements BasicControllerCont
         }
     }
 
+    public function showByType(int $type): array
+    {
+        $itens = $this->service->findAllByType($type);
+        return $this->resource->arrayDtoToVoItens($itens);
+    }
+
     protected function returnErrorDatabaseConnect(): JsonResponse
     {
         return response()->json(

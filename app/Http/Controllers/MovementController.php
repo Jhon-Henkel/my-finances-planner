@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\MovementDTO;
 use App\Enums\MovementEnum;
 use App\Enums\RouteEnum;
 use App\Enums\ViewEnum;
 use App\Resources\MovementResource;
 use App\Services\MovementService;
-use App\Services\WalletService;
 use App\Tools\RequestTools;
 use App\Tools\StringTools;
-use App\VO\MovementVO;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -61,17 +58,6 @@ class MovementController extends BasicController
         return $this->resource;
     }
 
-    /**
-     * @param int $type
-     * @return MovementVO[]
-     */
-    public function showByType(int $type): array
-    {
-        // todo mover para o generic
-        $itens = $this->service->findAllByType($type);
-        return $this->resource->arrayDtoToVoItens($itens);
-    }
-
     public function renderMovementView(): View|App|Factory|AppFoundation
     {
         $filter = (int)RequestTools::imputGet('filter');
@@ -88,50 +74,37 @@ class MovementController extends BasicController
 
     public function insertSpent(): RedirectResponse
     {
-        // todo melhorar esse método, a responsabilidade deve ficar no service
         $item = RequestTools::imputPostAll();
-        $amount = StringTools::crudMoneyToFloat($item['amountSpent']);
-        $gain = new MovementDTO();
-        $gain->setDescription($item['description']);
-        $gain->setAmount($amount);
-        $gain->setType(MovementEnum::SPENT);
-        $gain->setWalletId($item['wallet']);
-        $this->service->insert($gain);
-        app(WalletService::class)->updateWalletValue($amount, (int)$item['wallet'], MovementEnum::SPENT);
+        $item['amount'] = StringTools::crudMoneyToFloat($item['amountSpent']);
+        $item['wallet_id'] = $item['wallet'];
+        $item['type'] = MovementEnum::SPENT;
+        $itemBO = $this->resource->arrayToDto($item);
+        $this->service->insertMovement($itemBO);
         return redirect()->route(RouteEnum::WEB_MOVEMENT);
     }
 
     public function insertGain(): RedirectResponse
     {
-        // todo melhorar esse método, a responsabilidade deve ficar no service
         $item = RequestTools::imputPostAll();
-        $amount = StringTools::crudMoneyToFloat($item['amountGain']);
-        $gain = new MovementDTO();
-        $gain->setDescription($item['description']);
-        $gain->setAmount($amount);
-        $gain->setType(MovementEnum::GAIN);
-        $gain->setWalletId($item['wallet']);
-        $this->service->insert($gain);
-        app(WalletService::class)->updateWalletValue($amount, (int)$item['wallet'], MovementEnum::GAIN);
+        $item['amount'] = StringTools::crudMoneyToFloat($item['amountGain']);
+        $item['wallet_id'] = $item['wallet'];
+        $item['type'] = MovementEnum::GAIN;
+        $itemBO = $this->resource->arrayToDto($item);
+        $this->service->insertMovement($itemBO);
         return redirect()->route(RouteEnum::WEB_MOVEMENT);
     }
 
     public function insertTransfer(): RedirectResponse
     {
-        // todo melhorar esse método, a responsabilidade deve ficar no service
         $item = RequestTools::imputPostAll();
-        $amount = StringTools::crudMoneyToFloat($item['amountTransfer']);
-        $gain = new MovementDTO();
-        $gain->setDescription($item['description']);
-        $gain->setAmount($amount);
-        $gain->setType(MovementEnum::GAIN);
-        $gain->setWalletId($item['walletIn']);
-        $this->service->insert($gain);
-        $gain->setWalletId($item['walletOut']);
-        $gain->setType(MovementEnum::SPENT);
-        $this->service->insert($gain);
-        app(WalletService::class)->updateWalletValue($amount, (int)$item['walletIn'], MovementEnum::GAIN);
-        app(WalletService::class)->updateWalletValue($amount, (int)$item['walletOut'], MovementEnum::SPENT);
+        $item['amount'] = StringTools::crudMoneyToFloat($item['amountTransfer']);
+        $item['wallet_id'] = $item['walletIn'];
+        $item['type'] = MovementEnum::GAIN;
+        $itemBO = $this->resource->arrayToDto($item);
+        $this->service->insertMovement($itemBO);
+        $itemBO->setWalletId($item['walletOut']);
+        $itemBO->setType(MovementEnum::SPENT);
+        $this->service->insertMovement($itemBO);
         return redirect()->route(RouteEnum::WEB_MOVEMENT);
     }
 }

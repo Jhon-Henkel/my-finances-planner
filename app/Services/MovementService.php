@@ -63,4 +63,14 @@ class MovementService extends BasicService
         }
         return $period;
     }
+
+    public function insertMovement(MovementDTO $movement): void
+    {
+        $this->insert($movement);
+        app(WalletService::class)->updateWalletValue(
+            $movement->getAmount(),
+            $movement->getWalletId(),
+            $movement->getType()
+        );
+    }
 }
