@@ -9,6 +9,7 @@ use App\Resources\MovementResource;
 use App\Services\MovementService;
 use App\Tools\RequestTools;
 use App\Tools\StringTools;
+use App\VO\MovementVO;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,6 +17,9 @@ use Illuminate\Foundation\Application as App;
 use Illuminate\Http\RedirectResponse;
 
 // todo alterações via api não estão afetandoo a carteira (adiciionar e remover saldo)
+/**
+ * @method MovementVO[] showByType()
+ */
 class MovementController extends BasicController
 {
     protected MovementService $service;

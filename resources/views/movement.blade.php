@@ -80,6 +80,7 @@
     <hr>
     @php($wallets = app(WalletService::class)->findAll())
     {{-- todo deixar modais com fundo preto --}}
+    {{-- todo validar se o nome que está sendo inserido na modal é único, senão a aplicação quebra --}}
     @include(ViewEnum::VIEW_SPENT_MODAL)
     @include(ViewEnum::VIEW_GAIN_MODAL)
     @include(ViewEnum::VIEW_TRANSFER_MODAL)

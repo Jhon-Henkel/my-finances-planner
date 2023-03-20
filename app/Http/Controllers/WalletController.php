@@ -15,6 +15,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application as App;
 use Illuminate\Http\RedirectResponse;
 
+/**
+ * @method WalletVO[] showByType()
+ */
 class WalletController extends BasicController
 {
     protected WalletService $service;
@@ -38,6 +41,7 @@ class WalletController extends BasicController
     protected function rulesUpdate(): array
     {
         return array(
+            // todo validar se nome já não existe em outro registro
             'name' => 'required|max:255|min:2|string',
             'type' => 'required|int',
             'amount' => 'required|decimal:0,2'
@@ -54,17 +58,6 @@ class WalletController extends BasicController
         return $this->resource;
     }
 
-    /**
-     * @param int $type
-     * @return WalletVO[]
-     */
-    public function showByType(int $type): array
-    {
-        // todo mover para o generic
-        $itens = $this->service->findAllByType($type);
-        return $this->resource->arrayDtoToVoItens($itens);
-    }
-
     public function renderWalletView(): View|App|Factory|AppFoundation
     {
         return view(ViewEnum::VIEW_WALLET);
@@ -72,7 +65,6 @@ class WalletController extends BasicController
 
     public function insertFromModal(): RedirectResponse
     {
-        // todo melhorar esse método, a responsabilidade deve ficar no service
         $itemCrud = RequestTools::imputPostAll();
         $itemCrud['id'] = null;
         $itemCrud['amount'] = StringTools::crudMoneyToFloat($itemCrud['amount']);
@@ -83,7 +75,6 @@ class WalletController extends BasicController
 
     public function updateFromModal(): RedirectResponse
     {
-        // todo melhorar esse método, a responsabilidade deve ficar no service
         $itemCrud = RequestTools::imputPostAll();
         $itemCrud['amount'] = StringTools::crudMoneyToFloat($itemCrud['amount']);
         $item = $this->resource->arrayToDto($itemCrud);

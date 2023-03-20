@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Enums\RouteEnum;
 use App\Enums\ViewEnum;
 use App\Models\User;
-use App\Services\AuthService;
+use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application as App;
-use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -20,6 +19,7 @@ class AuthController extends Controller
 {
     public function home()
     {
+        // todo essa view não vai ser a publica
         return view('publica');
     }
 
