@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application as App;
 use Illuminate\Http\RedirectResponse;
 
+// todo alterações via api não estão afetandoo a carteira (adiciionar e remover saldo)
 class MovementController extends BasicController
 {
     protected MovementService $service;
