@@ -7,6 +7,7 @@ use App\Enums\ViewEnum;
 use App\Resources\WalletResource;
 use App\Services\WalletService;
 use App\Tools\RequestTools;
+use App\Tools\StringTools;
 use App\VO\WalletVO;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
@@ -59,6 +60,7 @@ class WalletController extends BasicController
      */
     public function showByType(int $type): array
     {
+        // todo mover para o generic
         $itens = $this->service->findAllByType($type);
         return $this->resource->arrayDtoToVoItens($itens);
     }
@@ -70,9 +72,10 @@ class WalletController extends BasicController
 
     public function insertFromModal(): RedirectResponse
     {
+        // todo melhorar esse método, a responsabilidade deve ficar no service
         $itemCrud = RequestTools::imputPostAll();
         $itemCrud['id'] = null;
-        $itemCrud['amount'] = str_replace(',', '.', $itemCrud['amount']);
+        $itemCrud['amount'] = StringTools::crudMoneyToFloat($itemCrud['amount']);
         $item = $this->resource->arrayToDto($itemCrud);
         $this->service->insert($item);
         return redirect()->route(RouteEnum::WEB_WALLET);
@@ -80,8 +83,9 @@ class WalletController extends BasicController
 
     public function updateFromModal(): RedirectResponse
     {
+        // todo melhorar esse método, a responsabilidade deve ficar no service
         $itemCrud = RequestTools::imputPostAll();
-        $itemCrud['amount'] = str_replace(',', '.', $itemCrud['amount']);
+        $itemCrud['amount'] = StringTools::crudMoneyToFloat($itemCrud['amount']);
         $item = $this->resource->arrayToDto($itemCrud);
         $this->service->update($item->getId(), $item);
         return redirect()->route(RouteEnum::WEB_WALLET);
@@ -89,6 +93,7 @@ class WalletController extends BasicController
 
     public function deleteFromCrud(int $id): RedirectResponse
     {
+        // todo esse delete deve deletar as movimentações referente a carteira deletada
         $this->service->deleteById($id);
         return redirect()->route(RouteEnum::WEB_WALLET);
     }

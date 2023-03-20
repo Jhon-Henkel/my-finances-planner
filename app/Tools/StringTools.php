@@ -8,4 +8,11 @@ class StringTools
     {
         return'R$ ' . number_format($value, 2, ',', '.');
     }
+
+    public static function crudMoneyToFloat(string $value): float
+    {
+        $amount = str_replace('.', '', $value);
+        $amount = str_replace(',', '.', $amount);
+        return (float)$amount;
+    }
 }
