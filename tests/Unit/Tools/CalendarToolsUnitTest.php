@@ -3,6 +3,7 @@
 namespace Tests\Unit\Tools;
 
 use App\Tools\CalendarTools;
+use Mockery;
 use Tests\TestCase;
 
 class CalendarToolsUnitTest extends TestCase
@@ -84,5 +85,56 @@ class CalendarToolsUnitTest extends TestCase
         $mont = $mont->format('Y');
 
         $this->assertEquals($mont, CalendarTools::getThisYear());
+    }
+
+    public function testGetNextTwelveMonths()
+    {
+        $nextMonths = CalendarTools::getNextTwelveMonths(05);
+
+        $this->assertCount(12, $nextMonths);
+        $this->assertEquals(5, $nextMonths[0]);
+        $this->assertEquals(6, $nextMonths[1]);
+        $this->assertEquals(7, $nextMonths[2]);
+        $this->assertEquals(8, $nextMonths[3]);
+        $this->assertEquals(9, $nextMonths[4]);
+        $this->assertEquals(10, $nextMonths[5]);
+        $this->assertEquals(11, $nextMonths[6]);
+        $this->assertEquals(12, $nextMonths[7]);
+        $this->assertEquals(1, $nextMonths[8]);
+        $this->assertEquals(2, $nextMonths[9]);
+        $this->assertEquals(3, $nextMonths[10]);
+        $this->assertEquals(4, $nextMonths[11]);
+
+        $nextMonths = CalendarTools::getNextTwelveMonths(01);
+
+        $this->assertCount(12, $nextMonths);
+        $this->assertEquals(1, $nextMonths[0]);
+        $this->assertEquals(2, $nextMonths[1]);
+        $this->assertEquals(3, $nextMonths[2]);
+        $this->assertEquals(4, $nextMonths[3]);
+        $this->assertEquals(5, $nextMonths[4]);
+        $this->assertEquals(6, $nextMonths[5]);
+        $this->assertEquals(7, $nextMonths[6]);
+        $this->assertEquals(8, $nextMonths[7]);
+        $this->assertEquals(9, $nextMonths[8]);
+        $this->assertEquals(10, $nextMonths[9]);
+        $this->assertEquals(11, $nextMonths[10]);
+        $this->assertEquals(12, $nextMonths[11]);
+
+        $nextMonths = CalendarTools::getNextTwelveMonths(10);
+
+        $this->assertCount(12, $nextMonths);
+        $this->assertEquals(10, $nextMonths[0]);
+        $this->assertEquals(11, $nextMonths[1]);
+        $this->assertEquals(12, $nextMonths[2]);
+        $this->assertEquals(1, $nextMonths[3]);
+        $this->assertEquals(2, $nextMonths[4]);
+        $this->assertEquals(3, $nextMonths[5]);
+        $this->assertEquals(4, $nextMonths[6]);
+        $this->assertEquals(5, $nextMonths[7]);
+        $this->assertEquals(6, $nextMonths[8]);
+        $this->assertEquals(7, $nextMonths[9]);
+        $this->assertEquals(8, $nextMonths[10]);
+        $this->assertEquals(9, $nextMonths[11]);
     }
 }

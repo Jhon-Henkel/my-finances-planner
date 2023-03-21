@@ -37,7 +37,7 @@
             </a>
             <a class="nav-link sidebar-item a-default"
                aria-current="page"
-               href="#"
+               href="{{ route(RouteEnum::WEB_FUTURE_GAIN) }}"
                title="Ganhos Futuros">
                 <i class="fa-solid fa-money-bill-wave me-2"></i>
                 Ganhos Futuros

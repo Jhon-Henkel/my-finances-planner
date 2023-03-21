@@ -5,10 +5,10 @@ namespace App\Models;
 use App\Enums\DateEnum;
 use Illuminate\Database\Eloquent\Model;
 
-class MovementModel extends Model
+class FutureGain extends Model
 {
-    protected $table = 'movements';
-    protected $fillable = ['id', 'wallet_id', 'description', 'type', 'amount'];
+    protected $table = 'future_gain';
+    protected $fillable = ['id', 'wallet_id', 'description', 'amount', 'forecast', ];
     protected $casts = [
         'created_at' => DateEnum::MODEL_DEFAULT_DATE_FORMAT,
         'updated_at' => DateEnum::MODEL_DEFAULT_DATE_FORMAT

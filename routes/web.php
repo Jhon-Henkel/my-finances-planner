@@ -3,6 +3,7 @@
 use App\Enums\RouteEnum;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,9 @@ $router->prefix('/')->group(function ($router){
             $router->post('insert-spent', [MovementController::class, 'insertSpent'])->name(RouteEnum::WEB_INSERT_SPENT);
             $router->post('insert-gain', [MovementController::class, 'insertGain'])->name(RouteEnum::WEB_INSERT_GAIN);
             $router->post('insert-transfer', [MovementController::class, 'insertTransfer'])->name(RouteEnum::WEB_INSERT_TRANSFER);
+        });
+        $router->prefix('/future-gain')->group(function ($router) {
+            $router->get('', [FutureGainController::class, 'renderFutureGainView'])->name(RouteEnum::WEB_FUTURE_GAIN);
         });
     });
 });

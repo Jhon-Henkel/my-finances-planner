@@ -44,4 +44,23 @@ class CalendarTools
     {
         return new DateTime();
     }
+
+    public static function getNextTwelveMonths(int $thisMonth): array
+    {
+        $nextMonths = [];
+        for ($index = $thisMonth; $index <= 12; $index++) {
+            $nextMonths[] = $index;
+            if (count($nextMonths) == 12) {
+                break;
+            }
+        }
+        $count = count($nextMonths);
+        if ($count < 12) {
+            $lack = 12 - $count;
+            for ($index = 1; $index <= $lack; $index++) {
+                $nextMonths[] = $index;
+            }
+        }
+        return $nextMonths;
+    }
 }

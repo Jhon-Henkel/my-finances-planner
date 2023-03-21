@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use App\Enums\DateEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class WalletModel extends Model
 {
     protected $table = 'wallets';
-    protected $fillable = array('id', 'name', 'type', 'amount');
-    protected $casts = array('created_at' => 'datetime:Y-m-d H:m:s', 'updated_at' => 'datetime:Y-m-d H:m:s');
-    protected $hidden = array();
+    protected $fillable = ['id', 'name', 'type', 'amount'];
+    protected $casts = [
+        'created_at' => DateEnum::MODEL_DEFAULT_DATE_FORMAT,
+        'updated_at' => DateEnum::MODEL_DEFAULT_DATE_FORMAT
+    ];
+    protected $hidden = [];
     public $timestamps = false;
 }

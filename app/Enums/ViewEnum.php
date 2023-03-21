@@ -24,4 +24,5 @@ enum ViewEnum
     const VIEW_MOVEMENT_TOP_BUTTONS = 'snippets.movement.topButtons';
     const VIEW_GAIN_SPENT_SELECT_MODAL = 'snippets.movement.insertGainSpentSelect';
     const VIEW_ALERT_COMPONENT = 'component.alert';
+    const VIEW_FUTURE_GAIN = 'futureGain';
 }

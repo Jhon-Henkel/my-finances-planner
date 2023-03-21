@@ -29,4 +29,5 @@ class RouteEnum
     const WEB_INSERT_SPENT = 'insertSpent';
     const WEB_INSERT_GAIN = 'insertGain';
     const WEB_INSERT_TRANSFER = 'insertTransfer';
+    const WEB_FUTURE_GAIN = 'futureGain';
 }
