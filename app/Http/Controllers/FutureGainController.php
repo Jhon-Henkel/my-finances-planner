@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ViewEnum;
 use App\Resources\FutureGainResource;
 use App\Services\FutureGainService;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application as App;
 use Illuminate\Contracts\View\Factory;
@@ -41,8 +42,13 @@ class FutureGainController extends BasicController
         return $this->resource;
     }
 
+    /**
+     * @throws Exception
+     */
     public function renderFutureGainView(): View|App|Factory|AppFoundation
     {
-        return view(ViewEnum::VIEW_FUTURE_GAIN);
+        $data = $this->service->getNextSixMonthsGroupByDate();
+        $itensGrouped = $this->service->populateItensForCrud($data);
+        return view(ViewEnum::VIEW_FUTURE_GAIN, ['itens' => $itensGrouped]);
     }
 }

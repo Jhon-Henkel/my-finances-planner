@@ -33,4 +33,10 @@ class WalletRepository extends BasicRepository
         $itens = $this->model->where(BasicFieldsEnum::TYPE, $type)->get()->toArray();
         return $this->resource->arrayToDtoItens($itens);
     }
+
+    public function findNameById(int $id): string
+    {
+        $item = $this->model->select('name')->where('id', '=', $id)->get();
+        return $item->first()->toArray()['name'];
+    }
 }

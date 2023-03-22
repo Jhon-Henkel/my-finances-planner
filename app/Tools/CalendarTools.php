@@ -45,22 +45,39 @@ class CalendarTools
         return new DateTime();
     }
 
-    public static function getNextTwelveMonths(int $thisMonth): array
+    public static function getNextSixMonths(int $thisMonth): array
     {
+        // todo melhorar esse métodoo
         $nextMonths = [];
         for ($index = $thisMonth; $index <= 12; $index++) {
-            $nextMonths[] = $index;
-            if (count($nextMonths) == 12) {
+            $nextMonths[] = str_pad($index, 2, '0', STR_PAD_LEFT);
+            if (count($nextMonths) == 6) {
                 break;
             }
         }
         $count = count($nextMonths);
-        if ($count < 12) {
-            $lack = 12 - $count;
+        if ($count < 6) {
+            $lack = 6 - $count;
             for ($index = 1; $index <= $lack; $index++) {
-                $nextMonths[] = $index;
+                $nextMonths[] = str_pad($index, 2, '0', STR_PAD_LEFT);
             }
         }
         return $nextMonths;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function getMonthFromDate(string $date): string
+    {
+        $date = new DateTime($date);
+        $month = $date->format(DateEnum::ONLY_MONTH);
+        return str_pad($month, 2, '0', STR_PAD_LEFT);
+    }
+
+    public static function getDayFromDate(string $date): string
+    {
+        $date = new DateTime($date);
+        return $date->format(DateEnum::ONLY_DAY);
     }
 }
