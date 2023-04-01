@@ -1,6 +1,7 @@
 @php
     use App\Enums\DateEnum;
     use App\Enums\ViewEnum;
+    use App\Services\WalletService;
     use App\Tools\CalendarTools;
     use App\Tools\StringTools;
 @endphp
@@ -25,7 +26,7 @@
             <tr>
                 <td class="text-center">
                     <button class="btn btn-sm btn-full btn-info" title="Editar">
-                        {{ app(\App\Services\WalletService::class)->findNameById($item['wallet']) }}
+                        {{ app(WalletService::class)->findNameById($item['wallet']) }}
                     </button>
                 </td>
                 <td class="text-center">
@@ -38,65 +39,25 @@
                         {{ $item['day'] }}
                     </button>
                 </td>
-                <td class="text-center">
-                    <button class="btn btn-sm btn-full btn-success" title="Editar">
-                        @if(isset($item['data'][$rangeMonths[0]]))
-                            {{ StringTools::moneyBr($item['data'][$rangeMonths[0]]['amount']) }}
-                        @else
-                            {{ '-' }}
-                        @endif
-                    </button>
-                </td>
-                <td class="text-center">
-                    <button class="btn btn-sm btn-full btn-success" title="Editar">
-                        @if(isset($item['data'][$rangeMonths[1]]))
-                            {{ StringTools::moneyBr($item['data'][$rangeMonths[1]]['amount']) }}
-                        @else
-                            {{ '-' }}
-                        @endif
-                    </button>
-                </td>
-                <td class="text-center">
-                    <button class="btn btn-sm btn-full btn-success" title="Editar">
-                        @if(isset($item['data'][$rangeMonths[2]]))
-                            {{ StringTools::moneyBr($item['data'][$rangeMonths[2]]['amount']) }}
-                        @else
-                            {{ '-' }}
-                        @endif
-                    </button>
-                </td>
-                <td class="text-center">
-                    <button class="btn btn-sm btn-full btn-success" title="Editar">
-                        @if(isset($item['data'][$rangeMonths[3]]))
-                            {{ StringTools::moneyBr($item['data'][$rangeMonths[3]]['amount']) }}
-                        @else
-                            {{ '-' }}
-                        @endif
-                    </button>
-                </td>
-                <td class="text-center">
-                    <button class="btn btn-sm btn-full btn-success" title="Editar">
-                        @if(isset($item['data'][$rangeMonths[4]]))
-                            {{ StringTools::moneyBr($item['data'][$rangeMonths[4]]['amount']) }}
-                        @else
-                            {{ '-' }}
-                        @endif
-                    </button>
-                </td>
-                <td class="text-center">
-                    <button class="btn btn-sm btn-full btn-success" title="Editar">
-                        @if(isset($item['data'][$rangeMonths[5]]))
-                                {{ StringTools::moneyBr($item['data'][$rangeMonths[5]]['amount']) }}
-                        @else
-                            {{ '-' }}
-                        @endif
-                    </button>
-                </td>
+                @for($index = 0; $index <=5; $index++)
+                    <td class="text-center">
+                        @php($itemEdit = ['id' => null, 'month' => $rangeMonths[$index], 'value' => null, 'name' => $item['name']])
+                        @php($itemAmount = '-')
+                        @isset($item['data'][$rangeMonths[$index]])
+                            @php($itemEdit = ['id' => $itemId = $item['data'][$rangeMonths[$index]]['id'], 'month' => $rangeMonths[$index], 'value' => $item['data'][$rangeMonths[$index]]['amount'], 'name' => $item['name']])
+                            @php($itemAmount = StringTools::moneyBr($item['data'][$rangeMonths[$index]]['amount']))
+                        @endisset
+                        <button class="btn btn-sm btn-full btn-success" title="Editar" onclick="edit('{{ json_encode($itemEdit) }}')">
+                            {{ $itemAmount }}
+                        </button>
+                    </td>
+                @endfor
             </tr>
         @endforeach
         </tbody>
     </table>
     <hr>
     <script type="text/javascript" src="resources/js/dataTable.js"></script>
+    <script type="text/javascript" src="resources/js/futureGainView.js"></script>
     <script type="text/javascript" src="resources/js/tools/stringTools.js"></script>
 @endsection
