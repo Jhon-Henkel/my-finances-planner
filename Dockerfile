@@ -8,7 +8,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install git \
     && rm -rf /var/lib/apt/lists/*
 
 # instaling node
-RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -  \
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -  \
     && apt-get install -y nodejs
 
 # installing zip
