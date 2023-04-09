@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 $router->prefix('/')->group(function ($router){
     // todo talvez a responsabilidade sobre a rota de login deva ficar no vue
     // todo quando logar, redirecionar para a página que tentou acessar, o laravel ja tem middleware pronto para isso https://laravel.com/docs/10.x/authentication#password-confirmation-protecting-routes
-    // todo ao acessar uma página que necessita de login, redirecionar para a tela de login com mensagem de sem permissão (já redireciona para a tela de login).
     $router->get('login', [AuthController::class, 'renderLoginView'])->name(RouteEnum::WEB_LOGIN);
     $router->post('make-login', [AuthController::class, 'login'])->name(RouteEnum::WEB_MAKE_LOGIN);
     $router->get('logout', [AuthController::class, 'logout'])->name(RouteEnum::WEB_LOGOUT);

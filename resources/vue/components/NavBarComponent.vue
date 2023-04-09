@@ -14,9 +14,9 @@
                 </router-link>
             </li>
             <li class="nav-item">
-                <router-link class="nav-link a-default" aria-current="page" to="/logout" title="Logout">
+                <a class="nav-link a-default" aria-current="page" href="#" title="Logout" @click.prevent="logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                </router-link>
+                </a>
             </li>
         </ul>
     </nav>
@@ -24,7 +24,15 @@
 
 <script>
     export default {
-        name: "NavBarComponent"
+        name: "NavBarComponent",
+        methods: {
+            logout() {
+                axios.get('/logout').then(response => {
+                    localStorage.removeItem('auth_token')
+                    this.$router.go('/login');
+                })
+            }
+        }
     }
 </script>
 

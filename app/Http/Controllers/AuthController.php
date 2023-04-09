@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BasicFieldsEnum;
 use App\Enums\RouteEnum;
 use App\Enums\ViewEnum;
 use App\Models\User;
@@ -9,6 +10,7 @@ use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application as App;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -17,12 +19,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function home()
-    {
-        // todo essa view não vai ser a publica
-        return view('publica');
-    }
-
     public function renderLoginView(): View|App|Factory|AppFoundation
     {
         return view(ViewEnum::VIEW_LOGIN);
@@ -52,9 +48,9 @@ class AuthController extends Controller
         return Auth::check() || ($user && Hash::check($password, $user->password));
     }
 
-    public function logout(): RedirectResponse
+    public function logout(): JsonResponse
     {
         Auth::logout();
-        return redirect()->route(RouteEnum::WEB_LOGIN);
+        return response()->json([BasicFieldsEnum::MESSAGE => 'Logout realizado com sucesso']);
     }
 }

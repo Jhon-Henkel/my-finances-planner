@@ -14,4 +14,5 @@ class BasicFieldsEnum
     const WALLET_ID_DB = 'wallet_id';
     const WALLET_ID_JSON = 'walletId';
     const DESCRIPTION = 'description';
+    const MESSAGE = 'message';
 }
