@@ -22,8 +22,6 @@
 <body>
     @if (Auth::check())
         <div class="container" id="app">
-{{--        @include(ViewEnum::VIEW_SIDEBAR)--}}
-{{--        @include(ViewEnum::VIEW_NAVBAR)--}}
     @else
         <div class="container">
     @endif
