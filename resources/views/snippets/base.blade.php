@@ -1,5 +1,4 @@
 @php
-    use App\Enums\ViewEnum;
     use Illuminate\Support\Facades\Auth;
 @endphp
     <!DOCTYPE html>
@@ -21,10 +20,12 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-<div class="container" id="app">
     @if (Auth::check())
-        @include(ViewEnum::VIEW_SIDEBAR)
-        @include(ViewEnum::VIEW_NAVBAR)
+        <div class="container" id="app">
+{{--        @include(ViewEnum::VIEW_SIDEBAR)--}}
+{{--        @include(ViewEnum::VIEW_NAVBAR)--}}
+    @else
+        <div class="container">
     @endif
     @yield('content')
 </div>

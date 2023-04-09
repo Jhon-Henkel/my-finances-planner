@@ -18,6 +18,8 @@ services:
     stdin_open: true
     depends_on:
       - database
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 
   database:
     image: mariadb:10.2.25-bionic
