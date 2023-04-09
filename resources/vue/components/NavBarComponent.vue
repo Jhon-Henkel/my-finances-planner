@@ -2,8 +2,9 @@
     <nav>
         <ul class="nav justify-content-end">
             <li class="nav-item">
-                <router-link class="nav-link a-default" data-bs-toggle="offcanvas" to="" title="Menu" data-bs-target="#sidebar"
-                   aria-controls="sidebar">
+                <router-link class="nav-link a-default" data-bs-toggle="offcanvas" to="" title="Menu"
+                             data-bs-target="#sidebar"
+                             aria-controls="sidebar">
                     <i class="fa-solid fa-bars"></i>
                 </router-link>
             </li>
@@ -28,7 +29,7 @@
         methods: {
             logout() {
                 axios.get('/logout').then(response => {
-                    localStorage.removeItem('auth_token')
+                    localStorage.removeItem('salutation')
                     this.$router.go('/login');
                 })
             }

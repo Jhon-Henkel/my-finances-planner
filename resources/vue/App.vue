@@ -13,7 +13,6 @@
         components: {
             SideBarComponent,
             NavBarComponent
-
         }
     }
 </script>

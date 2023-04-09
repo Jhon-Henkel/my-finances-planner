@@ -1,16 +1,17 @@
 <template>
-    <!-- todo tem um bug aqui que quando fecha a sidebar fica um conteúdo preto transparente na tela -->
     <div class="offcanvas offcanvas-start glass" data-bs-scroll="true" tabindex="-1" id="sidebar"
-         aria-labelledby="sidebar">
+         aria-labelledby="sidebar"
+         data-bs-backdrop="false">
         <div class="offcanvas-header">
             <h4 class="offcanvas-title" id="sidebar">
                 My finances planner
             </h4>
+            <button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="offcanvas"
+                    aria-label="Close"/>
         </div>
         <div class="offcanvas-body">
             <h6 class="text-center mt-3">
-                <!-- todo implementar a saudação -->
-                saudação
+                {{ salutation }}
             </h6>
             <nav class="nav flex-column ms-4 mt-5">
                 <router-link class="nav-link sidebar-item a-default"
@@ -69,7 +70,12 @@
 
 <script>
     export default {
-        name: "SideBarComponent"
+        name: "SideBarComponent",
+        data() {
+            return {
+                salutation: localStorage.getItem('salutation')
+            }
+        }
     }
 </script>
 
