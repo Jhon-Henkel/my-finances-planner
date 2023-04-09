@@ -1,11 +1,16 @@
 <template>
-    <h1 style="color: white">
-        Laravel vite with vue 3
-    </h1>
+    <router-link to="/home">Home</router-link>
+    <router-link to="/page2">Page2</router-link>
+    <router-view/>
 </template>
 
 <script>
+    export default {
+        name: 'App',
+        components: {
 
+        }
+    }
 </script>
 
 <style scoped>

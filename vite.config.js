@@ -17,6 +17,13 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-        vue(),
+        vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false
+                }
+            }
+        }),
     ],
 });
