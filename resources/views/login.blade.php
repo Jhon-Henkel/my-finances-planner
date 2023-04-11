@@ -14,24 +14,24 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="fa-solid fa-user"></i>
+                        <span class="input-group-text input-addon" id="basic-addon1">
+                            <span class="material-symbols-outlined">person</span>
                         </span>
                         <input type="text" class="form-control" placeholder="user@mail.com" name="login">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="fa-solid fa-key"></i>
+                        <span class="input-group-text input-addon" id="basic-addon1">
+                            <span class="material-symbols-outlined">password</span>
                         </span>
                         <input type="password" class="form-control" placeholder="********" name="password">
                     </div>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-outline-primary btn-full">
-                        <i class="fa-solid fa-unlock-keyhole me-2"></i>
-                        Entrar
+                        <span class="material-symbols-outlined me-2">lock_open</span>
+                        <span class="text-button-login">Entrar</span>
                     </button>
                 </div>
             </form>

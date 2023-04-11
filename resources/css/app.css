@@ -20,6 +20,17 @@ body {
     box-shadow: 0 0 1em #595757;
     width: -moz-available;
     width: -webkit-fill-available;
+    text-align: center;
+    float: left;
+    top: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-button-login {
+    font-size: 20px;
 }
 
 .glass {
