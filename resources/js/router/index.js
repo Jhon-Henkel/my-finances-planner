@@ -8,8 +8,6 @@ import FutureGainView from "../../vue/view/FutureGainView.vue";
 import ConfigurationsView from "../../vue/view/ConfigurationsView.vue";
 import ExpensesCardsView from "../../vue/view/ExpensesCardsView.vue";
 import ManageCardsView from "../../vue/view/ManageCardsView.vue";
-import getDocumentRect from "@popperjs/core/lib/dom-utils/getDocumentRect";
-import getDocumentElement from "@popperjs/core/lib/dom-utils/getDocumentElement";
 
 const routes = [
     {
