@@ -39,10 +39,12 @@
         border: 0;
     }
     .btn-success:hover {
-        box-shadow: 0 0 1em #000000;
+        background: #09836b;
+        box-shadow: 0 0.5em 0.5em -0.4em #000000;
+        transform: translateY(-0.25em);
+        transition-duration: 300ms;
     }
     .btn-success:focus {
-        background-color: #0b7a64;
         border: 0;
         box-shadow: 0 0 0.2rem #000000
     }
@@ -53,10 +55,12 @@
         border: 0;
     }
     .btn-danger:hover {
-        box-shadow: 0 0 1em #000000;
+        background: #dc1313;
+        box-shadow: 0 0.5em 0.5em -0.4em #000000;
+        transform: translateY(-0.25em);
+        transition-duration: 300ms;
     }
     .btn-danger:focus {
-        background-color: #dc1313;
         border: 0;
         box-shadow: 0 0 0.2rem #000000
     }

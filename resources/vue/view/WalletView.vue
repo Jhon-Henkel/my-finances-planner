@@ -2,7 +2,11 @@
     <div class="base-container">
         <div class="nav mt-2 justify-content-end">
             <h3 id="title">Carteiras</h3>
-            <button class="btn btn-success rounded-5" @click="insertWallet" title="Cadastrar Carteira">
+            <button class="btn btn-success rounded-5"
+                    @click="insertWallet"
+                    data-toggle="tooltip"
+                    title="Editar"
+                    data-bs-placement="left">
                 <span class="material-symbols-outlined me-2">paid</span>
                 Nova Carteira
             </button>
@@ -26,12 +30,18 @@
                         <td class="text-center">{{ stringTools.formatValueToBr(wallet.amount) }}</td>
                         <td class="text-center">{{ calendarTools.convertDateToBr(wallet.createdAt, false) }}</td>
                         <td class="text-center action-buttons">
-                            <button class="btn btn-sm btn-success rounded-5 me-1" @click="editWallet(wallet.id)"
-                                    title="Editar">
+                            <button class="btn btn-sm btn-success rounded-5 me-1"
+                                    @click="editWallet(wallet.id)"
+                                    data-toggle="tooltip"
+                                    title="Editar"
+                                    data-bs-placement="left">
                                 <span class="material-symbols-outlined">edit</span>
                             </button>
-                            <button class="btn btn-sm btn-danger rounded-5" @click="deleteWallet(wallet.id)"
-                                    title="Deletar">
+                            <button class="btn btn-sm btn-danger rounded-5"
+                                    @click="deleteWallet(wallet.id)"
+                                    data-toggle="tooltip"
+                                    title="Editar"
+                                    data-bs-placement="right">
                                 <span class="material-symbols-outlined">delete</span>
                             </button>
                         </td>
@@ -77,10 +87,16 @@
             },
             async insertWallet() {
 
+            },
+            enableTooltips() {
+                $(document).ready(function() {
+                    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+                });
             }
         },
         mounted() {
             this.getWallets()
+            this.enableTooltips()
         }
     }
 </script>

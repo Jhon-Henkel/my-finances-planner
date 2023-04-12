@@ -16,7 +16,7 @@
                             <span class="tooltip_name">{{ item.name }}</span>
                             {{ item.title }}
                         </router-link>
-                        <span :data-target="'links_' + index" class="tooltip">
+                        <span :data-target="'tooltip_' + index" class="tooltip">
                             {{ item.title }}
                         </span>
                     </li>
@@ -238,7 +238,9 @@
     .sidebar li a:hover {
         background: #096452;
         color: #ffffff;
-        box-shadow: 0 0 1em #000000;
+        box-shadow: 0 0.5em 0.5em -0.4em #000000;
+        transform: translateY(-0.25em);
+        transition-duration: 300ms;
     }
     .sidebar li router-link {
         display: flex;
@@ -311,8 +313,8 @@
     .tooltip {
         position: absolute;
         z-index: 3;
-        background: #fff;
-        color: #000;
+        background: #000;
+        color: #fff;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
         padding: 6px 12px;
         border-radius: 4px;
