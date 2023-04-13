@@ -67,4 +67,7 @@
     table tr:first-child th {
         border-bottom: 2px solid #096452;
     }
+    .text-red {
+        color: #c21111;
+    }
 </style>

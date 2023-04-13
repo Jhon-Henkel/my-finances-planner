@@ -1,4 +1,6 @@
 <template>
+    <!-- todo efeito de empurrar view quando abre a sidebar foi perdido -->
+    <!-- todo transição dos textos ao abrir e fechar a sidebar está estranho -->
     <div class="sidebar glass" :class="isOpened ? 'open' : ''">
         <div class="sidebar-header">
             <div class="salutation">

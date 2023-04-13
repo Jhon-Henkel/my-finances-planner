@@ -23,12 +23,6 @@ $router->prefix('/')->group(function ($router){
             return view(ViewEnum::VIEW_BASE);
         })->where('any', '.*');
         // todo essas rotas vão ser gerenciadas no vue
-//        $router->prefix('/wallet')->group(function ($router){
-//            $router->get('', [WalletController::class, 'renderWalletView'])->name(RouteEnum::WEB_WALLET);
-//            $router->post('new-wallet', [WalletController::class, 'insertFromModal'])->name(RouteEnum::WEB_NEW_WALLET);
-//            $router->post('update-wallet', [WalletController::class, 'updateFromModal'])->name(RouteEnum::WEB_UPDATE_WALLET);
-//            $router->post('delete-wallet/{id}', [WalletController::class, 'deleteFromCrud'])->name(RouteEnum::WEB_DELETE_WALLET);
-//        });
 //        $router->prefix('/movement')->group(function ($router) {
 //            $router->get('', [MovementController::class, 'renderMovementView'])->name(RouteEnum::WEB_MOVEMENT);
 //            $router->post('delete-movement/{id}', [MovementController::class, 'deleteFromCrud'])->name(RouteEnum::WEB_DELETE_MOVEMENT);

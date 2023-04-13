@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
 import PageNotFoundView from "../../vue/view/PageNotFoundView.vue";
-import WalletView from "../../vue/view/WalletView.vue";
+import WalletView from "../../vue/view/wallet/WalletView.vue";
 import DashboardView from "../../vue/view/DashboardView.vue";
 import MovementView from "../../vue/view/MovementView.vue";
 import PanoramView from "../../vue/view/PanoramView.vue";
@@ -8,7 +8,9 @@ import FutureGainView from "../../vue/view/FutureGainView.vue";
 import ConfigurationsView from "../../vue/view/ConfigurationsView.vue";
 import ExpensesCardsView from "../../vue/view/ExpensesCardsView.vue";
 import ManageCardsView from "../../vue/view/ManageCardsView.vue";
+import WalletFormView from "../../vue/view/wallet/WalletFormView.vue";
 
+// todo achar forma para agrupar rotas, exemplo /carteiras e /carteiras/cadastrar
 const routes = [
     {
         path: "/dashboard",
@@ -34,6 +36,11 @@ const routes = [
         path: "/carteiras",
         name: "wallets",
         component: WalletView
+    },
+    {
+        path: "/carteiras/cadastrar",
+        name: "walletRegister",
+        component: WalletFormView
     },
     {
         path: "/gerenciar-cartoes",

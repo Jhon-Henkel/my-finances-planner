@@ -11,6 +11,7 @@ abstract class BasicRepository implements BasicRepositoryContract
 
     public function findAll(): array
     {
+        // todo fazer order by Id DESC
         $itens = $this->getModel()->all();
         return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
     }

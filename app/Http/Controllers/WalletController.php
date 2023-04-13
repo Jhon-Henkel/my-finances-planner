@@ -57,35 +57,4 @@ class WalletController extends BasicController
     {
         return $this->resource;
     }
-
-    public function renderWalletView(): View|App|Factory|AppFoundation
-    {
-        return view(ViewEnum::VIEW_WALLET);
-    }
-
-    public function insertFromModal(): RedirectResponse
-    {
-        $itemCrud = RequestTools::imputPostAll();
-        $itemCrud['id'] = null;
-        $itemCrud['amount'] = StringTools::crudMoneyToFloat($itemCrud['amount']);
-        $item = $this->resource->arrayToDto($itemCrud);
-        $this->service->insert($item);
-        return redirect()->route(RouteEnum::WEB_WALLET);
-    }
-
-    public function updateFromModal(): RedirectResponse
-    {
-        $itemCrud = RequestTools::imputPostAll();
-        $itemCrud['amount'] = StringTools::crudMoneyToFloat($itemCrud['amount']);
-        $item = $this->resource->arrayToDto($itemCrud);
-        $this->service->update($item->getId(), $item);
-        return redirect()->route(RouteEnum::WEB_WALLET);
-    }
-
-    public function deleteFromCrud(int $id): RedirectResponse
-    {
-        // todo esse delete deve deletar as movimentações referente a carteira deletada
-        $this->service->deleteById($id);
-        return redirect()->route(RouteEnum::WEB_WALLET);
-    }
 }

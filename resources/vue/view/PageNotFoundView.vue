@@ -1,6 +1,6 @@
 <template>
     <div id="not-found-page">
-        <img src="public/images/moneyFlying.png" alt="image for maney flying" id="money-flying">
+        <img src="/public/images/moneyFlying.png" alt="image for maney flying" id="money-flying">
         <h1>Hum... Parece que a pagina que você procura está voando por ai...</h1>
         <h2>Tente outra página! (error 404)</h2>
     </div>
