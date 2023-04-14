@@ -1,13 +1,9 @@
 <template>
     <div class="base-container">
+        <message :message="message" :type="messageType" v-show="message"/>
         <div class="nav mt-2 justify-content-end">
             <h3 id="title">Carteiras</h3>
-            <router-link class="btn btn-success rounded-5"
-                         @click="insertWallet"
-                        data-toggle="tooltip"
-                        title="Editar"
-                        data-bs-placement="left"
-                        to="/carteiras/cadastrar">
+            <router-link class="btn btn-success rounded-5" to="/carteiras/cadastrar">
                 <span class="material-symbols-outlined me-2">paid</span>
                 Nova Carteira
             </router-link>
@@ -40,17 +36,17 @@
                         <td class="text-center" v-else>{{ stringTools.formatDbValueToBrString(wallet.amount) }}</td>
                         <td class="text-center">{{ calendarTools.convertDateToBr(wallet.createdAt, false) }}</td>
                         <td class="text-center action-buttons">
-                            <button class="btn btn-sm btn-success rounded-5 me-1"
-                                    @click="editWallet(wallet.id)"
-                                    data-toggle="tooltip"
-                                    title="Editar"
-                                    data-bs-placement="left">
+                            <router-link class="btn btn-sm btn-success rounded-5 me-1"
+                                         :to="'/carteiras/' + wallet.id + '/atualizar'"
+                                         data-toggle="tooltip"
+                                         title="Editar Carteira"
+                                         data-bs-placement="left">
                                 <span class="material-symbols-outlined">edit</span>
-                            </button>
+                            </router-link>
                             <button class="btn btn-sm btn-danger rounded-5"
-                                    @click="deleteWallet(wallet.id)"
+                                    @click="deleteWallet(wallet.id, wallet.name)"
                                     data-toggle="tooltip"
-                                    title="Editar"
+                                    title="Deletar Carteira"
                                     data-bs-placement="right">
                                 <span class="material-symbols-outlined">delete</span>
                             </button>
@@ -72,9 +68,12 @@
     import stringTools from "../../../js/tools/stringTools";
     import numberTools from "../../../js/tools/numberTools";
     import calendarTools from "../../../js/tools/calendarTools";
+    import Message from "../../components/Message.vue";
+    import messageEnum from "../../../js/enums/messageEnum";
 
     export default {
         name: "WalletView",
+        components: {Message},
         computed: {
             walletEnum() {
                 return walletEnum
@@ -89,7 +88,9 @@
         data() {
             return {
                 wallets: {},
-                sumTotalAmount: 0
+                sumTotalAmount: 0,
+                message: null,
+                messageType: null
             }
         },
         methods: {
@@ -97,14 +98,23 @@
                 this.wallets = await apiRouter.wallet.index()
                 this.sumTotalAmount = numberTools.getSumTotalAmount(this.wallets)
             },
-            async deleteWallet(walletId) {
-
-            },
-            async editWallet(walletId) {
-
-            },
-            async insertWallet() {
-
+            // todo timeout deve ser responsabilidade do componente message
+            // todo implementar rolagem para o topo ao iniciar timer
+            async deleteWallet(walletId, walletName) {
+                if(confirm("Tem certeza que realmente quer deletar a carteira " + walletName + '?')) {
+                    await apiRouter.wallet.delete(walletId).then((response) => {
+                        this.message = 'Carteira deletada com sucesso!'
+                        this.messageType = messageEnum.messageSuccess()
+                        this.getWallets()
+                    }).catch((response) => {
+                        this.message = 'Erro inesperado ao deletar carteira!'
+                        this.messageType = messageEnum.messageError()
+                    })
+                    setTimeout(() =>
+                        [this.message = null, this.messageType = null],
+                        calendarTools.fiveSecondsTimeInMs()
+                    )
+                }
             },
             enableTooltips() {
                 $(document).ready(function() {
@@ -120,9 +130,9 @@
 </script>
 
 <style scoped>
- .icon-alert {
+    .icon-alert {
      color: #fdd200;
      font-size: 19px;
      top: 50%;
- }
+    }
 </style>

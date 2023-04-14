@@ -37,6 +37,7 @@ abstract class BasicService implements BasicServiceContract
 
     public function isInvalidRequest(Request $request, array $rules): MessageBag|bool
     {
+        // todo quando erro fazer retornar um objeto de erro com um atributo error para exibir corretamente no frontend
         $validate = Validator::make($request->all(), $rules, $this->rulesInsertMessages());
         return $validate->fails() ? $validate->errors() : false;
     }

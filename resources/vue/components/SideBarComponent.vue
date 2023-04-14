@@ -1,6 +1,7 @@
 <template>
-    <!-- todo efeito de empurrar view quando abre a sidebar foi perdido -->
+    <!-- todo efeito de empurrar view quando abre a sidebar foi perdido, e no recolher está não centraliza corretamente o conteúdo do container -->
     <!-- todo transição dos textos ao abrir e fechar a sidebar está estranho -->
+    <!-- todo fazer o hover ficar fixo na janela atual -->
     <div class="sidebar glass" :class="isOpened ? 'open' : ''">
         <div class="sidebar-header">
             <div class="salutation">

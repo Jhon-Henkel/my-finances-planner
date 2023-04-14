@@ -12,6 +12,8 @@
         <div class="card-body">
             <form class="form-horizontal" method="post" action="{{ route(RouteEnum::WEB_MAKE_LOGIN) }}">
                 {{ csrf_field() }}
+                {{-- todo imputs estão quadrados, arrumar --}}
+                {{-- todo usar icones do fontawesome --}}
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <span class="input-group-text input-addon" id="basic-addon1">

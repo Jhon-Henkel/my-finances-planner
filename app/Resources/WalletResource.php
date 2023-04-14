@@ -15,7 +15,7 @@ class WalletResource extends BasicResource
     public function arrayToDto(array $item): WalletDTO
     {
         $dto = new WalletDTO();
-        $dto->setId((int)$item[BasicFieldsEnum::ID] ?? null);
+        $dto->setId(isset($item[BasicFieldsEnum::ID]) ? (int)$item[BasicFieldsEnum::ID] : null);
         $dto->setName($item[BasicFieldsEnum::NAME]);
         $dto->setType((int)$item[BasicFieldsEnum::TYPE]);
         $dto->setAmount((float)$item[BasicFieldsEnum::AMOUNT]);

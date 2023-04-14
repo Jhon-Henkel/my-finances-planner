@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BasicFieldsEnum;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -63,7 +64,9 @@ abstract class BasicController extends Controller implements BasicControllerCont
             if ($invalid instanceof MessageBag) {
                 return response()->json($invalid, ResponseAlias::HTTP_BAD_REQUEST);
             }
-            $item = $this->getResource()->arrayToDto($request->json()->all());
+            $requestItem = $request->json()->all();
+            $requestItem[BasicFieldsEnum::ID] = $id;
+            $item = $this->getResource()->arrayToDto($requestItem);
             $updated = $this->getService()->update($id, $item);
             return response()->json($this->getResource()->dtoToVo($updated), ResponseAlias::HTTP_OK);
         } catch (QueryException $exception) {
@@ -71,6 +74,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
         }
     }
 
+    // todo quando for chave estrangeira retornar um erro para o fronted informando
     public function delete(int $id): Response|JsonResponse
     {
         try {

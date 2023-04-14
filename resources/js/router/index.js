@@ -43,6 +43,11 @@ const routes = [
         component: WalletFormView
     },
     {
+        path: "/carteiras/:id/atualizar",
+        name: "walletUpdate",
+        component: WalletFormView
+    },
+    {
         path: "/gerenciar-cartoes",
         name: "manageCards",
         component: ManageCardsView
