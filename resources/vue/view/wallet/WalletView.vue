@@ -24,11 +24,7 @@
                     <tr v-for="wallet in wallets" :key="wallet.id">
                         <td class="text-center">{{ wallet.name }}</td>
                         <td class="text-center">{{ walletEnum.getDescription(wallet.type) }}</td>
-                        <td class="text-center text-red"
-                            v-if="wallet.amount < 0"
-                            data-toggle="tooltip"
-                            title="Cuidado, valor negativo"
-                            data-bs-placement="top">
+                        <td class="text-center text-red" v-if="wallet.amount < 0" v-tooltip="'Cuidado, valor negativo'">
                             <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="me-2 icon-alert"/>
                             {{ stringTools.formatDbValueToBrString(wallet.amount) }}
                         </td>
@@ -37,16 +33,12 @@
                         <td class="text-center action-buttons">
                             <router-link class="btn btn-sm btn-success rounded-5 me-1"
                                          :to="'/carteiras/' + wallet.id + '/atualizar'"
-                                         data-toggle="tooltip"
-                                         title="Editar Carteira"
-                                         data-bs-placement="left">
+                                         v-tooltip="'Editar Carteira'">
                                 <font-awesome-icon :icon="iconEnum.editIcon()" />
                             </router-link>
                             <button class="btn btn-sm btn-danger rounded-5"
                                     @click="deleteWallet(wallet.id, wallet.name)"
-                                    data-toggle="tooltip"
-                                    title="Deletar Carteira"
-                                    data-bs-placement="right">
+                                    v-tooltip="'Deletar Carteira'">
                                 <font-awesome-icon :icon="iconEnum.trashIcon()" />
                             </button>
                         </td>
@@ -116,11 +108,6 @@
                     this.resetMessage()
                 }
             },
-            enableTooltips() {
-                $(document).ready(function() {
-                    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-                });
-            },
             resetMessage() {
                 $(window).scrollTop(0, 0)
                 setTimeout(() =>
@@ -131,15 +118,14 @@
         },
         mounted() {
             this.getWallets()
-            this.enableTooltips()
         }
     }
 </script>
 
 <style scoped>
     .icon-alert {
-     color: #fdd200;
-     font-size: 19px;
-     top: 50%;
+         color: #fdd200;
+         font-size: 19px;
+         top: 50%;
     }
 </style>

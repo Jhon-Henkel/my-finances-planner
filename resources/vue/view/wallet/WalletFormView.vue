@@ -1,5 +1,4 @@
 <template>
-    <!-- todo tooltip da página anterior não some -->
     <div class="base-container">
         <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
         <div>
