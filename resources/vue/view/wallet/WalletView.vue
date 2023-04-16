@@ -70,6 +70,7 @@
     import Message from "../../components/Message.vue";
     import messageEnum from "../../../js/enums/messageEnum";
     import iconEnum from "../../../js/enums/iconEnum";
+    import CalendarTools from "../../../js/tools/calendarTools";
 
     export default {
         name: "WalletView",
@@ -93,6 +94,7 @@
                 wallets: {},
                 sumTotalAmount: 0,
                 message: null,
+                messageTimeOut: CalendarTools.fiveSecondsTimeInMs(),
                 messageType: null
             }
         },
@@ -101,28 +103,29 @@
                 this.wallets = await apiRouter.wallet.index()
                 this.sumTotalAmount = numberTools.getSumTotalAmount(this.wallets)
             },
-            // todo timeout deve ser responsabilidade do componente message
-            // todo implementar rolagem para o topo ao iniciar timer
             async deleteWallet(walletId, walletName) {
                 if(confirm("Tem certeza que realmente quer deletar a carteira " + walletName + '?')) {
                     await apiRouter.wallet.delete(walletId).then((response) => {
                         this.message = 'Carteira deletada com sucesso!'
-                        this.messageType = messageEnum.messageSuccess()
+                        this.messageType = messageEnum.messageTypeSuccess()
                         this.getWallets()
                     }).catch((response) => {
                         this.message = 'Erro inesperado ao deletar carteira!'
-                        this.messageType = messageEnum.messageError()
+                        this.messageType = messageEnum.messageTypeError()
                     })
-                    setTimeout(() =>
-                        [this.message = null, this.messageType = null],
-                        calendarTools.fiveSecondsTimeInMs()
-                    )
+                    this.resetMessage()
                 }
             },
             enableTooltips() {
                 $(document).ready(function() {
                     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
                 });
+            },
+            resetMessage() {
+                setTimeout(() =>
+                    [this.message = null, this.messageType = null],
+                    this.messageTimeOut
+                )
             }
         },
         mounted() {

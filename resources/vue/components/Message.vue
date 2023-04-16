@@ -1,10 +1,8 @@
 <template>
-    <div>
+    <!-- todo implementar rolagem para o topo ao iniciar timer -->
+    <div v-show="isShowMessage">
         <div class="message text-center" :class="type">
-            <font-awesome-icon v-if="type === messageEnum.messageSuccess()" class="icon" :icon="iconEnum.circleCheck()"/>
-            <font-awesome-icon v-else-if="type === messageEnum.messageError()" class="icon" :icon="iconEnum.circleX()"/>
-            <font-awesome-icon v-else-if="type === messageEnum.messageInfo()" class="icon" :icon="iconEnum.circleInfo()"/>
-            <font-awesome-icon v-else-if="type === messageEnum.messageWarning()" class="icon" :icon="iconEnum.circleExclamation()"/>
+            <font-awesome-icon class="icon" :icon="icon"/>
             <span class="ms-2 text">{{ message }}</span>
         </div>
     </div>
@@ -14,22 +12,53 @@
     import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
     import messageEnum from "../../js/enums/messageEnum";
     import iconEnum from "../../js/enums/iconEnum";
+    import CalendarTools from "../../js/tools/calendarTools";
 
     export default {
         name: "Message",
+        data () {
+            return {
+                icon: iconEnum.circleCheck(),
+                isShowMessage: false,
+            }
+        },
         computed: {
             iconEnum() {
                 return iconEnum
             },
-            messageEnum() {
-                return messageEnum
-            }
         },
-        components: {FontAwesomeIcon},
+        components: {
+            FontAwesomeIcon
+        },
         props: {
             message: String,
             type: String,
-
+            time: {
+                type: Number,
+                default: CalendarTools.fiveSecondsTimeInMs()
+            },
+        },
+        methods: {
+            getIconForType() {
+                if (this.type === messageEnum.messageTypeSuccess()) {
+                    this.icon = iconEnum.circleCheck()
+                } else if (this.type === messageEnum.messageTypeError()) {
+                    this.icon = iconEnum.circleX()
+                } else if (this.type === messageEnum.messageTypeInfo()) {
+                    this.icon = iconEnum.circleInfo()
+                } else if (this.type === messageEnum.messageTypeWarning()) {
+                    this.icon = iconEnum.circleExclamation()
+                }
+            }
+        },
+        mounted() {
+            this.getIconForType()
+            if (this.message) {
+                this.isShowMessage = true
+            }
+            setTimeout(() => [this.isShowMessage = false],
+                this.time
+            )
         }
     }
 </script>

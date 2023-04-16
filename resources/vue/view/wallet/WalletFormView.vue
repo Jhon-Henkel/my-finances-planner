@@ -1,7 +1,7 @@
 <template>
     <!-- todo tooltip da página anterior não some -->
     <div class="base-container">
-        <message :message="message" :type="messageType" v-show="message"/>
+        <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
         <div>
             <h3 id="title">{{ title }}</h3>
         </div>
@@ -114,19 +114,16 @@
                 message: null,
                 messageType: null,
                 isValid: null,
+                messageTimeOut: calendarTools.threeSecondsTimeInMs(),
                 typesOfWallet: walletEnum.getIdAndDescriptionTypeList()
             }
         },
         methods: {
             // todo ambos os casos deve fazer redirect para a listagem e mostrar a mensagem de sucesso lá
-            // todo os time out deve ser responsabilidade do componente message
             async updateOrInsertWallet() {
                 this.validateWallet()
                 if (! this.isValid) {
-                    setTimeout(() =>
-                        [this.message = null, this.messageType = null, this.isValid = null],
-                        calendarTools.threeSecondsTimeInMs()
-                    )
+                    this.resetMessage()
                     return
                 }
                 if (this.wallet.id) {
@@ -138,19 +135,19 @@
             validateWallet() {
                 if (! this.wallet.name || this.wallet.name.length < 2) {
                     this.message = 'Campo nome é inválido!'
-                    this.messageType = messageEnum.messageWarning()
+                    this.messageType = messageEnum.messageTypeWarning()
                     this.isValid = false
                     return
                 }
                 if (! this.wallet.amount) {
                     this.message = 'Campo valor é inválido!'
-                    this.messageType = messageEnum.messageWarning()
+                    this.messageType = messageEnum.messageTypeWarning()
                     this.isValid = false
                     return
                 }
                 if (! this.wallet.type) {
                     this.message = 'Campo tipo de conta é inválido!'
-                    this.messageType = messageEnum.messageWarning()
+                    this.messageType = messageEnum.messageTypeWarning()
                     this.isValid = false
                     return
                 }
@@ -167,38 +164,38 @@
                 await apiRouter.wallet.update(this.populateData(), this.wallet.id).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
                         this.message = 'Carteira atualizada com sucesso!'
-                        this.messageType = messageEnum.messageSuccess()
-                        setTimeout(() =>
-                            [this.message = null, this.messageType = null, router.push({path: '/carteiras'})],
-                            calendarTools.threeSecondsTimeInMs()
-                        )
+                        this.messageType = messageEnum.messageTypeSuccess()
+                        this.resetMessage()
                     } else {
                         this.message = 'Erro inesperado ao atualizar carteira!'
-                        this.messageType = messageEnum.messageError()
+                        this.messageType = messageEnum.messageTypeError()
                     }
                 }).catch((response) => {
                     this.message = response.response.data.error
-                    this.messageType = messageEnum.messageError()
+                    this.messageType = messageEnum.messageTypeError()
                 })
             },
             async insertWallet() {
                 await apiRouter.wallet.insert(this.populateData()).then((response) => {
                     if (response.status === HttpStatusCode.Created) {
                         this.message = 'Carteira cadastrada com sucesso!'
-                        this.messageType = messageEnum.messageSuccess()
+                        this.messageType = messageEnum.messageTypeSuccess()
                         this.wallet = {}
-                        setTimeout(() =>
-                            [this.message = null, this.messageType = null],
-                            calendarTools.fiveSecondsTimeInMs()
-                        )
+                        this.resetMessage()
                     } else {
                         this.message = 'Erro inesperado ao inserir carteira!'
-                        this.messageType = messageEnum.messageError()
+                        this.messageType = messageEnum.messageTypeError()
                     }
                 }).catch((response) => {
                     this.message = response.response.data.error
-                    this.messageType = messageEnum.messageError()
+                    this.messageType = messageEnum.messageTypeError()
                 })
+            },
+            resetMessage() {
+                setTimeout(() =>
+                        [this.message = null, this.messageType = null],
+                    this.messageTimeOut
+                )
             }
         },
         async mounted() {

@@ -1,14 +1,14 @@
 const MessageEnum = {
-    messageSuccess() {
+    messageTypeSuccess() {
         return "message-success";
     },
-    messageError() {
+    messageTypeError() {
         return "message-danger";
     },
-    messageInfo() {
+    messageTypeInfo() {
         return "message-info";
     },
-    messageWarning() {
+    messageTypeWarning() {
         return "message-warning";
     }
 }
