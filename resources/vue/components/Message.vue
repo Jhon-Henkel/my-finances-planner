@@ -1,5 +1,4 @@
 <template>
-    <!-- todo implementar rolagem para o topo ao iniciar timer -->
     <div v-show="isShowMessage">
         <div class="message text-center" :class="type">
             <font-awesome-icon class="icon" :icon="icon"/>
@@ -55,10 +54,10 @@
             this.getIconForType()
             if (this.message) {
                 this.isShowMessage = true
+                setTimeout(() => [this.isShowMessage = false],
+                    this.time
+                )
             }
-            setTimeout(() => [this.isShowMessage = false],
-                this.time
-            )
         }
     }
 </script>

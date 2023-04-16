@@ -122,6 +122,7 @@
                 });
             },
             resetMessage() {
+                $(window).scrollTop(0, 0)
                 setTimeout(() =>
                     [this.message = null, this.messageType = null],
                     this.messageTimeOut
