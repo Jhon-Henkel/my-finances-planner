@@ -4,7 +4,7 @@
         <div class="nav mt-2 justify-content-end">
             <h3 id="title">Carteiras</h3>
             <router-link class="btn btn-success rounded-5" to="/carteiras/cadastrar">
-                <span class="material-symbols-outlined me-2">paid</span>
+                <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
                 Nova Carteira
             </router-link>
         </div>
@@ -24,13 +24,12 @@
                     <tr v-for="wallet in wallets" :key="wallet.id">
                         <td class="text-center">{{ wallet.name }}</td>
                         <td class="text-center">{{ walletEnum.getDescription(wallet.type) }}</td>
-                        <td class="text-center text-red" v-if="wallet.amount < 0">
-                            <span class="material-symbols-outlined icon-alert"
-                                  data-toggle="tooltip"
-                                  title="Cuidado, valor negativo"
-                                  data-bs-placement="left">
-                                warning
-                            </span>
+                        <td class="text-center text-red"
+                            v-if="wallet.amount < 0"
+                            data-toggle="tooltip"
+                            title="Cuidado, valor negativo"
+                            data-bs-placement="top">
+                            <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="me-2 icon-alert"/>
                             {{ stringTools.formatDbValueToBrString(wallet.amount) }}
                         </td>
                         <td class="text-center" v-else>{{ stringTools.formatDbValueToBrString(wallet.amount) }}</td>
@@ -41,14 +40,14 @@
                                          data-toggle="tooltip"
                                          title="Editar Carteira"
                                          data-bs-placement="left">
-                                <span class="material-symbols-outlined">edit</span>
+                                <font-awesome-icon :icon="iconEnum.editIcon()" />
                             </router-link>
                             <button class="btn btn-sm btn-danger rounded-5"
                                     @click="deleteWallet(wallet.id, wallet.name)"
                                     data-toggle="tooltip"
                                     title="Deletar Carteira"
                                     data-bs-placement="right">
-                                <span class="material-symbols-outlined">delete</span>
+                                <font-awesome-icon :icon="iconEnum.trashIcon()" />
                             </button>
                         </td>
                     </tr>
@@ -70,11 +69,15 @@
     import calendarTools from "../../../js/tools/calendarTools";
     import Message from "../../components/Message.vue";
     import messageEnum from "../../../js/enums/messageEnum";
+    import iconEnum from "../../../js/enums/iconEnum";
 
     export default {
         name: "WalletView",
         components: {Message},
         computed: {
+            iconEnum() {
+                return iconEnum
+            },
             walletEnum() {
                 return walletEnum
             },

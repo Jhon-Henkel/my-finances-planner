@@ -68,6 +68,6 @@
         border-bottom: 2px solid #096452;
     }
     .text-red {
-        color: #c21111;
+        color: #c21111 !important;
     }
 </style>

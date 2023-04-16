@@ -13,7 +13,12 @@
                         <label class="form-label" for="wallet-name">
                             Nome
                         </label>
-                        <input type="text" class="form-control" v-model="wallet.name" id="wallet-name" required>
+                        <input type="text"
+                               class="form-control"
+                               v-model="wallet.name"
+                               id="wallet-name"
+                               required
+                               minlength="2">
                         <div class="invalid-feedback">
                             <span class="badge text-bg-danger">
                                 Digite um nome válido
@@ -31,7 +36,7 @@
                         </label>
                         <div class="input-group">
                             <span class="input-group-text" id="basic-addon1">
-                                <font-awesome-icon :icon="['fas', 'brazilian-real-sign']" />
+                                <font-awesome-icon :icon="iconEnum.moneyBr()" />
                             </span>
                             <input type="text"
                                    class="form-control"
@@ -71,11 +76,11 @@
         <hr class="mt-4">
         <div class="nav justify-content-center">
             <router-link class="btn btn-danger rounded-5" to="/carteiras">
-                <span class="material-symbols-outlined me-2">cancel</span>
+                <font-awesome-icon :icon="iconEnum.xMark()" class="me-2"/>
                 Cancelar
             </router-link>
             <button class="btn btn-success rounded-5 ms-3" @click="updateOrInsertWallet">
-                <span class="material-symbols-outlined me-2">task_alt</span>
+                <font-awesome-icon :icon="iconEnum.check()" class="me-2" />
                 {{ title }}
             </button>
         </div>
@@ -91,9 +96,15 @@
     import Message from "../../components/Message.vue";
     import {HttpStatusCode} from "axios";
     import router from "../../../js/router";
+    import iconEnum from "../../../js/enums/iconEnum";
 
     export default {
         name: "WalletFormView",
+        computed: {
+            iconEnum() {
+                return iconEnum
+            }
+        },
         components: {FontAwesomeIcon, Message},
         data() {
             return {
@@ -102,6 +113,7 @@
                 title: '',
                 message: null,
                 messageType: null,
+                isValid: null,
                 typesOfWallet: walletEnum.getIdAndDescriptionTypeList()
             }
         },
@@ -109,20 +121,56 @@
             // todo ambos os casos deve fazer redirect para a listagem e mostrar a mensagem de sucesso lá
             // todo os time out deve ser responsabilidade do componente message
             async updateOrInsertWallet() {
+                this.validateWallet()
+                if (! this.isValid) {
+                    setTimeout(() =>
+                        [this.message = null, this.messageType = null, this.isValid = null],
+                        calendarTools.threeSecondsTimeInMs()
+                    )
+                    return
+                }
                 if (this.wallet.id) {
                     await this.updateWallet()
                 } else {
                     await this.insertWallet()
                 }
             },
+            validateWallet() {
+                if (! this.wallet.name || this.wallet.name.length < 2) {
+                    this.message = 'Campo nome é inválido!'
+                    this.messageType = messageEnum.messageWarning()
+                    this.isValid = false
+                    return
+                }
+                if (! this.wallet.amount) {
+                    this.message = 'Campo valor é inválido!'
+                    this.messageType = messageEnum.messageWarning()
+                    this.isValid = false
+                    return
+                }
+                if (! this.wallet.type) {
+                    this.message = 'Campo tipo de conta é inválido!'
+                    this.messageType = messageEnum.messageWarning()
+                    this.isValid = false
+                    return
+                }
+                this.isValid = true
+            },
+            populateData() {
+                return {
+                    name: this.wallet.name,
+                    type: this.wallet.type,
+                    amount: this.wallet.amount
+                }
+            },
             async updateWallet() {
-                await apiRouter.wallet.update(this.wallet).then((response) => {
+                await apiRouter.wallet.update(this.populateData(), this.wallet.id).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
                         this.message = 'Carteira atualizada com sucesso!'
                         this.messageType = messageEnum.messageSuccess()
                         setTimeout(() =>
                             [this.message = null, this.messageType = null, router.push({path: '/carteiras'})],
-                            calendarTools.fiveSecondsTimeInMs()
+                            calendarTools.threeSecondsTimeInMs()
                         )
                     } else {
                         this.message = 'Erro inesperado ao atualizar carteira!'
@@ -134,7 +182,7 @@
                 })
             },
             async insertWallet() {
-                await apiRouter.wallet.insert(this.wallet).then((response) => {
+                await apiRouter.wallet.insert(this.populateData()).then((response) => {
                     if (response.status === HttpStatusCode.Created) {
                         this.message = 'Carteira cadastrada com sucesso!'
                         this.messageType = messageEnum.messageSuccess()

@@ -1,4 +1,5 @@
 const FIVE_SECONDS_TIME_IN_MS = 5000;
+const THREE_SECONDS_TIME_IN_MS = 3000;
 const calendarTools = {
     convertDateToBr(date, withTime) {
         let option = {}
@@ -17,6 +18,9 @@ const calendarTools = {
     },
     fiveSecondsTimeInMs() {
         return FIVE_SECONDS_TIME_IN_MS
+    },
+    threeSecondsTimeInMs() {
+        return THREE_SECONDS_TIME_IN_MS
     }
 }
 export default calendarTools

@@ -11,23 +11,11 @@ const apiRouter = {
             const request = await axios.get('/api/wallet/' + id)
             return request.data
         },
-        // todo a responsabilidade de montar o data deve ser de quem está chamando o método e não do router
         insert: async function(wallet) {
-            const data = {
-                name: wallet.name,
-                type: wallet.type,
-                amount: wallet.amount
-            }
-            return await axios.post('/api/wallet', data)
+            return await axios.post('/api/wallet', wallet)
         },
-        // todo a responsabilidade de montar o data deve ser de quem está chamando o método e não do router
-        update: async function(wallet) {
-            const data = {
-                name: wallet.name,
-                type: wallet.type,
-                amount: wallet.amount
-            }
-            return await axios.put('/api/wallet/' + wallet.id, data)
+        update: async function(wallet, id) {
+            return await axios.put('/api/wallet/' + id, wallet)
         },
         delete: async function(id) {
             return await axios.delete('/api/wallet/' + id)
