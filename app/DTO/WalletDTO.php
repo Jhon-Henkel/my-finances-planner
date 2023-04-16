@@ -78,7 +78,7 @@ class WalletDTO
     /**
      * @return mixed
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): mixed
     {
         return $this->createdAt;
     }
@@ -94,7 +94,7 @@ class WalletDTO
     /**
      * @return mixed
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): mixed
     {
         return $this->updatedAt;
     }

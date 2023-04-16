@@ -41,9 +41,4 @@ class WalletService extends BasicService
         $wallet->setAmount($amount);
         $this->update($walletId, $wallet);
     }
-
-    public function findNameById(int $id): string
-    {
-        return ucwords($this->repository->findNameById($id));
-    }
 }

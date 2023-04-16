@@ -11,8 +11,7 @@ abstract class BasicRepository implements BasicRepositoryContract
 
     public function findAll(): array
     {
-        // todo fazer order by Id DESC
-        $itens = $this->getModel()->all();
+        $itens = $this->getModel()::orderBy(BasicFieldsEnum::ID, 'desc')->get();
         return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
     }
 
@@ -47,5 +46,11 @@ abstract class BasicRepository implements BasicRepositoryContract
     {
         $item = $this->getModel()->where(BasicFieldsEnum::NAME, $name)->get();
         return $item ? $this->getResource()->arrayToDtoItens($item->toArray()) : null;
+    }
+
+    public function findAllByType(int $type): array
+    {
+        $itens = $this->getModel()->where(BasicFieldsEnum::TYPE, $type)->get()->toArray();
+        return $this->getResource()->arrayToDtoItens($itens);
     }
 }
