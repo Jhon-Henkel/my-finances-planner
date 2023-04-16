@@ -1,7 +1,6 @@
 <template>
     <!-- todo efeito de empurrar view quando abre a sidebar foi perdido, e no recolher está não centraliza corretamente o conteúdo do container -->
     <!-- todo transição dos textos ao abrir e fechar a sidebar está estranho -->
-    <!-- todo fazer o hover ficar fixo na janela atual -->
     <div class="sidebar glass" :class="isOpened ? 'open' : ''">
         <div class="sidebar-header">
             <div class="salutation">
@@ -244,6 +243,11 @@
         box-shadow: 0 0.5em 0.5em -0.4em #000000;
         transform: translateY(-0.25em);
         transition-duration: 300ms;
+    }
+    .router-link-exact-active {
+        background: #096452 !important;
+        color: #ffffff !important;
+        box-shadow: 0 0.5em 0.5em -0.4em #000000 !important;
     }
     .sidebar li router-link {
         display: flex;

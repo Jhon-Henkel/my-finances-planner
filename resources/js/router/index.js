@@ -10,7 +10,6 @@ import ExpensesCardsView from "../../vue/view/ExpensesCardsView.vue";
 import ManageCardsView from "../../vue/view/ManageCardsView.vue";
 import WalletFormView from "../../vue/view/wallet/WalletFormView.vue";
 
-// todo achar forma para agrupar rotas, exemplo /carteiras e /carteiras/cadastrar
 const routes = [
     {
         path: "/dashboard",
@@ -34,18 +33,23 @@ const routes = [
     },
     {
         path: "/carteiras",
-        name: "wallets",
-        component: WalletView
-    },
-    {
-        path: "/carteiras/cadastrar",
-        name: "walletRegister",
-        component: WalletFormView
-    },
-    {
-        path: "/carteiras/:id/atualizar",
-        name: "walletUpdate",
-        component: WalletFormView
+        children: [
+            {
+                path: "",
+                name: "walletList",
+                component: WalletView
+            },
+            {
+                path: "cadastrar",
+                name: "walletRegister",
+                component: WalletFormView
+            },
+            {
+                path: ":id/atualizar",
+                name: "walletUpdate",
+                component: WalletFormView
+            }
+        ]
     },
     {
         path: "/gerenciar-cartoes",

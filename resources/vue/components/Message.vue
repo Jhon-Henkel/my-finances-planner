@@ -1,20 +1,26 @@
 <template>
-    <div class="message text-center" :class="type">
-        <font-awesome-icon v-if="type === messageEnum.messageSuccess()" class="icon" :icon="['fas', 'circle-check']"/>
-        <font-awesome-icon v-else-if="type === messageEnum.messageError()" class="icon" :icon="['fas', 'circle-xmark']"/>
-        <font-awesome-icon v-else-if="type === messageEnum.messageInfo()" class="icon" :icon="['fas', 'circle-info']"/>
-        <font-awesome-icon v-else-if="type === messageEnum.messageWarning()" class="icon" :icon="['fas', 'circle-exclamation']"/>
-        <span class="ms-2 text">{{ message }}</span>
+    <div>
+        <div class="message text-center" :class="type">
+            <font-awesome-icon v-if="type === messageEnum.messageSuccess()" class="icon" :icon="iconEnum.circleCheck()"/>
+            <font-awesome-icon v-else-if="type === messageEnum.messageError()" class="icon" :icon="iconEnum.circleX()"/>
+            <font-awesome-icon v-else-if="type === messageEnum.messageInfo()" class="icon" :icon="iconEnum.circleInfo()"/>
+            <font-awesome-icon v-else-if="type === messageEnum.messageWarning()" class="icon" :icon="iconEnum.circleExclamation()"/>
+            <span class="ms-2 text">{{ message }}</span>
+        </div>
     </div>
 </template>
 
 <script>
     import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
     import messageEnum from "../../js/enums/messageEnum";
+    import iconEnum from "../../js/enums/iconEnum";
 
     export default {
         name: "Message",
         computed: {
+            iconEnum() {
+                return iconEnum
+            },
             messageEnum() {
                 return messageEnum
             }
