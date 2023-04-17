@@ -1,17 +1,17 @@
 import defaults from './options'
 
-function format (input, opt = defaults) {
+function format (input, options = defaults) {
     if (typeof input === 'number') {
-        input = input.toFixed(fixed(opt.precision))
+        input = input.toFixed(fixed(options.precision))
     }
     let negative = input.indexOf('-') >= 0 ? '-' : ''
     let numbers = onlyNumbers(input)
-    let currency = numbersToCurrency(numbers, opt.precision)
+    let currency = numbersToCurrency(numbers, options.precision)
     let parts = toStr(currency).split('.')
     let integer = parts[0]
     let decimal = parts[1]
-    integer = addThousandSeparator(integer, opt.thousands)
-    return opt.prefix + negative + joinIntegerAndDecimal(integer, decimal, opt.decimal) + opt.suffix
+    integer = addThousandSeparator(integer, options.thousands)
+    return options.prefix + negative + joinIntegerAndDecimal(integer, decimal, options.decimal) + options.suffix
 }
 
 function unformat (input, precision) {
@@ -29,8 +29,8 @@ function fixed (precision) {
     return between(0, precision, 20)
 }
 
-function between (min, n, max) {
-    return Math.max(min, Math.min(n, max))
+function between (min, precision, max) {
+    return Math.max(min, Math.min(precision, max))
 }
 
 function numbersToCurrency (numbers, precision) {
@@ -51,9 +51,9 @@ function toStr (value) {
     return value ? value.toString() : ''
 }
 
-function setCursor (el, position) {
-    let setSelectionRange = function () { el.setSelectionRange(position, position) }
-    if (el === document.activeElement) {
+function setCursor (element, position) {
+    let setSelectionRange = function () { element.setSelectionRange(position, position) }
+    if (element === document.activeElement) {
         setSelectionRange()
         setTimeout(setSelectionRange, 1) // Android Fix
     }
