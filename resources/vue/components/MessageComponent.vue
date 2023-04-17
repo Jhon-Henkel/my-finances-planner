@@ -2,7 +2,9 @@
     <div v-show="isShowMessage">
         <div class="message text-center" :class="type">
             <font-awesome-icon class="icon" :icon="icon"/>
-            <span class="ms-2 text">{{ message }}</span>
+            <span class="ms-2 text">
+                {{ message }}
+            </span>
         </div>
     </div>
 </template>
