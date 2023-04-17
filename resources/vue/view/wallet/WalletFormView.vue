@@ -26,29 +26,10 @@
                     </div>
                 </div>
             </div>
-            <!-- todo fazer mascara para o valor -->
             <div class="row justify-content-center">
                 <div class="col-4">
                     <div class="form-group mt-2">
-                        <label class="form-label" for="wallet-value">
-                            Valor
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text" id="basic-addon1">
-                                <font-awesome-icon :icon="iconEnum.moneyBr()" />
-                            </span>
-                            <input type="text"
-                                   class="form-control"
-                                   v-model="wallet.amount"
-                                   maxlength="10"
-                                   id="wallet-value"
-                                   required>
-                            <div class="invalid-feedback">
-                                <span class="badge text-bg-danger">
-                                    Digite um valor válido
-                                </span>
-                            </div>
-                        </div>
+                        <input-money :value="wallet.amount" @input-money="updateWalletValueFromEvent"></input-money>
                     </div>
                 </div>
             </div>
@@ -94,8 +75,8 @@
     import apiRouter from "../../../js/router/apiRouter";
     import Message from "../../components/Message.vue";
     import {HttpStatusCode} from "axios";
-    import router from "../../../js/router";
     import iconEnum from "../../../js/enums/iconEnum";
+    import InputMoney from "../../components/inputMoneyComponent.vue";
 
     export default {
         name: "WalletFormView",
@@ -104,7 +85,11 @@
                 return iconEnum
             }
         },
-        components: {FontAwesomeIcon, Message},
+        components: {
+            InputMoney,
+            FontAwesomeIcon,
+            Message
+        },
         data() {
             return {
                 idToUpdate: null,
@@ -196,6 +181,9 @@
                         [this.message = null, this.messageType = null],
                     this.messageTimeOut
                 )
+            },
+            updateWalletValueFromEvent(event) {
+                this.wallet.amount = event
             }
         },
         async mounted() {

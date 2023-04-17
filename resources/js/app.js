@@ -9,10 +9,12 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import tooltip from "../directives/tooltip/tooltip.js";
 import "../directives/tooltip/tooltip.css";
+import moneyMask from "../directives/moneyMask/moneyMask";
 
 library.add(fas, far)
 
 const appCreated = createApp(app)
 
 appCreated.directive("tooltip", tooltip);
+appCreated.directive("money", moneyMask);
 appCreated.component('font-awesome-icon', FontAwesomeIcon).use(router).mount("#app")
