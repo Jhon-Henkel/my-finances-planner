@@ -1,17 +1,19 @@
 <template>
     <div class="base-container">
-        <message :message="message" :type="messageType" v-show="message"/>
-        <div class="nav mt-2 justify-content-end">
-            <h3 id="title">Carteiras</h3>
-            <router-link class="btn btn-success rounded-5" to="/carteiras/cadastrar">
-                <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
-                Nova Carteira
-            </router-link>
-        </div>
-        <hr>
-        <div class="mt-4">
-            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                <thead class="table-dark">
+        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <div v-show="loadingDone">
+            <message :message="message" :type="messageType" v-show="message"/>
+            <div class="nav mt-2 justify-content-end">
+                <h3 id="title">Carteiras</h3>
+                <router-link class="btn btn-success rounded-5" to="/carteiras/cadastrar">
+                    <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
+                    Nova Carteira
+                </router-link>
+            </div>
+            <hr>
+            <div class="mt-4">
+                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                    <thead class="table-dark">
                     <tr>
                         <th class="text-center" scope="col">Carteira</th>
                         <th class="text-center" scope="col">Tipo</th>
@@ -19,8 +21,8 @@
                         <th class="text-center" scope="col">Data Criação</th>
                         <th class="text-center" scope="col">Ações</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr v-for="wallet in wallets" :key="wallet.id">
                         <td class="text-center">{{ wallet.name }}</td>
                         <td class="text-center">{{ walletEnum.getDescription(wallet.type) }}</td>
@@ -43,12 +45,13 @@
                             </button>
                         </td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-        <hr class="mt-4">
-        <div class="text-end">
-            <h3>Total: {{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</h3>
+                    </tbody>
+                </table>
+            </div>
+            <hr class="mt-4">
+            <div class="text-end">
+                <h3>Total: {{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</h3>
+            </div>
         </div>
     </div>
 </template>
@@ -63,10 +66,11 @@
     import messageEnum from "../../../js/enums/messageEnum";
     import iconEnum from "../../../js/enums/iconEnum";
     import CalendarTools from "../../../js/tools/calendarTools";
+    import LoadingComponent from "../../components/LoadingComponent.vue";
 
     export default {
         name: "WalletView",
-        components: {Message},
+        components: {LoadingComponent, Message},
         computed: {
             iconEnum() {
                 return iconEnum
@@ -87,7 +91,8 @@
                 sumTotalAmount: 0,
                 message: null,
                 messageTimeOut: CalendarTools.fiveSecondsTimeInMs(),
-                messageType: null
+                messageType: null,
+                loadingDone: false
             }
         },
         methods: {

@@ -1,68 +1,71 @@
 <template>
     <div class="base-container">
-        <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
-        <div>
-            <h3 id="title">{{ title }}</h3>
-        </div>
-        <hr class="mb-4">
-        <form class="was-validated">
-            <div class="row justify-content-center">
-                <div class="col-4">
-                    <div class="form-group">
-                        <label class="form-label" for="wallet-name">
-                            Nome
-                        </label>
-                        <input type="text"
-                               class="form-control"
-                               v-model="wallet.name"
-                               id="wallet-name"
-                               required
-                               minlength="2">
-                        <div class="invalid-feedback">
-                            <span class="badge text-bg-danger">
-                                Digite um nome válido
-                            </span>
+        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <div v-show="loadingDone">
+            <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
+            <div>
+                <h3 id="title">{{ title }}</h3>
+            </div>
+            <hr class="mb-4">
+            <form class="was-validated">
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label" for="wallet-name">
+                                Nome
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   v-model="wallet.name"
+                                   id="wallet-name"
+                                   required
+                                   minlength="2">
+                            <div class="invalid-feedback">
+                                <span class="badge text-bg-danger">
+                                    Digite um nome válido
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-4">
-                    <div class="form-group mt-2">
-                        <input-money :value="wallet.amount" @input-money="updateWalletValueFromEvent"></input-money>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-4">
-                    <div class="form-group mt-2">
-                        <label class="form-label" for="wallet-type">
-                            Tipo de conta
-                        </label>
-                        <select class="form-select" v-model="wallet.type" id="wallet-type" required>
-                            <option v-for="type in typesOfWallet" :key="type.id" :value="type.id">
-                                {{ type.description }}
-                            </option>
-                        </select>
-                        <div class="invalid-feedback">
-                            <span class="badge text-bg-danger">
-                                Selecione uma opção válida
-                            </span>
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <div class="form-group mt-2">
+                            <input-money :value="wallet.amount" @input-money="updateWalletValueFromEvent"></input-money>
                         </div>
                     </div>
                 </div>
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <div class="form-group mt-2">
+                            <label class="form-label" for="wallet-type">
+                                Tipo de conta
+                            </label>
+                            <select class="form-select" v-model="wallet.type" id="wallet-type" required>
+                                <option v-for="type in typesOfWallet" :key="type.id" :value="type.id">
+                                    {{ type.description }}
+                                </option>
+                            </select>
+                            <div class="invalid-feedback">
+                                <span class="badge text-bg-danger">
+                                    Selecione uma opção válida
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr class="mt-4">
+            <div class="nav justify-content-center">
+                <router-link class="btn btn-danger rounded-5" to="/carteiras">
+                    <font-awesome-icon :icon="iconEnum.xMark()" class="me-2"/>
+                    Cancelar
+                </router-link>
+                <button class="btn btn-success rounded-5 ms-3" @click="updateOrInsertWallet">
+                    <font-awesome-icon :icon="iconEnum.check()" class="me-2" />
+                    {{ title }}
+                </button>
             </div>
-        </form>
-        <hr class="mt-4">
-        <div class="nav justify-content-center">
-            <router-link class="btn btn-danger rounded-5" to="/carteiras">
-                <font-awesome-icon :icon="iconEnum.xMark()" class="me-2"/>
-                Cancelar
-            </router-link>
-            <button class="btn btn-success rounded-5 ms-3" @click="updateOrInsertWallet">
-                <font-awesome-icon :icon="iconEnum.check()" class="me-2" />
-                {{ title }}
-            </button>
         </div>
     </div>
 </template>
@@ -77,6 +80,7 @@
     import {HttpStatusCode} from "axios";
     import iconEnum from "../../../js/enums/iconEnum";
     import InputMoney from "../../components/inputMoneyComponent.vue";
+    import LoadingComponent from "../../components/LoadingComponent.vue";
 
     export default {
         name: "WalletFormView",
@@ -86,6 +90,7 @@
             }
         },
         components: {
+            LoadingComponent,
             InputMoney,
             FontAwesomeIcon,
             Message
@@ -98,6 +103,7 @@
                 message: null,
                 messageType: null,
                 isValid: null,
+                loadingDone: false,
                 messageTimeOut: calendarTools.threeSecondsTimeInMs(),
                 typesOfWallet: walletEnum.getIdAndDescriptionTypeList()
             }

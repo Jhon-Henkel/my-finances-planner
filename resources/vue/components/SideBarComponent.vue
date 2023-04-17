@@ -25,6 +25,7 @@
                 </ul>
             </div>
             <div class="sidebar-footer">
+                <span class="developed-by">Desenvolvido por Jhonatan Henkel</span>
                 <i class="bx bx-log-out" id="log-out" @click="logout" title="Logout"/>
             </div>
         </div>
@@ -347,6 +348,12 @@
         border: 0;
         border-radius: 0 15px 15px 0;
         background-color: #04fac9;
+    }
+    .developed-by {
+        font-size: 13px;
+        float: left;
+        top: 25%;
+        position: relative;
     }
     @media (max-width: 420px) {
         .sidebar li .tooltip {
