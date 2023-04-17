@@ -26,10 +26,10 @@
                         <td class="text-center">{{ walletEnum.getDescription(wallet.type) }}</td>
                         <td class="text-center text-red" v-if="wallet.amount < 0" v-tooltip="'Cuidado, valor negativo'">
                             <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="me-2 icon-alert"/>
-                            {{ stringTools.formatDbValueToBrString(wallet.amount) }}
+                            {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
                         </td>
-                        <td class="text-center" v-else>{{ stringTools.formatDbValueToBrString(wallet.amount) }}</td>
-                        <td class="text-center">{{ calendarTools.convertDateToBr(wallet.createdAt, false) }}</td>
+                        <td class="text-center" v-else>{{ stringTools.formatFloatValueToBrString(wallet.amount) }}</td>
+                        <td class="text-center">{{ calendarTools.convertDateDbToBr(wallet.createdAt, false) }}</td>
                         <td class="text-center action-buttons">
                             <router-link class="btn btn-sm btn-success rounded-5 me-1"
                                          :to="'/carteiras/' + wallet.id + '/atualizar'"
@@ -48,7 +48,7 @@
         </div>
         <hr class="mt-4">
         <div class="text-end">
-            <h3>Total: {{ stringTools.formatDbValueToBrString(sumTotalAmount) }}</h3>
+            <h3>Total: {{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</h3>
         </div>
     </div>
 </template>
@@ -59,7 +59,7 @@
     import stringTools from "../../../js/tools/stringTools";
     import numberTools from "../../../js/tools/numberTools";
     import calendarTools from "../../../js/tools/calendarTools";
-    import Message from "../../components/Message.vue";
+    import Message from "../../components/MessageComponent.vue";
     import messageEnum from "../../../js/enums/messageEnum";
     import iconEnum from "../../../js/enums/iconEnum";
     import CalendarTools from "../../../js/tools/calendarTools";

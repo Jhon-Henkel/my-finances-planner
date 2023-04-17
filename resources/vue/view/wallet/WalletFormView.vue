@@ -39,7 +39,7 @@
                         <label class="form-label" for="wallet-type">
                             Tipo de conta
                         </label>
-                        <select class="form-control" v-model="wallet.type" id="wallet-type" required>
+                        <select class="form-select" v-model="wallet.type" id="wallet-type" required>
                             <option v-for="type in typesOfWallet" :key="type.id" :value="type.id">
                                 {{ type.description }}
                             </option>
@@ -73,7 +73,7 @@
     import messageEnum from "../../../js/enums/messageEnum";
     import walletEnum from "../../../js/enums/walletEnum";
     import apiRouter from "../../../js/router/apiRouter";
-    import Message from "../../components/Message.vue";
+    import Message from "../../components/MessageComponent.vue";
     import {HttpStatusCode} from "axios";
     import iconEnum from "../../../js/enums/iconEnum";
     import InputMoney from "../../components/inputMoneyComponent.vue";

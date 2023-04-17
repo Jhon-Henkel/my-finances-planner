@@ -1,7 +1,7 @@
 const FIVE_SECONDS_TIME_IN_MS = 5000;
 const THREE_SECONDS_TIME_IN_MS = 3000;
 const calendarTools = {
-    convertDateToBr(date, withTime) {
+    convertDateDbToBr(date, withTime) {
         let option = {}
         if (withTime) {
             option = {
