@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\RouteEnum;
+use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
@@ -26,5 +27,12 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
         $router->prefix('/type')->group(function () use ($router) {
             $router->get('/{type}', [MovementController::class, 'showByType'])->name(RouteEnum::API_MOVEMENT_SHOW_TYPE);
         });
+    });
+    $router->prefix('credit-card')->group(function () use ($router) {
+        $router->get('', [CreditCardController::class, 'index'])->name(RouteEnum::API_CREDIT_CARD_INDEX);
+        $router->get('/{id}', [CreditCardController::class, 'show'])->name(RouteEnum::API_CREDIT_CARD_SHOW);
+        $router->post('', [CreditCardController::class, 'insert'])->name(RouteEnum::API_CREDIT_CARD_INSERT);
+        $router->put('/{id}', [CreditCardController::class, 'update'])->name(RouteEnum::API_CREDIT_CARD_UPDATE);
+        $router->delete('/{id}', [CreditCardController::class, 'delete'])->name(RouteEnum::API_CREDIT_CARD_DELETE);
     });
 });

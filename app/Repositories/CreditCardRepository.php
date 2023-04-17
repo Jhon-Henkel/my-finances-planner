@@ -2,21 +2,21 @@
 
 namespace App\Repositories;
 
-use App\Models\CreditCart;
+use App\Models\CreditCard;
 use App\Resources\CreditCardResource;
 
 class CreditCardRepository extends BasicRepository
 {
-    protected CreditCart $model;
+    protected CreditCard $model;
     protected CreditCardResource $resource;
 
-    public function __construct(CreditCart $model)
+    public function __construct(CreditCard $model)
     {
         $this->model = $model;
         $this->resource = app(CreditCardResource::class);
     }
 
-    protected function getModel(): CreditCart
+    protected function getModel(): CreditCard
     {
         return $this->model;
     }
