@@ -124,19 +124,19 @@
             },
             validateWallet() {
                 if (! this.wallet.name || this.wallet.name.length < 2) {
-                    this.message = 'Campo nome é inválido!'
+                    this.message = 'Campo "nome" é inválido!'
                     this.messageType = messageEnum.messageTypeWarning()
                     this.isValid = false
                     return
                 }
                 if (! this.wallet.amount) {
-                    this.message = 'Campo valor é inválido!'
+                    this.message = 'Campo "valor" é inválido!'
                     this.messageType = messageEnum.messageTypeWarning()
                     this.isValid = false
                     return
                 }
                 if (! this.wallet.type) {
-                    this.message = 'Campo tipo de conta é inválido!'
+                    this.message = 'Campo "tipo de conta" é inválido!'
                     this.messageType = messageEnum.messageTypeWarning()
                     this.isValid = false
                     return
@@ -202,7 +202,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

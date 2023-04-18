@@ -16,23 +16,25 @@ class CreditCardController extends BasicController
         $this->resource = app(CreditCardResource::class);
     }
 
+    // todo validar dias de vencimento e fechamento, o dia de vencimento não pode ser menor que o dia de fechamento
     protected function rulesInsert(): array
     {
         return [
             'name' => 'required|string|unique:App\Models\CreditCard,name',
             'limit' => 'required|numeric',
-            'due_date' => 'required|integer|between:1,31',
-            'closing_day' => 'required|integer|between:1,31'
+            'dueDate' => 'required|integer|between:1,31',
+            'closingDay' => 'required|integer|between:1,31'
         ];
     }
 
+    // todo validar dias de vencimento e fechamento, o dia de vencimento não pode ser menor que o dia de fechamento
     protected function rulesUpdate(): array
     {
         return [
             'name' => 'required|string|unique:App\Models\CreditCard,name',
             'limit' => 'required|numeric',
-            'due_date' => 'required|integer|between:1,31',
-            'closing_day' => 'required|integer|between:1,31'
+            'dueDate' => 'required|integer|between:1,31',
+            'closingDay' => 'required|integer|between:1,31'
         ];
     }
 

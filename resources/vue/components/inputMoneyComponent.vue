@@ -52,11 +52,11 @@
             },
             decimal: {
                 type: String,
-                default: () => defaults.thousands
+                default: () => defaults.decimal
             },
             thousands: {
                 type: String,
-                default: () => defaults.decimal
+                default: () => defaults.thousands
             },
             prefix: {
                 type: String,

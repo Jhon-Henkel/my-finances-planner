@@ -31,6 +31,9 @@ const iconEnum = {
     },
     xMark() {
         return ['fas', 'xmark']
+    },
+    creditCard() {
+        return ['fas', 'credit-card']
     }
 }
 export default iconEnum;

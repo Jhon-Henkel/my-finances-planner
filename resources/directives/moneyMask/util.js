@@ -61,7 +61,7 @@ function setCursor (element, position) {
 
 function event (name) {
     let event = document.createEvent('Event')
-    event.createEvent(name, true, true)
+    event.initEvent(name, true, true)
     return event
 }
 

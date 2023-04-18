@@ -14,8 +14,8 @@ class CreditCardResource extends BasicResource
         $dto->setId($item[BasicFieldsEnum::ID] ?? null);
         $dto->setName($item[BasicFieldsEnum::NAME]);
         $dto->setLimit($item[BasicFieldsEnum::LIMIT]);
-        $dto->setDueDate($item[BasicFieldsEnum::DUE_DATE]);
-        $dto->setClosingDay($item[BasicFieldsEnum::CLOSING_DAY]);
+        $dto->setDueDate($item[BasicFieldsEnum::DUE_DATE_DB] ?? $item[BasicFieldsEnum::DUE_DATE_JSON]);
+        $dto->setClosingDay($item[BasicFieldsEnum::CLOSING_DAY_DB] ?? $item[BasicFieldsEnum::CLOSING_DAY_JSON]);
         $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
         $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
         return $dto;
@@ -26,8 +26,8 @@ class CreditCardResource extends BasicResource
         return [
             BasicFieldsEnum::NAME => $item->getName(),
             BasicFieldsEnum::LIMIT => $item->getLimit(),
-            BasicFieldsEnum::DUE_DATE => $item->getDueDate(),
-            BasicFieldsEnum::CLOSING_DAY => $item->getClosingDay(),
+            BasicFieldsEnum::DUE_DATE_DB => $item->getDueDate(),
+            BasicFieldsEnum::CLOSING_DAY_DB => $item->getClosingDay(),
         ];
     }
 

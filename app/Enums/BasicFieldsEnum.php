@@ -8,8 +8,10 @@ class BasicFieldsEnum
     const NAME = 'name';
     const TYPE = 'type';
     const LIMIT = 'limit';
-    const DUE_DATE = 'due_date';
-    const CLOSING_DAY = 'closing_day';
+    const DUE_DATE_DB = 'due_date';
+    const DUE_DATE_JSON = 'dueDate';
+    const CLOSING_DAY_DB = 'closing_day';
+    const CLOSING_DAY_JSON = 'closingDay';
     const ID = 'id';
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';

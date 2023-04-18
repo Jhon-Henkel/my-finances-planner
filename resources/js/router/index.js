@@ -7,8 +7,9 @@ import PanoramView from "../../vue/view/PanoramView.vue";
 import FutureGainView from "../../vue/view/FutureGainView.vue";
 import ConfigurationsView from "../../vue/view/ConfigurationsView.vue";
 import ExpensesCardsView from "../../vue/view/ExpensesCardsView.vue";
-import ManageCardsView from "../../vue/view/ManageCardsView.vue";
 import WalletFormView from "../../vue/view/wallet/WalletFormView.vue";
+import manageCardsView from "../../vue/view/creditCard/ManageCardsView.vue";
+import ManageCardsFormView from "../../vue/view/creditCard/ManageCardsFormView.vue";
 
 const routes = [
     {
@@ -53,8 +54,23 @@ const routes = [
     },
     {
         path: "/gerenciar-cartoes",
-        name: "manageCards",
-        component: ManageCardsView
+        children: [
+            {
+                path: "",
+                name: "manageCards",
+                component: manageCardsView
+            },
+            {
+                path: "cadastrar",
+                name: "manageCardsRegister",
+                component: ManageCardsFormView
+            },
+            {
+                path: ":id/atualizar",
+                name: "manageCardsUpdate",
+                component: ManageCardsFormView
+            }
+        ]
     },
     {
         path: "/despesas-cartoes",
