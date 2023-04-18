@@ -2,7 +2,7 @@
     use App\Tools\CalendarTools;
     use Illuminate\Support\Facades\Auth;
 @endphp
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8">
