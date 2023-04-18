@@ -53,4 +53,13 @@ class AuthController extends Controller
         Auth::logout();
         return response()->json([BasicFieldsEnum::MESSAGE => 'Logout realizado com sucesso']);
     }
+
+    public function isUserLogged()
+    {
+        $IsLogged = false;
+        if (Auth::check()) {
+            $IsLogged = true;
+        }
+        return response()->json(['isLogged' => $IsLogged], ResponseAlias::HTTP_OK);
+    }
 }

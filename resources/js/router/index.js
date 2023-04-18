@@ -14,8 +14,8 @@ import LoginView from "../../vue/view/login/LoginView.vue";
 
 const routes = [
     {
-        // todo se já estiver logado não pode acessar essa rota
-        // todo após logar redireciona para a dashboard e precisa recarregar a tela para a sidebar apareça, o container permanece o de login
+        // todo após logar redireciona para a dashboard e precisa recarregar a tela para a sidebar apareça,
+        // pode ter relação com o arquivo app.vue já ter sido carregado por completo
         path: "/login",
         name: "login",
         component: LoginView

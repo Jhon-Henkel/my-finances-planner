@@ -57,6 +57,8 @@
     import {HttpStatusCode} from "axios";
     import Message from "../../components/MessageComponent.vue";
     import messageEnum from "../../../js/enums/messageEnum";
+    import routerNonAuthenticated from "../../../js/router/routerNonAuthenticated";
+    import calendarTools from "../../../js/tools/calendarTools";
 
     export default {
         name: "LoginView",
@@ -98,9 +100,19 @@
                     // todo essa senha tem que ser criptografada no front e descriptografada no backend
                     password: this.user.password
                 }
+            },
+            async checkUserIsLogged() {
+                await routerNonAuthenticated.login.isUserLogged().then((response) => {
+                    if (response.data.isLogged) {
+                        this.$router.push({name: 'dashboard'})
+                    }
+                }).catch((response) => {
+                    console.log(response)
+                })
             }
         },
         mounted() {
+            this.checkUserIsLogged()
             this.messageLogin = null
             this.messageLoginType = null
         }

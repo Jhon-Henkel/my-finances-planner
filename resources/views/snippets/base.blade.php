@@ -17,10 +17,8 @@
         <script>
             localStorage.setItem('salutation', '{{ CalendarTools::salutation(Auth::user()->name, date('H')) }}')
         </script>
-        <div class="container" id="app"></div>
-    @else
-        <div class="container" id="login"></div>
     @endif
+    <div class="container" id="app"></div>
     @vite('resources/js/app.js')
 </body>
 </html>
