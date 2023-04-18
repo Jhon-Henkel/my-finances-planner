@@ -11,13 +11,12 @@ use Illuminate\Support\Facades\Route;
 
 /** @var Route $router */
 $router->prefix('/')->group(function ($router){
-    // todo talvez a responsabilidade sobre a rota de login deva ficar no vue
     // todo quando logar, redirecionar para a página que tentou acessar, o laravel ja tem middleware pronto para isso https://laravel.com/docs/10.x/authentication#password-confirmation-protecting-routes
     $router->get('login', [AuthController::class, 'renderLoginView'])->name(RouteEnum::WEB_LOGIN);
     $router->post('make-login', [AuthController::class, 'login'])->name(RouteEnum::WEB_MAKE_LOGIN);
     $router->get('logout', [AuthController::class, 'logout'])->name(RouteEnum::WEB_LOGOUT);
     $router->middleware('auth:sanctum')->group(function($router) {
-        // todo transformar essa rota para um baseRoute, onde temos o base.blade.php, renomear para index, tanto o arquibo quanto a rota
+        // todo transformar essa rota para um baseRoute, onde temos o base.blade.php, renomear para index, tanto o arquivo quanto a rota
         $router->get('dashboard', [DashboardController::class, 'renderDashboardView'])->name(RouteEnum::WEB_DASHBOARD);
         $router->get('{any}', function () {
             return view(ViewEnum::VIEW_BASE);

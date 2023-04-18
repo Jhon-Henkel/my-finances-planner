@@ -1,19 +1,10 @@
 * {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 body {
     background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(35, 37, 70) 99.4%);
     color: #ffffff;
-}
-
-.login-box {
-    width: 30rem;
-    margin: 18vh auto 0 auto;
-    top: 3vh;
-    padding: 1vh;
-    height:auto;
-    max-width: 70vh;
 }
 
 .btn-full {
@@ -30,10 +21,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.text-button-login {
-    font-size: 20px;
 }
 
 .glass {

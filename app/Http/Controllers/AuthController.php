@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AuthController extends Controller
 {
@@ -24,17 +25,16 @@ class AuthController extends Controller
         return view(ViewEnum::VIEW_LOGIN);
     }
 
-    public function login(Request $request): Redirector|RedirectResponse
+    public function login(Request $request): JsonResponse
     {
         // todo validar quantidade de tentativas de login, bloquear após 10 tentativas erradas
         $data = $request->all();
-        $user = $this->findUserForAuth($data['login']);
+        $user = $this->findUserForAuth($data['email']);
         if ($this->validateLogin($user, $data['password'])) {
             Auth::login($user);
-            return redirect()->route(RouteEnum::WEB_DASHBOARD);
+            return response()->json('Logado com sucesso!', ResponseAlias::HTTP_OK);
         }
-        // todo enviar erro de senha inválida no front
-        return redirect()->route(RouteEnum::WEB_LOGIN);
+        return response()->json('Login ou senha inválidos!', ResponseAlias::HTTP_UNAUTHORIZED);
     }
 
     protected function findUserForAuth(string $email): null|User
@@ -45,7 +45,7 @@ class AuthController extends Controller
 
     protected function validateLogin(?User $user, string $password):  bool
     {
-        return Auth::check() || ($user && Hash::check($password, $user->password));
+        return $user && Hash::check($password, $user->password);
     }
 
     public function logout(): JsonResponse

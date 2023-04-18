@@ -10,8 +10,16 @@ import ExpensesCardsView from "../../vue/view/ExpensesCardsView.vue";
 import WalletFormView from "../../vue/view/wallet/WalletFormView.vue";
 import manageCardsView from "../../vue/view/creditCard/ManageCardsView.vue";
 import ManageCardsFormView from "../../vue/view/creditCard/ManageCardsFormView.vue";
+import LoginView from "../../vue/view/login/LoginView.vue";
 
 const routes = [
+    {
+        // todo se já estiver logado não pode acessar essa rota
+        // todo após logar redireciona para a dashboard e precisa recarregar a tela para a sidebar apareça, o container permanece o de login
+        path: "/login",
+        name: "login",
+        component: LoginView
+    },
     {
         path: "/dashboard",
         name: "dashboard",

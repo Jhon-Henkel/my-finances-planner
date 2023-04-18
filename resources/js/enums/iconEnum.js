@@ -34,6 +34,15 @@ const iconEnum = {
     },
     creditCard() {
         return ['fas', 'credit-card']
+    },
+    user() {
+        return ['fas', 'user']
+    },
+    key() {
+        return ['fas', 'key']
+    },
+    unlock() {
+        return ['fas', 'unlock']
     }
 }
 export default iconEnum;
