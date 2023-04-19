@@ -107,8 +107,6 @@
                     if (response.data.isLogged) {
                         this.$router.push({name: 'dashboard'})
                     }
-                }).catch((response) => {
-                    console.log(response)
                 })
             }
         },

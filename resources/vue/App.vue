@@ -28,8 +28,6 @@
                     }
                     this.isLoggedUser = false
                     this.$router.push({name: 'login'})
-                }).catch((response) => {
-                    console.log(response)
                 })
             }
         },
