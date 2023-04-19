@@ -9,13 +9,14 @@ class WalletVoUnitTest extends TestCase
 {
     public function testWalletVo()
     {
-        $vo = new WalletVO();
-        $vo->amount = 10.99;
-        $vo->id = 1;
-        $vo->name = 'WalletName';
-        $vo->type = 2;
-        $vo->createdAt = '2022-01-02 00:00:00';
-        $vo->updatedAt = '2023-10-03 01:30:00';
+        $vo = WalletVO::makeWalletVO(
+        1,
+        'WalletName',
+        2,
+        10.99,
+        '2022-01-02 00:00:00',
+        '2023-10-03 01:30:00'
+    );
 
         $this->assertEquals(10.99, $vo->amount);
         $this->assertEquals(1, $vo->id);

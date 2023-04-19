@@ -33,14 +33,14 @@ class CreditCardResource extends BasicResource
 
     public function dtoToVo($item): CreditCardVO
     {
-        $vo = new CreditCardVO();
-        $vo->id = $item->getId();
-        $vo->name = $item->getName();
-        $vo->limit = $item->getLimit();
-        $vo->dueDate = $item->getDueDate();
-        $vo->closingDay = $item->getClosingDay();
-        $vo->createdAt = $item->getCreatedAt();
-        $vo->updatedAt = $item->getUpdatedAt();
-        return $vo;
+        return CreditCardVO::makeCreditCardVO(
+            $item->getId(),
+            $item->getName(),
+            $item->getLimit(),
+            $item->getDueDate(),
+            $item->getClosingDay(),
+            $item->getCreatedAt(),
+            $item->getUpdatedAt()
+        );
     }
 }

@@ -38,13 +38,13 @@ class WalletResource extends BasicResource
     /** @var WalletDTO $item */
     public function dtoToVo($item): WalletVO
     {
-        $vo = new WalletVO();
-        $vo->id = $item->getId();
-        $vo->name = $item->getName();
-        $vo->type = $item->getType();
-        $vo->amount = $item->getAmount();
-        $vo->createdAt = $item->getCreatedAt();
-        $vo->updatedAt = $item->getUpdatedAt();
-        return $vo;
+        return WalletVO::makeWalletVO(
+            $item->getId(),
+            $item->getName(),
+            $item->getType(),
+            $item->getAmount(),
+            $item->getCreatedAt(),
+            $item->getUpdatedAt()
+        );
     }
 }
