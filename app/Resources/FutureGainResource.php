@@ -6,6 +6,7 @@ use App\DTO\FutureGainDTO;
 
 class FutureGainResource extends BasicResource
 {
+    // todo alterar campos para enum
     public function arrayToDto(array $item): FutureGainDTO
     {
         $dto = new FutureGainDTO();

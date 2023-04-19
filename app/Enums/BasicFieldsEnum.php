@@ -22,4 +22,9 @@ class BasicFieldsEnum
     const MESSAGE = 'message';
     const IS_LOGGED = 'isLogged';
     const MFP_TOKEN = 'mfpToken';
+    const CREDIT_CARD_ID_DB = 'credit_card_id';
+    const CREDIT_CARD_ID_JSON = 'creditCardId';
+    const INSTALLMENTS = 'installments';
+    const FIRST_INSTALLMENT_DB = 'first_installment';
+    const FIRST_INSTALLMENT_JSON = 'firstInstallment';
 }

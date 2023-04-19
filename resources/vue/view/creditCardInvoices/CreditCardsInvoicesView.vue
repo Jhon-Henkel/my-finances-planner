@@ -1,14 +1,14 @@
 <template>
     <div>
         <h1>
-            Despesas Cartões View
+            Faturas Por Cartões View
         </h1>
     </div>
 </template>
 
 <script>
     export default {
-        name: "ExpensesCardsView"
+        name: "CreditCardsInvoicesView"
     }
 </script>
 

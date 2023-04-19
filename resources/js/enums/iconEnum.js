@@ -43,6 +43,9 @@ const iconEnum = {
     },
     unlock() {
         return ['fas', 'unlock']
+    },
+    invoice() {
+        return ['fas', 'file-invoice-dollar']
     }
 }
 export default iconEnum;

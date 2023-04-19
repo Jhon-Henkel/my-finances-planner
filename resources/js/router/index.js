@@ -6,11 +6,11 @@ import MovementView from "../../vue/view/MovementView.vue";
 import PanoramView from "../../vue/view/PanoramView.vue";
 import FutureGainView from "../../vue/view/FutureGainView.vue";
 import ConfigurationsView from "../../vue/view/ConfigurationsView.vue";
-import ExpensesCardsView from "../../vue/view/ExpensesCardsView.vue";
 import WalletFormView from "../../vue/view/wallet/WalletFormView.vue";
 import manageCardsView from "../../vue/view/creditCard/ManageCardsView.vue";
 import ManageCardsFormView from "../../vue/view/creditCard/ManageCardsFormView.vue";
 import LoginView from "../../vue/view/login/LoginView.vue";
+import CreditCardsInvoicesView from "../../vue/view/creditCardInvoices/CreditCardsInvoicesView.vue";
 
 const routes = [
     {
@@ -75,13 +75,18 @@ const routes = [
                 path: ":id/atualizar",
                 name: "manageCardsUpdate",
                 component: ManageCardsFormView
-            }
+            },
         ]
     },
     {
-        path: "/despesas-cartoes",
-        name: "expensesCards",
-        component: ExpensesCardsView
+        path: "/fatura-cartao",
+        children: [
+            {
+                path: ":id",
+                name: "creditCardsInvoices",
+                component: CreditCardsInvoicesView
+            },
+        ]
     },
     {
         path: "/configuracoes",

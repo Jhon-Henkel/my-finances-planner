@@ -87,6 +87,23 @@
         border: 0;
         box-shadow: 0 0 0.2rem #000000
     }
+    .btn-info {
+        background: #0d848d;
+        color: #ffffff;
+        box-shadow: 0 0 0.4em #000000;
+        border: 0;
+    }
+    .btn-info:hover {
+        background: #13addc;
+        color: #ffffff;
+        box-shadow: 0 0.5em 0.5em -0.4em #000000;
+        transform: translateY(-0.25em);
+        transition-duration: 300ms;
+    }
+    .btn-info:focus {
+        border: 0;
+        box-shadow: 0 0 0.2rem #000000
+    }
     table tr:first-child th {
         border-bottom: 2px solid #096452;
     }

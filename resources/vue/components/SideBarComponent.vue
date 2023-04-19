@@ -76,11 +76,6 @@
                         to: '/gerenciar-cartoes'
                     },
                     {
-                        title: 'Despesas Cartões',
-                        icon: 'bx bxs-detail me-2',
-                        to: '/despesas-cartoes'
-                    },
-                    {
                         title: 'Configurações',
                         icon: 'bx bxs-cog me-2',
                         to: '/configuracoes'
@@ -245,6 +240,7 @@
         transform: translateY(-0.25em);
         transition-duration: 300ms;
     }
+    /* todo deixar o active em sub-rotas tbm */
     .router-link-exact-active {
         background: #096452 !important;
         color: #ffffff !important;

@@ -51,7 +51,8 @@ abstract class BasicService implements BasicServiceContract
             'min' => 'O :attribute não pode ser menor que :min caracteres!',
             'int' => 'O :attribute deve ser do tipo int!',
             'string' => 'O :attribute deve ser do tipo string!',
-            'decimal' => 'O :attribute deve ser do tipo decimal com o mínimo de 0 casa e máximos de 2 casas!'
+            'decimal' => 'O :attribute deve ser do tipo decimal com o mínimo de 0 casa e máximos de 2 casas!',
+            'exists' => 'O :attribute não existe!',
         );
     }
 }
