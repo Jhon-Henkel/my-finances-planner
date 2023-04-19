@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\BasicFieldsEnum;
+use App\Enums\ConfigEnum;
 use App\Enums\RouteEnum;
 use App\Enums\ViewEnum;
 use App\Models\User;
+use App\Services\ConfigurationService;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -54,12 +56,21 @@ class AuthController extends Controller
         return response()->json([BasicFieldsEnum::MESSAGE => 'Logout realizado com sucesso']);
     }
 
-    public function isUserLogged()
+    public function isUserLogged(): JsonResponse
     {
         $IsLogged = false;
         if (Auth::check()) {
             $IsLogged = true;
         }
         return response()->json(['isLogged' => $IsLogged], ResponseAlias::HTTP_OK);
+    }
+
+    public function getMfpToken(): JsonResponse
+    {
+        $mfpToken = '';
+        if (Auth::check()) {
+            $mfpToken = app(ConfigurationService::class)->findConfigValue(ConfigEnum::MFP_TOKEN);
+        }
+        return response()->json(['mfpToken' => $mfpToken], ResponseAlias::HTTP_OK);
     }
 }

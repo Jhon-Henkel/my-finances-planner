@@ -15,7 +15,8 @@ $router->prefix('/')->group(function ($router){
     $router->get('login', [AuthController::class, 'renderLoginView'])->name(RouteEnum::WEB_LOGIN);
     $router->post('make-login', [AuthController::class, 'login'])->name(RouteEnum::WEB_MAKE_LOGIN);
     $router->get('logout', [AuthController::class, 'logout'])->name(RouteEnum::WEB_LOGOUT);
-    $router->get('is-user-logged', [AuthController::class, 'isUserLogged'])->name(RouteEnum::WEB_IS_USER_LOGGED);;
+    $router->get('is-user-logged', [AuthController::class, 'isUserLogged'])->name(RouteEnum::WEB_IS_USER_LOGGED);
+    $router->get('get-mfp-token', [AuthController::class, 'getMfpToken'])->name(RouteEnum::WEB_GET_MFP_TOKEN);;
     $router->middleware('auth:sanctum')->group(function($router) {
         // todo transformar essa rota para um baseRoute, onde temos o base.blade.php, renomear para index, tanto o arquivo quanto a rota
         $router->get('dashboard', [DashboardController::class, 'renderDashboardView'])->name(RouteEnum::WEB_DASHBOARD);

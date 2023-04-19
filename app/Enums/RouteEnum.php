@@ -24,6 +24,7 @@ class RouteEnum
     const WEB_LOGIN = 'login';
     const WEB_LOGOUT = 'logout';
     const WEB_IS_USER_LOGGED = 'webIsUserLogged';
+    const WEB_GET_MFP_TOKEN = 'getMfpToken';
     const WEB_MAKE_LOGIN = 'makeLogin';
     const WEB_DASHBOARD = 'dashboard';
     const WEB_WALLET = 'wallet';

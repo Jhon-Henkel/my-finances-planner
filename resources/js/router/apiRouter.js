@@ -1,5 +1,8 @@
-// todo esse token não pode ser fixo, validar se o usuário está logado antes de setar esse token
-window.axios.defaults.headers.common['mfp-token'] = 'ae4f499431d5734df655751f419d8ce64242442e305a7f262bd1b7115a20c10c';
+window.axios.defaults.headers.common['mfp-token'] = await axios.get('/get-mfp-token').then((response) => {
+    return response.data.mfpToken
+}).catch(() => {
+    return '';
+})
 
 const apiRouter = {
     wallet: {
