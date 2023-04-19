@@ -20,4 +20,6 @@ class BasicFieldsEnum
     const WALLET_ID_JSON = 'walletId';
     const DESCRIPTION = 'description';
     const MESSAGE = 'message';
+    const IS_LOGGED = 'isLogged';
+    const MFP_TOKEN = 'mfpToken';
 }

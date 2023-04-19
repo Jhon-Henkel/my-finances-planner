@@ -62,7 +62,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             $IsLogged = true;
         }
-        return response()->json(['isLogged' => $IsLogged], ResponseAlias::HTTP_OK);
+        return response()->json([BasicFieldsEnum::IS_LOGGED => $IsLogged], ResponseAlias::HTTP_OK);
     }
 
     public function getMfpToken(): JsonResponse
@@ -71,6 +71,6 @@ class AuthController extends Controller
         if (Auth::check()) {
             $mfpToken = app(ConfigurationService::class)->findConfigValue(ConfigEnum::MFP_TOKEN);
         }
-        return response()->json(['mfpToken' => $mfpToken], ResponseAlias::HTTP_OK);
+        return response()->json([BasicFieldsEnum::MFP_TOKEN => $mfpToken], ResponseAlias::HTTP_OK);
     }
 }
