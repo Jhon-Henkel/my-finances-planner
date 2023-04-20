@@ -34,6 +34,52 @@ const calendarTools = {
     },
     oneHundredMs() {
         return ONE_HUNDRED_MS
+    },
+    // todo deve retornar o mês em string com 0 a esquerda se for menor que 10
+    getNextThreeMonthsWithYear() {
+        let months = []
+        let date = new Date()
+        let month = date.getMonth()
+        let year = date.getFullYear()
+        for (let index = 0; index < 3; index++) {
+            if (month > 11) {
+                month = 0
+                year++
+            }
+            months.push({ month: month, year: year })
+            month++
+        }
+        return months
+    },
+    getMonthNameByNumber(month) {
+        switch (month) {
+            case 0:
+                return 'Janeiro'
+            case 1:
+                return 'Fevereiro'
+            case 2:
+                return 'Março'
+            case 3:
+                return 'Abril'
+            case 4:
+                return 'Maio'
+            case 5:
+                return 'Junho'
+            case 6:
+                return 'Julho'
+            case 7:
+                return 'Agosto'
+            case 8:
+                return 'Setembro'
+            case 9:
+                return 'Outubro'
+            case 10:
+                return 'Novembro'
+            case 11:
+                return 'Dezembro'
+            default:
+                return 'Mês inválido'
+        }
     }
 }
 export default calendarTools

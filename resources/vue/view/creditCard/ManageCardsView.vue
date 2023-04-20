@@ -5,9 +5,13 @@
             <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
                 <h3 id="title">Cartões</h3>
-                <router-link class="btn btn-success rounded-5" to="/gerenciar-cartoes/cadastrar">
+                <router-link class="btn btn-success rounded-5 me-2" to="/gerenciar-cartoes/cadastrar">
                     <font-awesome-icon :icon="iconEnum.creditCard()" class="me-2"/>
                     Novo Cartão
+                </router-link>
+                <router-link class="btn btn-success rounded-5" to="/gerenciar-cartoes/despesa/cadastrar">
+                    <font-awesome-icon :icon="iconEnum.expense()" class="me-2"/>
+                    Nova despesa
                 </router-link>
             </div>
             <hr>
@@ -35,7 +39,7 @@
                             <td class="text-center">{{ calendarTools.convertDateDbToBr(card.createdAt) }}</td>
                             <td class="text-center action-buttons">
                                 <router-link class="btn btn-sm btn-info rounded-5 me-1"
-                                             :to="'/fatura-cartao/' + card.id"
+                                             :to="'/gerenciar-cartoes/fatura-cartao/' + card.id"
                                              v-tooltip="'Consultar Faturas'">
                                     <font-awesome-icon :icon="iconEnum.invoice()" />
                                 </router-link>

@@ -46,6 +46,9 @@ const iconEnum = {
     },
     invoice() {
         return ['fas', 'file-invoice-dollar']
-    }
+    },
+    expense() {
+        return ['fas', 'money-check-dollar']
+    },
 }
 export default iconEnum;

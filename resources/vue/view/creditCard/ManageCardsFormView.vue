@@ -1,98 +1,66 @@
 <template>
-    <div>
-        <div class="base-container">
-            <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
-            <div v-show="loadingDone">
-                <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
-                <div>
-                    <h3 id="title">{{ title }}</h3>
+    <div class="base-container">
+        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <div v-show="loadingDone">
+            <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
+            <h3 id="title">{{ title }}</h3>
+            <hr class="mb-4">
+            <form class="was-validated">
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label" for="card-name">
+                                Nome
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   v-model="card.name"
+                                   id="card-name"
+                                   required
+                                   minlength="2">
+                        </div>
+                    </div>
                 </div>
-                <hr class="mb-4">
-                <form class="was-validated">
-                    <div class="row justify-content-center">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-label" for="card-name">
-                                    Nome
-                                </label>
-                                <input type="text"
-                                       class="form-control"
-                                       v-model="card.name"
-                                       id="card-name"
-                                       required
-                                       minlength="2">
-                                <div class="invalid-feedback">
-                                <span class="badge text-bg-danger">
-                                    Digite um nome válido
-                                </span>
-                                </div>
-                            </div>
+                <input-money :value="card.limit" :title="'Limite'" @input-money="updateCardLimitFromEvent"/>
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <div class="form-group mt-2">
+                            <label class="form-label" for="card-closing-day">
+                                Fecha dia
+                            </label>
+                            <input type="number"
+                                   class="form-control"
+                                   v-model="card.closingDay"
+                                   id="card-closing-day"
+                                   required
+                                   min="1"
+                                   max="31"
+                                   minlength="1">
                         </div>
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="col-4">
-                            <div class="form-group mt-2">
-                                <input-money :value="card.limit" :title="'Limite'" @input-money="updateCardLimitFromEvent"></input-money>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-4">
-                            <div class="form-group mt-2">
-                                <label class="form-label" for="card-closing-day">
-                                    Fecha dia
-                                </label>
-                                <input type="number"
-                                       class="form-control"
-                                       v-model="card.closingDay"
-                                       id="card-closing-day"
-                                       required
-                                       min="1"
-                                       max="31"
-                                       minlength="1">
-                                <div class="invalid-feedback">
-                                <span class="badge text-bg-danger">
-                                    Digite um dia válido
-                                </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-4">
-                            <div class="form-group mt-2">
-                                <label class="form-label" for="card-due-date">
-                                    Vence Dia
-                                </label>
-                                <input type="number"
-                                       class="form-control"
-                                       v-model="card.dueDate"
-                                       id="card-due-date"
-                                       required
-                                       min="1"
-                                       max="31"
-                                       minlength="1">
-                                <div class="invalid-feedback">
-                                <span class="badge text-bg-danger">
-                                    Digite um dia válido
-                                </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <hr class="mt-4">
-                <div class="nav justify-content-center">
-                    <router-link class="btn btn-danger rounded-5" to="/gerenciar-cartoes">
-                        <font-awesome-icon :icon="iconEnum.xMark()" class="me-2"/>
-                        Cancelar
-                    </router-link>
-                    <button class="btn btn-success rounded-5 ms-3" @click="updateOrInsertCard">
-                        <font-awesome-icon :icon="iconEnum.check()" class="me-2" />
-                        {{ title }}
-                    </button>
                 </div>
-            </div>
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <div class="form-group mt-2">
+                            <label class="form-label" for="card-due-date">
+                                Vence Dia
+                            </label>
+                            <input type="number"
+                                   class="form-control"
+                                   v-model="card.dueDate"
+                                   id="card-due-date"
+                                   required
+                                   min="1"
+                                   max="31"
+                                   minlength="1">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr class="mt-4">
+            <bottom-buttons redirect-to="/gerenciar-cartoes"
+                            :button-success-text="title"
+                            @btn-clicked="updateOrInsertCard"/>
         </div>
     </div>
 </template>
@@ -106,6 +74,7 @@
     import InputMoney from "../../components/inputMoneyComponent.vue";
     import messageEnum from "../../../js/enums/messageEnum";
     import {HttpStatusCode} from "axios";
+    import BottomButtons from "../../components/BottomButtons.vue";
 
     export default {
         name: "ManageCardsFormView",
@@ -115,6 +84,7 @@
             }
         },
         components: {
+            BottomButtons,
             InputMoney,
             Message,
             LoadingComponent
@@ -216,7 +186,6 @@
                 }
             },
             resetMessage() {
-                $(window).scrollTop(0, 0)
                 setTimeout(() =>
                     [this.message = null, this.messageType = null],
                     this.messageTimeOut

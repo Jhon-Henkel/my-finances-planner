@@ -1,7 +1,7 @@
 <template>
     <div v-show="isShowMessage">
         <div class="message text-center" :class="type">
-            <font-awesome-icon class="icon" :icon="icon"/>
+            <font-awesome-icon class="icon" :icon="getIconForType()"/>
             <span class="ms-2 text">
                 {{ message }}
             </span>
@@ -19,7 +19,6 @@
         name: "Message",
         data () {
             return {
-                icon: iconEnum.circleCheck(),
                 isShowMessage: false,
             }
         },
@@ -41,19 +40,21 @@
         },
         methods: {
             getIconForType() {
-                if (this.type === messageEnum.messageTypeSuccess()) {
-                    this.icon = iconEnum.circleCheck()
-                } else if (this.type === messageEnum.messageTypeError()) {
-                    this.icon = iconEnum.circleX()
-                } else if (this.type === messageEnum.messageTypeInfo()) {
-                    this.icon = iconEnum.circleInfo()
-                } else if (this.type === messageEnum.messageTypeWarning()) {
-                    this.icon = iconEnum.circleExclamation()
+                switch (this.type) {
+                    case messageEnum.messageTypeSuccess():
+                        return iconEnum.circleCheck()
+                    case messageEnum.messageTypeError():
+                        return iconEnum.circleX()
+                    case messageEnum.messageTypeInfo():
+                        return iconEnum.circleInfo()
+                    case messageEnum.messageTypeWarning():
+                        return iconEnum.circleExclamation()
+                    default:
+                        return iconEnum.circleCheck()
                 }
             }
         },
         mounted() {
-            this.getIconForType()
             if (this.message) {
                 this.isShowMessage = true
                 setTimeout(() => [this.isShowMessage = false],

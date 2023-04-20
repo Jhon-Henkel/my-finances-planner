@@ -3,9 +3,7 @@
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
             <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
-            <div>
-                <h3 id="title">{{ title }}</h3>
-            </div>
+            <h3 id="title">{{ title }}</h3>
             <hr class="mb-4">
             <form class="was-validated">
                 <div class="row justify-content-center">
@@ -20,21 +18,10 @@
                                    id="wallet-name"
                                    required
                                    minlength="2">
-                            <div class="invalid-feedback">
-                                <span class="badge text-bg-danger">
-                                    Digite um nome válido
-                                </span>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-4">
-                        <div class="form-group mt-2">
-                            <input-money :value="wallet.amount" @input-money="updateWalletValueFromEvent"></input-money>
-                        </div>
-                    </div>
-                </div>
+                <input-money :value="wallet.amount" @input-money="updateWalletValueFromEvent"/>
                 <div class="row justify-content-center">
                     <div class="col-4">
                         <div class="form-group mt-2">
@@ -46,26 +33,12 @@
                                     {{ type.description }}
                                 </option>
                             </select>
-                            <div class="invalid-feedback">
-                                <span class="badge text-bg-danger">
-                                    Selecione uma opção válida
-                                </span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </form>
             <hr class="mt-4">
-            <div class="nav justify-content-center">
-                <router-link class="btn btn-danger rounded-5" to="/carteiras">
-                    <font-awesome-icon :icon="iconEnum.xMark()" class="me-2"/>
-                    Cancelar
-                </router-link>
-                <button class="btn btn-success rounded-5 ms-3" @click="updateOrInsertWallet">
-                    <font-awesome-icon :icon="iconEnum.check()" class="me-2" />
-                    {{ title }}
-                </button>
-            </div>
+            <bottom-buttons redirect-to="/carteiras" :button-success-text="title" @btn-clicked="updateOrInsertWallet"/>
         </div>
     </div>
 </template>
@@ -81,6 +54,7 @@
     import iconEnum from "../../../js/enums/iconEnum";
     import InputMoney from "../../components/inputMoneyComponent.vue";
     import LoadingComponent from "../../components/LoadingComponent.vue";
+    import BottomButtons from "../../components/BottomButtons.vue";
 
     export default {
         name: "WalletFormView",
@@ -90,6 +64,7 @@
             }
         },
         components: {
+            BottomButtons,
             LoadingComponent,
             InputMoney,
             FontAwesomeIcon,

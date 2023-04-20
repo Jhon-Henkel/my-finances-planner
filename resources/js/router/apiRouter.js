@@ -1,3 +1,4 @@
+// todo a forma de buscar o token deve ser diferente
 window.axios.defaults.headers.common['mfp-token'] = await axios.get('/get-mfp-token').then((response) => {
     return response.data.mfpToken
 }).catch(() => {
@@ -41,6 +42,25 @@ const apiRouter = {
         },
         delete: async function(id) {
             return await axios.delete('/api/credit-card/' + id)
+        }
+    },
+    expense: {
+        index: async function() {
+            const request = await axios.get('/api/credit-card/transaction')
+            return request.data
+        },
+        show: async function(id) {
+            const request = await axios.get('/api/credit-card/transaction/' + id)
+            return request.data
+        },
+        insert: async function(expense) {
+            return await axios.post('/api/credit-card/transaction', expense)
+        },
+        update: async function(expense, id) {
+            return await axios.put('/api/credit-card/transaction/' + id, expense)
+        },
+        delete: async function(id) {
+            return await axios.delete('/api/credit-card/transaction/' + id)
         }
     },
     userActions: {

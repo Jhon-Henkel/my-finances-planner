@@ -1,18 +1,24 @@
 <template>
-    <label class="form-label" for="input-money">
-        {{ title }}
-    </label>
-    <div class="input-group">
-        <span class="input-group-text" id="basic-addon1">
-            <font-awesome-icon :icon="iconEnum.moneyBr()" />
-        </span>
-        <input class="form-control v-money"
-               id="input-money"
-               v-money="{precision, decimal, thousands, prefix, suffix}"
-               @change="change"
-               :value="formattedValue"
-               type="tel"
-               required>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="form-group mt-2">
+                <label class="form-label" for="input-money">
+                    {{ title }}
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">
+                        <font-awesome-icon :icon="iconEnum.moneyBr()" />
+                    </span>
+                    <input class="form-control v-money"
+                           id="input-money"
+                           v-money="{precision, decimal, thousands, prefix, suffix}"
+                           @change="change"
+                           :value="formattedValue"
+                           type="tel"
+                           required>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
