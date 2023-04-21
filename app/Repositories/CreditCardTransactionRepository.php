@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\BasicFieldsEnum;
 use App\Models\CreditCardTransaction;
 use App\Resources\CreditCardTransactionResource;
 
@@ -24,5 +25,10 @@ class CreditCardTransactionRepository extends BasicRepository
     protected function getResource(): CreditCardTransactionResource
     {
         return $this->resource;
+    }
+
+    public function getExpenses(int $cardId): array
+    {
+        return $this->getModel()->where(BasicFieldsEnum::CREDIT_CARD_ID_DB, $cardId)->get()->toArray();
     }
 }

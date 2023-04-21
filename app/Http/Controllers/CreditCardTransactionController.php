@@ -50,4 +50,11 @@ class CreditCardTransactionController extends BasicController
     {
         return $this->resource;
     }
+
+    // todo ao pagar uma fatura deveremos atualizar os valores installments e nextInstallment
+    public function invoices(int $id): JsonResponse
+    {
+        $expenses = $this->getService()->getInvoices($id);
+        return response()->json($expenses, ResponseAlias::HTTP_OK);
+    }
 }

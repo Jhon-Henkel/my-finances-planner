@@ -3,6 +3,7 @@
 namespace App\Resources;
 
 use App\DTO\CreditCardDTO;
+use App\DTO\InvoiceItemDTO;
 use App\Enums\BasicFieldsEnum;
 use App\VO\CreditCardVO;
 
@@ -41,6 +42,18 @@ class CreditCardResource extends BasicResource
             $item->getClosingDay(),
             $item->getCreatedAt(),
             $item->getUpdatedAt()
+        );
+    }
+
+    public function transactionToInvoiceDTO(array $item): InvoiceItemDTO
+    {
+        return new InvoiceItemDTO(
+            $item[BasicFieldsEnum::ID],
+            $item[BasicFieldsEnum::CREDIT_CARD_ID_DB],
+            $item[BasicFieldsEnum::NAME],
+            $item[BasicFieldsEnum::VALUE],
+            $item[BasicFieldsEnum::NEXT_INSTALLMENT_DB],
+            $item[BasicFieldsEnum::INSTALLMENTS]
         );
     }
 }
