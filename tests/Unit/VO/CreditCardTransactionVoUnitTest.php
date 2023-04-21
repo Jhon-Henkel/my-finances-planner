@@ -24,7 +24,7 @@ class CreditCardTransactionVoUnitTest extends TestCase
         $this->assertEquals(1, $vo->id);
         $this->assertEquals('TransactionName', $vo->name);
         $this->assertEquals(2, $vo->installments);
-        $this->assertEquals('2022-01-02 00:00:00', $vo->firstInstallment);
+        $this->assertEquals('2022-01-02 00:00:00', $vo->nextInstallment);
         $this->assertEquals(1, $vo->creditCardId);
         $this->assertEquals('2023-10-03 01:30:00', $vo->createdAt);
         $this->assertEquals('2023-10-03 01:30:00', $vo->updatedAt);

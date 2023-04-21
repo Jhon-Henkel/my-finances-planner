@@ -28,7 +28,7 @@
                                 Primeira Parcela
                             </label>
                             <select class="form-select"
-                                    v-model="expense.firstInstallment"
+                                    v-model="expense.nextInstallment"
                                     id="expense-first-installment"
                                     required>
                                 <option v-for="(date, index) in nextThreeMonthsWithYear"
@@ -92,6 +92,7 @@
                 </div>
             </form>
             <hr class="mt-4">
+            <!-- todo redirect deve ser para a tela que chamou, sendo a de faturas ou a de gerenciar cartões -->
             <bottom-buttons redirect-to="/gerenciar-cartoes"
                             :button-success-text="title"
                             @btn-clicked="updateOrInsertExpense"/>
@@ -171,7 +172,7 @@
                     this.isValid = false
                     return
                 }
-                if (! this.expense.firstInstallment) {
+                if (! this.expense.nextInstallment) {
                     this.message = 'Campo "Primeira parcela" é inválido!'
                     this.messageType = messageEnum.messageTypeWarning()
                     this.isValid = false
@@ -239,7 +240,7 @@
                     installments: installmentsToPopulate,
                     value: this.expense.value,
                     creditCardId: this.expense.creditCardId,
-                    firstInstallment: this.expense.firstInstallment,
+                    nextInstallment: this.expense.nextInstallment,
                 }
             }
         },

@@ -80,6 +80,10 @@ const calendarTools = {
             default:
                 return 'Mês inválido'
         }
-    }
+    },
+    getThisMonth() {
+        let date = new Date()
+        return date.getMonth()
+    },
 }
 export default calendarTools

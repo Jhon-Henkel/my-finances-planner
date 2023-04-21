@@ -26,6 +26,7 @@ class RouteEnum
     const API_CREDIT_CARD_TRANSACTION_INSERT = 'apiCreditCardTransactionInsert';
     const API_CREDIT_CARD_TRANSACTION_UPDATE = 'apiCreditCardTransactionUpdate';
     const API_CREDIT_CARD_TRANSACTION_DELETE = 'apiCreditCardTransactionDelete';
+    const API_CREDIT_CARD_INVOICES = 'apiCreditCardInvoices';
     const WEB_LOGIN = 'login';
     const WEB_LOGOUT = 'logout';
     const WEB_IS_USER_LOGGED = 'webIsUserLogged';

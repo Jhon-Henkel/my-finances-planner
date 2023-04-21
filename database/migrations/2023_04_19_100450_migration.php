@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name', '255')->default(null);
             $table->decimal('value', 60,2)->nullable(false);
             $table->integer('installments')->nullable(false);
-            $table->string('first_installment')->nullable(false);
+            $table->string('next_installment')->nullable(false);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->foreign('credit_card_id')->references('id')->on('credit_card');

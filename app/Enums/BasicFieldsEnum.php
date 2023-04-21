@@ -25,6 +25,6 @@ class BasicFieldsEnum
     const CREDIT_CARD_ID_DB = 'credit_card_id';
     const CREDIT_CARD_ID_JSON = 'creditCardId';
     const INSTALLMENTS = 'installments';
-    const FIRST_INSTALLMENT_DB = 'first_installment';
-    const FIRST_INSTALLMENT_JSON = 'firstInstallment';
+    const NEXT_INSTALLMENT_DB = 'next_installment';
+    const NEXT_INSTALLMENT_JSON = 'nextInstallment';
 }

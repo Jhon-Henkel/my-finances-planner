@@ -37,6 +37,9 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
             $router->put('/{id}', [CreditCardTransactionController::class, 'update'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_UPDATE);
             $router->delete('/{id}', [CreditCardTransactionController::class, 'delete'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_DELETE);
         });
+        $router->prefix('{id}/invoices')->group(function () use ($router) {
+            $router->get('', [CreditCardTransactionController::class, 'invoices'])->name(RouteEnum::API_CREDIT_CARD_INVOICES);
+        });
         $router->get('', [CreditCardController::class, 'index'])->name(RouteEnum::API_CREDIT_CARD_INDEX);
         $router->get('/{id}', [CreditCardController::class, 'show'])->name(RouteEnum::API_CREDIT_CARD_SHOW);
         $router->post('', [CreditCardController::class, 'insert'])->name(RouteEnum::API_CREDIT_CARD_INSERT);

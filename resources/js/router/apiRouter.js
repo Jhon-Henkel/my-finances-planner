@@ -42,6 +42,12 @@ const apiRouter = {
         },
         delete: async function(id) {
             return await axios.delete('/api/credit-card/' + id)
+        },
+        invoices: {
+            index: async function(cardId) {
+                const request = await axios.get('/api/credit-card/' + cardId + '/invoices')
+                return request.data
+            },
         }
     },
     expense: {

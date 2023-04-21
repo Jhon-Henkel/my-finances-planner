@@ -25,6 +25,7 @@ const routes = [
         component: DashboardView
     },
     {
+        // todo a ideia é essa rota ficar dentro de carteiras
         path: "/movimentacoes",
         name: "movement",
         component: MovementView
@@ -35,6 +36,7 @@ const routes = [
         component: PanoramView
     },
     {
+        // todo a ideia é essa rota ficar dentro de carteiras
         path: "/ganhos-futuros",
         name: "futureGain",
         component: FutureGainView

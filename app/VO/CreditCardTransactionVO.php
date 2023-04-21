@@ -8,27 +8,27 @@ class CreditCardTransactionVO
     public string $name;
     public float $value;
     public int $installments;
-    public string $firstInstallment;
+    public string $nextInstallment;
     public int $creditCardId;
-    public ?string $createdAt;
-    public ?string $updatedAt;
+    public mixed $createdAt;
+    public mixed $updatedAt;
 
     public static function makeCreditCardTransactionVO(
         ?int $id,
         string $name,
         float $value,
         int $installments,
-        string $firstInstallment,
+        string $nextInstallment,
         int $creditCardId,
-        ?string $createdAt,
-        ?string $updatedAt
-    ): CreditCardTransactionVO {
+        mixed $createdAt,
+        mixed $updatedAt
+    ): self {
         $vo = new self();
         $vo->id = $id;
         $vo->name = $name;
         $vo->value = $value;
         $vo->installments = $installments;
-        $vo->firstInstallment = $firstInstallment;
+        $vo->nextInstallment = $nextInstallment;
         $vo->creditCardId = $creditCardId;
         $vo->createdAt = $createdAt;
         $vo->updatedAt = $updatedAt;

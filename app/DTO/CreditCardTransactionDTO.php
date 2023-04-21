@@ -9,7 +9,7 @@ class CreditCardTransactionDTO
     private string $name;
     private int|float $value;
     private int $installments;
-    private string $firstInstallment;
+    private string $nextInstallment;
     private mixed $createdAt;
     private mixed $updatedAt;
 
@@ -96,17 +96,17 @@ class CreditCardTransactionDTO
     /**
      * @return string
      */
-    public function getFirstInstallment(): string
+    public function getNextInstallment(): string
     {
-        return $this->firstInstallment;
+        return $this->nextInstallment;
     }
 
     /**
-     * @param string $firstInstallment
+     * @param string $nextInstallment
      */
-    public function setFirstInstallment(string $firstInstallment): void
+    public function setNextInstallment(string $nextInstallment): void
     {
-        $this->firstInstallment = $firstInstallment;
+        $this->nextInstallment = $nextInstallment;
     }
 
     /**

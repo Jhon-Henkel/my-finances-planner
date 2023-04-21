@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Resources\CreditCardTransactionResource;
 use App\Services\CreditCardTransactionService;
+use App\Tools\CalendarTools;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class CreditCardTransactionController extends BasicController
 {
@@ -23,7 +26,7 @@ class CreditCardTransactionController extends BasicController
             "name" => "required|string|max:255",
             "value" => "required|numeric",
             "installments" => "required|integer",
-            "firstInstallment" => "required|string",
+            "nextInstallment" => "required|string",
         ];
     }
 
@@ -34,7 +37,7 @@ class CreditCardTransactionController extends BasicController
             "name" => "required|string|max:255",
             "value" => "required|numeric",
             "installments" => "required|integer",
-            "firstInstallment" => "required|string",
+            "nextInstallment" => "required|string",
         ];
     }
 
