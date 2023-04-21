@@ -12,4 +12,5 @@ class DateEnum
     const ONLY_DAY = 'd';
     const ONLY_COMPLETE_YEAR = 'Y';
     const DECEMBER_MONTH_NUMBER = 12;
+    const JANUARY_MONTH_NUMBER = 1;
 }

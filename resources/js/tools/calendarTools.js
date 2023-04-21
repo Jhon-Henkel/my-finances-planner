@@ -35,7 +35,6 @@ const calendarTools = {
     oneHundredMs() {
         return ONE_HUNDRED_MS
     },
-    // todo deve retornar o mês em string com 0 a esquerda se for menor que 10
     getNextThreeMonthsWithYear() {
         let months = []
         let date = new Date()

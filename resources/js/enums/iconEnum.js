@@ -50,5 +50,11 @@ const iconEnum = {
     expense() {
         return ['fas', 'money-check-dollar']
     },
+    paying() {
+        return ['fas', 'hand-holding-dollar']
+    },
+    back() {
+        return ['fas', 'angle-left']
+    }
 }
 export default iconEnum;

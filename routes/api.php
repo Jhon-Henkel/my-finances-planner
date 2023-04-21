@@ -39,6 +39,7 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
         });
         $router->prefix('{id}/invoices')->group(function () use ($router) {
             $router->get('', [CreditCardTransactionController::class, 'invoices'])->name(RouteEnum::API_CREDIT_CARD_INVOICES);
+            $router->put('/{month}', [CreditCardTransactionController::class, 'payInvoice'])->name(RouteEnum::API_CREDIT_CARD_PAY_INVOICE);
         });
         $router->get('', [CreditCardController::class, 'index'])->name(RouteEnum::API_CREDIT_CARD_INDEX);
         $router->get('/{id}', [CreditCardController::class, 'show'])->name(RouteEnum::API_CREDIT_CARD_SHOW);

@@ -80,4 +80,29 @@ class CalendarTools
         $date = new DateTime($date);
         return $date->format(DateEnum::ONLY_DAY);
     }
+
+    public static function mountDateToPayInvoice(int $month): string
+    {
+        $date = self::getDateNow();
+        $year = $date->format(DateEnum::ONLY_COMPLETE_YEAR);
+        $thisMonth = (int)$date->format(DateEnum::ONLY_MONTH);
+        if ($thisMonth == $month) {
+            return $year . '-' . $month;
+        }
+        if ($thisMonth > $month) {
+            $year = (int)$year + 1;
+        }
+        return $year . '-' . $month;
+    }
+
+    public static function getNextInstallment(string $nextInstallment): string
+    {
+        $explodeDate = explode('-', $nextInstallment);
+        $year = (int)$explodeDate[0];
+        $month = (int)$explodeDate[1];
+        if ($month == DateEnum::DECEMBER_MONTH_NUMBER) {
+            return ($year + 1) . '-' . DateEnum::JANUARY_MONTH_NUMBER;
+        }
+        return $year . '-' . ($month + 1);
+    }
 }

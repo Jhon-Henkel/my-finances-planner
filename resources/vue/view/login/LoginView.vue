@@ -82,7 +82,7 @@
                 event.preventDefault()
                 await RouterNonAuthenticated.login.makeLogin(this.populateDate()).then((response) => {
                         if (response.status === HttpStatusCode.Ok) {
-                            // todo feito isso para carregar tudo no app.vue, pois sem dar reload o app não carregava a dashboard
+                            // feito isso para carregar tudo no app.vue, pois sem dar reload o app não carregava a sidebar
                             window.location.reload()
                         } else {
                             this.messageLogin = 'Algo deu errado ao efetuar seu login!'

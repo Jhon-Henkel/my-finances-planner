@@ -5,6 +5,10 @@
             <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
             <div class="nav mt-2 justify-content-end">
                 <h3 id="title">{{ title }}</h3>
+                <router-link class="btn btn-success rounded-5 me-2" to="/gerenciar-cartoes">
+                    <font-awesome-icon :icon="iconEnum.back()" class="me-2"/>
+                    Voltar
+                </router-link>
                 <router-link class="btn btn-success rounded-5" to="/gerenciar-cartoes/despesa/cadastrar">
                     <font-awesome-icon :icon="iconEnum.expense()" class="me-2"/>
                     Nova despesa
@@ -81,12 +85,11 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <!-- todo aparecer somente se tiver fatura -->
+                        <!-- todo aparecer somente na fatura do mês -->
                         <td v-for="(month, index) in months" :key="index">
-                            <button class="btn btn-full btn-success rounded-5"
-                                    @click="payInvoice(month)"
-                                    v-tooltip="'Pagar parcela'">
-                                <font-awesome-icon :icon="iconEnum.creditCard()" />
+                            <button class="btn btn-full btn-success rounded-5" @click="payInvoice(month)">
+                                <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
+                                Pagar
                             </button>
                         </td>
                         <td></td>
@@ -96,8 +99,6 @@
                 </tbody>
             </table>
             <hr class="mt-4">
-            <!-- todo criar ação de pagar fatura -->
-            <!-- todo criar botão de voltar -->
         </div>
     </div>
 </template>
@@ -112,6 +113,7 @@
     import StringTools from "../../../../js/tools/stringTools";
     import messageEnum from "../../../../js/enums/messageEnum";
     import ActionButtons from "../../../components/ActionButtons.vue";
+    import {HttpStatusCode} from "axios";
 
     export default {
         name: "CreditCardInvoiceView",
@@ -139,6 +141,7 @@
                 message: null,
                 messageType: null,
                 thisMonth: null,
+                cardId: null,
                 months: [],
                 messageTimeOut: CalendarTools.fiveHundredMs()
             }
@@ -161,16 +164,34 @@
                 )
             },
             async payInvoice(month) {
-                // todo desenvolver
-                console.log('desenvolver', month)
-                // payInvoice
-                // reloadInvoices
+                // todo desenvolver após ter as transações por carteira
+                // todo deve selecionar qual a carteira vai ser lançada a transação
+                // todo talvez deva ser uma modal
+                if (confirm('Deseja realmente pagar a fatura do mês ' + calendarTools.getMonthNameByNumber(month) + '?')) {
+                    await apiRouter.cards.invoices.payInvoice(month, this.cardId).then(async (response) => {
+                        if (response.status === HttpStatusCode.Ok) {
+                            this.message = 'Fatura paga com sucesso!'
+                            this.messageType = messageEnum.messageTypeSuccess()
+                            this.invoices = await apiRouter.cards.invoices.index(this.cardId)
+                            this.resetMessage()
+                        } else {
+                            this.message = 'Erro ao pagar fatura!'
+                            this.messageType = messageEnum.messageTypeError()
+                            this.resetMessage()
+                        }
+                    }).catch((error) => {
+                        this.message = 'Erro ao pagar fatura!'
+                        this.messageType = messageEnum.messageTypeError()
+                        this.resetMessage()
+                    })
+                }
             }
         },
         async mounted() {
-            // todo 'Fatura ' + cardName
+            // todo 'Fatura ' + nome do cartão
             this.title = 'Fatura';
-            this.invoices = await apiRouter.cards.invoices.index(this.$route.params.id)
+            this.cardId = this.$route.params.id
+            this.invoices = await apiRouter.cards.invoices.index(this.cardId)
             this.thisMonth = CalendarTools.getThisMonth()
             this.months = [
                 this.thisMonth,
@@ -183,3 +204,10 @@
         }
     }
 </script>
+
+<style scoped>
+    .btn-full {
+        width: 100%;
+        height: 25px;
+    }
+</style>

@@ -51,10 +51,26 @@ class CreditCardTransactionController extends BasicController
         return $this->resource;
     }
 
-    // todo ao pagar uma fatura deveremos atualizar os valores installments e nextInstallment
-    public function invoices(int $id): JsonResponse
+    public function invoices(int $cardId): JsonResponse
     {
-        $expenses = $this->getService()->getInvoices($id);
+        $expenses = $this->getService()->getInvoices($cardId);
         return response()->json($expenses, ResponseAlias::HTTP_OK);
+    }
+
+    public function payInvoice(int $cardId, int $month): JsonResponse
+    {
+        /**
+         * todo revisar e desenvolver após ter a tela de transações por carteira
+         * 1 - Atualizar o próximo vencimento
+         * 2 - Atualizar as parcelas restantes
+         * 3 - Se as parcelas após a subtração for igual a zero, excluir a despesa
+         * 4 - Lançar a transação na carteira selecionada (adicionar o id da carteira na rota)
+         */
+        dd('revisar e desenvolver após ter a tela de transações por carteira');
+        $expense = $this->getService()->payInvoice($cardId, $month);
+        if ($expense) {
+            return response()->json(null, ResponseAlias::HTTP_OK);
+        }
+        return response()->json(null, ResponseAlias::HTTP_EXPECTATION_FAILED);
     }
 }
