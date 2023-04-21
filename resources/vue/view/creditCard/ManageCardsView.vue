@@ -37,22 +37,14 @@
                             <!-- todo fazer o get do valor total da fatura -->
                             <td class="text-center">Valor Fatura</td>
                             <td class="text-center">{{ calendarTools.convertDateDbToBr(card.createdAt) }}</td>
-                            <td class="text-center action-buttons">
-                                <router-link class="btn btn-sm btn-info rounded-5 me-1"
-                                             :to="'/gerenciar-cartoes/fatura-cartao/' + card.id"
-                                             v-tooltip="'Consultar Faturas'">
-                                    <font-awesome-icon :icon="iconEnum.invoice()" />
-                                </router-link>
-                                <router-link class="btn btn-sm btn-success rounded-5 me-1"
-                                             :to="'/gerenciar-cartoes/' + card.id + '/atualizar'"
-                                             v-tooltip="'Editar Cartão'">
-                                    <font-awesome-icon :icon="iconEnum.editIcon()" />
-                                </router-link>
-                                <button class="btn btn-sm btn-danger rounded-5"
-                                        @click="deleteCard(card.id, card.name)"
-                                        v-tooltip="'Deletar Cartão'">
-                                    <font-awesome-icon :icon="iconEnum.trashIcon()" />
-                                </button>
+                            <td>
+                                <action-buttons :delete-tooltip="'Deletar Cartão'"
+                                                :tooltip-edit="'Editar Cartão'"
+                                                :info-tooltip="'Consultar Faturas'"
+                                                :info-to="'/gerenciar-cartoes/fatura-cartao/' + card.id"
+                                                :show-info-button="true"
+                                                :edit-to="'/gerenciar-cartoes/' + card.id + '/atualizar'"
+                                                @delete-clicked="deleteCard(card.id, card.name)"/>
                             </td>
                         </tr>
                     </tbody>
@@ -72,6 +64,7 @@
     import messageEnum from "../../../js/enums/messageEnum";
     import stringTools from "../../../js/tools/stringTools";
     import calendarTools from "../../../js/tools/calendarTools";
+    import ActionButtons from "../../components/ActionButtons.vue";
 
     export default {
         name: "ManageCardsView",
@@ -87,6 +80,7 @@
             }
         },
         components: {
+            ActionButtons,
             Message,
             LoadingComponent
         },

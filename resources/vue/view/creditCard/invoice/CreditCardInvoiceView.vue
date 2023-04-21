@@ -97,6 +97,7 @@
             </table>
             <hr class="mt-4">
             <!-- todo criar ação de pagar fatura -->
+            <!-- todo criar botão de voltar -->
         </div>
     </div>
 </template>

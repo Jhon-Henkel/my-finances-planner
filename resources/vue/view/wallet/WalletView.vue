@@ -32,17 +32,12 @@
                         </td>
                         <td class="text-center" v-else>{{ stringTools.formatFloatValueToBrString(wallet.amount) }}</td>
                         <td class="text-center">{{ calendarTools.convertDateDbToBr(wallet.createdAt, false) }}</td>
-                        <td class="text-center action-buttons">
-                            <router-link class="btn btn-sm btn-success rounded-5 me-1"
-                                         :to="'/carteiras/' + wallet.id + '/atualizar'"
-                                         v-tooltip="'Editar Carteira'">
-                                <font-awesome-icon :icon="iconEnum.editIcon()" />
-                            </router-link>
-                            <button class="btn btn-sm btn-danger rounded-5"
-                                    @click="deleteWallet(wallet.id, wallet.name)"
-                                    v-tooltip="'Deletar Carteira'">
-                                <font-awesome-icon :icon="iconEnum.trashIcon()" />
-                            </button>
+                        <td>
+                            <action-buttons
+                                :delete-tooltip="'Deletar Carteira'"
+                                :tooltip-edit="'Editar Carteira'"
+                                :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
+                                @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
                         </td>
                     </tr>
                     </tbody>
@@ -67,10 +62,11 @@
     import iconEnum from "../../../js/enums/iconEnum";
     import CalendarTools from "../../../js/tools/calendarTools";
     import LoadingComponent from "../../components/LoadingComponent.vue";
+    import ActionButtons from "../../components/ActionButtons.vue";
 
     export default {
         name: "WalletView",
-        components: {LoadingComponent, Message},
+        components: {ActionButtons, LoadingComponent, Message},
         computed: {
             iconEnum() {
                 return iconEnum
