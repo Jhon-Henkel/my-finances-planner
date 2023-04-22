@@ -3,6 +3,7 @@
 use App\Enums\RouteEnum;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
+use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
@@ -47,5 +48,12 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
         $router->post('', [CreditCardController::class, 'insert'])->name(RouteEnum::API_CREDIT_CARD_INSERT);
         $router->put('/{id}', [CreditCardController::class, 'update'])->name(RouteEnum::API_CREDIT_CARD_UPDATE);
         $router->delete('/{id}', [CreditCardController::class, 'delete'])->name(RouteEnum::API_CREDIT_CARD_DELETE);
+    });
+    $router->prefix('future-gain')->group(function () use ($router) {
+        $router->get('', [FutureGainController::class, 'index'])->name(RouteEnum::API_FUTURE_GAIN_INDEX);
+        $router->get('/{id}', [FutureGainController::class, 'show'])->name(RouteEnum::API_FUTURE_GAIN_SHOW);
+        $router->post('', [FutureGainController::class, 'insert'])->name(RouteEnum::API_FUTURE_GAIN_INSERT);
+        $router->put('/{id}', [FutureGainController::class, 'update'])->name(RouteEnum::API_FUTURE_GAIN_UPDATE);
+        $router->delete('/{id}', [FutureGainController::class, 'delete'])->name(RouteEnum::API_FUTURE_GAIN_DELETE);
     });
 });

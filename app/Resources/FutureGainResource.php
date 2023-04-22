@@ -3,32 +3,49 @@
 namespace App\Resources;
 
 use App\DTO\FutureGainDTO;
+use App\Enums\BasicFieldsEnum;
+use App\VO\FutureGainVO;
 
 class FutureGainResource extends BasicResource
 {
-    // todo alterar campos para enum
     public function arrayToDto(array $item): FutureGainDTO
     {
         $dto = new FutureGainDTO();
-        $dto->setId($item['id'] ?? null);
-        $dto->setWalletId($item['wallet_id'] ?? $item['walletId']);
-        $dto->setDescription($item['description']);
-        $dto->setForecast($item['forecast']);
-        $dto->setAmount($item['amount']);
-        $dto->setCreatedAt($item['created_at'] ?? null);
-        $dto->setUpdatedAt($item['updated_at'] ?? null);
+        $dto->setId($item[BasicFieldsEnum::ID] ?? null);
+        $dto->setWalletId($item[BasicFieldsEnum::WALLET_ID_DB] ?? $item[BasicFieldsEnum::WALLET_ID_JSON]);
+        $dto->setDescription($item[BasicFieldsEnum::DESCRIPTION]);
+        $dto->setForecast($item[BasicFieldsEnum::FORECAST]);
+        $dto->setAmount($item[BasicFieldsEnum::AMOUNT]);
+        $dto->setInstallments($item[BasicFieldsEnum::INSTALLMENTS]);
+        $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
+        $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
         return $dto;
     }
 
+    /**
+     * @param FutureGainDTO $item
+     * @return array
+     */
     public function dtoToArray($item): array
     {
-        dd($item);
-        // TODO: Implement dtoToArray() method.
+        return [
+            BasicFieldsEnum::ID => $item->getId(),
+            BasicFieldsEnum::WALLET_ID_DB => $item->getWalletId(),
+            BasicFieldsEnum::DESCRIPTION => $item->getDescription(),
+            BasicFieldsEnum::FORECAST => $item->getForecast(),
+            BasicFieldsEnum::AMOUNT => $item->getAmount(),
+            BasicFieldsEnum::INSTALLMENTS => $item->getInstallments(),
+            BasicFieldsEnum::CREATED_AT => $item->getCreatedAt(),
+            BasicFieldsEnum::UPDATED_AT => $item->getUpdatedAt(),
+        ];
     }
 
-    public function dtoToVo($item)
+    /**
+     * @param FutureGainDTO $item
+     * @return FutureGainVO
+     */
+    public function dtoToVo($item): FutureGainVO
     {
-        dd($item);
-        // TODO: Implement dtoToVo() method.
+        return new FutureGainVO($item);
     }
 }

@@ -27,4 +27,5 @@ class BasicFieldsEnum
     const INSTALLMENTS = 'installments';
     const NEXT_INSTALLMENT_DB = 'next_installment';
     const NEXT_INSTALLMENT_JSON = 'nextInstallment';
+    const FORECAST = 'forecast';
 }

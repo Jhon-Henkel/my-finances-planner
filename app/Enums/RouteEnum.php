@@ -29,6 +29,11 @@ class RouteEnum
     const API_CREDIT_CARD_TRANSACTION_DELETE = 'apiCreditCardTransactionDelete';
     const API_CREDIT_CARD_INVOICES = 'apiCreditCardInvoices';
     const API_CREDIT_CARD_PAY_INVOICE = 'apiCreditCardPayInvoice';
+    const API_FUTURE_GAIN_INDEX = 'apiFutureGainIndex';
+    const API_FUTURE_GAIN_SHOW = 'apiFutureGainShow';
+    const API_FUTURE_GAIN_INSERT = 'apiFutureGainInsert';
+    const API_FUTURE_GAIN_UPDATE = 'apiFutureGainUpdate';
+    const API_FUTURE_GAIN_DELETE = 'apiFutureGainDelete';
     const WEB_LOGIN = 'login';
     const WEB_LOGOUT = 'logout';
     const WEB_IS_USER_LOGGED = 'webIsUserLogged';

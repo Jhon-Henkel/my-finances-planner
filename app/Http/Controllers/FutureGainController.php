@@ -18,12 +18,24 @@ class FutureGainController extends BasicController
 
     protected function rulesInsert(): array
     {
-        // TODO: Implement rulesInsert() method.
+        return [
+            'description' => 'required|max:255|string',
+            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
+            'forecast'=> 'required|date',
+            'amount' => 'required|decimal:0,2',
+            'installments' => 'required|int'
+        ];
     }
 
     protected function rulesUpdate(): array
     {
-        // TODO: Implement rulesUpdate() method.
+        return [
+            'description' => 'required|max:255|string',
+            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
+            'forecast'=> 'required|date',
+            'amount' => 'required|decimal:0,2',
+            'installments' => 'required|int'
+        ];
     }
 
     protected function getService(): FutureGainService

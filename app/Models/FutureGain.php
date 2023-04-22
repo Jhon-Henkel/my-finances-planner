@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FutureGain extends Model
 {
     protected $table = 'future_gain';
-    protected $fillable = ['id', 'wallet_id', 'description', 'amount', 'forecast', ];
+    protected $fillable = ['id', 'wallet_id', 'description', 'amount', 'forecast', 'installments'];
     protected $casts = [
         'created_at' => DateEnum::MODEL_DEFAULT_DATE_FORMAT,
         'updated_at' => DateEnum::MODEL_DEFAULT_DATE_FORMAT

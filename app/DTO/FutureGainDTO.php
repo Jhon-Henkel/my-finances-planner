@@ -8,6 +8,7 @@ class FutureGainDTO
     private int $walletId;
     private string $description;
     private float|int $amount;
+    private int $installments;
     private mixed $forecast;
     private mixed $createdAt;
     private mixed $updatedAt;
@@ -74,6 +75,22 @@ class FutureGainDTO
     public function setAmount(float|int $amount): void
     {
         $this->amount = $amount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInstallments(): int
+    {
+        return $this->installments;
+    }
+
+    /**
+     * @param int $installments
+     */
+    public function setInstallments(int $installments): void
+    {
+        $this->installments = $installments;
     }
 
     /**
