@@ -3,7 +3,9 @@
 namespace App\Resources;
 
 use App\DTO\FutureGainDTO;
+use App\DTO\InvoiceItemDTO;
 use App\Enums\BasicFieldsEnum;
+use App\Enums\DateEnum;
 use App\VO\FutureGainVO;
 
 class FutureGainResource extends BasicResource
@@ -47,5 +49,17 @@ class FutureGainResource extends BasicResource
     public function dtoToVo($item): FutureGainVO
     {
         return new FutureGainVO($item);
+    }
+
+    public function futureGainToInvoiceDTO(FutureGainDTO $item): InvoiceItemDTO
+    {
+        return new InvoiceItemDTO(
+            $item->getId(),
+            $item->getWalletId(),
+            $item->getDescription(),
+            $item->getAmount(),
+            $item->getForecast(),
+            $item->getInstallments()
+        );
     }
 }

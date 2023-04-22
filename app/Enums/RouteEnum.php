@@ -30,6 +30,7 @@ class RouteEnum
     const API_CREDIT_CARD_INVOICES = 'apiCreditCardInvoices';
     const API_CREDIT_CARD_PAY_INVOICE = 'apiCreditCardPayInvoice';
     const API_FUTURE_GAIN_INDEX = 'apiFutureGainIndex';
+    const API_FUTURE_GAIN_NEXT_SIX_MONTHS = 'apiFutureGainNextSixMonths';
     const API_FUTURE_GAIN_SHOW = 'apiFutureGainShow';
     const API_FUTURE_GAIN_INSERT = 'apiFutureGainInsert';
     const API_FUTURE_GAIN_UPDATE = 'apiFutureGainUpdate';

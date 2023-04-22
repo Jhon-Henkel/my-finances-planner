@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Resources\FutureGainResource;
 use App\Services\FutureGainService;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class FutureGainController extends BasicController
 {
@@ -46,5 +48,11 @@ class FutureGainController extends BasicController
     protected function getResource(): mixed
     {
         return $this->resource;
+    }
+
+    public function nextSixMonths(): JsonResponse
+    {
+        $futureGain = $this->getService()->getNextSixMonthsFutureGain();
+        return response()->json($futureGain, ResponseAlias::HTTP_OK);
     }
 }

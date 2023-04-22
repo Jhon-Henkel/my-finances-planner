@@ -51,6 +51,7 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     });
     $router->prefix('future-gain')->group(function () use ($router) {
         $router->get('', [FutureGainController::class, 'index'])->name(RouteEnum::API_FUTURE_GAIN_INDEX);
+        $router->get('next-six-months', [FutureGainController::class, 'nextSixMonths'])->name(RouteEnum::API_FUTURE_GAIN_NEXT_SIX_MONTHS);
         $router->get('/{id}', [FutureGainController::class, 'show'])->name(RouteEnum::API_FUTURE_GAIN_SHOW);
         $router->post('', [FutureGainController::class, 'insert'])->name(RouteEnum::API_FUTURE_GAIN_INSERT);
         $router->put('/{id}', [FutureGainController::class, 'update'])->name(RouteEnum::API_FUTURE_GAIN_UPDATE);
