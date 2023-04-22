@@ -72,6 +72,15 @@ const apiRouter = {
             return await axios.delete('/api/credit-card/transaction/' + id)
         }
     },
+    movement: {
+        indexFiltered: async function(filter) {
+            const request = await axios.get('/api/movement/filter/' + filter)
+            return request.data
+        },
+        delete: async function(id) {
+            return await axios.delete('/api/movement/' + id)
+        }
+    },
     userActions: {
         logout: async function() {
             return await axios.get('/logout')

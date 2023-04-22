@@ -4,17 +4,17 @@ namespace App\Tools;
 
 class RequestTools
 {
-    public static function imputPost(string $key): mixed
+    public static function inputPost(string $key): mixed
     {
         return $_POST[$key] ?? null;
     }
 
-    public static function imputPostAll(): array
+    public static function inputPostAll(): array
     {
         return $_POST;
     }
 
-    public static function imputGet(?string $key): mixed
+    public static function inputGet(?string $key): mixed
     {
         return $_GET[$key] ?? null;
     }

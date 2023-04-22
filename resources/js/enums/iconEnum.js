@@ -55,6 +55,21 @@ const iconEnum = {
     },
     back() {
         return ['fas', 'angle-left']
-    }
+    },
+    movement() {
+        return ['fas', 'money-bill-transfer']
+    },
+    filterMoney() {
+        return ['fas', 'filter-circle-dollar']
+    },
+    circleArrowDown() {
+        return ['fas', 'circle-arrow-down']
+    },
+    circleArrowUp() {
+        return ['fas', 'circle-arrow-up']
+    },
+    circleArrowRight() {
+        return ['fas', 'circle-arrow-right']
+    },
 }
 export default iconEnum;

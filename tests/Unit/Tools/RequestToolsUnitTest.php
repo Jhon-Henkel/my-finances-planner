@@ -25,14 +25,14 @@ class RequestToolsUnitTest extends TestCase
     {
         $_POST['abc'] = 'def';
 
-        $this->assertEquals('def', RequestTools::imputPost('abc'));
-        $this->assertEquals(null, RequestTools::imputPost('aaa'));
+        $this->assertEquals('def', RequestTools::inputPost('abc'));
+        $this->assertEquals(null, RequestTools::inputPost('aaa'));
     }
 
     public function testImputPostAll()
     {
         $_POST['abc'] = 'def';
-        $post = RequestTools::imputPostAll();
+        $post = RequestTools::inputPostAll();
 
         $this->assertCount(1, $post);
         $this->assertArrayHasKey('abc', $post);
@@ -42,7 +42,7 @@ class RequestToolsUnitTest extends TestCase
     {
         $_GET['jkl'] = 'ert';
 
-        $this->assertEquals('ert', RequestTools::imputGet('jkl'));
-        $this->assertEquals(null, RequestTools::imputGet('aaa'));
+        $this->assertEquals('ert', RequestTools::inputGet('jkl'));
+        $this->assertEquals(null, RequestTools::inputGet('aaa'));
     }
 }

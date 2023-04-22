@@ -2,7 +2,6 @@ import {createRouter, createWebHistory} from "vue-router";
 import PageNotFoundView from "../../vue/view/PageNotFoundView.vue";
 import WalletView from "../../vue/view/wallet/WalletView.vue";
 import DashboardView from "../../vue/view/DashboardView.vue";
-import MovementView from "../../vue/view/MovementView.vue";
 import PanoramView from "../../vue/view/PanoramView.vue";
 import FutureGainView from "../../vue/view/FutureGainView.vue";
 import ConfigurationsView from "../../vue/view/ConfigurationsView.vue";
@@ -12,6 +11,8 @@ import ManageCardsFormView from "../../vue/view/creditCard/ManageCardsFormView.v
 import LoginView from "../../vue/view/login/LoginView.vue";
 import creditCardInvoiceView from "../../vue/view/creditCard/invoice/CreditCardInvoiceView.vue";
 import CreditCardExpenseForm from "../../vue/view/creditCard/expense/CreditCardExpenseForm.vue";
+import movementView from "../../vue/view/movement/MovementView.vue";
+import movementForm from "../../vue/view/movement/MovementForm.vue";
 
 const routes = [
     {
@@ -25,10 +26,24 @@ const routes = [
         component: DashboardView
     },
     {
-        // todo a ideia é essa rota ficar dentro de carteiras
         path: "/movimentacoes",
-        name: "movement",
-        component: MovementView
+        children: [
+            {
+                path: "",
+                name: "movementList",
+                component: movementView
+            },
+            {
+                path: "cadastrar",
+                name: "movementRegister",
+                component: movementForm
+            },
+            {
+                path: ":id/atualizar",
+                name: "movementUpdate",
+                component: movementForm
+            }
+        ]
     },
     {
         path: "/panorama",

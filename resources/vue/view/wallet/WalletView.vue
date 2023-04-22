@@ -10,39 +10,37 @@
                     Nova Carteira
                 </router-link>
             </div>
-            <hr>
-            <div class="mt-4">
-                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                    <thead class="table-dark">
-                    <tr>
-                        <th class="text-center" scope="col">Carteira</th>
-                        <th class="text-center" scope="col">Tipo</th>
-                        <th class="text-center" scope="col">Valor Atual</th>
-                        <th class="text-center" scope="col">Data Criação</th>
-                        <th class="text-center" scope="col">Ações</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="wallet in wallets" :key="wallet.id">
-                        <td class="text-center">{{ wallet.name }}</td>
-                        <td class="text-center">{{ walletEnum.getDescription(wallet.type) }}</td>
-                        <td class="text-center text-red" v-if="wallet.amount < 0" v-tooltip="'Cuidado, valor negativo'">
-                            <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="me-2 icon-alert"/>
-                            {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
-                        </td>
-                        <td class="text-center" v-else>{{ stringTools.formatFloatValueToBrString(wallet.amount) }}</td>
-                        <td class="text-center">{{ calendarTools.convertDateDbToBr(wallet.createdAt, false) }}</td>
-                        <td>
-                            <action-buttons
-                                :delete-tooltip="'Deletar Carteira'"
-                                :tooltip-edit="'Editar Carteira'"
-                                :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
-                                @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+            <hr class="mb-4">
+            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th class="text-center" scope="col">Carteira</th>
+                    <th class="text-center" scope="col">Tipo</th>
+                    <th class="text-center" scope="col">Valor Atual</th>
+                    <th class="text-center" scope="col">Data Criação</th>
+                    <th class="text-center" scope="col">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="wallet in wallets" :key="wallet.id">
+                    <td class="text-center">{{ wallet.name }}</td>
+                    <td class="text-center">{{ walletEnum.getDescription(wallet.type) }}</td>
+                    <td class="text-center text-red" v-if="wallet.amount < 0" v-tooltip="'Cuidado, valor negativo'">
+                        <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="me-2 icon-alert"/>
+                        {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
+                    </td>
+                    <td class="text-center" v-else>{{ stringTools.formatFloatValueToBrString(wallet.amount) }}</td>
+                    <td class="text-center">{{ calendarTools.convertDateDbToBr(wallet.createdAt, false) }}</td>
+                    <td>
+                        <action-buttons
+                            :delete-tooltip="'Deletar Carteira'"
+                            :tooltip-edit="'Editar Carteira'"
+                            :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
+                            @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
             <hr class="mt-4">
             <div class="text-end">
                 <h3>Total: {{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</h3>

@@ -1,14 +1,14 @@
 <template>
     <div>
         <h1>
-            Movimentações View
+            Movement Form
         </h1>
     </div>
 </template>
 
 <script>
     export default {
-        name: "MovementView"
+        name: "MovementForm"
     }
 </script>
 

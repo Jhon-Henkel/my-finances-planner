@@ -44,6 +44,7 @@ class MovementResource extends BasicResource
         $vo = new MovementVO();
         $vo->id = $item->getId();
         $vo->walletId = $item->getWalletId();
+        $vo->walletName = $item->getWalletName();
         $vo->description = $item->getDescription();
         $vo->type = $item->getType();
         $vo->amount = $item->getAmount();

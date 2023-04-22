@@ -41,14 +41,4 @@ class FutureGainController extends BasicController
     {
         return $this->resource;
     }
-
-    /**
-     * @throws Exception
-     */
-    public function renderFutureGainView(): View|App|Factory|AppFoundation
-    {
-        $data = $this->service->getNextSixMonthsGroupByDate();
-        $itensGrouped = $this->service->populateItensForCrud($data);
-        return view(ViewEnum::VIEW_FUTURE_GAIN, ['itens' => $itensGrouped]);
-    }
 }

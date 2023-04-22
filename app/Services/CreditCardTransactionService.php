@@ -42,7 +42,7 @@ class CreditCardTransactionService extends BasicService
 
     public function payInvoice(int $cardId, int $month): bool
     {
-        $date = CalendarTools::mountDateToPayInvoice($month);
+        $date = CalendarTools::mountDateToPayInvoice($month, CalendarTools::getDateNow());
         $expenses = $this->getRepository()->getExpensesByCardIdAndMonth($cardId, $date);
         $allPaid = true;
         foreach ($expenses as $expense) {

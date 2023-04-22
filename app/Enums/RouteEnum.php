@@ -11,6 +11,7 @@ class RouteEnum
     const API_WALLET_UPDATE = 'apiWalletUpdate';
     const API_WALLET_DELETE = 'apiWalletDelete';
     const API_MOVEMENT_INDEX = 'apiMovementIndex';
+    const API_MOVEMENT_INDEX_FILTERED = 'apiMovementIndexFiltered';
     const API_MOVEMENT_SHOW = 'apiMovementShow';
     const API_MOVEMENT_SHOW_TYPE = 'apiMovementShowType';
     const API_MOVEMENT_INSERT = 'apiMovementInsert';
@@ -33,15 +34,4 @@ class RouteEnum
     const WEB_IS_USER_LOGGED = 'webIsUserLogged';
     const WEB_GET_MFP_TOKEN = 'getMfpToken';
     const WEB_MAKE_LOGIN = 'makeLogin';
-    const WEB_DASHBOARD = 'dashboard';
-    const WEB_WALLET = 'wallet';
-    const WEB_NEW_WALLET = 'newWallet';
-    const WEB_UPDATE_WALLET = 'updateWallet';
-    const WEB_DELETE_WALLET = 'deleteWallet';
-    const WEB_MOVEMENT = 'movement';
-    const WEB_DELETE_MOVEMENT = 'deleteMovement';
-    const WEB_INSERT_SPENT = 'insertSpent';
-    const WEB_INSERT_GAIN = 'insertGain';
-    const WEB_INSERT_TRANSFER = 'insertTransfer';
-    const WEB_FUTURE_GAIN = 'futureGain';
 }

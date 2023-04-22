@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use App\DTO\DatePeriodDTO;
 use App\DTO\MovementDTO;
-use App\Enums\DateEnum;
 use App\Enums\MovementEnum;
 use App\Repositories\MovementRepository;
 use App\Tools\CalendarTools;
@@ -31,46 +31,40 @@ class MovementService extends BasicService
         return $this->repository->findAllByType($type);
     }
 
-    public function findByPeriod(int $periodCode): array
+    /**
+     * @param int $filterOption
+     * @return MovementDTO[]
+     */
+    public function findByFilter(int $filterOption): array
     {
-        $period = $this->getDateForFilterPeriod($periodCode);
-        return $this->repository->findByPeriod($period);
+        $filter = $this->getFilter($filterOption);
+        return $this->repository->findByPeriod($filter);
     }
 
-    protected function getDateForFilterPeriod(int $periodCode): array
+    protected function getFilter(int $option): DatePeriodDTO
     {
-        $period = [];
-        $thisMonth = CalendarTools::getThisMonth();
-        $thisYear = CalendarTools::getThisYear();
-        switch ($periodCode) {
-            case MovementEnum::FILTER_LAST_MONTH:
-                $lastMonth = $thisMonth == '01' ? '12' : (int)$thisMonth - 1;
-                $year = $thisMonth == '01' ? (int)$thisYear - 1 : $thisYear;
-                $period[DateEnum::DATE_START_NAME] = $year . '-' . $lastMonth . '-01 00:00:00';
-                $period[DateEnum::DATE_END_NAME] = $year . '-' . $lastMonth . '-31 23:59:59';
-                break;
-            case MovementEnum::FILTER_THIS_YEAR:
-                $period[DateEnum::DATE_START_NAME] = $thisYear . '-01-01 00:00:00';
-                $period[DateEnum::DATE_END_NAME] = $thisYear . '-12-31 23:59:59';
-                break;
-            case MovementEnum::FILTER_ALL:
-                break;
-            case MovementEnum::FILTER_THIS_MONTH:
-            default:
-                $period[DateEnum::DATE_START_NAME] = $thisYear . '-' . $thisMonth . '-01 00:00:00';
-                $period[DateEnum::DATE_END_NAME] = $thisYear . '-' . $thisMonth . '-31 23:59:59';
-            break;
-        }
-        return $period;
+        return match ($option) {
+            MovementEnum::FILTER_BY_LAST_MONTH => $this->getLastMonthPeriod(),
+            MovementEnum::FILTER_BY_THIS_YEAR => $this->getThisYearPeriod(),
+            default => $this->getThisMonthPeriod(),
+        };
     }
 
-    public function insertMovement(MovementDTO $movement): void
+    protected function getLastMonthPeriod(): DatePeriodDTO
     {
-        $this->insert($movement);
-        app(WalletService::class)->updateWalletValue(
-            $movement->getAmount(),
-            $movement->getWalletId(),
-            $movement->getType()
-        );
+        $period = CalendarTools::getLastMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
+        return new DatePeriodDTO($period['start'], $period['end']);
+    }
+
+    protected function getThisYearPeriod(): DatePeriodDTO
+    {
+        $period = CalendarTools::getThisYearPeriod(CalendarTools::getThisYear());
+        return new DatePeriodDTO($period['start'], $period['end']);
+    }
+
+    protected function getThisMonthPeriod(): DatePeriodDTO
+    {
+        $period = CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
+        return new DatePeriodDTO($period['start'], $period['end']);
     }
 }
