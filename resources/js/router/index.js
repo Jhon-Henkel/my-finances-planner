@@ -3,16 +3,17 @@ import PageNotFoundView from "../../vue/view/PageNotFoundView.vue";
 import WalletView from "../../vue/view/wallet/WalletView.vue";
 import DashboardView from "../../vue/view/DashboardView.vue";
 import PanoramView from "../../vue/view/PanoramView.vue";
-import FutureGainView from "../../vue/view/FutureGainView.vue";
 import ConfigurationsView from "../../vue/view/ConfigurationsView.vue";
 import WalletFormView from "../../vue/view/wallet/WalletFormView.vue";
-import manageCardsView from "../../vue/view/creditCard/ManageCardsView.vue";
+import ManageCardsView from "../../vue/view/creditCard/ManageCardsView.vue";
 import ManageCardsFormView from "../../vue/view/creditCard/ManageCardsFormView.vue";
 import LoginView from "../../vue/view/login/LoginView.vue";
-import creditCardInvoiceView from "../../vue/view/creditCard/invoice/CreditCardInvoiceView.vue";
+import CreditCardInvoiceView from "../../vue/view/creditCard/invoice/CreditCardInvoiceView.vue";
 import CreditCardExpenseForm from "../../vue/view/creditCard/expense/CreditCardExpenseForm.vue";
-import movementView from "../../vue/view/movement/MovementView.vue";
-import movementForm from "../../vue/view/movement/MovementForm.vue";
+import MovementView from "../../vue/view/movement/MovementView.vue";
+import MovementForm from "../../vue/view/movement/MovementForm.vue";
+import FutureGainView from "../../vue/view/futureGain/FutureGainView.vue";
+import FutureGainForm from "../../vue/view/futureGain/FutureGainForm.vue";
 
 const routes = [
     {
@@ -31,17 +32,17 @@ const routes = [
             {
                 path: "",
                 name: "movementList",
-                component: movementView
+                component: MovementView
             },
             {
                 path: "cadastrar",
                 name: "movementRegister",
-                component: movementForm
+                component: MovementForm
             },
             {
                 path: ":id/atualizar",
                 name: "movementUpdate",
-                component: movementForm
+                component: MovementForm
             }
         ]
     },
@@ -51,10 +52,24 @@ const routes = [
         component: PanoramView
     },
     {
-        // todo a ideia é essa rota ficar dentro de carteiras
         path: "/ganhos-futuros",
-        name: "futureGain",
-        component: FutureGainView
+        children: [
+            {
+                path: "",
+                name: "futureGainList",
+                component: FutureGainView
+            },
+            {
+                path: "cadastrar",
+                name: "futureGainRegister",
+                component: FutureGainForm
+            },
+            {
+                path: ":id/atualizar",
+                name: "futureGainUpdate",
+                component: FutureGainForm
+            }
+        ]
     },
     {
         path: "/carteiras",
@@ -82,7 +97,7 @@ const routes = [
             {
                 path: "",
                 name: "manageCards",
-                component: manageCardsView
+                component: ManageCardsView
             },
             {
                 path: "cadastrar",
@@ -117,7 +132,7 @@ const routes = [
             {
                 path: ":id",
                 name: "creditCardsInvoices",
-                component: creditCardInvoiceView
+                component: CreditCardInvoiceView
             },
         ]
     },

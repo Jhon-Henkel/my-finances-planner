@@ -71,5 +71,8 @@ const iconEnum = {
     circleArrowRight() {
         return ['fas', 'circle-arrow-right']
     },
+    sackDollar() {
+        return ['fas', 'sack-dollar']
+    },
 }
 export default iconEnum;

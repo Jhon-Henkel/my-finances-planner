@@ -1,14 +1,14 @@
 <template>
     <div>
-        <h1>
-            Ganhos Futuros View
-        </h1>
+        <h3>
+            Desenvolver future gain form
+        </h3>
     </div>
 </template>
 
 <script>
     export default {
-        name: "FutureGainView"
+        name: "FutureGainForm"
     }
 </script>
 

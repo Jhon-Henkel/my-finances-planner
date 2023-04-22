@@ -85,6 +85,15 @@ const apiRouter = {
         logout: async function() {
             return await axios.get('/logout')
         }
+    },
+    futureGain: {
+        getNextSixMonthsGains: async function() {
+            const request = await axios.get('/api/future-gain/next-six-months')
+            return request.data
+        },
+        delete: async function(id) {
+            return await axios.delete('/api/future-gain/' + id)
+        },
     }
 }
 
