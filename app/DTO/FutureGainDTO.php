@@ -10,7 +10,7 @@ class FutureGainDTO
     private float|int $amount;
     private mixed $forecast;
     private mixed $createdAt;
-    private mixed $updateddAt;
+    private mixed $updatedAt;
 
     /**
      * @return int|null
@@ -111,16 +111,16 @@ class FutureGainDTO
     /**
      * @return mixed
      */
-    public function getUpdateddAt(): mixed
+    public function getUpdatedAt(): mixed
     {
-        return $this->updateddAt;
+        return $this->updatedAt;
     }
 
     /**
-     * @param mixed $updateddAt
+     * @param mixed $updatedAt
      */
-    public function setUpdateddAt(mixed $updateddAt): void
+    public function setUpdatedAt(mixed $updatedAt): void
     {
-        $this->updateddAt = $updateddAt;
+        $this->updatedAt = $updatedAt;
     }
 }

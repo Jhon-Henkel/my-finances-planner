@@ -16,7 +16,7 @@ class FutureGainResource extends BasicResource
         $dto->setForecast($item['forecast']);
         $dto->setAmount($item['amount']);
         $dto->setCreatedAt($item['created_at'] ?? null);
-        $dto->setUpdateddAt($item['updated_at'] ?? null);
+        $dto->setUpdatedAt($item['updated_at'] ?? null);
         return $dto;
     }
 

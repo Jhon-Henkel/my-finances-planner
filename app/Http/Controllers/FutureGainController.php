@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ViewEnum;
 use App\Resources\FutureGainResource;
 use App\Services\FutureGainService;
-use Exception;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application as App;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\Foundation\Application as AppFoundation;
 
 class FutureGainController extends BasicController
 {
