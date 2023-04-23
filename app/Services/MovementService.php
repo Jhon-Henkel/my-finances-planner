@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\DatePeriodDTO;
+use App\DTO\FutureGainDTO;
 use App\DTO\MovementDTO;
 use App\Enums\MovementEnum;
 use App\Repositories\MovementRepository;
@@ -66,5 +67,15 @@ class MovementService extends BasicService
     {
         $period = CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
         return new DatePeriodDTO($period['start'], $period['end']);
+    }
+
+    public function populateByFutureGain(FutureGainDTO $gain): MovementDTO
+    {
+        $movement = new MovementDTO();
+        $movement->setWalletId($gain->getWalletId());
+        $movement->setDescription('Recebimento ' . $gain->getDescription());
+        $movement->setType(MovementEnum::GAIN);
+        $movement->setAmount($gain->getAmount());
+        return $movement;
     }
 }

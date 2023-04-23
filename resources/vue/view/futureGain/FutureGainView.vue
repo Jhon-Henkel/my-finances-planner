@@ -41,8 +41,8 @@
                                 :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar'"
                                 :check-button="true"
                                 :check-tooltip="'Marcar próxima como recebido'"
-                                @delete-clicked="deleteGain(gain.id)"
-                                @check-clicked="receiveGain(gain.id)"/>
+                                @delete-clicked="deleteGain(gain.id, gain.name)"
+                                @check-clicked="receiveGain(gain.id, gain.name)"/>
                         </td>
                     </tr>
                     <tr class="text-center border-table">
@@ -143,20 +143,33 @@
                 this.totalPerMonth.sixthMonth = totalPerMonthCount.sixthMonth
                 this.totalPerMonth.total = totalPerMonthCount.total
             },
-            async deleteGain(id) {
-                await ApiRouter.futureGain.delete(id).then(response => {
-                    this.message = 'Ganho deletado com sucesso!'
-                    this.messageType = MessageEnum.messageTypeSuccess()
-                    this.resetMessage()
-                    this.updateFutureGainsList()
-                }).catch(error => {
-                    this.message = 'Não foi possível deletar o ganho!'
-                    this.messageType = MessageEnum.messageTypeError()
-                    this.resetMessage()
-                })
+            async deleteGain(id, gainName) {
+                if(confirm("Tem certeza que realmente quer deletar o ganho " + gainName + '?')) {
+                    await ApiRouter.futureGain.delete(id).then(response => {
+                        this.message = 'Ganho deletado com sucesso!'
+                        this.messageType = MessageEnum.messageTypeSuccess()
+                        this.resetMessage()
+                        this.updateFutureGainsList()
+                    }).catch(error => {
+                        this.message = 'Não foi possível deletar o ganho!'
+                        this.messageType = MessageEnum.messageTypeError()
+                        this.resetMessage()
+                    })
+                }
             },
-            async receiveGain(id) {
-                console.log('desenvolver' + id)
+            async receiveGain(id, gainName) {
+                if(confirm("Voce confirma o recebimento de " + gainName + '?')) {
+                    await ApiRouter.futureGain.receive(id).then(response => {
+                        this.message = 'Ganho recebido com sucesso!'
+                        this.messageType = MessageEnum.messageTypeSuccess()
+                        this.resetMessage()
+                        this.updateFutureGainsList()
+                    }).catch(error => {
+                        this.message = 'Não foi possível receber o ganho!'
+                        this.messageType = MessageEnum.messageTypeError()
+                        this.resetMessage()
+                    })
+                }
             }
         },
         async mounted() {

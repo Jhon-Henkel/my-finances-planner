@@ -3,6 +3,7 @@
 namespace App\Tools;
 
 use App\Enums\DateEnum;
+use DateInterval;
 use DateTime;
 use Exception;
 
@@ -150,5 +151,15 @@ class CalendarTools
         $month = str_pad($month, 2, '0', STR_PAD_LEFT);
         $day = str_pad($day, 2, '0', STR_PAD_LEFT);
         return $year . '-' . $month . '-' . $day . ' ' . $time;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function addMonthInDate(string $date): string
+    {
+        $date = new DateTime($date);
+        return $date->add(new DateInterval('P1M'))
+            ->format(DateEnum::DEFAULT_DB_DATE_FORMAT);
     }
 }
