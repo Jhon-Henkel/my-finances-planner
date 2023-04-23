@@ -96,6 +96,16 @@ const apiRouter = {
         },
         receive: async function(id) {
             return await axios.post('/api/future-gain/' + id + '/receive')
+        },
+        show: async function(id) {
+            const request = await axios.get('/api/future-gain/' + id)
+            return request.data
+        },
+        insert: async function(futureGain) {
+            return await axios.post('/api/future-gain', futureGain)
+        },
+        update: async function(futureGain, id) {
+            return await axios.put('/api/future-gain/' + id, futureGain)
         }
     }
 }

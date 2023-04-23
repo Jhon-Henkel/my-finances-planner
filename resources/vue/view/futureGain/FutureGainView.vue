@@ -5,7 +5,7 @@
             <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
                 <h3 id="title">Ganhos Futuros</h3>
-                <router-link class="btn btn-success rounded-5" to="/movimentacoes/cadastrar">
+                <router-link class="btn btn-success rounded-5" to="/ganhos-futuros/cadastrar">
                     <font-awesome-icon :icon="iconEnum.sackDollar()" class="me-2"/>
                     Novo Ganho Futuro
                 </router-link>
