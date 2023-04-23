@@ -13,96 +13,49 @@
             <hr class="mb-4">
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
-                    <tr>
-                        <th class="text-center">Descrição</th>
-                        <th class="text-center">Carteira</th>
-                        <th class="text-center" scope="col" v-for="(month, index) in months" :key="index">
+                    <tr class="text-center">
+                        <th>Descrição</th>
+                        <th>Carteira</th>
+                        <th scope="col" v-for="(month, index) in months" :key="index">
                             {{ calendarTools.getMonthNameByNumber(month) }}
                         </th>
-                        <th class="text-center">Restam</th>
-                        <th class="text-center">Ações</th>
+                        <th>Restam</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="gain in futureGains" :key="gain.id">
-                        <td class="text-center">{{ gain.name }}</td>
-                        <td class="text-center">{{ gain.countId }}</td>
-                        <td class="text-center">
-                            {{
-                                gain.firstInstallment
-                                    ? StringTools.formatFloatValueToBrString(gain.firstInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{
-                                gain.secondInstallment
-                                    ? StringTools.formatFloatValueToBrString(gain.secondInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{
-                                gain.thirdInstallment
-                                    ? StringTools.formatFloatValueToBrString(gain.thirdInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{
-                                gain.forthInstallment
-                                    ? StringTools.formatFloatValueToBrString(gain.forthInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{
-                                gain.fifthInstallment
-                                    ? StringTools.formatFloatValueToBrString(gain.fifthInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{
-                                gain.sixthInstallment
-                                    ? StringTools.formatFloatValueToBrString(gain.sixthInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{ gain.remainingInstallments === 0 ? 'Fixo' : gain.remainingInstallments }}
-                        </td>
+                    <tr v-for="gain in futureGains" :key="gain.id" class="text-center">
+                        <td>{{ gain.name }}</td>
+                        <td>{{ gain.countId }}</td>
+                        <td>{{ gain.firstInstallment ? StringTools.formatFloatValueToBrString(gain.firstInstallment) : '-' }}</td>
+                        <td>{{ gain.secondInstallment ? StringTools.formatFloatValueToBrString(gain.secondInstallment) : '-' }}</td>
+                        <td>{{ gain.thirdInstallment ? StringTools.formatFloatValueToBrString(gain.thirdInstallment) : '-' }}</td>
+                        <td>{{ gain.forthInstallment ? StringTools.formatFloatValueToBrString(gain.forthInstallment) : '-' }}</td>
+                        <td>{{ gain.fifthInstallment ? StringTools.formatFloatValueToBrString(gain.fifthInstallment) : '-' }}</td>
+                        <td>{{ gain.sixthInstallment ? StringTools.formatFloatValueToBrString(gain.sixthInstallment) : '-' }}</td>
+                        <td>{{ gain.remainingInstallments === 0 ? 'Fixo' : gain.remainingInstallments }}</td>
                         <td class="text-center">
                             <action-buttons
                                 :delete-tooltip="'Deletar Ganho'"
                                 :tooltip-edit="'Editar Ganho'"
                                 :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar'"
-                                @delete-clicked="deleteGain(gain.id)"/>
+                                :check-button="true"
+                                :check-tooltip="'Marcar próxima como recebido'"
+                                @delete-clicked="deleteGain(gain.id)"
+                                @check-clicked="receiveGain(gain.id)"/>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="text-center">Total</td>
-                        <td class="text-center"></td>
-                        <td class="text-center">
-                            {{ StringTools.formatFloatValueToBrString(totalPerMonth.firstMonth) }}
-                        </td>
-                        <td class="text-center">
-                            {{ StringTools.formatFloatValueToBrString(totalPerMonth.secondMonth) }}
-                        </td>
-                        <td class="text-center">
-                            {{ StringTools.formatFloatValueToBrString(totalPerMonth.thirdMonth) }}
-                        </td>
-                        <td class="text-center">
-                            {{ StringTools.formatFloatValueToBrString(totalPerMonth.forthMonth) }}
-                        </td>
-                        <td class="text-center">
-                            {{ StringTools.formatFloatValueToBrString(totalPerMonth.fifthMonth) }}
-                        </td>
-                        <td class="text-center">
-                            {{ StringTools.formatFloatValueToBrString(totalPerMonth.sixthMonth) }}
-                        </td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
+                    <tr class="text-center border-table">
+                        <td>Total</td>
+                        <td></td>
+                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.firstMonth) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.secondMonth) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.thirdMonth) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.forthMonth) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.fifthMonth) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.sixthMonth) }}</td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -201,6 +154,9 @@
                     this.messageType = MessageEnum.messageTypeError()
                     this.resetMessage()
                 })
+            },
+            async receiveGain(id) {
+                console.log('desenvolver' + id)
             }
         },
         async mounted() {
@@ -219,5 +175,7 @@
 </script>
 
 <style scoped>
-
+    .border-table {
+        border-top: 2px solid #096452;
+    }
 </style>

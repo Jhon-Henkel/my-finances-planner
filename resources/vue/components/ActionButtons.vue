@@ -6,6 +6,12 @@
                      v-show="showInfoButton">
             <font-awesome-icon :icon="infoIcon" />
         </router-link>
+        <button class="btn btn-sm btn-success rounded-5 me-1"
+                @click="this.$emit('check-clicked')"
+                v-tooltip="checkTooltip"
+                v-show="checkButton">
+            <font-awesome-icon :icon="checkIcon" />
+        </button>
         <router-link class="btn btn-sm btn-success rounded-5 me-1" :to="editTo" v-tooltip="tooltipEdit">
             <font-awesome-icon :icon="editIcon" />
         </router-link>
@@ -28,7 +34,8 @@
             }
         },
         emits: [
-            'delete-clicked'
+            'delete-clicked',
+            'check-clicked'
         ],
         props: {
             editTo: {
@@ -66,6 +73,18 @@
             infoTooltip: {
                 type: String,
                 default: ''
+            },
+            checkButton: {
+                type: Boolean,
+                default: false
+            },
+            checkTooltip: {
+                type: String,
+                default: ''
+            },
+            checkIcon: {
+                type: Array,
+                default: iconEnum.check()
             }
         },
     }

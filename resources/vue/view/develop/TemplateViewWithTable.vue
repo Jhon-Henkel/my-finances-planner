@@ -13,13 +13,13 @@
             <hr class="mb-4">
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
-                <tr>
-                    <th class="text-center"></th>
-                    <th class="text-center"></th>
+                <tr class="text-center">
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr class="text-center">
                     <td></td>
                     <td>
                         <action-buttons
