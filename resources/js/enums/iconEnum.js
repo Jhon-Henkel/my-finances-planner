@@ -74,5 +74,8 @@ const iconEnum = {
     sackDollar() {
         return ['fas', 'sack-dollar']
     },
+    wrench() {
+        return ['fas', 'wrench']
+    },
 }
 export default iconEnum;

@@ -15,6 +15,8 @@ import MovementForm from "../../vue/view/movement/MovementForm.vue";
 import FutureGainView from "../../vue/view/futureGain/FutureGainView.vue";
 import FutureGainForm from "../../vue/view/futureGain/FutureGainForm.vue";
 import ToolsView from "../../vue/view/tools/ToolsView.vue";
+import SalaryCalculator from "../../vue/view/tools/salaryCalculator/SalaryCalculator.vue";
+import ExtraHoursCalculator from "../../vue/view/tools/extraHoursCalculator/ExtraHoursCalculator.vue";
 
 const routes = [
     {
@@ -144,6 +146,16 @@ const routes = [
                 path: "",
                 name: "tools",
                 component: ToolsView
+            },
+            {
+                path: "calculadora-salario",
+                name: "salaryCalculator",
+                component: SalaryCalculator
+            },
+            {
+                path: "calculadora-horas-extras",
+                name: "extraHoursCalculator",
+                component: ExtraHoursCalculator
             }
         ]
     },
