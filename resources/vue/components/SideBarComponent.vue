@@ -89,7 +89,6 @@
         methods: {
             logout() {
                 apiRouter.userActions.logout().then(() => {
-                    localStorage.removeItem('salutation')
                     this.$router.go('/login');
                 })
             },

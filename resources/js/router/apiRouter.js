@@ -1,9 +1,6 @@
-// todo a forma de buscar o token deve ser diferente
-window.axios.defaults.headers.common['mfp-token'] = await axios.get('/get-mfp-token').then((response) => {
-    return response.data.mfpToken
-}).catch(() => {
-    return '';
-})
+import RequestTools from "../tools/requestTools";
+
+window.axios.defaults.headers.common['mfp-token'] = await RequestTools.token.getMfpToken()
 
 const apiRouter = {
     wallet: {
@@ -83,6 +80,8 @@ const apiRouter = {
     },
     userActions: {
         logout: async function() {
+            localStorage.removeItem('mfp_token')
+            localStorage.removeItem('salutation')
             return await axios.get('/logout')
         }
     },
