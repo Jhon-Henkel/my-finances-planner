@@ -11,7 +11,7 @@
                         <div class="form-group">
                             <label class="form-label" for="gain-description">
                                 Descrição
-                            </label>Expense
+                            </label>
                             <input type="text"
                                    class="form-control"
                                    v-model="gain.description"

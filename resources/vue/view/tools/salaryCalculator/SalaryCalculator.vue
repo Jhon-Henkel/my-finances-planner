@@ -1,12 +1,85 @@
 <template>
-    <div>
-        <h3>Desenvolver calculadora de salário</h3>
+    <div class="base-container">
+        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <div v-show="loadingDone">
+            <div class="nav mt-2 justify-content-end">
+                <h3 id="title">Calculadora de Salário</h3>
+                <router-link class="btn btn-success rounded-5" to="/ferramentas">
+                    <font-awesome-icon :icon="iconEnum.back()" class="me-2"/>
+                    Voltar
+                </router-link>
+            </div>
+            <hr class="mb-4">
+            <form>
+                <input-money :value="calculate.amount"
+                             :title="'Ultimo Salario Liquido'"
+                             @input-money="calculate.salary = $event"/>
+                <div class="row justify-content-center mt-3 mb-4">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label" for="calculate-days-worked">
+                                Dias Trabalhados
+                            </label>
+                            <input type="number"
+                                   class="form-control"
+                                   v-model="calculate.workDays"
+                                   id="calculate-days-worked"
+                                   required
+                                   min="1"
+                                   max="31">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr class="mb-4">
+            <div class="text-center">
+                <h3>
+                    Voce vai receber aproximadamente:
+                    {{ StringTools.formatFloatValueToBrString((calculate.salary/30)*calculate.workDays) }}
+                </h3>
+                <p>
+                    <span class="text-red">*</span>
+                    Não está sendo considerado descontos de INSS, IRPF e outros.
+                    <br>
+                    <span class="text-red">*</span>
+                    Fórmula da conta: (salario/30) * dias.
+                </p>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import LoadingComponent from "../../../components/LoadingComponent.vue";
+    import iconEnum from "../../../../js/enums/iconEnum";
+    import InputMoney from "../../../components/inputMoneyComponent.vue";
+    import StringTools from "../../../../js/tools/stringTools";
+    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+
     export default {
-        name: "SalaryCalculator"
+        name: "SalaryCalculator",
+        computed: {
+            StringTools() {
+                return StringTools
+            },
+            iconEnum() {
+                return iconEnum
+            }
+        },
+        components: {
+            FontAwesomeIcon,
+            InputMoney,
+            LoadingComponent
+        },
+        data() {
+            return {
+                loadingDone: false,
+                calculate: {
+                    salary: 0,
+                    workDays: 30,
+                }
+            }
+        }
     }
 </script>
 
