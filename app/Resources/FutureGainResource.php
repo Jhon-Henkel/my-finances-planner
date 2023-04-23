@@ -5,7 +5,6 @@ namespace App\Resources;
 use App\DTO\FutureGainDTO;
 use App\DTO\InvoiceItemDTO;
 use App\Enums\BasicFieldsEnum;
-use App\Enums\DateEnum;
 use App\VO\FutureGainVO;
 
 class FutureGainResource extends BasicResource

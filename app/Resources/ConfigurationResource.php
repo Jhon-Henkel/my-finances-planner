@@ -30,18 +30,6 @@ class ConfigurationResource extends BasicResource
 
     public function dtoToVo($item)
     {
-
-    }
-
-    public function arrayToDtoItens(null|array $itens): mixed
-    {
-        if (!$itens) {
-            return array();
-        }
-        $itensResourced = array();
-        foreach ($itens as $item) {
-            $itensResourced[] = $this->arrayToDto($item);
-        }
-        return reset($itensResourced);
+        throw new \Exception('Not implemented');
     }
 }

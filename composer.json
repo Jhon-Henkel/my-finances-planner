@@ -55,7 +55,7 @@
         "migration:rollback": "php artisan migrate:rollback",
         "migration:status": "php artisan migrate:status",
         "cache:clear": "php artisan cache:clear",
-        "help": "php artisan list"
+        "help:artisan": "php artisan list"
     },
     "extra": {
         "laravel": {

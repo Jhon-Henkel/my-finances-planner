@@ -24,5 +24,8 @@
     <include>
       <directory suffix=".php">./app</directory>
     </include>
+    <exclude>
+      <directory suffix=".php">app/Models</directory>
+    </exclude>
   </source>
 </phpunit>

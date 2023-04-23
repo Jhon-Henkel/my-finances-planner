@@ -20,7 +20,7 @@ abstract class BasicResource implements BasicResourceContract
         return $itensResourced;
     }
 
-    public function arrayToDtoItens(null|array $itens): mixed
+    public function arrayToDtoItens(null|array $itens): array
     {
         if (!$itens) {
             return array();
