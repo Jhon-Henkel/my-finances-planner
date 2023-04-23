@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\ConfigEnum;
 use App\Repositories\ConfigurationRepository;
 
 class ConfigurationService extends BasicService
@@ -21,6 +20,8 @@ class ConfigurationService extends BasicService
 
     public function findConfigValue(string $configName): mixed
     {
-        return $this->repository->findByName($configName)->getValue();
+        $config = $this->repository->findByName($configName);
+        $config = reset($config);
+        return $config->getValue();
     }
 }
