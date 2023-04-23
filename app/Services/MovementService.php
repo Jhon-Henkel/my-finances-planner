@@ -73,6 +73,7 @@ class MovementService extends BasicService
     {
         $movement = new MovementDTO();
         $movement->setWalletId($gain->getWalletId());
+        // todo adicionar o nome do mês do ganho na descrição
         $movement->setDescription('Recebimento ' . $gain->getDescription());
         $movement->setType(MovementEnum::GAIN);
         $movement->setAmount($gain->getAmount());
