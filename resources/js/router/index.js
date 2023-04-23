@@ -14,6 +14,7 @@ import MovementView from "../../vue/view/movement/MovementView.vue";
 import MovementForm from "../../vue/view/movement/MovementForm.vue";
 import FutureGainView from "../../vue/view/futureGain/FutureGainView.vue";
 import FutureGainForm from "../../vue/view/futureGain/FutureGainForm.vue";
+import ToolsView from "../../vue/view/tools/ToolsView.vue";
 
 const routes = [
     {
@@ -134,6 +135,16 @@ const routes = [
                 name: "creditCardsInvoices",
                 component: CreditCardInvoiceView
             },
+        ]
+    },
+    {
+        path: "/ferramentas",
+        children: [
+            {
+                path: "",
+                name: "tools",
+                component: ToolsView
+            }
         ]
     },
     {

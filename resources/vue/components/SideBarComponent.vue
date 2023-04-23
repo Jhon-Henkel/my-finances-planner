@@ -1,6 +1,4 @@
 <template>
-    <!-- todo efeito de empurrar view quando abre a sidebar foi perdido, e no recolher está não centraliza corretamente o conteúdo do container -->
-    <!-- todo transição dos textos ao abrir e fechar a sidebar está estranho -->
     <div class="sidebar glass" :class="isOpened ? 'open' : ''">
         <div class="sidebar-header">
             <div class="salutation">
@@ -74,6 +72,11 @@
                         title: 'Gerenciar Cartões',
                         icon: 'bx bxs-credit-card me-2',
                         to: '/gerenciar-cartoes'
+                    },
+                    {
+                        title: 'Ferramentas',
+                        icon: 'bx bxs-wrench me-2',
+                        to: '/ferramentas'
                     },
                     {
                         title: 'Configurações',
