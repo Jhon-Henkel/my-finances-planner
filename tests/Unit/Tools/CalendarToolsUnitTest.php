@@ -198,35 +198,6 @@ class CalendarToolsUnitTest extends TestCase
     }
 
     /**
-     * @dataProvider dataProviderTestGetNextInstallment
-     * @param $expected
-     * @param $date
-     * @return void
-     */
-    public function testGetNextInstallment($expected, $date)
-    {
-        $this->assertEquals($expected, CalendarTools::getNextInstallment($date));
-    }
-
-    public static function dataProviderTestGetNextInstallment(): array
-    {
-        return [
-            "ActualMonthJanuaryTest" => ["expected" => "2022-2", "date" => "2022-1"],
-            "ActualMonthFebruaryTest" => ["expected" => "2022-3", "date" => "2022-2"],
-            "ActualMonthMarchTest" => ["expected" => "2022-4", "date" => "2022-3"],
-            "ActualMonthAprilTest" => ["expected" => "2022-5", "date" => "2022-4"],
-            "ActualMonthMayTest" => ["expected" => "2022-6", "date" => "2022-5"],
-            "ActualMonthJuneTest" => ["expected" => "2022-7", "date" => "2022-6"],
-            "ActualMonthJulyTest" => ["expected" => "2022-8", "date" => "2022-7"],
-            "ActualMonthAugustTest" => ["expected" => "2022-9", "date" => "2022-8"],
-            "ActualMonthSeptemberTest" => ["expected" => "2022-10", "date" => "2022-9"],
-            "ActualMonthOctoberTest" => ["expected" => "2022-11", "date" => "2022-10"],
-            "ActualMonthNovemberTest" => ["expected" => "2022-12", "date" => "2022-11"],
-            "ActualMonthDecemberTest" => ["expected" => "2023-1", "date" => "2022-12"],
-        ];
-    }
-
-    /**
      * @dataProvider dataProviderTestGetThisMonthPeriod
      * @param $expectedDateStart
      * @param $expectedDateEnd
@@ -296,35 +267,6 @@ class CalendarToolsUnitTest extends TestCase
             "OctoberTest" => ["expectedDateStart" => "2022-09-01 00:00:00", "expectedDateEnd" => "2022-09-30 23:59:59", "month" => "10", "year" => "2022"],
             "NovemberTest" => ["expectedDateStart" => "2022-10-01 00:00:00", "expectedDateEnd" => "2022-10-31 23:59:59", "month" => "11", "year" => "2022"],
             "DecemberTest" => ["expectedDateStart" => "2022-11-01 00:00:00", "expectedDateEnd" => "2022-11-30 23:59:59", "month" => "12", "year" => "2022"],
-        ];
-    }
-
-    /**
-     * @dataProvider dataProviderTestMountDateToPayInvoice
-     * @return void
-     */
-    public function testMountDateToPayInvoice($expected, $month, $now)
-    {
-        $date = CalendarTools::mountDateToPayInvoice($month, $now);
-        $this->assertEquals($expected, $date);
-    }
-
-    public static function dataProviderTestMountDateToPayInvoice(): array
-    {
-        return [
-            "ThisYearJanuaryTest" => ["expected" => "2022-1", "month" => "1", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearFebruaryTest" => ["expected" => "2022-2", "month" => "2", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearMarchTest" => ["expected" => "2022-3", "month" => "3", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearAprilTest" => ["expected" => "2022-4", "month" => "4", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearMayTest" => ["expected" => "2022-5", "month" => "5", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearJuneTest" => ["expected" => "2022-6", "month" => "6", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearJulyTest" => ["expected" => "2022-7", "month" => "7", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearAugustTest" => ["expected" => "2022-8", "month" => "8", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearSeptemberTest" => ["expected" => "2022-9", "month" => "9", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearOctoberTest" => ["expected" => "2022-10", "month" => "10", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearNovemberTest" => ["expected" => "2022-11", "month" => "11", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "ThisYearDecemberTest" => ["expected" => "2022-12", "month" => "12", "now" => new \DateTime("2022-01-01 00:00:00")],
-            "NextYearTest" => ["expected" => "2023-1", "month" => "1", "now" => new \DateTime("2022-12-01 00:00:00")],
         ];
     }
 

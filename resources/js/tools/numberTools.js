@@ -27,6 +27,7 @@ const numberTools = {
         let forthMonth = 0
         let fifthMonth = 0
         let sixthMonth = 0
+        let totalRemaining = 0
         let total = 0
         invoiceItem.forEach(item => {
             if (item.firstInstallment) {
@@ -53,6 +54,9 @@ const numberTools = {
                 sixthMonth = sixthMonth + item.sixthInstallment
                 total = total + item.sixthInstallment
             }
+            if (item.totalRemainingValue) {
+                totalRemaining = totalRemaining + item.totalRemainingValue
+            }
         })
         return {
             firstMonth: firstMonth,
@@ -61,6 +65,7 @@ const numberTools = {
             forthMonth: forthMonth,
             fifthMonth: fifthMonth,
             sixthMonth: sixthMonth,
+            totalRemaining: totalRemaining,
             total: total
         }
     },

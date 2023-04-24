@@ -31,18 +31,4 @@ class CreditCardTransactionRepository extends BasicRepository
     {
         return $this->getModel()->where(BasicFieldsEnum::CREDIT_CARD_ID_DB, $cardId)->get()->toArray();
     }
-
-    public function getExpensesByCardIdAndMonth(int $cardId, string $nextInstallment): array
-    {
-        return $this->getModel()
-            ->where(BasicFieldsEnum::CREDIT_CARD_ID_DB, '=', $cardId)
-            ->where(BasicFieldsEnum::NEXT_INSTALLMENT_DB, '=', $nextInstallment)
-            ->get()
-            ->toArray();
-    }
-
-    public function payExpense($transaction): bool
-    {
-        return $this->getModel()->where(BasicFieldsEnum::ID, $transaction[BasicFieldsEnum::ID])->update($transaction);
-    }
 }

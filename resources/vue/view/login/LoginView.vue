@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <div class="card text-center login-box glass">
-            <mfp-title :title="'Login'"/>
+            <mfp-title class="title" :title="'Login'"/>
             <div class="card-body">
                 <hr v-show="messageLogin">
                 <message :message="messageLogin" :type="messageLoginType" v-show="messageLogin"/>
@@ -128,7 +128,8 @@
         margin: 0 20px 25px 20px;
     }
     .title {
-        margin-top: 20px;
+        padding: 0;
+        margin: 10px 0 0;
     }
     .login-box {
         width: 30rem;

@@ -96,17 +96,6 @@ class CalendarTools
         return $year . '-' . $month;
     }
 
-    public static function getNextInstallment(string $installmentDate): string
-    {
-        $explodeDate = explode('-', $installmentDate);
-        $year = (int)$explodeDate[0];
-        $month = (int)$explodeDate[1];
-        if ($month == DateEnum::DECEMBER_MONTH_NUMBER) {
-            return ($year + 1) . '-' . DateEnum::JANUARY_MONTH_NUMBER;
-        }
-        return $year . '-' . ($month + 1);
-    }
-
     public static function getThisMonthPeriod(int $thisMonth, int $thisYear): array
     {
         $startDate = self::mountStringDateTime($thisYear, $thisMonth, 1, '00:00:00');

@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Enums\BasicFieldsEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\CreditCardTransactionRepository;
 use App\Resources\CreditCardResource;
 use App\Tools\CalendarTools;
 use App\VO\InvoiceVO;
+use Exception;
 
 class CreditCardTransactionService extends BasicService
 {
@@ -26,6 +26,62 @@ class CreditCardTransactionService extends BasicService
     }
 
     /**
+     * @throws Exception
+     */
+    public function payInvoice(int $cardId, int $walletId): bool
+    {
+        $invoices = $this->getInvoices($cardId);
+        $totalValue = 0;
+        $launchMovementAndUpdateWallet = false;
+        $installment = $this->getNextInstallmentOrder($invoices);
+        foreach ($invoices as $invoice) {
+            if (! $invoice->$installment){
+                continue;
+            }
+            $launchMovementAndUpdateWallet = true;
+            $totalValue += $invoice->$installment;
+            $transaction = $this->findById($invoice->id);
+            $remainingInstallments = $transaction->getInstallments() - 1;
+            if ($remainingInstallments === 0) {
+                $this->deleteById($transaction->getId());
+            } else {
+                $transaction->setInstallments($remainingInstallments < 0 ? 0 : $transaction->getInstallments() - 1);
+                $transaction->setNextInstallment(CalendarTools::addMonthInDate($transaction->getNextInstallment(), 1));
+                $this->update($transaction->getId(), $transaction);
+            }
+        }
+        if (! $launchMovementAndUpdateWallet) {
+            return false;
+        }
+        $card = app(CreditCardService::class)->getRepository()->findById($cardId);
+        app(MovementService::class)->launchMovementForCreditCardInvoicePay($walletId, $totalValue, $card->getName());
+        return true;
+    }
+
+    /**
+     * @param InvoiceVO[] $invoices
+     * @return string
+     */
+    protected function getNextInstallmentOrder(array $invoices): string
+    {
+        foreach ($invoices as $invoice) {
+            if ($invoice->firstInstallment){
+                return 'firstInstallment';
+            } elseif ($invoice->secondInstallment){
+                return 'secondInstallment';
+            } elseif ($invoice->thirdInstallment){
+                return 'thirdInstallment';
+            } elseif ($invoice->forthInstallment){
+                return 'forthInstallment';
+            } elseif ($invoice->fifthInstallment){
+                return 'fifthInstallment';
+            } elseif ($invoice->sixthInstallment){
+                return 'sixthInstallment';
+            }
+        }
+    }
+
+    /**
      * @param int $cardId
      * @return InvoiceVO[]
      */
@@ -38,23 +94,5 @@ class CreditCardTransactionService extends BasicService
             $invoices[] = InvoiceFactory::factoryInvoice($expenseDTO, CalendarTools::getThisMonth());
         }
         return $invoices;
-    }
-
-    public function payInvoice(int $cardId, int $month): bool
-    {
-        $date = CalendarTools::mountDateToPayInvoice($month, CalendarTools::getDateNow());
-        $expenses = $this->getRepository()->getExpensesByCardIdAndMonth($cardId, $date);
-        $allPaid = true;
-        foreach ($expenses as $expense) {
-            $nextInstallment = CalendarTools::getNextInstallment($expense[BasicFieldsEnum::NEXT_INSTALLMENT_DB]);
-            $expense[BasicFieldsEnum::NEXT_INSTALLMENT_DB] = $nextInstallment;
-            if (! $this->getRepository()->payExpense($expense)) {
-                $allPaid = false;
-            }
-            if (! $allPaid) {
-                break;
-            }
-        }
-        return $allPaid;
     }
 }

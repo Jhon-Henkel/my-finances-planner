@@ -76,7 +76,6 @@ class MovementService extends BasicService
     {
         $movement = new MovementDTO();
         $movement->setWalletId($gain->getWalletId());
-        // todo adicionar o nome do mês do ganho na descrição
         $movement->setDescription('Recebimento ' . $gain->getDescription());
         $movement->setType(MovementEnum::GAIN);
         $movement->setAmount($gain->getAmount());
@@ -133,6 +132,17 @@ class MovementService extends BasicService
     {
         $movement = $this->resource->populateMovementForWalletUpdate($value, $walletId);
         $this->getRepository()->insert($movement);
+        return true;
+    }
+
+    public function launchMovementForCreditCardInvoicePay(int $walletId, float $totalValue, string $cardName): bool
+    {
+        $movement = new MovementDTO();
+        $movement->setWalletId($walletId);
+        $movement->setDescription('Pagamento de fatura do cartão de crédito ' . $cardName);
+        $movement->setType(MovementEnum::SPENT);
+        $movement->setAmount($totalValue);
+        $this->insert($movement);
         return true;
     }
 }

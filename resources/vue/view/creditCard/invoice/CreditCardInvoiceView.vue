@@ -1,81 +1,43 @@
 <template>
     <div class="base-container">
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false"
+                           @loading-done="loadingDone = true"
+                           :time="calendarTools.fiveHundredMs()"/>
         <div v-show="loadingDone">
             <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="title"/>
-                <router-link class="btn btn-success rounded-5 me-2" to="/gerenciar-cartoes">
-                    <font-awesome-icon :icon="iconEnum.back()" class="me-2"/>
-                    Voltar
-                </router-link>
-                <router-link class="btn btn-success rounded-5" to="/gerenciar-cartoes/despesa/cadastrar">
-                    <font-awesome-icon :icon="iconEnum.expense()" class="me-2"/>
-                    Nova despesa
-                </router-link>
+                <router-link-button title="Voltar" :icon="iconEnum.back()"
+                                    redirect-to="/gerenciar-cartoes"
+                                    class="me-2"/>
+                <router-link-button title="Nova despesa"
+                                    :icon="iconEnum.expense()"
+                                    redirect-to="/gerenciar-cartoes/despesa/cadastrar"/>
             </div>
             <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                <thead class="table-dark">
-                <tr>
-                    <th class="text-center" scope="col">Descrição</th>
-                    <th class="text-center" scope="col" v-for="(month, index) in months" :key="index">
-                        {{ calendarTools.getMonthNameByNumber(month) }}
-                    </th>
-                    <th class="text-center" scope="col">Restam</th>
-                    <th class="text-center" scope="col">Valor restante</th>
-                    <th class="text-center" scope="col">Ações</th>
-                </tr>
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th scope="col">Descrição</th>
+                        <th scope="col" v-for="(month, index) in months" :key="index">
+                            {{ calendarTools.getMonthNameByNumber(month) }}
+                        </th>
+                        <th scope="col">Restam</th>
+                        <th scope="col">Valor restante</th>
+                        <th scope="col">Ações</th>
+                    </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
                     <tr v-for="expense in invoices" :key="expense.id">
-                        <td class="text-center">{{ expense.name }}</td>
-                        <td class="text-center">
-                            {{
-                                expense.firstInstallment
-                                    ? StringTools.formatFloatValueToBrString(expense.firstInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{
-                                expense.secondInstallment
-                                    ? StringTools.formatFloatValueToBrString(expense.secondInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{
-                                expense.thirdInstallment
-                                    ? StringTools.formatFloatValueToBrString(expense.thirdInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{
-                                expense.forthInstallment
-                                    ? StringTools.formatFloatValueToBrString(expense.forthInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{
-                                expense.fifthInstallment
-                                    ? StringTools.formatFloatValueToBrString(expense.fifthInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">
-                            {{
-                                expense.sixthInstallment
-                                    ? StringTools.formatFloatValueToBrString(expense.sixthInstallment)
-                                    : '-'
-                            }}
-                        </td>
-                        <td class="text-center">{{ expense.remainingInstallments + ' Parcelas' }}</td>
-                        <td class="text-center">
-                            {{ StringTools.formatFloatValueToBrString(expense.totalRemainingValue) }}
-                        </td>
+                        <td>{{ expense.name }}</td>
+                        <td>{{ expense.firstInstallment ? formatValueToBr(expense.firstInstallment) : '-' }}</td>
+                        <td>{{ expense.secondInstallment ? formatValueToBr(expense.secondInstallment) : '-' }}</td>
+                        <td>{{ expense.thirdInstallment ? formatValueToBr(expense.thirdInstallment) : '-' }}</td>
+                        <td>{{ expense.forthInstallment ? formatValueToBr(expense.forthInstallment) : '-' }}</td>
+                        <td>{{ expense.fifthInstallment ? formatValueToBr(expense.fifthInstallment) : '-' }}</td>
+                        <td>{{ expense.sixthInstallment ? formatValueToBr(expense.sixthInstallment) : '-' }}</td>
+                        <td>{{ expense.remainingInstallments === 0 ? 'Fixa' : expense.remainingInstallments + ' Parcelas' }}</td>
+                        <td>{{ expense.remainingInstallments === 0 ? 'Fixa' : formatValueToBr(expense.totalRemainingValue) }}</td>
                         <td>
                             <action-buttons :delete-tooltip="'Deletar Fatura'"
                                             :tooltip-edit="'Editar Fatura'"
@@ -83,22 +45,41 @@
                                             @delete-clicked="deleteExpense(expense.id, expense.name)"/>
                         </td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <!-- todo aparecer somente na fatura do mês -->
-                        <td v-for="(month, index) in months" :key="index">
-                            <button class="btn btn-full btn-success rounded-5" @click="payInvoice(month)">
-                                <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
-                                Pagar
-                            </button>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr class="border-table">
+                        <td>Total</td>
+                        <td>{{ formatValueToBr(totalPerMonth.firstMonth) }}</td>
+                        <td>{{ formatValueToBr(totalPerMonth.secondMonth) }}</td>
+                        <td>{{ formatValueToBr(totalPerMonth.thirdMonth) }}</td>
+                        <td>{{ formatValueToBr(totalPerMonth.forthMonth) }}</td>
+                        <td>{{ formatValueToBr(totalPerMonth.fifthMonth) }}</td>
+                        <td>{{ formatValueToBr(totalPerMonth.sixthMonth) }}</td>
+                        <td>-</td>
+                        <td>{{ formatValueToBr(totalPerMonth.totalRemaining) }}</td>
+                        <td>-</td>
                     </tr>
                 </tbody>
             </table>
             <divider/>
+            <div>
+                <div class="input-group mb-3">
+                    <button class="btn btn-success"
+                            :class="showPayInvoice ? '' : 'rounded-5'"
+                            @click="showPayInvoice = !showPayInvoice">
+                        <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
+                        Pagar próxima fatura
+                    </button>
+                    <select class="form-select" id="pay-invoice" v-model="walletId" v-show="showPayInvoice" required>
+                        <option value="0" disabled>Selecione a carteira</option>
+                        <option v-for="wallet in wallets" :key="wallet.id" :value="wallet.id" @change="walletId = $event">
+                            {{ wallet.name }}
+                        </option>
+                    </select>
+                    <button class="btn btn-success" type="button" v-show="showPayInvoice" @click="payNextInvoice">
+                        <font-awesome-icon :icon="iconEnum.check()" class="me-2"/>
+                        Pagar
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -116,6 +97,8 @@
     import {HttpStatusCode} from "axios";
     import Divider from "../../../components/DividerComponent.vue";
     import MfpTitle from "../../../components/TitleComponent.vue";
+    import NumberTools from "../../../../js/tools/numberTools";
+    import RouterLinkButton from "../../../components/RouterLinkButtonComponent.vue";
 
     export default {
         name: "CreditCardInvoiceView",
@@ -131,6 +114,7 @@
             }
         },
         components: {
+            RouterLinkButton,
             MfpTitle,
             Divider,
             ActionButtons,
@@ -140,14 +124,27 @@
         data() {
             return {
                 invoices: {},
-                title: null,
+                title: '',
                 loadingDone: false,
                 message: null,
+                walletId: 0,
                 messageType: null,
                 thisMonth: null,
                 cardId: null,
                 months: [],
-                messageTimeOut: CalendarTools.fiveHundredMs()
+                wallets:{},
+                showPayInvoice: false,
+                messageTimeOut: CalendarTools.fiveSecondsTimeInMs(),
+                totalPerMonth: {
+                    firstMonth: 0,
+                    secondMonth: 0,
+                    thirdMonth: 0,
+                    forthMonth: 0,
+                    fifthMonth: 0,
+                    sixthMonth: 0,
+                    totalRemaining: 0,
+                    total: 0
+                },
             }
         },
         methods: {
@@ -156,47 +153,67 @@
                     await apiRouter.cards.invoices.delete(id)
                     this.message = 'Despesa deletada com sucesso!'
                     this.messageType = messageEnum.messageTypeSuccess()
-                    this.invoices = await apiRouter.cards.invoices.index(11)
+                    this.invoices = await apiRouter.cards.invoices.index(this.cardId)
+                    this.calculateTotalPerMonth()
                     this.resetMessage()
                 }
             },
+            calculateTotalPerMonth() {
+                let totalPerMonthCount = NumberTools.calculateTotalPerMonthInvoiceItem(this.invoices)
+                this.totalPerMonth.firstMonth = totalPerMonthCount.firstMonth
+                this.totalPerMonth.secondMonth = totalPerMonthCount.secondMonth
+                this.totalPerMonth.thirdMonth = totalPerMonthCount.thirdMonth
+                this.totalPerMonth.forthMonth = totalPerMonthCount.forthMonth
+                this.totalPerMonth.fifthMonth = totalPerMonthCount.fifthMonth
+                this.totalPerMonth.sixthMonth = totalPerMonthCount.sixthMonth
+                this.totalPerMonth.totalRemaining = totalPerMonthCount.totalRemaining
+                this.totalPerMonth.total = totalPerMonthCount.total
+            },
             resetMessage() {
-                $(window).scrollTop(0, 0)
                 setTimeout(() =>
-                        [this.message = null, this.messageType = null],
+                    [this.message = null, this.messageType = null],
                     this.messageTimeOut
                 )
             },
-            async payInvoice(month) {
-                // todo desenvolver após ter as transações por carteira
-                // todo deve selecionar qual a carteira vai ser lançada a transação
-                // todo talvez deva ser uma modal
-                if (confirm('Deseja realmente pagar a fatura do mês ' + calendarTools.getMonthNameByNumber(month) + '?')) {
-                    await apiRouter.cards.invoices.payInvoice(month, this.cardId).then(async (response) => {
-                        if (response.status === HttpStatusCode.Ok) {
-                            this.message = 'Fatura paga com sucesso!'
-                            this.messageType = messageEnum.messageTypeSuccess()
-                            this.invoices = await apiRouter.cards.invoices.index(this.cardId)
-                            this.resetMessage()
-                        } else {
+            async payNextInvoice() {
+                if (this.walletId === 0) {
+                    this.message = 'Selecione uma carteira!'
+                    this.messageType = messageEnum.messageTypeError()
+                    this.resetMessage()
+                    return
+                }
+                if (confirm('Deseja realmente pagar a próxima fatura ?')) {
+                    await apiRouter.cards.invoices.payInvoice(this.walletId, this.cardId).then(async (response) => {
+                        if (response.status !== HttpStatusCode.Ok) {
                             this.message = 'Erro ao pagar fatura!'
                             this.messageType = messageEnum.messageTypeError()
                             this.resetMessage()
+                            return
                         }
-                    }).catch((error) => {
+                        this.message = 'Fatura paga com sucesso!'
+                        this.messageType = messageEnum.messageTypeSuccess()
+                        this.invoices = await apiRouter.cards.invoices.index(this.cardId)
+                        this.calculateTotalPerMonth()
+                        this.resetMessage()
+                    }).catch(() => {
                         this.message = 'Erro ao pagar fatura!'
                         this.messageType = messageEnum.messageTypeError()
                         this.resetMessage()
                     })
                 }
-            }
+            },
+            formatValueToBr(value) {
+                return StringTools.formatFloatValueToBrString(value)
+            },
         },
         async mounted() {
-            // todo 'Fatura ' + nome do cartão
-            this.title = 'Fatura';
             this.cardId = this.$route.params.id
+            this.wallets = await apiRouter.wallet.index()
+            this.card = await apiRouter.cards.show(this.cardId)
+            this.title = 'Fatura ' + this.card.name
             this.invoices = await apiRouter.cards.invoices.index(this.cardId)
             this.thisMonth = CalendarTools.getThisMonth()
+            this.calculateTotalPerMonth()
             this.months = [
                 this.thisMonth,
                 this.thisMonth + 1,
@@ -210,8 +227,7 @@
 </script>
 
 <style scoped>
-    .btn-full {
-        width: 100%;
-        height: 25px;
+    .border-table {
+        border-top: 2px solid #096452;
     }
 </style>

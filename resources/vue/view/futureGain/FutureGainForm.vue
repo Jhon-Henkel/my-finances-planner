@@ -72,13 +72,8 @@
                             <label class="form-label" for="gain-wallet">
                                 Carteira
                             </label>
-                            <select class="form-select"
-                                    v-model="gain.walletId"
-                                    id="gain-wallet"
-                                    required>
-                                <option v-for="wallet in wallets"
-                                        :key="wallet.id"
-                                        :value="wallet.id">
+                            <select class="form-select" v-model="gain.walletId" id="gain-wallet" required>
+                                <option v-for="wallet in wallets" :key="wallet.id" :value="wallet.id">
                                     {{ wallet.name }}
                                 </option>
                             </select>

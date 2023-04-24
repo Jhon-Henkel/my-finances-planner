@@ -61,7 +61,7 @@
             </table>
             <divider/>
             <div class="text-end">
-                <h3>Total previsto: {{ StringTools.formatFloatValueToBrString(totalPerMonth.total) }}</h3>
+                <h3>Total previsto no período: {{ StringTools.formatFloatValueToBrString(totalPerMonth.total) }}</h3>
             </div>
         </div>
     </div>

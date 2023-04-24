@@ -45,8 +45,8 @@ const apiRouter = {
                 const request = await axios.get('/api/credit-card/' + cardId + '/invoices')
                 return request.data
             },
-            payInvoice: async function(month, cardId) {
-                return await axios.put('/api/credit-card/' + cardId + '/invoices/' + month)
+            payInvoice: async function(walletId, cardId) {
+                return await axios.put('/api/credit-card/' + cardId + '/invoices/' + walletId)
             }
         }
     },

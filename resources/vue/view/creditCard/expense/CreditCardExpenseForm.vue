@@ -27,16 +27,11 @@
                             <label class="form-label" for="expense-first-installment">
                                 Primeira Parcela
                             </label>
-                            <select class="form-select"
-                                    v-model="expense.nextInstallment"
-                                    id="expense-first-installment"
-                                    required>
-                                <option v-for="(date, index) in nextThreeMonthsWithYear"
-                                        :key="index"
-                                        :value="date.year + '-' + date.month">
-                                    {{ CalendarTools.getMonthNameByNumber(date.month) + ' - ' + date.year }}
-                                </option>
-                            </select>
+                            <input type="date"
+                                   class="form-control"
+                                   v-model="expense.nextInstallment"
+                                   id="expense-first-installment"
+                                   required>
                         </div>
                     </div>
                 </div>
