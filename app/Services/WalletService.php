@@ -41,4 +41,15 @@ class WalletService extends BasicService
         $wallet->setAmount($amount);
         $this->update($walletId, $wallet);
     }
+
+    public function update(int $id, $item)
+    {
+        $wallet = $this->findById($id);
+        if ($wallet->getAmount() != $item->getAmount()) {
+            $difference = $item->getAmount() - $wallet->getAmount();
+            $movementService = app(MovementService::class);
+            $movementService->launchMovementForWalletUpdate($difference, $wallet->getId());
+        }
+        return parent::update($id, $item);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Resources;
 
 use App\DTO\MovementDTO;
 use App\Enums\BasicFieldsEnum;
+use App\Enums\MovementEnum;
 use App\VO\MovementVO;
 
  /**
@@ -51,5 +52,16 @@ class MovementResource extends BasicResource
         $vo->createdAt = $item->getCreatedAt();
         $vo->updatedAt = $item->getUpdatedAt();
         return $vo;
+    }
+
+    public function populateMovementForWalletUpdate(float $value, int $walletId): MovementDTO
+    {
+        $type = $value > 0 ? MovementEnum::GAIN : MovementEnum::SPENT;
+        $movement = new MovementDTO();
+        $movement->setDescription('Atualização de carteira');
+        $movement->setWalletId($walletId);
+        $movement->setType($type);
+        $movement->setAmount(abs($value));
+        return $movement;
     }
 }

@@ -7,15 +7,18 @@ use App\DTO\FutureGainDTO;
 use App\DTO\MovementDTO;
 use App\Enums\MovementEnum;
 use App\Repositories\MovementRepository;
+use App\Resources\MovementResource;
 use App\Tools\CalendarTools;
 
 class MovementService extends BasicService
 {
     protected MovementRepository $repository;
+    protected MovementResource $resource;
 
     public function __construct(MovementRepository $repository)
     {
         $this->repository = $repository;
+        $this->resource = app(MovementResource::class);
     }
 
     protected function getRepository(): MovementRepository
@@ -90,5 +93,12 @@ class MovementService extends BasicService
         $type = $movement->getType() == MovementEnum::GAIN ? MovementEnum::SPENT : MovementEnum::GAIN;
         $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), $type);
         return parent::deleteById($id);
+    }
+
+    public function launchMovementForWalletUpdate(float $value, int $walletId): bool
+    {
+        $movement = $this->resource->populateMovementForWalletUpdate($value, $walletId);
+        $this->getRepository()->insert($movement);
+        return true;
     }
 }

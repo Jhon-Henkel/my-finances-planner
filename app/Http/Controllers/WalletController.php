@@ -48,6 +48,4 @@ class WalletController extends BasicController
     {
         return $this->resource;
     }
-
-    // todo quando atualizar uma carteira deve lançar uma movimentação de atualização
 }
