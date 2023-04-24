@@ -57,7 +57,7 @@ class FutureGainService extends BasicService
             $remainingInstallments = InvoiceEnum::FIXED_INSTALLMENTS;
         }
         $gain->setInstallments($remainingInstallments);
-        $gain->setForecast(CalendarTools::addMonthInDate($gain->getForecast()));
+        $gain->setForecast(CalendarTools::addOneMonthInDate($gain->getForecast()));
         return (bool)$this->getRepository()->update($gain->getId(), $gain);
     }
 }

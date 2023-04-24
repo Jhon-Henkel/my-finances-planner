@@ -327,4 +327,11 @@ class CalendarToolsUnitTest extends TestCase
             "NextYearTest" => ["expected" => "2023-1", "month" => "1", "now" => new \DateTime("2022-12-01 00:00:00")],
         ];
     }
+
+    public function testAddOneMonthInDate()
+    {
+        $date = "2022-01-01 00:00:00";
+        $date = CalendarTools::addOneMonthInDate($date);
+        $this->assertEquals("2022-02-01 00:00:00", $date);
+    }
 }

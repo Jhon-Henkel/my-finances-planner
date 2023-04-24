@@ -156,7 +156,7 @@ class CalendarTools
     /**
      * @throws Exception
      */
-    public static function addMonthInDate(string $date): string
+    public static function addOneMonthInDate(string $date): string
     {
         $date = new DateTime($date);
         return $date->add(new DateInterval('P1M'))
