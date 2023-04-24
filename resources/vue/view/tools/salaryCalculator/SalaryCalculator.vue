@@ -12,7 +12,7 @@
             <hr class="mb-4">
             <form>
                 <input-money :value="calculate.amount"
-                             :title="'Ultimo Salario Liquido'"
+                             :title="'Ultimo Salario'"
                              @input-money="calculate.salary = $event"/>
                 <div class="row justify-content-center mt-3 mb-4">
                     <div class="col-4">
@@ -40,9 +40,6 @@
                 <p>
                     <span class="text-red">*</span>
                     Não está sendo considerado descontos de INSS, IRPF e outros.
-                    <br>
-                    <span class="text-red">*</span>
-                    Fórmula da conta: (salario/30) * dias.
                 </p>
             </div>
         </div>
