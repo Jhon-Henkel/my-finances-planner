@@ -8,6 +8,7 @@ class FutureGainVO
 {
     public null|int $id;
     public int $walletId;
+    public null|string $walletName;
     public string $description;
     public float|int $amount;
     public int $installments;
@@ -19,6 +20,7 @@ class FutureGainVO
     {
         $this->id = $item->getId();
         $this->walletId = $item->getWalletId();
+        $this->walletName = $item->getWalletName();
         $this->description = $item->getDescription();
         $this->amount = $item->getAmount();
         $this->installments = $item->getInstallments();

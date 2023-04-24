@@ -9,6 +9,7 @@ class InvoiceVO
     public int $id;
     public string $name;
     public int $countId;
+    public null|string $countName;
     public int $remainingInstallments;
     public ?float $firstInstallment;
     public ?float $secondInstallment;
@@ -24,6 +25,7 @@ class InvoiceVO
         $invoice->id = $item->getId();
         $invoice->name = $item->getDescription();
         $invoice->countId = $item->getCountId();
+        $invoice->countName = $item->getCountName();
         $invoice->remainingInstallments = $item->getInstallments();
         $invoice->firstInstallment = $installments[0];
         $invoice->secondInstallment = $installments[1];

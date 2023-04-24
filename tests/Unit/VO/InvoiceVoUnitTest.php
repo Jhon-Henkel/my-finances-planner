@@ -10,7 +10,7 @@ class InvoiceVoUnitTest extends TestCase
 {
     public function testInvoiceVo()
     {
-        $dto = new InvoiceItemDTO(1, 5, 'Test', 10.99, '2021-2', 0);
+        $dto = new InvoiceItemDTO(1, 5, 'TestCountName', 'Test', 10.99, '2021-2', 0);
         $instalments = [
             0 => 10.99,
             1 => 10.99,
@@ -24,6 +24,7 @@ class InvoiceVoUnitTest extends TestCase
         $this->assertEquals(1, $vo->id);
         $this->assertEquals(5, $vo->countId);
         $this->assertEquals('Test', $vo->name);
+        $this->assertEquals('TestCountName', $vo->countName);
         $this->assertEquals(0, $vo->remainingInstallments);
         $this->assertEquals(10.99, $vo->firstInstallment);
         $this->assertEquals(10.99, $vo->secondInstallment);

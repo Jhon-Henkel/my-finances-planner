@@ -328,10 +328,71 @@ class CalendarToolsUnitTest extends TestCase
         ];
     }
 
-    public function testAddOneMonthInDate()
+    /**
+     * @dataProvider dataProviderTestAddOneMonthInDate
+     * @param string $date
+     * @param int $period
+     * @param string $expected
+     * @return void
+     * @throws Exception
+     */
+    public function testAddOneMonthInDate(string $date, int $period, string $expected)
     {
-        $date = "2022-01-01 00:00:00";
-        $date = CalendarTools::addOneMonthInDate($date);
-        $this->assertEquals("2022-02-01 00:00:00", $date);
+        $date = CalendarTools::addMonthInDate($date, $period);
+        $this->assertEquals($expected, $date);
+    }
+
+    public static function dataProviderTestAddOneMonthInDate(): array
+    {
+        return [
+            'OneMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 1, 'expected' => '2022-02-01 00:00:00'],
+            'TwoMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 2, 'expected' => '2022-03-01 00:00:00'],
+            'ThreeMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 3, 'expected' => '2022-04-01 00:00:00'],
+            'FourMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 4, 'expected' => '2022-05-01 00:00:00'],
+            'FiveMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 5, 'expected' => '2022-06-01 00:00:00'],
+            'SixMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 6, 'expected' => '2022-07-01 00:00:00'],
+            'SevenMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 7, 'expected' => '2022-08-01 00:00:00'],
+            'EightMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 8, 'expected' => '2022-09-01 00:00:00'],
+            'NineMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 9, 'expected' => '2022-10-01 00:00:00'],
+            'TenMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 10, 'expected' => '2022-11-01 00:00:00'],
+            'ElevenMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 11, 'expected' => '2022-12-01 00:00:00'],
+            'TwelveMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 12, 'expected' => '2023-01-01 00:00:00'],
+        ];
+    }
+
+
+    /**
+     * @dataProvider dataProviderTestGetIntervalMonthPeriodByMonthAndYear
+     * @param int $month
+     * @param int $year
+     * @param int $period
+     * @param string $dateStartExpected
+     * @param string $dateEndExpected
+     * @return void
+     * @throws Exception
+     */
+    public function testGetIntervalMonthPeriodByMonthAndYear(int $month, int $year, int $period, string $dateStartExpected, string $dateEndExpected)
+    {
+        $interval = CalendarTools::getIntervalMonthPeriodByMonthAndYear($month, $year, $period);
+        $this->assertEquals($dateStartExpected, $interval->getStartDate());
+        $this->assertEquals($dateEndExpected, $interval->getEndDate());
+    }
+
+    public static function dataProviderTestGetIntervalMonthPeriodByMonthAndYear(): array
+    {
+        return [
+            'OneMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 1, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-02-01 00:00:00'],
+            'TwoMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 2, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-03-01 00:00:00'],
+            'ThreeMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 3, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-04-01 00:00:00'],
+            'FourMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 4, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-05-01 00:00:00'],
+            'FiveMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 5, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-06-01 00:00:00'],
+            'SixMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 6, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-07-01 00:00:00'],
+            'SevenMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 7, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-08-01 00:00:00'],
+            'EightMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 8, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-09-01 00:00:00'],
+            'NineMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 9, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-10-01 00:00:00'],
+            'TenMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 10, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-11-01 00:00:00'],
+            'ElevenMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 11, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2022-12-01 00:00:00'],
+            'TwelveMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 12, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2023-01-01 00:00:00'],
+        ];
     }
 }

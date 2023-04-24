@@ -14,6 +14,7 @@ class FutureGainResource extends BasicResource
         $dto = new FutureGainDTO();
         $dto->setId($item[BasicFieldsEnum::ID] ?? null);
         $dto->setWalletId($item[BasicFieldsEnum::WALLET_ID_DB] ?? $item[BasicFieldsEnum::WALLET_ID_JSON]);
+        $dto->setWalletName($item[BasicFieldsEnum::NAME] ?? null);
         $dto->setDescription($item[BasicFieldsEnum::DESCRIPTION]);
         $dto->setForecast($item[BasicFieldsEnum::FORECAST]);
         $dto->setAmount($item[BasicFieldsEnum::AMOUNT]);
@@ -55,6 +56,7 @@ class FutureGainResource extends BasicResource
         return new InvoiceItemDTO(
             $item->getId(),
             $item->getWalletId(),
+            $item->getWalletName(),
             $item->getDescription(),
             $item->getAmount(),
             $item->getForecast(),

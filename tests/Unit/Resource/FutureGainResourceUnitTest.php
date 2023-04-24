@@ -21,6 +21,7 @@ class FutureGainResourceUnitTest extends TestCase
             'id' => 1,
             'wallet_id' => 1,
             'description' => 'Test',
+            'name' => 'TestCountName',
             'forecast' => '2021-01-01',
             'amount' => 100,
             'installments' => 1,
@@ -28,9 +29,11 @@ class FutureGainResourceUnitTest extends TestCase
             'updated_at' => '2021-01-01 00:00:00',
         ];
         $dto = $this->resource->arrayToDto($item);
+
         $this->assertEquals($item['id'], $dto->getId());
         $this->assertEquals($item['wallet_id'], $dto->getWalletId());
         $this->assertEquals($item['description'], $dto->getDescription());
+        $this->assertEquals($item['name'], $dto->getWalletName());
         $this->assertEquals($item['forecast'], $dto->getForecast());
         $this->assertEquals($item['amount'], $dto->getAmount());
         $this->assertEquals($item['installments'], $dto->getInstallments());
@@ -44,6 +47,7 @@ class FutureGainResourceUnitTest extends TestCase
             'id' => 1,
             'wallet_id' => 1,
             'description' => 'Test',
+            'name' => 'TestCountName',
             'forecast' => '2021-01-01',
             'amount' => 100,
             'installments' => 1,
@@ -52,6 +56,7 @@ class FutureGainResourceUnitTest extends TestCase
         ];
         $dto = $this->resource->arrayToDto($item);
         $array = $this->resource->dtoToArray($dto);
+
         $this->assertEquals($item['id'], $array['id']);
         $this->assertEquals($item['wallet_id'], $array['wallet_id']);
         $this->assertEquals($item['description'], $array['description']);
@@ -67,6 +72,7 @@ class FutureGainResourceUnitTest extends TestCase
         $item = [
             'id' => 1,
             'wallet_id' => 1,
+            'name' => 'TestCountName',
             'description' => 'Test',
             'forecast' => '2021-01-01',
             'amount' => 100,
@@ -76,8 +82,10 @@ class FutureGainResourceUnitTest extends TestCase
         ];
         $dto = $this->resource->arrayToDto($item);
         $vo = $this->resource->dtoToVo($dto);
+
         $this->assertEquals($item['id'], $vo->id);
         $this->assertEquals($item['wallet_id'], $vo->walletId);
+        $this->assertEquals($item['name'], $vo->walletName);
         $this->assertEquals($item['description'], $vo->description);
         $this->assertEquals($item['forecast'], $vo->forecast);
         $this->assertEquals($item['amount'], $vo->amount);
@@ -91,6 +99,7 @@ class FutureGainResourceUnitTest extends TestCase
         $item = [
             'id' => 1,
             'wallet_id' => 1,
+            'name' => 'TestCountName',
             'description' => 'Test',
             'forecast' => '2021-01-01',
             'amount' => 100,
@@ -98,8 +107,10 @@ class FutureGainResourceUnitTest extends TestCase
         ];
         $dto = $this->resource->arrayToDto($item);
         $invoiceDTO = $this->resource->futureGainToInvoiceDTO($dto);
+
         $this->assertEquals($item['id'], $invoiceDTO->getId());
         $this->assertEquals($item['wallet_id'], $invoiceDTO->getCountId());
+        $this->assertEquals($item['name'], $invoiceDTO->getCountName());
         $this->assertEquals($item['description'], $invoiceDTO->getDescription());
         $this->assertEquals($item['forecast'], $invoiceDTO->getNextInstallment());
         $this->assertEquals($item['amount'], $invoiceDTO->getValue());

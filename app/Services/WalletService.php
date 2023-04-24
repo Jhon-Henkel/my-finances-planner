@@ -29,7 +29,7 @@ class WalletService extends BasicService
         return $this->repository->findAllByType($type);
     }
 
-    public function updateWalletValue(float $value, int $walletId, int $type): void
+    public function updateWalletValue(float $value, int $walletId, int $type, bool $movementAlreadyDone): void
     {
         $wallet = $this->findById($walletId);
         $amount = $wallet->getAmount();
@@ -39,13 +39,14 @@ class WalletService extends BasicService
             $amount -= $value;
         }
         $wallet->setAmount($amount);
+        $wallet->setMovementAlreadyDone($movementAlreadyDone);
         $this->update($walletId, $wallet);
     }
 
     public function update(int $id, $item)
     {
         $wallet = $this->findById($id);
-        if ($wallet->getAmount() != $item->getAmount()) {
+        if (! $item->getMovementAlreadyDone() && $wallet->getAmount() != $item->getAmount()) {
             $difference = $item->getAmount() - $wallet->getAmount();
             $movementService = app(MovementService::class);
             $movementService->launchMovementForWalletUpdate($difference, $wallet->getId());

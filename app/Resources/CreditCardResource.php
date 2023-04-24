@@ -50,6 +50,7 @@ class CreditCardResource extends BasicResource
         return new InvoiceItemDTO(
             $item[BasicFieldsEnum::ID],
             $item[BasicFieldsEnum::CREDIT_CARD_ID_DB],
+            null,
             $item[BasicFieldsEnum::NAME],
             $item[BasicFieldsEnum::VALUE],
             $item[BasicFieldsEnum::NEXT_INSTALLMENT_DB],

@@ -2,6 +2,7 @@
 
 namespace App\Tools;
 
+use App\DTO\DatePeriodDTO;
 use App\Enums\DateEnum;
 use DateInterval;
 use DateTime;
@@ -156,10 +157,20 @@ class CalendarTools
     /**
      * @throws Exception
      */
-    public static function addOneMonthInDate(string $date): string
+    public static function addMonthInDate(string $date, int $months): string
     {
         $date = new DateTime($date);
-        return $date->add(new DateInterval('P1M'))
+        return $date->add(new DateInterval('P'. $months . 'M'))
             ->format(DateEnum::DEFAULT_DB_DATE_FORMAT);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function getIntervalMonthPeriodByMonthAndYear(int $month, int $year, int $interval): DatePeriodDTO
+    {
+        $dateStart = self::mountStringDateTime($year, $month, 1, '00:00:00');
+        $dateEnd = self::addMonthInDate($dateStart, $interval);
+        return new DatePeriodDTO($dateStart, $dateEnd);
     }
 }

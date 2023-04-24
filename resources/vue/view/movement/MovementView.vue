@@ -23,6 +23,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th class="text-center"></th>
+                        <th class="text-center">ID</th>
                         <th class="text-center" scope="col">Descrição</th>
                         <th class="text-center" scope="col">Tipo</th>
                         <th class="text-center" scope="col">Carteira</th>
@@ -38,6 +39,7 @@
                             <font-awesome-icon v-else-if="movement.type === movementEnum.type.spent()" :icon="iconEnum.circleArrowDown()" class="movement-spent-icon"/>
                             <font-awesome-icon v-else-if="movement.type === movementEnum.type.gain()" :icon="iconEnum.circleArrowUp()" class="movement-gain-icon"/>
                         </td>
+                        <td class="text-center">{{ movement.id }}</td>
                         <td class="text-center">{{ movement.description }}</td>
                         <td class="text-center">{{ movementEnum.getLabelForType(movement.type) }}</td>
                         <td class="text-center">{{ movement.walletName }}</td>

@@ -7,6 +7,7 @@ class WalletDTO
     private null|int $id;
     private string $name;
     private int $type;
+    private null|bool $movementAlreadyDone = false;
     private float|int $amount;
     private mixed $createdAt;
     private mixed $updatedAt;
@@ -57,6 +58,22 @@ class WalletDTO
     public function setType(int $type): void
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getMovementAlreadyDone(): ?bool
+    {
+        return $this->movementAlreadyDone;
+    }
+
+    /**
+     * @param bool|null $movementAlreadyDone
+     */
+    public function setMovementAlreadyDone(?bool $movementAlreadyDone): void
+    {
+        $this->movementAlreadyDone = $movementAlreadyDone;
     }
 
     /**

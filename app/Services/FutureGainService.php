@@ -26,9 +26,15 @@ class FutureGainService extends BasicService
         return $this->repository;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getNextSixMonthsFutureGain(): array
     {
-        $gains = $this->getRepository()->findAll();
+        $year = CalendarTools::getThisYear();
+        $month = CalendarTools::getThisMonth();
+        $period = CalendarTools::getIntervalMonthPeriodByMonthAndYear($month, $year, 6);
+        $gains = $this->getRepository()->findByPeriod($period);
         $gainsPackage = [];
         foreach ($gains as $gain) {
             $futureGainDTO = $this->resource->futureGainToInvoiceDTO($gain);
@@ -48,7 +54,7 @@ class FutureGainService extends BasicService
             return false;
         }
         $walletService = app(WalletService::class);
-        $walletService->updateWalletValue($gain->getAmount(), $gain->getWalletId(), MovementEnum::GAIN);
+        $walletService->updateWalletValue($gain->getAmount(), $gain->getWalletId(), MovementEnum::GAIN, true);
         $remainingInstallments = $gain->getInstallments() - 1;
         if ($remainingInstallments === 0) {
             return $this->getRepository()->deleteById($gain->getId());
@@ -57,7 +63,7 @@ class FutureGainService extends BasicService
             $remainingInstallments = InvoiceEnum::FIXED_INSTALLMENTS;
         }
         $gain->setInstallments($remainingInstallments);
-        $gain->setForecast(CalendarTools::addOneMonthInDate($gain->getForecast()));
+        $gain->setForecast(CalendarTools::addMonthInDate($gain->getForecast(), 1));
         return (bool)$this->getRepository()->update($gain->getId(), $gain);
     }
 }

@@ -91,7 +91,7 @@ class MovementService extends BasicService
         }
         $walletService = app(WalletService::class);
         $type = $movement->getType() == MovementEnum::GAIN ? MovementEnum::SPENT : MovementEnum::GAIN;
-        $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), $type);
+        $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), $type, false);
         return parent::deleteById($id);
     }
 

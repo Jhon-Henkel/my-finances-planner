@@ -6,6 +6,7 @@ class InvoiceItemDTO
 {
     private int $id;
     private int $countId;
+    private null|string $countName;
     private string $description;
     private float $value;
     private string $nextInstallment;
@@ -14,6 +15,7 @@ class InvoiceItemDTO
     public function __construct(
         int $id,
         int $countId,
+        null|string $countName,
         string $description,
         float $value,
         string $nextInstallment,
@@ -21,6 +23,7 @@ class InvoiceItemDTO
     ) {
         $this->setId($id);
         $this->setCountId($countId);
+        $this->setCountName($countName);
         $this->setDescription($description);
         $this->setValue($value);
         $this->setNextInstallment($nextInstallment);
@@ -49,6 +52,22 @@ class InvoiceItemDTO
     public function getCountId(): int
     {
         return $this->countId;
+    }
+
+    /**
+     * @param string|null $countName
+     */
+    protected function setCountName(?string $countName): void
+    {
+        $this->countName = $countName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCountName(): ?string
+    {
+        return $this->countName;
     }
 
     /**

@@ -51,6 +51,9 @@ class FutureGainController extends BasicController
         return $this->resource;
     }
 
+    /**
+     * @throws Exception
+     */
     public function nextSixMonths(): JsonResponse
     {
         $futureGain = $this->getService()->getNextSixMonthsFutureGain();

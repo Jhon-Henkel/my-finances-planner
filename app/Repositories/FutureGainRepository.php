@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\DTO\DatePeriodDTO;
+use App\Enums\BasicFieldsEnum;
 use App\Models\FutureGain;
 use App\Resources\FutureGainResource;
 
@@ -23,5 +25,16 @@ class FutureGainRepository extends BasicRepository
     protected function getResource(): mixed
     {
         return $this->resource;
+    }
+
+    public function findByPeriod(DatePeriodDTO $period): array
+    {
+        $itens = $this->getModel()->select('future_gain.*', 'wallets.name')
+            ->where('future_gain.created_at', '>', $period->getStartDate())
+            ->where('future_gain.created_at', '<', $period->getEndDate())
+            ->join('wallets', 'future_gain.wallet_id', '=', 'wallets.id')
+            ->orderBy(BasicFieldsEnum::ID, 'desc')
+            ->get();
+        return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
     }
 }

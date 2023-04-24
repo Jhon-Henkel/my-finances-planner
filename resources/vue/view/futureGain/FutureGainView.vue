@@ -26,7 +26,7 @@
                 <tbody>
                     <tr v-for="gain in futureGains" :key="gain.id" class="text-center">
                         <td>{{ gain.name }}</td>
-                        <td>{{ gain.countId }}</td>
+                        <td>{{ gain.countName }}</td>
                         <td>{{ gain.firstInstallment ? StringTools.formatFloatValueToBrString(gain.firstInstallment) : '-' }}</td>
                         <td>{{ gain.secondInstallment ? StringTools.formatFloatValueToBrString(gain.secondInstallment) : '-' }}</td>
                         <td>{{ gain.thirdInstallment ? StringTools.formatFloatValueToBrString(gain.thirdInstallment) : '-' }}</td>
@@ -39,7 +39,7 @@
                                 :delete-tooltip="'Deletar Ganho'"
                                 :tooltip-edit="'Editar Ganho'"
                                 :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar'"
-                                :check-button="true"
+                                :check-button="showCheckButton(gain)"
                                 :check-tooltip="'Marcar próxima como recebido'"
                                 @delete-clicked="deleteGain(gain.id, gain.name)"
                                 @check-clicked="receiveGain(gain.id, gain.name)"/>
@@ -170,6 +170,19 @@
                         this.resetMessage()
                     })
                 }
+            },
+            showCheckButton(gain) {
+                if (
+                    ! gain.firstInstallment
+                    && ! gain.secondInstallment
+                    && ! gain.thirdInstallment
+                    && ! gain.forthInstallment
+                    && ! gain.fifthInstallment
+                    && ! gain.sixthInstallment
+                ) {
+                    return false
+                }
+                return true
             }
         },
         async mounted() {
