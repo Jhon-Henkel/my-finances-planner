@@ -4,13 +4,13 @@
         <div v-show="loadingDone">
             <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
-                <h3 id="title">Carteiras</h3>
+                <mfp-title :title="'Carteiras'"/>
                 <router-link class="btn btn-success rounded-5" to="/carteiras/cadastrar">
                     <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
                     Nova Carteira
                 </router-link>
             </div>
-            <hr class="mb-4">
+            <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
                 <tr>
@@ -43,7 +43,7 @@
                 </tr>
                 </tbody>
             </table>
-            <hr class="mt-4">
+            <divider/>
             <div class="text-end">
                 <h3>Total: {{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</h3>
             </div>
@@ -63,10 +63,18 @@
     import CalendarTools from "../../../js/tools/calendarTools";
     import LoadingComponent from "../../components/LoadingComponent.vue";
     import ActionButtons from "../../components/ActionButtons.vue";
+    import Divider from "../../components/DividerComponent.vue";
+    import MfpTitle from "../../components/TitleComponent.vue";
 
     export default {
         name: "WalletView",
-        components: {ActionButtons, LoadingComponent, Message},
+        components: {
+            MfpTitle,
+            Divider,
+            ActionButtons,
+            LoadingComponent,
+            Message
+        },
         computed: {
             iconEnum() {
                 return iconEnum

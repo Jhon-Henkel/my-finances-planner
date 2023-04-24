@@ -3,8 +3,8 @@
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
             <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
-            <h3 id="title">{{ title }}</h3>
-            <hr class="mb-4">
+            <mfp-title :title="title"/>
+            <divider/>
             <form class="was-validated">
                 <div class="row justify-content-center">
                     <div class="col-4">
@@ -61,7 +61,7 @@
                 </div>
                 <input-money :value="movement.amount" @input-money="movement.amount = $event"/>
             </form>
-            <hr class="mt-4">
+            <divider/>
             <bottom-buttons redirect-to="/movimentacoes"
                             :button-success-text="title"
                             @btn-clicked="updateOrInsertMovement"/>
@@ -79,10 +79,14 @@
     import {HttpStatusCode} from "axios";
     import MovementEnum from "../../../js/enums/movementEnum";
     import InputMoney from "../../components/inputMoneyComponent.vue";
+    import Divider from "../../components/DividerComponent.vue";
+    import MfpTitle from "../../components/TitleComponent.vue";
 
     export default {
         name: "MovementForm",
         components: {
+            MfpTitle,
+            Divider,
             InputMoney,
             BottomButtons,
             Message,

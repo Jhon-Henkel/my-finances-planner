@@ -3,8 +3,8 @@
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
             <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
-            <h3 id="title">{{ title }}</h3>
-            <hr class="mb-4">
+            <mfp-title :title="title"/>
+            <divider/>
             <form class="was-validated">
                 <div class="row justify-content-center">
                     <div class="col-4">
@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </form>
-            <hr class="mt-4">
+            <divider/>
             <bottom-buttons redirect-to="/ganhos-futuros"
                             :button-success-text="title"
                             @btn-clicked="updateOrInsertGain"/>
@@ -103,12 +103,16 @@
     import InputMoney from "../../components/inputMoneyComponent.vue";
     import messageEnum from "../../../js/enums/messageEnum";
     import {HttpStatusCode} from "axios";
+    import Divider from "../../components/DividerComponent.vue";
+    import MfpTitle from "../../components/TitleComponent.vue";
 
     const FIX_GAIN = 0
 
     export default {
         name: "FutureGainForm",
         components: {
+            MfpTitle,
+            Divider,
             InputMoney,
             Message,
             BottomButtons,

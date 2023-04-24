@@ -3,7 +3,6 @@ import PageNotFoundView from "../../vue/view/PageNotFoundView.vue";
 import WalletView from "../../vue/view/wallet/WalletView.vue";
 import DashboardView from "../../vue/view/DashboardView.vue";
 import PanoramView from "../../vue/view/PanoramView.vue";
-import ConfigurationsView from "../../vue/view/ConfigurationsView.vue";
 import WalletFormView from "../../vue/view/wallet/WalletFormView.vue";
 import ManageCardsView from "../../vue/view/creditCard/ManageCardsView.vue";
 import ManageCardsFormView from "../../vue/view/creditCard/ManageCardsFormView.vue";
@@ -17,6 +16,7 @@ import FutureGainForm from "../../vue/view/futureGain/FutureGainForm.vue";
 import ToolsView from "../../vue/view/tools/ToolsView.vue";
 import SalaryCalculator from "../../vue/view/tools/salaryCalculator/SalaryCalculator.vue";
 import ExtraHoursCalculator from "../../vue/view/tools/extraHoursCalculator/ExtraHoursCalculator.vue";
+import ConfigurationsView from "../../vue/view/configurations/ConfigurationsView.vue";
 
 const routes = [
     {

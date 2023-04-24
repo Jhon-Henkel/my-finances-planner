@@ -3,13 +3,13 @@
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
-                <h3 id="title">Calculadora de Salário</h3>
+                <mfp-title :title="'Calculadora de Horas Extras'"/>
                 <router-link class="btn btn-success rounded-5" to="/ferramentas">
                     <font-awesome-icon :icon="iconEnum.back()" class="me-2"/>
                     Voltar
                 </router-link>
             </div>
-            <hr class="mb-4">
+            <divider/>
             <form>
                 <input-money :value="calculate.amount"
                              :title="'Ultimo Salario'"
@@ -20,12 +20,17 @@
                             <label class="form-label" for="calculate-hours-worked">
                                 Horas trabalhadas em um mês
                             </label>
-                            <input type="number"
-                                   class="form-control"
-                                   v-model="calculate.hourWorkedInMonth"
-                                   id="calculate-hours-worked"
-                                   required
-                                   min="1">
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <font-awesome-icon :icon="iconEnum.businessTime()" />
+                                </span>
+                                <input type="number"
+                                       class="form-control"
+                                       v-model="calculate.hourWorkedInMonth"
+                                       id="calculate-hours-worked"
+                                       required
+                                       min="1">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -35,12 +40,17 @@
                             <label class="form-label" for="calculate-extra-hours-worked">
                                 Horas Extras
                             </label>
-                            <input type="number"
-                                   class="form-control"
-                                   v-model="calculate.extraHours"
-                                   id="calculate-extra-hours-worked"
-                                   required
-                                   min="1">
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <font-awesome-icon :icon="iconEnum.clock()" />
+                                </span>
+                                <input type="number"
+                                       class="form-control"
+                                       v-model="calculate.extraHours"
+                                       id="calculate-extra-hours-worked"
+                                       required
+                                       min="1">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -52,8 +62,8 @@
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">
-                                <font-awesome-icon :icon="iconEnum.percent()" />
-                            </span>
+                                    <font-awesome-icon :icon="iconEnum.percent()" />
+                                </span>
                                 <input type="number"
                                        class="form-control"
                                        v-model="calculate.extraPercent"
@@ -66,7 +76,7 @@
                     </div>
                 </div>
             </form>
-            <hr class="mb-4">
+            <divider/>
             <div class="text-center">
                 <h3>
                     Por hora você ganha aproximadamente:
@@ -77,7 +87,7 @@
                     {{ StringTools.formatFloatValueToBrString(total) }}
                 </h3>
                 <p>
-                    <span class="text-red">*</span>
+                    <span class="text-warning">*</span>
                     Não está sendo considerado descontos de INSS, IRPF e outros.
                 </p>
             </div>
@@ -90,6 +100,8 @@
     import InputMoney from "../../../components/inputMoneyComponent.vue";
     import iconEnum from "../../../../js/enums/iconEnum";
     import StringTools from "../../../../js/tools/stringTools";
+    import Divider from "../../../components/DividerComponent.vue";
+    import MfpTitle from "../../../components/TitleComponent.vue";
 
     export default {
         name: "ExtraHoursCalculator",
@@ -102,6 +114,8 @@
             }
         },
         components: {
+            MfpTitle,
+            Divider,
             InputMoney,
             LoadingComponent
         },

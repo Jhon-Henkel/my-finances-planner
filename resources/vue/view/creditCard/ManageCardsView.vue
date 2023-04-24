@@ -4,7 +4,7 @@
         <div v-show="loadingDone">
             <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
-                <h3 id="title">Cartões</h3>
+                <mfp-title :title="'Cartões'"/>
                 <router-link class="btn btn-success rounded-5 me-2" to="/gerenciar-cartoes/cadastrar">
                     <font-awesome-icon :icon="iconEnum.creditCard()" class="me-2"/>
                     Novo Cartão
@@ -14,8 +14,8 @@
                     Nova despesa
                 </router-link>
             </div>
-            <hr>
-            <div class="mt-4">
+            <divider/>
+            <div>
                 <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                     <thead class="table-dark">
                         <tr>
@@ -50,7 +50,7 @@
                     </tbody>
                 </table>
             </div>
-            <hr class="mt-4">
+            <divider/>
         </div>
     </div>
 </template>
@@ -65,6 +65,8 @@
     import stringTools from "../../../js/tools/stringTools";
     import calendarTools from "../../../js/tools/calendarTools";
     import ActionButtons from "../../components/ActionButtons.vue";
+    import Divider from "../../components/DividerComponent.vue";
+    import MfpTitle from "../../components/TitleComponent.vue";
 
     export default {
         name: "ManageCardsView",
@@ -80,6 +82,8 @@
             }
         },
         components: {
+            MfpTitle,
+            Divider,
             ActionButtons,
             Message,
             LoadingComponent

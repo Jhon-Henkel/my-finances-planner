@@ -3,13 +3,13 @@
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
-                <h3 id="title">Ferramentas</h3>
+                <mfp-title :title="'Ferramentas'"/>
             </div>
-            <hr class="mb-4">
+            <divider/>
             <h5 class="mb-4">
                 Ferramentas que auxiliam nas suas finanças pessoais, para que você não precise se preocupar em fazer contas...
             </h5>
-            <hr class="mb-5">
+            <divider class="mb-5"/>
             <div class="card me-5" v-for="(item, index) in items" :key="index">
                 <img :src="item.imagePath" class="card-img-top image-card" height="200">
                 <div class="card-body">
@@ -29,6 +29,8 @@
     import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
     import iconEnum from "../../../js/enums/iconEnum";
     import LoadingComponent from "../../components/LoadingComponent.vue";
+    import Divider from "../../components/DividerComponent.vue";
+    import MfpTitle from "../../components/TitleComponent.vue";
 
     export default {
         name: "ToolsView",
@@ -37,7 +39,7 @@
                 return iconEnum
             }
         },
-        components: {LoadingComponent, FontAwesomeIcon},
+        components: {MfpTitle, Divider, LoadingComponent, FontAwesomeIcon},
         data() {
             return {
                 loadingDone: false,

@@ -3,8 +3,8 @@
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
             <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
-            <h3 id="title">{{ title }}</h3>
-            <hr class="mb-4">
+            <mfp-title :title="title" />
+            <divider/>
             <form class="was-validated">
                 <div class="row justify-content-center">
                     <div class="col-4">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </form>
-            <hr class="mt-4">
+            <divider/>
             <bottom-buttons redirect-to="/carteiras" :button-success-text="title" @btn-clicked="updateOrInsertWallet"/>
         </div>
     </div>
@@ -55,6 +55,8 @@
     import InputMoney from "../../components/inputMoneyComponent.vue";
     import LoadingComponent from "../../components/LoadingComponent.vue";
     import BottomButtons from "../../components/BottomButtons.vue";
+    import Divider from "../../components/DividerComponent.vue";
+    import MfpTitle from "../../components/TitleComponent.vue";
 
     export default {
         name: "WalletFormView",
@@ -64,6 +66,8 @@
             }
         },
         components: {
+            MfpTitle,
+            Divider,
             BottomButtons,
             LoadingComponent,
             InputMoney,

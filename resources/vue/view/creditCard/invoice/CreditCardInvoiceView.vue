@@ -4,7 +4,7 @@
         <div v-show="loadingDone">
             <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
             <div class="nav mt-2 justify-content-end">
-                <h3 id="title">{{ title }}</h3>
+                <mfp-title :title="title"/>
                 <router-link class="btn btn-success rounded-5 me-2" to="/gerenciar-cartoes">
                     <font-awesome-icon :icon="iconEnum.back()" class="me-2"/>
                     Voltar
@@ -14,7 +14,7 @@
                     Nova despesa
                 </router-link>
             </div>
-            <hr class="mb-4">
+            <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
                 <tr>
@@ -98,7 +98,7 @@
                     </tr>
                 </tbody>
             </table>
-            <hr class="mt-4">
+            <divider/>
         </div>
     </div>
 </template>
@@ -114,6 +114,8 @@
     import messageEnum from "../../../../js/enums/messageEnum";
     import ActionButtons from "../../../components/ActionButtons.vue";
     import {HttpStatusCode} from "axios";
+    import Divider from "../../../components/DividerComponent.vue";
+    import MfpTitle from "../../../components/TitleComponent.vue";
 
     export default {
         name: "CreditCardInvoiceView",
@@ -129,6 +131,8 @@
             }
         },
         components: {
+            MfpTitle,
+            Divider,
             ActionButtons,
             LoadingComponent,
             Message

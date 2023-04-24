@@ -4,13 +4,13 @@
         <div v-show="loadingDone">
             <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
-                <h3 id="title">Ganhos Futuros</h3>
+                <mfp-title :title="'Ganhos Futuros'"/>
                 <router-link class="btn btn-success rounded-5" to="/ganhos-futuros/cadastrar">
                     <font-awesome-icon :icon="iconEnum.sackDollar()" class="me-2"/>
                     Novo Ganho Futuro
                 </router-link>
             </div>
-            <hr class="mb-4">
+            <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
                     <tr class="text-center">
@@ -59,7 +59,7 @@
                     </tr>
                 </tbody>
             </table>
-            <hr class="mt-4">
+            <divider/>
             <div class="text-end">
                 <h3>Total previsto: {{ StringTools.formatFloatValueToBrString(totalPerMonth.total) }}</h3>
             </div>
@@ -78,6 +78,8 @@
     import MessageEnum from "../../../js/enums/messageEnum";
     import StringTools from "../../../js/tools/stringTools";
     import NumberTools from "../../../js/tools/numberTools";
+    import Divider from "../../components/DividerComponent.vue";
+    import MfpTitle from "../../components/TitleComponent.vue";
 
     export default {
         name: "FutureGainView",
@@ -93,6 +95,8 @@
             }
         },
         components: {
+            MfpTitle,
+            Divider,
             ActionButtons,
             LoadingComponent,
             Message

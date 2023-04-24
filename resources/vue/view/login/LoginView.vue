@@ -1,12 +1,12 @@
 <template>
     <div class="base-container">
         <div class="card text-center login-box glass">
-            <h3 class="title">Login</h3>
+            <mfp-title :title="'Login'"/>
             <div class="card-body">
                 <hr v-show="messageLogin">
                 <message :message="messageLogin" :type="messageLoginType" v-show="messageLogin"/>
                 <form class="form-horizontal" @submit="login">
-                    <hr>
+                    <divider/>
                     <div class="text-black">
                         <div class="input-group">
                             <span class="input-group-text">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
+                    <divider/>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-full">
                             <font-awesome-icon :icon="iconEnum.unlock()" flip="horizontal" class="me-2"/>
@@ -59,10 +59,14 @@
     import messageEnum from "../../../js/enums/messageEnum";
     import routerNonAuthenticated from "../../../js/router/routerNonAuthenticated";
     import calendarTools from "../../../js/tools/calendarTools";
+    import Divider from "../../components/DividerComponent.vue";
+    import MfpTitle from "../../components/TitleComponent.vue";
 
     export default {
         name: "LoginView",
         components: {
+            MfpTitle,
+            Divider,
             Message
         },
         data() {

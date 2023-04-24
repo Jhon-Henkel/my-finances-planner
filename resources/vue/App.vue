@@ -38,22 +38,12 @@
 </script>
 
 <style>
-    #title {
-        margin: auto auto auto 0;
-    }
     .action-buttons {
         display: flex;
         justify-content: center;
     }
     .base-container {
         margin-top: 60px;
-    }
-    .base-container hr {
-        height: 8px;
-        border: 0;
-        border-radius: 15px 15px 15px 15px;
-        box-shadow: 0 0 0.5em #000000;
-        background-color: #04fac9;
     }
     .btn-success {
         background: #096452;

@@ -80,5 +80,11 @@ const iconEnum = {
     percent() {
         return ['fas', 'percent']
     },
+    businessTime() {
+        return ['fas', 'business-time']
+    },
+    clock() {
+        return ['fas', 'clock']
+    },
 }
 export default iconEnum;

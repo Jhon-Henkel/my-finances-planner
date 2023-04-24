@@ -4,7 +4,7 @@
         <div v-show="loadingDone">
             <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
-                <h3 id="title">Movimentações</h3>
+                <mfp-title :title="'Movimentações'"/>
                 <font-awesome-icon :icon="iconEnum.filterMoney()" class="me-2 mt-1 filter"/>
                 <div class="form-group me-3">
                     <select class="form-select form-select-sm" @change="getMovementsByFilter($event)">
@@ -18,7 +18,7 @@
                     Nova Movimentação
                 </router-link>
             </div>
-            <hr class="mb-4">
+            <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
                     <tr>
@@ -55,7 +55,7 @@
                     </tr>
                 </tbody>
             </table>
-            <hr class="mt-4">
+            <divider/>
             <div class="text-end">
                 <h3>
                     <font-awesome-icon :icon="iconEnum.circleArrowUp()" class="movement-gain-icon"/>
@@ -93,6 +93,8 @@
     import movementEnum from "../../../js/enums/movementEnum";
     import numberTools from "../../../js/tools/numberTools";
     import messageEnum from "../../../js/enums/messageEnum";
+    import Divider from "../../components/DividerComponent.vue";
+    import MfpTitle from "../../components/TitleComponent.vue";
 
     export default {
         name: "MovementView",
@@ -111,6 +113,8 @@
             }
         },
         components: {
+            MfpTitle,
+            Divider,
             ActionButtons,
             LoadingComponent,
             Message
