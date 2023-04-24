@@ -34,7 +34,7 @@
             <hr class="mb-4">
             <div class="text-center">
                 <h3>
-                    Voce vai receber aproximadamente:
+                    Você vai receber aproximadamente:
                     {{ StringTools.formatFloatValueToBrString((calculate.salary/30)*calculate.workDays) }}
                 </h3>
                 <p>

@@ -77,5 +77,8 @@ const iconEnum = {
     wrench() {
         return ['fas', 'wrench']
     },
+    percent() {
+        return ['fas', 'percent']
+    },
 }
 export default iconEnum;
