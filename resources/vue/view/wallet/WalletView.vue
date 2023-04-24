@@ -18,6 +18,7 @@
                     <th class="text-center" scope="col">Tipo</th>
                     <th class="text-center" scope="col">Valor Atual</th>
                     <th class="text-center" scope="col">Data Criação</th>
+                    <th class="text-center" scope="col">Data Modificação</th>
                     <th class="text-center" scope="col">Ações</th>
                 </tr>
                 </thead>
@@ -25,12 +26,13 @@
                 <tr v-for="wallet in wallets" :key="wallet.id">
                     <td class="text-center">{{ wallet.name }}</td>
                     <td class="text-center">{{ walletEnum.getDescription(wallet.type) }}</td>
-                    <td class="text-center text-red" v-if="wallet.amount < 0" v-tooltip="'Cuidado, valor negativo'">
-                        <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="me-2 icon-alert"/>
+                    <td class="text-center" v-if="wallet.amount < 0" v-tooltip="'Cuidado, valor negativo'">
                         {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
+                        <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="icon-alert"/>
                     </td>
                     <td class="text-center" v-else>{{ stringTools.formatFloatValueToBrString(wallet.amount) }}</td>
                     <td class="text-center">{{ calendarTools.convertDateDbToBr(wallet.createdAt, false) }}</td>
+                    <td class="text-center">{{ calendarTools.convertDateDbToBr(wallet.updatedAt, false) }}</td>
                     <td>
                         <action-buttons
                             :delete-tooltip="'Deletar Carteira'"
@@ -124,7 +126,7 @@
 <style scoped>
     .icon-alert {
          color: #fdd200;
-         font-size: 19px;
+         font-size: 15px;
          top: 50%;
     }
 </style>

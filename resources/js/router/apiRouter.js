@@ -76,6 +76,16 @@ const apiRouter = {
         },
         delete: async function(id) {
             return await axios.delete('/api/movement/' + id)
+        },
+        show: async function(id) {
+            const request = await axios.get('/api/movement/' + id)
+            return request.data
+        },
+        insert: async function(movement) {
+            return await axios.post('/api/movement', movement)
+        },
+        update: async function(movement, id) {
+            return await axios.put('/api/movement/' + id, movement)
         }
     },
     userActions: {

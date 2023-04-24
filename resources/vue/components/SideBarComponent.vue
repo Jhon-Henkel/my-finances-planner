@@ -49,14 +49,14 @@
                         to: '/dashboard'
                     },
                     {
-                        title: 'Movimentações',
-                        icon: 'bx bxs-coin-stack me-2',
-                        to: '/movimentacoes'
-                    },
-                    {
                         title: 'Panorama',
                         icon: 'bx bxs-compass me-2',
                         to: '/panorama'
+                    },
+                    {
+                        title: 'Movimentações',
+                        icon: 'bx bxs-coin-stack me-2',
+                        to: '/movimentacoes'
                     },
                     {
                         title: 'Ganhos Futuros',

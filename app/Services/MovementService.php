@@ -95,6 +95,40 @@ class MovementService extends BasicService
         return parent::deleteById($id);
     }
 
+    public function insert($item)
+    {
+        $walletService = app(WalletService::class);
+        $walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $item->getType(), true);
+        return parent::insert($item);
+    }
+
+    public function update(int $id, $item)
+    {
+        $movement = $this->findById($id);
+        $walletService = app(WalletService::class);
+        if ($movement->getAmount() != $item->getAmount()) {
+            $type = $this->getTypeForMovementUpdate($movement, $item);
+            $value = abs($movement->getAmount() - $item->getAmount());
+            $walletService->updateWalletValue($value, $movement->getWalletId(), $type, true);
+        } elseif ($movement->getType() != $item->getType()) {
+            $walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $item->getType(), true);
+        }
+        return parent::update($id, $item);
+    }
+
+    protected function getTypeForMovementUpdate(MovementDTO $movement, MovementDTO $item): int
+    {
+        if ($movement->getType() == MovementEnum::GAIN && $movement->getAmount() > $item->getAmount()) {
+            return MovementEnum::SPENT;
+        } elseif ($movement->getType() == MovementEnum::GAIN && $movement->getAmount() < $item->getAmount()) {
+            return MovementEnum::GAIN;
+        } elseif ($movement->getType() == MovementEnum::SPENT && $movement->getAmount() > $item->getAmount()) {
+            return MovementEnum::GAIN;
+        } elseif ($movement->getType() == MovementEnum::SPENT && $movement->getAmount() < $item->getAmount()) {
+            return MovementEnum::SPENT;
+        }
+    }
+
     public function launchMovementForWalletUpdate(float $value, int $walletId): bool
     {
         $movement = $this->resource->populateMovementForWalletUpdate($value, $walletId);

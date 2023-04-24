@@ -21,6 +21,12 @@ const MovementEnum = {
         lastMonth: () => LAST_MONTH,
         thisYear: () => THIS_YEAR,
     },
+    getTypeList: () => {
+        return [
+            { id: GAIN, label: 'Receita' },
+            { id: SPENT, label: 'Despesa' },
+        ]
+    },
     getLabelForType: function(type) {
         switch (type) {
             case SPENT:
