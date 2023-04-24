@@ -129,7 +129,8 @@
         },
         methods: {
             async deleteMovement(id, movement) {
-                if(confirm("Tem certeza que realmente quer deletar a movimentação \"" + movement + "\"?")) {
+                if(confirm("Tem certeza que realmente quer deletar a movimentação \"" + movement + "\"? " +
+                    "O valor será retornado para a carteira vinculada.")) {
                     await apiRouter.movement.delete(id)
                     this.message = "Movimentação deletada com sucesso!"
                     this.messageType = messageEnum.messageTypeSuccess()
