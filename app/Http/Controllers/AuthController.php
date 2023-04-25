@@ -37,13 +37,11 @@ class AuthController extends Controller
 
     protected function findUserForAuth(string $email): null|User
     {
-        // todo essa busca deveria vir do service
         return User::where('email', $email)->first();
     }
 
     protected function validateLogin(?User $user, string $password):  bool
     {
-        // todo validar quantidade de tentativas de login, bloquear após 10 tentativas erradas
         return $user && Hash::check($password, $user->password);
     }
 

@@ -102,7 +102,6 @@
             populateDate() {
                 return {
                     email: this.user.email,
-                    // todo essa senha tem que ser criptografada no front e descriptografada no backend
                     password: this.user.password
                 }
             },

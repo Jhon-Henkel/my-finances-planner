@@ -47,26 +47,6 @@ class CalendarTools
         return new DateTime();
     }
 
-    public static function getNextSixMonths(int $thisMonth): array
-    {
-        // todo melhorar esse métodoo
-        $nextMonths = [];
-        for ($index = $thisMonth; $index <= 12; $index++) {
-            $nextMonths[] = str_pad($index, 2, '0', STR_PAD_LEFT);
-            if (count($nextMonths) == 6) {
-                break;
-            }
-        }
-        $count = count($nextMonths);
-        if ($count < 6) {
-            $lack = 6 - $count;
-            for ($index = 1; $index <= $lack; $index++) {
-                $nextMonths[] = str_pad($index, 2, '0', STR_PAD_LEFT);
-            }
-        }
-        return $nextMonths;
-    }
-
     /**
      * @throws Exception
      */
@@ -81,19 +61,6 @@ class CalendarTools
     {
         $date = new DateTime($date);
         return $date->format(DateEnum::ONLY_DAY);
-    }
-
-    public static function mountDateToPayInvoice(int $month, DateTime $now): string
-    {
-        $year = $now->format(DateEnum::ONLY_COMPLETE_YEAR);
-        $thisMonth = (int)$now->format(DateEnum::ONLY_MONTH);
-        if ($thisMonth == $month) {
-            return $year . '-' . $month;
-        }
-        if ($thisMonth > $month) {
-            $year = (int)$year + 1;
-        }
-        return $year . '-' . $month;
     }
 
     public static function getThisMonthPeriod(int $thisMonth, int $thisYear): array

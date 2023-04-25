@@ -74,7 +74,6 @@ abstract class BasicController extends Controller implements BasicControllerCont
         }
     }
 
-    // todo quando for chave estrangeira retornar um erro para o fronted informando
     public function delete(int $id): Response|JsonResponse
     {
         try {

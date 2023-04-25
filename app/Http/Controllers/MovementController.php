@@ -8,7 +8,6 @@ use App\VO\MovementVO;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
-// todo alterações via api não estão afetandoo a carteira (adiciionar e remover saldo)
 /**
  * @method MovementVO[] showByType()
  */

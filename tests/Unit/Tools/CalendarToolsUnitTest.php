@@ -88,39 +88,6 @@ class CalendarToolsUnitTest extends TestCase
         $this->assertEquals($mont, CalendarTools::getThisYear());
     }
 
-    public function testGetNextSixMonths()
-    {
-        $nextMonths = CalendarTools::getNextSixMonths(05);
-
-        $this->assertCount(6, $nextMonths);
-        $this->assertEquals('05', $nextMonths[0]);
-        $this->assertEquals('06', $nextMonths[1]);
-        $this->assertEquals('07', $nextMonths[2]);
-        $this->assertEquals('08', $nextMonths[3]);
-        $this->assertEquals('09', $nextMonths[4]);
-        $this->assertEquals('10', $nextMonths[5]);
-
-        $nextMonths = CalendarTools::getNextSixMonths(01);
-
-        $this->assertCount(6, $nextMonths);
-        $this->assertEquals('01', $nextMonths[0]);
-        $this->assertEquals('02', $nextMonths[1]);
-        $this->assertEquals('03', $nextMonths[2]);
-        $this->assertEquals('04', $nextMonths[3]);
-        $this->assertEquals('05', $nextMonths[4]);
-        $this->assertEquals('06', $nextMonths[5]);
-
-        $nextMonths = CalendarTools::getNextSixMonths(10);
-
-        $this->assertCount(6, $nextMonths);
-        $this->assertEquals('10', $nextMonths[0]);
-        $this->assertEquals('11', $nextMonths[1]);
-        $this->assertEquals('12', $nextMonths[2]);
-        $this->assertEquals('01', $nextMonths[3]);
-        $this->assertEquals('02', $nextMonths[4]);
-        $this->assertEquals('03', $nextMonths[5]);
-    }
-
     /**
      * @dataProvider dataProviderTestGetMonthFromDate
      * @param string $date

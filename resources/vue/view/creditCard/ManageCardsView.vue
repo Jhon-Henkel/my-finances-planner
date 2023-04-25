@@ -34,7 +34,6 @@
                             <td class="text-center">{{ stringTools.formatFloatValueToBrString(card.limit) }}</td>
                             <td class="text-center">{{ card.dueDate }}</td>
                             <td class="text-center">{{ card.closingDay }}</td>
-                            <!-- todo fazer o get do valor total da fatura -->
                             <td class="text-center">Valor Fatura</td>
                             <td class="text-center">{{ calendarTools.convertDateDbToBr(card.createdAt) }}</td>
                             <td>

@@ -7,7 +7,6 @@ use Tests\TestCase;
 
 class MovementVoUnitTest extends TestCase
 {
-    // todo quando fazer o makeMovementVO atualizar esse teste
     public function testWalletVo()
     {
         $vo = new MovementVO();
