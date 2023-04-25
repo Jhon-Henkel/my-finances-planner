@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\DTO\DatePeriodDTO;
 use App\DTO\FutureGainDTO;
+use App\DTO\FutureSpentDTO;
 use App\DTO\MovementDTO;
 use App\Enums\MovementEnum;
+use App\Models\FutureSpent;
 use App\Repositories\MovementRepository;
 use App\Resources\MovementResource;
 use App\Tools\CalendarTools;
@@ -79,6 +81,16 @@ class MovementService extends BasicService
         $movement->setDescription('Recebimento ' . $gain->getDescription());
         $movement->setType(MovementEnum::GAIN);
         $movement->setAmount($gain->getAmount());
+        return $movement;
+    }
+
+    public function populateByFutureSpent(FutureSpentDTO $spent): MovementDTO
+    {
+        $movement = new MovementDTO();
+        $movement->setWalletId($spent->getWalletId());
+        $movement->setDescription('Pagamento ' . $spent->getDescription());
+        $movement->setType(MovementEnum::SPENT);
+        $movement->setAmount($spent->getAmount());
         return $movement;
     }
 

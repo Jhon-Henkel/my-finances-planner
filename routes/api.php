@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     $router->prefix('wallet')->group(function () use ($router) {
         $router->get('', [WalletController::class, 'index'])->name(RouteEnum::API_WALLET_INDEX);
-        $router->get('total-value', [WalletController::class, 'getTotalWalletValue'])->name(RouteEnum::API_WALLET_INDEX);
+        $router->get('total-value', [WalletController::class, 'getTotalWalletValue'])->name(RouteEnum::API_WALLET_GET_TOTAL_VALUE);
         $router->get('/{id}', [WalletController::class, 'show'])->name(RouteEnum::API_WALLET_SHOW);
         $router->post('', [WalletController::class, 'insert'])->name(RouteEnum::API_WALLET_INSERT);
         $router->put('/{id}', [WalletController::class, 'update'])->name(RouteEnum::API_WALLET_UPDATE);
@@ -65,6 +65,7 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
         $router->get('next-six-months', [FutureSpentController::class, 'nextSixMonths'])->name(RouteEnum::API_FUTURE_SPENT_NEXT_SIX_MONTHS);
         $router->get('/{id}', [FutureSpentController::class, 'show'])->name(RouteEnum::API_FUTURE_SPENT_SHOW);
         $router->post('', [FutureSpentController::class, 'insert'])->name(RouteEnum::API_FUTURE_SPENT_INSERT);
+        $router->post('/{id}/pay', [FutureSpentController::class, 'paySpent'])->name(RouteEnum::API_FUTURE_SPENT_PAY);
         $router->put('/{id}', [FutureSpentController::class, 'update'])->name(RouteEnum::API_FUTURE_SPENT_UPDATE);
         $router->delete('/{id}', [FutureSpentController::class, 'delete'])->name(RouteEnum::API_FUTURE_SPENT_DELETE);
     });

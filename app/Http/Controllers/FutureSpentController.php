@@ -59,4 +59,18 @@ class FutureSpentController extends BasicController
         $futureGain = $this->getService()->getNextSixMonthsFutureSpent();
         return response()->json($futureGain, ResponseAlias::HTTP_OK);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function paySpent(int $id): JsonResponse
+    {
+        $spent = $this->getService()->findById($id);
+        if (! $spent) {
+            return response()->json(['Gasto não encontrada!'], ResponseAlias::HTTP_NOT_FOUND);
+        }
+        return $this->getService()->paySpent($spent)
+            ? response()->json(null, ResponseAlias::HTTP_OK)
+            : response()->json(['Erro ao pagar despesa!'], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+    }
 }

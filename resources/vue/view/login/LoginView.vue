@@ -61,6 +61,7 @@
     import calendarTools from "../../../js/tools/calendarTools";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
+    import apiRouter from "../../../js/router/apiRouter";
 
     export default {
         name: "LoginView",
@@ -114,6 +115,7 @@
             }
         },
         mounted() {
+            localStorage.removeItem('mfp_token')
             this.checkUserIsLogged()
             this.messageLogin = null
             this.messageLoginType = null

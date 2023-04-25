@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\DTO\FutureSpentDTO;
+use App\Enums\InvoiceEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\FutureSpentRepository;
 use App\Resources\FutureSpentResource;
@@ -39,5 +41,27 @@ class FutureSpentService extends BasicService
             $gainsPackage[] = InvoiceFactory::factoryInvoice($futureGainDTO, CalendarTools::getThisMonth());
         }
         return $gainsPackage;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function paySpent(FutureSpentDTO $spent): bool
+    {
+        $movementService = app(MovementService::class);
+        $movement = $movementService->populateByFutureSpent($spent);
+        if (! $movementService->insert($movement)){
+            return false;
+        }
+        $remainingInstallments = $spent->getInstallments() - 1;
+        if ($remainingInstallments === 0) {
+            return $this->getRepository()->deleteById($spent->getId());
+        }
+        if ($remainingInstallments < 0) {
+            $remainingInstallments = InvoiceEnum::FIXED_INSTALLMENTS;
+        }
+        $spent->setInstallments($remainingInstallments);
+        $spent->setForecast(CalendarTools::addMonthInDate($spent->getForecast(), 1));
+        return (bool)$this->getRepository()->update($spent->getId(), $spent);
     }
 }

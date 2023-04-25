@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\DTO\FutureGainDTO;
 use App\Enums\InvoiceEnum;
-use App\Enums\MovementEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\FutureGainRepository;
 use App\Resources\FutureGainResource;
@@ -54,8 +53,6 @@ class FutureGainService extends BasicService
         if (! $movementService->insert($movement)){
             return false;
         }
-        $walletService = app(WalletService::class);
-        $walletService->updateWalletValue($gain->getAmount(), $gain->getWalletId(), MovementEnum::GAIN, true);
         $remainingInstallments = $gain->getInstallments() - 1;
         if ($remainingInstallments === 0) {
             return $this->getRepository()->deleteById($gain->getId());
