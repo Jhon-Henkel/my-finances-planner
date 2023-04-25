@@ -116,7 +116,29 @@ const apiRouter = {
         update: async function(futureGain, id) {
             return await axios.put('/api/future-gain/' + id, futureGain)
         }
-    }
+    },
+    futureSpent: {
+        getNextSixMonthsSpending: async function() {
+            const request = await axios.get('/api/future-spent/next-six-months')
+            return request.data
+        },
+        delete: async function(id) {
+            return await axios.delete('/api/future-spent/' + id)
+        },
+        pay: async function(id) {
+            return await axios.post('/api/future-spent/' + id + '/pay')
+        },
+        show: async function(id) {
+            const request = await axios.get('/api/future-spent/' + id)
+            return request.data
+        },
+        insert: async function(futureSpent) {
+            return await axios.post('/api/future-spent', futureSpent)
+        },
+        update: async function(futureSpent, id) {
+            return await axios.put('/api/future-spent/' + id, futureSpent)
+        }
+    },
 }
 
 export default apiRouter

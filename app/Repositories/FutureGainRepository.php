@@ -17,6 +17,7 @@ class FutureGainRepository extends BasicRepository
         $this->model = $model;
         $this->resource = app(FutureGainResource::class);
     }
+
     protected function getModel(): FutureGain
     {
         return $this->model;

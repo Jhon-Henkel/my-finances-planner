@@ -21,6 +21,7 @@ class FutureGainService extends BasicService
         $this->repository = $repository;
         $this->resource = app(FutureGainResource::class);
     }
+
     protected function getRepository(): FutureGainRepository
     {
         return $this->repository;

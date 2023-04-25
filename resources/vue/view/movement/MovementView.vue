@@ -181,7 +181,7 @@
         color: #4a54ea;
     }
     .movement-spent-icon {
-        color: #fa2d2d;
+        color: #ff0000;
     }
     .movement-gain-icon {
         color: #12c4a1;

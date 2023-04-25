@@ -162,7 +162,7 @@
                 }
             },
             async receiveGain(id, gainName) {
-                if(confirm("Voce confirma o recebimento de " + gainName + '?')) {
+                if(confirm("Você confirma o recebimento de " + gainName + '?')) {
                     await ApiRouter.futureGain.receive(id).then(response => {
                         this.message = 'Ganho recebido com sucesso!'
                         this.messageType = MessageEnum.messageTypeSuccess()

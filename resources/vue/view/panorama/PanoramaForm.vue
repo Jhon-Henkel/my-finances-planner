@@ -1,14 +1,14 @@
 <template>
     <div>
-        <h1>
-            Panorama View
-        </h1>
+        <h3>
+            desenvolvendo...
+        </h3>
     </div>
 </template>
 
 <script>
     export default {
-        name: "PanoramView"
+        name: "PanoramaForm"
     }
 </script>
 

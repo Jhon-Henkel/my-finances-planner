@@ -139,7 +139,7 @@ class MovementService extends BasicService
     {
         $movement = new MovementDTO();
         $movement->setWalletId($walletId);
-        $movement->setDescription('Pagamento de fatura do cartão de crédito ' . $cardName);
+        $movement->setDescription('Fatura cartão ' . $cardName);
         $movement->setType(MovementEnum::SPENT);
         $movement->setAmount($totalValue);
         $this->insert($movement);

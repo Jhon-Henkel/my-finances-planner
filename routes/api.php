@@ -4,6 +4,7 @@ use App\Enums\RouteEnum;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
 use App\Http\Controllers\FutureGainController;
+use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
@@ -57,5 +58,13 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
         $router->post('', [FutureGainController::class, 'insert'])->name(RouteEnum::API_FUTURE_GAIN_INSERT);
         $router->put('/{id}', [FutureGainController::class, 'update'])->name(RouteEnum::API_FUTURE_GAIN_UPDATE);
         $router->delete('/{id}', [FutureGainController::class, 'delete'])->name(RouteEnum::API_FUTURE_GAIN_DELETE);
+    });
+    $router->prefix('future-spent')->group(function() use ($router) {
+        $router->get('', [FutureSpentController::class, 'index'])->name(RouteEnum::API_FUTURE_SPENT_INDEX);
+        $router->get('next-six-months', [FutureSpentController::class, 'nextSixMonths'])->name(RouteEnum::API_FUTURE_SPENT_NEXT_SIX_MONTHS);
+        $router->get('/{id}', [FutureSpentController::class, 'show'])->name(RouteEnum::API_FUTURE_SPENT_SHOW);
+        $router->post('', [FutureSpentController::class, 'insert'])->name(RouteEnum::API_FUTURE_SPENT_INSERT);
+        $router->put('/{id}', [FutureSpentController::class, 'update'])->name(RouteEnum::API_FUTURE_SPENT_UPDATE);
+        $router->delete('/{id}', [FutureSpentController::class, 'delete'])->name(RouteEnum::API_FUTURE_SPENT_DELETE);
     });
 });

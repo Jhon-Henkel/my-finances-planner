@@ -36,6 +36,12 @@ class RouteEnum
     const API_FUTURE_GAIN_UPDATE = 'apiFutureGainUpdate';
     const API_FUTURE_GAIN_DELETE = 'apiFutureGainDelete';
     const API_FUTURE_GAIN_RECEIVE = 'apiFutureGainReceive';
+    const API_FUTURE_SPENT_INDEX = 'apiFutureSpentIndex';
+    const API_FUTURE_SPENT_NEXT_SIX_MONTHS = 'apiFutureSpentNextSixMonths';
+    const API_FUTURE_SPENT_SHOW = 'apiFutureSpentShow';
+    const API_FUTURE_SPENT_INSERT = 'apiFutureSpentInsert';
+    const API_FUTURE_SPENT_UPDATE = 'apiFutureSpentUpdate';
+    const API_FUTURE_SPENT_DELETE = 'apiFutureSpentDelete';
     const WEB_LOGIN = 'login';
     const WEB_LOGOUT = 'logout';
     const WEB_IS_USER_LOGGED = 'webIsUserLogged';
