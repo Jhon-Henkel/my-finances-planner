@@ -20,7 +20,11 @@ const apiRouter = {
         },
         delete: async function(id) {
             return await axios.delete('/api/wallet/' + id)
-        }
+        },
+        getTotalWalletsValue: async function() {
+            const request = await axios.get('/api/wallet/total-value')
+            return request.data
+        },
     },
     cards: {
         index: async function() {

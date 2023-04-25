@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     $router->prefix('wallet')->group(function () use ($router) {
         $router->get('', [WalletController::class, 'index'])->name(RouteEnum::API_WALLET_INDEX);
+        $router->get('total-value', [WalletController::class, 'getTotalWalletValue'])->name(RouteEnum::API_WALLET_INDEX);
         $router->get('/{id}', [WalletController::class, 'show'])->name(RouteEnum::API_WALLET_SHOW);
         $router->post('', [WalletController::class, 'insert'])->name(RouteEnum::API_WALLET_INSERT);
         $router->put('/{id}', [WalletController::class, 'update'])->name(RouteEnum::API_WALLET_UPDATE);

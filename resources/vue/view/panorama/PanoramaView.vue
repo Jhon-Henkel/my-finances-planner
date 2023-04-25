@@ -111,6 +111,34 @@
                 </tbody>
             </table>
             <divider/>
+            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <td>Total em carteira</td>
+                        <td></td>
+                        <td>
+                            <select v-model="monthForCalc" class="form-select-sm text-center">
+                                <option value="10" disabled>Selecione o mês</option>
+                                <option v-for="(month, index) in months" :key="index" :value="index">
+                                    {{ calendarTools.getMonthNameByNumber(month) }}
+                                </option>
+                            </select>
+                        </td>
+                        <td></td>
+                        <td>Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center">
+                        <td>{{ formatValueToBr(totalWalletsValue) }}</td>
+                        <td>+</td>
+                        <td>{{ getValueForTotalSum() }}</td>
+                        <td>=</td>
+                        <td>{{ formatValueToBr(totalWalletsValue + getValueForTotalSum()) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <divider/>
         </div>
     </div>
 </template>
@@ -184,7 +212,9 @@
                     total: 0
                 },
                 futureSpending: {},
-                messageTimeOut: CalendarTools.fiveSecondsTimeInMs()
+                messageTimeOut: CalendarTools.fiveSecondsTimeInMs(),
+                totalWalletsValue: 0,
+                monthForCalc: 10
             }
         },
         methods: {
@@ -280,6 +310,23 @@
                 }
                 return true
             },
+            getValueForTotalSum() {
+                if (this.monthForCalc === 10) {
+                    return 0
+                } else if (this.monthForCalc === 0) {
+                    return this.totalRemaining.firstMonth
+                } else if (this.monthForCalc === 1) {
+                    return this.totalRemaining.secondMonth
+                } else if (this.monthForCalc === 2) {
+                    return this.totalRemaining.thirdMonth
+                } else if (this.monthForCalc === 3) {
+                    return this.totalRemaining.forthMonth
+                } else if (this.monthForCalc === 4) {
+                    return this.totalRemaining.fifthMonth
+                } else if (this.monthForCalc === 5) {
+                    return this.totalRemaining.sixthMonth
+                }
+            },
             formatValueToBr(value) {
                 return StringTools.formatFloatValueToBrString(value)
             }
@@ -295,6 +342,7 @@
                 this.thisMonth + 5
             ]
             await this.updateFutureSpendingList()
+            this.totalWalletsValue = await ApiRouter.wallet.getTotalWalletsValue()
         }
     }
 </script>

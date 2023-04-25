@@ -53,4 +53,14 @@ class WalletService extends BasicService
         }
         return parent::update($id, $item);
     }
+
+    public function getTotalWalletValue(): float
+    {
+        $wallets = $this->findAll();
+        $total = 0;
+        foreach ($wallets as $wallet) {
+            $total += $wallet->getAmount();
+        }
+        return $total;
+    }
 }
