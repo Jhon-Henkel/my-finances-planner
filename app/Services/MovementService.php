@@ -103,7 +103,6 @@ class MovementService extends BasicService
 
     public function update(int $id, $item)
     {
-        // todo testar alterando a movimentação para outra carteira, deve adicionar o valor a carteira original e retirar da carteira destino
         $movement = $this->findById($id);
         $walletService = app(WalletService::class);
         if ($movement->getAmount() != $item->getAmount()) {
