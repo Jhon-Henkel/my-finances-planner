@@ -1,8 +1,8 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false"/>
-        <div v-show="loadingDone">
+        <loading-component v-show="loadingDone === 0"/>
+        <div v-show="loadingDone === 4">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Panorama'"/>
                 <router-link class="btn btn-success rounded-5" to="/panorama/cadastrar-despesa">
@@ -144,7 +144,7 @@
         },
         data() {
             return {
-                loadingDone: false,
+                loadingDone: 0,
                 months: [],
                 alertIcon: iconEnum.triangleExclamation(),
                 totalSpending: {
@@ -178,14 +178,16 @@
         },
         methods: {
             async updateFutureSpendingList() {
-                this.loadingDone = false
+                this.loadingDone = 0
                 await ApiRouter.futureSpent.getNextSixMonthsSpending().then(response => {
                     this.futureSpending = response
-                    this.calculateTotalSpendingPerMonth()
-                    this.calculateTotalGainPerMonth()
+                    this.loadingDone = this.loadingDone + 1
                 }).catch(() => {
                     this.messageError('Não foi possível carregar os despesas futuras!')
                 })
+                this.calculateTotalSpendingPerMonth()
+                await this.calculateTotalGainPerMonth()
+                this.calculateTotalRemainingPerMonth()
             },
             calculateTotalSpendingPerMonth() {
                 let totalPerMonthCount = NumberTools.calculateTotalPerMonthInvoiceItem(this.futureSpending)
@@ -195,6 +197,7 @@
                 this.totalSpending.forthMonth = totalPerMonthCount.forthMonth
                 this.totalSpending.fifthMonth = totalPerMonthCount.fifthMonth
                 this.totalSpending.sixthMonth = totalPerMonthCount.sixthMonth
+                this.loadingDone = this.loadingDone + 1
             },
             async calculateTotalGainPerMonth() {
                 await ApiRouter.futureGain.getNextSixMonthsGains().then(response => {
@@ -205,7 +208,7 @@
                     this.totalFutureGain.forthMonth = totalPerMonthCount.forthMonth
                     this.totalFutureGain.fifthMonth = totalPerMonthCount.fifthMonth
                     this.totalFutureGain.sixthMonth = totalPerMonthCount.sixthMonth
-                    this.calculateTotalRemainingPerMonth()
+                    this.loadingDone = this.loadingDone + 1
                 })
             },
             calculateTotalRemainingPerMonth() {
@@ -215,7 +218,7 @@
                 this.totalRemaining.forthMonth = this.totalFutureGain.forthMonth - this.totalSpending.forthMonth
                 this.totalRemaining.fifthMonth = this.totalFutureGain.fifthMonth - this.totalSpending.fifthMonth
                 this.totalRemaining.sixthMonth = this.totalFutureGain.sixthMonth - this.totalSpending.sixthMonth
-                this.loadingDone = true
+                this.loadingDone = this.loadingDone + 1
             },
             async deleteSpent(id, spentName) {
                 if(confirm("Tem certeza que realmente quer deletar a despesa " + spentName + '?')) {
