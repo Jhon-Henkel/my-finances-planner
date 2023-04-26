@@ -6,6 +6,7 @@ use App\DTO\DatePeriodDTO;
 use App\DTO\FutureGainDTO;
 use App\DTO\FutureSpentDTO;
 use App\DTO\MovementDTO;
+use App\Enums\DateEnum;
 use App\Enums\MovementEnum;
 use App\Repositories\MovementRepository;
 use App\Resources\MovementResource;
@@ -151,9 +152,32 @@ class MovementService extends BasicService
     /**
      * @return MovementDTO[]
      */
-    public function getLastFiveMovements(): array
+    public function getLastMovements(int $limit): array
     {
-        $items = $this->repository->getLastFiveMovements();
+        $items = $this->repository->getLastMovements($limit);
         return $this->resource->arrayDtoToVoItens($items);
+    }
+
+    public function generateDataForGraph(): array
+    {
+        $movements = $this->getRepository()->getLastTwelveMonthsSumGroupByTypeAndMonth();
+        $labels = [];
+        $gainData = [];
+        $spentData = [];
+        foreach ($movements as $movement) {
+            if (! in_array(DateEnum::getMonthNameByNumber($movement['month']), $labels)) {
+                $labels[] = DateEnum::getMonthNameByNumber($movement['month']);
+            }
+            if ($movement['type'] == MovementEnum::GAIN) {
+                $gainData[] = (float)$movement['total'];
+            } else if ($movement['type'] == MovementEnum::SPENT) {
+                $spentData[] = (float)$movement['total'];
+            }
+        }
+        return [
+            'labels' => $labels,
+            'gainData' => $gainData,
+            'spentData' => $spentData,
+        ];
     }
 }

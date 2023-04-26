@@ -19,7 +19,9 @@
         "@fortawesome/free-regular-svg-icons": "^6.4.0",
         "@fortawesome/free-solid-svg-icons": "^6.4.0",
         "@fortawesome/vue-fontawesome": "^3.0.3",
+        "chart.js": "^4.2.1",
         "vue": "^3.2.36",
+        "vue-chartjs": "^5.2.0",
         "vue-loader": "^17.0.1",
         "vue-router": "^4.1.6"
     }

@@ -29,7 +29,7 @@ class DashboardService
         $lastMonth = $movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_LAST_MONTH);
         $thisMonth = $movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_MONTH);
         $thisYear = $movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_YEAR);
-        $lastFiveMovements = $movementService->getLastFiveMovements();
+        $lastMovements = $movementService->getLastMovements(8);
         return [
             'lastMonthSpent' => $lastMonth[0]['total'],
             'thisMonthSpent' => $thisMonth[0]['total'],
@@ -37,7 +37,8 @@ class DashboardService
             'lastMonthGain' => $lastMonth[1]['total'],
             'thisMonthGain' => $thisMonth[1]['total'],
             'thisYearGain' => $thisYear[1]['total'],
-            'lastFiveMovements' => $lastFiveMovements,
+            'lastMovements' => $lastMovements,
+            'dataForGraph' => $movementService->generateDataForGraph()
         ];
     }
 

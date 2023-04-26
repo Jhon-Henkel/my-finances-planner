@@ -7,6 +7,7 @@ use App\DTO\MovementDTO;
 use App\Enums\BasicFieldsEnum;
 use App\Models\MovementModel;
 use App\Resources\MovementResource;
+use App\Tools\CalendarTools;
 
 class MovementRepository extends BasicRepository
 {
@@ -54,13 +55,23 @@ class MovementRepository extends BasicRepository
             ->toArray();
     }
 
-    public function getLastFiveMovements(): array
+    public function getLastMovements(int $limit): array
     {
         $itens = $this->model::select('movements.*', 'wallets.name')
             ->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
             ->orderBy(BasicFieldsEnum::ID, 'desc')
-            ->limit(5)
+            ->limit($limit)
             ->get();
         return $this->resource->arrayToDtoItens($itens->toArray());
+    }
+
+    public function getLastTwelveMonthsSumGroupByTypeAndMonth(): array
+    {
+        return $this->model::selectRaw('sum(amount) as total, type, month(created_at) as month')
+            ->where('created_at', '>', (CalendarTools::getThisYear() - 1))
+            ->groupBy('month')
+            ->groupBy('type')
+            ->get()
+            ->toArray();
     }
 }

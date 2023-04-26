@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="row mt-4 ms-1">
-                <div class="col">
+                <div class="col-4">
                     <div class="card glass success">
                         <div class="card-body text-center">
                             <h4 class="card-title">
@@ -71,18 +71,21 @@
                                 Ultimas movimentações
                             </h4>
                             <hr>
-                                <table class="table text-white">
-                                    <tbody>
-                                        <tr v-for="movement in lastMovements">
-                                            <td><font-awesome-icon :icon="movement.type" :class="movement.class"/></td>
-                                            <td>{{ movement.date }}</td>
-                                            <td>{{ movement.description }}</td>
-                                            <td>{{ movement.value }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <table class="table text-white">
+                                <tbody>
+                                    <tr v-for="movement in lastMovements">
+                                        <td><font-awesome-icon :icon="movement.type" :class="movement.class"/></td>
+                                        <td>{{ movement.date }}</td>
+                                        <td>{{ movement.description }}</td>
+                                        <td>{{ movement.value }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
+                <div class="col-8 glass success"  style="width: 63%">
+                    <bar id="graph-movement" :options="graphOptions" :data="chartData"/>
                 </div>
             </div>
         </div>
@@ -101,6 +104,11 @@
     import iconEnum from "../../../js/enums/iconEnum";
     import calendarTools from "../../../js/tools/calendarTools";
     import movementEnum from "../../../js/enums/movementEnum";
+    import { Bar } from 'vue-chartjs'
+    import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+
+    ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+    ChartJS.defaults.color = '#fff';
 
     export default {
         name: "DashboardView",
@@ -117,12 +125,65 @@
             MfpMessage,
             LoadingComponent,
             Divider,
-            MfpTitle
+            MfpTitle,
+            Bar
         },
         data() {
             return {
                 alertIcon: iconEnum.triangleExclamation(),
                 loadingDone: false,
+                graphOptions: {
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: true,
+                            ticks: {
+                                callback: value => StringTools.formatFloatValueToBrString(value)
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Movimentações por mês'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += StringTools.formatFloatValueToBrString(context.parsed.y);
+                                    }
+                                    return label;
+                                },
+                            }
+                        },
+                    }
+                },
+                chartData: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Gastos',
+                            backgroundColor: '#f87979',
+                            data: []
+                        },
+                        {
+                            label: 'Ganhos',
+                            backgroundColor: '#79f879',
+                            data: []
+                        }
+                    ]
+                },
                 data: {
                     walletBalance: 0,
                     movements: {
@@ -132,12 +193,17 @@
                         lastMonthGain: 0,
                         thisYearSpent: 0,
                         thisYearGain: 0,
-                        lastFiveMovements: [
+                        lastMovements: [
                             {
                                 createdAt: '',
                                 walletName: '',
                             }
                         ],
+                        dataForGraph: {
+                            labels: [],
+                            spentData: [],
+                            gainData: []
+                        }
                     },
                     futureSpent: {
                         thisMonth: 0,
@@ -152,7 +218,7 @@
                         value: 0,
                         type: 'success',
                         icon: iconEnum.wallet(),
-                        iconClass: 'wallet-icon'
+                        iconClass: ''
                     },
                     futureSpent: {
                         title: 'Pagar este mês',
@@ -174,8 +240,7 @@
                     lastMonth: 0,
                     thisYear: 0,
                 },
-                lastMovements: [
-                ]
+                lastMovements: [],
             }
         },
         methods: {
@@ -187,7 +252,7 @@
                 this.balance.thisMonth = this.data.movements.thisMonthGain - this.data.movements.thisMonthSpent
                 this.balance.lastMonth = this.data.movements.lastMonthGain - this.data.movements.lastMonthSpent
                 this.balance.thisYear = this.data.movements.thisYearGain - this.data.movements.thisYearSpent
-                this.data.movements.lastFiveMovements.forEach(movement => {
+                this.data.movements.lastMovements.forEach(movement => {
                     this.lastMovements.push({
                         date: calendarTools.convertDateDbToBr(movement.createdAt).slice(0, 5),
                         type: movement.type === movementEnum.type.gain() ? iconEnum.circleArrowUp() : iconEnum.circleArrowDown(),
@@ -203,6 +268,21 @@
                 this.data = response;
                 this.loadingDone = true;
                 this.populateData();
+                this.chartData = {
+                    labels: this.data.movements.dataForGraph.labels,
+                    datasets: [
+                        {
+                            label: 'Ganhos',
+                            backgroundColor: '#1ead98',
+                            data: this.data.movements.dataForGraph.gainData
+                        },
+                        {
+                            label: 'Gastos',
+                            backgroundColor: '#dc3545',
+                            data: this.data.movements.dataForGraph.spentData
+                        },
+                    ]
+                }
             }).catch(error => {
                 this.$refs.message.showAlert(
                     MessageEnum.alertTypeError(),
@@ -232,9 +312,6 @@
     }
     .icon-alert {
         color: #fdd200;
-    }
-    .wallet-icon {
-        color: #1ead98;
     }
     .spent-icon {
         color: #eb4e2c;
