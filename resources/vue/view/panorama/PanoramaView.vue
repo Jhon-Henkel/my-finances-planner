@@ -14,6 +14,9 @@
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
                     <tr class="text-center">
+                        <td colspan="10">Despesas</td>
+                    </tr>
+                    <tr class="text-center">
                         <th>Descrição</th>
                         <th>Carteira</th>
                         <th scope="col" v-for="(month, index) in months" :key="index">
