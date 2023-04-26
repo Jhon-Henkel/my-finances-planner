@@ -1,8 +1,8 @@
 <template>
     <div class="base-container">
+        <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
-            <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Ganhos Futuros'"/>
                 <router-link class="btn btn-success rounded-5" to="/ganhos-futuros/cadastrar">
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-    import Message from "../../components/MessageComponent.vue";
     import LoadingComponent from "../../components/LoadingComponent.vue";
     import iconEnum from "../../../js/enums/iconEnum";
     import CalendarTools from "../../../js/tools/calendarTools";
@@ -80,6 +79,7 @@
     import NumberTools from "../../../js/tools/numberTools";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
+    import MfpMessage from "../../components/MessageAlert.vue";
 
     export default {
         name: "FutureGainView",
@@ -95,17 +95,15 @@
             }
         },
         components: {
+            MfpMessage,
             MfpTitle,
             Divider,
             ActionButtons,
             LoadingComponent,
-            Message
         },
         data() {
             return {
                 loadingDone: false,
-                message: null,
-                messageType: null,
                 months: [],
                 totalPerMonth: {
                     firstMonth: 0,
@@ -117,24 +115,15 @@
                     total: 0
                 },
                 futureGains: {},
-                messageTimeOut: CalendarTools.fiveSecondsTimeInMs()
             }
         },
         methods: {
-            resetMessage() {
-                setTimeout(() =>
-                    [this.message = null, this.messageType = null],
-                    this.messageTimeOut
-                )
-            },
             async updateFutureGainsList() {
                 await ApiRouter.futureGain.getNextSixMonthsGains().then(response => {
                     this.futureGains = response
                     this.calculateTotalPerMonth()
                 }).catch(error => {
-                    this.message = 'Não foi possível carregar os ganhos futuros!'
-                    this.messageType = MessageEnum.messageTypeError()
-                    this.resetMessage()
+                    this.messageError('Não foi possível carregar os ganhos futuros!')
                 })
             },
             calculateTotalPerMonth() {
@@ -150,28 +139,20 @@
             async deleteGain(id, gainName) {
                 if(confirm("Tem certeza que realmente quer deletar o ganho " + gainName + '?')) {
                     await ApiRouter.futureGain.delete(id).then(response => {
-                        this.message = 'Ganho deletado com sucesso!'
-                        this.messageType = MessageEnum.messageTypeSuccess()
-                        this.resetMessage()
+                        this.messageError('Ganho deletado com sucesso!')
                         this.updateFutureGainsList()
                     }).catch(error => {
-                        this.message = 'Não foi possível deletar o ganho!'
-                        this.messageType = MessageEnum.messageTypeError()
-                        this.resetMessage()
+                        this.messageError('Não foi possível deletar o ganho!')
                     })
                 }
             },
             async receiveGain(id, gainName) {
                 if(confirm("Você confirma o recebimento de " + gainName + '?')) {
                     await ApiRouter.futureGain.receive(id).then(response => {
-                        this.message = 'Ganho recebido com sucesso!'
-                        this.messageType = MessageEnum.messageTypeSuccess()
-                        this.resetMessage()
+                        this.messageSuccess('Campo "Ganho recebido com sucesso!')
                         this.updateFutureGainsList()
                     }).catch(error => {
-                        this.message = 'Não foi possível receber o ganho!'
-                        this.messageType = MessageEnum.messageTypeError()
-                        this.resetMessage()
+                        this.messageError('Não foi possível receber o ganho!')
                     })
                 }
             },
@@ -187,6 +168,15 @@
                     return false
                 }
                 return true
+            },
+            messageError(message) {
+                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+            },
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+            },
+            showMessage(type, message, title) {
+                this.$refs.message.showAlert(type, message, title)
             }
         },
         async mounted() {

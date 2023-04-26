@@ -1,8 +1,8 @@
 <template>
     <div class="base-container">
+        <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
-            <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Carteiras'"/>
                 <router-link class="btn btn-success rounded-5" to="/carteiras/cadastrar">
@@ -57,23 +57,22 @@
     import stringTools from "../../../js/tools/stringTools";
     import numberTools from "../../../js/tools/numberTools";
     import calendarTools from "../../../js/tools/calendarTools";
-    import Message from "../../components/MessageComponent.vue";
-    import messageEnum from "../../../js/enums/messageEnum";
     import iconEnum from "../../../js/enums/iconEnum";
-    import CalendarTools from "../../../js/tools/calendarTools";
     import LoadingComponent from "../../components/LoadingComponent.vue";
     import ActionButtons from "../../components/ActionButtons.vue";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
+    import MfpMessage from "../../components/MessageAlert.vue";
+    import MessageEnum from "../../../js/enums/messageEnum";
 
     export default {
         name: "WalletView",
         components: {
+            MfpMessage,
             MfpTitle,
             Divider,
             ActionButtons,
             LoadingComponent,
-            Message
         },
         computed: {
             iconEnum() {
@@ -93,9 +92,6 @@
             return {
                 wallets: {},
                 sumTotalAmount: 0,
-                message: null,
-                messageTimeOut: CalendarTools.fiveSecondsTimeInMs(),
-                messageType: null,
                 loadingDone: false
             }
         },
@@ -107,22 +103,21 @@
             async deleteWallet(walletId, walletName) {
                 if(confirm("Tem certeza que realmente quer deletar a carteira " + walletName + '?')) {
                     await apiRouter.wallet.delete(walletId).then((response) => {
-                        this.message = 'Carteira deletada com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
+                        this.messageSuccess('Carteira deletada com sucesso!')
                         this.getWallets()
                     }).catch((response) => {
-                        this.message = 'Erro inesperado ao deletar carteira!'
-                        this.messageType = messageEnum.messageTypeError()
+                        this.messageError('Erro inesperado ao deletar carteira!')
                     })
-                    this.resetMessage()
                 }
             },
-            resetMessage() {
-                $(window).scrollTop(0, 0)
-                setTimeout(() =>
-                    [this.message = null, this.messageType = null],
-                    this.messageTimeOut
-                )
+            messageError(message) {
+                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+            },
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+            },
+            showMessage(type, message, header) {
+                this.$refs.message.showAlert(type,message,header)
             }
         },
         mounted() {

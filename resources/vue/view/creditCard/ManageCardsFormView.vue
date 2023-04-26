@@ -1,8 +1,8 @@
 <template>
     <div class="base-container">
+        <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
-            <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
             <mfp-title :title="title"/>
             <divider/>
             <form class="was-validated">
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <input-money :value="card.limit" :title="'Limite'" @input-money="updateCardLimitFromEvent"/>
+                <input-money :value="card.limit" :title="'Limite'" @input-money="card.limit = $event"/>
                 <div class="row justify-content-center">
                     <div class="col-4">
                         <div class="form-group mt-2">
@@ -67,16 +67,15 @@
 
 <script>
     import LoadingComponent from "../../components/LoadingComponent.vue";
-    import Message from "../../components/MessageComponent.vue";
     import iconEnum from "../../../js/enums/iconEnum";
-    import calendarTools from "../../../js/tools/calendarTools";
     import apiRouter from "../../../js/router/apiRouter";
     import InputMoney from "../../components/inputMoneyComponent.vue";
-    import messageEnum from "../../../js/enums/messageEnum";
     import {HttpStatusCode} from "axios";
     import BottomButtons from "../../components/BottomButtons.vue";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
+    import MfpMessage from "../../components/MessageAlert.vue";
+    import MessageEnum from "../../../js/enums/messageEnum";
 
     export default {
         name: "ManageCardsFormView",
@@ -86,29 +85,34 @@
             }
         },
         components: {
+            MfpMessage,
             MfpTitle,
             Divider,
             BottomButtons,
             InputMoney,
-            Message,
             LoadingComponent
         },
         data() {
             return {
                 card: {},
                 title: '',
-                message: null,
-                messageType: null,
                 isValid: null,
                 loadingDone: false,
-                messageTimeOut: calendarTools.threeSecondsTimeInMs(),
             }
         },
         methods: {
+            messageError(message) {
+                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+            },
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+            },
+            showMessage(type, message, title) {
+                this.$refs.message.showAlert(type, message, title)
+            },
             async updateOrInsertCard() {
                 this.validateWallet()
                 if (! this.isValid) {
-                    this.resetMessage()
                     return
                 }
                 if (this.card.id) {
@@ -118,33 +122,22 @@
                 }
             },
             validateWallet() {
+                let field = null
                 if (! this.card.name || this.card.name.length < 2) {
-                    this.message = 'Campo "nome" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
+                    field = 'nome'
+                } else if (! this.card.limit) {
+                    field = 'limite'
+                } else if (! this.card.dueDate) {
+                    field = 'vence dia'
+                } else if (! this.card.closingDay) {
+                    field = 'fecha dia'
                 }
-                if (! this.card.limit) {
-                    this.message = 'Campo "limite" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (! this.card.dueDate) {
-                    this.message = 'Campo "vence dia" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (! this.card.closingDay) {
-                    this.message = 'Campo "fecha dia" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (this.card.closingDay > this.card.dueDate) {
-                    this.message = 'Campo "fecha dia" não pode ser maior que "vence dia"!'
-                    this.messageType = messageEnum.messageTypeWarning()
+                if (field) {
+                    this.showMessage(
+                        MessageEnum.alertTypeInfo(),
+                        'Campo "' + field + '" é inválido!',
+                        'Campo inválido!'
+                    )
                     this.isValid = false
                     return
                 }
@@ -153,32 +146,24 @@
             async updateCard() {
                 await apiRouter.cards.update(this.populateData(), this.card.id).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
-                        this.message = 'Cartão atualizado com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
-                        this.resetMessage()
-                    } else {
-                        this.message = 'Erro inesperado ao atualizar cartão!'
-                        this.messageType = messageEnum.messageTypeError()
+                        this.messageSuccess('Cartão atualizado com sucesso!')
+                        return
                     }
+                    this.messageError('Erro inesperado ao atualizar cartão!')
                 }).catch((response) => {
-                    this.message = response.response.data.error
-                    this.messageType = messageEnum.messageTypeError()
+                    this.messageError(response.response.data.error)
                 })
             },
             async insertCard() {
                 await apiRouter.cards.insert(this.populateData()).then((response) => {
                     if (response.status === HttpStatusCode.Created) {
-                        this.message = 'Cartão cadastrada com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
+                        this.messageSuccess('Cartão cadastrada com sucesso!')
                         this.card = {}
-                        this.resetMessage()
                     } else {
-                        this.message = 'Erro inesperado ao inserir cartão!'
-                        this.messageType = messageEnum.messageTypeError()
+                        this.messageError('Erro inesperado ao inserir cartão!')
                     }
                 }).catch((response) => {
-                    this.message = response.response.data.error
-                    this.messageType = messageEnum.messageTypeError()
+                    this.messageError(response.response.data.error)
                 })
             },
             populateData() {
@@ -189,15 +174,6 @@
                     closingDay: this.card.closingDay
                 }
             },
-            resetMessage() {
-                setTimeout(() =>
-                    [this.message = null, this.messageType = null],
-                    this.messageTimeOut
-                )
-            },
-            updateCardLimitFromEvent(event) {
-                this.card.limit = event
-            }
         },
         async mounted() {
             if (this.$route.params.id) {

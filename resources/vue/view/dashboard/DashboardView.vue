@@ -2,7 +2,6 @@
     <div class="base-container">
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
-            <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Dashboard'"/>
             </div>
@@ -14,14 +13,12 @@
 <script>
     import MfpTitle from "../../components/TitleComponent.vue";
     import Divider from "../../components/DividerComponent.vue";
-    import Message from "../../components/MessageComponent.vue";
     import LoadingComponent from "../../components/LoadingComponent.vue";
 
     export default {
         name: "DashboardView",
         components: {
             LoadingComponent,
-            Message,
             Divider,
             MfpTitle
         },

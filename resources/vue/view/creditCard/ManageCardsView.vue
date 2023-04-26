@@ -1,8 +1,8 @@
 <template>
     <div class="base-container">
+        <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
-            <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Cartões'"/>
                 <router-link class="btn btn-success rounded-5 me-2" to="/gerenciar-cartoes/cadastrar">
@@ -56,16 +56,16 @@
 
 <script>
     import LoadingComponent from "../../components/LoadingComponent.vue";
-    import Message from "../../components/MessageComponent.vue";
     import CalendarTools from "../../../js/tools/calendarTools";
     import iconEnum from "../../../js/enums/iconEnum";
     import apiRouter from "../../../js/router/apiRouter";
-    import messageEnum from "../../../js/enums/messageEnum";
     import stringTools from "../../../js/tools/stringTools";
     import calendarTools from "../../../js/tools/calendarTools";
     import ActionButtons from "../../components/ActionButtons.vue";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
+    import MfpMessage from "../../components/MessageAlert.vue";
+    import MessageEnum from "../../../js/enums/messageEnum";
 
     export default {
         name: "ManageCardsView",
@@ -81,45 +81,41 @@
             }
         },
         components: {
+            MfpMessage,
             MfpTitle,
             Divider,
             ActionButtons,
-            Message,
             LoadingComponent
         },
         data() {
             return {
                 cards: {},
-                message: null,
-                messageTimeOut: CalendarTools.fiveSecondsTimeInMs(),
-                messageType: null,
                 loadingDone: false
             }
         },
         methods: {
+            messageError(message) {
+                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+            },
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+            },
+            showMessage(type, message, title) {
+                this.$refs.message.showAlert(type, message, title)
+            },
             async getCards() {
                 this.cards = await apiRouter.cards.index()
             },
             async deleteCard(cardId, cardName) {
                 if(confirm("Tem certeza que realmente quer deletar o cartão " + cardName + '?')) {
                     await apiRouter.cards.delete(cardId).then((response) => {
-                        this.message = 'Cartão deletada com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
+                        this.messageSuccess('Cartão deletada com sucesso!')
                         this.getCards()
                     }).catch((response) => {
-                        this.message = 'Erro inesperado ao deletar Cartão!'
-                        this.messageType = messageEnum.messageTypeError()
+                        this.messageError('Erro inesperado ao deletar Cartão!')
                     })
-                    this.resetMessage()
                 }
             },
-            resetMessage() {
-                $(window).scrollTop(0, 0)
-                setTimeout(() =>
-                    [this.message = null, this.messageType = null],
-                    this.messageTimeOut
-                )
-            }
         },
         mounted() {
             this.getCards()

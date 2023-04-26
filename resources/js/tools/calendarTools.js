@@ -1,3 +1,4 @@
+const TEN_SECONDS_TIME_IN_MS = 10000;
 const FIVE_SECONDS_TIME_IN_MS = 5000;
 const THREE_SECONDS_TIME_IN_MS = 3000;
 const FIVE_HUNDRED_MS = 500;
@@ -28,6 +29,9 @@ const calendarTools = {
     },
     fiveHundredMs() {
         return FIVE_HUNDRED_MS
+    },
+    tenSecondsTimeInMs() {
+        return TEN_SECONDS_TIME_IN_MS
     },
     twoHundredMs() {
         return TWO_HUNDRED_MS

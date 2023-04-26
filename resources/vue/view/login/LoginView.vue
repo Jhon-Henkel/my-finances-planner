@@ -1,10 +1,9 @@
 <template>
     <div class="base-container">
+        <mfp-message ref="message"/>
         <div class="card text-center login-box glass">
             <mfp-title class="title" :title="'Login'"/>
             <div class="card-body">
-                <hr v-show="messageLogin">
-                <message :message="messageLogin" :type="messageLoginType" v-show="messageLogin"/>
                 <form class="form-horizontal" @submit="login">
                     <divider/>
                     <div class="text-black">
@@ -55,26 +54,22 @@
     import iconEnum from "../../../js/enums/iconEnum";
     import RouterNonAuthenticated from "../../../js/router/routerNonAuthenticated";
     import {HttpStatusCode} from "axios";
-    import Message from "../../components/MessageComponent.vue";
-    import messageEnum from "../../../js/enums/messageEnum";
     import routerNonAuthenticated from "../../../js/router/routerNonAuthenticated";
-    import calendarTools from "../../../js/tools/calendarTools";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
-    import apiRouter from "../../../js/router/apiRouter";
+    import MfpMessage from "../../components/MessageAlert.vue";
+    import MessageEnum from "../../../js/enums/messageEnum";
 
     export default {
         name: "LoginView",
         components: {
+            MfpMessage,
             MfpTitle,
             Divider,
-            Message
         },
         data() {
             return {
                 user: {},
-                messageLogin: null,
-                messageLoginType: null
             }
         },
         computed: {
@@ -90,13 +85,19 @@
                             // feito isso para carregar tudo no app.vue, pois sem dar reload o app não carregava a sidebar
                             window.location.reload()
                         } else {
-                            this.messageLogin = 'Algo deu errado ao efetuar seu login!'
-                            this.messageLoginType = messageEnum.messageTypeError()
+                            this.showMessage(
+                                MessageEnum.alertTypeError(),
+                                'Campo "Algo deu errado ao efetuar seu login!',
+                                'Ocorreu um erro!'
+                            )
                         }
                 }).catch((response) => {
                     if (response.response.status === HttpStatusCode.Unauthorized) {
-                        this.messageLogin = 'Login ou senha incorreto!'
-                        this.messageLoginType = messageEnum.messageTypeError()
+                        this.showMessage(
+                            MessageEnum.alertTypeError(),
+                            'Campo "Login ou senha incorreto!',
+                            'Ocorreu um erro!'
+                        )
                     }
                 })
             },
@@ -112,13 +113,14 @@
                         this.$router.push({name: 'dashboard'})
                     }
                 })
+            },
+            showMessage(type, message, title) {
+                this.$refs.message.showAlert(type, message, title)
             }
         },
         mounted() {
             localStorage.removeItem('mfp_token')
             this.checkUserIsLogged()
-            this.messageLogin = null
-            this.messageLoginType = null
         }
     }
 </script>

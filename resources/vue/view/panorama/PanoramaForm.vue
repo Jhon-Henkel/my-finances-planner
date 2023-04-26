@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <message :message="message" :type="messageType" v-show="message"/>
+        <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
@@ -91,44 +91,39 @@
 
 <script>
     import MfpTitle from "../../components/TitleComponent.vue";
-    import Message from "../../components/MessageComponent.vue";
     import Divider from "../../components/DividerComponent.vue";
     import LoadingComponent from "../../components/LoadingComponent.vue";
     import apiRouter from "../../../js/router/apiRouter";
     import BottomButtons from "../../components/BottomButtons.vue";
-    import messageEnum from "../../../js/enums/messageEnum";
     import {HttpStatusCode} from "axios";
     import InputMoney from "../../components/inputMoneyComponent.vue";
-    import calendarTools from "../../../js/tools/calendarTools";
+    import MessageEnum from "../../../js/enums/messageEnum";
+    import MfpMessage from "../../components/MessageAlert.vue";
 
     const FIX_SPENT = 0
 
     export default {
         name: "PanoramaForm",
         components: {
+            MfpMessage,
             InputMoney,
             BottomButtons,
             LoadingComponent,
             Divider,
-            Message,
             MfpTitle
         },
         data() {
             return {
                 title: '',
                 loadingDone: false,
-                message: null,
-                messageType: null,
                 wallets: {},
                 spent: {},
-                messageTimeOut: calendarTools.threeSecondsTimeInMs(),
             }
         },
         methods: {
             async updateOrInsertSpent() {
                 this.validateSpent()
                 if (! this.isValid) {
-                    this.resetMessage()
                     return
                 }
                 if (this.$route.params.id) {
@@ -138,33 +133,24 @@
                 await this.insertSpent()
             },
             validateSpent() {
+                let field = null
                 if (! this.spent.description) {
-                    this.message = 'Campo "Descrição" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
+                    field = 'description'
+                } else if (! this.spent.forecast) {
+                    field = 'primeira parcela'
+                } else if (! this.spent.amount || this.spent.amount === 0) {
+                    field = 'valor'
+                } else if (! this.spent.walletId) {
+                    field = 'carteira'
+                } else if (this.spent.fix === false && (! this.spent.installments || this.spent.installments === 0)) {
+                    field = 'quantidade de vezes'
                 }
-                if (! this.spent.forecast) {
-                    this.message = 'Campo "Primeira Parcela" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (! this.spent.amount || this.spent.amount === 0) {
-                    this.message = 'Campo "Valor" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (! this.spent.walletId) {
-                    this.message = 'Campo "Carteira" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (this.spent.fix === false && (! this.spent.installments || this.spent.installments === 0)) {
-                    this.message = 'Campo "Quantidade de vezes" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
+                if (field) {
+                    this.showMessage(
+                        MessageEnum.alertTypeInfo(),
+                        'Campo "' + field + '" é inválido!',
+                        'Campo inválido!'
+                    )
                     this.isValid = false
                     return
                 }
@@ -173,31 +159,23 @@
             async updateSpent() {
                 await apiRouter.futureSpent.update(this.populateSpent(), this.spent.id).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
-                        this.message = 'Gasto atualizado com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
-                        this.resetMessage()
+                        this.messageSuccess('Gasto atualizado com sucesso!')
                     } else {
-                        this.message = 'Erro inesperado ao atualizar gasto!'
-                        this.messageType = messageEnum.messageTypeError()
+                        this.messageError('Erro inesperado ao atualizar gasto!')
                     }
                 }).catch((response) => {
-                    this.message = response.response.data.error
-                    this.messageType = messageEnum.messageTypeError()
+                    this.messageError(response.response.data.error)
                 })            },
             async insertSpent() {
                 await apiRouter.futureSpent.insert(this.populateSpent()).then((response) => {
                     if (response.status === HttpStatusCode.Created) {
-                        this.message = 'Gasto cadastrada com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
+                        this.messageSuccess('Gasto cadastrada com sucesso!')
                         this.spent = {}
-                        this.resetMessage()
                     } else {
-                        this.message = 'Erro inesperado ao inserir gasto!'
-                        this.messageType = messageEnum.messageTypeError()
+                        this.messageError('Erro inesperado ao inserir gasto!')
                     }
                 }).catch((response) => {
-                    this.message = response.response.data.error
-                    this.messageType = messageEnum.messageTypeError()
+                    this.messageError(response.response.data.error)
                 })            },
             populateSpent() {
                 let installmentsToPopulate = FIX_SPENT
@@ -212,12 +190,15 @@
                     forecast: this.spent.forecast,
                 }
             },
-            resetMessage() {
-                setTimeout(() =>
-                    [this.message = null, this.messageType = null],
-                    this.messageTimeOut
-                )
+            messageError(message) {
+                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
             },
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+            },
+            showMessage(type, message, header) {
+                this.$refs.message.showAlert(type,message,header)
+            }
         },
         async mounted() {
             if (this.$route.params.id) {

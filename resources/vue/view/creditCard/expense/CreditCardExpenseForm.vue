@@ -1,8 +1,8 @@
 <template>
     <div class="base-container">
+        <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
-            <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
             <mfp-title :title="title"/>
             <divider/>
             <form class="was-validated">
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                 </div>
-                <input-money :value="expense.value" @input-money="updateExpenseValueFromEvent"/>
+                <input-money :value="expense.value" @input-money="expense.value = $event"/>
                 <div class="row justify-content-center mt-3">
                     <div class="col-4">
                         <div class="form-check form-switch">
@@ -72,13 +72,9 @@
                             <label class="form-label" for="expense-credit-card">
                                 Cartão de crédito
                             </label>
-                            <select class="form-select"
-                                    v-model="expense.creditCardId"
-                                    id="expense-credit-card"
-                                    required>
-                                <option v-for="creditCard in creditCards"
-                                        :key="creditCard.id"
-                                        :value="creditCard.id">
+                            <select class="form-select" v-model="expense.creditCardId" id="expense-credit-card" required>
+                                <option value="0" disabled>Selecione um cartão</option>
+                                <option v-for="creditCard in creditCards" :key="creditCard.id" :value="creditCard.id">
                                     {{ creditCard.name }}
                                 </option>
                             </select>
@@ -96,17 +92,16 @@
 
 <script>
     import LoadingComponent from "../../../components/LoadingComponent.vue";
-    import Message from "../../../components/MessageComponent.vue";
-    import calendarTools from "../../../../js/tools/calendarTools";
     import CalendarTools from "../../../../js/tools/calendarTools";
     import InputMoney from "../../../components/inputMoneyComponent.vue";
     import apiRouter from "../../../../js/router/apiRouter";
     import iconEnum from "../../../../js/enums/iconEnum";
-    import messageEnum from "../../../../js/enums/messageEnum";
     import {HttpStatusCode} from "axios";
     import BottomButtons from "../../../components/BottomButtons.vue";
     import Divider from "../../../components/DividerComponent.vue";
     import MfpTitle from "../../../components/TitleComponent.vue";
+    import MfpMessage from "../../../components/MessageAlert.vue";
+    import MessageEnum from "../../../../js/enums/messageEnum";
 
     const FIX_EXPENSE = 0
 
@@ -121,40 +116,38 @@
             }
         },
         components: {
+            MfpMessage,
             MfpTitle,
             Divider,
             BottomButtons,
             InputMoney,
-            Message,
             LoadingComponent
         },
         data() {
             return {
-                expense: {},
+                expense: {
+                    creditCardId: 0,
+                },
                 title: '',
-                message: null,
-                messageType: null,
                 loadingDone: false,
                 isValid: null,
-                messageTimeOut: calendarTools.threeSecondsTimeInMs(),
                 nextThreeMonthsWithYear: null,
                 creditCards: {}
             }
         },
         methods: {
-            resetMessage() {
-                setTimeout(() =>
-                    [this.message = null, this.messageType = null],
-                    this.messageTimeOut
-                )
+            messageError(message) {
+                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
             },
-            updateExpenseValueFromEvent(value) {
-                this.expense.value = value
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+            },
+            showMessage(type, message, title) {
+                this.$refs.message.showAlert(type, message, title)
             },
             async updateOrInsertExpense() {
                 this.validateExpense()
                 if (! this.isValid) {
-                    this.resetMessage()
                     return
                 }
                 if (this.expense.id) {
@@ -164,33 +157,24 @@
                 }
             },
             validateExpense() {
+                let field = null
                 if (! this.expense.name) {
-                    this.message = 'Campo "Descrição" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
+                    field = 'descrição'
+                } else if (! this.expense.nextInstallment) {
+                    field = 'primeira parcela'
+                } else if (! this.expense.value || this.expense.value <= 0) {
+                    field = 'valor'
+                } else if (this.expense.installments < 0 || this.expense.installments > 48) {
+                    field = 'quantidade de vezes'
+                } else if (! this.expense.creditCardId || this.expense.creditCardId <= 0) {
+                    field = 'cartão de credito'
                 }
-                if (! this.expense.nextInstallment) {
-                    this.message = 'Campo "Primeira parcela" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (! this.expense.value || this.expense.value <= 0) {
-                    this.message = 'Campo "Valor" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (this.expense.installments < 0 || this.expense.installments > 48) {
-                    this.message = 'Campo "Quantidade de vezes" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (! this.expense.creditCardId) {
-                    this.message = 'Campo "Cartão de crédito" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
+                if (field) {
+                    this.showMessage(
+                        MessageEnum.alertTypeInfo(),
+                        'Campo "' + field + '" é inválido!',
+                        'Campo inválido!'
+                    )
                     this.isValid = false
                     return
                 }
@@ -199,33 +183,25 @@
             async insertExpense() {
                 await apiRouter.expense.insert(this.populateExpense()).then((response) => {
                     if (response.status === HttpStatusCode.Created) {
-                        this.message = 'Despesa cadastrada com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
-                        this.card = {}
-                        this.resetMessage()
+                        this.messageSuccess('Despesa cadastrada com sucesso!')
+                        this.expense = {}
                     } else {
-                        this.message = 'Erro inesperado ao inserir despesa!'
-                        this.messageType = messageEnum.messageTypeError()
+                        this.messageError('Erro inesperado ao inserir despesa!')
                     }
                 }).catch((response) => {
-                    this.message = response.response.data.error
-                    this.messageType = messageEnum.messageTypeError()
+                    this.messageError(response.response.data.error)
                 })
             },
             async updateExpense() {
                 await apiRouter.expense.update(this.populateExpense(), this.expense.id).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
-                        this.message = 'Despesa atualizar com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
                         this.card = {}
-                        this.resetMessage()
+                        this.messageSuccess('Despesa atualizada com sucesso!')
                     } else {
-                        this.message = 'Erro inesperado ao atualizar despesa!'
-                        this.messageType = messageEnum.messageTypeError()
+                        this.messageError('Erro inesperado ao atualizar despesa!')
                     }
                 }).catch((response) => {
-                    this.message = response.response.data.error
-                    this.messageType = messageEnum.messageTypeError()
+                    this.messageError(response.response.data.error)
                 })
             },
             populateExpense() {

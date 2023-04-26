@@ -86,5 +86,8 @@ const iconEnum = {
     clock() {
         return ['fas', 'clock']
     },
+    info() {
+        return ['fas', 'info']
+    },
 }
 export default iconEnum;

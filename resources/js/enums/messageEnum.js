@@ -1,15 +1,15 @@
 const MessageEnum = {
-    messageTypeSuccess() {
-        return "message-success";
+    alertTypeSuccess() {
+        return 'success'
     },
-    messageTypeError() {
-        return "message-danger";
+    alertTypeError() {
+        return 'error'
     },
-    messageTypeInfo() {
-        return "message-info";
+    alertTypeInfo() {
+        return 'info'
     },
-    messageTypeWarning() {
-        return "message-warning";
+    alertTypeWarning() {
+        return 'warning'
     }
 }
 export default MessageEnum;

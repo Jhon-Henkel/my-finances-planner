@@ -31,7 +31,7 @@ class CreditCardController extends BasicController
     protected function rulesUpdate(): array
     {
         return [
-            'name' => 'required|string|unique:App\Models\CreditCard,name',
+            'name' => 'required|string',
             'limit' => 'required|numeric',
             'dueDate' => 'required|integer|between:1,31',
             'closingDay' => 'required|integer|between:1,31'

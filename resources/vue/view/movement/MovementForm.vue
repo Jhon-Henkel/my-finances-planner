@@ -1,8 +1,8 @@
 <template>
+    <mfp-message ref="message"/>
     <div class="base-container">
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
-            <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
             <mfp-title :title="title"/>
             <divider/>
             <form class="was-validated">
@@ -27,13 +27,8 @@
                             <label class="form-label" for="movement-type">
                                 Tipo
                             </label>
-                            <select class="form-select"
-                                    v-model="movement.type"
-                                    id="movement-type"
-                                    required>
-                                <option v-for="type in types"
-                                        :key="type.id"
-                                        :value="type.id">
+                            <select class="form-select" v-model="movement.type" id="movement-type" required>
+                                <option v-for="type in types" :key="type.id" :value="type.id">
                                     {{ type.label }}
                                 </option>
                             </select>
@@ -46,13 +41,9 @@
                             <label class="form-label" for="movement-wallet">
                                 Carteira
                             </label>
-                            <select class="form-select"
-                                    v-model="movement.walletId"
-                                    id="movement-wallet"
-                                    required>
-                                <option v-for="wallet in wallets"
-                                        :key="wallet.id"
-                                        :value="wallet.id">
+                            <select class="form-select" v-model="movement.walletId" id="movement-wallet" required>
+                                <option value="0" disabled selected>Selecione uma carteira</option>
+                                <option v-for="wallet in wallets" :key="wallet.id" :value="wallet.id">
                                     {{ wallet.name }}
                                 </option>
                             </select>
@@ -71,36 +62,35 @@
 
 <script>
     import LoadingComponent from "../../components/LoadingComponent.vue";
-    import Message from "../../components/MessageComponent.vue";
     import BottomButtons from "../../components/BottomButtons.vue";
-    import CalendarTools from "../../../js/tools/calendarTools";
     import apiRouter from "../../../js/router/apiRouter";
-    import messageEnum from "../../../js/enums/messageEnum";
     import {HttpStatusCode} from "axios";
     import MovementEnum from "../../../js/enums/movementEnum";
     import InputMoney from "../../components/inputMoneyComponent.vue";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
+    import MfpMessage from "../../components/MessageAlert.vue";
+    import MessageEnum from "../../../js/enums/messageEnum";
 
     export default {
         name: "MovementForm",
         components: {
+            MfpMessage,
             MfpTitle,
             Divider,
             InputMoney,
             BottomButtons,
-            Message,
             LoadingComponent
         },
         data() {
             return {
                 loadingDone: false,
                 title: "",
-                message: "",
-                messageType: "",
-                messageTimeOut: CalendarTools.fiveSecondsTimeInMs(),
                 isValid: false,
-                movement: {},
+                movement: {
+                    walletId: 0,
+                    type: 6,
+                },
                 wallets: {},
                 types: {}
             }
@@ -109,7 +99,6 @@
             async updateOrInsertMovement() {
                 this.validateMovement()
                 if (! this.isValid) {
-                    this.resetMessage()
                     return
                 }
                 if (this.$route.params.id) {
@@ -119,27 +108,22 @@
                 await this.insertMovement()
             },
             validateMovement() {
+                let field = null
                 if (! this.movement.description) {
-                    this.message = 'Campo "Descrição" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
+                    field = 'descrição'
+                } else if (! this.movement.type) {
+                    field = 'tipo'
+                } else if (! this.movement.walletId || this.movement.walletId === 0) {
+                    field = 'carteira'
+                } else if (! this.movement.amount) {
+                    field = 'valor'
                 }
-                if (! this.movement.type) {
-                    this.message = 'Campo "Tipo" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (! this.movement.walletId) {
-                    this.message = 'Campo "Carteira" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
-                    this.isValid = false
-                    return
-                }
-                if (! this.movement.amount) {
-                    this.message = 'Campo "Valor" é inválido!'
-                    this.messageType = messageEnum.messageTypeWarning()
+                if (field) {
+                    this.showMessage(
+                        MessageEnum.alertTypeInfo(),
+                        'Campo "' + field + '" é inválido!',
+                        'Campo inválido!'
+                    )
                     this.isValid = false
                     return
                 }
@@ -148,31 +132,23 @@
             async updateMovement() {
                 await apiRouter.movement.update(this.populateMovement(), this.movement.id).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
-                        this.message = 'Movimentação atualizada com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
-                        this.resetMessage()
+                        this.messageSuccess('Movimentação atualizada com sucesso!')
                     } else {
-                        this.message = 'Erro inesperado ao atualizar movimentação!'
-                        this.messageType = messageEnum.messageTypeError()
+                        this.messageError('Erro inesperado ao atualizar movimentação!')
                     }
                 }).catch((response) => {
-                    this.message = response.response.data.error
-                    this.messageType = messageEnum.messageTypeError()
+                    this.messageError(response.response.data.error)
                 })            },
             async insertMovement() {
                 await apiRouter.movement.insert(this.populateMovement()).then((response) => {
                     if (response.status === HttpStatusCode.Created) {
-                        this.message = 'Movimentação cadastrada com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
+                        this.messageSuccess('Movimentação cadastrada com sucesso!')
                         this.movement = {}
-                        this.resetMessage()
                     } else {
-                        this.message = 'Erro inesperado ao inserir movimentação!'
-                        this.messageType = messageEnum.messageTypeError()
+                        this.messageError('Erro inesperado ao inserir movimentação!')
                     }
                 }).catch((response) => {
-                    this.message = response.response.data.error
-                    this.messageType = messageEnum.messageTypeError()
+                    this.messageError(response.response.data.error)
                 })            },
             populateMovement() {
                 return {
@@ -182,12 +158,15 @@
                     amount: this.movement.amount
                 }
             },
-            resetMessage() {
-                setTimeout(() =>
-                    [this.message = null, this.messageType = null],
-                    this.messageTimeOut
-                )
+            messageError(message) {
+                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
             },
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+            },
+            showMessage(type, message, title) {
+                this.$refs.message.showAlert(type, message, title)
+            }
         },
         async mounted() {
             if (this.$route.params.id) {
@@ -201,7 +180,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

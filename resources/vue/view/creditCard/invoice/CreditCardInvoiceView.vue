@@ -1,10 +1,8 @@
 <template>
     <div class="base-container">
-        <loading-component v-show="loadingDone === false"
-                           @loading-done="loadingDone = true"
-                           :time="calendarTools.fiveHundredMs()"/>
+        <mfp-message ref="message"/>
+        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true" :time="calendarTools.fiveHundredMs()"/>
         <div v-show="loadingDone">
-            <message :message="message" :type="messageType" v-show="message" :time="messageTimeOut"/>
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="title"/>
                 <router-link-button title="Voltar" :icon="iconEnum.back()"
@@ -85,20 +83,20 @@
 </template>
 
 <script>
-    import Message from "../../../components/MessageComponent.vue";
     import LoadingComponent from "../../../components/LoadingComponent.vue";
     import CalendarTools from "../../../../js/tools/calendarTools";
     import iconEnum from "../../../../js/enums/iconEnum";
     import apiRouter from "../../../../js/router/apiRouter";
     import calendarTools from "../../../../js/tools/calendarTools";
     import StringTools from "../../../../js/tools/stringTools";
-    import messageEnum from "../../../../js/enums/messageEnum";
     import ActionButtons from "../../../components/ActionButtons.vue";
     import {HttpStatusCode} from "axios";
     import Divider from "../../../components/DividerComponent.vue";
     import MfpTitle from "../../../components/TitleComponent.vue";
     import NumberTools from "../../../../js/tools/numberTools";
     import RouterLinkButton from "../../../components/RouterLinkButtonComponent.vue";
+    import MfpMessage from "../../../components/MessageAlert.vue";
+    import MessageEnum from "../../../../js/enums/messageEnum";
 
     export default {
         name: "CreditCardInvoiceView",
@@ -114,27 +112,24 @@
             }
         },
         components: {
+            MfpMessage,
             RouterLinkButton,
             MfpTitle,
             Divider,
             ActionButtons,
             LoadingComponent,
-            Message
         },
         data() {
             return {
                 invoices: {},
                 title: '',
                 loadingDone: false,
-                message: null,
                 walletId: 0,
-                messageType: null,
                 thisMonth: null,
                 cardId: null,
                 months: [],
                 wallets:{},
                 showPayInvoice: false,
-                messageTimeOut: CalendarTools.fiveSecondsTimeInMs(),
                 totalPerMonth: {
                     firstMonth: 0,
                     secondMonth: 0,
@@ -148,14 +143,21 @@
             }
         },
         methods: {
+            messageError(message) {
+                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+            },
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+            },
+            showMessage(type, message, title) {
+                this.$refs.message.showAlert(type, message, title)
+            },
             async deleteExpense(id, name) {
                 if (confirm('Deseja realmente deletar a despesa ' + name + '?')) {
-                    await apiRouter.cards.invoices.delete(id)
-                    this.message = 'Despesa deletada com sucesso!'
-                    this.messageType = messageEnum.messageTypeSuccess()
+                    await apiRouter.expense.delete(id)
+                    this.messageSuccess('Despesa deletada com sucesso!')
                     this.invoices = await apiRouter.cards.invoices.index(this.cardId)
                     this.calculateTotalPerMonth()
-                    this.resetMessage()
                 }
             },
             calculateTotalPerMonth() {
@@ -169,36 +171,26 @@
                 this.totalPerMonth.totalRemaining = totalPerMonthCount.totalRemaining
                 this.totalPerMonth.total = totalPerMonthCount.total
             },
-            resetMessage() {
-                setTimeout(() =>
-                    [this.message = null, this.messageType = null],
-                    this.messageTimeOut
-                )
-            },
             async payNextInvoice() {
                 if (this.walletId === 0) {
-                    this.message = 'Selecione uma carteira!'
-                    this.messageType = messageEnum.messageTypeError()
-                    this.resetMessage()
+                    this.showMessage(
+                        MessageEnum.alertTypeInfo(),
+                        'Você deve selecionar uma carteira!',
+                        'Carteira não informada!'
+                    )
                     return
                 }
                 if (confirm('Deseja realmente pagar a próxima fatura ?')) {
                     await apiRouter.cards.invoices.payInvoice(this.walletId, this.cardId).then(async (response) => {
                         if (response.status !== HttpStatusCode.Ok) {
-                            this.message = 'Erro ao pagar fatura!'
-                            this.messageType = messageEnum.messageTypeError()
-                            this.resetMessage()
+                            this.messageError('Erro ao pagar fatura!')
                             return
                         }
-                        this.message = 'Fatura paga com sucesso!'
-                        this.messageType = messageEnum.messageTypeSuccess()
+                        this.messageSuccess('Fatura paga com sucesso!')
                         this.invoices = await apiRouter.cards.invoices.index(this.cardId)
                         this.calculateTotalPerMonth()
-                        this.resetMessage()
                     }).catch(() => {
-                        this.message = 'Erro ao pagar fatura!'
-                        this.messageType = messageEnum.messageTypeError()
-                        this.resetMessage()
+                        this.messageError('Erro ao pagar fatura!')
                     })
                 }
             },

@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <message :message="message" :type="messageType" v-show="message"/>
+        <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
@@ -108,7 +108,6 @@
 <script>
     import LoadingComponent from "../../components/LoadingComponent.vue";
     import Divider from "../../components/DividerComponent.vue";
-    import Message from "../../components/MessageComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
     import iconEnum from "../../../js/enums/iconEnum";
     import ActionButtons from "../../components/ActionButtons.vue";
@@ -118,6 +117,7 @@
     import ApiRouter from "../../../js/router/apiRouter";
     import MessageEnum from "../../../js/enums/messageEnum";
     import NumberTools from "../../../js/tools/numberTools";
+    import MfpMessage from "../../components/MessageAlert.vue";
 
     export default {
         name: "PanoramaView",
@@ -133,17 +133,15 @@
             }
         },
         components: {
+            MfpMessage,
             ActionButtons,
             MfpTitle,
-            Message,
             Divider,
             LoadingComponent
         },
         data() {
             return {
                 loadingDone: false,
-                message: null,
-                messageType: null,
                 months: [],
                 alertIcon: iconEnum.triangleExclamation(),
                 totalSpending: {
@@ -171,28 +169,19 @@
                     sixthMonth: 0
                 },
                 futureSpending: {},
-                messageTimeOut: CalendarTools.fiveSecondsTimeInMs(),
                 totalWalletsValue: 0,
                 monthRemaining: 10
             }
         },
         methods: {
-            resetMessage() {
-                setTimeout(() =>
-                    [this.message = null, this.messageType = null],
-                    this.messageTimeOut
-                )
-            },
             async updateFutureSpendingList() {
                 this.loadingDone = false
                 await ApiRouter.futureSpent.getNextSixMonthsSpending().then(response => {
                     this.futureSpending = response
                     this.calculateTotalSpendingPerMonth()
                     this.calculateTotalGainPerMonth()
-                }).catch(error => {
-                    this.message = 'Não foi possível carregar os despesas futuras!'
-                    this.messageType = MessageEnum.messageTypeError()
-                    this.resetMessage()
+                }).catch(() => {
+                    this.messageError('Não foi possível carregar os despesas futuras!')
                 })
             },
             calculateTotalSpendingPerMonth() {
@@ -228,28 +217,20 @@
             async deleteSpent(id, spentName) {
                 if(confirm("Tem certeza que realmente quer deletar a despesa " + spentName + '?')) {
                     await ApiRouter.futureSpent.delete(id).then(response => {
-                        this.message = 'Despesa deletada com sucesso!'
-                        this.messageType = MessageEnum.messageTypeSuccess()
-                        this.resetMessage()
+                        this.messageSuccess('Despesa deletada com sucesso!')
                         this.updateFutureSpendingList()
-                    }).catch(error => {
-                        this.message = 'Não foi possível deletar a despesa!'
-                        this.messageType = MessageEnum.messageTypeError()
-                        this.resetMessage()
+                    }).catch(() => {
+                        this.messageError('Não foi possível deletar a despesa!')
                     })
                 }
             },
             async paySpent(id, spentName) {
                 if(confirm("Você confirma o pagamento da despesa " + spentName + '?')) {
                     await ApiRouter.futureSpent.pay(id).then(response => {
-                        this.message = 'Despesa paga com sucesso!'
-                        this.messageType = MessageEnum.messageTypeSuccess()
-                        this.resetMessage()
+                        this.messageSuccess('Despesa paga com sucesso!')
                         this.updateFutureSpendingList()
-                    }).catch(error => {
-                        this.message = 'Não foi possível pagar a despesa!'
-                        this.messageType = MessageEnum.messageTypeError()
-                        this.resetMessage()
+                    }).catch(() => {
+                        this.messageError('Não foi possível pagar a despesa!')
                     })
                 }
             },
@@ -285,6 +266,15 @@
             },
             formatValueToBr(value) {
                 return StringTools.formatFloatValueToBrString(value)
+            },
+            messageError(message) {
+                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+            },
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+            },
+            showMessage(type, message, header) {
+                this.$refs.message.showAlert(type,message,header)
             }
         },
         async mounted() {

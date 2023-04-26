@@ -1,8 +1,8 @@
 <template>
     <div class="base-container">
+        <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
         <div v-show="loadingDone">
-            <message :message="message" :type="messageType" v-show="message"/>
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Movimentações'"/>
                 <font-awesome-icon :icon="iconEnum.filterMoney()" class="me-2 mt-1 filter"/>
@@ -81,10 +81,8 @@
 </template>
 
 <script>
-    import Message from "../../components/MessageComponent.vue";
     import LoadingComponent from "../../components/LoadingComponent.vue";
     import iconEnum from "../../../js/enums/iconEnum";
-    import CalendarTools from "../../../js/tools/calendarTools";
     import ActionButtons from "../../components/ActionButtons.vue";
     import MovementEnum from "../../../js/enums/movementEnum";
     import apiRouter from "../../../js/router/apiRouter";
@@ -92,9 +90,10 @@
     import calendarTools from "../../../js/tools/calendarTools";
     import movementEnum from "../../../js/enums/movementEnum";
     import numberTools from "../../../js/tools/numberTools";
-    import messageEnum from "../../../js/enums/messageEnum";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
+    import MfpMessage from "../../components/MessageAlert.vue";
+    import MessageEnum from "../../../js/enums/messageEnum";
 
     export default {
         name: "MovementView",
@@ -113,19 +112,16 @@
             }
         },
         components: {
+            MfpMessage,
             MfpTitle,
             Divider,
             ActionButtons,
             LoadingComponent,
-            Message
         },
         data() {
             return {
                 loadingDone: false,
-                message: null,
-                messageType: null,
                 movements: {},
-                messageTimeOut: CalendarTools.fiveSecondsTimeInMs(),
                 filterList: {},
                 totalSpent: 0,
                 totalGain: 0,
@@ -138,9 +134,7 @@
                 if(confirm("Tem certeza que realmente quer deletar a movimentação \"" + movement + "\"? " +
                     "O valor será retornado para a carteira vinculada.")) {
                     await apiRouter.movement.delete(id)
-                    this.message = "Movimentação deletada com sucesso!"
-                    this.messageType = messageEnum.messageTypeSuccess()
-                    this.resetMessage()
+                    this.messageSuccess('Movimentação deletada com sucesso!')
                     this.movements = await apiRouter.movement.indexFiltered(this.lastFilter)
                     this.updateMovementDetails()
                 }
@@ -157,12 +151,12 @@
                 this.totalGain = sum.totalGain
                 this.balance = sum.totalGain - sum.totalSpent
             },
-            resetMessage() {
-                setTimeout(() =>
-                    [this.message = null, this.messageType = null],
-                    this.messageTimeOut
-                )
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
             },
+            showMessage(type, message, title) {
+                this.$refs.message.showAlert(type, message, title)
+            }
         },
         async mounted() {
             this.filterList = MovementEnum.getFilterList()
