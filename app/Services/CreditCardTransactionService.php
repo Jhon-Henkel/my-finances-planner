@@ -95,4 +95,26 @@ class CreditCardTransactionService extends BasicService
         }
         return $invoices;
     }
+
+    public function getThisYearInvoiceSum(): float
+    {
+        $period = CalendarTools::getThisYearPeriod(CalendarTools::getThisYear());
+        $transactions = $this->getRepository()->findByPeriod($period);
+        $total = 0;
+        foreach ($transactions as $transaction) {
+            $total += ($transaction->getValue() * ($transaction->getInstallments() == 0 ? 1 : $transaction->getInstallments()));
+        }
+        return $total;
+    }
+
+    public function getThisMonthInvoiceSum(): float
+    {
+        $period = CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
+        $transactions = $this->getRepository()->findByPeriod($period);
+        $total = 0;
+        foreach ($transactions as $transaction) {
+            $total += $transaction->getValue();
+        }
+        return $total;
+    }
 }

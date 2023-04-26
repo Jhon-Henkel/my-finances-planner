@@ -31,8 +31,8 @@ class FutureGainRepository extends BasicRepository
     public function findByPeriod(DatePeriodDTO $period): array
     {
         $itens = $this->getModel()->select('future_gain.*', 'wallets.name')
-            ->where('future_gain.created_at', '>', $period->getStartDate())
-            ->where('future_gain.created_at', '<', $period->getEndDate())
+            ->where('future_gain.forecast', '>', $period->getStartDate())
+            ->where('future_gain.forecast', '<', $period->getEndDate())
             ->join('wallets', 'future_gain.wallet_id', '=', 'wallets.id')
             ->orderBy(BasicFieldsEnum::ID, 'desc')
             ->get();

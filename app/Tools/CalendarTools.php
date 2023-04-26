@@ -63,15 +63,15 @@ class CalendarTools
         return $date->format(DateEnum::ONLY_DAY);
     }
 
-    public static function getThisMonthPeriod(int $thisMonth, int $thisYear): array
+    public static function getThisMonthPeriod(int $thisMonth, int $thisYear): DatePeriodDTO
     {
         $startDate = self::mountStringDateTime($thisYear, $thisMonth, 1, '00:00:00');
         $lastDay = self::getLastDayOfData($startDate);
         $endDate = self::mountStringDateTime($thisYear, $thisMonth, $lastDay, '23:59:59');
-        return ['start' => $startDate, 'end' => $endDate];
+        return new DatePeriodDTO($startDate, $endDate);
     }
 
-    public static function getLastMonthPeriod(int $thisMonth, int $thisYear): array
+    public static function getLastMonthPeriod(int $thisMonth, int $thisYear): DatePeriodDTO
     {
         if ($thisMonth == DateEnum::JANUARY_MONTH_NUMBER) {
             $lastMonth = DateEnum::DECEMBER_MONTH_NUMBER;
@@ -83,14 +83,14 @@ class CalendarTools
         $startDate = self::mountStringDateTime($year, $lastMonth,  1, '00:00:00');
         $lastDay = self::getLastDayOfData($startDate);
         $endDate = self::mountStringDateTime($year, $lastMonth, $lastDay, '23:59:59');
-        return ['start' => $startDate, 'end' => $endDate];
+        return new DatePeriodDTO($startDate, $endDate);
     }
 
-    public static function getThisYearPeriod(int $year): array
+    public static function getThisYearPeriod(int $year): DatePeriodDTO
     {
         $startDate = self::mountStringDateTime($year, DateEnum::JANUARY_MONTH_NUMBER, 1, '00:00:00');
         $endDate = self::mountStringDateTime($year, DateEnum::DECEMBER_MONTH_NUMBER, 31, '23:59:59');
-        return ['start' => $startDate, 'end' => $endDate];
+        return new DatePeriodDTO($startDate, $endDate);
     }
 
     public static function getLastDayOfData(string $data): string

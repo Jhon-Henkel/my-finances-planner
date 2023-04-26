@@ -175,8 +175,8 @@ class CalendarToolsUnitTest extends TestCase
     public function testGetThisMonthPeriod($expectedDateStart, $expectedDateEnd, $month, $year)
     {
         $date = CalendarTools::getThisMonthPeriod($month, $year);
-        $this->assertEquals($expectedDateStart, $date['start']);
-        $this->assertEquals($expectedDateEnd, $date['end']);
+        $this->assertEquals($expectedDateStart, $date->getStartDate());
+        $this->assertEquals($expectedDateEnd, $date->getEndDate());
     }
 
     public static function dataProviderTestGetThisMonthPeriod(): array
@@ -200,8 +200,8 @@ class CalendarToolsUnitTest extends TestCase
     public function testGetThisYearPeriod()
     {
         $date = CalendarTools::getThisYearPeriod(2023);
-        $this->assertEquals("2023-01-01 00:00:00", $date['start']);
-        $this->assertEquals("2023-12-31 23:59:59", $date['end']);
+        $this->assertEquals("2023-01-01 00:00:00", $date->getStartDate());
+        $this->assertEquals("2023-12-31 23:59:59", $date->getEndDate());
     }
 
     /**
@@ -215,8 +215,8 @@ class CalendarToolsUnitTest extends TestCase
     public function testGetLastMonthPeriod($expectedDateStart, $expectedDateEnd, $month, $year)
     {
         $date = CalendarTools::getLastMonthPeriod($month, $year);
-        $this->assertEquals($expectedDateStart, $date['start']);
-        $this->assertEquals($expectedDateEnd, $date['end']);
+        $this->assertEquals($expectedDateStart, $date->getStartDate());
+        $this->assertEquals($expectedDateEnd, $date->getEndDate());
     }
 
     public static function dataProviderTestGetLastMonthPeriod(): array

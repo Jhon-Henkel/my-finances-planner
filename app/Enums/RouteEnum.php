@@ -4,6 +4,7 @@ namespace App\Enums;
 
 class RouteEnum
 {
+    const API_DASHBOARD_INDEX = 'apiDashboardIndex';
     const API_WALLET_INDEX = 'apiWalletIndex';
     const API_WALLET_GET_TOTAL_VALUE = 'apiWalletGetTotalValue';
     const API_WALLET_SHOW = 'apiWalletShow';

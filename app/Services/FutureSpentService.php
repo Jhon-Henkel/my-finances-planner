@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\DatePeriodDTO;
 use App\DTO\FutureSpentDTO;
 use App\Enums\InvoiceEnum;
 use App\Factory\InvoiceFactory;
@@ -63,5 +64,27 @@ class FutureSpentService extends BasicService
         $spent->setInstallments($remainingInstallments);
         $spent->setForecast(CalendarTools::addMonthInDate($spent->getForecast(), 1));
         return (bool)$this->getRepository()->update($spent->getId(), $spent);
+    }
+
+    public function getThisYearFutureSpentSum(): float
+    {
+        $period = CalendarTools::getThisYearPeriod(CalendarTools::getThisYear());
+        $spending = $this->getRepository()->findByPeriod($period);
+        $total = 0;
+        foreach ($spending as $spent) {
+            $total += ($spent->getAmount() * ($spent->getInstallments() === 0 ? 1 : $spent->getInstallments()));
+        }
+        return $total;
+    }
+
+    public function getThisMonthFutureSpentSum(): float
+    {
+        $period = CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
+        $spending = $this->getRepository()->findByPeriod($period);
+        $total = 0;
+        foreach ($spending as $spent) {
+            $total += $spent->getAmount();
+        }
+        return $total;
     }
 }

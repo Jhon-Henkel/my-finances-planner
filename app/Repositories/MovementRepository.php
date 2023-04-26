@@ -43,4 +43,24 @@ class MovementRepository extends BasicRepository
             ->get();
         return $this->resource->arrayToDtoItens($itens->toArray());
     }
+
+    public function getSumMovementsByPeriod(DatePeriodDTO $period): array
+    {
+        return $this->model::selectRaw('sum(amount) as total, type')
+            ->where('created_at', '>', $period->getStartDate())
+            ->where('created_at', '<', $period->getEndDate())
+            ->groupBy('type')
+            ->get()
+            ->toArray();
+    }
+
+    public function getLastFiveMovements(): array
+    {
+        $itens = $this->model::select('movements.*', 'wallets.name')
+            ->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
+            ->orderBy(BasicFieldsEnum::ID, 'desc')
+            ->limit(5)
+            ->get();
+        return $this->resource->arrayToDtoItens($itens->toArray());
+    }
 }

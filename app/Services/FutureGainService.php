@@ -64,4 +64,26 @@ class FutureGainService extends BasicService
         $gain->setForecast(CalendarTools::addMonthInDate($gain->getForecast(), 1));
         return (bool)$this->getRepository()->update($gain->getId(), $gain);
     }
+
+    public function getThisYearFutureGainSum(): float
+    {
+        $period = CalendarTools::getThisYearPeriod(CalendarTools::getThisYear());
+        $gains = $this->getRepository()->findByPeriod($period);
+        $total = 0;
+        foreach ($gains as $gain) {
+            $total += ($gain->getAmount() * ($gain->getInstallments() == 0 ? 1 : $gain->getAmount() * $gain->getInstallments()));
+        }
+        return $total;
+    }
+
+    public function getThisMonthFutureGainSum(): float
+    {
+        $period = CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
+        $gains = $this->getRepository()->findByPeriod($period);
+        $total = 0;
+        foreach ($gains as $gain) {
+            $total += $gain->getAmount();
+        }
+        return $total;
+    }
 }

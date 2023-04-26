@@ -89,5 +89,8 @@ const iconEnum = {
     info() {
         return ['fas', 'info']
     },
+    scaleBalanced() {
+        return ['fas', 'scale-balanced']
+    },
 }
 export default iconEnum;

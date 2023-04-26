@@ -3,6 +3,7 @@
 use App\Enums\RouteEnum;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\MovementController;
@@ -11,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 
 /** @var Route $router */
 $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
+    $router->prefix('dashboard')->group(function () use ($router) {
+        $router->get('', [DashboardController::class, 'index'])->name(RouteEnum::API_DASHBOARD_INDEX);
+    });
     $router->prefix('wallet')->group(function () use ($router) {
         $router->get('', [WalletController::class, 'index'])->name(RouteEnum::API_WALLET_INDEX);
         $router->get('total-value', [WalletController::class, 'getTotalWalletValue'])->name(RouteEnum::API_WALLET_GET_TOTAL_VALUE);

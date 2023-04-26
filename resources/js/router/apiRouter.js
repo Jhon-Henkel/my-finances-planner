@@ -143,6 +143,12 @@ const apiRouter = {
             return await axios.put('/api/future-spent/' + id, futureSpent)
         }
     },
+    dashboard: {
+        index: async function() {
+            const request = await axios.get('/api/dashboard')
+            return request.data
+        }
+    },
 }
 
 export default apiRouter

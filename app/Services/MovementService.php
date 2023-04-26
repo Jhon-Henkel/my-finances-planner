@@ -7,7 +7,6 @@ use App\DTO\FutureGainDTO;
 use App\DTO\FutureSpentDTO;
 use App\DTO\MovementDTO;
 use App\Enums\MovementEnum;
-use App\Models\FutureSpent;
 use App\Repositories\MovementRepository;
 use App\Resources\MovementResource;
 use App\Tools\CalendarTools;
@@ -50,28 +49,13 @@ class MovementService extends BasicService
     protected function getFilter(int $option): DatePeriodDTO
     {
         return match ($option) {
-            MovementEnum::FILTER_BY_LAST_MONTH => $this->getLastMonthPeriod(),
-            MovementEnum::FILTER_BY_THIS_YEAR => $this->getThisYearPeriod(),
-            default => $this->getThisMonthPeriod(),
+            MovementEnum::FILTER_BY_LAST_MONTH => CalendarTools::getLastMonthPeriod(
+                CalendarTools::getThisMonth(),
+                CalendarTools::getThisYear()
+            ),
+            MovementEnum::FILTER_BY_THIS_YEAR => CalendarTools::getThisYearPeriod(CalendarTools::getThisYear()),
+            default => CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear()),
         };
-    }
-
-    protected function getLastMonthPeriod(): DatePeriodDTO
-    {
-        $period = CalendarTools::getLastMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
-        return new DatePeriodDTO($period['start'], $period['end']);
-    }
-
-    protected function getThisYearPeriod(): DatePeriodDTO
-    {
-        $period = CalendarTools::getThisYearPeriod(CalendarTools::getThisYear());
-        return new DatePeriodDTO($period['start'], $period['end']);
-    }
-
-    protected function getThisMonthPeriod(): DatePeriodDTO
-    {
-        $period = CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
-        return new DatePeriodDTO($period['start'], $period['end']);
     }
 
     public function populateByFutureGain(FutureGainDTO $gain): MovementDTO
@@ -156,5 +140,20 @@ class MovementService extends BasicService
         $movement->setAmount($totalValue);
         $this->insert($movement);
         return true;
+    }
+
+    public function getMonthSumMovementsByOptionFilter(int $option): array
+    {
+        $period = $this->getFilter($option);
+        return $this->repository->getSumMovementsByPeriod($period);
+    }
+
+    /**
+     * @return MovementDTO[]
+     */
+    public function getLastFiveMovements(): array
+    {
+        $items = $this->repository->getLastFiveMovements();
+        return $this->resource->arrayDtoToVoItens($items);
     }
 }
