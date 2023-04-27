@@ -49,8 +49,16 @@ class ConfigurationResourceUnitTest extends TestCase
 
     public function testDtoToVo()
     {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Not implemented');
-        $this->resource->dtoToVo(new ConfigurationDTO());
+        $dto = new ConfigurationDTO();
+        $dto->setId(1);
+        $dto->setName('name');
+        $dto->setValue('value');
+        $dto->setCreatedAt('2021-01-01 00:00:00');
+        $dto->setUpdatedAt('2022-10-15 00:00:00');
+
+        $vo = $this->resource->dtoToVo($dto);
+
+        $this->assertEquals($dto->getName(), $vo->name);
+        $this->assertEquals($dto->getValue(), $vo->value);
     }
 }

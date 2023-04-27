@@ -10,7 +10,7 @@ use App\VO\InvoiceVO;
 use Mockery;
 use Tests\TestCase;
 
-class FutureSpentUnitTest extends TestCase
+class FutureSpentServiceUnitTest extends TestCase
 {
     public function testGetNextSixMonthsFutureSpent()
     {

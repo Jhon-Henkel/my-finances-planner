@@ -26,7 +26,7 @@ class ConfigurationService extends BasicService
 
     public function findConfigByName(string $configName): mixed
     {
-        $config = $this->repository->findByName($configName);
+        $config = $this->getRepository()->findByName($configName);
         return reset($config);
     }
 }
