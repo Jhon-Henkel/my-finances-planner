@@ -81,4 +81,16 @@ class MovementResourceUnitTest extends TestCase
         $this->assertEquals($dto->getCreatedAt(), $vo->createdAt);
         $this->assertEquals($dto->getUpdatedAt(), $vo->updatedAt);
     }
+
+    public function testPopulateMovementForWalletUpdate()
+    {
+        $value = 100;
+        $walletId = 1;
+
+        $dto = $this->resource->populateMovementForWalletUpdate($value, $walletId);
+
+        $this->assertEquals($walletId, $dto->getWalletId());
+        $this->assertEquals($value, $dto->getAmount());
+        $this->assertEquals($value > 0 ? 6 : 5, $dto->getType());
+    }
 }
