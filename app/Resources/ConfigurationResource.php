@@ -4,6 +4,7 @@ namespace App\Resources;
 
 use App\DTO\ConfigurationDTO;
 use App\Enums\BasicFieldsEnum;
+use App\VO\ConfigurationsVO;
 
 class ConfigurationResource extends BasicResource
 {
@@ -28,8 +29,12 @@ class ConfigurationResource extends BasicResource
         );
     }
 
-    public function dtoToVo($item)
+    /**
+     * @param ConfigurationDTO $item
+     * @return ConfigurationsVO
+     */
+    public function dtoToVo($item): ConfigurationsVO
     {
-        throw new \Exception('Not implemented');
+        return ConfigurationsVO::make($item);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\RouteEnum;
+use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
 use App\Http\Controllers\DashboardController;
@@ -72,5 +73,9 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
         $router->post('/{id}/pay', [FutureSpentController::class, 'paySpent'])->name(RouteEnum::API_FUTURE_SPENT_PAY);
         $router->put('/{id}', [FutureSpentController::class, 'update'])->name(RouteEnum::API_FUTURE_SPENT_UPDATE);
         $router->delete('/{id}', [FutureSpentController::class, 'delete'])->name(RouteEnum::API_FUTURE_SPENT_DELETE);
+    });
+    $router->prefix('configurations')->group(function () use ($router) {
+        $router->get('/{configName}', [ConfigurationsController::class, 'showByName'])->name(RouteEnum::API_CONFIGURATION_GET);
+        $router->put('/{configName}', [ConfigurationsController::class, 'updateByName'])->name(RouteEnum::API_CONFIGURATION_UPDATE);
     });
 });
