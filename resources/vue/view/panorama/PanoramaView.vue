@@ -2,7 +2,7 @@
     <div class="base-container">
         <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === 0"/>
-        <div v-show="loadingDone === 6">
+        <div v-show="loadingDone === 1">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Panorama'"/>
                 <router-link class="btn btn-success rounded-5" to="/panorama/cadastrar-despesa">
@@ -51,30 +51,64 @@
                 <tr class="text-center border-table-spent">
                     <td><font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-1"/>Gastos</td>
                     <td></td>
-                    <td v-for="spending in totalSpending">{{ formatValueToBr(spending) }}</td>
+                    <td>{{ formatValueToBr(totalSpending.firstInstallment) }}</td>
+                    <td>{{ formatValueToBr(totalSpending.secondInstallment) }}</td>
+                    <td>{{ formatValueToBr(totalSpending.thirdInstallment) }}</td>
+                    <td>{{ formatValueToBr(totalSpending.forthInstallment) }}</td>
+                    <td>{{ formatValueToBr(totalSpending.fifthInstallment) }}</td>
+                    <td>{{ formatValueToBr(totalSpending.sixthInstallment) }}</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr class="text-center border-table-cards">
                     <td><font-awesome-icon :icon="iconEnum.creditCard()" class="icon-alert me-1"/>Cartões</td>
                     <td></td>
-                    <td v-for="invoice in cardsInvoice">{{ formatValueToBr(invoice) }}</td>
+                    <td>{{ formatValueToBr(cardsInvoice.firstInstallment) }}</td>
+                    <td>{{ formatValueToBr(cardsInvoice.secondInstallment) }}</td>
+                    <td>{{ formatValueToBr(cardsInvoice.thirdInstallment) }}</td>
+                    <td>{{ formatValueToBr(cardsInvoice.forthInstallment) }}</td>
+                    <td>{{ formatValueToBr(cardsInvoice.fifthInstallment) }}</td>
+                    <td>{{ formatValueToBr(cardsInvoice.sixthInstallment) }}</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr class="text-center border-table-gain">
                     <td><font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-1"/>Ganhos</td>
                     <td></td>
-                    <td v-for="(futureGain) in totalFutureGain">{{ formatValueToBr(futureGain) }}</td>
+                    <td>{{ formatValueToBr(totalFutureGain.firstInstallment) }}</td>
+                    <td>{{ formatValueToBr(totalFutureGain.secondInstallment) }}</td>
+                    <td>{{ formatValueToBr(totalFutureGain.thirdInstallment) }}</td>
+                    <td>{{ formatValueToBr(totalFutureGain.forthInstallment) }}</td>
+                    <td>{{ formatValueToBr(totalFutureGain.fifthInstallment) }}</td>
+                    <td>{{ formatValueToBr(totalFutureGain.sixthInstallment) }}</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr class="text-center border-table-remaining">
                     <td><font-awesome-icon :icon="iconEnum.circleArrowRight()" class="remaining-icon me-1"/>Sobras</td>
                     <td></td>
-                    <td v-for="(remaining) in totalRemaining">
-                        {{ formatValueToBr(remaining) }}
-                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="remaining < 0"/>
+                    <td>{{ formatValueToBr(totalRemaining.firstInstallment) }}
+                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.firstInstallment < 0"/>
+                    </td>
+                    <td>
+                        {{ formatValueToBr(totalRemaining.secondInstallment) }}
+                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.secondInstallment < 0"/>
+                    </td>
+                    <td>
+                        {{ formatValueToBr(totalRemaining.thirdInstallment) }}
+                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.thirdInstallment < 0"/>
+                    </td>
+                    <td>
+                        {{ formatValueToBr(totalRemaining.forthInstallment) }}
+                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.forthInstallment < 0"/>
+                    </td>
+                    <td>
+                        {{ formatValueToBr(totalRemaining.fifthInstallment) }}
+                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.fifthInstallment < 0"/>
+                    </td>
+                    <td>
+                        {{ formatValueToBr(totalRemaining.sixthInstallment) }}
+                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.sixthInstallment < 0"/>
                     </td>
                     <td></td>
                     <td></td>
@@ -126,7 +160,6 @@
     import CalendarTools from "../../../js/tools/calendarTools";
     import ApiRouter from "../../../js/router/apiRouter";
     import MessageEnum from "../../../js/enums/messageEnum";
-    import NumberTools from "../../../js/tools/numberTools";
     import MfpMessage from "../../components/MessageAlert.vue";
 
     export default {
@@ -155,30 +188,37 @@
                 months: [],
                 alertIcon: iconEnum.triangleExclamation(),
                 totalSpending: {
-                    firstMonth: 0,
-                    secondMonth: 0,
-                    thirdMonth: 0,
-                    forthMonth: 0,
-                    fifthMonth: 0,
-                    sixthMonth: 0,
+                    firstInstallment: 0,
+                    secondInstallment: 0,
+                    thirdInstallment: 0,
+                    forthInstallment: 0,
+                    fifthInstallment: 0,
+                    sixthInstallment: 0,
                 },
                 totalFutureGain: {
-                    firstMonth: 0,
-                    secondMonth: 0,
-                    thirdMonth: 0,
-                    forthMonth: 0,
-                    fifthMonth: 0,
-                    sixthMonth: 0,
+                    firstInstallment: 0,
+                    secondInstallment: 0,
+                    thirdInstallment: 0,
+                    forthInstallment: 0,
+                    fifthInstallment: 0,
+                    sixthInstallment: 0,
                 },
                 totalRemaining: {
-                    firstMonth: 0,
-                    secondMonth: 0,
-                    thirdMonth: 0,
-                    forthMonth: 0,
-                    fifthMonth: 0,
-                    sixthMonth: 0
+                    firstInstallment: 0,
+                    secondInstallment: 0,
+                    thirdInstallment: 0,
+                    forthInstallment: 0,
+                    fifthInstallment: 0,
+                    sixthInstallment: 0
                 },
-                cardsInvoice: {},
+                cardsInvoice: {
+                    firstInstallment: 0,
+                    secondInstallment: 0,
+                    thirdInstallment: 0,
+                    forthInstallment: 0,
+                    fifthInstallment: 0,
+                    sixthInstallment: 0
+                },
                 futureSpending: {},
                 totalWalletsValue: 0,
                 monthRemaining: 10
@@ -187,48 +227,17 @@
         methods: {
             async updateFutureSpendingList() {
                 this.loadingDone = 0
-                this.calculateTotalGainPerMonth()
-                this.getWalletsTotalValue()
-                await ApiRouter.futureSpent.getNextSixMonthsSpending().then(response => {
-                    this.futureSpending = response
+                await ApiRouter.panorama.index().then(response => {
+                    this.futureSpending = response.futureExpenses
+                    this.totalSpending = response.totalFutureExpenses
+                    this.totalFutureGain = response.totalFutureGains
+                    this.totalRemaining = response.totalLeft
+                    this.cardsInvoice = response.totalCreditCardExpenses
+                    this.totalWalletsValue = response.totalWalletValue
                     this.loadingDone = this.loadingDone + 1
                 }).catch(() => {
-                    this.messageError('Não foi possível carregar os despesas futuras!')
+                    this.messageError('Não foi possível carregar o panorama!')
                 })
-                await this.getCardsInvoice()
-                this.calculateTotalSpendingPerMonth()
-                this.calculateTotalRemainingPerMonth()
-            },
-            calculateTotalSpendingPerMonth() {
-                let totalPerMonthCount = NumberTools.calculateTotalPerMonthInvoiceItem(this.futureSpending)
-                this.totalSpending.firstMonth = totalPerMonthCount.firstMonth
-                this.totalSpending.secondMonth = totalPerMonthCount.secondMonth
-                this.totalSpending.thirdMonth = totalPerMonthCount.thirdMonth
-                this.totalSpending.forthMonth = totalPerMonthCount.forthMonth
-                this.totalSpending.fifthMonth = totalPerMonthCount.fifthMonth
-                this.totalSpending.sixthMonth = totalPerMonthCount.sixthMonth
-                this.loadingDone = this.loadingDone + 1
-            },
-            async calculateTotalGainPerMonth() {
-                await ApiRouter.futureGain.getNextSixMonthsGains().then(response => {
-                    let totalPerMonthCount = NumberTools.calculateTotalPerMonthInvoiceItem(response)
-                    this.totalFutureGain.firstMonth = totalPerMonthCount.firstMonth
-                    this.totalFutureGain.secondMonth = totalPerMonthCount.secondMonth
-                    this.totalFutureGain.thirdMonth = totalPerMonthCount.thirdMonth
-                    this.totalFutureGain.forthMonth = totalPerMonthCount.forthMonth
-                    this.totalFutureGain.fifthMonth = totalPerMonthCount.fifthMonth
-                    this.totalFutureGain.sixthMonth = totalPerMonthCount.sixthMonth
-                    this.loadingDone = this.loadingDone + 1
-                })
-            },
-            calculateTotalRemainingPerMonth() {
-                this.totalRemaining.firstMonth = this.totalFutureGain.firstMonth - (this.totalSpending.firstMonth + this.cardsInvoice.firstInstallment)
-                this.totalRemaining.secondMonth = this.totalFutureGain.secondMonth - (this.totalSpending.secondMonth + this.cardsInvoice.secondInstallment)
-                this.totalRemaining.thirdMonth = this.totalFutureGain.thirdMonth - (this.totalSpending.thirdMonth + this.cardsInvoice.thirdInstallment)
-                this.totalRemaining.forthMonth = this.totalFutureGain.forthMonth - (this.totalSpending.forthMonth + this.cardsInvoice.forthInstallment)
-                this.totalRemaining.fifthMonth = this.totalFutureGain.fifthMonth - (this.totalSpending.fifthMonth + this.cardsInvoice.fifthInstallment)
-                this.totalRemaining.sixthMonth = this.totalFutureGain.sixthMonth - (this.totalSpending.sixthMonth + this.cardsInvoice.sixthInstallment)
-                this.loadingDone = this.loadingDone + 1
             },
             async deleteSpent(id, spentName) {
                 if(confirm("Tem certeza que realmente quer deletar a despesa " + spentName + '?')) {
@@ -250,23 +259,6 @@
                     })
                 }
             },
-            async getWalletsTotalValue() {
-                await ApiRouter.wallet.getTotalWalletsValue().then(response => {
-                    this.totalWalletsValue = response
-                    this.loadingDone = this.loadingDone + 1
-                }).catch(() => {
-                    this.messageError('Não foi possível carregar o valor total das carteiras!')
-                })
-            },
-            async getCardsInvoice() {
-                await ApiRouter.cards.invoices.getAllCardsInvoice().then(response => {
-                    this.cardsInvoice = response
-                    this.loadingDone = this.loadingDone + 1
-                }).catch((error) => {
-                    console.log(error)
-                    this.messageError('Não foi possível carregar a fatura dos cartões!')
-                })
-            },
             showCheckButton(spent) {
                 if (
                     ! spent.firstInstallment
@@ -284,17 +276,17 @@
                 if (this.monthRemaining === 10) {
                     return 0
                 } else if (this.monthRemaining === 0) {
-                    return this.totalRemaining.firstMonth
+                    return this.totalRemaining.firstInstallment
                 } else if (this.monthRemaining === 1) {
-                    return this.totalRemaining.secondMonth
+                    return this.totalRemaining.secondInstallment
                 } else if (this.monthRemaining === 2) {
-                    return this.totalRemaining.thirdMonth
+                    return this.totalRemaining.thirdInstallment
                 } else if (this.monthRemaining === 3) {
-                    return this.totalRemaining.forthMonth
+                    return this.totalRemaining.forthInstallment
                 } else if (this.monthRemaining === 4) {
-                    return this.totalRemaining.fifthMonth
+                    return this.totalRemaining.fifthInstallment
                 } else if (this.monthRemaining === 5) {
-                    return this.totalRemaining.sixthMonth
+                    return this.totalRemaining.sixthInstallment
                 }
             },
             formatValueToBr(value) {

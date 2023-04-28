@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Resources\WalletResource;
 use App\Services\WalletService;
 use App\VO\WalletVO;
-use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 /**
  * @method WalletVO[] showByType()
@@ -49,11 +47,5 @@ class WalletController extends BasicController
     protected function getResource(): WalletResource
     {
         return $this->resource;
-    }
-
-    public function getTotalWalletValue(): JsonResponse
-    {
-        $total = $this->getService()->getTotalWalletValue();
-        return response()->json($total, ResponseAlias::HTTP_OK);
     }
 }

@@ -21,10 +21,6 @@ const apiRouter = {
         delete: async function(id) {
             return await axios.delete('/api/wallet/' + id)
         },
-        getTotalWalletsValue: async function() {
-            const request = await axios.get('/api/wallet/total-value')
-            return request.data
-        },
     },
     cards: {
         index: async function() {
@@ -47,10 +43,6 @@ const apiRouter = {
         invoices: {
             index: async function(cardId) {
                 const request = await axios.get('/api/credit-card/' + cardId + '/invoices')
-                return request.data
-            },
-            getAllCardsInvoice: async function() {
-                const request = await axios.get('/api/credit-card/transaction/all-cards-invoice')
                 return request.data
             },
             payInvoice: async function(walletId, cardId) {
@@ -126,10 +118,6 @@ const apiRouter = {
         }
     },
     futureSpent: {
-        getNextSixMonthsSpending: async function() {
-            const request = await axios.get('/api/future-spent/next-six-months')
-            return request.data
-        },
         delete: async function(id) {
             return await axios.delete('/api/future-spent/' + id)
         },
@@ -170,7 +158,13 @@ const apiRouter = {
         update: async function(id, user) {
             return await axios.put('/api/user/' + id, user)
         }
-    }
+    },
+    panorama: {
+        index: async function() {
+            const request = await axios.get('/api/panorama')
+            return request.data
+        }
+    },
 }
 
 export default apiRouter

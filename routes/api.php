@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\RouteEnum;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
@@ -9,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\MovementController;
+use App\Http\Controllers\PanoramaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +20,6 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     });
     $router->prefix('wallet')->group(function () use ($router) {
         $router->get('', [WalletController::class, 'index'])->name(RouteEnum::API_WALLET_INDEX);
-        $router->get('total-value', [WalletController::class, 'getTotalWalletValue'])->name(RouteEnum::API_WALLET_GET_TOTAL_VALUE);
         $router->get('/{id}', [WalletController::class, 'show'])->name(RouteEnum::API_WALLET_SHOW);
         $router->post('', [WalletController::class, 'insert'])->name(RouteEnum::API_WALLET_INSERT);
         $router->put('/{id}', [WalletController::class, 'update'])->name(RouteEnum::API_WALLET_UPDATE);
@@ -36,7 +35,6 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     });
     $router->prefix('credit-card')->group(function () use ($router) {
         $router->prefix('transaction')->group(function () use ($router) {
-            $router->get('/all-cards-invoice', [CreditCardTransactionController::class, 'getAllCardsInvoice'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_ALL_CARDS_INVOICE);
             $router->get('', [CreditCardTransactionController::class, 'index'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_INDEX);
             $router->get('/{id}', [CreditCardTransactionController::class, 'show'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_SHOW);
             $router->post('', [CreditCardTransactionController::class, 'insert'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_INSERT);
@@ -64,7 +62,6 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     });
     $router->prefix('future-spent')->group(function() use ($router) {
         $router->get('', [FutureSpentController::class, 'index'])->name(RouteEnum::API_FUTURE_SPENT_INDEX);
-        $router->get('next-six-months', [FutureSpentController::class, 'nextSixMonths'])->name(RouteEnum::API_FUTURE_SPENT_NEXT_SIX_MONTHS);
         $router->get('/{id}', [FutureSpentController::class, 'show'])->name(RouteEnum::API_FUTURE_SPENT_SHOW);
         $router->post('', [FutureSpentController::class, 'insert'])->name(RouteEnum::API_FUTURE_SPENT_INSERT);
         $router->post('/{id}/pay', [FutureSpentController::class, 'paySpent'])->name(RouteEnum::API_FUTURE_SPENT_PAY);
@@ -78,5 +75,8 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     $router->prefix('user')->group(function () use ($router) {
         $router->get('/{id}', [UserController::class, 'show'])->name(RouteEnum::API_USER_SHOW);
         $router->put('/{id}', [UserController::class, 'update'])->name(RouteEnum::API_USER_UPDATE);
+    });
+    $router->prefix('panorama')->group(function () use ($router) {
+        $router->get('', [PanoramaController::class, 'getPanoramaData'])->name(RouteEnum::API_PANORAMA_INDEX);
     });
 });

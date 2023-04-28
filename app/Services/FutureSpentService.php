@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\DTO\DatePeriodDTO;
 use App\DTO\FutureSpentDTO;
 use App\Enums\InvoiceEnum;
 use App\Factory\InvoiceFactory;

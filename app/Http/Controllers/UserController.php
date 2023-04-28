@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NotImplementedException;
 use App\Resources\UserResource;
 use App\Services\UserService;
 use Exception;
@@ -22,7 +23,7 @@ class UserController extends BasicController
      */
     protected function rulesInsert(): array
     {
-        throw new Exception('Not implemented');
+        throw new NotImplementedException('Not implemented');
     }
 
     protected function rulesUpdate(): array

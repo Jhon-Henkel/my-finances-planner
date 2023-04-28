@@ -54,15 +54,6 @@ class FutureSpentController extends BasicController
     /**
      * @throws Exception
      */
-    public function nextSixMonths(): JsonResponse
-    {
-        $futureGain = $this->getService()->getNextSixMonthsFutureSpent();
-        return response()->json($futureGain, ResponseAlias::HTTP_OK);
-    }
-
-    /**
-     * @throws Exception
-     */
     public function paySpent(int $id): JsonResponse
     {
         $spent = $this->getService()->findById($id);
