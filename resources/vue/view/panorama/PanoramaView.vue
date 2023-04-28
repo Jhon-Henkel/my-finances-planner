@@ -2,7 +2,7 @@
     <div class="base-container">
         <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === 0"/>
-        <div v-show="loadingDone === 4">
+        <div v-show="loadingDone === 6">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Panorama'"/>
                 <router-link class="btn btn-success rounded-5" to="/panorama/cadastrar-despesa">
@@ -52,6 +52,13 @@
                     <td><font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-1"/>Gastos</td>
                     <td></td>
                     <td v-for="spending in totalSpending">{{ formatValueToBr(spending) }}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="text-center border-table-cards">
+                    <td><font-awesome-icon :icon="iconEnum.creditCard()" class="icon-alert me-1"/>Cartões</td>
+                    <td></td>
+                    <td v-for="invoice in cardsInvoice">{{ formatValueToBr(invoice) }}</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -171,6 +178,7 @@
                     fifthMonth: 0,
                     sixthMonth: 0
                 },
+                cardsInvoice: {},
                 futureSpending: {},
                 totalWalletsValue: 0,
                 monthRemaining: 10
@@ -179,14 +187,16 @@
         methods: {
             async updateFutureSpendingList() {
                 this.loadingDone = 0
+                this.calculateTotalGainPerMonth()
+                this.getWalletsTotalValue()
                 await ApiRouter.futureSpent.getNextSixMonthsSpending().then(response => {
                     this.futureSpending = response
                     this.loadingDone = this.loadingDone + 1
                 }).catch(() => {
                     this.messageError('Não foi possível carregar os despesas futuras!')
                 })
+                await this.getCardsInvoice()
                 this.calculateTotalSpendingPerMonth()
-                await this.calculateTotalGainPerMonth()
                 this.calculateTotalRemainingPerMonth()
             },
             calculateTotalSpendingPerMonth() {
@@ -212,12 +222,12 @@
                 })
             },
             calculateTotalRemainingPerMonth() {
-                this.totalRemaining.firstMonth = this.totalFutureGain.firstMonth - this.totalSpending.firstMonth
-                this.totalRemaining.secondMonth = this.totalFutureGain.secondMonth - this.totalSpending.secondMonth
-                this.totalRemaining.thirdMonth = this.totalFutureGain.thirdMonth - this.totalSpending.thirdMonth
-                this.totalRemaining.forthMonth = this.totalFutureGain.forthMonth - this.totalSpending.forthMonth
-                this.totalRemaining.fifthMonth = this.totalFutureGain.fifthMonth - this.totalSpending.fifthMonth
-                this.totalRemaining.sixthMonth = this.totalFutureGain.sixthMonth - this.totalSpending.sixthMonth
+                this.totalRemaining.firstMonth = this.totalFutureGain.firstMonth - (this.totalSpending.firstMonth + this.cardsInvoice.firstInstallment)
+                this.totalRemaining.secondMonth = this.totalFutureGain.secondMonth - (this.totalSpending.secondMonth + this.cardsInvoice.secondInstallment)
+                this.totalRemaining.thirdMonth = this.totalFutureGain.thirdMonth - (this.totalSpending.thirdMonth + this.cardsInvoice.thirdInstallment)
+                this.totalRemaining.forthMonth = this.totalFutureGain.forthMonth - (this.totalSpending.forthMonth + this.cardsInvoice.forthInstallment)
+                this.totalRemaining.fifthMonth = this.totalFutureGain.fifthMonth - (this.totalSpending.fifthMonth + this.cardsInvoice.fifthInstallment)
+                this.totalRemaining.sixthMonth = this.totalFutureGain.sixthMonth - (this.totalSpending.sixthMonth + this.cardsInvoice.sixthInstallment)
                 this.loadingDone = this.loadingDone + 1
             },
             async deleteSpent(id, spentName) {
@@ -239,6 +249,23 @@
                         this.messageError('Não foi possível pagar a despesa!')
                     })
                 }
+            },
+            async getWalletsTotalValue() {
+                await ApiRouter.wallet.getTotalWalletsValue().then(response => {
+                    this.totalWalletsValue = response
+                    this.loadingDone = this.loadingDone + 1
+                }).catch(() => {
+                    this.messageError('Não foi possível carregar o valor total das carteiras!')
+                })
+            },
+            async getCardsInvoice() {
+                await ApiRouter.cards.invoices.getAllCardsInvoice().then(response => {
+                    this.cardsInvoice = response
+                    this.loadingDone = this.loadingDone + 1
+                }).catch((error) => {
+                    console.log(error)
+                    this.messageError('Não foi possível carregar a fatura dos cartões!')
+                })
             },
             showCheckButton(spent) {
                 if (
@@ -294,7 +321,6 @@
                 this.thisMonth + 5
             ]
             await this.updateFutureSpendingList()
-            this.totalWalletsValue = await ApiRouter.wallet.getTotalWalletsValue()
         }
     }
 </script>
@@ -309,6 +335,9 @@
     }
     .border-table-remaining {
         border-bottom: 1px solid #4a54ea;
+    }
+    .border-table-cards {
+        border-bottom: 1px solid #fdd200;
     }
     .gain-icon {
         color: #12c4a1;

@@ -64,4 +64,10 @@ class CreditCardTransactionController extends BasicController
         }
         return response()->json(null, ResponseAlias::HTTP_EXPECTATION_FAILED);
     }
+
+    public function getAllCardsInvoice(): JsonResponse
+    {
+        $expenses = $this->getService()->getAllCardsInvoiceValue();
+        return response()->json($expenses, ResponseAlias::HTTP_OK);
+    }
 }

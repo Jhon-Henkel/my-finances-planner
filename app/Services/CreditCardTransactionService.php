@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\InvoiceItemDTO;
 use App\Factory\InvoiceFactory;
 use App\Repositories\CreditCardTransactionRepository;
 use App\Resources\CreditCardResource;
@@ -116,5 +117,31 @@ class CreditCardTransactionService extends BasicService
             $total += $transaction->getValue();
         }
         return $total;
+    }
+
+    public function getAllCardsInvoiceValue(): array
+    {
+        $creditCards = app(CreditCardService::class)->getRepository()->findAll();
+        $transactionsCards = [];
+        foreach ($creditCards as $creditCard) {
+            $transactionsCards[] = $this->getRepository()->getExpenses($creditCard->getId());
+        }
+        $invoices = [];
+        foreach ($transactionsCards as $transactionCard) {
+            foreach ($transactionCard as $transaction) {
+                $expenseDTO = $this->resource->transactionToInvoiceDTO($transaction);
+                $invoices[] = InvoiceFactory::factoryInvoice($expenseDTO, CalendarTools::getThisMonth());
+            }
+        }
+        $allInvoicesValue = [];
+        foreach ($invoices as $invoice) {
+            $allInvoicesValue['firstInstallment'] = ($allInvoicesValue['firstInstallment'] ?? 0) + $invoice->firstInstallment;
+            $allInvoicesValue['secondInstallment'] = ($allInvoicesValue['secondInstallment'] ?? 0) + $invoice->secondInstallment;
+            $allInvoicesValue['thirdInstallment'] = ($allInvoicesValue['thirdInstallment'] ?? 0) + $invoice->thirdInstallment;
+            $allInvoicesValue['forthInstallment'] = ($allInvoicesValue['forthInstallment'] ?? 0) + $invoice->forthInstallment;
+            $allInvoicesValue['fifthInstallment'] = ($allInvoicesValue['fifthInstallment'] ?? 0) + $invoice->fifthInstallment;
+            $allInvoicesValue['sixthInstallment'] = ($allInvoicesValue['sixthInstallment'] ?? 0) + $invoice->sixthInstallment;
+        }
+        return $allInvoicesValue;
     }
 }
