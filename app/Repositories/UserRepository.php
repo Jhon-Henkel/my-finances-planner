@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\DTO\UserDTO;
 use App\Enums\BasicFieldsEnum;
 use App\Models\User;
 use App\Resources\UserResource;

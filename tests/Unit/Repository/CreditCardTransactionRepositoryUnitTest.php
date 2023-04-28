@@ -3,7 +3,6 @@
 namespace Tests\Unit\Repository;
 
 use App\Models\CreditCardTransaction;
-use App\Repositories\CreditCardRepository;
 use App\Repositories\CreditCardTransactionRepository;
 use App\Resources\CreditCardTransactionResource;
 use Tests\TestCase;

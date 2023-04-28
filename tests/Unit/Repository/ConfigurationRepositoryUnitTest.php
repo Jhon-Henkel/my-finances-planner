@@ -15,8 +15,7 @@ class ConfigurationRepositoryUnitTest extends TestCase
         $mockRepository = \Mockery::mock(ConfigurationRepository::class, [$mockModel])->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
-        $this->assertInstanceOf(Configurations::class, $mockRepository->getModel()
-        );
+        $this->assertInstanceOf(Configurations::class, $mockRepository->getModel());
     }
 
     public function testGetResource()

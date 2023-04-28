@@ -15,8 +15,7 @@ class WalletRepositoryUnitTest extends TestCase
         $mockRepository = \Mockery::mock(WalletRepository::class, [$mockModel])->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
-        $this->assertInstanceOf(WalletModel::class, $mockRepository->getModel()
-        );
+        $this->assertInstanceOf(WalletModel::class, $mockRepository->getModel());
     }
 
     public function testGetResource()
