@@ -2,8 +2,7 @@
 
 
 [![Tests](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/back-end-tests.yml/badge.svg)](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/back-end-tests.yml)
-[![Test Coverage](https://github.com/Jhon-Henkel/my-finances-planner/output/badge-coverage.svg)]
-
+[![PHP-Coverage](https://codecov.io/gh/Jhon-Henkel/my-finances-planner/branch/main/graph/badge.svg?token=ZWK28PWTZF)](https://codecov.io/gh/Jhon-Henkel/my-finances-planner)
 ## Sobre My Finances Planner
 
 Com a necessidade de algo mais completo e personalizado para controle financeiro, resolvi desenvolver essa aplicação. Atualmente esse projeto está em desenvolvimento.
