@@ -2,7 +2,7 @@
 
 
 [![Tests](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/back-end-tests.yml/badge.svg)](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/back-end-tests.yml)
-[![Test Coverage](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/badge-coverage.svg)]
+[![Test Coverage](https://github.com/Jhon-Henkel/my-finances-planner/output/badge-coverage.svg)]
 
 ## Sobre My Finances Planner
 
