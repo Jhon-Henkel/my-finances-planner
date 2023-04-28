@@ -4,7 +4,7 @@
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
-                <mfp-title :title="'Dashboard'"/>
+                <mfp-title :title="salutation + ', é bom ter você aqui...'"/>
             </div>
             <divider/>
             <div class="row ms-2" style="display: inline-flex; width: 100%">
@@ -132,6 +132,7 @@
             return {
                 alertIcon: iconEnum.triangleExclamation(),
                 loadingDone: false,
+                salutation: localStorage.getItem('salutation'),
                 graphOptions: {
                     scales: {
                         x: {

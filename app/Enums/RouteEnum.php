@@ -47,6 +47,9 @@ class RouteEnum
     const API_FUTURE_SPENT_PAY = 'apiFutureSpentPay';
     const API_CONFIGURATION_GET = 'apiConfigurationGet';
     const API_CONFIGURATION_UPDATE = 'apiConfigurationUpdate';
+    const API_USER_SHOW = 'apiUserShow';
+    const API_USER_UPDATE = 'apiUserUpdate';
+    const API_USER_GET_USER_LOGGED = 'apiUserGetUserLogged';
     const WEB_LOGIN = 'login';
     const WEB_LOGOUT = 'logout';
     const WEB_IS_USER_LOGGED = 'webIsUserLogged';

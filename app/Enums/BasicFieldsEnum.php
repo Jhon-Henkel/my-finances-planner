@@ -28,4 +28,9 @@ class BasicFieldsEnum
     const NEXT_INSTALLMENT_DB = 'next_installment';
     const NEXT_INSTALLMENT_JSON = 'nextInstallment';
     const FORECAST = 'forecast';
+    const EMAIL = 'email';
+    const PASSWORD = 'password';
+    const SALARY = 'salary';
+    const EMAIL_VERIFIED_AT = 'email_verified_at';
+    const STATUS = 'status';
 }

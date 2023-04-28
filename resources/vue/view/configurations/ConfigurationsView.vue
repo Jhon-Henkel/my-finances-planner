@@ -2,12 +2,12 @@
     <div class="base-container">
         <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === 0"/>
-        <div v-show="loadingDone === 2">
+        <div v-show="loadingDone === 1">
             <div class="nav mt-2 justify-content-end">
-                <mfp-title :title="'Configurações'"/>
+                <mfp-title :title="'Configurações do usuário'"/>
             </div>
             <divider/>
-            <input-money :value="salary" :title="'Salário Bruto'" @input-money="salary = $event"/>
+            <input-money :value="user.salary" :title="'Salário Bruto'" @input-money="user.salary = $event"/>
             <form class="was-validated">
                 <div class="row justify-content-center mt-3">
                     <div class="col-4">
@@ -15,7 +15,7 @@
                             <label class="form-label" for="email">
                                 E-mail
                             </label>
-                            <input type="email" class="form-control" v-model="email" id="email" required>
+                            <input type="email" class="form-control" v-model="user.email" id="email" required>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                             <label class="form-label" for="name">
                                 Nome
                             </label>
-                            <input type="text" class="form-control" v-model="name" id="name" required>
+                            <input type="text" class="form-control" v-model="user.name" id="name" required>
                         </div>
                     </div>
                 </div>
@@ -93,6 +93,8 @@
     import apiRouter from "../../../js/router/apiRouter";
     import MessageEnum from "../../../js/enums/messageEnum";
     import MfpMessage from "../../components/MessageAlert.vue";
+    import ApiRouter from "../../../js/router/apiRouter";
+    import RequestTools from "../../../js/tools/requestTools";
 
     export default {
         name: "ConfigurationsView",
@@ -112,55 +114,52 @@
         data() {
             return {
                 loadingDone: 0,
-                salary: 0,
-                name: '',
-                email: '',
-                salaryDb: 0,
-                nameDb: '',
-                emailDb: '',
+                id: 0,
+                user: {
+                    salary: 0,
+                    name: '',
+                    email: '',
+                    password: '',
+                },
                 newPassword: '',
                 newPasswordConfirmation: '',
                 alterPassword: false,
             }
         },
         methods: {
-            updateConfigs() {
-                let error = null;
-                if (this.salary !== this.salaryDb) {
-                    const data = {value: this.salary}
-                    apiRouter.configurations.update('salary', data).then(() => {
-                        this.salaryDb = this.salary;
-                    }).catch(() => {
-                        error = error + ' Erro ao atualizar o salário!'
-                    });
+            async updateConfigs() {
+                if (this.alterPassword === true) {
+                    if (this.newPassword !== this.newPasswordConfirmation) {
+                        this.messageError('Senhas não conferem!')
+                        return;
+                    }
+                    this.user.password = this.newPassword;
                 }
-                if (error) {
-                    this.messageError(error);
-                    return
-                }
-                this.messageSuccess('Configurações atualizadas com sucesso!');
+                await ApiRouter.user.update(this.id, this.user).then(() => {
+                    this.messageSuccess('Faça login novamente.');
+                }).catch((error) => {
+                    console.log(error)
+                    this.messageError('Erro ao atualizar dados do usuário!')
+                });
             },
             messageError(message) {
                 this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
             },
             messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Configurações atualizadas!')
             },
             showMessage(type, message, title) {
                 this.$refs.message.showAlert(type, message, title)
             }
         },
         async mounted() {
-            this.loadingDone = 1;
-            await apiRouter.configurations.getSalary().then(response => {
-                this.salary = parseFloat(response.value)
-                this.salaryDb = parseFloat(response.value)
-                this.loadingDone = this.loadingDone + 1
+            this.id = await RequestTools.user.getIdUserLogged()
+            await ApiRouter.user.show(this.id).then((response) => {
+                this.user = response;
+                this.loadingDone = this.loadingDone + 1;
+            }).catch(() => {
+                this.messageError('Erro ao carregar dados do usuário!')
             });
-        }
+        },
     }
 </script>
-
-<style scoped>
-
-</style>

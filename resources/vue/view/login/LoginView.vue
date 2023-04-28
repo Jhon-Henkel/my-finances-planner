@@ -120,6 +120,7 @@
         },
         mounted() {
             localStorage.removeItem('mfp_token')
+            localStorage.removeItem('userId')
             this.checkUserIsLogged()
         }
     }

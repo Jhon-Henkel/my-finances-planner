@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\RouteEnum;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\MovementController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,9 +25,6 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
         $router->post('', [WalletController::class, 'insert'])->name(RouteEnum::API_WALLET_INSERT);
         $router->put('/{id}', [WalletController::class, 'update'])->name(RouteEnum::API_WALLET_UPDATE);
         $router->delete('/{id}', [WalletController::class, 'delete'])->name(RouteEnum::API_WALLET_DELETE);
-        $router->prefix('/type')->group(function () use ($router) {
-            $router->get('/{type}', [WalletController::class, 'showByType'])->name(RouteEnum::API_WALLET_SHOW_TYPE);
-        });
     });
     $router->prefix('movement')->group(function () use ($router) {
         $router->get('', [MovementController::class, 'index'])->name(RouteEnum::API_MOVEMENT_INDEX);
@@ -34,9 +33,6 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
         $router->post('', [MovementController::class, 'insert'])->name(RouteEnum::API_MOVEMENT_INSERT);
         $router->put('/{id}', [MovementController::class, 'update'])->name(RouteEnum::API_MOVEMENT_UPDATE);
         $router->delete('/{id}', [MovementController::class, 'delete'])->name(RouteEnum::API_MOVEMENT_DELETE);
-        $router->prefix('/type')->group(function () use ($router) {
-            $router->get('/{type}', [MovementController::class, 'showByType'])->name(RouteEnum::API_MOVEMENT_SHOW_TYPE);
-        });
     });
     $router->prefix('credit-card')->group(function () use ($router) {
         $router->prefix('transaction')->group(function () use ($router) {
@@ -77,5 +73,9 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     $router->prefix('configurations')->group(function () use ($router) {
         $router->get('/{configName}', [ConfigurationsController::class, 'showByName'])->name(RouteEnum::API_CONFIGURATION_GET);
         $router->put('/{configName}', [ConfigurationsController::class, 'updateByName'])->name(RouteEnum::API_CONFIGURATION_UPDATE);
+    });
+    $router->prefix('user')->group(function () use ($router) {
+        $router->get('/{id}', [UserController::class, 'show'])->name(RouteEnum::API_USER_SHOW);
+        $router->put('/{id}', [UserController::class, 'update'])->name(RouteEnum::API_USER_UPDATE);
     });
 });

@@ -16,6 +16,7 @@
     @if (Auth::check())
         <script>
             localStorage.setItem('salutation', '{{ CalendarTools::salutation(Auth::user()->name, date('H')) }}')
+            localStorage.setItem('userId', '{{ Auth::user()->id }}')
         </script>
     @endif
     <div class="container" id="app"></div>

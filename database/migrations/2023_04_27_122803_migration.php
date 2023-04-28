@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -10,7 +10,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::table('configurations')->insert(array('name' => 'salary', 'value' => 0));
+        Schema::table('users', function($table) {
+            $table->decimal('salary', 60, 2)->default(0)->after('password');
+        });
     }
 
     /**
@@ -18,6 +20,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::table('config')->delete(array('name' => 'salary'));
+        Schema::table('users', function($table) {
+            $table->dropColumn('salary');
+        });
     }
 };

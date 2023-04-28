@@ -96,6 +96,7 @@ const apiRouter = {
         logout: async function() {
             localStorage.removeItem('mfp_token')
             localStorage.removeItem('salutation')
+            localStorage.removeItem('userId')
             return await axios.get('/logout')
         }
     },
@@ -156,6 +157,15 @@ const apiRouter = {
         },
         update: async function(config, data) {
             return await axios.put('/api/configurations/' + config, data)
+        }
+    },
+    user: {
+        show: async function(id) {
+            const request = await axios.get('/api/user/' + id)
+            return request.data
+        },
+        update: async function(id, user) {
+            return await axios.put('/api/user/' + id, user)
         }
     }
 }

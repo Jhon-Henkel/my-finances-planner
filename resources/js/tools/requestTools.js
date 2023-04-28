@@ -14,6 +14,11 @@ const RequestTools = {
             }
             return token
         }
+    },
+    user: {
+        getIdUserLogged: async function () {
+            return parseInt(localStorage.getItem('userId'))
+        }
     }
 }
 
