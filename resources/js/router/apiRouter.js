@@ -94,9 +94,8 @@ const apiRouter = {
     },
     userActions: {
         logout: async function() {
-            localStorage.removeItem('mfp_token')
+            RequestTools.storage.removeItens()
             localStorage.removeItem('salutation')
-            localStorage.removeItem('userId')
             return await axios.get('/logout')
         }
     },

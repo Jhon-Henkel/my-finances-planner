@@ -1,7 +1,8 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <div class="card text-center login-box glass">
+        <loading-component v-show="loadingDone === 0"/>
+        <div class="card text-center login-box glass" v-if="loadingDone === 1">
             <mfp-title class="title" :title="'Login'"/>
             <div class="card-body">
                 <form class="form-horizontal" @submit="login">
@@ -59,10 +60,13 @@
     import MfpTitle from "../../components/TitleComponent.vue";
     import MfpMessage from "../../components/MessageAlert.vue";
     import MessageEnum from "../../../js/enums/messageEnum";
+    import RequestTools from "../../../js/tools/requestTools";
+    import LoadingComponent from "../../components/LoadingComponent.vue";
 
     export default {
         name: "LoginView",
         components: {
+            LoadingComponent,
             MfpMessage,
             MfpTitle,
             Divider,
@@ -70,6 +74,7 @@
         data() {
             return {
                 user: {},
+                loadingDone: 0
             }
         },
         computed: {
@@ -111,17 +116,22 @@
                 await routerNonAuthenticated.login.isUserLogged().then((response) => {
                     if (response.data.isLogged) {
                         this.$router.push({name: 'dashboard'})
+                        this.loadingDone = 1
+                        return
                     }
+                    this.loadingDone = 1
+                    RequestTools.storage.removeItens()
+                }).catch(() => {
+                    RequestTools.storage.removeItens()
                 })
             },
             showMessage(type, message, title) {
                 this.$refs.message.showAlert(type, message, title)
             }
         },
-        mounted() {
-            localStorage.removeItem('mfp_token')
-            localStorage.removeItem('userId')
-            this.checkUserIsLogged()
+        async mounted() {
+            this.loadingDone = 0
+            await this.checkUserIsLogged()
         }
     }
 </script>

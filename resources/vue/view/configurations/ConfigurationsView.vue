@@ -157,7 +157,8 @@
             await ApiRouter.user.show(this.id).then((response) => {
                 this.user = response;
                 this.loadingDone = this.loadingDone + 1;
-            }).catch(() => {
+            }).catch((erro) => {
+                console.log(erro, this.id)
                 this.messageError('Erro ao carregar dados do usuário!')
             });
         },

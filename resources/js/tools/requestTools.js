@@ -19,6 +19,12 @@ const RequestTools = {
         getIdUserLogged: async function () {
             return parseInt(localStorage.getItem('userId'))
         }
+    },
+    storage: {
+        removeItens: function () {
+            localStorage.removeItem('mfp_token')
+            localStorage.removeItem('userId')
+        }
     }
 }
 
