@@ -38,11 +38,8 @@ jobs:
       with:
         coverage_badge_path: output/coverage.svg
         push_badge: false
-    - name: Git push to image-data branch
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
       with:
-        publish_dir: ./output
-        publish_branch: master
-        github_token: ${{ secrets.CODE_COVERAGE }}
-        user_name: 'Jhon-Henkel'
-        user_email: 'jhowrf@gmail.com'
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./clover.xml
