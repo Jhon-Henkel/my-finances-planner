@@ -14,9 +14,10 @@
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
                     <tr class="text-center">
-                        <td colspan="10">Despesas</td>
+                        <td colspan="11">Despesas</td>
                     </tr>
                     <tr class="text-center">
+                        <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
                         <th>Descrição</th>
                         <th>Carteira</th>
                         <th scope="col" v-for="(month, index) in months" :key="index">
@@ -28,6 +29,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="spent in futureSpending" :key="spent.id" class="text-center">
+                    <td>{{ spent.nextInstallmentDay }}</td>
                     <td>{{ spent.name }}</td>
                     <td>{{ spent.countName }}</td>
                     <td>{{ spent.firstInstallment ? formatValueToBr(spent.firstInstallment) : '-' }}</td>
@@ -49,44 +51,37 @@
                     </td>
                 </tr>
                 <tr class="text-center border-table-spent">
-                    <td><font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-1"/>Gastos</td>
-                    <td></td>
+                    <td colspan="3"><font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-1"/>Gastos</td>
                     <td>{{ formatValueToBr(totalSpending.firstInstallment) }}</td>
                     <td>{{ formatValueToBr(totalSpending.secondInstallment) }}</td>
                     <td>{{ formatValueToBr(totalSpending.thirdInstallment) }}</td>
                     <td>{{ formatValueToBr(totalSpending.forthInstallment) }}</td>
                     <td>{{ formatValueToBr(totalSpending.fifthInstallment) }}</td>
                     <td>{{ formatValueToBr(totalSpending.sixthInstallment) }}</td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr class="text-center border-table-cards">
-                    <td><font-awesome-icon :icon="iconEnum.creditCard()" class="icon-alert me-1"/>Cartões</td>
-                    <td></td>
+                    <td colspan="3"><font-awesome-icon :icon="iconEnum.creditCard()" class="icon-alert me-1"/>Cartões</td>
                     <td>{{ formatValueToBr(cardsInvoice.firstInstallment) }}</td>
                     <td>{{ formatValueToBr(cardsInvoice.secondInstallment) }}</td>
                     <td>{{ formatValueToBr(cardsInvoice.thirdInstallment) }}</td>
                     <td>{{ formatValueToBr(cardsInvoice.forthInstallment) }}</td>
                     <td>{{ formatValueToBr(cardsInvoice.fifthInstallment) }}</td>
                     <td>{{ formatValueToBr(cardsInvoice.sixthInstallment) }}</td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr class="text-center border-table-gain">
-                    <td><font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-1"/>Ganhos</td>
-                    <td></td>
+                    <td colspan="3"><font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-1"/>Ganhos</td>
                     <td>{{ formatValueToBr(totalFutureGain.firstInstallment) }}</td>
                     <td>{{ formatValueToBr(totalFutureGain.secondInstallment) }}</td>
                     <td>{{ formatValueToBr(totalFutureGain.thirdInstallment) }}</td>
                     <td>{{ formatValueToBr(totalFutureGain.forthInstallment) }}</td>
                     <td>{{ formatValueToBr(totalFutureGain.fifthInstallment) }}</td>
                     <td>{{ formatValueToBr(totalFutureGain.sixthInstallment) }}</td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr class="text-center border-table-remaining">
-                    <td><font-awesome-icon :icon="iconEnum.circleArrowRight()" class="remaining-icon me-1"/>Sobras</td>
-                    <td></td>
+                    <td colspan="3"><font-awesome-icon :icon="iconEnum.circleArrowRight()" class="remaining-icon me-1"/>Sobras</td>
                     <td>{{ formatValueToBr(totalRemaining.firstInstallment) }}
                         <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.firstInstallment < 0"/>
                     </td>
@@ -110,17 +105,14 @@
                         {{ formatValueToBr(totalRemaining.sixthInstallment) }}
                         <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.sixthInstallment < 0"/>
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="2"></td>
                 </tr>
                 </tbody>
             </table>
-            <divider/>
-            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle mt-4">
                 <thead class="table-dark">
                     <tr class="text-center">
-                        <td>Total em carteira</td>
-                        <td></td>
+                        <td colspan="2">Total em carteira</td>
                         <td>
                             <select v-model="monthRemaining" class="form-select-sm text-center">
                                 <option value="10" disabled>Selecione o mês</option>
@@ -129,8 +121,7 @@
                                 </option>
                             </select>
                         </td>
-                        <td></td>
-                        <td>Total</td>
+                        <td colspan="2">Total</td>
                     </tr>
                 </thead>
                 <tbody>

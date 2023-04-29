@@ -14,6 +14,7 @@
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
                     <tr class="text-center">
+                        <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
                         <th>Descrição</th>
                         <th>Carteira</th>
                         <th scope="col" v-for="(month, index) in months" :key="index">
@@ -25,6 +26,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="gain in futureGains" :key="gain.id" class="text-center">
+                        <td>{{ gain.nextInstallmentDay }}</td>
                         <td>{{ gain.name }}</td>
                         <td>{{ gain.countName }}</td>
                         <td>{{ gain.firstInstallment ? StringTools.formatFloatValueToBrString(gain.firstInstallment) : '-' }}</td>
@@ -46,16 +48,14 @@
                         </td>
                     </tr>
                     <tr class="text-center border-table">
-                        <td>Total</td>
-                        <td></td>
+                        <td colspan="3">Total</td>
                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.firstMonth) }}</td>
                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.secondMonth) }}</td>
                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.thirdMonth) }}</td>
                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.forthMonth) }}</td>
                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.fifthMonth) }}</td>
                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.sixthMonth) }}</td>
-                        <td></td>
-                        <td></td>
+                        <td colspan="2"></td>
                     </tr>
                 </tbody>
             </table>

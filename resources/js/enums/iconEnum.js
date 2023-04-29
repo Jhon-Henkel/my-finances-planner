@@ -92,5 +92,8 @@ const iconEnum = {
     scaleBalanced() {
         return ['fas', 'scale-balanced']
     },
+    calendarCheck() {
+        return ['fa-solid', 'fa-calendar-check']
+    },
 }
 export default iconEnum;
