@@ -38,7 +38,10 @@
                     <td>{{ spent.forthInstallment ? formatValueToBr(spent.forthInstallment) : '-' }}</td>
                     <td>{{ spent.fifthInstallment ? formatValueToBr(spent.fifthInstallment) : '-' }}</td>
                     <td>{{ spent.sixthInstallment ? formatValueToBr(spent.sixthInstallment) : '-' }}</td>
-                    <td>{{ spent.remainingInstallments === 0 ? 'Fixo' : spent.remainingInstallments }}</td>
+                    <td v-if="spent.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
+                    <td v-else v-tooltip="formatValueToBr(spent.totalRemainingValue)">
+                        {{ spent.remainingInstallments }}
+                    </td>
                     <td class="text-center">
                         <action-buttons
                             :delete-tooltip="'Deletar Despesa'"
