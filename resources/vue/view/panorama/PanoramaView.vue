@@ -314,7 +314,7 @@
 <style scoped>
     .border-table-spent {
         border-top: 3px solid #096452;
-        border-bottom: 1px solid #ff0000;
+        border-bottom: 1px solid #eb4e2c;
     }
     .border-table-gain {
         border-bottom: 1px solid #12c4a1;
@@ -323,18 +323,18 @@
         border-bottom: 1px solid #4a54ea;
     }
     .border-table-cards {
-        border-bottom: 1px solid #fdd200;
+        border-bottom: 1px solid #e0c857;
     }
     .gain-icon {
         color: #12c4a1;
     }
     .spent-icon {
-        color: #ff0000;
+        color: #eb4e2c;
     }
     .remaining-icon {
         color: #4a54ea;
     }
     .icon-alert {
-        color: #fdd200;
+        color: #e0c857;
     }
 </style>

@@ -136,16 +136,13 @@
         box-sizing: border-box;
         font-family: 'Poppins', sans-serif;
     }
-    body {
-        transition: all 0.5s ease;
-    }
     .sidebar {
         display: flex;
         background: #11101d;
         flex-direction: column;
         position: fixed;
         left: 0;
-        top: 0;
+        top: 1px;
         height: 100%;
         min-height: min-content;
         width: 78px;
