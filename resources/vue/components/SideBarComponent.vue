@@ -148,6 +148,7 @@
         width: 78px;
         z-index: 99;
         transition: all 0.5s ease;
+        white-space: nowrap;
     }
     .sidebar.open {
         width: 300px;
@@ -171,10 +172,11 @@
         font-size: 20px;
         font-weight: 600;
         opacity: 0;
-        transition: all 0.5s ease;
+        transition: all 0.2s ease;
     }
     .sidebar.open .sidebar-header .salutation {
         opacity: 1;
+        transition: all 1s ease !important;
     }
     .sidebar .sidebar-header #btn {
         position: absolute;
