@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Ganhos Futuros'"/>
@@ -35,7 +35,10 @@
                         <td>{{ gain.forthInstallment ? StringTools.formatFloatValueToBrString(gain.forthInstallment) : '-' }}</td>
                         <td>{{ gain.fifthInstallment ? StringTools.formatFloatValueToBrString(gain.fifthInstallment) : '-' }}</td>
                         <td>{{ gain.sixthInstallment ? StringTools.formatFloatValueToBrString(gain.sixthInstallment) : '-' }}</td>
-                        <td>{{ gain.remainingInstallments === 0 ? 'Fixo' : gain.remainingInstallments }}</td>
+                        <td v-if="gain.remainingInstallments === 0" v-tooltip="'Ganho Fixo'">Fixo</td>
+                        <td v-else v-tooltip="StringTools.formatFloatValueToBrString(gain.totalRemainingValue)">
+                            {{ gain.remainingInstallments }}
+                        </td>
                         <td class="text-center">
                             <action-buttons
                                 :delete-tooltip="'Deletar Ganho'"
@@ -120,8 +123,10 @@
         methods: {
             async updateFutureGainsList() {
                 await ApiRouter.futureGain.getNextSixMonthsGains().then(response => {
+                    this.loadingDone = false
                     this.futureGains = response
                     this.calculateTotalPerMonth()
+                    this.loadingDone = true
                 }).catch(error => {
                     this.messageError('Não foi possível carregar os ganhos futuros!')
                 })

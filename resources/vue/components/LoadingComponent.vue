@@ -14,7 +14,7 @@
         props: {
             time: {
                 type: Number,
-                default: CalendarTools.twoHundredMs()
+                default: CalendarTools.oneHundredMs()
             }
         },
         emits: [

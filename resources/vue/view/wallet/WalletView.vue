@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Carteiras'"/>
@@ -97,8 +97,10 @@
         },
         methods: {
             async getWallets() {
+                this.loadingDone = false
                 this.wallets = await apiRouter.wallet.index()
                 this.sumTotalAmount = numberTools.getSumTotalAmount(this.wallets)
+                this.loadingDone = true
             },
             async deleteWallet(walletId, walletName) {
                 if(confirm("Tem certeza que realmente quer deletar a carteira " + walletName + '?')) {

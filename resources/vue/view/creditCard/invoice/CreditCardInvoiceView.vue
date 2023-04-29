@@ -21,7 +21,6 @@
                             {{ calendarTools.getMonthNameByNumber(month) }}
                         </th>
                         <th scope="col">Restam</th>
-                        <th scope="col">Valor restante</th>
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
@@ -34,8 +33,10 @@
                         <td>{{ expense.forthInstallment ? formatValueToBr(expense.forthInstallment) : '-' }}</td>
                         <td>{{ expense.fifthInstallment ? formatValueToBr(expense.fifthInstallment) : '-' }}</td>
                         <td>{{ expense.sixthInstallment ? formatValueToBr(expense.sixthInstallment) : '-' }}</td>
-                        <td>{{ expense.remainingInstallments === 0 ? 'Fixa' : expense.remainingInstallments + ' Parcelas' }}</td>
-                        <td>{{ expense.remainingInstallments === 0 ? 'Fixa' : formatValueToBr(expense.totalRemainingValue) }}</td>
+                        <td v-if="expense.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
+                        <td v-else v-tooltip="formatValueToBr(expense.totalRemainingValue)">
+                            {{ expense.remainingInstallments }}
+                        </td>
                         <td>
                             <action-buttons :delete-tooltip="'Deletar Fatura'"
                                             :tooltip-edit="'Editar Fatura'"
@@ -51,7 +52,6 @@
                         <td>{{ formatValueToBr(totalPerMonth.forthMonth) }}</td>
                         <td>{{ formatValueToBr(totalPerMonth.fifthMonth) }}</td>
                         <td>{{ formatValueToBr(totalPerMonth.sixthMonth) }}</td>
-                        <td>-</td>
                         <td>{{ formatValueToBr(totalPerMonth.totalRemaining) }}</td>
                         <td>-</td>
                     </tr>
@@ -202,7 +202,7 @@
             this.cardId = this.$route.params.id
             this.wallets = await apiRouter.wallet.index()
             this.card = await apiRouter.cards.show(this.cardId)
-            this.title = 'Fatura ' + this.card.name
+            this.title = 'Fatura cartão ' + this.card.name
             this.invoices = await apiRouter.cards.invoices.index(this.cardId)
             this.thisMonth = CalendarTools.getThisMonth()
             this.calculateTotalPerMonth()

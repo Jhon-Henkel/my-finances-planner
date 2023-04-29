@@ -16,7 +16,6 @@ class CreditCardController extends BasicController
         $this->resource = app(CreditCardResource::class);
     }
 
-    // todo validar dias de vencimento e fechamento, o dia de vencimento não pode ser menor que o dia de fechamento
     protected function rulesInsert(): array
     {
         return [
@@ -27,7 +26,6 @@ class CreditCardController extends BasicController
         ];
     }
 
-    // todo validar dias de vencimento e fechamento, o dia de vencimento não pode ser menor que o dia de fechamento
     protected function rulesUpdate(): array
     {
         return [

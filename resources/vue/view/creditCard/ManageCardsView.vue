@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Cartões'"/>
@@ -17,25 +17,27 @@
             <divider/>
             <div>
                 <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                    <thead class="table-dark">
+                    <thead class="table-dark text-center">
                         <tr>
-                            <th class="text-center" scope="col">Cartão</th>
-                            <th class="text-center" scope="col">Limite</th>
-                            <th class="text-center" scope="col">Vence Dia</th>
-                            <th class="text-center" scope="col">Fecha Dia</th>
-                            <th class="text-center" scope="col">Próxima Fatura</th>
-                            <th class="text-center" scope="col">Data Criação</th>
-                            <th class="text-center" scope="col">Ações</th>
+                            <th scope="col"><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
+                            <th scope="col">Cartão</th>
+                            <th scope="col">Limite</th>
+                            <th scope="col">Limite Restante</th>
+                            <th scope="col">Fecha Dia</th>
+                            <th scope="col">Próxima Fatura</th>
+                            <th scope="col">Data Criação</th>
+                            <th scope="col">Ações</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         <tr v-for="card in cards" :key="card.id">
-                            <td class="text-center">{{ card.name }}</td>
-                            <td class="text-center">{{ stringTools.formatFloatValueToBrString(card.limit) }}</td>
-                            <td class="text-center">{{ card.dueDate }}</td>
-                            <td class="text-center">{{ card.closingDay }}</td>
-                            <td class="text-center">Valor Fatura</td>
-                            <td class="text-center">{{ calendarTools.convertDateDbToBr(card.createdAt) }}</td>
+                            <td>{{ card.dueDate }}</td>
+                            <td>{{ card.name }}</td>
+                            <td>{{ stringTools.formatFloatValueToBrString(card.limit) }}</td>
+                            <td>!! Desenvolver !!</td>
+                            <td>{{ card.closingDay }}</td>
+                            <td>!! Desenvolver !!</td>
+                            <td>{{ calendarTools.convertDateDbToBr(card.createdAt) }}</td>
                             <td>
                                 <action-buttons :delete-tooltip="'Deletar Cartão'"
                                                 :tooltip-edit="'Editar Cartão'"
@@ -66,6 +68,7 @@
     import MfpTitle from "../../components/TitleComponent.vue";
     import MfpMessage from "../../components/MessageAlert.vue";
     import MessageEnum from "../../../js/enums/messageEnum";
+    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
     export default {
         name: "ManageCardsView",
@@ -81,6 +84,7 @@
             }
         },
         components: {
+            FontAwesomeIcon,
             MfpMessage,
             MfpTitle,
             Divider,
@@ -104,7 +108,13 @@
                 this.$refs.message.showAlert(type, message, title)
             },
             async getCards() {
-                this.cards = await apiRouter.cards.index()
+                 await apiRouter.cards.index().then((response) => {
+                     this.loadingDone = false
+                     this.cards = response
+                     this.loadingDone = true
+                }).catch((response) => {
+                    this.messageError('Erro inesperado ao buscar Cartões!')
+                })
             },
             async deleteCard(cardId, cardName) {
                 if(confirm("Tem certeza que realmente quer deletar o cartão " + cardName + '?')) {
