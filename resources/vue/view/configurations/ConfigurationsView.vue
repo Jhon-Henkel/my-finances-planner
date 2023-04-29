@@ -74,9 +74,7 @@
                 </div>
             </form>
             <divider/>
-            <bottom-buttons redirect-to="/dashboard"
-                            :button-cancel-text="'Voltar para a Dashboard'"
-                            :button-cancel-icon="iconEnum.back()"
+            <bottom-buttons :show-button-cancel="false"
                             :button-success-text="'Salvar Configurações'"
                             @btn-clicked="updateConfigs"/>
         </div>

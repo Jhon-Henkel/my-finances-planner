@@ -1,6 +1,6 @@
 <template>
     <div class="nav justify-content-center">
-        <router-link class="btn btn-danger rounded-5" :to="redirectTo">
+        <router-link class="btn btn-danger rounded-5" :to="redirectTo" v-if="showButtonCancel">
             <font-awesome-icon :icon="buttonCancelIcon" class="me-2"/>
             {{ buttonCancelText }}
         </router-link>
@@ -35,15 +35,19 @@
             },
             buttonCancelText: {
                 type: String,
-                default: 'Cancelar'
+                default: 'Voltar'
             },
             buttonCancelIcon: {
                 type: Array,
-                default: iconEnum.xMark()
+                default: iconEnum.back()
             },
             redirectTo: {
                 type: String,
-                required: true
+                required: false
+            },
+            showButtonCancel: {
+                type: Boolean,
+                default: true
             }
         }
     }
