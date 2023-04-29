@@ -267,7 +267,6 @@
         async mounted() {
             await ApiRouter.dashboard.index().then(response => {
                 this.data = response;
-                this.loadingDone = true;
                 this.populateData();
                 this.chartData = {
                     labels: this.data.movements.dataForGraph.labels,
@@ -284,6 +283,7 @@
                         },
                     ]
                 }
+                this.loadingDone = true;
             }).catch(error => {
                 this.$refs.message.showAlert(
                     MessageEnum.alertTypeError(),

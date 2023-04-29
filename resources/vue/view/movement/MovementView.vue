@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false" />
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Movimentações'"/>
@@ -55,27 +55,54 @@
                     </tr>
                 </tbody>
             </table>
-            <divider/>
-            <div class="text-end">
-                <h3>
-                    <font-awesome-icon :icon="iconEnum.circleArrowUp()" class="movement-gain-icon"/>
-                    Total Ganho: {{ stringTools.formatFloatValueToBrString(totalGain) }}
-                </h3>
-                <h3>
-                    <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="movement-spent-icon"/>
-                    Total Gasto: {{ stringTools.formatFloatValueToBrString(totalSpent) }}
-                </h3>
-                <div>
-                    <h3>
-                        <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="me-2 icon-alert" v-if="balance < 0"/>
-                        Balanço: {{ stringTools.formatFloatValueToBrString(balance) }}
-                    </h3>
-                    <span class="badge text-bg-danger" v-if="balance < 0">
-                        <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="me-2"/>
-                        Cuidado, você está com balanço negativo!
-                    </span>
+            <div class="row ms-1">
+                <div class="card glass success balance-card">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">
+                            <font-awesome-icon :icon="iconEnum.movement()" class="me-2"/>
+                            Resumo
+                        </h4>
+                        <hr>
+                        <div class="card-text">
+                            <div class="row">
+                                <div class="col-4">
+                                    <h6>
+                                        <font-awesome-icon :icon="iconEnum.circleArrowUp()" class="movement-gain-icon"/>
+                                        Ganhos
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <h6>
+                                        <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="movement-spent-icon"/>
+                                        Gastos
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <h6>
+                                        <font-awesome-icon :icon="iconEnum.scaleBalanced()"/>
+                                        Balanço
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    {{ StringTools.formatFloatValueToBrString(totalGain) }}
+                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalGain < 0"/>
+                                </div>
+                                <div class="col-4">
+                                    {{ StringTools.formatFloatValueToBrString(totalSpent) }}
+                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalSpent < 0"/>
+                                </div>
+                                <div class="col-4">
+                                    {{ StringTools.formatFloatValueToBrString(balance) }}
+                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="balance < 0"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <divider/>
         </div>
     </div>
 </template>
@@ -94,10 +121,14 @@
     import MfpTitle from "../../components/TitleComponent.vue";
     import MfpMessage from "../../components/MessageAlert.vue";
     import MessageEnum from "../../../js/enums/messageEnum";
+    import StringTools from "../../../js/tools/stringTools";
 
     export default {
         name: "MovementView",
         computed: {
+            StringTools() {
+                return StringTools
+            },
             movementEnum() {
                 return movementEnum
             },
@@ -120,6 +151,7 @@
         },
         data() {
             return {
+                alertIcon: iconEnum.triangleExclamation(),
                 loadingDone: false,
                 movements: {},
                 filterList: {},
@@ -135,21 +167,22 @@
                     "O valor será retornado para a carteira vinculada.")) {
                     await apiRouter.movement.delete(id)
                     this.messageSuccess('Movimentação deletada com sucesso!')
-                    this.movements = await apiRouter.movement.indexFiltered(this.lastFilter)
-                    this.updateMovementDetails()
+                    await this.getMovementIndexFiltered(this.lastFilter)
                 }
             },
             async getMovementsByFilter(event) {
                 let filterId = event.target.value
                 this.lastFilter = filterId
-                this.movements = await apiRouter.movement.indexFiltered(filterId)
-                this.updateMovementDetails()
+                await this.getMovementIndexFiltered(filterId)
             },
-            updateMovementDetails() {
+            async getMovementIndexFiltered(filterId) {
+                this.loadingDone = false
+                this.movements = await apiRouter.movement.indexFiltered(filterId)
                 let sum = numberTools.getSumAmountPerMovementType(this.movements)
                 this.totalSpent = sum.totalSpent
                 this.totalGain = sum.totalGain
                 this.balance = sum.totalGain - sum.totalSpent
+                this.loadingDone = true
             },
             messageSuccess(message) {
                 this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
@@ -160,8 +193,7 @@
         },
         async mounted() {
             this.filterList = MovementEnum.getFilterList()
-            this.movements = await apiRouter.movement.indexFiltered(MovementEnum.filter.thisMonth())
-            this.updateMovementDetails()
+            await this.getMovementIndexFiltered(MovementEnum.filter.thisMonth())
         }
     }
 </script>
@@ -182,5 +214,14 @@
     }
     .icon-alert {
         color: #fdd200;
+    }
+    .card {
+        width: 24rem;
+    }
+    .balance-card {
+        width: 80.5rem;
+    }
+    .card-text {
+        font-size: 1.5rem;
     }
 </style>
