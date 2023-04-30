@@ -45,4 +45,20 @@ class ConfigurationServiceUnitTest extends TestCase
         $this->assertInstanceOf(ConfigurationDTO::class, $result);
         $this->assertEquals('name', $result->getName());
     }
+
+    public function testGetMfpToken()
+    {
+        $config = new ConfigurationDTO();
+        $config->setName('name');
+        $config->setValue('valueTest');
+
+        $mock = Mockery::mock('App\Repositories\ConfigurationRepository');
+        $mock->shouldReceive('findByName')->once()->andReturn([$config]);
+        $this->app->instance('App\Repositories\ConfigurationRepository', $mock);
+
+        $service = new ConfigurationService($mock);
+        $result = $service->getMfpToken();
+
+        $this->assertEquals('valueTest', $result);
+    }
 }
