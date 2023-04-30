@@ -13,4 +13,4 @@ My finances planner é um software open-sourced licenciado em [MIT license](http
 
 ## Como iniciar o projeto
 - chown www-data:www-data -R storage/logs/
-- chown www-data:www-data -R storage/framework
+- chown www-data:www-data -R storage/frameworkk
