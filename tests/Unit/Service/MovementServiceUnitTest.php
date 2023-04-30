@@ -288,4 +288,47 @@ class MovementServiceUnitTest extends TestCase
         $this->assertEquals(20, $result['spentData'][0]);
         $this->assertEquals(30, $result['spentData'][1]);
     }
+
+    public function testGetTypeForMovementUpdate()
+    {
+        $movement = new MovementDTO();
+        $movement->setType(5);
+        $movement->setAmount(11);
+
+        $item = new MovementDTO();
+        $item->setType(5);
+        $item->setAmount(10);
+
+        $service = Mockery::mock('App\Services\MovementService')->makePartial();
+        $service->shouldAllowMockingProtectedMethods();
+        $result = $service->getTypeForMovementUpdate($movement, $item);
+
+        $this->assertEquals(6, $result);
+
+        $movement->setAmount(10);
+        $item->setAmount(11);
+        $result = $service->getTypeForMovementUpdate($movement, $item);
+
+        $this->assertEquals(5, $result);
+
+        $movement->setType(6);
+        $item->setType(6);
+        $result = $service->getTypeForMovementUpdate($movement, $item);
+
+        $this->assertEquals(6, $result);
+
+        $movement->setAmount(11);
+        $item->setAmount(10);
+        $result = $service->getTypeForMovementUpdate($movement, $item);
+
+        $this->assertEquals(5, $result);
+    }
+
+    public function testLaunchMovementForCreditCardInvoicePay()
+    {
+        $service = Mockery::mock('App\Services\MovementService')->makePartial();
+        $service->shouldAllowMockingProtectedMethods();
+        $service->shouldReceive('insert')->once()->andReturn(new MovementDTO());
+        $service->launchMovementForCreditCardInvoicePay(1, 10.50, 'ABC');
+    }
 }
