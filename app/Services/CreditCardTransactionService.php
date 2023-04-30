@@ -8,6 +8,7 @@ use App\Resources\CreditCardResource;
 use App\Tools\CalendarTools;
 use App\VO\InvoiceVO;
 use Exception;
+use Hamcrest\Thingy;
 
 class CreditCardTransactionService extends BasicService
 {
@@ -44,11 +45,11 @@ class CreditCardTransactionService extends BasicService
             $remainingInstallments = $transaction->getInstallments() - 1;
             if ($remainingInstallments === 0) {
                 $this->deleteById($transaction->getId());
-            } else {
-                $transaction->setInstallments($remainingInstallments < 0 ? 0 : $transaction->getInstallments() - 1);
-                $transaction->setNextInstallment(CalendarTools::addMonthInDate($transaction->getNextInstallment(), 1));
-                $this->update($transaction->getId(), $transaction);
+                continue;
             }
+            $transaction->setInstallments($remainingInstallments < 0 ? 0 : $transaction->getInstallments() - 1);
+            $transaction->setNextInstallment(CalendarTools::addMonthInDate($transaction->getNextInstallment(), 1));
+            $this->update($transaction->getId(), $transaction);
         }
         if (! $launchMovementAndUpdateWallet) {
             return false;
@@ -60,9 +61,9 @@ class CreditCardTransactionService extends BasicService
 
     /**
      * @param InvoiceVO[] $invoices
-     * @return string
+     * @return null|string
      */
-    protected function getNextInstallmentOrder(array $invoices): string
+    protected function getNextInstallmentOrder(array $invoices): null|string
     {
         foreach ($invoices as $invoice) {
             if ($invoice->firstInstallment){
@@ -78,7 +79,9 @@ class CreditCardTransactionService extends BasicService
             } elseif ($invoice->sixthInstallment){
                 return 'sixthInstallment';
             }
+            return null;
         }
+        return null;
     }
 
     /**
@@ -133,5 +136,22 @@ class CreditCardTransactionService extends BasicService
             }
         }
         return $invoices;
+    }
+
+    public function getNextInvoiceValueAndTotalValueByCardId(int $cardId): array
+    {
+        $invoices = $this->getInvoices($cardId);
+        $nextInstallment = $this->getNextInstallmentOrder($invoices);
+        if (! $nextInstallment) {
+            return ['nextInvoiceValue' => 0, 'totalValue' => 0];
+        }
+        $nextInvoiceValue = 0;
+        $totalValue = 0;
+        foreach ($invoices as $invoice) {
+            $numberInstallments = $invoice->remainingInstallments === 0 ? 1 : $invoice->remainingInstallments;
+            $totalValue += ($invoice->$nextInstallment * $numberInstallments);
+            $nextInvoiceValue += $invoice->$nextInstallment;
+        }
+        return ['nextInvoiceValue' => $nextInvoiceValue, 'totalValue' => $totalValue];
     }
 }

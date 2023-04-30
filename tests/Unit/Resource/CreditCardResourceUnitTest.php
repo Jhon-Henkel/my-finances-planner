@@ -65,6 +65,8 @@ class CreditCardResourceUnitTest extends TestCase
         $dto->setClosingDay(1);
         $dto->setCreatedAt('2021-01-01');
         $dto->setUpdatedAt('2021-01-01');
+        $dto->setTotalValueSpending(15);
+        $dto->setNextInvoiceValue(10);
 
         $vo = $this->resource->dtoToVo($dto);
 
@@ -75,6 +77,8 @@ class CreditCardResourceUnitTest extends TestCase
         $this->assertEquals($dto->getClosingDay(), $vo->closingDay);
         $this->assertEquals($dto->getCreatedAt(), $vo->createdAt);
         $this->assertEquals($dto->getUpdatedAt(), $vo->updatedAt);
+        $this->assertEquals($dto->getTotalValueSpending(), $vo->totalValueSpending);
+        $this->assertEquals($dto->getNextInvoiceValue(), $vo->nextInvoiceValue);
     }
 
     public function testTransactionToInvoiceDTO()

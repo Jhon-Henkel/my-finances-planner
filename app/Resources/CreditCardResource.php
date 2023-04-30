@@ -17,6 +17,8 @@ class CreditCardResource extends BasicResource
         $dto->setLimit($item[BasicFieldsEnum::LIMIT]);
         $dto->setDueDate($item[BasicFieldsEnum::DUE_DATE_DB] ?? $item[BasicFieldsEnum::DUE_DATE_JSON]);
         $dto->setClosingDay($item[BasicFieldsEnum::CLOSING_DAY_DB] ?? $item[BasicFieldsEnum::CLOSING_DAY_JSON]);
+        $dto->setNextInvoiceValue(null);
+        $dto->setTotalValueSpending(null);
         $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
         $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
         return $dto;
@@ -32,6 +34,10 @@ class CreditCardResource extends BasicResource
         ];
     }
 
+    /**
+     * @param CreditCardDTO $item
+     * @return CreditCardVO
+     */
     public function dtoToVo($item): CreditCardVO
     {
         return CreditCardVO::makeCreditCardVO(
@@ -41,7 +47,9 @@ class CreditCardResource extends BasicResource
             $item->getDueDate(),
             $item->getClosingDay(),
             $item->getCreatedAt(),
-            $item->getUpdatedAt()
+            $item->getUpdatedAt(),
+            $item->getTotalValueSpending(),
+            $item->getNextInvoiceValue()
         );
     }
 

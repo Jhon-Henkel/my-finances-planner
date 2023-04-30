@@ -9,6 +9,8 @@ class CreditCardDTO
     private float $limit;
     private int $dueDate;
     private int $closingDay;
+    private null|float $totalValueSpending;
+    private null|float $nextInvoiceValue;
     private mixed $createdAt;
     private mixed $updatedAt;
 
@@ -90,6 +92,38 @@ class CreditCardDTO
     public function setClosingDay(int $closingDay): void
     {
         $this->closingDay = $closingDay;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTotalValueSpending(): ?float
+    {
+        return $this->totalValueSpending;
+    }
+
+    /**
+     * @param float|null $totalValueSpending
+     */
+    public function setTotalValueSpending(?float $totalValueSpending): void
+    {
+        $this->totalValueSpending = $totalValueSpending;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getNextInvoiceValue(): ?float
+    {
+        return $this->nextInvoiceValue;
+    }
+
+    /**
+     * @param float|null $nextInvoiceValue
+     */
+    public function setNextInvoiceValue(?float $nextInvoiceValue): void
+    {
+        $this->nextInvoiceValue = $nextInvoiceValue;
     }
 
     /**

@@ -34,9 +34,9 @@
                             <td>{{ card.dueDate }}</td>
                             <td>{{ card.name }}</td>
                             <td>{{ stringTools.formatFloatValueToBrString(card.limit) }}</td>
-                            <td>!! Desenvolver !!</td>
+                            <td>{{ stringTools.formatFloatValueToBrString(card.limit - card.totalValueSpending) }}</td>
                             <td>{{ card.closingDay }}</td>
-                            <td>!! Desenvolver !!</td>
+                            <td>{{ stringTools.formatFloatValueToBrString(card.nextInvoiceValue) }}</td>
                             <td>{{ calendarTools.convertDateDbToBr(card.createdAt) }}</td>
                             <td>
                                 <action-buttons :delete-tooltip="'Deletar Cartão'"
