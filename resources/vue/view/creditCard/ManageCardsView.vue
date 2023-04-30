@@ -25,7 +25,6 @@
                             <th scope="col">Limite Restante</th>
                             <th scope="col">Fecha Dia</th>
                             <th scope="col">Próxima Fatura</th>
-                            <th scope="col">Data Criação</th>
                             <th scope="col">Ações</th>
                         </tr>
                     </thead>
@@ -37,7 +36,6 @@
                             <td>{{ stringTools.formatFloatValueToBrString(card.limit - card.totalValueSpending) }}</td>
                             <td>{{ card.closingDay }}</td>
                             <td>{{ stringTools.formatFloatValueToBrString(card.nextInvoiceValue) }}</td>
-                            <td>{{ calendarTools.convertDateDbToBr(card.createdAt) }}</td>
                             <td>
                                 <action-buttons :delete-tooltip="'Deletar Cartão'"
                                                 :tooltip-edit="'Editar Cartão'"
@@ -58,7 +56,6 @@
 
 <script>
     import LoadingComponent from "../../components/LoadingComponent.vue";
-    import CalendarTools from "../../../js/tools/calendarTools";
     import iconEnum from "../../../js/enums/iconEnum";
     import apiRouter from "../../../js/router/apiRouter";
     import stringTools from "../../../js/tools/stringTools";
