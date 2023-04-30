@@ -33,4 +33,9 @@ class UserRepository extends BasicRepository
         $this->getModel()->where(BasicFieldsEnum::ID, $id)->update($array);
         return $item;
     }
+
+    public function findByEmail(string $email): null|User
+    {
+        return $this->getModel()->where(BasicFieldsEnum::EMAIL, $email)->first();
+    }
 }

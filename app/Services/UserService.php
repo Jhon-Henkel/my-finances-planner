@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Repositories\UserRepository;
 
 class UserService extends BasicService
@@ -38,5 +39,10 @@ class UserService extends BasicService
             $itemDb->setPassword(bcrypt($password));
         }
         return parent::update($id, $itemDb);
+    }
+
+    public function findUserByEmail(string $email): null|User
+    {
+        return $this->getRepository()->findByEmail($email);
     }
 }

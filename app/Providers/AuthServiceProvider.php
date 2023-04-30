@@ -25,8 +25,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Auth::viaRequest('mfp-token', function (Request $request) {
-            $mfpToken = app(ConfigurationService::class)->findConfigValue(ConfigEnum::MFP_TOKEN);
+        Auth::viaRequest(ConfigEnum::MFP_TOKEN, function (Request $request) {
+            $mfpToken = app(ConfigurationService::class)->getMfpToken();
             $requestToken = $request->header(ConfigEnum::MFP_TOKEN) ?? null;
             return ($mfpToken == $requestToken) ? new User() : null;
         });

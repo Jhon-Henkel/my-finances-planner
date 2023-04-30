@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Enums\BasicFieldsEnum;
-use App\Enums\ConfigEnum;
 use App\Enums\ViewEnum;
 use App\Models\User;
 use App\Services\ConfigurationService;
+use App\Services\UserService;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,6 +14,7 @@ use Illuminate\Foundation\Application as App;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -37,7 +38,8 @@ class AuthController extends Controller
 
     protected function findUserForAuth(string $email): null|User
     {
-        return User::where('email', $email)->first();
+        $userService = app(UserService::class);
+        return $userService->findUserByEmail($email);
     }
 
     protected function validateLogin(?User $user, string $password):  bool
@@ -48,6 +50,7 @@ class AuthController extends Controller
     public function logout(): JsonResponse
     {
         Auth::logout();
+        Cache::clear();
         return response()->json([BasicFieldsEnum::MESSAGE => 'Logout realizado com sucesso']);
     }
 
@@ -64,7 +67,7 @@ class AuthController extends Controller
     {
         $mfpToken = '';
         if (Auth::check()) {
-            $mfpToken = app(ConfigurationService::class)->findConfigValue(ConfigEnum::MFP_TOKEN);
+            $mfpToken = app(ConfigurationService::class)->getMfpToken();
         }
         return response()->json([BasicFieldsEnum::MFP_TOKEN => $mfpToken], ResponseAlias::HTTP_OK);
     }

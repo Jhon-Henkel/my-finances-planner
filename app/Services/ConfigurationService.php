@@ -2,7 +2,11 @@
 
 namespace App\Services;
 
+use App\Enums\ConfigEnum;
+use App\Enums\DateEnum;
 use App\Repositories\ConfigurationRepository;
+use App\Tools\RequestTools;
+use Illuminate\Support\Facades\Cache;
 
 class ConfigurationService extends BasicService
 {
@@ -28,5 +32,15 @@ class ConfigurationService extends BasicService
     {
         $config = $this->getRepository()->findByName($configName);
         return reset($config);
+    }
+
+    public function getMfpToken()
+    {
+        $token = Cache::get(ConfigEnum::MFP_TOKEN);
+        if (! $token) {
+            $token = $this->findConfigValue(ConfigEnum::MFP_TOKEN);
+            Cache::put(ConfigEnum::MFP_TOKEN, $token, DateEnum::TWO_HOUR_IN_SECONDS);
+        }
+        return $token;
     }
 }
