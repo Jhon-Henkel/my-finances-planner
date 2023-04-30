@@ -139,6 +139,11 @@ const routes = [
                 component: CreditCardExpenseForm
             },
             {
+                path: ":cardId/cadastrar",
+                name: "manageCardsExpenseRegisterWithCard",
+                component: CreditCardExpenseForm
+            },
+            {
                 path: ":id/atualizar",
                 name: "manageCardsExpenseUpdate",
                 component: CreditCardExpenseForm

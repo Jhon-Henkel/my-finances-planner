@@ -130,7 +130,7 @@
 
 <style scoped>
     .icon-alert {
-         color: #fdd200;
+         color: #e0c857;
          font-size: 15px;
          top: 50%;
     }

@@ -213,7 +213,7 @@
         color: #12c4a1;
     }
     .icon-alert {
-        color: #fdd200;
+        color: #e0c857;
     }
     .card {
         width: 24rem;

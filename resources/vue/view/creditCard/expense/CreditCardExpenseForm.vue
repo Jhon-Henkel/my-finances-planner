@@ -83,7 +83,7 @@
                 </div>
             </form>
             <divider/>
-            <bottom-buttons redirect-to="/gerenciar-cartoes"
+            <bottom-buttons :redirect-to="redirect"
                             :button-success-text="title"
                             @btn-clicked="updateOrInsertExpense"/>
         </div>
@@ -132,7 +132,8 @@
                 loadingDone: false,
                 isValid: null,
                 nextThreeMonthsWithYear: null,
-                creditCards: {}
+                creditCards: {},
+                redirect: '/gerenciar-cartoes'
             }
         },
         methods: {
@@ -231,6 +232,10 @@
             }
             this.nextThreeMonthsWithYear = CalendarTools.getNextThreeMonthsWithYear()
             this.creditCards = await apiRouter.cards.index()
+            if (this.$route.params.cardId) {
+                this.expense.creditCardId = this.$route.params.cardId
+                this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.$route.params.cardId
+            }
         }
     }
 </script>

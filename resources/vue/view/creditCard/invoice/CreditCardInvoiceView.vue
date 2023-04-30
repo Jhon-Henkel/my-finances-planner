@@ -10,7 +10,7 @@
                                     class="me-2"/>
                 <router-link-button title="Nova despesa"
                                     :icon="iconEnum.expense()"
-                                    redirect-to="/gerenciar-cartoes/despesa/cadastrar"/>
+                                    :redirect-to="'/gerenciar-cartoes/despesa/' + cardId + '/cadastrar'"/>
             </div>
             <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">

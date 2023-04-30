@@ -312,7 +312,7 @@
         box-shadow: 0 0 1em #eb4e2c;
     }
     .icon-alert {
-        color: #fdd200;
+        color: #e0c857;
     }
     .spent-icon {
         color: #eb4e2c;
