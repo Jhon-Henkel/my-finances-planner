@@ -144,7 +144,7 @@
             async deleteGain(id, gainName) {
                 if(confirm("Tem certeza que realmente quer deletar o ganho " + gainName + '?')) {
                     await ApiRouter.futureGain.delete(id).then(response => {
-                        this.messageError('Ganho deletado com sucesso!')
+                        this.messageSuccess('Ganho deletado com sucesso!')
                         this.updateFutureGainsList()
                     }).catch(error => {
                         this.messageError('Não foi possível deletar o ganho!')
