@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\BasicFieldsEnum;
+use App\Enums\ConfigEnum;
 use App\Enums\ViewEnum;
 use App\Models\User;
 use App\Services\ConfigurationService;
@@ -44,7 +45,41 @@ class AuthController extends Controller
 
     protected function validateLogin(?User $user, string $password):  bool
     {
-        return $user && Hash::check($password, $user->password);
+        if (! $user) {
+            return false;
+        }
+        if ($user->status === ConfigEnum::STATUS_INACTIVE) {
+            return false;
+        }
+        if ($user->wrong_login_attempts > ConfigEnum::MAX_WRONG_LOGIN_ATTEMPTS) {
+            $this->inactiveUser($user);
+            return false;
+        }
+        if (Hash::check($password, $user->password)) {
+            if ($user->wrong_login_attempts > 0) {
+                $user->wrong_login_attempts = 0;
+                $user->save();
+            }
+            return true;
+        }
+        $this->incrementWrongLoginAttempts($user);
+        return false;
+    }
+
+    protected function inactiveUser(User $user): void
+    {
+        if ($user->status == ConfigEnum::STATUS_INACTIVE) {
+            return;
+        }
+        $user->verify_hash = md5(uniqid($user->email) . time());
+        $user->status = ConfigEnum::STATUS_INACTIVE;
+        $user->save();
+    }
+
+    protected function incrementWrongLoginAttempts(User $user): void
+    {
+        $user->wrong_login_attempts++;
+        $user->save();
     }
 
     public function logout(): JsonResponse

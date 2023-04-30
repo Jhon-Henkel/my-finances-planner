@@ -19,7 +19,8 @@ class User extends Authenticatable
         'password',
         'status',
         'salary',
-        'password'
+        'password',
+        'wrong_login_attempts'
     ];
     protected $hidden = [
         'remember_token',
