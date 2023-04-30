@@ -17,6 +17,7 @@
         <script>
             localStorage.setItem('salutation', '{{ CalendarTools::salutation(Auth::user()->name, date('H')) }}')
             localStorage.setItem('userId', '{{ Auth::user()->id }}')
+            localStorage.setItem('userSalary', '{{ Auth::user()->salary }}')
         </script>
     @endif
     <div class="container" id="app"></div>

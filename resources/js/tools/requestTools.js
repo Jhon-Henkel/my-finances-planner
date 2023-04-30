@@ -24,6 +24,7 @@ const RequestTools = {
         removeItens: function () {
             localStorage.removeItem('mfp_token')
             localStorage.removeItem('userId')
+            localStorage.removeItem('userSalary')
         }
     }
 }

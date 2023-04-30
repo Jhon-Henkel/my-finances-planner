@@ -11,7 +11,7 @@
             </div>
             <divider/>
             <form>
-                <input-money :value="calculate.amount"
+                <input-money :value="calculate.salary"
                              :title="'Ultimo Salario'"
                              @input-money="calculate.salary = $event"/>
                 <div class="row justify-content-center mt-3 mb-4">
@@ -84,6 +84,12 @@
                     salary: 0,
                     workDays: 30,
                 }
+            }
+        },
+        mounted() {
+            const salary = localStorage.getItem('userSalary');
+            if (salary) {
+                this.calculate.salary = salary;
             }
         }
     }
