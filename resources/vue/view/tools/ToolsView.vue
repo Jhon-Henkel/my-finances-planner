@@ -1,25 +1,22 @@
 <template>
     <div class="base-container">
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
-        <div v-show="loadingDone">
-            <div class="nav mt-2 justify-content-end">
-                <mfp-title :title="'Ferramentas'"/>
-            </div>
-            <divider/>
-            <h5 class="mb-4">
-                Ferramentas que auxiliam nas suas finanças pessoais, para que você não precise se preocupar em fazer contas...
-            </h5>
-            <divider class="mb-5"/>
-            <div class="card me-5" v-for="(item, index) in items" :key="index">
-                <img :src="item.imagePath" class="card-img-top image-card" height="200">
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.title }}</h5>
-                    <p class="card-text">{{ item.description }}</p>
-                    <a :href="item.redirectTo" class="btn btn-success rounded-5 btn-full">
-                        <font-awesome-icon :icon="iconEnum.wrench()" class="me-2"/>
-                        Usar
-                    </a>
-                </div>
+        <div class="nav mt-2 justify-content-end">
+            <mfp-title :title="'Ferramentas'"/>
+        </div>
+        <divider/>
+        <h5 class="mb-4">
+            Ferramentas que auxiliam nas suas finanças pessoais, para que você não precise se preocupar em fazer contas...
+        </h5>
+        <divider class="mb-5"/>
+        <div class="card me-5" v-for="(item, index) in items" :key="index">
+            <img :src="item.imagePath" class="card-img-top image-card" height="200">
+            <div class="card-body">
+                <h5 class="card-title">{{ item.title }}</h5>
+                <p class="card-text">{{ item.description }}</p>
+                <a :href="item.redirectTo" class="btn btn-success rounded-5 btn-full">
+                    <font-awesome-icon :icon="iconEnum.wrench()" class="me-2"/>
+                    Usar
+                </a>
             </div>
         </div>
     </div>
