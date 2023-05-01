@@ -1,0 +1,28 @@
+name: Main Branch Process
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  back-end-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+      - uses: actions/checkout@v3
+      - name: Copiando .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Instalando dependências
+        run: composer install
+      - name: Gerando chave da aplicação
+        run: php artisan key:generate
+      - name: Aplicando permissões
+        run: chmod -R 777 storage bootstrap/cache
+      - name: Executando testes via PHPUnit
+        run: composer run test:unit

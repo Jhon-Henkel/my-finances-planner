@@ -1,4 +1,4 @@
-name: Tests
+name: Main Branch Process
 
 on:
   push:
@@ -16,29 +16,22 @@ jobs:
       with:
         php-version: '8.1'
     - uses: actions/checkout@v3
-    - name: Copy .env
+    - name: Copiando .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-    - name: Install Dependencies
+    - name: Instalando dependências
       run: composer install
-    - name: Generate key
+    - name: Gerando chave da aplicação
       run: php artisan key:generate
-    - name: Directory Permissions
+    - name: Aplicando permissões
       run: chmod -R 777 storage bootstrap/cache
-    - name: Create Database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
+    - name: Executando testes via PHPUnit
       run: composer run test:unit
-    - name: Make code coverage badge
+    - name: Gerando tag de cobertura de testes
       uses: timkrase/phpunit-coverage-badge@v1.2.1
       with:
         coverage_badge_path: output/coverage.svg
         push_badge: false
-    - name: Upload coverage reports to Codecov
+    - name: Upload tag de cobertura de testes para Codecov
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
