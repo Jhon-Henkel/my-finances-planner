@@ -30,5 +30,16 @@ export default defineConfig({
         alias: {
             '~bootstrap': '/node_modules/bootstrap'
         }
+    },
+    build: {
+        manifest: true,
+        outDir: 'public/build',
+        rollupOptions: {
+            input: {
+                app: '/resources/js/app.js',
+                'app.scss': '/resources/sass/app.scss',
+                'app.css': '/resources/css/app.css',
+            }
+        }
     }
 });
