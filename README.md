@@ -15,3 +15,4 @@ My finances planner é um software open-sourced licenciado em [MIT license](http
 - criar o .env com base no .env.example
 - chown www-data:www-data -R storage/logs/
 - chown www-data:www-data -R storage/framework
+- 
