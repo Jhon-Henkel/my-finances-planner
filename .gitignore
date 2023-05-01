@@ -21,3 +21,4 @@ yarn-error.log
 tests/coverage
 .phpunit.cache/
 node_modules
+public_html

@@ -1,7 +1,5 @@
 import RequestTools from "../tools/requestTools";
 
-window.axios.defaults.headers.common['mfp-token'] = await RequestTools.token.getMfpToken()
-
 const apiRouter = {
     wallet: {
         index: async function() {
