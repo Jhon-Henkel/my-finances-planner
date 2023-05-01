@@ -1,7 +1,7 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="./public/favicon.png" width="200" alt="Laravel Logo"></a></p>
 
 
-[![Tests](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/back-end-tests.yml/badge.svg)](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/back-end-tests.yml)
+[![Tests](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/main_branch_process.yml/badge.svg)](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/back-end-tests.yml)
 [![PHP-Coverage](https://codecov.io/gh/Jhon-Henkel/my-finances-planner/branch/main/graph/badge.svg?token=ZWK28PWTZF)](https://codecov.io/gh/Jhon-Henkel/my-finances-planner)
 ## Sobre My Finances Planner
 

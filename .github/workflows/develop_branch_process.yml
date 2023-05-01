@@ -1,4 +1,4 @@
-name: Main Branch Process
+name: Develop Branch Process
 
 on:
   push:
