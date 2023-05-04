@@ -179,6 +179,8 @@
             if (this.$route.params.id) {
                 this.title = 'Atualizar Cartão'
                 this.card = await apiRouter.cards.show(this.$route.params.id)
+                this.card.dueDate = parseInt(this.card.dueDate)
+                this.card.closingDay = parseInt(this.card.closingDay)
             } else {
                 this.title = 'Cadastrar Cartão'
             }

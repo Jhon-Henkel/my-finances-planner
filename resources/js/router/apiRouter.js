@@ -1,5 +1,7 @@
 import RequestTools from "../tools/requestTools";
 
+window.axios.defaults.headers.common['mfp-token'] = import.meta.env.VITE_PUSHER_APP_KEY;
+
 const apiRouter = {
     wallet: {
         index: async function() {

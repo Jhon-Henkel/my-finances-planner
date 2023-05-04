@@ -170,6 +170,7 @@
                     if (response.status === HttpStatusCode.Created) {
                         this.messageSuccess('Ganho cadastrada com sucesso!')
                         this.gain = {}
+                        this.gain.fix = false
                     } else {
                         this.showMessage('Campo "Erro inesperado ao inserir ganho!')
                     }
