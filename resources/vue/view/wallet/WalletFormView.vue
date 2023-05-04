@@ -29,7 +29,7 @@
                                 Tipo de conta
                             </label>
                             <select class="form-select" v-model="wallet.type" id="wallet-type" required>
-                                <option value="0" disabled selected>Selecione uma carteira</option>
+                                <option value="0" disabled selected>Selecione um tipo de conta</option>
                                 <option v-for="type in typesOfWallet" :key="type.id" :value="type.id">
                                     {{ type.description }}
                                 </option>
