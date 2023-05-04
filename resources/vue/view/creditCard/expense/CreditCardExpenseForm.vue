@@ -187,6 +187,9 @@
                         this.messageSuccess('Despesa cadastrada com sucesso!')
                         this.expense = {}
                         this.expense.fix = false
+                        if (this.$route.params.cardId) {
+                            this.expense.creditCardId = this.$route.params.cardId
+                        }
                     } else {
                         this.messageError('Erro inesperado ao inserir despesa!')
                     }
