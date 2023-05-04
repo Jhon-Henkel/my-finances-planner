@@ -186,6 +186,7 @@
                     if (response.status === HttpStatusCode.Created) {
                         this.messageSuccess('Despesa cadastrada com sucesso!')
                         this.expense = {}
+                        this.expense.fix = false
                     } else {
                         this.messageError('Erro inesperado ao inserir despesa!')
                     }
