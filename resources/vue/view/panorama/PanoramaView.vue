@@ -53,93 +53,137 @@
                             @check-clicked="paySpent(spent.id, spent.name)"/>
                     </td>
                 </tr>
-                <tr class="text-center border-table-spent">
-                    <td colspan="3"><font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-1"/>Gastos</td>
-                    <td>{{ formatValueToBr(totalSpending.firstInstallment) }}</td>
-                    <td>{{ formatValueToBr(totalSpending.secondInstallment) }}</td>
-                    <td>{{ formatValueToBr(totalSpending.thirdInstallment) }}</td>
-                    <td>{{ formatValueToBr(totalSpending.forthInstallment) }}</td>
-                    <td>{{ formatValueToBr(totalSpending.fifthInstallment) }}</td>
-                    <td>{{ formatValueToBr(totalSpending.sixthInstallment) }}</td>
-                    <td colspan="2"></td>
-                </tr>
-                <tr class="text-center border-table-cards">
-                    <td colspan="3"><font-awesome-icon :icon="iconEnum.creditCard()" class="icon-alert me-1"/>Cartões</td>
-                    <td>{{ formatValueToBr(cardsInvoice.firstInstallment) }}</td>
-                    <td>{{ formatValueToBr(cardsInvoice.secondInstallment) }}</td>
-                    <td>{{ formatValueToBr(cardsInvoice.thirdInstallment) }}</td>
-                    <td>{{ formatValueToBr(cardsInvoice.forthInstallment) }}</td>
-                    <td>{{ formatValueToBr(cardsInvoice.fifthInstallment) }}</td>
-                    <td>{{ formatValueToBr(cardsInvoice.sixthInstallment) }}</td>
-                    <td colspan="2"></td>
-                </tr>
-                <tr class="text-center border-table-gain">
-                    <td colspan="3"><font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-1"/>Ganhos</td>
-                    <td>{{ formatValueToBr(totalFutureGain.firstInstallment) }}</td>
-                    <td>{{ formatValueToBr(totalFutureGain.secondInstallment) }}</td>
-                    <td>{{ formatValueToBr(totalFutureGain.thirdInstallment) }}</td>
-                    <td>{{ formatValueToBr(totalFutureGain.forthInstallment) }}</td>
-                    <td>{{ formatValueToBr(totalFutureGain.fifthInstallment) }}</td>
-                    <td>{{ formatValueToBr(totalFutureGain.sixthInstallment) }}</td>
-                    <td colspan="2"></td>
-                </tr>
-                <tr class="text-center border-table-remaining">
-                    <td colspan="3"><font-awesome-icon :icon="iconEnum.circleArrowRight()" class="remaining-icon me-1"/>Sobras</td>
-                    <td>{{ formatValueToBr(totalRemaining.firstInstallment) }}
-                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.firstInstallment < 0"/>
-                    </td>
-                    <td>
-                        {{ formatValueToBr(totalRemaining.secondInstallment) }}
-                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.secondInstallment < 0"/>
-                    </td>
-                    <td>
-                        {{ formatValueToBr(totalRemaining.thirdInstallment) }}
-                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.thirdInstallment < 0"/>
-                    </td>
-                    <td>
-                        {{ formatValueToBr(totalRemaining.forthInstallment) }}
-                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.forthInstallment < 0"/>
-                    </td>
-                    <td>
-                        {{ formatValueToBr(totalRemaining.fifthInstallment) }}
-                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.fifthInstallment < 0"/>
-                    </td>
-                    <td>
-                        {{ formatValueToBr(totalRemaining.sixthInstallment) }}
-                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.sixthInstallment < 0"/>
-                    </td>
-                    <td colspan="2"></td>
-                </tr>
                 </tbody>
             </table>
-            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle mt-4">
-                <thead class="table-dark">
-                    <tr class="text-center">
-                        <td colspan="2">Total em carteira</td>
-                        <td>
-                            <select v-model="monthRemaining" class="form-select-sm text-center">
-                                <option value="10" disabled>Selecione o mês</option>
-                                <option v-for="(month, index) in months" :key="index" :value="index">
-                                    {{ calendarTools.getMonthNameByNumber(month) }}
-                                </option>
-                            </select>
-                        </td>
-                        <td colspan="2">Total</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="text-center">
-                        <td>{{ formatValueToBr(totalWalletsValue) }}</td>
-                        <td>+</td>
-                        <td>{{ formatValueToBr(getValueForTotalSum()) }}</td>
-                        <td>=</td>
-                        <td>
-                            {{ formatValueToBr(totalWalletsValue + getValueForTotalSum()) }}
-                            <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalWalletsValue + getValueForTotalSum() < 0"/>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row ms-1 mt-4">
+                <div class="card glass success balance-card">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">
+                            <font-awesome-icon :icon="iconEnum.movement()" class="me-2"/>
+                            Resumo
+                        </h4>
+                        <div class="card-text">
+                            <table class="table text-white table-borderless">
+                                <thead>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <th scope="col" v-for="(month, index) in months" :key="index">
+                                        {{ calendarTools.getMonthNameByNumber(month) }}
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="text-center">
+                                    <td><font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-2"/></td>
+                                    <td class="text-start">Gastos</td>
+                                    <td>{{ formatValueToBr(totalSpending.firstInstallment) }}</td>
+                                    <td>{{ formatValueToBr(totalSpending.secondInstallment) }}</td>
+                                    <td>{{ formatValueToBr(totalSpending.thirdInstallment) }}</td>
+                                    <td>{{ formatValueToBr(totalSpending.forthInstallment) }}</td>
+                                    <td>{{ formatValueToBr(totalSpending.fifthInstallment) }}</td>
+                                    <td>{{ formatValueToBr(totalSpending.sixthInstallment) }}</td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td><font-awesome-icon :icon="iconEnum.creditCard()" class="icon-alert me-2"/></td>
+                                    <td class="text-start">Cartões</td>
+                                    <td>{{ formatValueToBr(cardsInvoice.firstInstallment) }}</td>
+                                    <td>{{ formatValueToBr(cardsInvoice.secondInstallment) }}</td>
+                                    <td>{{ formatValueToBr(cardsInvoice.thirdInstallment) }}</td>
+                                    <td>{{ formatValueToBr(cardsInvoice.forthInstallment) }}</td>
+                                    <td>{{ formatValueToBr(cardsInvoice.fifthInstallment) }}</td>
+                                    <td>{{ formatValueToBr(cardsInvoice.sixthInstallment) }}</td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td><font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-2"/></td>
+                                    <td class="text-start">Ganhos</td>
+                                    <td>{{ formatValueToBr(totalFutureGain.firstInstallment) }}</td>
+                                    <td>{{ formatValueToBr(totalFutureGain.secondInstallment) }}</td>
+                                    <td>{{ formatValueToBr(totalFutureGain.thirdInstallment) }}</td>
+                                    <td>{{ formatValueToBr(totalFutureGain.forthInstallment) }}</td>
+                                    <td>{{ formatValueToBr(totalFutureGain.fifthInstallment) }}</td>
+                                    <td>{{ formatValueToBr(totalFutureGain.sixthInstallment) }}</td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td><font-awesome-icon :icon="iconEnum.circleArrowRight()" class="remaining-icon me-2"/></td>
+                                    <td class="text-start">Sobras</td>
+                                    <td>{{ formatValueToBr(totalRemaining.firstInstallment) }}
+                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.firstInstallment < 0"/>
+                                    </td>
+                                    <td>
+                                        {{ formatValueToBr(totalRemaining.secondInstallment) }}
+                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.secondInstallment < 0"/>
+                                    </td>
+                                    <td>
+                                        {{ formatValueToBr(totalRemaining.thirdInstallment) }}
+                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.thirdInstallment < 0"/>
+                                    </td>
+                                    <td>
+                                        {{ formatValueToBr(totalRemaining.forthInstallment) }}
+                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.forthInstallment < 0"/>
+                                    </td>
+                                    <td>
+                                        {{ formatValueToBr(totalRemaining.fifthInstallment) }}
+                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.fifthInstallment < 0"/>
+                                    </td>
+                                    <td>
+                                        {{ formatValueToBr(totalRemaining.sixthInstallment) }}
+                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.sixthInstallment < 0"/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row ms-1 mt-4">
+                <div class="card glass success balance-card">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">
+                            <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
+                            Previsão considerando valor em carteira
+                        </h4>
+                        <hr>
+                        <div class="card-text">
+                            <div class="row">
+                                <div class="col-4">
+                                    <h6>
+                                        <font-awesome-icon :icon="iconEnum.wallet()" class="movement-gain-icon"/>
+                                        Valor em carteira
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <select v-model="monthRemaining" class="form-select-sm text-center">
+                                        <option value="10" disabled>Selecione o mês</option>
+                                        <option v-for="(month, index) in months" :key="index" :value="index">
+                                            {{ calendarTools.getMonthNameByNumber(month) }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <h6>
+                                        <font-awesome-icon :icon="iconEnum.invoice()"/>
+                                        Total
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    {{ formatValueToBr(totalWalletsValue) }}
+                                </div>
+                                <div class="col-4">
+                                    {{ formatValueToBr(getValueForTotalSum()) }}
+                                </div>
+                                <div class="col-4">
+                                    {{ formatValueToBr(totalWalletsValue + getValueForTotalSum()) }}
+                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalWalletsValue + getValueForTotalSum() < 0"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <divider/>
         </div>
     </div>
@@ -338,5 +382,14 @@
     }
     .icon-alert {
         color: #e0c857;
+    }
+    .card {
+        width: 24rem;
+    }
+    .balance-card {
+        width: 80.5rem;
+    }
+    .card-text {
+        font-size: 1rem;
     }
 </style>
