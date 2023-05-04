@@ -133,8 +133,10 @@
                         <td>+</td>
                         <td>{{ formatValueToBr(getValueForTotalSum()) }}</td>
                         <td>=</td>
-                        <td>{{ formatValueToBr(totalWalletsValue + getValueForTotalSum()) }}</td>
-                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalWalletsValue + getValueForTotalSum() < 0"/>
+                        <td>
+                            {{ formatValueToBr(totalWalletsValue + getValueForTotalSum()) }}
+                            <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalWalletsValue + getValueForTotalSum() < 0"/>
+                        </td>
                     </tr>
                 </tbody>
             </table>
