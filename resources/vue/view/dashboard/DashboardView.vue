@@ -134,6 +134,30 @@
                 loadingDone: false,
                 salutation: localStorage.getItem('salutation'),
                 graphOptions: {
+                    animations: {
+                        x: {
+                            easing: 'easeInOutElastic',
+                            from: (ctx) => {
+                                if (ctx.type === 'data') {
+                                    if (ctx.mode === 'default' && !ctx.dropped) {
+                                        ctx.dropped = true
+                                        return -500
+                                    }
+                                }
+                            }
+                        },
+                        y: {
+                            easing: 'easeInOutElastic',
+                            from: (ctx) => {
+                                if (ctx.type === 'data') {
+                                    if (ctx.mode === 'default' && !ctx.dropped) {
+                                        ctx.dropped = true
+                                        return 500
+                                    }
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         x: {
                             stacked: true,
@@ -295,7 +319,9 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../../sass/variables";
+
     .card {
         width: 24rem;
     }
@@ -306,18 +332,18 @@
         font-size: 1.5rem;
     }
     .success {
-        box-shadow: 0 0 1em #1ead98;
+        box-shadow: 0 0 1em $success-icon-color;
     }
     .warning {
-        box-shadow: 0 0 1em #eb4e2c;
+        box-shadow: 0 0 1em $danger-icon-color;
     }
     .icon-alert {
-        color: #e0c857;
+        color: $alert-icon-color;
     }
     .spent-icon {
-        color: #eb4e2c;
+        color: $danger-icon-color;
     }
     .gain-icon {
-        color: #1ead98;
+        color: $success-icon-color;
     }
 </style>
