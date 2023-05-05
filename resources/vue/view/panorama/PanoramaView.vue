@@ -32,12 +32,12 @@
                     <td>{{ spent.nextInstallmentDay }}</td>
                     <td>{{ spent.name }}</td>
                     <td>{{ spent.countName }}</td>
-                    <td>{{ spent.firstInstallment ? formatValueToBr(spent.firstInstallment) : '-' }}</td>
-                    <td>{{ spent.secondInstallment ? formatValueToBr(spent.secondInstallment) : '-' }}</td>
-                    <td>{{ spent.thirdInstallment ? formatValueToBr(spent.thirdInstallment) : '-' }}</td>
-                    <td>{{ spent.forthInstallment ? formatValueToBr(spent.forthInstallment) : '-' }}</td>
-                    <td>{{ spent.fifthInstallment ? formatValueToBr(spent.fifthInstallment) : '-' }}</td>
-                    <td>{{ spent.sixthInstallment ? formatValueToBr(spent.sixthInstallment) : '-' }}</td>
+                    <td>{{ formatValueToBr(spent.firstInstallment) }}</td>
+                    <td>{{formatValueToBr(spent.secondInstallment) }}</td>
+                    <td>{{ formatValueToBr(spent.thirdInstallment) }}</td>
+                    <td>{{ formatValueToBr(spent.forthInstallment) }}</td>
+                    <td>{{ formatValueToBr(spent.fifthInstallment) }}</td>
+                    <td>{{ formatValueToBr(spent.sixthInstallment) }}</td>
                     <td v-if="spent.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
                     <td v-else v-tooltip="formatValueToBr(spent.totalRemainingValue)">
                         {{ spent.remainingInstallments }}
@@ -227,6 +227,20 @@
                 loadingDone: 0,
                 months: [],
                 alertIcon: iconEnum.triangleExclamation(),
+                spent: {
+                    totalRemainingValue: 0,
+                    remainingInstallments: 0,
+                    countName: '',
+                    nextInstallmentDay: 0
+                },
+                response: {
+                    futureExpenses: 0,
+                    totalFutureExpenses: 0,
+                    totalFutureGains: 0,
+                    totalLeft: 0,
+                    totalCreditCardExpenses: 0,
+                    totalWalletValue: 0
+                },
                 totalSpending: {
                     firstInstallment: 0,
                     secondInstallment: 0,
@@ -357,31 +371,20 @@
     }
 </script>
 
-<style scoped>
-    .border-table-spent {
-        border-top: 3px solid #096452;
-        border-bottom: 1px solid #eb4e2c;
-    }
-    .border-table-gain {
-        border-bottom: 1px solid #12c4a1;
-    }
-    .border-table-remaining {
-        border-bottom: 1px solid #4a54ea;
-    }
-    .border-table-cards {
-        border-bottom: 1px solid #e0c857;
-    }
+<style lang="scss" scoped>
+    @import "../../../sass/variables";
+
     .gain-icon {
-        color: #12c4a1;
+        color: $success-icon-color;
     }
     .spent-icon {
-        color: #eb4e2c;
+        color: $danger-icon-color;
     }
     .remaining-icon {
-        color: #4a54ea;
+        color: $info-icon-color;
     }
     .icon-alert {
-        color: #e0c857;
+        color: $alert-icon-color;
     }
     .card {
         width: 24rem;
