@@ -134,28 +134,11 @@
                 loadingDone: false,
                 salutation: localStorage.getItem('salutation'),
                 graphOptions: {
-                    animations: {
-                        x: {
-                            easing: 'easeInOutElastic',
-                            from: (ctx) => {
-                                if (ctx.type === 'data') {
-                                    if (ctx.mode === 'default' && !ctx.dropped) {
-                                        ctx.dropped = true
-                                        return -500
-                                    }
-                                }
-                            }
-                        },
+                    animation: {
                         y: {
-                            easing: 'easeInOutElastic',
-                            from: (ctx) => {
-                                if (ctx.type === 'data') {
-                                    if (ctx.mode === 'default' && !ctx.dropped) {
-                                        ctx.dropped = true
-                                        return 500
-                                    }
-                                }
-                            }
+                            easing: 'easeInQuad',
+                            duration: 3000,
+                            from: -100,
                         }
                     },
                     scales: {
@@ -200,12 +183,12 @@
                         {
                             label: 'Gastos',
                             backgroundColor: '#f87979',
-                            data: []
+                            data: [0,0,0,0,0,0,0,0,0,0,0,0],
                         },
                         {
                             label: 'Ganhos',
                             backgroundColor: '#79f879',
-                            data: []
+                            data: [0,0,0,0,0,0,0,0,0,0,0,0],
                         }
                     ]
                 },
