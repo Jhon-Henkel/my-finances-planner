@@ -58,6 +58,7 @@
     import MfpTitle from "../../components/TitleComponent.vue";
     import MfpMessage from "../../components/MessageAlert.vue";
     import MessageEnum from "../../../js/enums/messageEnum";
+    import stringTools from "../../../js/tools/stringTools";
 
     export default {
         name: "WalletFormView",
@@ -126,6 +127,14 @@
                 }
             },
             async updateWallet() {
+                if (
+                    confirm('Deseja realmente atualizar a carteira "'
+                    + this.wallet.name + '" com o valor "'
+                    + stringTools.formatFloatValueToBrString(this.wallet.amount)
+                    + '" ?') === false
+                ) {
+                    return
+                }
                 await apiRouter.wallet.update(this.populateData(), this.wallet.id).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
                         this.messageSuccess('Carteira atualizada com sucesso!')
