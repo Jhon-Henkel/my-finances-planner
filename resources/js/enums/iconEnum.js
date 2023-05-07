@@ -95,5 +95,8 @@ const iconEnum = {
     calendarCheck() {
         return ['fa-solid', 'fa-calendar-check']
     },
+    linkOut() {
+        return ['fas', 'up-right-from-square']
+    },
 }
 export default iconEnum;

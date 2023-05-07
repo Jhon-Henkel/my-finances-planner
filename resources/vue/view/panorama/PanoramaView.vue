@@ -86,7 +86,12 @@
                                 </tr>
                                 <tr class="text-center">
                                     <td><font-awesome-icon :icon="iconEnum.creditCard()" class="icon-alert me-2"/></td>
-                                    <td class="text-start">Cartões</td>
+                                    <td class="text-start">
+                                        Cartões
+                                        <a href="/gerenciar-cartoes" class="a-default" target="_blank">
+                                            <font-awesome-icon :icon="iconEnum.linkOut()" class="icon-out"/>
+                                        </a>
+                                    </td>
                                     <td>{{ formatValueToBr(cardsInvoice.firstInstallment) }}</td>
                                     <td>{{ formatValueToBr(cardsInvoice.secondInstallment) }}</td>
                                     <td>{{ formatValueToBr(cardsInvoice.thirdInstallment) }}</td>
@@ -96,7 +101,12 @@
                                 </tr>
                                 <tr class="text-center">
                                     <td><font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-2"/></td>
-                                    <td class="text-start">Ganhos</td>
+                                    <td class="text-start">
+                                        Ganhos
+                                        <a href="/ganhos-futuros" class="a-default" target="_blank">
+                                            <font-awesome-icon :icon="iconEnum.linkOut()" class="icon-out"/>
+                                        </a>
+                                    </td>
                                     <td>{{ formatValueToBr(totalFutureGain.firstInstallment) }}</td>
                                     <td>{{ formatValueToBr(totalFutureGain.secondInstallment) }}</td>
                                     <td>{{ formatValueToBr(totalFutureGain.thirdInstallment) }}</td>
@@ -394,5 +404,11 @@
     }
     .card-text {
         font-size: 1rem;
+    }
+    .a-default:hover {
+        color: $success-icon-color;
+    }
+    .icon-out {
+        font-size: 10px;
     }
 </style>
