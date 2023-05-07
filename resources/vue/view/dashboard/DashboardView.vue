@@ -134,6 +134,13 @@
                 loadingDone: false,
                 salutation: localStorage.getItem('salutation'),
                 graphOptions: {
+                    animation: {
+                        y: {
+                            easing: 'easeInQuad',
+                            duration: 3000,
+                            from: -100,
+                        }
+                    },
                     scales: {
                         x: {
                             stacked: true,
@@ -176,12 +183,12 @@
                         {
                             label: 'Gastos',
                             backgroundColor: '#f87979',
-                            data: []
+                            data: [0,0,0,0,0,0,0,0,0,0,0,0],
                         },
                         {
                             label: 'Ganhos',
                             backgroundColor: '#79f879',
-                            data: []
+                            data: [0,0,0,0,0,0,0,0,0,0,0,0],
                         }
                     ]
                 },
@@ -295,7 +302,9 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../../sass/variables";
+
     .card {
         width: 24rem;
     }
@@ -306,18 +315,18 @@
         font-size: 1.5rem;
     }
     .success {
-        box-shadow: 0 0 1em #1ead98;
+        box-shadow: 0 0 1em $success-icon-color;
     }
     .warning {
-        box-shadow: 0 0 1em #eb4e2c;
+        box-shadow: 0 0 1em $danger-icon-color;
     }
     .icon-alert {
-        color: #e0c857;
+        color: $alert-icon-color;
     }
     .spent-icon {
-        color: #eb4e2c;
+        color: $danger-icon-color;
     }
     .gain-icon {
-        color: #1ead98;
+        color: $success-icon-color;
     }
 </style>

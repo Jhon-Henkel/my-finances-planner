@@ -4,7 +4,7 @@
             <div class="alert-color-bar" :class="alertType"/>
             <div class="alert-icon">
                 <div class="alert-icon-box" :class="alertType" style="width: 35px; height: 35px;">
-                    <font-awesome-icon :icon="iconEnum.info()"/>
+                    <font-awesome-icon :icon="icon"/>
                 </div>
             </div>
             <div class="alert-content">
@@ -23,6 +23,7 @@
 <script>
     import iconEnum from "../../js/enums/iconEnum";
     import CalendarTools from "../../js/tools/calendarTools";
+    import messageEnum from "../../js/enums/messageEnum";
 
     export default {
         name: 'mfp-message',
@@ -33,6 +34,7 @@
         },
         data() {
             return {
+                icon: iconEnum.info(),
                 position: 'top center',
                 status: false,
                 isHide: false,
@@ -66,10 +68,26 @@
                 }, CalendarTools.twoHundredMs())
             },
         },
+        watch: {
+            message: function (message) {
+                if (message !== 'Mas não sei o que!') {
+                    if (this.alertType === messageEnum.alertTypeSuccess()) {
+                        this.icon = iconEnum.check()
+                    } else if (this.alertType === messageEnum.alertTypeError()) {
+                        this.icon = iconEnum.xMark()
+                    } else if (this.alertType === messageEnum.alertTypeWarning()) {
+                        this.icon = iconEnum.triangleExclamation()
+                    } else if (this.alertType === messageEnum.alertTypeInfo()) {
+                        this.icon = iconEnum.info()
+                    }
+                }
+            }
+        }
     };
 </script>
 
-<style>
+<style lang="scss" scoped>
+    @import "../../sass/variables";
     .vue-alert {
         width: 400px;
         position: fixed;
@@ -134,19 +152,19 @@
     }
     .vue-alert > .alert-container .alert-icon-box.success,
     .vue-alert > .alert-container .alert-color-bar.success {
-        background-color: #2aa36a;
+        background-color: $pop-up-success-color;
     }
     .vue-alert > .alert-container .alert-icon-box.info,
     .vue-alert > .alert-container .alert-color-bar.info {
-        background-color: #2a79c2;
+        background-color: $info-icon-color;
     }
     .vue-alert > .alert-container .alert-icon-box.error,
     .vue-alert > .alert-container .alert-color-bar.error {
-        background-color: #eb4e2c;
+        background-color: $danger-icon-color;
     }
     .vue-alert > .alert-container .alert-icon-box.warning,
     .vue-alert > .alert-container .alert-color-bar.warning {
-        background-color: #ffc600;
+        background-color: $alert-icon-color;
     }
     .vue-alert > .alert-container .alert-close {
         display: flex;
@@ -163,9 +181,9 @@
         transition: all 300ms ease-in-out;
     }
     .vue-alert > .alert-container .alert-close-button:hover {
-        background-color: #eb4e2c;
+        background-color: $danger-icon-color;
         cursor: pointer;
-        filter: drop-shadow(0px 1px 3px #000000);
+        filter: drop-shadow(0px 1px 3px $black-color);
     }
     .vue-alert > .alert-container .alert-content > * {
         text-align: left;
@@ -175,13 +193,13 @@
     .vue-alert > .alert-container .alert-content > h5.alert-head {
         font-size: 16px;
         font-weight: 600;
-        color: #bcbcbc;
+        color: $pop-up-font-color;
     }
     .vue-alert > .alert-container .alert-content > p.alert-message {
         font-size: 14px;
         min-width: fit-content;
         font-weight: bold;
         line-height: 1.3;
-        color: #bcbcbc;
+        color: $pop-up-font-color;
     }
 </style>

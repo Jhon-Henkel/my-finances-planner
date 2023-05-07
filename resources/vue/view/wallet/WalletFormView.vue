@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false" />
         <div v-show="loadingDone">
             <mfp-title :title="title" />
             <divider/>
@@ -58,6 +58,7 @@
     import MfpTitle from "../../components/TitleComponent.vue";
     import MfpMessage from "../../components/MessageAlert.vue";
     import MessageEnum from "../../../js/enums/messageEnum";
+    import stringTools from "../../../js/tools/stringTools";
 
     export default {
         name: "WalletFormView",
@@ -79,7 +80,8 @@
             return {
                 idToUpdate: null,
                 wallet: {
-                    type: 0
+                    type: 0,
+                    amount: 0
                 },
                 title: '',
                 isValid: null,
@@ -103,8 +105,6 @@
                 let field = null
                 if (! this.wallet.name || this.wallet.name.length < 2) {
                     field = 'nome'
-                } else if (! this.wallet.amount) {
-                    field = 'valor'
                 } else if (! this.wallet.type || this.wallet.type === 0) {
                     field = 'tipo de conta'
                 }
@@ -127,6 +127,14 @@
                 }
             },
             async updateWallet() {
+                if (
+                    confirm('Deseja realmente atualizar a carteira "'
+                    + this.wallet.name + '" com o valor "'
+                    + stringTools.formatFloatValueToBrString(this.wallet.amount)
+                    + '" ?') === false
+                ) {
+                    return
+                }
                 await apiRouter.wallet.update(this.populateData(), this.wallet.id).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
                         this.messageSuccess('Carteira atualizada com sucesso!')
@@ -162,8 +170,12 @@
         async mounted() {
             if (this.$route.params.id) {
                 this.title = 'Atualizar Carteira'
-                this.wallet = await apiRouter.wallet.show(this.$route.params.id)
+                await apiRouter.wallet.show(this.$route.params.id).then((response) => {
+                    this.wallet = response
+                    this.loadingDone = true
+                })
             } else {
+                this.loadingDone = true
                 this.title = 'Cadastrar Carteira'
             }
         }

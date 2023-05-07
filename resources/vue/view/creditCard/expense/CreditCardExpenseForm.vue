@@ -229,6 +229,8 @@
                 this.expense = await apiRouter.expense.show(this.$route.params.id)
                 if (this.expense.installments === FIX_EXPENSE) {
                     this.expense.fix = true
+                } else {
+                    this.expense.fix = false
                 }
             } else {
                 this.title = 'Cadastrar Despesa'
