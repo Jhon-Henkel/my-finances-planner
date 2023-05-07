@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false" />
         <div v-show="loadingDone">
             <mfp-title :title="title" />
             <divider/>
@@ -79,7 +79,8 @@
             return {
                 idToUpdate: null,
                 wallet: {
-                    type: 0
+                    type: 0,
+                    amount: 0
                 },
                 title: '',
                 isValid: null,
@@ -103,8 +104,6 @@
                 let field = null
                 if (! this.wallet.name || this.wallet.name.length < 2) {
                     field = 'nome'
-                } else if (! this.wallet.amount) {
-                    field = 'valor'
                 } else if (! this.wallet.type || this.wallet.type === 0) {
                     field = 'tipo de conta'
                 }
@@ -162,8 +161,12 @@
         async mounted() {
             if (this.$route.params.id) {
                 this.title = 'Atualizar Carteira'
-                this.wallet = await apiRouter.wallet.show(this.$route.params.id)
+                await apiRouter.wallet.show(this.$route.params.id).then((response) => {
+                    this.wallet = response
+                    this.loadingDone = true
+                })
             } else {
+                this.loadingDone = true
                 this.title = 'Cadastrar Carteira'
             }
         }
