@@ -33,4 +33,5 @@ class BasicFieldsEnum
     const SALARY = 'salary';
     const EMAIL_VERIFIED_AT = 'email_verified_at';
     const STATUS = 'status';
+    const PARTIAL = 'partial';
 }
