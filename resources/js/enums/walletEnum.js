@@ -21,6 +21,13 @@ const walletEnum = {
                 return 'Desconhecido'
         }
     },
+    type: {
+        moneyType: MONEY_TYPE,
+        bankType: BANK_COUNT_TYPE,
+        mealTicketType: MEAL_TICKET_TYPE,
+        transportTicketType: TRANSPORT_TICKET_TYPE,
+        otherType: OTHER_TYPE
+    },
     getIdAndDescriptionTypeList: function () {
         return [
             {
