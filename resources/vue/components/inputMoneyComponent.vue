@@ -1,8 +1,8 @@
 <template>
-    <div class="row justify-content-center">
-        <div class="col-4">
-            <div class="form-group mt-2">
-                <label class="form-label" for="input-money">
+    <div class="row" :class="customClassRow">
+        <div :class="customClassCol">
+            <div class="form-group" :class="customClassForm">
+                <label class="form-label" for="input-money" v-show="showTitle">
                     {{ title }}
                 </label>
                 <div class="input-group">
@@ -39,6 +39,22 @@
             'input-money'
         ],
         props: {
+            customClassCol: {
+                type: String,
+                default: 'col-4'
+            },
+            customClassRow: {
+                type: String,
+                default: 'justify-content-center'
+            },
+            customClassForm: {
+                type: String,
+                default: 'mt-2'
+            },
+            showTitle: {
+                type: Boolean,
+                default: true
+            },
             title: {
                 type: String,
                 default: 'Valor'

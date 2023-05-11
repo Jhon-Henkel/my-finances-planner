@@ -6,6 +6,7 @@ use App\Resources\FutureSpentResource;
 use App\Services\FutureSpentService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class FutureSpentController extends BasicController
@@ -54,13 +55,13 @@ class FutureSpentController extends BasicController
     /**
      * @throws Exception
      */
-    public function paySpent(int $id): JsonResponse
+    public function paySpent(int $id, Request $request): JsonResponse
     {
         $spent = $this->getService()->findById($id);
         if (! $spent) {
             return response()->json(['Gasto não encontrada!'], ResponseAlias::HTTP_NOT_FOUND);
         }
-        return $this->getService()->paySpent($spent)
+        return $this->getService()->paySpent($spent, $request->json()->all())
             ? response()->json(null, ResponseAlias::HTTP_OK)
             : response()->json(['Erro ao pagar despesa!'], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
     }

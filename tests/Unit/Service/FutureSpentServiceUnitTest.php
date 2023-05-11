@@ -5,6 +5,7 @@ namespace Tests\Unit\Service;
 use App\DTO\FutureSpentDTO;
 use App\DTO\InvoiceItemDTO;
 use App\DTO\MovementDTO;
+use App\Enums\BasicFieldsEnum;
 use App\Services\FutureSpentService;
 use App\VO\InvoiceVO;
 use Mockery;
@@ -94,82 +95,258 @@ class FutureSpentServiceUnitTest extends TestCase
         $this->assertEquals(2.50, $result);
     }
 
-    public function testPaySpentWithNonInsertedMovement()
+    public function testPaySpentWithPartialSpent()
     {
-        $item = new FutureSpentDTO();
-        $item->setAmount(1.50);
-        $item->setId(1);
-        $item->setWalletId(1);
-        $item->setDescription('description');
-        $item->setWalletName('walletName');
-        $item->setForecast('2020-01-01');
-        $item->setInstallments(2);
+        $spent = new FutureSpentDTO();
+        $spent->setAmount(1.50);
+        $spent->setWalletId(1);
 
+        $serviceMock = Mockery::mock('App\Services\FutureSpentService');
+        $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
+        $serviceMock->shouldReceive('payFullSpent')->never();
+        $serviceMock->shouldReceive('payWithOptions')->once()->andReturnTrue();
+
+        $options = [
+            BasicFieldsEnum::PARTIAL => true,
+            BasicFieldsEnum::WALLET_ID_JSON => 1,
+            BasicFieldsEnum::VALUE => 1.50,
+        ];
+
+        $result = $serviceMock->paySpent($spent, $options);
+
+        $this->assertTrue($result);
+    }
+
+    public function testPaySpentWithNonPartialSpent()
+    {
+        $spent = new FutureSpentDTO();
+        $spent->setAmount(1.50);
+        $spent->setWalletId(1);
+
+        $serviceMock = Mockery::mock('App\Services\FutureSpentService');
+        $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
+        $serviceMock->shouldReceive('payFullSpent')->once()->andReturnTrue();
+        $serviceMock->shouldReceive('payWithOptions')->never();
+
+        $options = [
+            BasicFieldsEnum::PARTIAL => false,
+            BasicFieldsEnum::WALLET_ID_JSON => 1,
+            BasicFieldsEnum::VALUE => 1.50,
+        ];
+
+        $result = $serviceMock->paySpent($spent, $options);
+
+        $this->assertTrue($result);
+    }
+
+    public function testPayFullSpentWithDontInsertMovement()
+    {
         $movementServiceMock = Mockery::mock('App\Services\MovementService');
-        $movementServiceMock->shouldReceive('insert')->once()->andReturn(false);
         $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn(new MovementDTO());
+        $movementServiceMock->shouldReceive('insert')->once()->andReturnFalse();
         $this->app->instance('App\Services\MovementService', $movementServiceMock);
 
-        $mock = Mockery::mock('App\Repositories\FutureSpentRepository');
-        $this->app->instance('App\Repositories\FutureSpentRepository', $mock);
+        $serviceMock = Mockery::mock('App\Services\FutureSpentService');
+        $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
+        $serviceMock->shouldReceive('updateRemainingInstallments')->never();
 
-        $service = new FutureSpentService($mock);
-        $result = $service->paySpent($item);
+        $result = $serviceMock->payFullSpent(new FutureSpentDTO());
 
         $this->assertFalse($result);
     }
 
-    public function testPaySpentWithRemainingInstallmentsEquals0()
+    public function testPayFullSpentWithInsertMovement()
     {
-        $item = new FutureSpentDTO();
-        $item->setAmount(1.50);
-        $item->setId(1);
-        $item->setWalletId(1);
-        $item->setDescription('description');
-        $item->setWalletName('walletName');
-        $item->setForecast('2020-01-01');
-        $item->setInstallments(1);
-
         $movementServiceMock = Mockery::mock('App\Services\MovementService');
-        $movementServiceMock->shouldReceive('insert')->once()->andReturn(true);
         $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn(new MovementDTO());
+        $movementServiceMock->shouldReceive('insert')->once()->andReturnTrue();
         $this->app->instance('App\Services\MovementService', $movementServiceMock);
 
-        $mock = Mockery::mock('App\Repositories\FutureSpentRepository');
-        $mock->shouldReceive('deleteById')->once()->andReturn(true);
-        $mock->shouldReceive('update')->never();
-        $this->app->instance('App\Repositories\FutureSpentRepository', $mock);
+        $serviceMock = Mockery::mock('App\Services\FutureSpentService');
+        $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
+        $serviceMock->shouldReceive('updateRemainingInstallments')->once()->andReturnTrue();
 
-        $service = new FutureSpentService($mock);
-        $result = $service->paySpent($item);
+        $result = $serviceMock->payFullSpent(new FutureSpentDTO());
 
         $this->assertTrue($result);
     }
 
-    public function testPaySpentWithRemainingInstallmentsMinorThan0()
+    public function testUpdateRemainingInstallmentsWithRemainingInstallmentsEqualsZero()
     {
-        $item = new FutureSpentDTO();
-        $item->setAmount(1.50);
-        $item->setId(1);
-        $item->setWalletId(1);
-        $item->setDescription('description');
-        $item->setWalletName('walletName');
-        $item->setForecast('2020-01-01');
-        $item->setInstallments(0);
+        $spent = new FutureSpentDTO();
+        $spent->setInstallments(1);
+        $spent->setId(1);
 
-        $movementServiceMock = Mockery::mock('App\Services\MovementService');
-        $movementServiceMock->shouldReceive('insert')->once()->andReturn(true);
-        $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn(new MovementDTO());
-        $this->app->instance('App\Services\MovementService', $movementServiceMock);
+        $repositoryMock = Mockery::mock('App\Repositories\FutureSpentRepository');
+        $repositoryMock->shouldReceive('deleteById')->once()->andReturnTrue();
+        $repositoryMock->shouldReceive('update')->never();
+        $this->app->instance('App\Repositories\FutureSpentRepository', $repositoryMock);
 
-        $mock = Mockery::mock('App\Repositories\FutureSpentRepository');
-        $mock->shouldReceive('deleteById')->never();
-        $mock->shouldReceive('update')->once()->andReturn(true);
-        $this->app->instance('App\Repositories\FutureSpentRepository', $mock);
+        $serviceMock = Mockery::mock('App\Services\FutureSpentService', [$repositoryMock]);
+        $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
 
-        $service = new FutureSpentService($mock);
-        $result = $service->paySpent($item);
+        $result = $serviceMock->updateRemainingInstallments($spent);
 
         $this->assertTrue($result);
+    }
+
+    public function testUpdateRemainingInstallmentsWithRemainingInstallmentsSmallThanZero()
+    {
+        $spent = new FutureSpentDTO();
+        $spent->setInstallments(0);
+        $spent->setId(1);
+        $spent->setForecast('2020-01-01');
+
+        $repositoryMock = Mockery::mock('App\Repositories\FutureSpentRepository');
+        $repositoryMock->shouldReceive('deleteById')->never();
+        $repositoryMock->shouldReceive('update')->once()->withArgs(function ($id, $spent) {
+            TestCase::assertTrue($id == 1);
+            TestCase::assertTrue($spent->getInstallments() == 0);
+            return true;
+        })->andReturnTrue();
+        $this->app->instance('App\Repositories\FutureSpentRepository', $repositoryMock);
+
+        $serviceMock = Mockery::mock('App\Services\FutureSpentService', [$repositoryMock]);
+        $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
+
+        $result = $serviceMock->updateRemainingInstallments($spent);
+
+        $this->assertTrue($result);
+    }
+
+    public function testUpdateRemainingInstallmentsWithRemainingInstallmentsBiggerThanZero()
+    {
+        $spent = new FutureSpentDTO();
+        $spent->setInstallments(10);
+        $spent->setId(1);
+        $spent->setForecast('2020-01-01');
+
+        $repositoryMock = Mockery::mock('App\Repositories\FutureSpentRepository');
+        $repositoryMock->shouldReceive('deleteById')->never();
+        $repositoryMock->shouldReceive('update')->once()->withArgs(function ($id, $spent) {
+            TestCase::assertTrue($id == 1);
+            TestCase::assertTrue($spent->getInstallments() == 9);
+            return true;
+        })->andReturn(true);
+        $this->app->instance('App\Repositories\FutureSpentRepository', $repositoryMock);
+
+        $serviceMock = Mockery::mock('App\Services\FutureSpentService', [$repositoryMock]);
+        $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
+
+        $result = $serviceMock->updateRemainingInstallments($spent);
+
+        $this->assertTrue($result);
+    }
+
+    public function testPayWithOptionsWithInsertNewSpent()
+    {
+        $spent = new FutureSpentDTO();
+        $spent->setAmount(1.50);
+        $spent->setWalletId(1);
+        $spent->setDescription('test');
+
+        $options = [
+            BasicFieldsEnum::PARTIAL => true,
+            BasicFieldsEnum::WALLET_ID_JSON => 2,
+            BasicFieldsEnum::VALUE => 1,
+        ];
+
+        $movementServiceMock = Mockery::mock('App\Services\MovementService');
+        $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn(new MovementDTO());
+        $movementServiceMock->shouldReceive('insert')->once()->andReturnTrue();
+        $this->app->instance('App\Services\MovementService', $movementServiceMock);
+
+        $futureSpentServiceMock = Mockery::mock('App\Services\FutureSpentService');
+        $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
+        $futureSpentServiceMock->shouldReceive('makeSpentForParcialPay')->once()->withArgs(function($spent, $value) {
+            TestCase::assertTrue($value == 0.50);
+            return true;
+        })->andReturn(new FutureSpentDTO());
+        $futureSpentServiceMock->shouldReceive('insert')->once()->andReturnTrue();
+        $futureSpentServiceMock->shouldReceive('updateRemainingInstallments')->once()->andReturnTrue();
+
+        $result = $futureSpentServiceMock->payWithOptions($spent, $options);
+
+        $this->assertTrue($result);
+    }
+
+    public function testPayWithOptionsWithDontInsertNewMovement()
+    {
+        $spent = new FutureSpentDTO();
+        $spent->setAmount(1.50);
+        $spent->setWalletId(1);
+        $spent->setDescription('test');
+
+        $options = [
+            BasicFieldsEnum::PARTIAL => false,
+            BasicFieldsEnum::WALLET_ID_JSON => 2,
+            BasicFieldsEnum::VALUE => 1,
+        ];
+
+        $movementServiceMock = Mockery::mock('App\Services\MovementService');
+        $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn(new MovementDTO());
+        $movementServiceMock->shouldReceive('insert')->once()->andReturnFalse();
+        $this->app->instance('App\Services\MovementService', $movementServiceMock);
+
+        $futureSpentServiceMock = Mockery::mock('App\Services\FutureSpentService');
+        $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
+        $futureSpentServiceMock->shouldReceive('makeSpentForParcialPay')->never();
+        $futureSpentServiceMock->shouldReceive('insert')->never();
+        $futureSpentServiceMock->shouldReceive('updateRemainingInstallments')->never();
+
+        $result = $futureSpentServiceMock->payWithOptions($spent, $options);
+
+        $this->assertFalse($result);
+    }
+
+    public function testPayWithOptionsWithInsertNewMovement()
+    {
+        $spent = new FutureSpentDTO();
+        $spent->setAmount(1.50);
+        $spent->setWalletId(1);
+        $spent->setDescription('test');
+
+        $options = [
+            BasicFieldsEnum::PARTIAL => false,
+            BasicFieldsEnum::WALLET_ID_JSON => 2,
+            BasicFieldsEnum::VALUE => 1,
+        ];
+
+        $movementServiceMock = Mockery::mock('App\Services\MovementService');
+        $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn(new MovementDTO());
+        $movementServiceMock->shouldReceive('insert')->once()->andReturnTrue();
+        $this->app->instance('App\Services\MovementService', $movementServiceMock);
+
+        $futureSpentServiceMock = Mockery::mock('App\Services\FutureSpentService');
+        $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
+        $futureSpentServiceMock->shouldReceive('makeSpentForParcialPay')->never();
+        $futureSpentServiceMock->shouldReceive('insert')->never();
+        $futureSpentServiceMock->shouldReceive('updateRemainingInstallments')->once()->andReturnTrue();
+
+        $result = $futureSpentServiceMock->payWithOptions($spent, $options);
+
+        $this->assertTrue($result);
+    }
+
+    public function testMakeSpentForParcialPay()
+    {
+        $spent = new FutureSpentDTO();
+        $spent->setAmount(1.50);
+        $spent->setWalletId(1);
+        $spent->setDescription('test');
+        $spent->setInstallments(10);
+        $spent->setForecast('2020-01-01');
+
+        $futureSpentServiceMock = Mockery::mock('App\Services\FutureSpentService');
+        $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
+
+        $result = $futureSpentServiceMock->makeSpentForParcialPay($spent, 100);
+
+        $this->assertInstanceOf(FutureSpentDTO::class, $result);
+        $this->assertEquals(1, $result->getWalletId());
+        $this->assertEquals(100, $result->getAmount());
+        $this->assertEquals('Restante test', $result->getDescription());
+        $this->assertEquals(1, $result->getInstallments());
+        $this->assertEquals('2020-01-01', $result->getForecast());
     }
 }

@@ -148,7 +148,7 @@
                         y: {
                             stacked: true,
                             ticks: {
-                                callback: value => StringTools.formatFloatValueToBrString(value)
+                                display: false
                             }
                         }
                     },

@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === 0"/>
+        <loading-component v-show="loadingDone < 1"/>
         <div v-show="loadingDone === 1">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Panorama'"/>
@@ -50,11 +50,17 @@
                             :check-button="showCheckButton(spent)"
                             :check-tooltip="'Marcar próxima como pago'"
                             @delete-clicked="deleteSpent(spent.id, spent.name)"
-                            @check-clicked="paySpent(spent.id, spent.name)"/>
+                            @check-clicked="showPaySpentForm(spent.id, spent.countId, getNextSpentValue(spent), spent.name)"/>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <pay-receive :show-pay-receive="showPaySpent"
+                         :value="paySpentValue"
+                         :check-tooltip="'Pagar Despesa'"
+                         :wallet-id="paySpentWalletId"
+                         @hide-pay-receive="showPaySpent = false"
+                         @pay="paySpent($event)"/>
             <div class="row ms-1 mt-4">
                 <div class="card glass success balance-card">
                     <div class="card-body text-center">
@@ -211,6 +217,7 @@
     import ApiRouter from "../../../js/router/apiRouter";
     import MessageEnum from "../../../js/enums/messageEnum";
     import MfpMessage from "../../components/MessageAlert.vue";
+    import PayReceive from "../../components/PayReceiveComponent.vue";
 
     export default {
         name: "PanoramaView",
@@ -226,6 +233,7 @@
             }
         },
         components: {
+            PayReceive,
             MfpMessage,
             ActionButtons,
             MfpTitle,
@@ -241,7 +249,8 @@
                     totalRemainingValue: 0,
                     remainingInstallments: 0,
                     countName: '',
-                    nextInstallmentDay: 0
+                    nextInstallmentDay: 0,
+                    countId: 0,
                 },
                 response: {
                     futureExpenses: 0,
@@ -285,7 +294,12 @@
                 },
                 futureSpending: {},
                 totalWalletsValue: 0,
-                monthRemaining: 10
+                monthRemaining: 10,
+                paySpentValue: 0,
+                paySpentId: 0,
+                showPaySpent: false,
+                paySpentName: '',
+                paySpentWalletId: 0,
             }
         },
         methods: {
@@ -313,11 +327,44 @@
                     })
                 }
             },
-            async paySpent(id, spentName) {
-                if(confirm("Você confirma o pagamento da despesa " + spentName + '?')) {
-                    await ApiRouter.futureSpent.pay(id).then(response => {
+            showPaySpentForm(id, walletId, value, name) {
+                this.paySpentId = id
+                this.paySpentWalletId = walletId
+                this.paySpentValue = value
+                this.paySpentName = name
+                this.showPaySpent = true
+            },
+            getNextSpentValue(spent) {
+                if (spent.firstInstallment) {
+                    return spent.firstInstallment
+                } else if (spent.secondInstallment) {
+                    return spent.secondInstallment
+                } else if (spent.thirdInstallment) {
+                    return spent.thirdInstallment
+                } else if (spent.forthInstallment) {
+                    return spent.forthInstallment
+                } else if (spent.fifthInstallment) {
+                    return spent.fifthInstallment
+                } else if (spent.sixthInstallment) {
+                    return spent.sixthInstallment
+                }
+            },
+            async paySpent(event) {
+                let partial = event.partial ? " de forma parcial" : ""
+                let confirmMessage = 'Você confirma o pagamento da despesa '
+                confirmMessage = confirmMessage + '"' + this.paySpentName + '"'
+                confirmMessage = confirmMessage + partial
+                confirmMessage = confirmMessage + ' no valor de ' + StringTools.formatFloatValueToBrString(event.value)
+                if(confirm(confirmMessage + '?')) {
+                    let object = {
+                        walletId: event.walletId,
+                        value: event.value,
+                        partial: event.partial
+                    }
+                    await ApiRouter.futureSpent.pay(this.paySpentId, object).then(response => {
                         this.messageSuccess('Despesa paga com sucesso!')
                         this.updateFutureSpendingList()
+                        this.showPaySpent = false
                     }).catch(() => {
                         this.messageError('Não foi possível pagar a despesa!')
                     })

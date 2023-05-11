@@ -149,6 +149,7 @@
         z-index: 99;
         transition: all 0.5s ease;
         white-space: nowrap;
+        border-radius: 0 15px 15px 0;
     }
     .sidebar.open {
         width: 300px;
