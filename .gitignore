@@ -22,3 +22,6 @@ tests/coverage
 .phpunit.cache/
 node_modules
 public_html
+clover.xml
+composer.lock
+package-lock.json
