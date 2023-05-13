@@ -95,7 +95,7 @@ class FutureSpentService extends BasicService
         $movement = $movementService->populateByFutureSpent($spent);
         $movement->setAmount($value);
         $movement->setWalletId($walletId);
-        $movement->setDescription('Pagamento parcial' . $spent->getDescription());
+        $movement->setDescription('Pagamento parcial ' . strtolower($spent->getDescription()));
         if (! $movementService->insert($movement)){
             return false;
         }
@@ -110,7 +110,8 @@ class FutureSpentService extends BasicService
         $newSpent->setWalletId($spent->getWalletId());
         $newSpent->setInstallments(1);
         $newSpent->setForecast($spent->getForecast());
-        $newSpent->setDescription('Restante ' . $spent->getDescription());
+        $message = str_replace('Restante ', '', strtolower($spent->getDescription()));
+        $newSpent->setDescription('Restante ' . $message);
         $newSpent->setCreatedAt(null);
         $newSpent->setUpdatedAt(null);
         return $newSpent;
