@@ -39,6 +39,9 @@ class FutureSpentService extends BasicService
         $gainsPackage = [];
         foreach ($gains as $gain) {
             $futureGainDTO = $this->resource->futureGainToInvoiceDTO($gain);
+            if (! $futureGainDTO) {
+                continue;
+            }
             $gainsPackage[] = InvoiceFactory::factoryInvoice($futureGainDTO, CalendarTools::getThisMonth());
         }
         return $gainsPackage;
