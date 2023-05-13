@@ -16,7 +16,7 @@ My finances planner é um software open-sourced licenciado em [MIT license](http
 - Gerar a **APP_KEY** com o comando ***php artisan key:generate***
 - Rodar ***chown www-data:www-data -R storage/logs/*** e ***chown www-data:www-data -R storage/framework*** (somente se for rodar em docker localmente)
 - Rodar o ***composer update*** e o ***npm install***
-- Rodar o comando ***composer run migration:make***
+- Rodar o comando ***composer run migration:run***
 - Voltar no .env e configurar a variável **VITE_PUSHER_APP_KEY** com o mfp-token que foi criado na tabela de configurações
 - Criar um usuário para acesso na tabela **user** a senha deve ser criptografada com o bcrypt
 - Caso vá utilizar em ambiente de desenvolvimento, rodar o comando ***npm run dev***
