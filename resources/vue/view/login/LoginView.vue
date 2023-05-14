@@ -46,6 +46,12 @@
                         </button>
                     </div>
                 </form>
+                <div class="form-group">
+                    <a href="/sobre" class="btn btn-info btn-full mt-3">
+                        <font-awesome-icon :icon="iconEnum.circleInfo()" flip="horizontal" class="me-2"/>
+                        <span class="text-button-login">Sobre</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

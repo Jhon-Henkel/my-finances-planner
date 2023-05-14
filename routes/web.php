@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 /** @var Route $router */
 $router->prefix('/')->group(function ($router){
+    $router->get('sobre', function () {return view(ViewEnum::VIEW_ABOUT);})->name(RouteEnum::WEB_ABOUT);
     $router->get('login', [AuthController::class, 'renderLoginView'])->name(RouteEnum::WEB_LOGIN);
     $router->post('make-login', [AuthController::class, 'login'])->name(RouteEnum::WEB_MAKE_LOGIN);
     $router->get('logout', [AuthController::class, 'logout'])->name(RouteEnum::WEB_LOGOUT);

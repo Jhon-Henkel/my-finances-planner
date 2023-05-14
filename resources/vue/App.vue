@@ -16,7 +16,8 @@
         },
         data() {
             return {
-                isLoggedUser: false
+                isLoggedUser: false,
+                isLogged: false,
             }
         },
         methods: {
@@ -27,12 +28,15 @@
                         return
                     }
                     this.isLoggedUser = false
+                    if (this.$route.name === 'about') {
+                        return
+                    }
                     this.$router.push({name: 'login'})
                 })
             }
         },
-        mounted() {
-            this.checkUserIsLogged()
+        async mounted() {
+            await this.checkUserIsLogged()
         },
     }
 </script>

@@ -18,8 +18,14 @@ import ExtraHoursCalculator from "../../vue/view/tools/extraHoursCalculator/Extr
 import ConfigurationsView from "../../vue/view/configurations/ConfigurationsView.vue";
 import PanoramaView from "../../vue/view/panorama/PanoramaView.vue";
 import PanoramaForm from "../../vue/view/panorama/PanoramaForm.vue";
+import AboutView from "../../vue/view/About/AboutView.vue";
 
 const routes = [
+    {
+        path: "/sobre",
+        name: "about",
+        component: AboutView
+    },
     {
         path: "/login",
         name: "login",
