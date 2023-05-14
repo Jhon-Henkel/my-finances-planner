@@ -59,13 +59,15 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../../sass/variables";
+
     .card {
         width: 18rem;
         border-radius: 15px;
-        box-shadow: 0 0 1em #000000;
-        background-color: #2a2a38;
-        color: #ffffff;
+        box-shadow: 0 0 1em $black-color;
+        background-color: $default-card-background-color;
+        color: $white-color;
         display: inline-flex;
     }
     .image-card {

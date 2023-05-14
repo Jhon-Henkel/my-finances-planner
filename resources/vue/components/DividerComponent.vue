@@ -8,12 +8,14 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../sass/variables";
+
     .divider{
         height: 8px;
         border: 0;
         border-radius: 15px 15px 15px 15px;
-        box-shadow: 0 0 0.5em #000000;
-        background-color: #04fac9;
+        box-shadow: 0 0 0.5em $black-color;
+        background-color: $divider-component-color;
     }
 </style>
