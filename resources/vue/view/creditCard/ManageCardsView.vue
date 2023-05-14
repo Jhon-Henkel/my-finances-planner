@@ -24,11 +24,14 @@
                             <th scope="col">Limite</th>
                             <th scope="col">Limite Restante</th>
                             <th scope="col">Fecha Dia</th>
-                            <th scope="col">Próxima Fatura</th>
+                            <th scope="col">Valor Fatura</th>
                             <th scope="col">Ações</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
+                        <tr v-show="cards.length === 0">
+                            <td colspan="7">Nenhum cartão cadastrado ainda!</td>
+                        </tr>
                         <tr v-for="card in cards" :key="card.id">
                             <td>{{ card.dueDate }}</td>
                             <td>{{ card.name }}</td>
@@ -91,6 +94,10 @@
         data() {
             return {
                 cards: {},
+                card: {
+                    totalValueSpending: 0,
+                    nextInvoiceValue: 0
+                },
                 loadingDone: false
             }
         },

@@ -27,32 +27,35 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                <tr v-for="spent in futureSpending" :key="spent.id" class="text-center">
-                    <td>{{ spent.nextInstallmentDay }}</td>
-                    <td>{{ spent.name }}</td>
-                    <td>{{ spent.countName }}</td>
-                    <td>{{ formatValueToBr(spent.firstInstallment) }}</td>
-                    <td>{{formatValueToBr(spent.secondInstallment) }}</td>
-                    <td>{{ formatValueToBr(spent.thirdInstallment) }}</td>
-                    <td>{{ formatValueToBr(spent.forthInstallment) }}</td>
-                    <td>{{ formatValueToBr(spent.fifthInstallment) }}</td>
-                    <td>{{ formatValueToBr(spent.sixthInstallment) }}</td>
-                    <td v-if="spent.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
-                    <td v-else v-tooltip="formatValueToBr(spent.totalRemainingValue)">
-                        {{ spent.remainingInstallments }}
-                    </td>
-                    <td class="text-center">
-                        <action-buttons
-                            :delete-tooltip="'Deletar Despesa'"
-                            :tooltip-edit="'Editar Despesa'"
-                            :edit-to="'/panorama/' + spent.id + '/atualizar-despesa'"
-                            :check-button="showCheckButton(spent)"
-                            :check-tooltip="'Marcar próxima como pago'"
-                            @delete-clicked="deleteSpent(spent.id, spent.name)"
-                            @check-clicked="showPaySpentForm(spent.id, spent.countId, getNextSpentValue(spent), spent.name)"/>
-                    </td>
-                </tr>
+                <tbody class="text-center">
+                    <tr v-show="futureSpending.length === 0">
+                        <td colspan="11">Nenhuma despesa cadastrada ainda!</td>
+                    </tr>
+                    <tr v-for="spent in futureSpending" :key="spent.id">
+                        <td>{{ spent.nextInstallmentDay }}</td>
+                        <td>{{ spent.name }}</td>
+                        <td>{{ spent.countName }}</td>
+                        <td>{{ formatValueToBr(spent.firstInstallment) }}</td>
+                        <td>{{formatValueToBr(spent.secondInstallment) }}</td>
+                        <td>{{ formatValueToBr(spent.thirdInstallment) }}</td>
+                        <td>{{ formatValueToBr(spent.forthInstallment) }}</td>
+                        <td>{{ formatValueToBr(spent.fifthInstallment) }}</td>
+                        <td>{{ formatValueToBr(spent.sixthInstallment) }}</td>
+                        <td v-if="spent.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
+                        <td v-else v-tooltip="formatValueToBr(spent.totalRemainingValue)">
+                            {{ spent.remainingInstallments }}
+                        </td>
+                        <td class="text-center">
+                            <action-buttons
+                                :delete-tooltip="'Deletar Despesa'"
+                                :tooltip-edit="'Editar Despesa'"
+                                :edit-to="'/panorama/' + spent.id + '/atualizar-despesa'"
+                                :check-button="showCheckButton(spent)"
+                                :check-tooltip="'Marcar próxima como pago'"
+                                @delete-clicked="deleteSpent(spent.id, spent.name)"
+                                @check-clicked="showPaySpentForm(spent.id, spent.countId, getNextSpentValue(spent), spent.name)"/>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <pay-receive :show-pay-receive="showPaySpent"
