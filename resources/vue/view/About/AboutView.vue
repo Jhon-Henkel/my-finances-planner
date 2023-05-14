@@ -32,8 +32,8 @@
                 </div>
                 <p>
                     Para ver uma demo do projeto, basta <a href="/login" target="_blank">clicar aqui</a>, você será
-                    redirecionado para uma página de login, basta inserir o usuário <strong>mfp-demo</strong> e a senha
-                    <strong>mfp-demo</strong> que você será redirecionado para a página inicial do projeto.
+                    redirecionado para uma página de login, basta inserir o usuário <strong>{{ demoUser }}</strong> e
+                    a senha <strong>{{ demoPassword }}</strong> que você será redirecionado para a página inicial do projeto.
                 </p>
                 <div class="row mt-5">
                     <div class="col-6">
@@ -101,6 +101,8 @@
                 githubLink: import.meta.env.VITE_LINK_GITHUB,
                 mediumLink: import.meta.env.VITE_LINK_MEDIUM,
                 email: import.meta.env.VITE_EMAIL_CONTACT,
+                demoUser: import.meta.env.VITE_DEMO_USER,
+                demoPassword: import.meta.env.VITE_DEMO_PASSWORD
             }
         },
     }
