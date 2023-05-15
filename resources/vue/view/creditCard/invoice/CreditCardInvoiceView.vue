@@ -25,14 +25,17 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
+                    <tr v-show="invoices.length === 0">
+                        <td colspan="9">Nenhuma despesa cadastrada ainda!</td>
+                    </tr>
                     <tr v-for="expense in invoices" :key="expense.id">
                         <td>{{ expense.name }}</td>
-                        <td>{{ expense.firstInstallment ? formatValueToBr(expense.firstInstallment) : '-' }}</td>
-                        <td>{{ expense.secondInstallment ? formatValueToBr(expense.secondInstallment) : '-' }}</td>
-                        <td>{{ expense.thirdInstallment ? formatValueToBr(expense.thirdInstallment) : '-' }}</td>
-                        <td>{{ expense.forthInstallment ? formatValueToBr(expense.forthInstallment) : '-' }}</td>
-                        <td>{{ expense.fifthInstallment ? formatValueToBr(expense.fifthInstallment) : '-' }}</td>
-                        <td>{{ expense.sixthInstallment ? formatValueToBr(expense.sixthInstallment) : '-' }}</td>
+                        <td>{{ formatValueToBr(expense.firstInstallment) }}</td>
+                        <td>{{ formatValueToBr(expense.secondInstallment) }}</td>
+                        <td>{{ formatValueToBr(expense.thirdInstallment) }}</td>
+                        <td>{{ formatValueToBr(expense.forthInstallment) }}</td>
+                        <td>{{ formatValueToBr(expense.fifthInstallment) }}</td>
+                        <td>{{ formatValueToBr(expense.sixthInstallment) }}</td>
                         <td v-if="expense.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
                         <td v-else v-tooltip="formatValueToBr(expense.totalRemainingValue)">
                             {{ expense.remainingInstallments }}
@@ -218,8 +221,10 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../../../sass/variables";
+
     .border-table {
-        border-top: 2px solid #096452;
+        border-top: 2px solid $table-line-divider-color;
     }
 </style>

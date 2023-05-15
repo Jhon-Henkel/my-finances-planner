@@ -13,30 +13,33 @@
             <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
-                <tr class="text-center">
-                    <th scope="col">Carteira</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Valor Atual</th>
-                    <th scope="col">Ações</th>
-                </tr>
+                    <tr class="text-center">
+                        <th scope="col">Carteira</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Valor Atual</th>
+                        <th scope="col">Ações</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr v-for="wallet in wallets" :key="wallet.id" class="text-center">
-                    <td>{{ wallet.name }}</td>
-                    <td>{{ walletEnum.getDescription(wallet.type) }}</td>
-                    <td v-if="wallet.amount < 0" v-tooltip="'Cuidado, valor negativo'">
-                        {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
-                        <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="icon-alert"/>
-                    </td>
-                    <td v-else>{{ stringTools.formatFloatValueToBrString(wallet.amount) }}</td>
-                    <td>
-                        <action-buttons
-                            :delete-tooltip="'Deletar Carteira'"
-                            :tooltip-edit="'Editar Carteira'"
-                            :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
-                            @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
-                    </td>
-                </tr>
+                    <tr v-show="wallets.length === 0" class="text-center">
+                        <td colspan="4">Nenhuma carteira cadastrada ainda!</td>
+                    </tr>
+                    <tr v-for="wallet in wallets" :key="wallet.id" class="text-center">
+                        <td>{{ wallet.name }}</td>
+                        <td>{{ walletEnum.getDescription(wallet.type) }}</td>
+                        <td v-if="wallet.amount < 0" v-tooltip="'Cuidado, valor negativo'">
+                            {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
+                            <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="icon-alert"/>
+                        </td>
+                        <td v-else>{{ stringTools.formatFloatValueToBrString(wallet.amount) }}</td>
+                        <td>
+                            <action-buttons
+                                :delete-tooltip="'Deletar Carteira'"
+                                :tooltip-edit="'Editar Carteira'"
+                                :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
+                                @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="row ms-1">

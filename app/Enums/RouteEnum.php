@@ -47,6 +47,7 @@ class RouteEnum
     const API_USER_UPDATE = 'apiUserUpdate';
     const API_PANORAMA_INDEX = 'apiPanoramaIndex';
     const WEB_LOGIN = 'login';
+    const WEB_ABOUT = 'about';
     const WEB_LOGOUT = 'logout';
     const WEB_IS_USER_LOGGED = 'webIsUserLogged';
     const WEB_GET_MFP_TOKEN = 'getMfpToken';

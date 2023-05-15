@@ -21,31 +21,34 @@
             <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
-                    <tr>
-                        <th class="text-center"></th>
-                        <th class="text-center">ID</th>
-                        <th class="text-center" scope="col">Descrição</th>
-                        <th class="text-center" scope="col">Tipo</th>
-                        <th class="text-center" scope="col">Carteira</th>
-                        <th class="text-center" scope="col">Valor</th>
-                        <th class="text-center" scope="col">Data</th>
-                        <th class="text-center" scope="col">Ações</th>
+                    <tr class="text-center">
+                        <th></th>
+                        <th>ID</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Carteira</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Ações</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
+                    <tr v-show="movements.length === 0">
+                        <td colspan="8">Nenhuma movimentação cadastrada ainda!</td>
+                    </tr>
                     <tr v-for="movement in movements" :key="movement.id">
-                        <td class="text-center">
+                        <td>
                             <font-awesome-icon v-if="movement.type === movementEnum.type.transfer()" :icon="iconEnum.circleArrowRight()" class="movement-transfer-icon"/>
                             <font-awesome-icon v-else-if="movement.type === movementEnum.type.spent()" :icon="iconEnum.circleArrowDown()" class="movement-spent-icon"/>
                             <font-awesome-icon v-else-if="movement.type === movementEnum.type.gain()" :icon="iconEnum.circleArrowUp()" class="movement-gain-icon"/>
                         </td>
-                        <td class="text-center">{{ movement.id }}</td>
-                        <td class="text-center">{{ movement.description }}</td>
-                        <td class="text-center">{{ movementEnum.getLabelForType(movement.type) }}</td>
-                        <td class="text-center">{{ movement.walletName }}</td>
-                        <td class="text-center">{{ stringTools.formatFloatValueToBrString(movement.amount) }}</td>
-                        <td class="text-center">{{ calendarTools.convertDateDbToBr(movement.createdAt) }}</td>
-                        <td class="text-center">
+                        <td>{{ movement.id }}</td>
+                        <td>{{ movement.description }}</td>
+                        <td>{{ movementEnum.getLabelForType(movement.type) }}</td>
+                        <td>{{ movement.walletName }}</td>
+                        <td>{{ stringTools.formatFloatValueToBrString(movement.amount) }}</td>
+                        <td>{{ calendarTools.convertDateDbToBr(movement.createdAt) }}</td>
+                        <td>
                             <action-buttons
                                 :delete-tooltip="'Deletar Movimentação'"
                                 :tooltip-edit="'Editar Movimentação'"
@@ -198,22 +201,24 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../../sass/variables";
+
     .filter {
         font-size: 22px;
-        color: #12c4a1;
+        color: $success-icon-color;
     }
     .movement-transfer-icon {
-        color: #4a54ea;
+        color: $info-icon-color;
     }
     .movement-spent-icon {
-        color: #eb4e2c;
+        color: $danger-icon-color;
     }
     .movement-gain-icon {
-        color: #12c4a1;
+        color: $success-icon-color;
     }
     .icon-alert {
-        color: #e0c857;
+        color: $alert-icon-color;
     }
     .card {
         width: 24rem;

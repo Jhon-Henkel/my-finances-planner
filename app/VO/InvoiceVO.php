@@ -29,12 +29,12 @@ class InvoiceVO
         $invoice->countName = $item->getCountName();
         $invoice->remainingInstallments = $item->getInstallments();
         $invoice->nextInstallmentDay = substr($item->getNextInstallment(), 8, 2);
-        $invoice->firstInstallment = $installments[0];
-        $invoice->secondInstallment = $installments[1];
-        $invoice->thirdInstallment = $installments[2];
-        $invoice->forthInstallment = $installments[3];
-        $invoice->fifthInstallment = $installments[4];
-        $invoice->sixthInstallment = $installments[5];
+        $invoice->firstInstallment = $installments[0] ?? 0;
+        $invoice->secondInstallment = $installments[1] ?? 0;
+        $invoice->thirdInstallment = $installments[2] ?? 0;
+        $invoice->forthInstallment = $installments[3] ?? 0;
+        $invoice->fifthInstallment = $installments[4] ?? 0;
+        $invoice->sixthInstallment = $installments[5] ?? 0;
         $invoice->totalRemainingValue = $remainingValue;
         return $invoice;
     }

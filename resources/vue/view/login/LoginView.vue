@@ -46,6 +46,12 @@
                         </button>
                     </div>
                 </form>
+                <div class="form-group">
+                    <a href="/sobre" class="btn btn-info btn-full mt-3">
+                        <font-awesome-icon :icon="iconEnum.circleInfo()" flip="horizontal" class="me-2"/>
+                        <span class="text-button-login">Sobre</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -136,7 +142,9 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../../sass/variables";
+
     .card-body {
         padding: 0;
         margin: 0 20px 25px 20px;
@@ -154,18 +162,18 @@
         max-width: 70vh;
     }
     .input-group {
-        box-shadow: 0 0 0.5em #000000;
+        box-shadow: 0 0 0.5em $black-color;
     }
     .base-container hr {
         height: 8px;
         border: 0;
         border-radius: 15px 15px 15px 15px;
-        box-shadow: 0 0 0.5em #000000;
-        background-color: #04fac9;
+        box-shadow: 0 0 0.5em $black-color;
+        background-color: $divider-component-color;
     }
     .input-group-text {
         border: 0;
-        background-color: #a7d7cf;
+        background-color: $icon-input-background-icon;
     }
     .text-button-login {
         font-size: 20px;

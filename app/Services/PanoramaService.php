@@ -49,15 +49,15 @@ class PanoramaService
         return InvoiceFactory::generateInvoiceSumFromInvoicesArray($invoices);
     }
 
-    protected function getTotalLeft(InvoiceVO $totalExpenses, InvoiceVO $totalGains, InvoiceVO $totalCardExpenses): InvoiceVO
+    protected function getTotalLeft(InvoiceVO $expenses, InvoiceVO $gains, InvoiceVO $creditCardExpenses): InvoiceVO
     {
         $totalLeft = [
-            0 => $totalGains->firstInstallment - ($totalExpenses->firstInstallment + $totalCardExpenses->firstInstallment),
-            1 => $totalGains->secondInstallment - ($totalExpenses->secondInstallment + $totalCardExpenses->secondInstallment),
-            2 => $totalGains->thirdInstallment - ($totalExpenses->thirdInstallment + $totalCardExpenses->thirdInstallment),
-            3 => $totalGains->forthInstallment - ($totalExpenses->forthInstallment + $totalCardExpenses->forthInstallment),
-            4 => $totalGains->fifthInstallment - ($totalExpenses->fifthInstallment + $totalCardExpenses->fifthInstallment),
-            5 => $totalGains->sixthInstallment - ($totalExpenses->sixthInstallment + $totalCardExpenses->sixthInstallment),
+            0 => $gains->firstInstallment - ($expenses->firstInstallment + $creditCardExpenses->firstInstallment),
+            1 => $gains->secondInstallment - ($expenses->secondInstallment + $creditCardExpenses->secondInstallment),
+            2 => $gains->thirdInstallment - ($expenses->thirdInstallment + $creditCardExpenses->thirdInstallment),
+            3 => $gains->forthInstallment - ($expenses->forthInstallment + $creditCardExpenses->forthInstallment),
+            4 => $gains->fifthInstallment - ($expenses->fifthInstallment + $creditCardExpenses->fifthInstallment),
+            5 => $gains->sixthInstallment - ($expenses->sixthInstallment + $creditCardExpenses->sixthInstallment),
         ];
         $invoiceDto = new InvoiceItemDTO(0, 0, null, 'SumTotalLeft', 0, 0, 0);
         return InvoiceVO::makeInvoice($invoiceDto, $totalLeft, 0);

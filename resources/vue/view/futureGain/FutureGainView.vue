@@ -25,16 +25,19 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr v-show="futureGains.length === 0" class="text-center">
+                        <td colspan="11">Nenhum ganho cadastrado ainda!</td>
+                    </tr>
                     <tr v-for="gain in futureGains" :key="gain.id" class="text-center">
                         <td>{{ gain.nextInstallmentDay }}</td>
                         <td>{{ gain.name }}</td>
                         <td>{{ gain.countName }}</td>
-                        <td>{{ gain.firstInstallment ? StringTools.formatFloatValueToBrString(gain.firstInstallment) : '-' }}</td>
-                        <td>{{ gain.secondInstallment ? StringTools.formatFloatValueToBrString(gain.secondInstallment) : '-' }}</td>
-                        <td>{{ gain.thirdInstallment ? StringTools.formatFloatValueToBrString(gain.thirdInstallment) : '-' }}</td>
-                        <td>{{ gain.forthInstallment ? StringTools.formatFloatValueToBrString(gain.forthInstallment) : '-' }}</td>
-                        <td>{{ gain.fifthInstallment ? StringTools.formatFloatValueToBrString(gain.fifthInstallment) : '-' }}</td>
-                        <td>{{ gain.sixthInstallment ? StringTools.formatFloatValueToBrString(gain.sixthInstallment) : '-' }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(gain.firstInstallment) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(gain.secondInstallment) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(gain.thirdInstallment) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(gain.forthInstallment) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(gain.fifthInstallment) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(gain.sixthInstallment) }}</td>
                         <td v-if="gain.remainingInstallments === 0" v-tooltip="'Ganho Fixo'">Fixo</td>
                         <td v-else v-tooltip="StringTools.formatFloatValueToBrString(gain.totalRemainingValue)">
                             {{ gain.remainingInstallments }}
@@ -199,8 +202,10 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../../sass/variables";
+
     .border-table {
-        border-top: 2px solid #096452;
-    }
+            border-top: 2px solid $table-line-divider-color;
+        }
 </style>
