@@ -92,16 +92,17 @@
             async login(event) {
                 event.preventDefault()
                 await RouterNonAuthenticated.login.makeLogin(this.populateDate()).then((response) => {
-                        if (response.status === HttpStatusCode.Ok) {
-                            // feito isso para carregar tudo no app.vue, pois sem dar reload o app não carregava a sidebar
-                            window.location.reload()
-                        } else {
-                            this.showMessage(
-                                MessageEnum.alertTypeError(),
-                                'Campo "Algo deu errado ao efetuar seu login!',
-                                'Ocorreu um erro!'
-                            )
-                        }
+                    if (response.status === HttpStatusCode.Ok) {
+                        // feito isso para carregar tudo no app.vue, pois sem dar reload o app não carregava a sidebar
+                        this.$router.push({name: 'dashboard'})
+                        window.location.reload()
+                    } else {
+                        this.showMessage(
+                            MessageEnum.alertTypeError(),
+                            'Campo "Algo deu errado ao efetuar seu login!',
+                            'Ocorreu um erro!'
+                        )
+                    }
                 }).catch((response) => {
                     if (response.response.status === HttpStatusCode.Unauthorized) {
                         this.showMessage(
