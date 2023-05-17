@@ -88,7 +88,6 @@
     import InputMoney from "../../components/inputMoneyComponent.vue";
     import BottomButtons from "../../components/BottomButtons.vue";
     import iconEnum from "../../../js/enums/iconEnum";
-    import apiRouter from "../../../js/router/apiRouter";
     import MessageEnum from "../../../js/enums/messageEnum";
     import MfpMessage from "../../components/MessageAlert.vue";
     import ApiRouter from "../../../js/router/apiRouter";
@@ -126,7 +125,8 @@
         },
         methods: {
             async updateConfigs() {
-                if (import.meta.env.VITE_APP_DEMO_MODE) {
+                console.log(RequestTools.isApplicationInDemoMode())
+                if (RequestTools.isApplicationInDemoMode() === true) {
                     this.messageWarning('Aplicação em mode demo não permite alterar as configurações!')
                     return;
                 }
