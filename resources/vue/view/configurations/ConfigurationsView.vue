@@ -126,6 +126,10 @@
         },
         methods: {
             async updateConfigs() {
+                if (import.meta.env.VITE_APP_DEMO_MODE) {
+                    this.messageWarning('Aplicação em mode demo não permite alterar as configurações!')
+                    return;
+                }
                 if (this.alterPassword === true) {
                     if (this.newPassword !== this.newPasswordConfirmation) {
                         this.messageError('Senhas não conferem!')
@@ -142,6 +146,9 @@
             },
             messageError(message) {
                 this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+            },
+            messageWarning(message) {
+                this.showMessage(MessageEnum.alertTypeWarning(), message, 'Aviso!')
             },
             messageSuccess(message) {
                 this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Configurações atualizadas!')

@@ -18,4 +18,9 @@ class RequestTools
     {
         return $_GET[$key] ?? null;
     }
+
+    public static function isApplicationInDemoMode(): bool
+    {
+        return env('APP_DEMO_MODE', false);
+    }
 }
