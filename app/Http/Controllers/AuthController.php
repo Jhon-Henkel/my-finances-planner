@@ -8,6 +8,7 @@ use App\Enums\ViewEnum;
 use App\Models\User;
 use App\Services\ConfigurationService;
 use App\Services\UserService;
+use App\Tools\RequestTools;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -68,6 +69,9 @@ class AuthController extends Controller
 
     protected function inactiveUser(User $user): void
     {
+        if (RequestTools::isApplicationInDemoMode()) {
+            return;
+        }
         if ($user->status == ConfigEnum::STATUS_INACTIVE) {
             return;
         }
