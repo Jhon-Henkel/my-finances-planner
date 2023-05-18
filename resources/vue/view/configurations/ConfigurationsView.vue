@@ -88,7 +88,6 @@
     import InputMoney from "../../components/inputMoneyComponent.vue";
     import BottomButtons from "../../components/BottomButtons.vue";
     import iconEnum from "../../../js/enums/iconEnum";
-    import apiRouter from "../../../js/router/apiRouter";
     import MessageEnum from "../../../js/enums/messageEnum";
     import MfpMessage from "../../components/MessageAlert.vue";
     import ApiRouter from "../../../js/router/apiRouter";
@@ -126,6 +125,11 @@
         },
         methods: {
             async updateConfigs() {
+                console.log(RequestTools.isApplicationInDemoMode())
+                if (RequestTools.isApplicationInDemoMode() === true) {
+                    this.messageWarning('Aplicação em mode demo não permite alterar as configurações!')
+                    return;
+                }
                 if (this.alterPassword === true) {
                     if (this.newPassword !== this.newPasswordConfirmation) {
                         this.messageError('Senhas não conferem!')
@@ -142,6 +146,9 @@
             },
             messageError(message) {
                 this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+            },
+            messageWarning(message) {
+                this.showMessage(MessageEnum.alertTypeWarning(), message, 'Aviso!')
             },
             messageSuccess(message) {
                 this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Configurações atualizadas!')

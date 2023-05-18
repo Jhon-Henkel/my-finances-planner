@@ -11,6 +11,12 @@ const RequestTools = {
             localStorage.removeItem('userId')
             localStorage.removeItem('userSalary')
         }
+    },
+    isApplicationInDemoMode: function () {
+        if (import.meta.env.VITE_APP_DEMO_MODE === 'true') {
+            return true
+        }
+        return false
     }
 }
 

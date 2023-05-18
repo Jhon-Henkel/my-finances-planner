@@ -4,6 +4,7 @@ use App\Enums\RouteEnum;
 use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
+use App\Http\Controllers\CronController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
@@ -78,5 +79,8 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     });
     $router->prefix('panorama')->group(function () use ($router) {
         $router->get('', [PanoramaController::class, 'getPanoramaData'])->name(RouteEnum::API_PANORAMA_INDEX);
+    });
+    $router->prefix('cron')->group(function () use ($router) {
+        $router->get('reset-database-demo', [CronController::class, 'resetDatabaseDemo'])->name(RouteEnum::CRON_RESET_DATABASE_DEMO);
     });
 });
