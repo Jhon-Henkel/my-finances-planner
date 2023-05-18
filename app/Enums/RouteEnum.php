@@ -52,4 +52,5 @@ class RouteEnum
     const WEB_IS_USER_LOGGED = 'webIsUserLogged';
     const WEB_GET_MFP_TOKEN = 'getMfpToken';
     const WEB_MAKE_LOGIN = 'makeLogin';
+    const CRON_RESET_DATABASE_DEMO = 'cronResetDatabaseDemo';
 }

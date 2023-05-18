@@ -35,6 +35,12 @@
                     redirecionado para uma página de login, basta inserir o usuário <strong>{{ demoUser }}</strong> e
                     a senha <strong>{{ demoPassword }}</strong> que você será redirecionado para a página inicial do projeto.
                 </p>
+                <p>
+                    Nesta demo, não será permitido a alteração de configurações do usuário (e-mail, senha, etc).
+                    O bloqueio por quantidade de tentativas de login inválidas estão desabilitados.
+                    Totos os os dados inseridos na demo serão excluídos diariamente, para que a demo esteja sempre limpa,
+                    ou seja, todos os dias a demo voltará para seu estado pré-definido.
+                </p>
                 <div class="row mt-5">
                     <div class="col-6">
                         <mfp-title title="Sugestões e reportar erros"/>
