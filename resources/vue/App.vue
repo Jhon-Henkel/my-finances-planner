@@ -7,6 +7,8 @@
                 <strong>Atenção!</strong>
                 <br>
                 Você está utilizando a aplicação em modo demonstração, algumas funcionalidades podem estar desabilitadas.
+                <br>
+                Este projeto não foi desenvolvido para mobile, tenha preferência por utilizar em um computador.
                 Para mais detalhes clique <a href="/sobre">aqui</a>.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" />
             </div>
