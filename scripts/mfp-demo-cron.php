@@ -1,11 +1,12 @@
 <?php
-// script para colar dentro da raiz www/scripts dentro da King Host
+// Copiar este arquivo para a pasta www/scripts do servidor
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, 'https://my-finances-planner-demo.jhon.dev.br/api/cron/reset-database-demo');
+curl_setopt($curl, CURLOPT_URL, 'PASTE ONLINE PROJECT URL HERE');
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array("mfp-token: PASTE TOKEN HERE"));
 $response = curl_exec($curl);
 if ($response === false) {
-    $error = curl_error($curl);
+    echo curl_error($curl);
 } else {
     echo $response;
 }

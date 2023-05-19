@@ -55,13 +55,13 @@ class DemoApplicationTools
         $wallets = [];
         $names = [
             'Dinheiro',
-            'Conta Corrente Banco Inter',
-            'Poupança Banco do Brasil',
+            'Banco Inter',
+            'Poupança',
             'Vale Alimentação',
             'Vale Transporte',
             'Gim Pass',
-            'Vaquinha para comprar um carro',
-            'Vaquinha para comprar um macbook'
+            'Vaquinha carro',
+            'Vaquinha macbook'
         ];
         $amounts = [100, 10.50, 153.95, 27.10, 100, 50, 1584.55, 2950.69];
         $types = [5, 6, 6, 8, 9, 0, 0, 0];
