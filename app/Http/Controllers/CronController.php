@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\CronService;
 use App\Tools\RequestTools;
-use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class CronController
 {
@@ -21,22 +19,21 @@ class CronController
         return $this->service;
     }
 
-    public function resetDatabaseDemo(): JsonResponse
+    public function resetDatabaseDemo(): void
     {
         if (! RequestTools::isApplicationInDemoMode()) {
             $message = 'Modo demonstração não está ativo.';
-            return response()->json($message, ResponseAlias::HTTP_BAD_REQUEST);
+            die($message);
         }
         $deletedTables = $this->getService()->truncateDatabaseDemoTables();
         if (! $deletedTables) {
             $message = 'Não foi possível limpar as tabelas.';
-            return response()->json($message, ResponseAlias::HTTP_BAD_REQUEST);
+            die($message);
         }
         $insertedTables = $this->getService()->insertDatabaseDemoData();
         if (! $insertedTables) {
             $message = 'Não foi possível inserir os dados nas tabelas.';
-            return response()->json($message, ResponseAlias::HTTP_BAD_REQUEST);
+            die($message);
         }
-        return response()->json(null, ResponseAlias::HTTP_NO_CONTENT);
     }
 }
