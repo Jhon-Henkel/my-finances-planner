@@ -9,6 +9,7 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         Commands\ResetDemoDatabase::class,
+        Commands\GenerateMfpKey::class,
     ];
 
     /**

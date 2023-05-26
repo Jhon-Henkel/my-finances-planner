@@ -19,7 +19,7 @@ class ResetDemoDatabase extends Command
      *
      * @var string
      */
-    protected $description = 'Reset demo database f=to default values.';
+    protected $description = 'Reset demo database to default values.';
 
     /**
      * Execute the console command.
