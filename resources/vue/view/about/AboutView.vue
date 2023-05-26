@@ -37,9 +37,13 @@
                 </div>
                 <p>
                     Para ver uma demo do projeto, basta <a href="/login" target="_blank">clicar aqui</a>, você será
-                    redirecionado para uma página de login, basta inserir o usuário <strong>{{ demoUser }}</strong> e
-                    a senha <strong>{{ demoPassword }}</strong> que você será redirecionado para a página inicial do projeto.
+                    redirecionado para uma página de login, basta inserir os dados de acesso abaixo que você será
+                    redirecionado para a página inicial do projeto.
                 </p>
+                <ul>
+                    <li><strong>Usuário:</strong> {{ demoUser }}</li>
+                    <li><strong>Senha:</strong> {{ demoPassword }}</li>
+                </ul>
                 <p>
                     Nesta demo, não será permitido a alteração de configurações do usuário (e-mail, senha, etc).
                     O bloqueio por quantidade de tentativas de login inválidas estão desabilitados.

@@ -38,7 +38,7 @@ class ConfigurationService extends BasicService
     {
         $token = Cache::get(ConfigEnum::MFP_TOKEN);
         if (! $token) {
-            $token = $this->findConfigValue(ConfigEnum::MFP_TOKEN);
+            $token = env('PUSHER_APP_KEY');
             Cache::put(ConfigEnum::MFP_TOKEN, $token, DateEnum::TWO_HOUR_IN_SECONDS);
         }
         return $token;

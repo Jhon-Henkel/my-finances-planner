@@ -6,7 +6,6 @@ use App\Enums\BasicFieldsEnum;
 use App\Enums\ConfigEnum;
 use App\Enums\ViewEnum;
 use App\Models\User;
-use App\Services\ConfigurationService;
 use App\Services\UserService;
 use App\Tools\RequestTools;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
@@ -100,14 +99,5 @@ class AuthController extends Controller
             $IsLogged = true;
         }
         return response()->json([BasicFieldsEnum::IS_LOGGED => $IsLogged], ResponseAlias::HTTP_OK);
-    }
-
-    public function getMfpToken(): JsonResponse
-    {
-        $mfpToken = '';
-        if (Auth::check()) {
-            $mfpToken = app(ConfigurationService::class)->getMfpToken();
-        }
-        return response()->json([BasicFieldsEnum::MFP_TOKEN => $mfpToken], ResponseAlias::HTTP_OK);
     }
 }

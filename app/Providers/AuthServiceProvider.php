@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Enums\ConfigEnum;
 use App\Models\User;
-use App\Services\ConfigurationService;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,9 +25,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Auth::viaRequest(ConfigEnum::MFP_TOKEN, function (Request $request) {
-            $mfpToken = app(ConfigurationService::class)->getMfpToken();
             $requestToken = $request->header(ConfigEnum::MFP_TOKEN) ?? null;
-            return ($mfpToken == $requestToken) ? new User() : null;
+            if (is_null($requestToken)) {
+                return null;
+            }
+            return (env('PUSHER_APP_KEY') == $requestToken) ? new User() : null;
         });
     }
 }
