@@ -23,4 +23,9 @@ class RequestTools
     {
         return env('APP_DEMO_MODE', false);
     }
+
+    public static function isApplicationInDevelopMode(): bool
+    {
+        return env('APP_ENV') == 'local';
+    }
 }
