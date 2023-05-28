@@ -12,6 +12,9 @@ $router->prefix('/')->group(function ($router){
     $router->post('make-login', [AuthController::class, 'login'])->name(RouteEnum::WEB_MAKE_LOGIN);
     $router->get('logout', [AuthController::class, 'logout'])->name(RouteEnum::WEB_LOGOUT);
     $router->get('is-user-logged', [AuthController::class, 'isUserLogged'])->name(RouteEnum::WEB_IS_USER_LOGGED);
+    $router->get('/debug-sentry', function () {
+        throw new Exception('My first Sentry error!');
+    });
     $router->middleware('auth:sanctum')->group(function($router) {
         $router->get('{any}', function () {
             return view(ViewEnum::VIEW_BASE);
