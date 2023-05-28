@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\BasicFieldsEnum;
+use App\Http\Response\ResponseError;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -45,7 +46,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
         try {
             $invalid = $this->getService()->isInvalidRequest($request, $this->rulesInsert());
             if ($invalid instanceof MessageBag) {
-                return response()->json($invalid, ResponseAlias::HTTP_BAD_REQUEST);
+                return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
             }
             $item = $this->getResource()->arrayToDto($request->json()->all());
             $insert = $this->getService()->insert($item);
@@ -62,7 +63,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
         try {
             $invalid = $this->getService()->isInvalidRequest($request, $this->rulesUpdate());
             if ($invalid instanceof MessageBag) {
-                return response()->json($invalid, ResponseAlias::HTTP_BAD_REQUEST);
+                return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
             }
             $requestItem = $request->json()->all();
             $requestItem[BasicFieldsEnum::ID] = $id;
@@ -92,7 +93,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
 
     protected function returnErrorDatabaseConnect(): JsonResponse
     {
-        return response()->json(
+        return ResponseError::responseError(
             'Erro ao se conectar com o banco de dados!',
             ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
         );
