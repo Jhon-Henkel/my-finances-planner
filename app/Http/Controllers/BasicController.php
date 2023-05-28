@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Enums\BasicFieldsEnum;
+use App\Exceptions\DatabaseException;
 use App\Http\Response\ResponseError;
+use App\Tools\ErrorReport;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\MessageBag;
+use Sentry\Laravel\Integration;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 abstract class BasicController extends Controller implements BasicControllerContract
@@ -93,9 +97,8 @@ abstract class BasicController extends Controller implements BasicControllerCont
 
     protected function returnErrorDatabaseConnect(): JsonResponse
     {
-        return ResponseError::responseError(
-            'Erro ao se conectar com o banco de dados!',
-            ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
-        );
+        $message = 'Erro ao se conectar com o banco de dados!';
+        ErrorReport::report(new DatabaseException($message));
+        return ResponseError::responseError($message, ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

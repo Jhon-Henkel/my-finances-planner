@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Tools\RequestTools;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Sentry\Laravel\Integration;
 use Throwable;
@@ -50,6 +51,9 @@ class Handler extends ExceptionHandler
     public function report(Throwable $e): void
     {
         if ($this->shouldntReport($e) && app()->bound('sentry')) {
+            if (RequestTools::isApplicationInDevelopMode()) {
+                return;
+            }
             app('sentry')->captureException($e);
         }
         parent::report($e);
