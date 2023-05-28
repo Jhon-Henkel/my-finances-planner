@@ -8,12 +8,12 @@ use Illuminate\Support\ServiceProvider;
 class BroadcastServiceProvider extends ServiceProvider
 {
     /**
+     * @codeCoverageIgnore
      * Bootstrap any application services.
      */
     public function boot(): void
     {
         Broadcast::routes();
-
         require base_path('routes/channels.php');
     }
 }
