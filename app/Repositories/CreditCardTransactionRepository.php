@@ -36,8 +36,8 @@ class CreditCardTransactionRepository extends BasicRepository
     public function findByPeriod(DatePeriodDTO $period): array
     {
         $itens = $this->getModel()->select('*')
-            ->where('next_installment', '>', $period->getStartDate())
-            ->where('next_installment', '<', $period->getEndDate())
+            ->where('next_installment', '>=', $period->getStartDate())
+            ->where('next_installment', '<=', $period->getEndDate())
             ->orderBy(BasicFieldsEnum::ID, 'desc')
             ->get();
         return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();

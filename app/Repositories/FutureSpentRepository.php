@@ -31,8 +31,8 @@ class FutureSpentRepository extends BasicRepository
     public function findByPeriod(DatePeriodDTO $period): array
     {
         $itens = $this->getModel()->select('future_spent.*', 'wallets.name')
-            ->where('future_spent.forecast', '>', $period->getStartDate())
-            ->where('future_spent.forecast', '<', $period->getEndDate())
+            ->where('future_spent.forecast', '>=', $period->getStartDate())
+            ->where('future_spent.forecast', '<=', $period->getEndDate())
             ->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
             ->orderBy(BasicFieldsEnum::ID, 'desc')
             ->get();
