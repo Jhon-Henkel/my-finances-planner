@@ -37,8 +37,8 @@ class MovementRepository extends BasicRepository
     public function findByPeriod(DatePeriodDTO $period): array
     {
         $itens = $this->model::select('movements.*', 'wallets.name')
-            ->where('movements.created_at', '>', $period->getStartDate())
-            ->where('movements.created_at', '<', $period->getEndDate())
+            ->where('movements.created_at', '>=', $period->getStartDate())
+            ->where('movements.created_at', '<=', $period->getEndDate())
             ->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
             ->orderBy(BasicFieldsEnum::ID, 'desc')
             ->get();
