@@ -7,11 +7,11 @@ use Throwable;
 
 class ErrorReport
 {
-    public static function report(Throwable $e): void
+    public static function report(Throwable $exception): void
     {
         if (RequestTools::isApplicationInDevelopMode()) {
             return;
         }
-        Integration::captureUnhandledException($e);
+        Integration::captureUnhandledException($exception);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Tools\ErrorReport;
 use App\Tools\RequestTools;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Sentry\Laravel\Integration;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -43,8 +43,8 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            Integration::captureUnhandledException($e);
+        $this->reportable(function (Throwable $exception) {
+            ErrorReport::report($exception);
         });
     }
 
