@@ -10,16 +10,17 @@ $cronCheckin = RequestTools::notifyCronjobStart('reset-demo-database');
 try {
     $service = app(CronService::class);
     if (! $service->truncateDatabaseDemoTables()) {
-        RequestTools::notifyCronjobFailed($cronCheckin, 'reset-demo-database');
-        die('Error: Not in demo mode or error truncating tables');
+        $message = 'Error: Not in demo mode or error truncating tables';
+        throw new Exception($message);
     }
     if (! $service->insertDatabaseDemoData()) {
-        RequestTools::notifyCronjobFailed($cronCheckin, 'reset-demo-database');
-        die('Error: Not in demo mode or error inserting data');
+        $message = 'Error: Not in demo mode or error inserting data';
+        throw new Exception($message);
     }
     echo 'Cron executed successfully';
     RequestTools::notifyCronjobDone($cronCheckin, 'reset-demo-database');
 } catch (Throwable $exception) {
-    RequestTools::notifyCronjobFailed($cronCheckin, 'reset-demo-database');
-    echo $exception->getMessage();
+    $message = 'Error: ' . $exception->getMessage();
+    RequestTools::notifyCronjobFailed($cronCheckin, 'reset-demo-database', $message);
+    echo $message;
 }

@@ -58,9 +58,10 @@ class RequestTools
         SentrySdk::getCurrentHub()->captureEvent($event);
     }
 
-    public static function notifyCronjobFailed(CheckIn $checkIn, string $name): void
+    public static function notifyCronjobFailed(CheckIn $checkIn, string $name, string $message): void
     {
         $event = Event::createCheckIn();
+        $event->setMessage($message);
         $event->setCheckIn(new CheckIn(
             monitorSlug: $name,
             status: CheckInStatus::error(),
@@ -71,7 +72,7 @@ class RequestTools
 
     public static function startLaravelApp(): void
     {
-        $app = require_once __DIR__.'/../../bootstrap/app.php';
+        $app = require_once __DIR__ . '/../../bootstrap/app.php';
         $app->make(Kernel::class)->bootstrap();
     }
 }
