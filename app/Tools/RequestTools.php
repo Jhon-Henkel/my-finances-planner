@@ -3,10 +3,7 @@
 namespace App\Tools;
 
 use App\Http\Kernel;
-use Sentry\CheckIn;
-use Sentry\CheckInStatus;
-use Sentry\Event;
-use Sentry\SentrySdk;
+use Cronitor;
 
 class RequestTools
 {
@@ -35,39 +32,34 @@ class RequestTools
         return env('APP_ENV') != 'production';
     }
 
-    public static function notifyCronjobStart(string $name): CheckIn
+    public static function notifyCronjobStart(string $taskName): void
     {
-        $event = Event::createCheckIn();
-        $checkIn = new CheckIn(
-            monitorSlug: $name,
-            status: CheckInStatus::inProgress(),
-        );
-        $event->setCheckIn($checkIn);
-        SentrySdk::getCurrentHub()->captureEvent($event);
-        return $checkIn;
+        if (self::isApplicationInDevelopMode()) {
+            return;
+        }
+        $client = new Cronitor\Client(config('services.cronitor.api_key'));
+        $monitor = $client->monitor($taskName);
+        $monitor->ping(['state' => 'run', 'message' => 'Cron started']);
     }
 
-    public static function notifyCronjobDone(CheckIn $checkIn, string $name): void
+    public static function notifyCronjobDone(string $taskName): void
     {
-        $event = Event::createCheckIn();
-        $event->setCheckIn(new CheckIn(
-            monitorSlug: $name,
-            status: CheckInStatus::ok(),
-            id: $checkIn->getId(),
-        ));
-        SentrySdk::getCurrentHub()->captureEvent($event);
+        if (self::isApplicationInDevelopMode()) {
+            return;
+        }
+        $client = new Cronitor\Client(config('services.cronitor.api_key'));
+        $monitor = $client->monitor($taskName);
+        $monitor->ping(['state' => 'complete', 'message' => 'Cron executed successfully']);
     }
 
-    public static function notifyCronjobFailed(CheckIn $checkIn, string $name, string $message): void
+    public static function notifyCronjobFailed(string $taskName, string $message): void
     {
-        $event = Event::createCheckIn();
-        $event->setMessage($message);
-        $event->setCheckIn(new CheckIn(
-            monitorSlug: $name,
-            status: CheckInStatus::error(),
-            id: $checkIn->getId(),
-        ));
-        SentrySdk::getCurrentHub()->captureEvent($event);
+        if (self::isApplicationInDevelopMode()) {
+            return;
+        }
+        $client = new Cronitor\Client(config('services.cronitor.api_key'));
+        $monitor = $client->monitor($taskName);
+        $monitor->ping(['state' => 'fail', 'message' => $message]);
     }
 
     public static function startLaravelApp(): void
