@@ -6,7 +6,7 @@ use App\Services\CronService;
 use App\Tools\RequestTools;
 
 RequestTools::startLaravelApp();
-$cronCheckin = RequestTools::notifyCronjobStart('reset-demo-database');
+RequestTools::notifyCronjobStart('reset-demo-database');
 try {
     $service = app(CronService::class);
     if (! $service->truncateDatabaseDemoTables()) {
@@ -18,9 +18,9 @@ try {
         throw new Exception($message);
     }
     echo 'Cron executed successfully';
-    RequestTools::notifyCronjobDone($cronCheckin, 'reset-demo-database');
+    RequestTools::notifyCronjobDone('reset-demo-database');
 } catch (Throwable $exception) {
     $message = 'Error: ' . $exception->getMessage();
-    RequestTools::notifyCronjobFailed($cronCheckin, 'reset-demo-database', $message);
+    RequestTools::notifyCronjobFailed('reset-demo-database', $message);
     echo $message;
 }
