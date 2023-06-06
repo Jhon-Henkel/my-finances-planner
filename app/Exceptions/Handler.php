@@ -50,11 +50,11 @@ class Handler extends ExceptionHandler
 
     public function report(Throwable $e): void
     {
-        if ($this->shouldntReport($e) && app()->bound('sentry')) {
+        if (app()->bound('honeybadger') && $this->shouldReport($e)) {
             if (RequestTools::isApplicationInDevelopMode()) {
                 return;
             }
-            app('sentry')->captureException($e);
+            app('honeybadger')->notify($e, app('request'));
         }
         parent::report($e);
     }
