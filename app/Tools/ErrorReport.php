@@ -12,6 +12,8 @@ class ErrorReport
         if (RequestTools::isApplicationInDevelopMode()) {
             return;
         }
-        Integration::captureUnhandledException($exception);
+        if (app()->bound('honeybadger')) {
+            app('honeybadger')->notify($exception, app('request'));
+        }
     }
 }
