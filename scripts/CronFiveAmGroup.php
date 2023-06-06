@@ -3,12 +3,17 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Services\CronService;
-use App\Tools\RequestTools;
+use App\Tools\ApplicationTools;
 
-RequestTools::startLaravelApp();
-RequestTools::notifyCronjobStart('reset-demo-database');
+ApplicationTools::startLaravelApp();
+$service = app(CronService::class);
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////// reset-demo-database /////////////////////////
+///////////////////////////////////////////////////////////////////////
+
 try {
-    $service = app(CronService::class);
+    $service->notifyCronjobStart('reset-demo-database');
     if (! $service->truncateDatabaseDemoTables()) {
         $message = 'Error: Not in demo mode or error truncating tables';
         throw new Exception($message);
@@ -17,10 +22,10 @@ try {
         $message = 'Error: Not in demo mode or error inserting data';
         throw new Exception($message);
     }
+    $service->notifyCronjobDone('reset-demo-database');
     echo 'Cron executed successfully';
-    RequestTools::notifyCronjobDone('reset-demo-database');
 } catch (Throwable $exception) {
     $message = 'Error: ' . $exception->getMessage();
-    RequestTools::notifyCronjobFailed('reset-demo-database', $message);
+    $service->notifyCronjobFailed('reset-demo-database', $message);
     echo $message;
 }
