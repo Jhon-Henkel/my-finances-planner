@@ -153,4 +153,9 @@ class CreditCardTransactionService extends BasicService
         }
         return ['nextInvoiceValue' => $nextInvoiceValue, 'totalValue' => $totalValue];
     }
+
+    public function countByCreditCardId(int $creditCardId): int
+    {
+        return $this->getRepository()->countByCreditCardId($creditCardId);
+    }
 }

@@ -69,7 +69,7 @@ class WalletService extends BasicService
     {
         $movementService = app(MovementService::class);
         if ($movementService->countByWalletId($id) > 0) {
-            throw new ConstraintException('Não é possível excluir uma carteira que possui movimentações');
+            throw new ConstraintException('Não é possível excluir uma carteira que possui movimentações!');
         }
         return parent::deleteById($id);
     }

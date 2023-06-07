@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\CreditCardDTO;
+use App\Exceptions\ConstraintException;
 use App\Repositories\CreditCardRepository;
 
 class CreditCardService extends BasicService
@@ -34,5 +35,14 @@ class CreditCardService extends BasicService
             $itemsWithNextInstallmentValue[] = $item;
         }
         return $itemsWithNextInstallmentValue;
+    }
+
+    public function deleteById(int $id)
+    {
+        $transactionService = app(CreditCardTransactionService::class);
+        if ($transactionService->countByCreditCardId($id) > 0) {
+            throw new ConstraintException('Não é possível excluir um cartão que possui fatura!');
+        }
+        return parent::deleteById($id);
     }
 }
