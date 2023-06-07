@@ -74,4 +74,9 @@ class MovementRepository extends BasicRepository
             ->get()
             ->toArray();
     }
+
+    public function countByWalletId(int $walletId): int
+    {
+        return $this->model::where('wallet_id', $walletId)->count();
+    }
 }

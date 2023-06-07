@@ -179,7 +179,7 @@
                         this.messageSuccess('Carteira deletada com sucesso!')
                         this.getWallets()
                     }).catch((response) => {
-                        this.messageError('Erro inesperado ao deletar carteira!')
+                        this.messageError(response.response.data.message)
                     })
                 }
             },

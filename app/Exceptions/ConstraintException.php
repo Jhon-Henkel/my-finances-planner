@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use RuntimeException;
 
-class DatabaseException extends RuntimeException
+class ConstraintException extends RuntimeException
 {
     public function __construct(string $message)
     {

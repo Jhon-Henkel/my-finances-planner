@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTO\WalletDTO;
 use App\Enums\MovementEnum;
+use App\Exceptions\ConstraintException;
 use App\Repositories\WalletRepository;
 
 class WalletService extends BasicService
@@ -62,5 +63,14 @@ class WalletService extends BasicService
             $total += $wallet->getAmount();
         }
         return $total;
+    }
+
+    public function deleteById(int $id)
+    {
+        $movementService = app(MovementService::class);
+        if ($movementService->countByWalletId($id) > 0) {
+            throw new ConstraintException('Não é possível excluir uma carteira que possui movimentações!');
+        }
+        return parent::deleteById($id);
     }
 }

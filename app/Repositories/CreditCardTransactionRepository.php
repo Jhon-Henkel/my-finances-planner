@@ -42,4 +42,9 @@ class CreditCardTransactionRepository extends BasicRepository
             ->get();
         return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
     }
+
+    public function countByCreditCardId(int $creditCardId): int
+    {
+        return $this->getModel()->where(BasicFieldsEnum::CREDIT_CARD_ID_DB, $creditCardId)->count();
+    }
 }

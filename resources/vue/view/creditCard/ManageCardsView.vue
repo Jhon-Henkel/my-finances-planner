@@ -126,7 +126,7 @@
                         this.messageSuccess('Cartão deletada com sucesso!')
                         this.getCards()
                     }).catch((response) => {
-                        this.messageError('Erro inesperado ao deletar Cartão!')
+                        this.messageError(response.response.data.message)
                     })
                 }
             },
