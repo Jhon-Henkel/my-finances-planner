@@ -2,11 +2,15 @@
 
 namespace App\Tools;
 
-use Sentry\Laravel\Integration;
 use Throwable;
 
 class ErrorReport
 {
+    /**
+     * @codeCoverageIgnore
+     * @param Throwable $exception
+     * @return void
+     */
     public static function report(Throwable $exception): void
     {
         if (RequestTools::isApplicationInDevelopMode()) {
