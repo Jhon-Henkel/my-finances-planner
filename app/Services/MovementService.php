@@ -180,4 +180,9 @@ class MovementService extends BasicService
             'spentData' => $spentData,
         ];
     }
+
+    public function countByWalletId(int $walletId): int
+    {
+        return $this->repository->countByWalletId($walletId);
+    }
 }
