@@ -35,6 +35,8 @@
     </include>
     <exclude>
       <directory suffix=".php">app/Models</directory>
+      <directory suffix=".php">app/Exceptions</directory>
+      <directory suffix=".php">app/Http/Middleware</directory>
     </exclude>
   </source>
 </phpunit>
