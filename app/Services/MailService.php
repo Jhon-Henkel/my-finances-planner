@@ -21,7 +21,7 @@ class MailService
     /**
      * @codeCoverageIgnore
      */
-    protected function sendEmail(MailMessageDTO $mail): void
+    public function sendEmail(MailMessageDTO $mail): void
     {
         Mail::send($mail->getTempleteFile(), $mail->getData(), function($message) use ($mail) {
             $message->to($mail->getAddressee(), $mail->getAddresseeName());

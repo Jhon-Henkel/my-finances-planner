@@ -11,9 +11,11 @@ class UserDTO
     private string $unique_id;
     private null|int $status;
     private float $salary;
+    private string $verifyHash = '';
     private mixed $created_at;
     private mixed $updated_at;
     private mixed $emailVerifiedAt;
+    private int $wrongLoginAttempts = 0;
 
     /**
      * @return int
@@ -128,6 +130,22 @@ class UserDTO
     }
 
     /**
+     * @return string
+     */
+    public function getVerifyHash(): string
+    {
+        return $this->verifyHash;
+    }
+
+    /**
+     * @param string $verifyHash
+     */
+    public function setVerifyHash(string $verifyHash): void
+    {
+        $this->verifyHash = $verifyHash;
+    }
+
+    /**
      * @return mixed
      */
     public function getCreatedAt(): mixed
@@ -173,5 +191,21 @@ class UserDTO
     public function setEmailVerifiedAt(mixed $emailVerifiedAt): void
     {
         $this->emailVerifiedAt = $emailVerifiedAt;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWrongLoginAttempts(): int
+    {
+        return $this->wrongLoginAttempts;
+    }
+
+    /**
+     * @param int $wrongLoginAttempts
+     */
+    public function setWrongLoginAttempts(int $wrongLoginAttempts): void
+    {
+        $this->wrongLoginAttempts = $wrongLoginAttempts;
     }
 }

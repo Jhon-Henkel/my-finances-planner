@@ -52,4 +52,5 @@ class RouteEnum
     const WEB_IS_USER_LOGGED = 'webIsUserLogged';
     const WEB_MAKE_LOGIN = 'makeLogin';
     const WEB_SEND_TEST_EMAIL = 'sendTestEmail';
+    const WEB_ACTIVE_USER = 'activeUser';
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\UserDTO;
 use App\Models\User;
 use App\Repositories\UserRepository;
 
@@ -44,5 +45,15 @@ class UserService extends BasicService
     public function findUserByEmail(string $email): null|User
     {
         return $this->getRepository()->findByEmail($email);
+    }
+
+    public function findByVerifyHash(string $verifyHash): null|UserDTO
+    {
+        return $this->getRepository()->findByVerifyHash($verifyHash);
+    }
+
+    public function activeUser(int $id): bool
+    {
+        return $this->getRepository()->activeUser($id);
     }
 }

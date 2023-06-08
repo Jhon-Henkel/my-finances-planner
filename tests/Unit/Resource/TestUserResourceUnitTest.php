@@ -25,6 +25,8 @@ class TestUserResourceUnitTest extends TestCase
             'password' => '123456',
             'status' => 1,
             'salary' => 1000.00,
+            'verify_hash' => '123456',
+            'wrong_login_attempts' => 10,
             'created_at' => '2021-01-01 00:00:00',
             'updated_at' => '2021-01-01 00:00:00',
             'email_verified_at' => '2021-01-01 00:00:00',
@@ -38,6 +40,8 @@ class TestUserResourceUnitTest extends TestCase
         $this->assertEquals('123456', $dto->getPassword());
         $this->assertEquals(1, $dto->getStatus());
         $this->assertEquals(1000.00, $dto->getSalary());
+        $this->assertEquals('123456', $dto->getVerifyHash());
+        $this->assertEquals(10, $dto->getWrongLoginAttempts());
         $this->assertEquals('2021-01-01 00:00:00', $dto->getCreatedAt());
         $this->assertEquals('2021-01-01 00:00:00', $dto->getUpdatedAt());
         $this->assertEquals('2021-01-01 00:00:00', $dto->getEmailVerifiedAt());

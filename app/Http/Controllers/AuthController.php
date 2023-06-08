@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\MailMessageDTO;
 use App\Enums\BasicFieldsEnum;
 use App\Enums\ConfigEnum;
 use App\Enums\ViewEnum;
 use App\Models\User;
+use App\Services\MailService;
 use App\Services\UserService;
 use App\Tools\RequestTools;
 use Illuminate\Contracts\Foundation\Application as AppFoundation;
@@ -53,6 +55,7 @@ class AuthController extends Controller
         }
         if ($user->wrong_login_attempts > ConfigEnum::MAX_WRONG_LOGIN_ATTEMPTS) {
             $this->inactiveUser($user);
+            $this->sendEmailInactiveUser($user);
             return false;
         }
         if (Hash::check($password, $user->password)) {
@@ -77,6 +80,23 @@ class AuthController extends Controller
         $user->verify_hash = md5(uniqid($user->email) . time());
         $user->status = ConfigEnum::STATUS_INACTIVE;
         $user->save();
+    }
+
+    protected function sendEmailInactiveUser(User $user): void
+    {
+        $data = $this->generateDataForEmailInactiveUser($user);
+        app(MailService::class)->sendEmail($data);
+    }
+
+    protected function generateDataForEmailInactiveUser(User $user): MailMessageDTO
+    {
+        $subject = 'Ativação de usuário';
+        $template = 'emails.activeUser';
+        $data = [
+            'linkToActiveUser' => route('activeUser', ['verifyHash' => $user->verify_hash]),
+            'name' => $user->name,
+        ];
+        return new MailMessageDTO($user->email, $user->name, $subject, $template, $data);
     }
 
     protected function incrementWrongLoginAttempts(User $user): void
