@@ -34,7 +34,7 @@ class DashboardService
             'thisMonthSpent' => isset($thisMonth[0]) ? $thisMonth[0]['total'] : 0,
             'thisYearSpent' => isset($thisYear[0]) ? $thisYear[0]['total'] : 0,
             'lastMonthGain' => isset($lastMonth[1]) ? $lastMonth[1]['total'] : 0,
-            'thisMonthGain' => isset($thisMonth[1]) ? $thisYear[1]['total'] : 0,
+            'thisMonthGain' => isset($thisMonth[1]) ? $thisMonth[1]['total'] : 0,
             'thisYearGain' => isset($thisYear[1]) ? $thisYear[1]['total'] : 0,
             'lastMovements' => $lastMovements,
             'dataForGraph' => $movementService->generateDataForGraph()
