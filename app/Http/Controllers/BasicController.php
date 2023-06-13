@@ -12,7 +12,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\MessageBag;
-use Sentry\Laravel\Integration;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 abstract class BasicController extends Controller implements BasicControllerContract
