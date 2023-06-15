@@ -88,5 +88,18 @@ const calendarTools = {
         let date = new Date()
         return date.getMonth()
     },
+    addDaysInDate(date, days) {
+        date.setDate(date.getDate() + days)
+        let explodeDate = date.toLocaleDateString('en-US').split('/')
+        let day = explodeDate[1]
+        let month = explodeDate[0]
+        if (day.length === 1) {
+            day = '0' + day
+        }
+        if (month.length === 1) {
+            month = '0' + month
+        }
+        return explodeDate[2] + '-' + month + '-' + day
+    }
 }
 export default calendarTools

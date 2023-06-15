@@ -126,7 +126,7 @@ class DemoApplicationTools
         $names = ['Netflix', 'IPhone', 'Curso de PHP', 'Camiseta', 'Pneu Carro', 'Jogos', 'Spotify', 'Curso de Inglês'];
         $values = [100, 299.50, 153.95, 27.10, 100, 50, 24.9, 2950.69];
         $installments = [0, 24, 4, 2, 6, 10, 0, 5];
-        $date = CalendarTools::getDateNow()->format(DateEnum::DEFAULT_DB_DATE_FORMAT);
+        $date = CalendarTools::getDateNow()->format(DateEnum::USA_DATE_FORMAT_WITHOUT_TIME);
         for ($index = 0; $index < 8; $index++) {
             $item = new CreditCardTransactionDTO();
             $item->setId($index + 1);
