@@ -34,4 +34,6 @@ class BasicFieldsEnum
     const EMAIL_VERIFIED_AT = 'email_verified_at';
     const STATUS = 'status';
     const PARTIAL = 'partial';
+    const WRONG_LOGIN_ATTEMPTS_DB = 'wrong_login_attempts';
+    const VERIFY_HASH_BD = 'verify_hash';
 }

@@ -144,6 +144,7 @@
                     if (response.status === HttpStatusCode.Created) {
                         this.messageSuccess('Movimentação cadastrada com sucesso!')
                         this.movement = {}
+                        this.movement.type = MovementEnum.type.spent()
                     } else {
                         this.messageError('Erro inesperado ao inserir movimentação!')
                     }
@@ -174,6 +175,7 @@
                 this.movement = await apiRouter.movement.show(this.$route.params.id)
             } else {
                 this.title = 'Cadastrar Movimentação'
+                this.movement.type = MovementEnum.type.spent()
             }
             this.wallets = await apiRouter.wallet.index()
             this.types = MovementEnum.getTypeList()

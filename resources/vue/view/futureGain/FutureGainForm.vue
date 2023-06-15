@@ -79,7 +79,7 @@
                 </div>
             </form>
             <divider/>
-            <bottom-buttons redirect-to="/ganhos-futuros" :button-success-text="title" @btn-clicked="updateOrInsertGain"/>
+            <bottom-buttons :redirect-to="redirect" :button-success-text="title" @btn-clicked="updateOrInsertGain"/>
         </div>
     </div>
 </template>
@@ -116,6 +116,7 @@
                 isValid: null,
                 loadingDone: false,
                 wallets: {},
+                redirect: '/ganhos-futuros',
             }
         },
         methods: {
@@ -210,6 +211,9 @@
             } else {
                 this.title = 'Cadastrar Ganho'
                 this.gain.fix = false
+            }
+            if (this.$route.query.referer) {
+                this.redirect = '/' + this.$route.query.referer
             }
             this.wallets = await apiRouter.wallet.index()
         }

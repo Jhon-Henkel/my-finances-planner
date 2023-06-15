@@ -48,8 +48,8 @@ class MovementRepository extends BasicRepository
     public function getSumMovementsByPeriod(DatePeriodDTO $period): array
     {
         return $this->model::selectRaw('sum(amount) as total, type')
-            ->where('created_at', '>', $period->getStartDate())
-            ->where('created_at', '<', $period->getEndDate())
+            ->where('created_at', '>=', $period->getStartDate())
+            ->where('created_at', '<=', $period->getEndDate())
             ->groupBy('type')
             ->get()
             ->toArray();
@@ -68,7 +68,7 @@ class MovementRepository extends BasicRepository
     public function getLastTwelveMonthsSumGroupByTypeAndMonth(): array
     {
         return $this->model::selectRaw('sum(amount) as total, type, month(created_at) as month')
-            ->where('created_at', '>', (CalendarTools::getThisYear() - 1))
+            ->where('created_at', '>=', (CalendarTools::getThisYear() - 1))
             ->groupBy('month')
             ->groupBy('type')
             ->get()

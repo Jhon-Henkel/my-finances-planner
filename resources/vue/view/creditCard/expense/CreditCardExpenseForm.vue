@@ -242,6 +242,10 @@
                 this.expense.creditCardId = this.$route.params.cardId
                 this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.$route.params.cardId
             }
+            if (! this.expense.nextInstallment) {
+                let date = CalendarTools.addDaysInDate(new Date(), 30)
+                this.expense.nextInstallment = date
+            }
         }
     }
 </script>

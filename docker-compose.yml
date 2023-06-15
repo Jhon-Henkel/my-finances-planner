@@ -13,7 +13,7 @@ services:
       my_finances_planner_network:
         ipv4_address: 192.168.152.55
     volumes:
-      - .:/var/www/html
+      - .:/var/www/html:delegated
     tty: true
     stdin_open: true
     depends_on:

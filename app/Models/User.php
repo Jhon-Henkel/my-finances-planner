@@ -24,7 +24,6 @@ class User extends Authenticatable
     ];
     protected $hidden = [
         'remember_token',
-        'verify_hash'
     ];
     protected $casts = [
         'created_at' => DateEnum::MODEL_DEFAULT_DATE_FORMAT,

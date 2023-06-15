@@ -1,6 +1,7 @@
 @php
     use App\Tools\CalendarTools;
     use Illuminate\Support\Facades\Auth;
+    use App\Tools\RequestTools;
 @endphp
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -13,6 +14,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"/>
 </head>
 <body>
+    @if(RequestTools::isApplicationInDemoMode() && !RequestTools::isApplicationInDevelopMode())
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TFXE4NPB8W"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'G-TFXE4NPB8W');
+        </script>
+    @endif
     @if (Auth::check())
         <script>
             localStorage.setItem('salutation', '{{ CalendarTools::salutation(Auth::user()->name, date('H')) }}')

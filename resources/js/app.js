@@ -13,11 +13,6 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import tooltip from "../directives/tooltip/tooltip.js";
 import "../directives/tooltip/tooltip.css";
 import moneyMask from "../directives/moneyMask/moneyMask";
-import * as Sentry from "@sentry/vue";
-
-Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN_PUBLIC,
-});
 
 library.add(fas, far, fab)
 

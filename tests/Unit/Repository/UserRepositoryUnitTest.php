@@ -66,4 +66,33 @@ class UserRepositoryUnitTest extends TestCase
 
         $this->assertInstanceOf(UserDTO::class, $result);
     }
+
+    public function testFindByVerifyHash()
+    {
+        $mockModel = Mockery::mock(User::class);
+        $mockModel->shouldReceive('where->first')->once()->andReturn(new User);
+
+        $resourceMock = Mockery::mock(UserResource::class);
+        $resourceMock->shouldReceive('arrayToDto')->once()->andReturn(new UserDTO());
+
+        $mockRepository = Mockery::mock(UserRepository::class, [$mockModel])->makePartial();
+        $mockRepository->shouldAllowMockingProtectedMethods();
+        $mockRepository->shouldReceive('getResource')->once()->andReturn($resourceMock);
+
+        $result = $mockRepository->findByVerifyHash('123456');
+
+        $this->assertInstanceOf(UserDTO::class, $result);
+    }
+
+    public function testActiveUser()
+    {
+        $mockModel = Mockery::mock(User::class);
+        $mockModel->shouldReceive('where->update')->once()->andReturn(true);
+        $mockRepository = Mockery::mock(UserRepository::class, [$mockModel])->makePartial();
+        $mockRepository->shouldAllowMockingProtectedMethods();
+
+        $result = $mockRepository->activeUser(1);
+
+        $this->assertTrue($result);
+    }
 }

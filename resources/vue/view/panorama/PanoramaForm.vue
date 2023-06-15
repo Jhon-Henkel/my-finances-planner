@@ -84,7 +84,7 @@
                 </div>
             </form>
             <divider/>
-            <bottom-buttons redirect-to="/panorama" :button-success-text="title" @btn-clicked="updateOrInsertSpent"/>
+            <bottom-buttons :redirect-to="redirect" :button-success-text="title" @btn-clicked="updateOrInsertSpent"/>
         </div>
     </div>
 </template>
@@ -118,6 +118,7 @@
                 loadingDone: false,
                 wallets: {},
                 spent: {},
+                redirect: '/panorama',
             }
         },
         methods: {
@@ -214,6 +215,9 @@
                 this.title = 'Cadastrar Gasto'
                 this.spent.fix = false
                 this.loadingDone = true
+            }
+            if (this.$route.query.referer) {
+                this.redirect = '/' + this.$route.query.referer
             }
             this.wallets = await apiRouter.wallet.index()
         }

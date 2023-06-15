@@ -104,13 +104,11 @@
                         )
                     }
                 }).catch((response) => {
-                    if (response.response.status === HttpStatusCode.Unauthorized) {
-                        this.showMessage(
-                            MessageEnum.alertTypeError(),
-                            'Campo "Login ou senha incorreto!',
-                            'Ocorreu um erro!'
-                        )
-                    }
+                    this.showMessage(
+                        MessageEnum.alertTypeError(),
+                        response.response.data.message,
+                        'Ocorreu um erro!'
+                    )
                 })
             },
             populateDate() {

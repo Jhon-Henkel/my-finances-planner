@@ -7,6 +7,7 @@ use App\Resources\UserResource;
 use App\Services\UserService;
 use App\Tools\RequestTools;
 use Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -57,5 +58,15 @@ class UserController extends BasicController
             return response()->json($message, ResponseAlias::HTTP_BAD_REQUEST);
         }
         return parent::insert($request);
+    }
+
+    public function activeUser(string $verifyHash): View
+    {
+        $user = $this->getService()->findByVerifyHash($verifyHash);
+        if (! $user || $user->getVerifyHash() !== $verifyHash) {
+            return view('activeUserFail');
+        }
+        $this->getService()->activeUser($user->getId());
+        return view('activeUserSuccess');
     }
 }

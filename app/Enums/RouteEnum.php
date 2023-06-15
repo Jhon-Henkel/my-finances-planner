@@ -50,7 +50,7 @@ class RouteEnum
     const WEB_ABOUT = 'about';
     const WEB_LOGOUT = 'logout';
     const WEB_IS_USER_LOGGED = 'webIsUserLogged';
-    const WEB_GET_MFP_TOKEN = 'getMfpToken';
     const WEB_MAKE_LOGIN = 'makeLogin';
-    const CRON_RESET_DATABASE_DEMO = 'cronResetDatabaseDemo';
+    const WEB_SEND_TEST_EMAIL = 'sendTestEmail';
+    const WEB_ACTIVE_USER = 'activeUser';
 }
