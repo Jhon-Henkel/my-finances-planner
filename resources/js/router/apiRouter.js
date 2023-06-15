@@ -115,6 +115,10 @@ const apiRouter = {
         },
         update: async function(futureGain, id) {
             return await axios.put('/api/future-gain/' + id, futureGain)
+        },
+        index: async function() {
+            const request = await axios.get('/api/future-gain')
+            return request.data
         }
     },
     futureSpent: {
@@ -133,6 +137,10 @@ const apiRouter = {
         },
         update: async function(futureSpent, id) {
             return await axios.put('/api/future-spent/' + id, futureSpent)
+        },
+        index: async function() {
+            const request = await axios.get('/api/future-spent')
+            return request.data
         }
     },
     dashboard: {

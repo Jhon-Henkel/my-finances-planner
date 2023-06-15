@@ -19,6 +19,7 @@ import ConfigurationsView from "../../vue/view/configurations/ConfigurationsView
 import PanoramaView from "../../vue/view/panorama/PanoramaView.vue";
 import PanoramaForm from "../../vue/view/panorama/PanoramaForm.vue";
 import AboutView from "../../vue/view/about/AboutView.vue";
+import PanoramaAllSpentAndGain from "../../vue/view/panorama/PanoramaAllSpentAndGain.vue";
 
 const routes = [
     {
@@ -73,6 +74,11 @@ const routes = [
                 path: ":id/atualizar-despesa",
                 name: "panoramaUpdate",
                 component: PanoramaForm
+            },
+            {
+                path: "todas-despesas-e-ganhos",
+                name: "manageAllSpentAndGain",
+                component: PanoramaAllSpentAndGain
             }
         ]
     },

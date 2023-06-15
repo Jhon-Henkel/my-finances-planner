@@ -9,6 +9,10 @@
                     <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
                     Novo Gasto Futuro
                 </router-link>
+                <router-link class="btn btn-success rounded-5 ms-2" to="/panorama/todas-despesas-e-ganhos">
+                    <font-awesome-icon :icon="iconEnum.movement()" class="me-2"/>
+                    Ver todos Ganhos/Gastos
+                </router-link>
             </div>
             <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
