@@ -95,3 +95,8 @@ body {
 table tr:first-child th {
     border-bottom: 2px solid #096452;
 }
+
+.table-transparent tr td, .table-transparent tr th{
+    background-color: transparent !important;
+    color: #ffffff;
+}

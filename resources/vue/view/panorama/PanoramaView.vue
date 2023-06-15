@@ -76,7 +76,7 @@
                             Resumo
                         </h4>
                         <div class="card-text">
-                            <table class="table text-white table-borderless">
+                            <table class="table table-transparent table-borderless">
                                 <thead>
                                 <tr>
                                     <td></td>
