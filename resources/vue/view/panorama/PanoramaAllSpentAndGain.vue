@@ -36,7 +36,7 @@
                         <td>{{ spent.description }}</td>
                         <td>{{ stringTools.formatFloatValueToBrString(spent.amount) }}</td>
                         <td>{{ spent.installments === 0 ? 'Fixo' : spent.installments }}</td>
-                        <td>{{ spent.forecast }}</td>
+                        <td>{{ calendarTools.convertDateDbToBr(spent.forecast) }}</td>
                         <td>
                             <action-buttons
                                 :delete-tooltip="'Deletar Despesa'"
@@ -72,7 +72,7 @@
                         <td>{{ gain.description }}</td>
                         <td>{{ stringTools.formatFloatValueToBrString(gain.amount) }}</td>
                         <td>{{ gain.installments === 0 ? 'Fixo' : gain.installments }}</td>
-                        <td>{{ gain.forecast }}</td>
+                        <td>{{ calendarTools.convertDateDbToBr(gain.forecast) }}</td>
                         <td>
                             <action-buttons
                                 :delete-tooltip="'Deletar Ganho'"
@@ -98,10 +98,14 @@
     import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
     import stringTools from "../../../js/tools/stringTools";
     import ActionButtons from "../../components/ActionButtons.vue";
+    import calendarTools from "../../../js/tools/calendarTools";
 
     export default {
         name: "PanoramaAllSpentAndGain",
         computed: {
+            calendarTools() {
+                return calendarTools
+            },
             stringTools() {
                 return stringTools
             },
