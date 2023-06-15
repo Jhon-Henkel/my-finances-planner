@@ -150,10 +150,6 @@ const apiRouter = {
         }
     },
     configurations: {
-        getSalary: async function() {
-            const request = await axios.get('/api/configurations/salary')
-            return request.data
-        },
         update: async function(config, data) {
             return await axios.put('/api/configurations/' + config, data)
         }

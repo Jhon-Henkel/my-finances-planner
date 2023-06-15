@@ -11,12 +11,78 @@
                 </router-link>
             </div>
             <divider/>
-
-
-
-
-
-
+            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <td colspan="11">
+                            <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-2"/>
+                            Despesas
+                        </td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>Id</td>
+                        <td>Nome Carteira</td>
+                        <td>Descrição</td>
+                        <td>Valor</td>
+                        <td>Parcelas</td>
+                        <td>Primeiro Vencimento</td>
+                        <td>Ações</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="spent in spending" :key="spending.id" class="text-center">
+                        <td>{{ spent.id }}</td>
+                        <td>{{ spent.walletName }}</td>
+                        <td>{{ spent.description }}</td>
+                        <td>{{ stringTools.formatFloatValueToBrString(spent.amount) }}</td>
+                        <td>{{ spent.installments === 0 ? 'Fixo' : spent.installments }}</td>
+                        <td>{{ spent.forecast }}</td>
+                        <td>
+                            <action-buttons
+                                :delete-tooltip="'Deletar Despesa'"
+                                :tooltip-edit="'Editar Despesa'"
+                                :edit-to="'/panorama/' + spent.id + '/atualizar-despesa'"
+                                @delete-clicked="deleteSpent(spent.id, spent.name)" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <td colspan="11">
+                            <font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-2"/>
+                            Ganhos
+                        </td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>Id</td>
+                        <td>Nome Carteira</td>
+                        <td>Descrição</td>
+                        <td>Valor</td>
+                        <td>Parcelas</td>
+                        <td>Primeiro Vencimento</td>
+                        <td>Ações</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="gain in gains" :key="gain.id" class="text-center">
+                        <td>{{ gain.id }}</td>
+                        <td>{{ gain.walletName }}</td>
+                        <td>{{ gain.description }}</td>
+                        <td>{{ stringTools.formatFloatValueToBrString(gain.amount) }}</td>
+                        <td>{{ gain.installments === 0 ? 'Fixo' : gain.installments }}</td>
+                        <td>{{ gain.forecast }}</td>
+                        <td>
+                            <action-buttons
+                                :delete-tooltip="'Deletar Ganho'"
+                                :tooltip-edit="'Editar Ganho'"
+                                :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar'"
+                                @delete-clicked="deleteGain(gain.id, gain.name)" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
@@ -29,15 +95,23 @@
     import iconEnum from "../../../js/enums/iconEnum";
     import ApiRouter from "../../../js/router/apiRouter";
     import MessageEnum from "../../../js/enums/messageEnum";
+    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+    import stringTools from "../../../js/tools/stringTools";
+    import ActionButtons from "../../components/ActionButtons.vue";
 
     export default {
         name: "PanoramaAllSpentAndGain",
         computed: {
+            stringTools() {
+                return stringTools
+            },
             iconEnum() {
                 return iconEnum
             }
         },
         components: {
+            ActionButtons,
+            FontAwesomeIcon,
             Divider,
             MfpTitle,
             LoadingComponent,
@@ -67,6 +141,26 @@
                 })
                 this.loadingDone = this.loadingDone + 1
             },
+            async deleteSpent(id, spentName) {
+                if(confirm("Tem certeza que realmente quer deletar a despesa " + spentName + '?')) {
+                    await ApiRouter.futureSpent.delete(id).then(response => {
+                        this.messageSuccess('Despesa deletada com sucesso!')
+                        this.updateFutureSpendingList()
+                    }).catch(() => {
+                        this.messageError('Não foi possível deletar a despesa!')
+                    })
+                }
+            },
+            async deleteGain(id, gainName) {
+                if(confirm("Tem certeza que realmente quer deletar o ganho " + gainName + '?')) {
+                    await ApiRouter.futureGain.delete(id).then(response => {
+                        this.messageSuccess('Ganho deletado com sucesso!')
+                        this.updateFutureGainsList()
+                    }).catch(error => {
+                        this.messageError('Não foi possível deletar o ganho!')
+                    })
+                }
+            },
             messageError(message) {
                 this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
             },
@@ -83,5 +177,12 @@
 </script>
 
 <style scoped lang="scss">
+    @import "../../../sass/variables";
 
+    .gain-icon {
+        color: $success-icon-color;
+    }
+    .spent-icon {
+        color: $danger-icon-color;
+    }
 </style>
