@@ -2,7 +2,7 @@
     <div class="base-container">
         <mfp-message ref="message"/>
         <loading-component v-show="loadingDone < 2"/>
-        <div v-show="loadingDone === 2">
+        <div v-show="loadingDone >= 2">
             <div class="nav justify-content-end">
                 <mfp-title title="Gerenciar despesas e ganhos"/>
                 <router-link class="btn btn-success rounded-5" to="/panorama">
@@ -16,7 +16,7 @@
                     <tr class="text-center">
                         <td colspan="11">
                             <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-2"/>
-                            Despesas
+                            Todas as Despesas
                         </td>
                     </tr>
                     <tr class="text-center">
@@ -41,8 +41,8 @@
                             <action-buttons
                                 :delete-tooltip="'Deletar Despesa'"
                                 :tooltip-edit="'Editar Despesa'"
-                                :edit-to="'/panorama/' + spent.id + '/atualizar-despesa'"
-                                @delete-clicked="deleteSpent(spent.id, spent.name)" />
+                                :edit-to="'/panorama/' + spent.id + '/atualizar-despesa?referer=' + referer"
+                                @delete-clicked="deleteSpent(spent.id, spent.description)" />
                         </td>
                     </tr>
                 </tbody>
@@ -52,7 +52,7 @@
                     <tr class="text-center">
                         <td colspan="11">
                             <font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-2"/>
-                            Ganhos
+                            Todos os Ganhos
                         </td>
                     </tr>
                     <tr class="text-center">
@@ -77,8 +77,8 @@
                             <action-buttons
                                 :delete-tooltip="'Deletar Ganho'"
                                 :tooltip-edit="'Editar Ganho'"
-                                :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar'"
-                                @delete-clicked="deleteGain(gain.id, gain.name)" />
+                                :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar?referer=' + referer"
+                                @delete-clicked="deleteGain(gain.id, gain.description)" />
                         </td>
                     </tr>
                 </tbody>
@@ -122,6 +122,7 @@
                 loadingDone: 0,
                 gains: {},
                 spending: {},
+                referer: 'panorama/todas-despesas-e-ganhos',
             }
         },
         methods: {
@@ -145,7 +146,7 @@
                 if(confirm("Tem certeza que realmente quer deletar a despesa " + spentName + '?')) {
                     await ApiRouter.futureSpent.delete(id).then(response => {
                         this.messageSuccess('Despesa deletada com sucesso!')
-                        this.updateFutureSpendingList()
+                        this.getAllSpending()
                     }).catch(() => {
                         this.messageError('Não foi possível deletar a despesa!')
                     })
@@ -155,7 +156,7 @@
                 if(confirm("Tem certeza que realmente quer deletar o ganho " + gainName + '?')) {
                     await ApiRouter.futureGain.delete(id).then(response => {
                         this.messageSuccess('Ganho deletado com sucesso!')
-                        this.updateFutureGainsList()
+                        this.getAllGains()
                     }).catch(error => {
                         this.messageError('Não foi possível deletar o ganho!')
                     })
@@ -164,14 +165,16 @@
             messageError(message) {
                 this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
             },
+            messageSuccess(message) {
+                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+            },
             showMessage(type, message, header) {
                 this.$refs.message.showAlert(type,message,header)
             }
         },
-        async mounted() {
-            await this.getAllSpending()
-            await this.getAllGains()
-            console.log(this.gains, this.spending)
+        mounted() {
+            this.getAllSpending()
+            this.getAllGains()
         }
     }
 </script>
