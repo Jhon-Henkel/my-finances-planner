@@ -71,7 +71,7 @@
                                 Ultimas movimentações
                             </h4>
                             <hr>
-                            <table class="table text-white">
+                            <table class="table table-transparent">
                                 <tbody>
                                     <tr v-for="movement in lastMovements">
                                         <td><font-awesome-icon :icon="movement.type" :class="movement.class"/></td>
