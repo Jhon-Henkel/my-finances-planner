@@ -125,7 +125,6 @@
         },
         methods: {
             async updateConfigs() {
-                console.log(RequestTools.isApplicationInDemoMode())
                 if (RequestTools.isApplicationInDemoMode() === true) {
                     this.messageWarning('Aplicação em mode demo não permite alterar as configurações!')
                     return;
@@ -140,7 +139,6 @@
                 await ApiRouter.user.update(this.id, this.user).then(() => {
                     this.messageSuccess('Faça login novamente.');
                 }).catch((error) => {
-                    console.log(error)
                     this.messageError('Erro ao atualizar dados do usuário!')
                 });
             },
@@ -163,7 +161,6 @@
                 this.user = response;
                 this.loadingDone = this.loadingDone + 1;
             }).catch((erro) => {
-                console.log(erro, this.id)
                 this.messageError('Erro ao carregar dados do usuário!')
             });
         },

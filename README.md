@@ -23,7 +23,7 @@ My finances planner é um software open-sourced licenciado em [MIT license](http
 - Caso vá utilizar em ambiente de produção, rodar o comando ***npm run build*** para gerar os arquivos de produção
 
 ## Monitoramentos
-- Erros: Para monitoramento de erros estou utilizando o [honeybadger](https://app.honeybadger.io/), para configura-lo basta popular 
+- Erros: Para monitoramento de erros estou utilizando o [honeybadger](https://app.honeybadger.io/), para configurar basta popular 
 a variável **HONEYBADGER_API_KEY** com a chave de acesso da sua conta.
-- Cron: Para monitoramento de cron estou utilizando o [cronitor](https://cronitor.io/), para configura-lo basta popular
+- Cron: Para monitoramento de cron estou utilizando o [cronitor](https://cronitor.io/), para configura, basta popular
 a variável **CRONITOR_API_KEY** com a chave de acesso da sua conta.
