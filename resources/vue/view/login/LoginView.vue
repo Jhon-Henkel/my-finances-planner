@@ -137,7 +137,6 @@
         async mounted() {
             this.loadingDone = 0
             await this.checkUserIsLogged()
-            console.log(import.meta.env.VITE_DEMO_USER_EMAIL);
             if (RequestTools.isApplicationInDemoMode()) {
                 this.user.email = import.meta.env.VITE_DEMO_USER;
                 this.user.password = import.meta.env.VITE_DEMO_PASSWORD;

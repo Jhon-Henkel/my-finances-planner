@@ -5,9 +5,24 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
     server: {
         host: '0.0.0.0',
+        disableHostCheck: true,
         hmr: {
             host: 'localhost'
-        }
+        },
+        watch: {
+            ignored: [
+                '/.github/',
+                '/app/',
+                '/bootstrap/',
+                '/config/',
+                '/database/',
+                '/node_modules/',
+                '/routes/',
+                '/storage/',
+                '/tests/',
+                '/vendor/',
+            ]
+        },
     },
     plugins: [
         laravel({
