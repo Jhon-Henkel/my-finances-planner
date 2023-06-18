@@ -18,9 +18,10 @@ My finances planner é um software open-sourced licenciado em [MIT license](http
 - Rodar ***chown www-data:www-data -R storage/logs/*** e ***chown www-data:www-data -R storage/framework*** (somente se for rodar em docker localmente)
 - Rodar o ***composer update*** e o ***npm install***
 - Rodar o comando ***composer run migration:run*** ou ***php artisan migrate***
-- Criar um usuário para acesso na tabela **user** a senha deve ser criptografada com o bcrypt
-- Caso vá utilizar em ambiente de desenvolvimento, rodar o comando ***npm run dev***
-- Caso vá utilizar em ambiente de produção, rodar o comando ***npm run build*** para gerar os arquivos de produção
+- Rodar o comando ***php artisan create:user*** para criar um usuário demo, o login e senha será exibido no terminal
+- Caso vá utilizar em ambiente de desenvolvimento, rodar o comando ***npm run dev*** para ter o hot reload
+- Caso vá utilizar em ambiente de produção, rodar o comando ***npm run build*** para fazer a build os arquivos
+- Acessar o projeto pela [url](http://localhost/login)
 
 ## Monitoramentos
 - Erros: Para monitoramento de erros estou utilizando o [honeybadger](https://app.honeybadger.io/), para configurar basta popular 
