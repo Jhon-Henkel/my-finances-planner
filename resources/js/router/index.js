@@ -20,6 +20,7 @@ import PanoramaView from "../../vue/view/panorama/PanoramaView.vue";
 import PanoramaForm from "../../vue/view/panorama/PanoramaForm.vue";
 import AboutView from "../../vue/view/about/AboutView.vue";
 import PanoramaAllSpentAndGain from "../../vue/view/panorama/PanoramaAllSpentAndGain.vue";
+import FinancialHealthView from "../../vue/view/tools/financialHealth/FinancialHealthView.vue";
 
 const routes = [
     {
@@ -189,7 +190,12 @@ const routes = [
                 path: "calculadora-horas-extras",
                 name: "extraHoursCalculator",
                 component: ExtraHoursCalculator
-            }
+            },
+            {
+                path: "saude-financeira",
+                name: "financialHealth",
+                component: FinancialHealthView
+            },
         ]
     },
     {
