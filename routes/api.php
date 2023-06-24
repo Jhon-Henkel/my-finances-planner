@@ -5,6 +5,7 @@ use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FinancialHealthController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\MovementController;
@@ -78,5 +79,8 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     });
     $router->prefix('panorama')->group(function () use ($router) {
         $router->get('', [PanoramaController::class, 'getPanoramaData'])->name(RouteEnum::API_PANORAMA_INDEX);
+    });
+    $router->prefix('financial-health')->group(function () use ($router) {
+        $router->get('/filter/{filter}', [FinancialHealthController::class, 'indexFiltered'])->name(RouteEnum::API_FINANCIAL_HEALTH_INDEX_FILTERED);
     });
 });

@@ -23,6 +23,6 @@ class MailMessageDtoUnitTest extends TestCase
         $this->assertEquals(str_replace('_', ' ', env('MAIL_FROM_NAME')), $mailMessageDto->getSenderName());
         $this->assertEquals('Test subject', $mailMessageDto->getSubject());
         $this->assertEquals('emails.testMail', $mailMessageDto->getTempleteFile());
-        $this->assertEquals(['title'=>'This is a mail test', 'body' => 'A test send mail from app'], $mailMessageDto->getData());
+        $this->assertEquals(['title'=>'This is a mail test', 'body' => 'A test send mail from app'], $mailMessageDto->getParams());
     }
 }

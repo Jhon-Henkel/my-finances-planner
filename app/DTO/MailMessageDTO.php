@@ -10,14 +10,14 @@ class MailMessageDTO
     private string $senderName;
     private string $subject;
     private string $templeteFile;
-    private array $data;
+    private array $params;
 
     public function __construct(
         string $addressee,
         string $addresseeName,
         string $subject,
         string $templeteFile,
-        array $data
+        array $params
     ) {
         $this->addressee = $addressee;
         $this->addresseeName = $addresseeName;
@@ -25,7 +25,7 @@ class MailMessageDTO
         $this->senderName = str_replace('_', ' ', env('MAIL_FROM_NAME'));
         $this->subject = $subject;
         $this->templeteFile = $templeteFile;
-        $this->data = $data;
+        $this->params = $params;
     }
 
     /**
@@ -79,8 +79,8 @@ class MailMessageDTO
     /**
      * @return array
      */
-    public function getData(): array
+    public function getParams(): array
     {
-        return $this->data;
+        return $this->params;
     }
 }

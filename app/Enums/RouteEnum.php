@@ -46,6 +46,7 @@ class RouteEnum
     const API_USER_SHOW = 'apiUserShow';
     const API_USER_UPDATE = 'apiUserUpdate';
     const API_PANORAMA_INDEX = 'apiPanoramaIndex';
+    const API_FINANCIAL_HEALTH_INDEX_FILTERED = 'apiFinancialHealthIndex';
     const WEB_LOGIN = 'login';
     const WEB_ABOUT = 'about';
     const WEB_LOGOUT = 'logout';
