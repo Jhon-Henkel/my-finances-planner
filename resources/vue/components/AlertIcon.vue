@@ -1,5 +1,5 @@
 <template>
-    <font-awesome-icon :icon="iconEnum.triangleExclamation()" :title="'Atenção, valor negativo!'" class="icon-alert" />
+    <font-awesome-icon :icon="icon" :title="title" :class="classIcon" />
 </template>
 
 <script>
@@ -11,6 +11,13 @@
         computed: {
             iconEnum() {
                 return iconEnum
+            }
+        },
+        data() {
+            return {
+                icon: iconEnum.triangleExclamation(),
+                title: 'Atenção, valor negativo!',
+                classIcon: 'icon-alert'
             }
         },
     }
