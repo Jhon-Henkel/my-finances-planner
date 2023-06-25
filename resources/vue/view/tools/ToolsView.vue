@@ -59,6 +59,12 @@
                         description: 'Relatório que separa as movimentações por tipo.',
                         redirectTo: '/ferramentas/saude-financeira'
                     },
+                    {
+                        title: 'Fechamento de Mês',
+                        imagePath: '../../../../public/images/tools/monthly-closing.jpg',
+                        description: 'Relatório que mostra o fechamento do mês.',
+                        redirectTo: '/ferramentas/fechamento-mensal'
+                    }
                 ]
             }
         }

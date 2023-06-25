@@ -21,6 +21,7 @@ import PanoramaForm from "../../vue/view/panorama/PanoramaForm.vue";
 import AboutView from "../../vue/view/about/AboutView.vue";
 import PanoramaAllSpentAndGain from "../../vue/view/panorama/PanoramaAllSpentAndGain.vue";
 import FinancialHealthView from "../../vue/view/tools/financialHealth/FinancialHealthView.vue";
+import MonthlyClosingView from "../../vue/view/tools/monthlyClosing/MonthlyClosingView.vue";
 
 const routes = [
     {
@@ -196,6 +197,11 @@ const routes = [
                 name: "financialHealth",
                 component: FinancialHealthView
             },
+            {
+                path: "fechamento-mensal",
+                name: "monthlyClosing",
+                component: MonthlyClosingView
+            }
         ]
     },
     {
