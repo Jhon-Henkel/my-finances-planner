@@ -23,7 +23,10 @@
                 </ul>
             </div>
             <div class="sidebar-footer">
-                <span class="developed-by">Desenvolvido por Jhonatan Henkel</span>
+                <span class="developed-by">
+                    Desenvolvido por
+                    <a href="https://www.jhon.dev.br" target="_blank" class="portfolio-link">Jhonatan Henkel</a>
+                </span>
                 <i class="bx bx-log-out" id="log-out" @click="logout" title="Logout"/>
             </div>
         </div>
@@ -356,5 +359,9 @@
         .sidebar li .tooltip {
             display: none;
         }
+    }
+    .portfolio-link {
+        color: #04fac9;
+        text-decoration: none;
     }
 </style>
