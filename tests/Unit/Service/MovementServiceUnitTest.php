@@ -5,6 +5,7 @@ namespace Tests\Unit\Service;
 use App\DTO\FutureGainDTO;
 use App\DTO\FutureSpentDTO;
 use App\DTO\MovementDTO;
+use App\Exceptions\MovementException;
 use App\Services\MovementService;
 use App\VO\MovementVO;
 use Mockery;
@@ -322,6 +323,13 @@ class MovementServiceUnitTest extends TestCase
         $result = $service->getTypeForMovementUpdate($movement, $item);
 
         $this->assertEquals(5, $result);
+
+        $this->expectException(MovementException::class);
+        $this->expectExceptionMessage('Tipo de movimento não identificado!');
+
+        $movement->setType(7);
+        $item->setType(7);
+        $service->getTypeForMovementUpdate($movement, $item);
     }
 
     public function testLaunchMovementForCreditCardInvoicePay()

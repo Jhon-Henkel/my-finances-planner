@@ -169,6 +169,12 @@ const apiRouter = {
             return request.data
         }
     },
+    financialHealth: {
+        indexFiltered: async function(filter) {
+            const request = await axios.get('/api/financial-health/filter/' + filter)
+            return request.data
+        },
+    }
 }
 
 export default apiRouter

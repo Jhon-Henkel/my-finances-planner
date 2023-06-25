@@ -23,7 +23,7 @@ class MailService
      */
     public function sendEmail(MailMessageDTO $mail): void
     {
-        Mail::send($mail->getTempleteFile(), $mail->getData(), function($message) use ($mail) {
+        Mail::send($mail->getTempleteFile(), $mail->getParams(), function($message) use ($mail) {
             $message->to($mail->getAddressee(), $mail->getAddresseeName());
             $message->subject($mail->getSubject());
             $message->from($mail->getSender(), $mail->getSenderName());

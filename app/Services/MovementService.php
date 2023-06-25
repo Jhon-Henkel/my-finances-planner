@@ -8,6 +8,7 @@ use App\DTO\FutureSpentDTO;
 use App\DTO\MovementDTO;
 use App\Enums\DateEnum;
 use App\Enums\MovementEnum;
+use App\Exceptions\MovementException;
 use App\Repositories\MovementRepository;
 use App\Resources\MovementResource;
 use App\Tools\CalendarTools;
@@ -123,6 +124,7 @@ class MovementService extends BasicService
         } elseif ($movement->getType() == MovementEnum::SPENT && $movement->getAmount() < $item->getAmount()) {
             return MovementEnum::SPENT;
         }
+        throw new MovementException('Tipo de movimento não identificado!');
     }
 
     public function launchMovementForWalletUpdate(float $value, int $walletId): bool

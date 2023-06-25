@@ -9,20 +9,18 @@ export default defineConfig({
         hmr: {
             host: 'localhost'
         },
-        watch: {
-            ignored: [
-                '/.github/',
-                '/app/',
-                '/bootstrap/',
-                '/config/',
-                '/database/',
-                '/node_modules/',
-                '/routes/',
-                '/storage/',
-                '/tests/',
-                '/vendor/',
-            ]
-        },
+        ignored: [
+            '/.github/',
+            '/app/',
+            '/bootstrap/',
+            '/config/',
+            '/database/',
+            '/node_modules/',
+            '/routes/',
+            '/storage/',
+            '/tests/',
+            '/vendor/',
+        ]
     },
     plugins: [
         laravel({

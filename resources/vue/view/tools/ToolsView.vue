@@ -53,6 +53,12 @@
                         description: 'Faça o cálculo de quanto você vai receber em horas extras.',
                         redirectTo: '/ferramentas/calculadora-horas-extras'
                     },
+                    {
+                        title: 'Saúde Financeira',
+                        imagePath: '../../../../public/images/tools/financial-health.jpg',
+                        description: 'Relatório que separa as movimentações por tipo.',
+                        redirectTo: '/ferramentas/saude-financeira'
+                    },
                 ]
             }
         }
