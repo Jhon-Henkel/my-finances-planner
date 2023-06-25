@@ -98,7 +98,7 @@
                                     <td>{{ formatValueToBr(totalSpending.sixthInstallment) }}</td>
                                 </tr>
                                 <tr class="text-center">
-                                    <td><font-awesome-icon :icon="iconEnum.creditCard()" class="icon-alert me-2"/></td>
+                                    <td><font-awesome-icon :icon="iconEnum.creditCard()" class="card-icon me-2"/></td>
                                     <td class="text-start">
                                         Cartões
                                         <a href="/gerenciar-cartoes" class="a-default" target="_blank">
@@ -131,27 +131,27 @@
                                     <td><font-awesome-icon :icon="iconEnum.circleArrowRight()" class="remaining-icon me-2"/></td>
                                     <td class="text-start">Sobras</td>
                                     <td>{{ formatValueToBr(totalRemaining.firstInstallment) }}
-                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.firstInstallment < 0"/>
+                                        <alert-icon v-if="totalRemaining.firstInstallment < 0"/>
                                     </td>
                                     <td>
                                         {{ formatValueToBr(totalRemaining.secondInstallment) }}
-                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.secondInstallment < 0"/>
+                                        <alert-icon v-if="totalRemaining.secondInstallment < 0"/>
                                     </td>
                                     <td>
                                         {{ formatValueToBr(totalRemaining.thirdInstallment) }}
-                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.thirdInstallment < 0"/>
+                                        <alert-icon v-if="totalRemaining.thirdInstallment < 0"/>
                                     </td>
                                     <td>
                                         {{ formatValueToBr(totalRemaining.forthInstallment) }}
-                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.forthInstallment < 0"/>
+                                        <alert-icon v-if="totalRemaining.forthInstallment < 0"/>
                                     </td>
                                     <td>
                                         {{ formatValueToBr(totalRemaining.fifthInstallment) }}
-                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.fifthInstallment < 0"/>
+                                        <alert-icon v-if="totalRemaining.fifthInstallment < 0"/>
                                     </td>
                                     <td>
                                         {{ formatValueToBr(totalRemaining.sixthInstallment) }}
-                                        <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalRemaining.sixthInstallment < 0"/>
+                                        <alert-icon v-if="totalRemaining.sixthInstallment < 0"/>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -200,7 +200,7 @@
                                 </div>
                                 <div class="col-4">
                                     {{ formatValueToBr(totalWalletsValue + getValueForTotalSum()) }}
-                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalWalletsValue + getValueForTotalSum() < 0"/>
+                                    <alert-icon v-if="totalWalletsValue + getValueForTotalSum() < 0"/>
                                 </div>
                             </div>
                         </div>
@@ -225,6 +225,7 @@
     import MessageEnum from "../../../js/enums/messageEnum";
     import MfpMessage from "../../components/MessageAlert.vue";
     import PayReceive from "../../components/PayReceiveComponent.vue";
+    import AlertIcon from "../../components/AlertIcon.vue";
 
     export default {
         name: "PanoramaView",
@@ -240,6 +241,7 @@
             }
         },
         components: {
+            AlertIcon,
             PayReceive,
             MfpMessage,
             ActionButtons,
@@ -251,7 +253,6 @@
             return {
                 loadingDone: 0,
                 months: [],
-                alertIcon: iconEnum.triangleExclamation(),
                 spent: {
                     totalRemainingValue: 0,
                     remainingInstallments: 0,
@@ -447,7 +448,7 @@
     .remaining-icon {
         color: $info-icon-color;
     }
-    .icon-alert {
+    .card-icon {
         color: $alert-icon-color;
     }
     .card {

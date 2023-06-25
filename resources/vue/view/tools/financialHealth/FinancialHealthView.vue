@@ -107,7 +107,6 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    console.log(context)
                                     let label = context.dataset.label || '';
                                     if (label) {
                                         label += ': ';

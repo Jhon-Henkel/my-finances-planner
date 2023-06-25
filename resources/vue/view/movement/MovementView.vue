@@ -90,15 +90,15 @@
                             <div class="row">
                                 <div class="col-4">
                                     {{ StringTools.formatFloatValueToBrString(totalGain) }}
-                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalGain < 0"/>
+                                    <alert-icon v-if="totalGain < 0"/>
                                 </div>
                                 <div class="col-4">
                                     {{ StringTools.formatFloatValueToBrString(totalSpent) }}
-                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="totalSpent < 0"/>
+                                    <alert-icon v-if="totalSpent < 0"/>
                                 </div>
                                 <div class="col-4">
                                     {{ StringTools.formatFloatValueToBrString(balance) }}
-                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="balance < 0"/>
+                                    <alert-icon v-if="balance < 0"/>
                                 </div>
                             </div>
                         </div>
@@ -125,6 +125,7 @@
     import MfpMessage from "../../components/MessageAlert.vue";
     import MessageEnum from "../../../js/enums/messageEnum";
     import StringTools from "../../../js/tools/stringTools";
+    import AlertIcon from "../../components/AlertIcon.vue";
 
     export default {
         name: "MovementView",
@@ -146,6 +147,7 @@
             }
         },
         components: {
+            AlertIcon,
             MfpMessage,
             MfpTitle,
             Divider,
@@ -154,7 +156,6 @@
         },
         data() {
             return {
-                alertIcon: iconEnum.triangleExclamation(),
                 loadingDone: false,
                 movements: {},
                 filterList: {},
@@ -216,9 +217,6 @@
     }
     .movement-gain-icon {
         color: $success-icon-color;
-    }
-    .icon-alert {
-        color: $alert-icon-color;
     }
     .card {
         width: 24rem;

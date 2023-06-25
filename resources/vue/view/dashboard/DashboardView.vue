@@ -18,7 +18,7 @@
                             <hr>
                             <p class="card-text">
                                 {{ StringTools.formatFloatValueToBrString(data.value) }}
-                                <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="data.value < 0"/>
+                                <alert-icon v-if="data.value < 0"/>
                             </p>
                         </div>
                     </div>
@@ -47,15 +47,15 @@
                             <div class="row">
                                 <div class="col-4">
                                     {{ StringTools.formatFloatValueToBrString(balance.lastMonth) }}
-                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="balance.lastMonth < 0"/>
+                                    <alert-icon v-if="balance.lastMonth < 0"/>
                                 </div>
                                 <div class="col-4">
                                     {{ StringTools.formatFloatValueToBrString(balance.thisMonth) }}
-                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="balance.thisMonth < 0"/>
+                                    <alert-icon v-if="balance.thisMonth < 0"/>
                                 </div>
                                 <div class="col-4">
                                     {{ StringTools.formatFloatValueToBrString(balance.thisYear) }}
-                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="balance.thisYear < 0"/>
+                                    <alert-icon v-if="balance.thisYear < 0"/>
                                 </div>
                             </div>
                         </div>
@@ -106,6 +106,7 @@
     import movementEnum from "../../../js/enums/movementEnum";
     import { Bar } from 'vue-chartjs'
     import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+    import AlertIcon from "../../components/AlertIcon.vue";
 
     ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
     ChartJS.defaults.color = '#fff';
@@ -121,6 +122,7 @@
             }
         },
         components: {
+            AlertIcon,
             FontAwesomeIcon,
             MfpMessage,
             LoadingComponent,
@@ -130,7 +132,6 @@
         },
         data() {
             return {
-                alertIcon: iconEnum.triangleExclamation(),
                 loadingDone: false,
                 salutation: localStorage.getItem('salutation'),
                 graphOptions: {
@@ -319,9 +320,6 @@
     }
     .warning {
         box-shadow: 0 0 1em $danger-icon-color;
-    }
-    .icon-alert {
-        color: $alert-icon-color;
     }
     .spent-icon {
         color: $danger-icon-color;
