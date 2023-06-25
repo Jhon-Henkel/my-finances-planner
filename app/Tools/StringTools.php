@@ -31,4 +31,9 @@ class StringTools
     {
         return trim(preg_replace('/\s+/', ' ', $string));
     }
+
+    public static function generateRandomHexColor(): string
+    {
+        return sprintf("#%06x",rand(0,16777215));
+    }
 }

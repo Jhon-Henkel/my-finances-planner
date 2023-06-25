@@ -202,4 +202,15 @@ class StringToolsUnitTest extends TestCase
             'testWithExtraSpacesOnInputInStartAndMiddleStringAndEnd' => ['input' => ' 2020 Mercado  2020 2020 ', 'output' => ' 2020 Mercado 2020 2020 '],
         ];
     }
+
+    public function testGenerateRandomHexColor()
+    {
+        $color = StringTools::generateRandomHexColor();
+        $colorTwo = StringTools::generateRandomHexColor();
+
+        $this->assertIsString($color);
+        $this->assertEquals(7, strlen($color));
+        $this->assertEquals('#', substr($color, 0, 1));
+        $this->assertFalse($color === $colorTwo);
+    }
 }
