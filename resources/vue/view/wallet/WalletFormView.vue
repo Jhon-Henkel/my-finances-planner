@@ -105,7 +105,7 @@
                 let field = null
                 if (! this.wallet.name || this.wallet.name.length < 2) {
                     field = 'nome'
-                } else if (! this.wallet.type || this.wallet.type === 0) {
+                } else if (this.wallet.type < 0 || this.wallet.type > 10) {
                     field = 'tipo de conta'
                 }
                 if (field) {
