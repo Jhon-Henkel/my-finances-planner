@@ -155,8 +155,8 @@
                     this.movements = response
                     let spending = response.dataForGraph[SPENT_ID]
                     let gains = response.dataForGraph[GAIN_ID]
-                    this.totalSpent = gains.total
-                    this.totalGains = spending.total
+                    this.totalSpent = spending.total
+                    this.totalGains = gains.total
                     this.spendingGraphData = {
                         labels: spending.label,
                         datasets: [
