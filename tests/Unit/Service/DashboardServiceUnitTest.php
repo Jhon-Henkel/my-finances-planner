@@ -91,7 +91,7 @@ class DashboardServiceUnitTest extends TestCase
 
     public function testGetMovementsData()
     {
-        $item = [0 => ['total' => 10], 1 => ['total' => 12]];
+        $item = [0 => ['total' => 12], 1 => ['total' => 10]];
         $movementService = Mockery::mock('App\Services\MovementService');
         $movementService->shouldReceive('getMonthSumMovementsByOptionFilter')->times(3)->andReturn($item);
         $movementService->shouldReceive('getLastMovements')->once()->andReturn([]);
