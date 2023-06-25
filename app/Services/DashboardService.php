@@ -30,12 +30,12 @@ class DashboardService
         $thisYear = $movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_YEAR);
         $lastMovements = $movementService->getLastMovements(8);
         return [
-            'lastMonthSpent' => isset($lastMonth[0]) ? $lastMonth[0]['total'] : 0,
-            'thisMonthSpent' => isset($thisMonth[0]) ? $thisMonth[0]['total'] : 0,
-            'thisYearSpent' => isset($thisYear[0]) ? $thisYear[0]['total'] : 0,
-            'lastMonthGain' => isset($lastMonth[1]) ? $lastMonth[1]['total'] : 0,
-            'thisMonthGain' => isset($thisMonth[1]) ? $thisMonth[1]['total'] : 0,
-            'thisYearGain' => isset($thisYear[1]) ? $thisYear[1]['total'] : 0,
+            'lastMonthSpent' => isset($lastMonth[1]) ? $lastMonth[1]['total'] : 0,
+            'thisMonthSpent' => isset($thisMonth[1]) ? $thisMonth[1]['total'] : 0,
+            'thisYearSpent' => isset($thisYear[1]) ? $thisYear[1]['total'] : 0,
+            'lastMonthGain' => isset($lastMonth[0]) ? $lastMonth[0]['total'] : 0,
+            'thisMonthGain' => isset($thisMonth[0]) ? $thisMonth[0]['total'] : 0,
+            'thisYearGain' => isset($thisYear[0]) ? $thisYear[0]['total'] : 0,
             'lastMovements' => $lastMovements,
             'dataForGraph' => $movementService->generateDataForGraph()
         ];
