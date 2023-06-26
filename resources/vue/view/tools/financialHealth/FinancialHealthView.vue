@@ -12,10 +12,7 @@
                         </option>
                     </select>
                 </div>
-                <router-link class="btn btn-success rounded-5" to="/ferramentas">
-                    <font-awesome-icon :icon="iconEnum.back()" class="me-2"/>
-                    Voltar
-                </router-link>
+                <back-button to="/ferramentas"/>
             </div>
             <divider/>
             <div class="card glass success balance-card ms-1">
@@ -69,6 +66,7 @@
     import StringTools from "../../../../js/tools/stringTools";
     import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
     import stringTools from "../../../../js/tools/stringTools";
+    import BackButton from "../../../components/buttons/BackButton.vue";
 
     const SPENT_ID = MovementEnum.type.spent()
     const GAIN_ID = MovementEnum.type.gain()
@@ -84,6 +82,7 @@
             }
         },
         components: {
+            BackButton,
             FontAwesomeIcon,
             DoughnutChart,
             Divider,

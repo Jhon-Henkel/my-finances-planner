@@ -4,10 +4,7 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Calculadora de Salário'"/>
-                <router-link class="btn btn-success rounded-5" to="/ferramentas">
-                    <font-awesome-icon :icon="iconEnum.back()" class="me-2"/>
-                    Voltar
-                </router-link>
+                <back-button to="/ferramentas"/>
             </div>
             <divider/>
             <form>
@@ -59,6 +56,7 @@
     import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
     import Divider from "../../../components/DividerComponent.vue";
     import MfpTitle from "../../../components/TitleComponent.vue";
+    import BackButton from "../../../components/buttons/BackButton.vue";
 
     export default {
         name: "SalaryCalculator",
@@ -71,6 +69,7 @@
             }
         },
         components: {
+            BackButton,
             MfpTitle,
             Divider,
             FontAwesomeIcon,
