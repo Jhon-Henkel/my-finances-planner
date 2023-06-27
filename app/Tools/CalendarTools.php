@@ -93,6 +93,14 @@ class CalendarTools
         return new DatePeriodDTO($startDate, $endDate);
     }
 
+    public static function getLastFiveYearPeriod(int $year): DatePeriodDTO
+    {
+        $lastYear = $year - 5;
+        $startDate = self::mountStringDateTime($lastYear, DateEnum::JANUARY_MONTH_NUMBER, 1, '00:00:00');
+        $endDate = self::mountStringDateTime($year, DateEnum::DECEMBER_MONTH_NUMBER, 31, '23:59:59');
+        return new DatePeriodDTO($startDate, $endDate);
+    }
+
     public static function getLastDayOfData(string $data): string
     {
         $day = date('t', strtotime($data));

@@ -5,18 +5,8 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Movimentações'"/>
-                <font-awesome-icon :icon="iconEnum.filterMoney()" class="me-2 mt-1 filter"/>
-                <div class="form-group me-3">
-                    <select class="form-select form-select-sm" @change="getMovementsByFilter($event)">
-                        <option v-for="filter in filterList" :key="filter.id" :value="filter.id">
-                            {{ filter.label }}
-                        </option>
-                    </select>
-                </div>
-                <router-link class="btn btn-success rounded-5" to="/movimentacoes/cadastrar">
-                    <font-awesome-icon :icon="iconEnum.movement()" class="me-2"/>
-                    Nova Movimentação
-                </router-link>
+                <filter-top-right :filter="filterList" @callbackMethod="getMovementIndexFiltered($event)"/>
+                <router-link-button :title="'Nova Movimentação'" :icon="iconEnum.movement()" :redirect-to="'/movimentacoes/cadastrar'" />
             </div>
             <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
@@ -126,6 +116,8 @@
     import MessageEnum from "../../../js/enums/messageEnum";
     import StringTools from "../../../js/tools/stringTools";
     import AlertIcon from "../../components/AlertIcon.vue";
+    import FilterTopRight from "../../components/filters/filterTopRight.vue";
+    import RouterLinkButton from "../../components/RouterLinkButtonComponent.vue";
 
     export default {
         name: "MovementView",
@@ -147,6 +139,8 @@
             }
         },
         components: {
+            RouterLinkButton,
+            FilterTopRight,
             AlertIcon,
             MfpMessage,
             MfpTitle,
@@ -174,11 +168,6 @@
                     await this.getMovementIndexFiltered(this.lastFilter)
                 }
             },
-            async getMovementsByFilter(event) {
-                let filterId = event.target.value
-                this.lastFilter = filterId
-                await this.getMovementIndexFiltered(filterId)
-            },
             async getMovementIndexFiltered(filterId) {
                 this.loadingDone = false
                 this.movements = await apiRouter.movement.indexFiltered(filterId)
@@ -205,10 +194,6 @@
 <style lang="scss" scoped>
     @import "../../../sass/variables";
 
-    .filter {
-        font-size: 22px;
-        color: $success-icon-color;
-    }
     .movement-transfer-icon {
         color: $info-icon-color;
     }

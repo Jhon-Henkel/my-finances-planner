@@ -4,14 +4,7 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Saúde Financeira'"/>
-                <font-awesome-icon :icon="iconEnum.filterMoney()" class="me-2 mt-1 filter"/>
-                <div class="form-group me-3">
-                    <select class="form-select form-select-sm" @change="getMovementsByFilter($event)">
-                        <option v-for="filter in filterList" :key="filter.id" :value="filter.id">
-                            {{ filter.label }}
-                        </option>
-                    </select>
-                </div>
+                <filter-top-right :filter="filterList" @callbackMethod="getMovementIndexFiltered($event)"/>
                 <back-button to="/ferramentas"/>
             </div>
             <divider/>
@@ -67,6 +60,7 @@
     import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
     import stringTools from "../../../../js/tools/stringTools";
     import BackButton from "../../../components/buttons/BackButton.vue";
+    import FilterTopRight from "../../../components/filters/filterTopRight.vue";
 
     const SPENT_ID = MovementEnum.type.spent()
     const GAIN_ID = MovementEnum.type.gain()
@@ -82,6 +76,7 @@
             }
         },
         components: {
+            FilterTopRight,
             BackButton,
             FontAwesomeIcon,
             DoughnutChart,
@@ -142,11 +137,6 @@
             }
         },
         methods: {
-            async getMovementsByFilter(event) {
-                let filterId = event.target.value
-                this.lastFilter = filterId
-                await this.getMovementIndexFiltered(filterId)
-            },
             async getMovementIndexFiltered(filterId) {
                 this.loadingDone = false
                 await apiRouter.financialHealth.indexFiltered(filterId).then((response) => {
@@ -187,10 +177,6 @@
 <style scoped lang="scss">
     @import "../../../../sass/variables";
 
-    .filter {
-        font-size: 22px;
-        color: $success-icon-color;
-    }
     .card {
         width: 24rem;
     }

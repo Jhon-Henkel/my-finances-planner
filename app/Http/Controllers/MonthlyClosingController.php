@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Resources\MonthlyClosingResource;
 use App\Services\MonthlyClosingService;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class MonthlyClosingController extends BasicController
 {
@@ -46,5 +48,12 @@ class MonthlyClosingController extends BasicController
     protected function getResource(): MonthlyClosingResource
     {
         return $this->resource;
+    }
+
+    public function indexFiltered(string|int $filterOption): JsonResponse
+    {
+        $find = $this->getService()->findByFilter((int)$filterOption);
+        $itens = $this->getResource()->arrayDtoToVoItens($find);
+        return response()->json($itens, Response::HTTP_OK);
     }
 }

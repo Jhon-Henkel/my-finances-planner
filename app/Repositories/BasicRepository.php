@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTO\DatePeriodDTO;
 use App\Enums\BasicFieldsEnum;
 
 abstract class BasicRepository implements BasicRepositoryContract
@@ -52,5 +53,15 @@ abstract class BasicRepository implements BasicRepositoryContract
     {
         $itens = $this->getModel()->where(BasicFieldsEnum::TYPE, $type)->get()->toArray();
         return $this->getResource()->arrayToDtoItens($itens);
+    }
+
+    public function findByPeriod(DatePeriodDTO $period): array
+    {
+        $itens = $this->getModel()->select()
+            ->where('created_at', '>=', $period->getStartDate())
+            ->where('created_at', '<=', $period->getEndDate())
+            ->orderBy(BasicFieldsEnum::ID, 'desc')
+            ->get();
+        return $this->resource->arrayToDtoItens($itens->toArray());
     }
 }

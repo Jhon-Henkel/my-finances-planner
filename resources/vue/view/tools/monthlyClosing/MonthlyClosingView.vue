@@ -4,21 +4,33 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Relatório fechamento de mês'"/>
-                <font-awesome-icon :icon="iconEnum.filterMoney()" class="me-2 mt-1 filter"/>
-                <!-- TODO criar componente -->
-                <div class="form-group me-3">
-                    <select class="form-select form-select-sm" @change="getMonthlyClosingsByFilter($event)">
-                        <option v-for="filter in filterList" :key="filter.id" :value="filter.id">
-                            {{ filter.label }}
-                        </option>
-                    </select>
-                </div>
+                <filter-top-right :filter="filterList" @callbackMethod="getMonthlyClosingsIndexFiltered($event)"/>
                 <back-button to="/ferramentas"/>
             </div>
             <divider/>
-
-            <!-- DESENVOLVER -->
-
+            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <td>Data</td>
+                        <td>Gasto Previsto</td>
+                        <td>Gasto Real</td>
+                        <td>Ganho Previsto</td>
+                        <td>Ganho Real</td>
+                        <td>Balanço</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" v-for="closing in monthlyClosings" :key="closing.id">
+                        <td>{{ CalendarTools.convertDateDbToBr(closing.createdAt) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(closing.predictedExpenses) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(closing.realExpenses) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(closing.predictedEarnings) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(closing.realEarnings) }}</td>
+                        <td>{{ StringTools.formatFloatValueToBrString(closing.balance) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <divider/>
         </div>
     </div>
 </template>
@@ -29,31 +41,59 @@
     import iconEnum from "../../../../js/enums/iconEnum";
     import LoadingComponent from "../../../components/LoadingComponent.vue";
     import BackButton from "../../../components/buttons/BackButton.vue";
+    import MonthlyClosingEnum from "../../../../js/enums/MonthlyClosingEnum";
+    import apiRouter from "../../../../js/router/apiRouter";
+    import CalendarTools from "../../../../js/tools/calendarTools";
+    import StringTools from "../../../../js/tools/stringTools";
+    import FilterTopRight from "../../../components/filters/filterTopRight.vue";
 
     export default {
         name: "MonthlyClosingView",
         computed: {
+            StringTools() {
+                return StringTools
+            },
+            CalendarTools() {
+                return CalendarTools
+            },
             iconEnum() {
                 return iconEnum
             }
         },
-        components: {BackButton, LoadingComponent, MfpTitle, Divider},
+        components: {
+            FilterTopRight,
+            BackButton,
+            LoadingComponent,
+            MfpTitle,
+            Divider
+        },
         data() {
             return {
-                // TODO alterar para false quando desenvolver
-                loadingDone: true,
-                // TODO criar enum para os filtros
-                filterList: [],
-
+                loadingDone: false,
+                filterList: {},
+                monthlyClosings: {
+                    id: 0,
+                    createdAt: "",
+                    predictedExpenses: 0,
+                    realExpenses: 0,
+                    predictedEarnings: 0,
+                    realEarnings: 0,
+                    balance: 0
+                }
             }
         },
         methods: {
-            getMonthlyClosingsByFilter(event) {
-                console.log('desenvolver método getMonthlyClosingsByFilter')
+            async getMonthlyClosingsIndexFiltered(filterId) {
+                this.loadingDone = false
+                await apiRouter.monthlyClosing.indexFiltered(filterId).then(response => {
+                    this.monthlyClosings = response
+                })
+                this.loadingDone = true
             }
         },
-        mounted() {
-
+        async mounted() {
+            this.filterList = MonthlyClosingEnum.getFilterList()
+            await this.getMonthlyClosingsIndexFiltered(MonthlyClosingEnum.filter.thisYear())
         }
     }
 </script>

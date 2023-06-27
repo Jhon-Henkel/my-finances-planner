@@ -174,6 +174,12 @@ const apiRouter = {
             const request = await axios.get('/api/financial-health/filter/' + filter)
             return request.data
         },
+    },
+    monthlyClosing : {
+        indexFiltered: async function(filter) {
+            const request = await axios.get('/api/monthly-closing/filter/' + filter)
+            return request.data
+        }
     }
 }
 
