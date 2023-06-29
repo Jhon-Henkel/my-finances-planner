@@ -1,6 +1,7 @@
 import '../sass/app.scss';
 import './bootstrap';
 import '../css/app.css';
+import '../font/poppins.css'
 import * as bootstrap from 'bootstrap';
 import { createApp } from "vue";
 import app from "../vue/App.vue";

@@ -11,12 +11,30 @@
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
                     <tr class="text-center">
-                        <td>Data</td>
-                        <td>Gasto Previsto</td>
-                        <td>Gasto Real</td>
-                        <td>Ganho Previsto</td>
-                        <td>Ganho Real</td>
-                        <td>Balanço</td>
+                        <td>
+                            <font-awesome-icon :icon="iconEnum.calendarCheck()" />
+                            Data
+                        </td>
+                        <td>
+                            <gain-icon/>
+                            Gasto Previsto
+                        </td>
+                        <td>
+                            <gain-icon/>
+                            Gasto Real
+                        </td>
+                        <td>
+                            <spent-icon/>
+                            Ganho Previsto
+                        </td>
+                        <td>
+                            <spent-icon/>
+                            Ganho Real
+                        </td>
+                        <td>
+                            <font-awesome-icon :icon="iconEnum.scaleBalanced()" />
+                            Balanço
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +64,9 @@
     import CalendarTools from "../../../../js/tools/calendarTools";
     import StringTools from "../../../../js/tools/stringTools";
     import FilterTopRight from "../../../components/filters/filterTopRight.vue";
+    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+    import GainIcon from "../../../components/icons/GainIcon.vue";
+    import SpentIcon from "../../../components/icons/SpentIcon.vue";
 
     export default {
         name: "MonthlyClosingView",
@@ -61,6 +82,9 @@
             }
         },
         components: {
+            SpentIcon,
+            GainIcon,
+            FontAwesomeIcon,
             FilterTopRight,
             BackButton,
             LoadingComponent,
@@ -99,10 +123,5 @@
 </script>
 
 <style scoped lang="scss">
-    @import "../../../../sass/variables";
 
-    .filter {
-        font-size: 22px;
-        color: $success-icon-color;
-    }
 </style>
