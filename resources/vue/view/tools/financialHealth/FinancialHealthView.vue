@@ -61,6 +61,7 @@
     import stringTools from "../../../../js/tools/stringTools";
     import BackButton from "../../../components/buttons/BackButton.vue";
     import FilterTopRight from "../../../components/filters/filterTopRight.vue";
+    import defaultChartParams from "../../../../js/chartParams/defaultChartParams";
 
     const SPENT_ID = MovementEnum.type.spent()
     const GAIN_ID = MovementEnum.type.gain()
@@ -90,48 +91,9 @@
                 lastFilter: null,
                 filterList: {},
                 movements: {},
-                graphOptions: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += StringTools.formatFloatValueToBrString(context.parsed);
-                                    }
-                                    return label;
-                                },
-                            }
-                        },
-                    }
-                },
-                spendingGraphData: {
-                    labels: [],
-                    datasets: [
-                        {
-                            backgroundColor: [],
-                            data: []
-                        }
-                    ]
-                },
-                gainsGraphData: {
-                    labels: [],
-                    datasets: [
-                        {
-                            backgroundColor: [],
-                            data: []
-                        }
-                    ]
-                },
+                graphOptions: defaultChartParams.options('right'),
+                spendingGraphData: defaultChartParams.data,
+                gainsGraphData: defaultChartParams.data,
                 totalGains: 0,
                 totalSpent: 0,
             }

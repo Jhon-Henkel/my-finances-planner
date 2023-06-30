@@ -1,20 +1,20 @@
 <template>
     <div>
-        <doughnut :data="data" :options="options" />
+        <line :data="data" :options="options" />
     </div>
 </template>
 
 <script>
     import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-    import { Doughnut } from 'vue-chartjs'
+    import {Line} from "vue-chartjs";
 
     ChartJS.register(ArcElement, Tooltip, Legend)
     ChartJS.defaults.color = '#ffffff';
 
     export default {
-        name: "DoughnutChart",
+        name: "LineChart",
         components: {
-            Doughnut
+            Line
         },
         props: {
             data: {
