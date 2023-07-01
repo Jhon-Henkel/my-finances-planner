@@ -251,8 +251,11 @@ class FutureSpentServiceUnitTest extends TestCase
             BasicFieldsEnum::VALUE => 1,
         ];
 
+        $movement = new MovementDTO();
+        $movement->setDescription('test');
+
         $movementServiceMock = Mockery::mock('App\Services\MovementService');
-        $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn(new MovementDTO());
+        $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn($movement);
         $movementServiceMock->shouldReceive('insert')->once()->andReturnTrue();
         $this->app->instance('App\Services\MovementService', $movementServiceMock);
 
@@ -283,8 +286,11 @@ class FutureSpentServiceUnitTest extends TestCase
             BasicFieldsEnum::VALUE => 1,
         ];
 
+        $movement = new MovementDTO();
+        $movement->setDescription('test');
+
         $movementServiceMock = Mockery::mock('App\Services\MovementService');
-        $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn(new MovementDTO());
+        $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn($movement);
         $movementServiceMock->shouldReceive('insert')->once()->andReturnFalse();
         $this->app->instance('App\Services\MovementService', $movementServiceMock);
 
@@ -312,8 +318,11 @@ class FutureSpentServiceUnitTest extends TestCase
             BasicFieldsEnum::VALUE => 1,
         ];
 
+        $movement = new MovementDTO();
+        $movement->setDescription('test');
+
         $movementServiceMock = Mockery::mock('App\Services\MovementService');
-        $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn(new MovementDTO());
+        $movementServiceMock->shouldReceive('populateByFutureSpent')->once()->andReturn($movement);
         $movementServiceMock->shouldReceive('insert')->once()->andReturnTrue();
         $this->app->instance('App\Services\MovementService', $movementServiceMock);
 
