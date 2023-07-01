@@ -98,7 +98,11 @@ class FutureSpentService extends BasicService
         $movement = $movementService->populateByFutureSpent($spent);
         $movement->setAmount($value);
         $movement->setWalletId($walletId);
-        $movement->setDescription('Pagamento parcial ' . strtolower($spent->getDescription()));
+        $description = $movement->getDescription();
+        if ($options[BasicFieldsEnum::PARTIAL]) {
+            $description = 'Pagamento parcial ' . strtolower($spent->getDescription());
+        }
+        $movement->setDescription($description);
         if (! $movementService->insert($movement)){
             return false;
         }
