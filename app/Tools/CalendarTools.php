@@ -137,4 +137,12 @@ class CalendarTools
         $dateEnd = self::addMonthInDate($dateStart, $interval);
         return new DatePeriodDTO($dateStart, $dateEnd);
     }
+
+    public static function getMonthLabelWithYear(string $date): string
+    {
+        $date = new DateTime($date);
+        $month = $date->format(DateEnum::ONLY_MONTH);
+        $year = $date->format(DateEnum::ONLY_COMPLETE_YEAR);
+        return $month . '/' . $year;
+    }
 }

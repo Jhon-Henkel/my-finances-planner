@@ -56,7 +56,6 @@
     import apiRouter from "../../../../js/router/apiRouter";
     import MovementEnum from "../../../../js/enums/movementEnum";
     import DoughnutChart from "../../../components/graphics/DoughnutChart.vue";
-    import StringTools from "../../../../js/tools/stringTools";
     import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
     import stringTools from "../../../../js/tools/stringTools";
     import BackButton from "../../../components/buttons/BackButton.vue";
@@ -112,6 +111,7 @@
                         datasets: [
                             {
                                 backgroundColor: spending.color,
+                                borderColor: spending.color,
                                 data: spending.data
                             }
                         ]
@@ -121,6 +121,7 @@
                         datasets: [
                             {
                                 backgroundColor: gains.color,
+                                borderColor: gains.color,
                                 data: gains.data
                             }
                         ]

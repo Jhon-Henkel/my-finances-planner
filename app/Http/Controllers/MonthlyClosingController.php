@@ -52,8 +52,9 @@ class MonthlyClosingController extends BasicController
 
     public function indexFiltered(string|int $filterOption): JsonResponse
     {
-        $find = $this->getService()->findByFilter((int)$filterOption);
-        $itens = $this->getResource()->arrayDtoToVoItens($find);
-        return response()->json($itens, Response::HTTP_OK);
+        $results = $this->getService()->findByFilter((int)$filterOption);
+        $items['data'] = $this->getResource()->arrayDtoToVoItens($results['data']);
+        $items['chartData'] = $results['chartData'];
+        return response()->json($items, Response::HTTP_OK);
     }
 }

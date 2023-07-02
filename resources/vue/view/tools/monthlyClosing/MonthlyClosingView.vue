@@ -8,6 +8,11 @@
                 <back-button to="/ferramentas"/>
             </div>
             <divider/>
+            <div class="glass chart-div mb-4">
+                <div class="ms-5 me-5">
+                    <line-chart :options="chartOptions" :data="chartData" />
+                </div>
+            </div>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
                 <thead class="table-dark">
                     <tr class="text-center">
@@ -16,19 +21,19 @@
                             Data
                         </td>
                         <td>
-                            <gain-icon/>
+                            <spent-icon/>
                             Gasto Previsto
                         </td>
                         <td>
-                            <gain-icon/>
+                            <spent-icon/>
                             Gasto Real
                         </td>
                         <td>
-                            <spent-icon/>
+                            <gain-icon/>
                             Ganho Previsto
                         </td>
                         <td>
-                            <spent-icon/>
+                            <gain-icon/>
                             Ganho Real
                         </td>
                         <td>
@@ -64,9 +69,11 @@
     import CalendarTools from "../../../../js/tools/calendarTools";
     import StringTools from "../../../../js/tools/stringTools";
     import FilterTopRight from "../../../components/filters/filterTopRight.vue";
-    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+    import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
     import GainIcon from "../../../components/icons/GainIcon.vue";
     import SpentIcon from "../../../components/icons/SpentIcon.vue";
+    import LineChart from "../../../components/graphics/LineChart.vue";
+    import { monthlyClosingChartParams } from "../../../../js/chartParams/monthlyClosingChartParams";
 
     export default {
         name: "MonthlyClosingView",
@@ -82,6 +89,7 @@
             }
         },
         components: {
+            LineChart,
             SpentIcon,
             GainIcon,
             FontAwesomeIcon,
@@ -96,21 +104,23 @@
                 loadingDone: false,
                 filterList: {},
                 monthlyClosings: {
-                    id: 0,
                     createdAt: "",
                     predictedExpenses: 0,
                     realExpenses: 0,
                     predictedEarnings: 0,
                     realEarnings: 0,
                     balance: 0
-                }
+                },
+                chartOptions: monthlyClosingChartParams.options,
+                chartData: monthlyClosingChartParams.data
             }
         },
         methods: {
             async getMonthlyClosingsIndexFiltered(filterId) {
                 this.loadingDone = false
                 await apiRouter.monthlyClosing.indexFiltered(filterId).then(response => {
-                    this.monthlyClosings = response
+                    this.monthlyClosings = response.data
+                    this.chartData = response.chartData
                 })
                 this.loadingDone = true
             }
@@ -123,5 +133,7 @@
 </script>
 
 <style scoped lang="scss">
-
+    .chart-div{
+        width: 100%;
+    }
 </style>

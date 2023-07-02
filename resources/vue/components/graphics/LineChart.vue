@@ -1,14 +1,12 @@
 <template>
-    <div>
-        <line :data="data" :options="options" />
-    </div>
+    <Line :data="data" :options="options" />
 </template>
 
 <script>
-    import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-    import {Line} from "vue-chartjs";
+    import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
+    import { Line } from "vue-chartjs";
 
-    ChartJS.register(ArcElement, Tooltip, Legend)
+    ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
     ChartJS.defaults.color = '#ffffff';
 
     export default {

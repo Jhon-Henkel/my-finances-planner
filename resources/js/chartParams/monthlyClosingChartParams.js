@@ -1,39 +1,30 @@
 import StringTools from "../tools/stringTools";
 
-const dashboardChartParams = {
+export const monthlyClosingChartParams = {
     options: {
-        animation: {
-            y: {
-                easing: 'easeInQuad',
-                duration: 3000,
-                from: -100
-            }
-        },
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             x: {
-                stacked: true,
                 grid: {
-                    display: false
+                    color: '#464646'
                 }
             },
             y: {
-                stacked: true,
                 grid: {
-                    display: false
+                    color: '#464646'
                 },
                 ticks: {
-                    display: false
+                    callback: function(value, index, values) {
+                        return StringTools.formatFloatValueToBrString(value)
+                    }
                 }
             }
         },
         plugins: {
-            title: {
-                display: true,
-                text: 'Movimentações por mês'
-            },
             legend: {
                 display: true,
-                position: 'bottom'
+                position: 'top'
             },
             tooltip: {
                 callbacks: {
@@ -55,17 +46,9 @@ const dashboardChartParams = {
         labels: [],
         datasets: [
             {
-                label: 'Gastos',
-                backgroundColor: '#f87979',
-                data: [0,0,0,0,0,0,0,0,0,0,0,0]
-            },
-            {
-                label: 'Ganhos',
-                backgroundColor: '#79f879',
-                data: [0,0,0,0,0,0,0,0,0,0,0,0]
+                backgroundColor: [],
+                data: []
             }
         ]
     }
 }
-
-export default dashboardChartParams

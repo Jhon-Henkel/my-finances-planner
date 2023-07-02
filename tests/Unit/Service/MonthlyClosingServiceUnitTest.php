@@ -3,10 +3,12 @@
 namespace Tests\Unit\Service;
 
 use App\DTO\DatePeriodDTO;
+use App\DTO\MonthlyClosingDTO;
 use App\Enums\MonthlyCLosingEnum;
 use App\Exceptions\FilterException;
 use App\Repositories\MonthlyClosingRepository;
 use App\Services\MonthlyClosingService;
+use App\VO\Chart\ChartDataVO;
 use Mockery;
 use Tests\TestCase;
 
@@ -76,6 +78,27 @@ class MonthlyClosingServiceUnitTest extends TestCase
         $result = $serviceMock->findByFilter(MonthlyCLosingEnum::THIS_YEAR);
 
         $this->assertIsArray($result);
-        $this->assertEmpty($result);
+    }
+
+    public function testAddChartData()
+    {
+        $serviceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+
+        $dataOne = new MonthlyClosingDTO(1, 500, 1000, 2000, 100, 100, '2021-01-01 00:00:00', '2021-01-31 23:59:59');
+        $dataTwo = new MonthlyClosingDTO(2, 100, 200, 300, 400, 500, '2021-02-01 00:00:00', '2021-02-28 23:59:59');
+        $data = [$dataOne, $dataTwo];
+
+        $result = $serviceMock->addChartData($data);
+
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+        $this->assertArrayHasKey('data', $result);
+        $this->assertArrayHasKey('chartData', $result);
+        $this->assertIsArray($result['data']);
+        $this->assertCount(2, $result['data']);
+        $this->assertInstanceOf(MonthlyClosingDTO::class, $result['data'][0]);
+        $this->assertInstanceOf(MonthlyClosingDTO::class, $result['data'][1]);
+        $this->assertInstanceOf(ChartDataVO::class, $result['chartData']);
     }
 }

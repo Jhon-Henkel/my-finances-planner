@@ -13,14 +13,14 @@ const defaultChartParams = {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            let label = context.dataset.label || '';
+                            let label = context.dataset.label || ''
                             if (label) {
-                                label += ': ';
+                                label += ': '
                             }
                             if (context.parsed !== null) {
-                                label += StringTools.formatFloatValueToBrString(context.parsed);
+                                label += StringTools.formatFloatValueToBrString(context.parsed)
                             }
-                            return label;
+                            return label
                         },
                     }
                 },

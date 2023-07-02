@@ -61,6 +61,7 @@ class CronService
         DB::table('credit_card_transaction')->truncate();
         DB::table('credit_card')->truncate();
         DB::table('wallets')->truncate();
+        DB::table('monthly_closing')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         return true;
     }
