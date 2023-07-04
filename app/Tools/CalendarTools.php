@@ -57,6 +57,12 @@ class CalendarTools
         return str_pad($month, 2, '0', STR_PAD_LEFT);
     }
 
+    public static function getYearFromDate(string $date): string
+    {
+        $date = new DateTime($date);
+        return $date->format(DateEnum::ONLY_COMPLETE_YEAR);
+    }
+
     public static function getDayFromDate(string $date): string
     {
         $date = new DateTime($date);
@@ -144,5 +150,12 @@ class CalendarTools
         $month = $date->format(DateEnum::ONLY_MONTH);
         $year = $date->format(DateEnum::ONLY_COMPLETE_YEAR);
         return $month . '/' . $year;
+    }
+
+    public static function getMonthPeriodFromDate(string $date): DatePeriodDTO
+    {
+        $month = self::getMonthFromDate($date);
+        $year = self::getYearFromDate($date);
+        return self::getThisMonthPeriod($month, $year);
     }
 }

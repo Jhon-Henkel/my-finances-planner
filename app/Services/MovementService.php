@@ -6,6 +6,7 @@ use App\DTO\DatePeriodDTO;
 use App\DTO\FutureGainDTO;
 use App\DTO\FutureSpentDTO;
 use App\DTO\MovementDTO;
+use App\DTO\MovementSumValuesDTO;
 use App\Enums\DateEnum;
 use App\Enums\MovementEnum;
 use App\Exceptions\MovementException;
@@ -105,7 +106,7 @@ class MovementService extends BasicService
         $walletService = app(WalletService::class);
         if ($movement->getAmount() != $item->getAmount()) {
             $type = $this->getTypeForMovementUpdate($movement, $item);
-            $value = abs($movement->getAmount() - $item->getAmount());
+            $value = round($movement->getAmount() - $item->getAmount(), 2);
             $walletService->updateWalletValue($value, $movement->getWalletId(), $type, true);
         } elseif ($movement->getType() != $item->getType()) {
             $walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $item->getType(), true);
@@ -185,6 +186,22 @@ class MovementService extends BasicService
 
     public function countByWalletId(int $walletId): int
     {
-        return $this->repository->countByWalletId($walletId);
+        return $this->getRepository()->countByWalletId($walletId);
+    }
+
+    public function getSumValuesForPeriod(DatePeriodDTO $period): MovementSumValuesDTO
+    {
+        $movements = $this->getRepository()->findByPeriod($period);
+        $gain = 0;
+        $spent = 0;
+        foreach ($movements as $movement) {
+            if ($movement->getType() == MovementEnum::GAIN) {
+                $gain += $movement->getAmount();
+            } else {
+                $spent += $movement->getAmount();
+            }
+        }
+        $balance = round($gain - $spent, 2);
+        return new MovementSumValuesDTO($gain, $spent, $balance);
     }
 }

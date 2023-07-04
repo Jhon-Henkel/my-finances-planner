@@ -27,7 +27,7 @@ class DatasetsVO
         $this->data = $data;
     }
 
-    public function addData(int|float $data): void
+    public function addData(null|float $data): void
     {
         $this->data[] = $data;
     }

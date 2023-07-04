@@ -2,10 +2,13 @@
 
 namespace Tests\Unit\Service;
 
+use App\DTO\DatePeriodDTO;
 use App\DTO\FutureGainDTO;
 use App\DTO\FutureSpentDTO;
 use App\DTO\MovementDTO;
+use App\DTO\MovementSumValuesDTO;
 use App\Exceptions\MovementException;
+use App\Repositories\MovementRepository;
 use App\Services\MovementService;
 use App\VO\MovementVO;
 use Mockery;
@@ -338,5 +341,29 @@ class MovementServiceUnitTest extends TestCase
         $service->shouldAllowMockingProtectedMethods();
         $service->shouldReceive('insert')->once()->andReturn(new MovementDTO());
         $service->launchMovementForCreditCardInvoicePay(1, 10.50, 'ABC');
+    }
+
+    public function testGetSumValuesForPeriod()
+    {
+        $movementOne = new MovementDTO();
+        $movementOne->setAmount(10.5555);
+        $movementOne->setType(5);
+
+        $movementTwo = new MovementDTO();
+        $movementTwo->setAmount(20);
+        $movementTwo->setType(6);
+
+        $data = [$movementTwo, $movementOne];
+        $repositoryMock = Mockery::mock(MovementRepository::class)->makePartial();
+        $repositoryMock->shouldReceive('findByPeriod')->once()->andReturn($data);
+        $this->app->instance(MovementRepository::class, $repositoryMock);
+
+        $service = new MovementService($repositoryMock);
+        $return = $service->getSumValuesForPeriod(new DatePeriodDTO('2018-01-01', '2018-01-31'));
+
+        $this->assertInstanceOf(MovementSumValuesDTO::class, $return);
+        $this->assertEquals(10.5555, $return->getExpenses());
+        $this->assertEquals(20, $return->getEarnings());
+        $this->assertEquals(9.44, $return->getBalance());
     }
 }

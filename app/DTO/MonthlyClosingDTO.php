@@ -17,11 +17,11 @@ class MonthlyClosingDTO
         null|int $id,
         null|float $predictedEarnings,
         null|float $predictedExpenses,
-        null|float $realEarnings,
-        null|float $realExpenses,
-        null|float $balance,
-        mixed $createdAt,
-        mixed $updatedAt
+        null|float $realEarnings = null,
+        null|float $realExpenses = null,
+        null|float $balance = null,
+        mixed $createdAt = null,
+        mixed $updatedAt = null
     ) {
         $this->id = $id;
         $this->predictedEarnings = $predictedEarnings;
@@ -75,7 +75,7 @@ class MonthlyClosingDTO
 
     public function setBalance(): void
     {
-        $this->balance = $this->realEarnings - $this->realExpenses;
+        $this->balance = round($this->realEarnings - $this->realExpenses, 2);
     }
 
     public function getCreatedAt(): mixed

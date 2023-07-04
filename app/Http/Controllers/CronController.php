@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CronService;
+use App\Tools\DemoApplicationTools;
 use App\Tools\RequestTools;
 
 class CronController
@@ -25,13 +26,11 @@ class CronController
             $message = 'Modo demonstração não está ativo.';
             die($message);
         }
-        $deletedTables = $this->getService()->truncateDatabaseDemoTables();
-        if (! $deletedTables) {
+        if (! DemoApplicationTools::truncateDatabaseDemoTables()) {
             $message = 'Não foi possível limpar as tabelas.';
             die($message);
         }
-        $insertedTables = $this->getService()->insertDatabaseDemoData();
-        if (! $insertedTables) {
+        if (! DemoApplicationTools::insertDatabaseDemoData()) {
             $message = 'Não foi possível inserir os dados nas tabelas.';
             die($message);
         }
