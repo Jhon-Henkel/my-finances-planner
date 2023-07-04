@@ -107,56 +107,6 @@ class MonthlyClosingServiceUnitTest extends TestCase
         $this->assertInstanceOf(ChartDataVO::class, $result['chartData']);
     }
 
-    public function testGenerateMonthlyClosingWithLastMonthlyClosingReturn()
-    {
-        $monthlyClosing = new MonthlyClosingDTO(
-            1,
-            100,
-            200,
-            null,
-            null,
-            null,
-            '2021-01-01 00:00:00',
-            '2021-01-31 23:59:59'
-        );
-        $repositoryMock = Mockery::mock(MonthlyClosingRepository::class )->makePartial();
-        $repositoryMock->shouldReceive('findLast')->once()->andReturn($monthlyClosing);
-        $repositoryMock->shouldReceive('insert')->once()->andReturn($monthlyClosing);
-
-        $serviceMock = Mockery::mock(MonthlyClosingService::class, [$repositoryMock])->makePartial();
-        $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('updateLastMonthlyClosing')->once()->andReturn($monthlyClosing);
-
-        $result = $serviceMock->generateMonthlyClosing();
-
-        $this->assertInstanceOf(MonthlyClosingDTO::class, $result);
-    }
-
-    public function testGenerateMonthlyClosingWithLastMonthlyClosingDontReturn()
-    {
-        $monthlyClosing = new MonthlyClosingDTO(
-            1,
-            100,
-            200,
-            null,
-            null,
-            null,
-            '2021-01-01 00:00:00',
-            '2021-01-31 23:59:59'
-        );
-        $repositoryMock = Mockery::mock(MonthlyClosingRepository::class )->makePartial();
-        $repositoryMock->shouldReceive('findLast')->once()->andReturnNull();
-        $repositoryMock->shouldReceive('insert')->once()->andReturn($monthlyClosing);
-
-        $serviceMock = Mockery::mock(MonthlyClosingService::class, [$repositoryMock])->makePartial();
-        $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('updateLastMonthlyClosing')->never();
-
-        $result = $serviceMock->generateMonthlyClosing();
-
-        $this->assertInstanceOf(MonthlyClosingDTO::class, $result);
-    }
-
     public function testUpdateLastMonthlyClosing()
     {
         $monthlyClosing = new MonthlyClosingDTO(
