@@ -4,18 +4,8 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Saúde Financeira'"/>
-                <font-awesome-icon :icon="iconEnum.filterMoney()" class="me-2 mt-1 filter"/>
-                <div class="form-group me-3">
-                    <select class="form-select form-select-sm" @change="getMovementsByFilter($event)">
-                        <option v-for="filter in filterList" :key="filter.id" :value="filter.id">
-                            {{ filter.label }}
-                        </option>
-                    </select>
-                </div>
-                <router-link class="btn btn-success rounded-5" to="/ferramentas">
-                    <font-awesome-icon :icon="iconEnum.back()" class="me-2"/>
-                    Voltar
-                </router-link>
+                <filter-top-right :filter="filterList" @callbackMethod="getMovementIndexFiltered($event)"/>
+                <back-button to="/ferramentas"/>
             </div>
             <divider/>
             <div class="card glass success balance-card ms-1">
@@ -66,9 +56,11 @@
     import apiRouter from "../../../../js/router/apiRouter";
     import MovementEnum from "../../../../js/enums/movementEnum";
     import DoughnutChart from "../../../components/graphics/DoughnutChart.vue";
-    import StringTools from "../../../../js/tools/stringTools";
     import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
     import stringTools from "../../../../js/tools/stringTools";
+    import BackButton from "../../../components/buttons/BackButton.vue";
+    import FilterTopRight from "../../../components/filters/filterTopRight.vue";
+    import defaultChartParams from "../../../../js/chartParams/defaultChartParams";
 
     const SPENT_ID = MovementEnum.type.spent()
     const GAIN_ID = MovementEnum.type.gain()
@@ -84,6 +76,8 @@
             }
         },
         components: {
+            FilterTopRight,
+            BackButton,
             FontAwesomeIcon,
             DoughnutChart,
             Divider,
@@ -96,72 +90,28 @@
                 lastFilter: null,
                 filterList: {},
                 movements: {},
-                graphOptions: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    console.log(context)
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += StringTools.formatFloatValueToBrString(context.parsed);
-                                    }
-                                    return label;
-                                },
-                            }
-                        },
-                    }
-                },
-                spendingGraphData: {
-                    labels: [],
-                    datasets: [
-                        {
-                            backgroundColor: [],
-                            data: []
-                        }
-                    ]
-                },
-                gainsGraphData: {
-                    labels: [],
-                    datasets: [
-                        {
-                            backgroundColor: [],
-                            data: []
-                        }
-                    ]
-                },
+                graphOptions: defaultChartParams.options('right'),
+                spendingGraphData: defaultChartParams.data,
+                gainsGraphData: defaultChartParams.data,
                 totalGains: 0,
                 totalSpent: 0,
             }
         },
         methods: {
-            async getMovementsByFilter(event) {
-                let filterId = event.target.value
-                this.lastFilter = filterId
-                await this.getMovementIndexFiltered(filterId)
-            },
             async getMovementIndexFiltered(filterId) {
                 this.loadingDone = false
                 await apiRouter.financialHealth.indexFiltered(filterId).then((response) => {
                     this.movements = response
                     let spending = response.dataForGraph[SPENT_ID]
                     let gains = response.dataForGraph[GAIN_ID]
-                    this.totalSpent = gains.total
-                    this.totalGains = spending.total
+                    this.totalSpent = spending.total
+                    this.totalGains = gains.total
                     this.spendingGraphData = {
                         labels: spending.label,
                         datasets: [
                             {
                                 backgroundColor: spending.color,
+                                borderColor: spending.color,
                                 data: spending.data
                             }
                         ]
@@ -171,6 +121,7 @@
                         datasets: [
                             {
                                 backgroundColor: gains.color,
+                                borderColor: gains.color,
                                 data: gains.data
                             }
                         ]
@@ -189,10 +140,6 @@
 <style scoped lang="scss">
     @import "../../../../sass/variables";
 
-    .filter {
-        font-size: 22px;
-        color: $success-icon-color;
-    }
     .card {
         width: 24rem;
     }

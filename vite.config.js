@@ -6,6 +6,7 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         disableHostCheck: true,
+        usePolling: true,
         hmr: {
             host: 'localhost'
         },
@@ -17,6 +18,7 @@ export default defineConfig({
             '/database/',
             '/node_modules/',
             '/routes/',
+            '/scripts/',
             '/storage/',
             '/tests/',
             '/vendor/',

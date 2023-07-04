@@ -9,10 +9,11 @@
                     </div>
                 </div>
                 <p>
-                    Olá, meu nome é Jhon, desenvolvi esse projeto com o intuito de criar uma aplicação para gerenciar
-                    minhas finanças pessoais. Antes desse projeto eu utilizava uma planilhas do excel para fazer todo
-                    o gerenciamento, mas com o tempo percebi que a planilha não era mais suficiente para o que eu
-                    precisava, então decidi criar uma aplicação web para gerenciar minhas finanças.
+                    Olá, meu nome é <a href="https://www.jhon.dev.br" target="_blank" class="link">Jhon</a>
+                    , desenvolvi esse projeto com o intuito de criar uma aplicação para gerenciar minhas finanças
+                    pessoais. Antes desse projeto eu utilizava uma planilhas do excel para fazer todo o gerenciamento,
+                    mas com o tempo percebi que a planilha não era mais suficiente para o que eu precisava, então decidi
+                    criar uma aplicação web para gerenciar minhas finanças.
                 </p>
                 <p>
                     Com esse projeto eu aprendi muito principalmente sobre os frameworks Laravel e Vue.js, que são
@@ -26,8 +27,8 @@
                     em um computador.
                 </p>
                 <p>
-                    O projeto está disponível no <a :href="projectLink" target="_blank">github</a>, caso queira
-                    contribuir com o projeto, fique a vontade para fazer um fork e enviar um pull request.
+                    O projeto está disponível no <a :href="projectLink" target="_blank" class="link">github</a>, caso
+                    queira contribuir com o projeto, fique a vontade para fazer um fork e enviar um pull request.
                 </p>
                 <div class="row mt-5">
                     <div class="col-6">
@@ -36,9 +37,9 @@
                     </div>
                 </div>
                 <p>
-                    Para ver uma demo do projeto, basta <a href="/login" target="_blank">clicar aqui</a>, você será
-                    redirecionado para uma página de login, basta inserir os dados de acesso abaixo que você será
-                    redirecionado para a página inicial do projeto.
+                    Para ver uma demo do projeto, basta <a href="/login" target="_blank" class="link">clicar aqui</a>,
+                    você será redirecionado para uma página de login, basta inserir os dados de acesso abaixo que você
+                    será redirecionado para a página inicial do projeto.
                 </p>
                 <ul>
                     <li><strong>Usuário:</strong> {{ demoUser }}</li>
@@ -58,7 +59,7 @@
                 </div>
                 <p>
                     Caso você tenha alguma sugestão ou tenha encontrado algum erro no projeto, você pode reportar
-                    <a :href="openIssueLink" target="_blank">clicando aqui</a>.
+                    <a :href="openIssueLink" target="_blank" class="link">clicando aqui</a>.
                 </p>
                 <p>
                     Com sua ajuda, podemos melhorar cada vez mais o projeto.
@@ -122,3 +123,15 @@
         },
     }
 </script>
+
+<style lang="scss" scoped>
+    @import "../../../sass/variables";
+
+    .link {
+        color: $divider-component-color;
+        text-decoration: none;
+    }
+    strong {
+        color: $pop-up-success-color;
+    }
+</style>

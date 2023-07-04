@@ -5,10 +5,7 @@
         <div v-show="loadingDone >= 2">
             <div class="nav justify-content-end">
                 <mfp-title title="Gerenciar despesas e ganhos"/>
-                <router-link class="btn btn-success rounded-5" to="/panorama">
-                    <font-awesome-icon :icon="iconEnum.back()" class="me-2"/>
-                    Voltar
-                </router-link>
+                <back-button to="/panorama"/>
             </div>
             <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
@@ -99,6 +96,7 @@
     import stringTools from "../../../js/tools/stringTools";
     import ActionButtons from "../../components/ActionButtons.vue";
     import calendarTools from "../../../js/tools/calendarTools";
+    import BackButton from "../../components/buttons/BackButton.vue";
 
     export default {
         name: "PanoramaAllSpentAndGain",
@@ -114,6 +112,7 @@
             }
         },
         components: {
+            BackButton,
             ActionButtons,
             FontAwesomeIcon,
             Divider,

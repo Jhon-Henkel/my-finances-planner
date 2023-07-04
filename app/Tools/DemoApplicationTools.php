@@ -10,6 +10,7 @@ use App\DTO\MovementDTO;
 use App\DTO\WalletDTO;
 use App\Enums\DateEnum;
 use App\Models\CreditCardTransaction;
+use App\Models\MonthlyClosing;
 use App\Resources\MovementResource;
 use App\Services\CreditCardService;
 use App\Services\CreditCardTransactionService;
@@ -24,6 +25,23 @@ use Illuminate\Support\Facades\DB;
  */
 class DemoApplicationTools
 {
+    public static function truncateDatabaseDemoTables(): bool
+    {
+        if (! RequestTools::isApplicationInDemoMode()) {
+            return false;
+        }
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('movements')->truncate();
+        DB::table('future_gain')->truncate();
+        DB::table('future_spent')->truncate();
+        DB::table('credit_card_transaction')->truncate();
+        DB::table('credit_card')->truncate();
+        DB::table('wallets')->truncate();
+        DB::table('monthly_closing')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        return true;
+    }
+
     public static function insertDatabaseDemoData(): bool
     {
         if (! RequestTools::isApplicationInDemoMode()) {
@@ -35,6 +53,7 @@ class DemoApplicationTools
         self::insertFutureGains();
         self::insertFutureSpending();
         self::insertMovements();
+        self::insertMonthlyClosing();
         return true;
     }
 
@@ -251,8 +270,15 @@ class DemoApplicationTools
         foreach ($movements as $movement) {
             $item = $resource->dtoToArray($movement);
             $item = array_merge($item, ['created_at' => $movement->getCreatedAt()]);
-            $query = "INSERT INTO movements (wallet_id, description, type, amount, created_at) VALUES ({$item['wallet_id']}, '{$item['description']}', '{$item['type']}', {$item['amount']}, '{$item['created_at']}')";
-            DB::insert($query);
+            $params = [
+                'walletId' => $item['wallet_id'],
+                'description' => $item['description'],
+                'movementType' => $item['type'],
+                'amount' => $item['amount'],
+                'createdAt' => $item['created_at']
+            ];
+            $query = "INSERT INTO movements (wallet_id, description, type, amount, created_at) VALUES (:walletId, :description, :movementType, :amount, :createdAt)";
+            DB::insert($query, $params);
         }
     }
 
@@ -284,20 +310,21 @@ class DemoApplicationTools
         $descriptions = ['Salário', 'Vale Alimentação', 'Vale Transporte', 'Gim Pass', 'Mercado', 'Farmácia', 'Aluguel', 'Energia', 'Gasolina', 'Internet', 'Curso de Inglês', 'Sofá', 'Academia', 'Salário', 'Vale Alimentação', 'Vale Transporte', 'Gim Pass', 'Mercado', 'Farmácia', 'Aluguel', 'Energia', 'Gasolina', 'Internet', 'Curso de Inglês', 'Sofá', 'Academia', 'Salário', 'Vale Alimentação', 'Vale Transporte', 'Gim Pass', 'Mercado', 'Farmácia', 'Aluguel', 'Energia', 'Gasolina', 'Internet', 'Curso de Inglês', 'Sofá', 'Academia'];
         $types = [6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5];
         $amounts = [5310, 350, 150, 100, 250, 50, 1500, 250, 250, 109.90, 299.65, 370.90, 120, 5310, 350, 150, 100, 250, 50, 1500, 250, 250, 109.90, 299.65, 370.90, 120, 5310, 350, 150, 100, 250, 50, 1500, 250, 250, 109.90, 299.65, 370.90, 120];
+        $today = (int)CalendarTools::getDayFromDate($now);
         $dates = [
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
-            $firstDate . str_pad(rand(1, (int)CalendarTools::getDayFromDate($now)), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
+            $firstDate . str_pad(rand(1, $today), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
             $secondDate . str_pad(rand(1, 28), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
             $secondDate . str_pad(rand(1, 28), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
             $secondDate . str_pad(rand(1, 28), 2, '0', STR_PAD_LEFT) . ' 00:00:00',
@@ -335,5 +362,52 @@ class DemoApplicationTools
             $movements[] = $item;
         }
         return $movements;
+    }
+
+    protected static function insertMonthlyClosing(): void
+    {
+        $monthlyClosingModel = app(MonthlyClosing::class);
+        $data = self::makeDemoMonthlyClosing();
+        foreach ($data as $item) {
+            $monthlyClosingModel->create($item)->toArray();
+        }
+    }
+
+    protected static function makeDemoMonthlyClosing(): array
+    {
+        return [
+            [
+                'id' => 1,
+                'predicted_earnings' => 1230,
+                'predicted_expenses' => 1000,
+                'real_earnings' => 2000,
+                'real_expenses' => 1500,
+                'balance' => 500,
+            ],
+            [
+                'id' => 2,
+                'predicted_earnings' => 1200,
+                'predicted_expenses' => 1300,
+                'real_earnings' => 1450,
+                'real_expenses' => 1500,
+                'balance' => -50,
+            ],
+            [
+                'id' => 3,
+                'predicted_earnings' => 1500,
+                'predicted_expenses' => 1450,
+                'real_earnings' => 1561,
+                'real_expenses' => 1000,
+                'balance' => 561
+            ],
+            [
+                'id' => 4,
+                'predicted_earnings' => 1350,
+                'predicted_expenses' => 1450,
+                'real_earnings' => 1390,
+                'real_expenses' => 1490,
+                'balance' => -100,
+            ]
+        ];
     }
 }

@@ -304,4 +304,21 @@ class CalendarToolsUnitTest extends TestCase
             'TwelveMonthPeriod' => ['month' => 1, 'year' => 2022, 'period' => 12, 'dateStartExpected' => '2022-01-01 00:00:00', 'dateEndExpected' => '2023-01-01 00:00:00'],
         ];
     }
+
+    public function testGetMonthLabelWithYear()
+    {
+        $this->assertEquals('01/2022', CalendarTools::getMonthLabelWithYear('2022-01-01 00:00:00'));
+    }
+
+    public function testGetYearFromDate()
+    {
+        $this->assertEquals('2022', CalendarTools::getYearFromDate('2022-01-01 00:00:00'));
+    }
+
+    public function testGetMonthPeriodFromDate()
+    {
+        $period = CalendarTools::getMonthPeriodFromDate('2022-01-01 00:00:00');
+        $this->assertEquals('2022-01-01 00:00:00', $period->getStartDate());
+        $this->assertEquals('2022-01-31 23:59:59', $period->getEndDate());
+    }
 }

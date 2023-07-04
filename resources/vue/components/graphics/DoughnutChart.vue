@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Doughnut :data="data" :options="options" />
+        <doughnut :data="data" :options="options" />
     </div>
 </template>
 

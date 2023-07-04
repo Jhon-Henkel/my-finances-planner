@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FinancialHealthController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
+use App\Http\Controllers\MonthlyClosingController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\PanoramaController;
 use App\Http\Controllers\UserController;
@@ -82,5 +83,8 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
     });
     $router->prefix('financial-health')->group(function () use ($router) {
         $router->get('/filter/{filter}', [FinancialHealthController::class, 'indexFiltered'])->name(RouteEnum::API_FINANCIAL_HEALTH_INDEX_FILTERED);
+    });
+    $router->prefix('monthly-closing')->group(function () use ($router) {
+        $router->get('/filter/{filter}', [MonthlyClosingController::class, 'indexFiltered'])->name(RouteEnum::API_MONTHLY_CLOSING_INDEX_FILTERED);
     });
 });

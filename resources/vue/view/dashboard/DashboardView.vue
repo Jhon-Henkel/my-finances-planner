@@ -18,7 +18,7 @@
                             <hr>
                             <p class="card-text">
                                 {{ StringTools.formatFloatValueToBrString(data.value) }}
-                                <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="data.value < 0"/>
+                                <alert-icon v-if="data.value < 0"/>
                             </p>
                         </div>
                     </div>
@@ -47,15 +47,15 @@
                             <div class="row">
                                 <div class="col-4">
                                     {{ StringTools.formatFloatValueToBrString(balance.lastMonth) }}
-                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="balance.lastMonth < 0"/>
+                                    <alert-icon v-if="balance.lastMonth < 0"/>
                                 </div>
                                 <div class="col-4">
                                     {{ StringTools.formatFloatValueToBrString(balance.thisMonth) }}
-                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="balance.thisMonth < 0"/>
+                                    <alert-icon v-if="balance.thisMonth < 0"/>
                                 </div>
                                 <div class="col-4">
                                     {{ StringTools.formatFloatValueToBrString(balance.thisYear) }}
-                                    <font-awesome-icon :icon="alertIcon" class="icon-alert" v-if="balance.thisYear < 0"/>
+                                    <alert-icon v-if="balance.thisYear < 0"/>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <div class="col-8 glass success"  style="width: 63%">
-                    <bar id="graph-movement" :options="graphOptions" :data="chartData"/>
+                    <bar-chart id="graph-movement" :graph-options="graphOptions" :chart-data="chartData" />
                 </div>
             </div>
         </div>
@@ -104,11 +104,9 @@
     import iconEnum from "../../../js/enums/iconEnum";
     import calendarTools from "../../../js/tools/calendarTools";
     import movementEnum from "../../../js/enums/movementEnum";
-    import { Bar } from 'vue-chartjs'
-    import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-
-    ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-    ChartJS.defaults.color = '#fff';
+    import AlertIcon from "../../components/AlertIcon.vue";
+    import BarChart from "../../components/graphics/BarChart.vue";
+    import dashboardChartParams from "../../../js/chartParams/dashboardChartParams";
 
     export default {
         name: "DashboardView",
@@ -121,77 +119,20 @@
             }
         },
         components: {
+            BarChart,
+            AlertIcon,
             FontAwesomeIcon,
             MfpMessage,
             LoadingComponent,
             Divider,
-            MfpTitle,
-            Bar
+            MfpTitle
         },
         data() {
             return {
-                alertIcon: iconEnum.triangleExclamation(),
                 loadingDone: false,
                 salutation: localStorage.getItem('salutation'),
-                graphOptions: {
-                    animation: {
-                        y: {
-                            easing: 'easeInQuad',
-                            duration: 3000,
-                            from: -100,
-                        }
-                    },
-                    scales: {
-                        x: {
-                            stacked: true,
-                        },
-                        y: {
-                            stacked: true,
-                            ticks: {
-                                display: false
-                            }
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Movimentações por mês'
-                        },
-                        legend: {
-                            display: true,
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += StringTools.formatFloatValueToBrString(context.parsed.y);
-                                    }
-                                    return label;
-                                },
-                            }
-                        },
-                    }
-                },
-                chartData: {
-                    labels: [],
-                    datasets: [
-                        {
-                            label: 'Gastos',
-                            backgroundColor: '#f87979',
-                            data: [0,0,0,0,0,0,0,0,0,0,0,0],
-                        },
-                        {
-                            label: 'Ganhos',
-                            backgroundColor: '#79f879',
-                            data: [0,0,0,0,0,0,0,0,0,0,0,0],
-                        }
-                    ]
-                },
+                graphOptions: dashboardChartParams.options,
+                chartData: dashboardChartParams.data,
                 data: {
                     walletBalance: 0,
                     movements: {
@@ -319,9 +260,6 @@
     }
     .warning {
         box-shadow: 0 0 1em $danger-icon-color;
-    }
-    .icon-alert {
-        color: $alert-icon-color;
     }
     .spent-icon {
         color: $danger-icon-color;

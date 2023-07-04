@@ -7,16 +7,18 @@
         <h5 class="mb-4">
             Ferramentas que auxiliam nas suas finanças pessoais, para que você não precise se preocupar em fazer contas...
         </h5>
-        <divider class="mb-5"/>
-        <div class="card me-5" v-for="(item, index) in items" :key="index">
-            <img :src="item.imagePath" class="card-img-top image-card" height="200">
-            <div class="card-body">
-                <h5 class="card-title">{{ item.title }}</h5>
-                <p class="card-text">{{ item.description }}</p>
-                <a :href="item.redirectTo" class="btn btn-success rounded-5 btn-full">
-                    <font-awesome-icon :icon="iconEnum.wrench()" class="me-2"/>
-                    Usar
-                </a>
+        <divider/>
+        <div class="text-center ms-4">
+            <div class="card me-4 mt-4" v-for="(item, index) in items" :key="index">
+                <img :src="item.imagePath" class="card-img-top image-card" height="200">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text">{{ item.description }}</p>
+                    <a :href="item.redirectTo" class="btn btn-success rounded-5 btn-full">
+                        <font-awesome-icon :icon="iconEnum.wrench()" class="me-2"/>
+                        Usar
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -59,6 +61,12 @@
                         description: 'Relatório que separa as movimentações por tipo.',
                         redirectTo: '/ferramentas/saude-financeira'
                     },
+                    {
+                        title: 'Fechamento de Mês',
+                        imagePath: '../../../../public/images/tools/monthly-closing.jpg',
+                        description: 'Relatório que mostra o fechamento do mês.',
+                        redirectTo: '/ferramentas/fechamento-mensal'
+                    }
                 ]
             }
         }

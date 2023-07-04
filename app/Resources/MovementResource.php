@@ -61,7 +61,7 @@ class MovementResource extends BasicResource
         $movement->setDescription('Atualização de carteira');
         $movement->setWalletId($walletId);
         $movement->setType($type);
-        $movement->setAmount(abs($value));
+        $movement->setAmount(round($value, 2));
         return $movement;
     }
 }

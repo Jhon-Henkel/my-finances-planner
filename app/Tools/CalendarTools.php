@@ -57,6 +57,12 @@ class CalendarTools
         return str_pad($month, 2, '0', STR_PAD_LEFT);
     }
 
+    public static function getYearFromDate(string $date): string
+    {
+        $date = new DateTime($date);
+        return $date->format(DateEnum::ONLY_COMPLETE_YEAR);
+    }
+
     public static function getDayFromDate(string $date): string
     {
         $date = new DateTime($date);
@@ -89,6 +95,14 @@ class CalendarTools
     public static function getThisYearPeriod(int $year): DatePeriodDTO
     {
         $startDate = self::mountStringDateTime($year, DateEnum::JANUARY_MONTH_NUMBER, 1, '00:00:00');
+        $endDate = self::mountStringDateTime($year, DateEnum::DECEMBER_MONTH_NUMBER, 31, '23:59:59');
+        return new DatePeriodDTO($startDate, $endDate);
+    }
+
+    public static function getLastFiveYearPeriod(int $year): DatePeriodDTO
+    {
+        $lastYear = $year - 5;
+        $startDate = self::mountStringDateTime($lastYear, DateEnum::JANUARY_MONTH_NUMBER, 1, '00:00:00');
         $endDate = self::mountStringDateTime($year, DateEnum::DECEMBER_MONTH_NUMBER, 31, '23:59:59');
         return new DatePeriodDTO($startDate, $endDate);
     }
@@ -128,5 +142,20 @@ class CalendarTools
         $dateStart = self::mountStringDateTime($year, $month, 1, '00:00:00');
         $dateEnd = self::addMonthInDate($dateStart, $interval);
         return new DatePeriodDTO($dateStart, $dateEnd);
+    }
+
+    public static function getMonthLabelWithYear(string $date): string
+    {
+        $date = new DateTime($date);
+        $month = $date->format(DateEnum::ONLY_MONTH);
+        $year = $date->format(DateEnum::ONLY_COMPLETE_YEAR);
+        return $month . '/' . $year;
+    }
+
+    public static function getMonthPeriodFromDate(string $date): DatePeriodDTO
+    {
+        $month = self::getMonthFromDate($date);
+        $year = self::getYearFromDate($date);
+        return self::getThisMonthPeriod($month, $year);
     }
 }

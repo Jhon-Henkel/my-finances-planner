@@ -27,11 +27,10 @@
                     <tr v-for="wallet in wallets" :key="wallet.id" class="text-center">
                         <td>{{ wallet.name }}</td>
                         <td>{{ walletEnum.getDescription(wallet.type) }}</td>
-                        <td v-if="wallet.amount < 0" v-tooltip="'Cuidado, valor negativo'">
+                        <td>
                             {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
-                            <font-awesome-icon :icon="iconEnum.triangleExclamation()" class="icon-alert"/>
+                            <alert-icon v-if="wallet.amount < 0" />
                         </td>
-                        <td v-else>{{ stringTools.formatFloatValueToBrString(wallet.amount) }}</td>
                         <td>
                             <action-buttons
                                 :delete-tooltip="'Deletar Carteira'"
@@ -112,10 +111,12 @@
     import MfpTitle from "../../components/TitleComponent.vue";
     import MfpMessage from "../../components/MessageAlert.vue";
     import MessageEnum from "../../../js/enums/messageEnum";
+    import AlertIcon from "../../components/AlertIcon.vue";
 
     export default {
         name: "WalletView",
         components: {
+            AlertIcon,
             MfpMessage,
             MfpTitle,
             Divider,
