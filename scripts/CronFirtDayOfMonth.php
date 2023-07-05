@@ -16,18 +16,23 @@ $cron = app(CronService::class);
 ///////////////////////////////////////////////////////////////////////
 
 try {
-    $cron->notifyCronjobStart('generate-monthly-closing');
+    $cron->notifyCronjobStart('TbaGhj');
     $users = User::all();
     foreach ($users as $user) {
         $monthlyClosingService = app(MonthlyClosingService::class);
         $monthlyClosingService->generateMonthlyClosing();
         $mail = $monthlyClosingService->generateMailMonthlyClosingDone($user->email, $user->name);
-        app(MailService::class)->sendEmail($mail);
+        try {
+            app(MailService::class)->sendEmail($mail);
+        } catch (Throwable $exception) {
+            $message = 'Error: ' . $exception->getMessage();
+            echo $message;
+        }
     }
-    $cron->notifyCronjobDone('generate-monthly-closing');
+    $cron->notifyCronjobDone('TbaGhj');
     echo 'Monthly closing generated successfully';
 } catch (Throwable $exception) {
     $message = 'Error: ' . $exception->getMessage();
-    $cron->notifyCronjobFailed('generate-monthly-closing', $message);
+    $cron->notifyCronjobFailed('TbaGhj', $message);
     echo $message;
 }
