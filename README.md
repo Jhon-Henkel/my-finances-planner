@@ -3,6 +3,7 @@
 
 [![Tests](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/main_branch_pipeline.yml/badge.svg)](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/main_branch_pipeline.yml)
 [![PHP-Coverage](https://codecov.io/gh/Jhon-Henkel/my-finances-planner/branch/main/graph/badge.svg?token=ZWK28PWTZF)](https://codecov.io/gh/Jhon-Henkel/my-finances-planner)
+![My Finances Planner Demo](https://cronitor.io/badges/7TNGwI/production/Kx5Z8Ty_r1i5MPDI_w5JPm66d7Y.svg)
 ## Sobre My Finances Planner
 
 Com a necessidade de algo mais completo e personalizado para controle financeiro, resolvi desenvolver essa aplicação. Atualmente esse projeto está em fase de testes(Beta).
@@ -28,3 +29,4 @@ My finances planner é um software open-sourced licenciado em [MIT license](http
 a variável **HONEYBADGER_API_KEY** com a chave de acesso da sua conta.
 - Cron: Para monitoramento de cron estou utilizando o [cronitor](https://cronitor.io/), para configura, basta popular
 a variável **CRONITOR_API_KEY** com a chave de acesso da sua conta.
+- Status do site: O monitoramento de status do site pode ser visto [aqui](https://my-finances-planner-demo.cronitorstatus.com/).

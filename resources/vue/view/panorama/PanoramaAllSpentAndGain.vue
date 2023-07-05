@@ -13,7 +13,7 @@
                     <tr class="text-center">
                         <td colspan="11">
                             <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-2"/>
-                            Todas as Despesas
+                            Todas as Despesas (Exceto Cartões)
                         </td>
                     </tr>
                     <tr class="text-center">

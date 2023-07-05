@@ -1,8 +1,8 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true" :time="calendarTools.fiveHundredMs()"/>
-        <div v-show="loadingDone">
+        <loading-component v-show="loadingDone === 0" />
+        <div v-show="loadingDone === 1">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="title"/>
                 <router-link-button title="Voltar" :icon="iconEnum.back()"
@@ -126,7 +126,7 @@
             return {
                 invoices: {},
                 title: '',
-                loadingDone: false,
+                loadingDone: 0,
                 walletId: 0,
                 thisMonth: null,
                 cardId: null,
@@ -159,9 +159,18 @@
                 if (confirm('Deseja realmente deletar a despesa ' + name + '?')) {
                     await apiRouter.expense.delete(id)
                     this.messageSuccess('Despesa deletada com sucesso!')
-                    this.invoices = await apiRouter.cards.invoices.index(this.cardId)
-                    this.calculateTotalPerMonth()
+                    await this.getInvoice()
                 }
+            },
+            async getInvoice() {
+                this.loadingDone = 0
+                await apiRouter.cards.invoices.index(this.cardId).then(response => {
+                    this.invoices = response
+                    this.loadingDone++
+                    this.calculateTotalPerMonth()
+                }).catch(error => {
+                    this.messageError(error.response.data.message)
+                })
             },
             calculateTotalPerMonth() {
                 let totalPerMonthCount = NumberTools.calculateTotalPerMonthInvoiceItem(this.invoices)
@@ -190,8 +199,8 @@
                             return
                         }
                         this.messageSuccess('Fatura paga com sucesso!')
-                        this.invoices = await apiRouter.cards.invoices.index(this.cardId)
-                        this.calculateTotalPerMonth()
+                        this.showPayInvoice = false
+                        await this.getInvoice()
                     }).catch(() => {
                         this.messageError('Erro ao pagar fatura!')
                     })
@@ -205,10 +214,9 @@
             this.cardId = this.$route.params.id
             this.wallets = await apiRouter.wallet.index()
             this.card = await apiRouter.cards.show(this.cardId)
+            await this.getInvoice()
             this.title = 'Fatura cartão ' + this.card.name
-            this.invoices = await apiRouter.cards.invoices.index(this.cardId)
             this.thisMonth = CalendarTools.getThisMonth()
-            this.calculateTotalPerMonth()
             this.months = [
                 this.thisMonth,
                 this.thisMonth + 1,
