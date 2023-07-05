@@ -8,7 +8,7 @@
                 <back-button to="/ferramentas"/>
             </div>
             <divider/>
-            <div class="card glass success balance-card ms-1">
+            <div class="card glass balance-card ms-1">
                 <div class="card-body text-center">
                     <h4 class="card-title">Gráficos categorizando movimentações do período</h4>
                     <hr>
@@ -16,27 +16,27 @@
                         <div class="row">
                             <div class="col-6">
                                 <h5>
-                                    <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="me-2 spent-icon"/>
+                                    <spent-icon class="me-2" />
                                     Gastos
                                 </h5>
                                 <hr>
                                 <DoughnutChart :options="graphOptions" :data="spendingGraphData" />
                                 <hr>
                                 <h5>
-                                    <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="me-2 spent-icon"/>
+                                    <spent-icon class="me-2" />
                                     Total gasto: {{ stringTools.formatFloatValueToBrString(totalSpent) }}
                                 </h5>
                             </div>
                             <div class="col-6">
                                 <h5>
-                                    <font-awesome-icon :icon="iconEnum.circleArrowUp()" class="me-2 gain-icon"/>
+                                    <gain-icon class="me-2" />
                                     Ganhos
                                 </h5>
                                 <hr>
                                 <DoughnutChart :options="graphOptions" :data="gainsGraphData" />
                                 <hr>
                                 <h5>
-                                    <font-awesome-icon :icon="iconEnum.circleArrowUp()" class="me-2 gain-icon"/>
+                                    <gain-icon class="me-2" />
                                     Total ganho: {{ stringTools.formatFloatValueToBrString(totalGains) }}
                                 </h5>
                             </div>
@@ -44,6 +44,59 @@
                     </div>
                 </div>
             </div>
+            <div class="card glass balance-card mt-4">
+                <div class="card-body text-center">
+                    <h4 class="cart-title">Lista de gastos e ganhos ordenados por maior valor</h4>
+                    <hr>
+                    <div class="card-text">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5>
+                                    <spent-icon class="me-2" />
+                                    Gastos
+                                </h5>
+                                <hr>
+                                <table class="table table-transparent table-borderless text-start">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Descrição</th>
+                                            <th scope="col">Valor</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(value, description) in movements[MovementEnum.type.spent()]">
+                                            <td>{{ description }}</td>
+                                            <td>{{ stringTools.formatFloatValueToBrString(value) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <h5>
+                                    <gain-icon class="me-2" />
+                                    Ganhos
+                                </h5>
+                                <hr>
+                                <table class="table table-transparent table-borderless text-start">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Valor</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(value, description) in movements[MovementEnum.type.gain()]">
+                                        <td>{{ description }}</td>
+                                        <td>{{ stringTools.formatFloatValueToBrString(value) }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <divider/>
         </div>
     </div>
 </template>
@@ -52,15 +105,15 @@
     import LoadingComponent from "../../../components/LoadingComponent.vue";
     import MfpTitle from "../../../components/TitleComponent.vue";
     import Divider from "../../../components/DividerComponent.vue";
-    import iconEnum from "../../../../js/enums/iconEnum";
     import apiRouter from "../../../../js/router/apiRouter";
     import MovementEnum from "../../../../js/enums/movementEnum";
     import DoughnutChart from "../../../components/graphics/DoughnutChart.vue";
-    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
     import stringTools from "../../../../js/tools/stringTools";
     import BackButton from "../../../components/buttons/BackButton.vue";
     import FilterTopRight from "../../../components/filters/filterTopRight.vue";
     import defaultChartParams from "../../../../js/chartParams/defaultChartParams";
+    import SpentIcon from "../../../components/icons/SpentIcon.vue";
+    import GainIcon from "../../../components/icons/GainIcon.vue";
 
     const SPENT_ID = MovementEnum.type.spent()
     const GAIN_ID = MovementEnum.type.gain()
@@ -68,17 +121,18 @@
     export default {
         name: "FinancialHealthView",
         computed: {
+            MovementEnum() {
+                return MovementEnum
+            },
             stringTools() {
                 return stringTools
             },
-            iconEnum() {
-                return iconEnum
-            }
         },
         components: {
+            GainIcon,
+            SpentIcon,
             FilterTopRight,
             BackButton,
-            FontAwesomeIcon,
             DoughnutChart,
             Divider,
             MfpTitle,
@@ -145,11 +199,5 @@
     }
     .balance-card {
         width: 80.5rem;
-    }
-    .gain-icon {
-        color: $success-icon-color;
-    }
-    .spent-icon {
-        color: $danger-icon-color;
     }
 </style>

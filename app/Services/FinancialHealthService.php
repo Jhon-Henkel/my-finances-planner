@@ -43,7 +43,7 @@ class FinancialHealthService
             }
             $data[$movement->getType()][$title] = $amount;
         }
-        return $data;
+        return $this->sortByValue($data);
     }
 
     protected function getCategoryTitleByDescription(string $description): string
@@ -57,6 +57,14 @@ class FinancialHealthService
         $descriptionWithoutReservedWords = str_replace($reservedWords, '', $descriptionWithoutMonth);
         $descriptionWithoutExtraSpaces = StringTools::removeExtraSpacesFromString($descriptionWithoutReservedWords);
         return ucfirst($descriptionWithoutExtraSpaces);
+    }
+
+    protected function sortByValue(array $data): array
+    {
+        foreach ($data as $type => $movements) {
+            arsort($data[$type]);
+        }
+        return $data;
     }
 
     protected function addDataForGraph(array $movements): array
