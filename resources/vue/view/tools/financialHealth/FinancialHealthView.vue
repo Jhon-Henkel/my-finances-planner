@@ -63,12 +63,12 @@
                                             <th scope="col">Valor</th>
                                             <th scope="col">%</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
+                                    </thead>
+                                    <tbody>
                                         <tr v-for="(value, description) in movements[MovementEnum.type.spent()]">
                                             <td>{{ description }}</td>
                                             <td>{{ stringTools.formatFloatValueToBrString(value) }}</td>
-                                            <td>{{ ((value / totalSpent) * 100).toFixed(2) }} %</td>
+                                            <td>{{ numberTools.getPercentageNumber(value, totalSpent) }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -81,18 +81,18 @@
                                 <hr>
                                 <table class="table table-transparent table-borderless text-start">
                                     <thead>
-                                    <tr>
-                                        <th scope="col">Descrição</th>
-                                        <th scope="col">Valor</th>
-                                        <th scope="col">%</th>
-                                    </tr>
+                                        <tr>
+                                            <th scope="col">Descrição</th>
+                                            <th scope="col">Valor</th>
+                                            <th scope="col">%</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(value, description) in movements[MovementEnum.type.gain()]">
-                                        <td>{{ description }}</td>
-                                        <td>{{ stringTools.formatFloatValueToBrString(value) }}</td>
-                                        <td>{{ ((value / totalGains) * 100).toFixed(2) }} %</td>
-                                    </tr>
+                                        <tr v-for="(value, description) in movements[MovementEnum.type.gain()]">
+                                            <td>{{ description }}</td>
+                                            <td>{{ stringTools.formatFloatValueToBrString(value) }}</td>
+                                            <td>{{ numberTools.getPercentageNumber(value, totalGains) }}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -118,6 +118,7 @@
     import defaultChartParams from "../../../../js/chartParams/defaultChartParams";
     import SpentIcon from "../../../components/icons/SpentIcon.vue";
     import GainIcon from "../../../components/icons/GainIcon.vue";
+    import numberTools from "../../../../js/tools/numberTools";
 
     const SPENT_ID = MovementEnum.type.spent()
     const GAIN_ID = MovementEnum.type.gain()
@@ -125,6 +126,9 @@
     export default {
         name: "FinancialHealthView",
         computed: {
+            numberTools() {
+                return numberTools
+            },
             MovementEnum() {
                 return MovementEnum
             },
