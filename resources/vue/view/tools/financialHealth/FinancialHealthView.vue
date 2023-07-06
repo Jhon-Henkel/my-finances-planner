@@ -61,12 +61,14 @@
                                         <tr>
                                             <th scope="col">Descrição</th>
                                             <th scope="col">Valor</th>
+                                            <th scope="col">%</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr v-for="(value, description) in movements[MovementEnum.type.spent()]">
                                             <td>{{ description }}</td>
                                             <td>{{ stringTools.formatFloatValueToBrString(value) }}</td>
+                                            <td>{{ ((value / totalSpent) * 100).toFixed(2) }} %</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -82,12 +84,14 @@
                                     <tr>
                                         <th scope="col">Descrição</th>
                                         <th scope="col">Valor</th>
+                                        <th scope="col">%</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr v-for="(value, description) in movements[MovementEnum.type.gain()]">
                                         <td>{{ description }}</td>
                                         <td>{{ stringTools.formatFloatValueToBrString(value) }}</td>
+                                        <td>{{ ((value / totalGains) * 100).toFixed(2) }} %</td>
                                     </tr>
                                     </tbody>
                                 </table>
