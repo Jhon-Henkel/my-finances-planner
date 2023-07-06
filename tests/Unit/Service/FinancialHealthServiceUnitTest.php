@@ -106,4 +106,27 @@ class FinancialHealthServiceUnitTest extends TestCase
 
         $this->assertIsArray($result);
     }
+
+    public function testSortByValue()
+    {
+        $serviceMock = Mockery::mock(FinancialHealthService::class)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+
+        $data = [
+            'gain' => ['a' => 10.50, 'b' => 9, 'c' => 10.59, 'd' => 50, 'e' => 500],
+            'spent' => ['a' => 300, 'b' => 400, 'c' => 100, 'd' => 200, 'e' => 1000]
+        ];
+
+        $result = $serviceMock->sortByValue($data);
+        $resultJson = json_encode($result);
+
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+        $this->assertCount(5, $result['gain']);
+        $this->assertCount(5, $result['spent']);
+        $this->assertEquals(
+            '{"gain":{"e":500,"d":50,"c":10.59,"a":10.5,"b":9},"spent":{"e":1000,"b":400,"a":300,"d":200,"c":100}}',
+            $resultJson
+        );
+    }
 }
