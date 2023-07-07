@@ -68,10 +68,10 @@
                                     <h6>Vale Transporte</h6>
                                 </div>
                                 <div class="col-2">
-                                    <h6>Outros</h6>
+                                    <h6>Vale Saúde</h6>
                                 </div>
                                 <div class="col-2">
-                                    <h6>Vale Saúde</h6>
+                                    <h6>Outros</h6>
                                 </div>
                             </div>
                             <div class="row">
@@ -88,10 +88,10 @@
                                     {{ stringTools.formatFloatValueToBrString(walletsPerType.transportTicket) }}
                                 </div>
                                 <div class="col-2">
-                                    {{ stringTools.formatFloatValueToBrString(walletsPerType.others) }}
+                                    {{ stringTools.formatFloatValueToBrString(walletsPerType.healthTicketType) }}
                                 </div>
                                 <div class="col-2">
-                                    {{ stringTools.formatFloatValueToBrString(walletsPerType.healthTicketType) }}
+                                    {{ stringTools.formatFloatValueToBrString(walletsPerType.others) }}
                                 </div>
                             </div>
                         </div>
