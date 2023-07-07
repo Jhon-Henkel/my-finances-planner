@@ -20,8 +20,8 @@
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr v-show="wallets.length === 0" class="text-center">
+                <tbody class="text-center">
+                    <tr v-show="wallets.length === 0">
                         <td colspan="4">Nenhuma carteira cadastrada ainda!</td>
                     </tr>
                     <tr v-for="wallet in wallets" :key="wallet.id" class="text-center">
@@ -38,6 +38,10 @@
                                 :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
                                 @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
                         </td>
+                    </tr>
+                    <tr class="border-table">
+                        <td colspan="2">Total</td>
+                        <td colspan="2">{{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -67,7 +71,7 @@
                                     <h6>Outros</h6>
                                 </div>
                                 <div class="col-2">
-                                    <h6>Total</h6>
+                                    <h6>Vale Saúde</h6>
                                 </div>
                             </div>
                             <div class="row">
@@ -87,7 +91,7 @@
                                     {{ stringTools.formatFloatValueToBrString(walletsPerType.others) }}
                                 </div>
                                 <div class="col-2">
-                                    {{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}
+                                    {{ stringTools.formatFloatValueToBrString(walletsPerType.healthTicketType) }}
                                 </div>
                             </div>
                         </div>
@@ -147,6 +151,7 @@
                     bank: 0,
                     mealTicket: 0,
                     transportTicket: 0,
+                    healthTicketType: 0,
                     others: 0
                 }
             }
@@ -171,6 +176,8 @@
                         this.walletsPerType.mealTicket += wallet.amount
                     } else if (wallet.type === walletEnum.type.transportTicketType) {
                         this.walletsPerType.transportTicket += wallet.amount
+                    } else if (wallet.type === walletEnum.type.healthTicketType) {
+                        this.walletsPerType.healthTicketType += wallet.amount
                     }
                 })
             },
@@ -215,5 +222,8 @@
     }
     .card-text {
         font-size: 1.5rem;
+    }
+    .border-table {
+        border-top: 2px solid $table-line-divider-color;
     }
 </style>
