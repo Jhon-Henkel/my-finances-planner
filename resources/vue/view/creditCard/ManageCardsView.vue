@@ -33,7 +33,13 @@
                             <td colspan="7">Nenhum cartão cadastrado ainda!</td>
                         </tr>
                         <tr v-for="card in cards" :key="card.id">
-                            <td>{{ card.dueDate }}</td>
+                            <td>
+                                <span class="badge rounded-5"
+                                      :class="getBadgeTypeForForecastDate(card)"
+                                      :title="getTitleForForecastDate(card)">
+                                    {{ card.dueDate }}
+                                </span>
+                            </td>
                             <td>{{ card.name }}</td>
                             <td>{{ stringTools.formatFloatValueToBrString(card.limit) }}</td>
                             <td>{{ stringTools.formatFloatValueToBrString(card.limit - card.totalValueSpending) }}</td>
@@ -96,7 +102,8 @@
                 cards: {},
                 card: {
                     totalValueSpending: 0,
-                    nextInvoiceValue: 0
+                    nextInvoiceValue: 0,
+                    isThinsMouthInvoicePayed: false
                 },
                 loadingDone: false
             }
@@ -110,6 +117,12 @@
             },
             showMessage(type, message, title) {
                 this.$refs.message.showAlert(type, message, title)
+            },
+            getBadgeTypeForForecastDate(card) {
+                return card.isThinsMouthInvoicePayed ? 'text-bg-success' : 'text-bg-danger'
+            },
+            getTitleForForecastDate(card) {
+                return card.isThinsMouthInvoicePayed ? 'Fatura do mês paga' : 'Falta Pagar a fatura deste mês'
             },
             async getCards() {
                  await apiRouter.cards.index().then((response) => {

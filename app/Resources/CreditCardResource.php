@@ -19,6 +19,7 @@ class CreditCardResource extends BasicResource
         $dto->setClosingDay($item[BasicFieldsEnum::CLOSING_DAY_DB] ?? $item[BasicFieldsEnum::CLOSING_DAY_JSON]);
         $dto->setNextInvoiceValue(null);
         $dto->setTotalValueSpending(null);
+        $dto->setIsThinsMouthInvoicePayed(null);
         $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
         $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
         return $dto;
@@ -49,7 +50,8 @@ class CreditCardResource extends BasicResource
             $item->getCreatedAt(),
             $item->getUpdatedAt(),
             $item->getTotalValueSpending(),
-            $item->getNextInvoiceValue()
+            $item->getNextInvoiceValue(),
+            $item->getIsThinsMouthInvoicePayed()
         );
     }
 

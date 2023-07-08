@@ -15,6 +15,7 @@ class CreditCardDtoUnitTest extends TestCase
         $dto->setLimit(1000);
         $dto->setClosingDay(12);
         $dto->setDueDate(15);
+        $dto->setIsThinsMouthInvoicePayed(true);
         $dto->setCreatedAt("2023-01-01 00:00:00");
         $dto->setUpdatedAt("2023-14-02 00:10:20");
 
@@ -23,6 +24,7 @@ class CreditCardDtoUnitTest extends TestCase
         $this->assertEquals(1000, $dto->getLimit());
         $this->assertEquals(12, $dto->getClosingDay());
         $this->assertEquals(15, $dto->getDueDate());
+        $this->assertTrue($dto->getIsThinsMouthInvoicePayed());
         $this->assertEquals("2023-01-01 00:00:00", $dto->getCreatedAt());
         $this->assertEquals("2023-14-02 00:10:20", $dto->getUpdatedAt());
     }

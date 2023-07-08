@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\DateEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\CreditCardTransactionRepository;
 use App\Resources\CreditCardResource;
@@ -47,7 +48,12 @@ class CreditCardTransactionService extends BasicService
                 continue;
             }
             $transaction->setInstallments($remainingInstallments < 0 ? 0 : $transaction->getInstallments() - 1);
-            $transaction->setNextInstallment(CalendarTools::addMonthInDate($transaction->getNextInstallment(), 1));
+            $nextInstallment = CalendarTools::addMonthInDate(
+                $transaction->getNextInstallment(),
+                1,
+                DateEnum::USA_DATE_FORMAT_WITHOUT_TIME
+            );
+            $transaction->setNextInstallment($nextInstallment);
             $this->update($transaction->getId(), $transaction);
         }
         if (! $launchMovementAndUpdateWallet) {
@@ -157,5 +163,14 @@ class CreditCardTransactionService extends BasicService
     public function countByCreditCardId(int $creditCardId): int
     {
         return $this->getRepository()->countByCreditCardId($creditCardId);
+    }
+
+    public function isThisMonthInvoicePaid(int $cardId): bool
+    {
+        $thisMonth = CalendarTools::getThisMonth();
+        $thisYear = CalendarTools::getThisYear();
+        $period = CalendarTools::getThisMonthPeriod($thisMonth, $thisYear);
+        $isThisMonthInvoicePaid = $this->getRepository()->countByPeriod($period, $cardId);
+        return $isThisMonthInvoicePaid === 0;
     }
 }
