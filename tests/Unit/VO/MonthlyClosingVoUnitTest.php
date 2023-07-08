@@ -3,9 +3,9 @@
 namespace Tests\Unit\VO;
 
 use App\VO\MonthlyClosingVO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MonthlyClosingVoUnitTest extends TestCase
+class MonthlyClosingVoUnitTest extends Falcon9
 {
     public function testVO()
     {

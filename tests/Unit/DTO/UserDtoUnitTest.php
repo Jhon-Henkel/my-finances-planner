@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\UserDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class UserDtoUnitTest extends TestCase
+class UserDtoUnitTest extends Falcon9
 {
     public function testUserDto()
     {

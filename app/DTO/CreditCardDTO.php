@@ -11,6 +11,7 @@ class CreditCardDTO
     private int $closingDay;
     private null|float $totalValueSpending;
     private null|float $nextInvoiceValue;
+    private null|bool $isThinsMouthInvoicePayed = false;
     private mixed $createdAt;
     private mixed $updatedAt;
 
@@ -124,6 +125,22 @@ class CreditCardDTO
     public function setNextInvoiceValue(?float $nextInvoiceValue): void
     {
         $this->nextInvoiceValue = $nextInvoiceValue;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsThinsMouthInvoicePayed(): ?bool
+    {
+        return $this->isThinsMouthInvoicePayed;
+    }
+
+    /**
+     * @param bool|null $isThinsMouthInvoicePayed
+     */
+    public function setIsThinsMouthInvoicePayed(?bool $isThinsMouthInvoicePayed): void
+    {
+        $this->isThinsMouthInvoicePayed = $isThinsMouthInvoicePayed;
     }
 
     /**

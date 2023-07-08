@@ -5,9 +5,9 @@ namespace Tests\Unit\Resource;
 use App\DTO\CreditCardDTO;
 use App\Enums\BasicFieldsEnum;
 use App\Resources\CreditCardResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class CreditCardResourceUnitTest extends TestCase
+class CreditCardResourceUnitTest extends Falcon9
 {
     private CreditCardResource $resource;
 

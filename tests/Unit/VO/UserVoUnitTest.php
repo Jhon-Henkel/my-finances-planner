@@ -4,9 +4,9 @@ namespace Tests\Unit\VO;
 
 use App\DTO\UserDTO;
 use App\VO\UserVO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class UserVoUnitTest extends TestCase
+class UserVoUnitTest extends Falcon9
 {
     public function testMake()
     {

@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\DatePeriodDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class DatePeriodDtoUnitTest extends TestCase
+class DatePeriodDtoUnitTest extends Falcon9
 {
     public function testDatePeriodDto()
     {

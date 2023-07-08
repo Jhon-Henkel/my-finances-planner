@@ -7,9 +7,9 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Resources\UserResource;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class UserRepositoryUnitTest extends TestCase
+class UserRepositoryUnitTest extends Falcon9
 {
     public function testGetModel()
     {

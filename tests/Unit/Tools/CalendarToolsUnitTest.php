@@ -5,9 +5,9 @@ namespace Tests\Unit\Tools;
 use App\Tools\CalendarTools;
 use Exception;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class CalendarToolsUnitTest extends TestCase
+class CalendarToolsUnitTest extends Falcon9
 {
     public function testSalutationMorningWithName()
     {

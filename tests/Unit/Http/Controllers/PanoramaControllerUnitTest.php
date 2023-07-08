@@ -3,9 +3,9 @@
 namespace Tests\Unit\Http\Controllers;
 
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class PanoramaControllerUnitTest extends TestCase
+class PanoramaControllerUnitTest extends Falcon9
 {
     public function testGetPanoramaData()
     {

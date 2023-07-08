@@ -5,7 +5,8 @@
         </div>
         <divider/>
         <h5 class="mb-4">
-            Ferramentas que auxiliam nas suas finanças pessoais, para que você não precise se preocupar em fazer contas...
+            Ferramentas que auxiliam nas suas finanças pessoais, para que você não precise se preocupar
+            em fazer planilhas...
         </h5>
         <divider/>
         <div class="text-center ms-4">

@@ -11,6 +11,7 @@ class CreditCardVO
     public int|string $closingDay;
     public mixed $createdAt;
     public mixed $updatedAt;
+    public null|bool $isThinsMouthInvoicePayed;
     public null|float $totalValueSpending;
     public null|float $nextInvoiceValue;
 
@@ -24,6 +25,7 @@ class CreditCardVO
         mixed $updatedAt,
         null|float $totalValueSpending,
         null|float $nextInvoiceValue,
+        null|bool $isThinsMouthInvoicePayed
     ): self {
         $vo =  new self();
         $vo->id = $id;
@@ -35,6 +37,7 @@ class CreditCardVO
         $vo->updatedAt = $updatedAt;
         $vo->totalValueSpending = $totalValueSpending;
         $vo->nextInvoiceValue = $nextInvoiceValue;
+        $vo->isThinsMouthInvoicePayed = $isThinsMouthInvoicePayed;
         return $vo;
     }
 }

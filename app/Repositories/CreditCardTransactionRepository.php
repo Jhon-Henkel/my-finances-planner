@@ -47,4 +47,12 @@ class CreditCardTransactionRepository extends BasicRepository
     {
         return $this->getModel()->where(BasicFieldsEnum::CREDIT_CARD_ID_DB, $creditCardId)->count();
     }
+
+    public function countByPeriod(DatePeriodDTO $period, int $cardId): int
+    {
+        return $this->getModel()->where('next_installment', '>=', $period->getStartDate())
+            ->where('next_installment', '<=', $period->getEndDate())
+            ->where(BasicFieldsEnum::CREDIT_CARD_ID_DB, $cardId)
+            ->count();
+    }
 }

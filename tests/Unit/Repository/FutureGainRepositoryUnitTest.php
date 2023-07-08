@@ -5,9 +5,9 @@ namespace Tests\Unit\Repository;
 use App\Models\FutureGain;
 use App\Repositories\FutureGainRepository;
 use App\Resources\FutureGainResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class FutureGainRepositoryUnitTest extends TestCase
+class FutureGainRepositoryUnitTest extends Falcon9
 {
     public function testGetModel()
     {

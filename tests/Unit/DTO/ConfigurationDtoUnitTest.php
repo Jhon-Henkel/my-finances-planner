@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\ConfigurationDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class ConfigurationDtoUnitTest extends TestCase
+class ConfigurationDtoUnitTest extends Falcon9
 {
     public function testConfigurationDto()
     {

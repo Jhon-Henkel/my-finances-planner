@@ -15,9 +15,9 @@ use App\Services\MonthlyClosingService;
 use App\Services\MovementService;
 use App\VO\Chart\ChartDataVO;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MonthlyClosingServiceUnitTest extends TestCase
+class MonthlyClosingServiceUnitTest extends Falcon9
 {
     public function testGetFilterThisYear()
     {
@@ -121,13 +121,13 @@ class MonthlyClosingServiceUnitTest extends TestCase
         );
         $repositoryMock = Mockery::mock(MonthlyClosingRepository::class )->makePartial();
         $repositoryMock->shouldReceive('update')->once()->andReturn(function (int $id, MonthlyClosingDTO $lastClosing) {
-            TestCase::assertEquals(1, $id);
-            TestCase::assertInstanceOf(MonthlyClosingDTO::class, $lastClosing);
-            TestCase::assertEquals(100, $lastClosing->getRealEarnings());
-            TestCase::assertEquals(200, $lastClosing->getRealExpenses());
-            TestCase::assertEquals(100, $lastClosing->getRealBalance());
-            TestCase::assertEquals(100, $lastClosing->getPredictedEarnings());
-            TestCase::assertEquals(200, $lastClosing->getPredictedExpenses());
+            Falcon9::assertEquals(1, $id);
+            Falcon9::assertInstanceOf(MonthlyClosingDTO::class, $lastClosing);
+            Falcon9::assertEquals(100, $lastClosing->getRealEarnings());
+            Falcon9::assertEquals(200, $lastClosing->getRealExpenses());
+            Falcon9::assertEquals(100, $lastClosing->getRealBalance());
+            Falcon9::assertEquals(100, $lastClosing->getPredictedEarnings());
+            Falcon9::assertEquals(200, $lastClosing->getPredictedExpenses());
         });
 
         $sumValues = new MovementSumValuesDTO(100, 200, 100);

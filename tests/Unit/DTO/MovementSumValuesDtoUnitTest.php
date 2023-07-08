@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\MovementSumValuesDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MovementSumValuesDtoUnitTest extends TestCase
+class MovementSumValuesDtoUnitTest extends Falcon9
 {
     public function testDTO()
     {

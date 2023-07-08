@@ -4,9 +4,9 @@ namespace Tests\Unit\Service;
 
 use App\Services\CronService;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class CronServiceUnitTest extends TestCase
+class CronServiceUnitTest extends Falcon9
 {
     public function testConstants()
     {

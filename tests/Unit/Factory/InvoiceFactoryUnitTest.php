@@ -5,9 +5,9 @@ namespace Tests\Unit\Factory;
 use App\DTO\InvoiceItemDTO;
 use App\Factory\InvoiceFactory;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class InvoiceFactoryUnitTest extends TestCase
+class InvoiceFactoryUnitTest extends Falcon9
 {
     public function testFactoryInvoiceWithSixInstallments()
     {

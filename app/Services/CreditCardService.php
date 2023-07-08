@@ -32,6 +32,8 @@ class CreditCardService extends BasicService
             $invoice = $creditCardTransactionService->getNextInvoiceValueAndTotalValueByCardId($item->getId());
             $item->setTotalValueSpending($invoice['totalValue']);
             $item->setNextInvoiceValue($invoice['nextInvoiceValue']);
+            $isThisMonthInvoicePaid = $creditCardTransactionService->isThisMonthInvoicePaid($item->getId());
+            $item->setIsThinsMouthInvoicePayed($isThisMonthInvoicePaid);
             $itemsWithNextInstallmentValue[] = $item;
         }
         return $itemsWithNextInstallmentValue;

@@ -4,9 +4,9 @@ namespace Tests\Unit\Resource;
 
 use App\DTO\MovementDTO;
 use App\Resources\MovementResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MovementResourceUnitTest extends TestCase
+class MovementResourceUnitTest extends Falcon9
 {
     private MovementResource $resource;
 

@@ -3,9 +3,9 @@
 namespace Tests\Unit\Tools;
 
 use App\Tools\RequestTools;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class RequestToolsUnitTest extends TestCase
+class RequestToolsUnitTest extends Falcon9
 {
     protected function setUp(): void
     {

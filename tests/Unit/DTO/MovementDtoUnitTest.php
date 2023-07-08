@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\MovementDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MovementDtoUnitTest extends TestCase
+class MovementDtoUnitTest extends Falcon9
 {
     public function testMovementDto()
     {

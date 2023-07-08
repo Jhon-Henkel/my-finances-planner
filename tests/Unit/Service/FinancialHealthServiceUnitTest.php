@@ -7,9 +7,9 @@ use App\Enums\MovementEnum;
 use App\Services\FinancialHealthService;
 use App\Services\MovementService;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class FinancialHealthServiceUnitTest extends TestCase
+class FinancialHealthServiceUnitTest extends Falcon9
 {
     /**
      * @dataProvider dataProviderForTestGetCategoryTitleByDescription

@@ -127,11 +127,14 @@ class CalendarTools
     /**
      * @throws Exception
      */
-    public static function addMonthInDate(string $date, int $months): string
-    {
+    public static function addMonthInDate(
+        string $date,
+        int $months,
+        string $format = DateEnum::DEFAULT_DB_DATE_FORMAT
+    ): string {
         $date = new DateTime($date);
         return $date->add(new DateInterval('P'. $months . 'M'))
-            ->format(DateEnum::DEFAULT_DB_DATE_FORMAT);
+            ->format($format);
     }
 
     /**

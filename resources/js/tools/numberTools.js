@@ -1,6 +1,9 @@
 import movementEnum from "../enums/movementEnum";
 
 const numberTools = {
+    getPercentageNumber: function (value, total) {
+        return ((value / total) * 100).toFixed(2) + ' %'
+    },
     getSumTotalAmount: function (itens) {
         let sumTotalAmount = 0
         itens.forEach(item => {

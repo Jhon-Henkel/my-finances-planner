@@ -3,9 +3,9 @@
 namespace Tests\Unit\Http\Controllers;
 
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class FutureGainControllerUnitTest extends TestCase
+class FutureGainControllerUnitTest extends Falcon9
 {
     public function testInsertRules()
     {
