@@ -8,9 +8,9 @@ use App\Models\FutureGain;
 use App\Services\FutureGainService;
 use App\VO\InvoiceVO;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class FutureGainServiceUnitTest extends TestCase
+class FutureGainServiceUnitTest extends Falcon9
 {
     public function testGetNextSixMonthsFutureGain()
     {

@@ -5,9 +5,9 @@ namespace Tests\Unit\Service;
 use App\DTO\InvoiceItemDTO;
 use App\VO\InvoiceVO;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class PanoramaServiceUnitTest extends TestCase
+class PanoramaServiceUnitTest extends Falcon9
 {
     public function testGetPanoramaData()
     {

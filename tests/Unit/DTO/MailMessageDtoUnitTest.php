@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\MailMessageDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MailMessageDtoUnitTest extends TestCase
+class MailMessageDtoUnitTest extends Falcon9
 {
     public function testMailMessageDto()
     {

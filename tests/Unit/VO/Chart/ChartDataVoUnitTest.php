@@ -4,9 +4,9 @@ namespace Tests\Unit\VO\Chart;
 
 use App\VO\Chart\ChartDataVO;
 use App\VO\Chart\DatasetsVO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class ChartDataVoUnitTest extends TestCase
+class ChartDataVoUnitTest extends Falcon9
 {
     public function testConstruct()
     {

@@ -5,9 +5,9 @@ namespace Tests\Unit\Repository;
 use App\Models\MovementModel;
 use App\Repositories\MovementRepository;
 use App\Resources\MovementResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MovementRepositoryUnitTest extends TestCase
+class MovementRepositoryUnitTest extends Falcon9
 {
     public function testGetModel()
     {

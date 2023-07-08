@@ -4,9 +4,9 @@ namespace Tests\Unit\VO;
 
 use App\DTO\InvoiceItemDTO;
 use App\VO\InvoiceVO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class InvoiceVoUnitTest extends TestCase
+class InvoiceVoUnitTest extends Falcon9
 {
     public function testInvoiceVo()
     {

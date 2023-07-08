@@ -3,9 +3,9 @@
 namespace Tests\Unit\VO;
 
 use App\VO\WalletVO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class WalletVoUnitTest extends TestCase
+class WalletVoUnitTest extends Falcon9
 {
     public function testWalletVo()
     {

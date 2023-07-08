@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Console\Commands;
 
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class ResetDemoDatabaseUnitTest extends TestCase
+class ResetDemoDatabaseUnitTest extends Falcon9
 {
     public function testHandle()
     {

@@ -3,9 +3,9 @@
 namespace Tests\Unit\Tools;
 
 use App\Tools\NumberTools;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class NumberToolsUnitTest extends TestCase
+class NumberToolsUnitTest extends Falcon9
 {
     public function testRoundFloatAmount()
     {

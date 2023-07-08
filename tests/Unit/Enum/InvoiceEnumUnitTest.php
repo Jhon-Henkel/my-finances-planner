@@ -3,9 +3,9 @@
 namespace Tests\Unit\Enum;
 
 use App\Enums\InvoiceEnum;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class InvoiceEnumUnitTest extends TestCase
+class InvoiceEnumUnitTest extends Falcon9
 {
     public function testEnum()
     {

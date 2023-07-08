@@ -5,9 +5,9 @@ namespace Tests\Unit\Repository;
 use App\Models\Configurations;
 use App\Repositories\ConfigurationRepository;
 use App\Resources\ConfigurationResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class ConfigurationRepositoryUnitTest extends TestCase
+class ConfigurationRepositoryUnitTest extends Falcon9
 {
     public function testGetModel()
     {

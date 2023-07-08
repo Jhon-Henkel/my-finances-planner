@@ -4,9 +4,9 @@ namespace Tests\Unit\Resource;
 
 use App\DTO\CreditCardTransactionDTO;
 use App\Resources\CreditCardTransactionResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class CreditCardTransactionResourceUnitTest extends TestCase
+class CreditCardTransactionResourceUnitTest extends Falcon9
 {
     private CreditCardTransactionResource $resource;
 

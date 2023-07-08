@@ -5,9 +5,9 @@ namespace Tests\Unit\Repository;
 use App\Models\FutureSpent;
 use App\Repositories\FutureSpentRepository;
 use App\Resources\FutureSpentResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class FutureSpentRepositoryUnitTest extends TestCase
+class FutureSpentRepositoryUnitTest extends Falcon9
 {
     public function testGetModel()
     {

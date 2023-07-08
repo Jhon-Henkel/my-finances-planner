@@ -4,9 +4,9 @@ namespace Tests\Unit\Service;
 
 use App\Services\DashboardService;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class DashboardServiceUnitTest extends TestCase
+class DashboardServiceUnitTest extends Falcon9
 {
     public function testGetDashboardData()
     {

@@ -3,9 +3,9 @@
 namespace Tests\Unit\Resource;
 
 use App\DTO\MonthlyClosingDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MonthlyClosingResourceUnitTest extends TestCase
+class MonthlyClosingResourceUnitTest extends Falcon9
 {
     private $monthlyClosingResource;
 

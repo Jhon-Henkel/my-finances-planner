@@ -5,9 +5,9 @@ namespace Tests\Unit\Repository;
 use App\Models\WalletModel;
 use App\Repositories\WalletRepository;
 use App\Resources\WalletResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class WalletRepositoryUnitTest extends TestCase
+class WalletRepositoryUnitTest extends Falcon9
 {
     public function testGetModel()
     {

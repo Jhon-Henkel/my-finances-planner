@@ -3,9 +3,9 @@
 namespace Tests\Unit\Resource;
 
 use App\Resources\WalletResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class WalletResourceUnitTest extends TestCase
+class WalletResourceUnitTest extends Falcon9
 {
     private WalletResource $resource;
 

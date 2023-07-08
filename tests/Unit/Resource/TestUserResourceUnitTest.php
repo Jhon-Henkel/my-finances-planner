@@ -4,9 +4,9 @@ namespace Tests\Unit\Resource;
 
 use App\DTO\UserDTO;
 use App\Resources\UserResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class TestUserResourceUnitTest extends TestCase
+class TestUserResourceUnitTest extends Falcon9
 {
     private UserResource $resource;
 

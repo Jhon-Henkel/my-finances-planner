@@ -3,9 +3,9 @@
 namespace Tests\Unit\Resource;
 
 use App\Resources\FutureSpentResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class FutureSpentResourceUnitTest extends TestCase
+class FutureSpentResourceUnitTest extends Falcon9
 {
     private FutureSpentResource $resource;
 

@@ -6,9 +6,9 @@ use App\DTO\UserDTO;
 use App\Models\User;
 use App\Services\UserService;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class UserServiceUnitTest extends TestCase
+class UserServiceUnitTest extends Falcon9
 {
     public function testFindUserByEmail()
     {

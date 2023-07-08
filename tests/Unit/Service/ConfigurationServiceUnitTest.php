@@ -5,9 +5,9 @@ namespace Tests\Unit\Service;
 use App\DTO\ConfigurationDTO;
 use App\Services\ConfigurationService;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class ConfigurationServiceUnitTest extends TestCase
+class ConfigurationServiceUnitTest extends Falcon9
 {
     public function testFindConfigValue()
     {

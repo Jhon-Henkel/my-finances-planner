@@ -5,9 +5,9 @@ namespace Tests\Unit\Repository;
 use App\Models\MonthlyClosing;
 use App\Repositories\MonthlyClosingRepository;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MonthlyClosingRepositoryUnitTest extends TestCase
+class MonthlyClosingRepositoryUnitTest extends Falcon9
 {
     public function testGetModel()
     {

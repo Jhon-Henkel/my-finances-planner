@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Http\Controllers;
 
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class DashboardControllerUnitTest extends TestCase
+class DashboardControllerUnitTest extends Falcon9
 {
     public function testIndex()
     {

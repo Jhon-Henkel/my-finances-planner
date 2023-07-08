@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\WalletDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class WalletDtoUnitTest extends TestCase
+class WalletDtoUnitTest extends Falcon9
 {
     public function testWalletDto()
     {

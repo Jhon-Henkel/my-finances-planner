@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\MonthlyClosingDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MonthlyClosingDtoUnitTest extends TestCase
+class MonthlyClosingDtoUnitTest extends Falcon9
 {
     public function testDTO()
     {

@@ -3,9 +3,9 @@
 namespace Tests\Unit\Http\Controllers;
 
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class CreditCardTransactionControllerUnitTest extends TestCase
+class CreditCardTransactionControllerUnitTest extends Falcon9
 {
     public function testInvoices()
     {

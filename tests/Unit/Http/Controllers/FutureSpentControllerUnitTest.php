@@ -4,9 +4,9 @@ namespace Tests\Unit\Http\Controllers;
 
 use App\Resources\FutureSpentResource;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class FutureSpentControllerUnitTest extends TestCase
+class FutureSpentControllerUnitTest extends Falcon9
 {
     public function testInsertRules()
     {

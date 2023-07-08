@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\FutureGainDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class FutureGainDtoUnitTest extends TestCase
+class FutureGainDtoUnitTest extends Falcon9
 {
     public function testFutureGainDto()
     {

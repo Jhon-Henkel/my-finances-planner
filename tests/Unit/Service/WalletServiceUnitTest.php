@@ -5,9 +5,9 @@ namespace Tests\Unit\Service;
 use App\DTO\WalletDTO;
 use App\Services\WalletService;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class WalletServiceUnitTest extends TestCase
+class WalletServiceUnitTest extends Falcon9
 {
     public function testFindAllByType()
     {

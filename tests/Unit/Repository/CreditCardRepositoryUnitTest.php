@@ -5,9 +5,9 @@ namespace Tests\Unit\Repository;
 use App\Models\CreditCard;
 use App\Repositories\CreditCardRepository;
 use App\Resources\CreditCardResource;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class CreditCardRepositoryUnitTest extends TestCase
+class CreditCardRepositoryUnitTest extends Falcon9
 {
     public function testGetModel()
     {

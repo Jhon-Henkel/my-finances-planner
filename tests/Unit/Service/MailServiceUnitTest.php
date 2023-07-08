@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Service;
 
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MailServiceUnitTest extends TestCase
+class MailServiceUnitTest extends Falcon9
 {
     public function testSendTestEmail()
     {

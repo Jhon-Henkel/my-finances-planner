@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\CreditCardDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class CreditCardDtoUnitTest extends TestCase
+class CreditCardDtoUnitTest extends Falcon9
 {
     public function testCreditCardDto()
     {

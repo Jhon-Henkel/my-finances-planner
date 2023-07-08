@@ -5,9 +5,9 @@ namespace Tests\Unit\Service;
 use App\Services\CreditCardTransactionService;
 use App\VO\InvoiceVO;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class CreditCardTransactionServiceUnitTest extends TestCase
+class CreditCardTransactionServiceUnitTest extends Falcon9
 {
     public function testGetNextInstallmentOrder()
     {

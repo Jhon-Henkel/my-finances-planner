@@ -3,9 +3,9 @@
 namespace Tests\Unit\Tools;
 
 use App\Tools\StringTools;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class StringToolsUnitTest extends TestCase
+class StringToolsUnitTest extends Falcon9
 {
     public function testMoneyBr()
     {

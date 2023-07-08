@@ -3,9 +3,9 @@
 namespace Tests\Unit\Enum;
 
 use App\Enums\WalletEnum;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class WalletEnumUnitTest extends TestCase
+class WalletEnumUnitTest extends Falcon9
 {
     public function testEnumValues()
     {

@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\FutureSpentDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class FutureSpentDtoUnitTest extends TestCase
+class FutureSpentDtoUnitTest extends Falcon9
 {
     public function testFutureSpentDto()
     {

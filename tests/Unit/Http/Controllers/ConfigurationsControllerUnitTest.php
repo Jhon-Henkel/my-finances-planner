@@ -5,9 +5,9 @@ namespace Tests\Unit\Http\Controllers;
 use App\DTO\ConfigurationDTO;
 use App\VO\ConfigurationsVO;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class ConfigurationsControllerUnitTest extends TestCase
+class ConfigurationsControllerUnitTest extends Falcon9
 {
     public function testRulesInsert()
     {

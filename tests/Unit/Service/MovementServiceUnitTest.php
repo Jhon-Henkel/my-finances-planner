@@ -12,9 +12,9 @@ use App\Repositories\MovementRepository;
 use App\Services\MovementService;
 use App\VO\MovementVO;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class MovementServiceUnitTest extends TestCase
+class MovementServiceUnitTest extends Falcon9
 {
     public function testFindAllByType(): void
     {

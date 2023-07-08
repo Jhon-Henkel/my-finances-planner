@@ -3,9 +3,9 @@
 namespace Tests\Unit\DTO;
 
 use App\DTO\InvoiceItemDTO;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class InvoiceItemDtoUnitTest extends TestCase
+class InvoiceItemDtoUnitTest extends Falcon9
 {
     public function testInvoiceItemDto()
     {

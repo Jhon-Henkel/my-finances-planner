@@ -9,9 +9,9 @@ use App\Enums\BasicFieldsEnum;
 use App\Services\FutureSpentService;
 use App\VO\InvoiceVO;
 use Mockery;
-use Tests\TestCase;
+use Tests\Falcon9;
 
-class FutureSpentServiceUnitTest extends TestCase
+class FutureSpentServiceUnitTest extends Falcon9
 {
     public function testGetNextSixMonthsFutureSpent()
     {
@@ -200,8 +200,8 @@ class FutureSpentServiceUnitTest extends TestCase
         $repositoryMock = Mockery::mock('App\Repositories\FutureSpentRepository');
         $repositoryMock->shouldReceive('deleteById')->never();
         $repositoryMock->shouldReceive('update')->once()->withArgs(function ($id, $spent) {
-            TestCase::assertTrue($id == 1);
-            TestCase::assertTrue($spent->getInstallments() == 0);
+            Falcon9::assertTrue($id == 1);
+            Falcon9::assertTrue($spent->getInstallments() == 0);
             return true;
         })->andReturnTrue();
         $this->app->instance('App\Repositories\FutureSpentRepository', $repositoryMock);
@@ -224,8 +224,8 @@ class FutureSpentServiceUnitTest extends TestCase
         $repositoryMock = Mockery::mock('App\Repositories\FutureSpentRepository');
         $repositoryMock->shouldReceive('deleteById')->never();
         $repositoryMock->shouldReceive('update')->once()->withArgs(function ($id, $spent) {
-            TestCase::assertTrue($id == 1);
-            TestCase::assertTrue($spent->getInstallments() == 9);
+            Falcon9::assertTrue($id == 1);
+            Falcon9::assertTrue($spent->getInstallments() == 9);
             return true;
         })->andReturn(true);
         $this->app->instance('App\Repositories\FutureSpentRepository', $repositoryMock);
@@ -262,7 +262,7 @@ class FutureSpentServiceUnitTest extends TestCase
         $futureSpentServiceMock = Mockery::mock('App\Services\FutureSpentService');
         $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
         $futureSpentServiceMock->shouldReceive('makeSpentForParcialPay')->once()->withArgs(function($spent, $value) {
-            TestCase::assertTrue($value == 0.50);
+            Falcon9::assertTrue($value == 0.50);
             return true;
         })->andReturn(new FutureSpentDTO());
         $futureSpentServiceMock->shouldReceive('insert')->once()->andReturnTrue();
