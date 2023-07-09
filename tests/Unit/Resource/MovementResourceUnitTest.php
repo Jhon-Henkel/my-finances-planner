@@ -3,6 +3,7 @@
 namespace Tests\Unit\Resource;
 
 use App\DTO\MovementDTO;
+use App\Enums\MovementEnum;
 use App\Resources\MovementResource;
 use Tests\Falcon9;
 
@@ -92,5 +93,39 @@ class MovementResourceUnitTest extends Falcon9
         $this->assertEquals($walletId, $dto->getWalletId());
         $this->assertEquals($value, $dto->getAmount());
         $this->assertEquals($value > 0 ? 6 : 5, $dto->getType());
+    }
+
+    public function testMakeTransferSpentMovement()
+    {
+        $data = [
+            'originId' => 1,
+            'destinationId' => 2,
+            'amount' => 100,
+        ];
+
+        $dto = $this->resource->makeTransferSpentMovement($data);
+
+        $this->assertInstanceOf(MovementDTO::class, $dto);
+        $this->assertEquals($data['originId'], $dto->getWalletId());
+        $this->assertEquals($data['amount'], $dto->getAmount());
+        $this->assertEquals(7, $dto->getType());
+        $this->assertEquals('Saída transferência', $dto->getDescription());
+    }
+
+    public function testMakeTransferReceivedMovement()
+    {
+        $data = [
+            'origin_id' => 1,
+            'destinationId' => 2,
+            'amount' => 100,
+        ];
+
+        $dto = $this->resource->makeTransferGainMovement($data);
+
+        $this->assertInstanceOf(MovementDTO::class, $dto);
+        $this->assertEquals($data['destinationId'], $dto->getWalletId());
+        $this->assertEquals($data['amount'], $dto->getAmount());
+        $this->assertEquals(7, $dto->getType());
+        $this->assertEquals('Entrada transferência', $dto->getDescription());
     }
 }

@@ -86,6 +86,12 @@ const apiRouter = {
         },
         update: async function(movement, id) {
             return await axios.put('/api/movement/' + id, movement)
+        },
+        insertTransfer: async function(transfer) {
+            return await axios.post('/api/movement/transfer', transfer)
+        },
+        deleteTransfer: async function(id) {
+            return await axios.delete('/api/movement/transfer/' + id)
         }
     },
     userActions: {

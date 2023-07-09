@@ -28,6 +28,10 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
         $router->delete('/{id}', [WalletController::class, 'delete'])->name(RouteEnum::API_WALLET_DELETE);
     });
     $router->prefix('movement')->group(function () use ($router) {
+        $router->prefix('transfer')->group(function () use ($router) {
+            $router->post('', [MovementController::class, 'insertTransfer'])->name(RouteEnum::API_MOVEMENT_INSERT_TRANSFER);
+            $router->delete('/{id}', [MovementController::class, 'deleteTransfer'])->name(RouteEnum::API_MOVEMENT_DELETE_TRANSFER);
+        });
         $router->get('', [MovementController::class, 'index'])->name(RouteEnum::API_MOVEMENT_INDEX);
         $router->get('/filter/{filter}', [MovementController::class, 'indexFiltered'])->name(RouteEnum::API_MOVEMENT_INDEX_FILTERED);
         $router->get('/{id}', [MovementController::class, 'show'])->name(RouteEnum::API_MOVEMENT_SHOW);

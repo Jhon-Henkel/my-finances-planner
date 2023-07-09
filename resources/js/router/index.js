@@ -22,6 +22,7 @@ import AboutView from "../../vue/view/about/AboutView.vue";
 import PanoramaAllSpentAndGain from "../../vue/view/panorama/PanoramaAllSpentAndGain.vue";
 import FinancialHealthView from "../../vue/view/tools/financialHealth/FinancialHealthView.vue";
 import MonthlyClosingView from "../../vue/view/tools/monthlyClosing/MonthlyClosingView.vue";
+import MovementTransferForm from "../../vue/view/movement/MovementTransferForm.vue";
 
 const routes = [
     {
@@ -56,6 +57,11 @@ const routes = [
                 path: ":id/atualizar",
                 name: "movementUpdate",
                 component: MovementForm
+            },
+            {
+                path: "transferir",
+                name: "newTransfer",
+                component: MovementTransferForm
             }
         ]
     },
