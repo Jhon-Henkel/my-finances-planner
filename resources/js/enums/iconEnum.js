@@ -98,5 +98,8 @@ const iconEnum = {
     linkOut() {
         return ['fas', 'up-right-from-square']
     },
+    buildingColumns() {
+        return ['fas', 'building-columns']
+    },
 }
 export default iconEnum;

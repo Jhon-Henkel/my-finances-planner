@@ -93,10 +93,42 @@ class MovementService extends BasicService
         return parent::deleteById($id);
     }
 
+    public function deleteTransferById(int $id)
+    {
+        $movement = $this->findById($id);
+        if (! $movement || $movement->getType() != MovementEnum::TRANSFER) {
+            return false;
+        }
+        $walletService = app(WalletService::class);
+        if (str_contains($movement->getDescription(), 'Saída')) {
+            $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::GAIN, true);
+        } elseif (str_contains($movement->getDescription(), 'Entrada')) {
+            $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::SPENT, true);
+        }
+        return $this->parentDeleteById($id);
+    }
+
+    protected function parentDeleteById(int $id)
+    {
+        return parent::deleteById($id);
+    }
+
     public function insert($item)
     {
         $walletService = app(WalletService::class);
         $walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $item->getType(), true);
+        return parent::insert($item);
+    }
+
+    public function insertWithWalletUpdateType(MovementDTO $item, int $walletUpdateType)
+    {
+        $walletService = app(WalletService::class);
+        $walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $walletUpdateType, true);
+        return $this->parentInert($item);
+    }
+
+    protected function parentInert(MovementDTO $item)
+    {
         return parent::insert($item);
     }
 

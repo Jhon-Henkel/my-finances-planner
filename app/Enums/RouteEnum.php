@@ -16,6 +16,8 @@ class RouteEnum
     const API_MOVEMENT_INSERT = 'apiMovementInsert';
     const API_MOVEMENT_UPDATE = 'apiMovementUpdate';
     const API_MOVEMENT_DELETE = 'apiMovementDelete';
+    const API_MOVEMENT_INSERT_TRANSFER = 'apiMovementInsertTransfer';
+    const API_MOVEMENT_DELETE_TRANSFER = 'apiMovementDeleteTransfer';
     const API_CREDIT_CARD_INDEX = 'apiCreditCardIndex';
     const API_CREDIT_CARD_SHOW  = 'apiCreditCardShow';
     const API_CREDIT_CARD_INSERT = 'apiCreditCardInsert';

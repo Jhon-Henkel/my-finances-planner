@@ -7,9 +7,14 @@ use App\DTO\FutureGainDTO;
 use App\DTO\FutureSpentDTO;
 use App\DTO\MovementDTO;
 use App\DTO\MovementSumValuesDTO;
+use App\Enums\MovementEnum;
 use App\Exceptions\MovementException;
+use App\Repositories\BasicRepository;
 use App\Repositories\MovementRepository;
+use App\Repositories\WalletRepository;
+use App\Resources\MovementResource;
 use App\Services\MovementService;
+use App\Services\WalletService;
 use App\VO\MovementVO;
 use Mockery;
 use Tests\Falcon9;
@@ -365,5 +370,102 @@ class MovementServiceUnitTest extends Falcon9
         $this->assertEquals(10.5555, $return->getExpenses());
         $this->assertEquals(20, $return->getEarnings());
         $this->assertEquals(9.44, $return->getBalance());
+    }
+
+    public function testInsertWithWalletUpdateType()
+    {
+        $movement = new MovementDTO();
+        $movement->setAmount(10);
+        $movement->setType(5);
+        $movement->setWalletId(1);
+
+        $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
+        $walletServiceMock->shouldReceive('updateWalletValue')->once()->andReturn(true);
+        $this->app->instance(WalletService::class, $walletServiceMock);
+
+        $serviceMock = Mockery::mock(MovementService::class)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+        $serviceMock->shouldReceive('parentInert')->once()->andReturn($movement);
+
+        $serviceMock->insertWithWalletUpdateType($movement, 1);
+
+        $this->assertTrue(true);
+    }
+
+    public function testDeleteTransferByIdWithTypeDifferentOfTransfer()
+    {
+        $movement = new MovementDTO();
+        $movement->setAmount(10);
+        $movement->setType(5);
+        $movement->setWalletId(1);
+
+        $serviceMock = Mockery::mock(MovementService::class)->makePartial();
+        $serviceMock->shouldReceive('findById')->once()->andReturn($movement);
+
+        $this->assertFalse($serviceMock->deleteTransferById(1));
+    }
+
+    public function testDeleteTransferByIdWithNullMovementReturn()
+    {
+        $serviceMock = Mockery::mock(MovementService::class)->makePartial();
+        $serviceMock->shouldReceive('findById')->once()->andReturn(null);
+
+        $this->assertFalse($serviceMock->deleteTransferById(1));
+    }
+
+    public function testDeleteTransferByIdSpentRefundType()
+    {
+        $movement = new MovementDTO();
+        $movement->setAmount(10);
+        $movement->setType(MovementEnum::TRANSFER);
+        $movement->setWalletId(1);
+        $movement->setDescription('Entrada de transferência');
+
+        $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
+        $walletServiceMock->shouldReceive('updateWalletValue')->once()->andReturnUsing(
+            function ($value, $walletId, $type, $movementAlreadyDone) {
+                Falcon9::assertEquals(10, $value);
+                Falcon9::assertEquals(1, $walletId);
+                Falcon9::assertEquals(MovementEnum::SPENT, $type);
+                Falcon9::assertTrue($movementAlreadyDone);
+                return true;
+            }
+        );
+        $this->app->instance(WalletService::class, $walletServiceMock);
+
+        $serviceMock = Mockery::mock(MovementService::class)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+        $serviceMock->shouldReceive('findById')->once()->andReturn($movement);
+        $serviceMock->shouldReceive('parentDeleteById')->once()->andReturnTrue();
+
+        $this->assertTrue($serviceMock->deleteTransferById(1));
+    }
+
+    public function testDeleteTransferByIdGainRefundType()
+    {
+        $movement = new MovementDTO();
+        $movement->setAmount(10);
+        $movement->setType(MovementEnum::TRANSFER);
+        $movement->setWalletId(1);
+        $movement->setDescription('Saída de transferência');
+
+        $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
+        $walletServiceMock->shouldReceive('updateWalletValue')->once()->andReturnUsing(
+            function ($value, $walletId, $type, $movementAlreadyDone) {
+                Falcon9::assertEquals(10, $value);
+                Falcon9::assertEquals(1, $walletId);
+                Falcon9::assertEquals(MovementEnum::GAIN, $type);
+                Falcon9::assertTrue($movementAlreadyDone);
+                return true;
+            }
+        );
+        $this->app->instance(WalletService::class, $walletServiceMock);
+
+        $serviceMock = Mockery::mock(MovementService::class)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+        $serviceMock->shouldReceive('findById')->once()->andReturn($movement);
+        $serviceMock->shouldReceive('parentDeleteById')->once()->andReturnTrue();
+
+        $this->assertTrue($serviceMock->deleteTransferById(1));
     }
 }

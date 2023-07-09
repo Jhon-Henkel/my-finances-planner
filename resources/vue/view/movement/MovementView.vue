@@ -6,7 +6,8 @@
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Movimentações'"/>
                 <filter-top-right :filter="filterList" @callbackMethod="getMovementIndexFiltered($event)"/>
-                <router-link-button :title="'Nova Movimentação'" :icon="iconEnum.movement()" :redirect-to="'/movimentacoes/cadastrar'" />
+                <router-link-button :title="'Novo Gasto/Ganho'" :icon="iconEnum.movement()" :redirect-to="newGainSpentLink" class="me-2"/>
+                <router-link-button :title="'Nova transferência'" :icon="iconEnum.buildingColumns()" :redirect-to="newTransferLink" />
             </div>
             <divider/>
             <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
@@ -40,10 +41,18 @@
                         <td>{{ calendarTools.convertDateDbToBr(movement.createdAt) }}</td>
                         <td>
                             <action-buttons
+                                v-if="movement.type !== movementEnum.type.transfer()"
                                 :delete-tooltip="'Deletar Movimentação'"
                                 :tooltip-edit="'Editar Movimentação'"
                                 :edit-to="'/movimentacoes/' + movement.id + '/atualizar'"
-                                @delete-clicked="deleteMovement(movement.id, movement.description)" />
+                                @delete-clicked="deleteMovement(movement.id, movement.description)"/>
+                            <div class="text-center action-buttons" v-if="movement.type === movementEnum.type.transfer()">
+                                <button class="btn btn-sm btn-danger rounded-5 text-center action-buttons"
+                                        @click="deleteTransfer(movement.id, movement.description)"
+                                        v-tooltip="'Deletar Movimentação'" >
+                                    <font-awesome-icon :icon="iconEnum.trashIcon()" />
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -156,15 +165,25 @@
                 totalSpent: 0,
                 totalGain: 0,
                 balance: 0,
-                lastFilter: null
+                lastFilter: null,
+                newGainSpentLink: '/movimentacoes/cadastrar',
+                newTransferLink: '/movimentacoes/transferir',
             }
         },
         methods: {
-            async deleteMovement(id, movement) {
-                if(confirm("Tem certeza que realmente quer deletar a movimentação \"" + movement + "\"? " +
+            async deleteMovement(id, movementName) {
+                if(confirm("Tem certeza que realmente quer deletar a movimentação \"" + movementName + "\"? " +
                     "O valor será retornado para a carteira vinculada.")) {
                     await apiRouter.movement.delete(id)
                     this.messageSuccess('Movimentação deletada com sucesso!')
+                    await this.getMovementIndexFiltered(this.lastFilter)
+                }
+            },
+            async deleteTransfer(id, movementName) {
+                if(confirm("Tem certeza que realmente quer deletar a transferência \"" + movementName + "\"? " +
+                    "O valor será retornado para a carteira vinculada.")) {
+                    await apiRouter.movement.deleteTransfer(id)
+                    this.messageSuccess('Transferência deletada com sucesso!')
                     await this.getMovementIndexFiltered(this.lastFilter)
                 }
             },

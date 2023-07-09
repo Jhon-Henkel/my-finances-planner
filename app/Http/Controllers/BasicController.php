@@ -6,7 +6,6 @@ use App\Enums\BasicFieldsEnum;
 use App\Exceptions\DatabaseException;
 use App\Http\Response\ResponseError;
 use App\Tools\ErrorReport;
-use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

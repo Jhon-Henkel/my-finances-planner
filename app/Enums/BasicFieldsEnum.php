@@ -36,4 +36,6 @@ class BasicFieldsEnum
     const PARTIAL = 'partial';
     const WRONG_LOGIN_ATTEMPTS_DB = 'wrong_login_attempts';
     const VERIFY_HASH_BD = 'verify_hash';
+    const ORIGIN_ID_JSON = 'originId';
+    const DESTINATION_ID_JSON = 'destinationId';
 }

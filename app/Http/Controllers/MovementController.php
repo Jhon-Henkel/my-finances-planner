@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\MovementEnum;
+use App\Http\Response\ResponseError;
 use App\Resources\MovementResource;
 use App\Services\MovementService;
 use App\VO\MovementVO;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 /**
@@ -42,6 +47,15 @@ class MovementController extends BasicController
         );
     }
 
+    protected function rulesInsertTransfer(): array
+    {
+        return array(
+            'originId' => 'required|int|exists:App\Models\WalletModel,id',
+            'destinationId' => 'required|int|exists:App\Models\WalletModel,id',
+            'amount' => 'required|decimal:0,2'
+        );
+    }
+
     protected function getService(): MovementService
     {
         return $this->service;
@@ -52,10 +66,38 @@ class MovementController extends BasicController
         return $this->resource;
     }
 
-    protected function indexFiltered(string|int $filterOption): JsonResponse
+    public function indexFiltered(string|int $filterOption): JsonResponse
     {
         $find = $this->getService()->findByFilter((int)$filterOption);
         $itens = $this->getResource()->arrayDtoToVoItens($find);
         return response()->json($itens, ResponseAlias::HTTP_OK);
+    }
+
+    public function insertTransfer(Request $request): JsonResponse
+    {
+        try {
+            $invalid = $this->getService()->isInvalidRequest($request, $this->rulesInsertTransfer());
+            if ($invalid instanceof MessageBag) {
+                return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
+            }
+            $data = $request->json()->all();
+            $transferSpent = $this->getResource()->makeTransferSpentMovement($data);
+            $this->getService()->insertWithWalletUpdateType($transferSpent, MovementEnum::SPENT);
+            $transferReceived = $this->getResource()->makeTransferGainMovement($data);
+            $this->getService()->insertWithWalletUpdateType($transferReceived, MovementEnum::GAIN);
+            return response()->json(null, ResponseAlias::HTTP_CREATED);
+        } catch (QueryException $exception) {
+            return $this->returnErrorDatabaseConnect();
+        }
+    }
+
+    public function deleteTransfer(int $id): JsonResponse
+    {
+        try {
+            $this->getService()->deleteTransferById($id);
+            return response()->json(null, ResponseAlias::HTTP_OK);
+        } catch (QueryException $exception) {
+            return $this->returnErrorDatabaseConnect();
+        }
     }
 }

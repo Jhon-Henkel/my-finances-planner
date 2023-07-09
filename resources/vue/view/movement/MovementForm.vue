@@ -1,7 +1,7 @@
 <template>
     <mfp-message ref="message"/>
     <div class="base-container">
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <mfp-title :title="title"/>
             <divider/>
@@ -89,7 +89,7 @@
                 isValid: false,
                 movement: {
                     walletId: 0,
-                    type: 6,
+                    type: MovementEnum.type.spent(),
                 },
                 wallets: {},
                 types: {}
@@ -159,6 +159,16 @@
                     amount: this.movement.amount
                 }
             },
+            async getWallets() {
+                await apiRouter.wallet.index().then((response) => {
+                    this.wallets = response
+                })
+            },
+            async getMovement(movementId) {
+                await apiRouter.movement.show(movementId).then((response) => {
+                    this.movement = response
+                })
+            },
             messageError(message) {
                 this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
             },
@@ -172,12 +182,13 @@
         async mounted() {
             if (this.$route.params.id) {
                 this.title = 'Atualizar Movimentação'
-                this.movement = await apiRouter.movement.show(this.$route.params.id)
+                await this.getMovement(this.$route.params.id)
             } else {
                 this.title = 'Cadastrar Movimentação'
                 this.movement.type = MovementEnum.type.spent()
             }
-            this.wallets = await apiRouter.wallet.index()
+            await this.getWallets()
+            this.loadingDone = true
             this.types = MovementEnum.getTypeList()
         }
     }
