@@ -6,6 +6,7 @@ use App\Resources\FutureGainResource;
 use App\Services\FutureGainService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class FutureGainController extends BasicController
@@ -63,13 +64,13 @@ class FutureGainController extends BasicController
     /**
      * @throws Exception
      */
-    public function receive(int $id): JsonResponse
+    public function receive(int $id, Request $request): JsonResponse
     {
         $gain = $this->getService()->findById($id);
         if (! $gain) {
             return response()->json(['Receita não encontrada!'], ResponseAlias::HTTP_NOT_FOUND);
         }
-        return $this->getService()->receive($gain)
+        return $this->getService()->receive($gain, $request->json()->all())
             ? response()->json(null, ResponseAlias::HTTP_OK)
             : response()->json(['Erro ao receber receita!'], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
     }

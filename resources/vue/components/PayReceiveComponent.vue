@@ -20,7 +20,7 @@
         <div class="col-2 mt-2">
             <div class="form-check form-switch">
                 <label class="form-check-label" for="partial">
-                    Pagamento parcial
+                    {{ partialLabel }}
                 </label>
                 <input class="form-check-input" v-model="partial" type="checkbox" role="switch" id="partial">
             </div>
@@ -82,6 +82,10 @@
             walletId: {
                 type: Number,
                 default: 0
+            },
+            partialLabel: {
+                type: String,
+                default: 'Pagamento parcial'
             }
         },
         methods: {
