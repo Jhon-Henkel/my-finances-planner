@@ -109,8 +109,8 @@ const apiRouter = {
         delete: async function(id) {
             return await axios.delete('/api/future-gain/' + id)
         },
-        receive: async function(id) {
-            return await axios.post('/api/future-gain/' + id + '/receive')
+        receive: async function(id, data) {
+            return await axios.post('/api/future-gain/' + id + '/receive', data)
         },
         show: async function(id) {
             const request = await axios.get('/api/future-gain/' + id)

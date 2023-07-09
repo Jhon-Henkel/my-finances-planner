@@ -50,7 +50,7 @@
                                 :check-button="showCheckButton(gain)"
                                 :check-tooltip="'Marcar próxima como recebido'"
                                 @delete-clicked="deleteGain(gain.id, gain.name)"
-                                @check-clicked="receiveGain(gain.id, gain.name)"/>
+                                @check-clicked="showReceiveGainForm(gain.id, gain.countId, getNextGainValue(gain), gain.name)"/>
                         </td>
                     </tr>
                     <tr class="text-center border-table">
@@ -65,10 +65,37 @@
                     </tr>
                 </tbody>
             </table>
-            <divider/>
-            <div class="text-end">
-                <h3>Total previsto no período: {{ StringTools.formatFloatValueToBrString(totalPerMonth.total) }}</h3>
+            <pay-receive :show-pay-receive="showReceiveGain"
+                         :value="receiveGainValue"
+                         :check-tooltip="'Receber Ganho'"
+                         :wallet-id="receiveGainWalletId"
+                         :partial-label="'Receber Parcial'"
+                         @hide-pay-receive="showReceiveGain = false"
+                         @pay="receiveGain($event)"/>
+            <div class="row ms-1 mt-4">
+                <div class="card glass balance-card">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">
+                            <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
+                            Resumo
+                        </h4>
+                        <hr>
+                        <div class="card-text">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6>Total previsto no período</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    {{ StringTools.formatFloatValueToBrString(totalPerMonth.total) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <divider/>
         </div>
     </div>
 </template>
@@ -86,6 +113,7 @@
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
     import MfpMessage from "../../components/MessageAlert.vue";
+    import PayReceive from "../../components/PayReceiveComponent.vue";
 
     export default {
         name: "FutureGainView",
@@ -101,6 +129,7 @@
             }
         },
         components: {
+            PayReceive,
             MfpMessage,
             MfpTitle,
             Divider,
@@ -120,6 +149,11 @@
                     sixthMonth: 0,
                     total: 0
                 },
+                receiveGainValue: 0,
+                receiveGainWalletId: 0,
+                receiveGainId: 0,
+                receiveGainName: '',
+                showReceiveGain: false,
                 futureGains: {},
             }
         },
@@ -154,14 +188,47 @@
                     })
                 }
             },
-            async receiveGain(id, gainName) {
-                if(confirm("Você confirma o recebimento de " + gainName + '?')) {
-                    await ApiRouter.futureGain.receive(id).then(response => {
-                        this.messageSuccess('Campo "Ganho recebido com sucesso!')
+            async receiveGain(event) {
+                let partial = event.partial ? " de forma parcial" : ""
+                let confirmMessage = 'Você confirma o recebimento do ganho '
+                confirmMessage = confirmMessage + '"' + this.receiveGainName + '"'
+                confirmMessage = confirmMessage + partial
+                confirmMessage = confirmMessage + ' no valor de ' + StringTools.formatFloatValueToBrString(event.value)
+                if(confirm(confirmMessage + '?')) {
+                    let object = {
+                        walletId: event.walletId,
+                        value: event.value,
+                        partial: event.partial
+                    }
+                    await ApiRouter.futureGain.receive(this.receiveGainId, object).then(response => {
+                        this.messageSuccess('Ganho recebido com sucesso!')
                         this.updateFutureGainsList()
-                    }).catch(error => {
+                        this.showReceiveGain = false
+                    }).catch(() => {
                         this.messageError('Não foi possível receber o ganho!')
                     })
+                }
+            },
+            showReceiveGainForm(id, countId, value, gainName) {
+                this.receiveGainValue = value
+                this.receiveGainWalletId = countId
+                this.receiveGainId = id
+                this.receiveGainName = gainName
+                this.showReceiveGain = true
+            },
+            getNextGainValue(gain) {
+                if (gain.firstInstallment) {
+                    return gain.firstInstallment
+                } else if (gain.secondInstallment) {
+                    return gain.secondInstallment
+                } else if (gain.thirdInstallment) {
+                    return gain.thirdInstallment
+                } else if (gain.forthInstallment) {
+                    return gain.forthInstallment
+                } else if (gain.fifthInstallment) {
+                    return gain.fifthInstallment
+                } else if (gain.sixthInstallment) {
+                    return gain.sixthInstallment
                 }
             },
             showCheckButton(gain) {
@@ -207,5 +274,14 @@
 
     .border-table {
             border-top: 2px solid $table-line-divider-color;
-        }
+    }
+    .card {
+        width: 24rem;
+    }
+    .balance-card {
+        width: 80.5rem;
+    }
+    .card-text {
+        font-size: 1.5rem;
+    }
 </style>
