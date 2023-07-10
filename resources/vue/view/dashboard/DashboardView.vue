@@ -204,12 +204,32 @@
                 this.data.movements.lastMovements.forEach(movement => {
                     this.lastMovements.push({
                         date: calendarTools.convertDateDbToBr(movement.createdAt).slice(0, 5),
-                        type: movement.type === movementEnum.type.gain() ? iconEnum.circleArrowUp() : iconEnum.circleArrowDown(),
+                        type: this.getIconForType(movement.type),
                         description: movement.walletName,
                         value: StringTools.formatFloatValueToBrString(movement.amount),
-                        class: movement.type === movementEnum.type.gain() ? 'gain-icon' : 'spent-icon',
+                        class: this.getCssClassForIconType(movement.type)
                     })
                 })
+            },
+            getIconForType(type) {
+                switch (type) {
+                    case movementEnum.type.gain():
+                        return iconEnum.circleArrowUp();
+                    case movementEnum.type.spent():
+                        return iconEnum.circleArrowDown();
+                    case movementEnum.type.transfer():
+                        return iconEnum.circleArrowRight();
+                }
+            },
+            getCssClassForIconType(type) {
+                switch (type) {
+                    case movementEnum.type.gain():
+                        return 'gain-icon';
+                    case movementEnum.type.spent():
+                        return 'spent-icon';
+                    case movementEnum.type.transfer():
+                        return 'transfer-icon';
+                }
             }
         },
         async mounted() {
@@ -266,5 +286,8 @@
     }
     .gain-icon {
         color: $success-icon-color;
+    }
+    .transfer-icon {
+        color: $info-icon-color;
     }
 </style>
