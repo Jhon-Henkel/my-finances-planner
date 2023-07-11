@@ -15,9 +15,8 @@ jobs:
         php-version: '8.2'
 
     - uses: actions/checkout@v3
-    - name: Gerando .env
-      run: |
-        echo ${{ secrets.ENV_FILE }} > .env
+    - name: Copiando .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
     - name: Instalando dependências
       run: composer install
@@ -42,43 +41,3 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: ./clover.xml
-
-  build:
-    runs-on: ubuntu-latest
-    needs: [ back-end-tests ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2-beta
-        with:
-          node-version: '18'
-          check-latest: true
-
-      - name: Install NPM dependencies
-        run: npm install
-
-      - name: Compile assets for production
-        run: npm run build
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [ build ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Deployment
-        uses: appleboy/ssh-action@main
-
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          username: ${{ secrets.SSH_USERNAME }}
-          script: |
-            cd /var/www/my-finances-planner/
-            git checkout -f
-            git pull
