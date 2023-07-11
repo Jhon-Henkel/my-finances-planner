@@ -13,24 +13,69 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
+
     - uses: actions/checkout@v3
     - name: Copiando .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      run: php -r "file_exists('.env') || copy(${{ secrets.ENV_MFP_PERSONAL }}', '.env');"
+
     - name: Instalando dependências
       run: composer install
+
     - name: Gerando chave da aplicação
       run: php artisan key:generate
+
     - name: Aplicando permissões
       run: chmod -R 777 storage bootstrap/cache
+
     - name: Executando testes via PHPUnit
       run: composer run test:unit
+
     - name: Gerando tag de cobertura de testes
       uses: timkrase/phpunit-coverage-badge@v1.2.1
       with:
         coverage_badge_path: output/coverage.svg
         push_badge: false
+
     - name: Upload tag de cobertura de testes para Codecov
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: ./clover.xml
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '18'
+          check-latest: true
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      - name: Compile assets for production
+        run: npm run production
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deployment
+        uses: appleboy/ssh-action@main
+
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: ${{ secrets.SSH_USERNAME }}
+          script: |
+            cd /var/www/my-finances-planner/
+            git checkout -f
+            git pull
