@@ -15,11 +15,9 @@ jobs:
         php-version: '8.2'
 
     - uses: actions/checkout@v3
-    - name: view the secrets context
-      shell: bash
-      run: echo "$SECRETS_CONTEXT"
-      env:
-        SECRETS_CONTEXT: ${{ toJson(secrets.ENV_MFP_PERSONAL) }}
+    - name: Gerando .env
+      run: |
+        echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
     - name: Instalando dependências
       run: composer install
