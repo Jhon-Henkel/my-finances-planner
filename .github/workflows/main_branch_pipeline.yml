@@ -10,20 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: shivammathur/setup-php@v2
+    - name: Configurando PHP
+      uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
 
-    - uses: actions/checkout@v3
+    - name: Configurando checkout V3
+      uses: actions/checkout@v3
+
     - name: Gerando .env
       run: |
         echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
     - name: Instalando dependências
       run: composer install
-
-    - name: Gerando chave da aplicação
-      run: php artisan key:generate
 
     - name: Aplicando permissões
       run: chmod -R 777 storage bootstrap/cache
@@ -42,3 +42,23 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: ./clover.xml
+
+  deploy:
+
+    runs-on: ubuntu-latest
+    needs: [ back-end-tests ]
+
+    steps:
+      - name: Configurando checkout V3
+        uses: actions/checkout@v3
+
+      - name: Configurando Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'latest'
+
+      - name: Instalando dependências
+        run: npm install
+
+      - name: Gerando build
+        run: npm run build
