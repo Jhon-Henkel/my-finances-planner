@@ -15,9 +15,6 @@ jobs:
         php-version: '8.2'
 
     - uses: actions/checkout@v3
-    - name: Copiando .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-
     - name: view the secrets context
       shell: bash
       run: echo "$SECRETS_CONTEXT"
