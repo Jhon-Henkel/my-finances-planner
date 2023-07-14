@@ -67,14 +67,25 @@ jobs:
       - name: Gerando build
         run: npm run build
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/deploy.key
+          chmod 600 ~/.ssh/deploy.key
+          cat >>~/.ssh/config <<END
+          Host cloudways
+            HostName ${{ secrets.SSH_HOST }}
+            User ${{ secrets.FTP_USERNAME }}
+            IdentityFile ~/.ssh/deploy.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy with rsync
-        run: rsync -avz ./public/build ${{ secrets.FTP_USERNAME }}@${{ secrets.SSH_HOST }}:/home/www/my-finances-planner/public/build
+      - name: Send files
+        run: "rsync --delete -avO ${{ env.RSYNC_FLAGS }} ./public/build ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:${{ env.DESTINATION }}"
+        env:
+          RSYNC_FLAGS: '' #--dry-run
+          SSH_USER: ${{ secrets.FTP_USERNAME }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          DESTINATION: "~/home/jhon/www/my-finances-planner/public/build"

@@ -128,7 +128,7 @@
     @import "../../../sass/variables";
 
     .link {
-        color: $divider-component-color;
+        color: red;
         text-decoration: none;
     }
     strong {
