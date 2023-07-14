@@ -87,5 +87,5 @@ jobs:
         env:
           RSYNC_FLAGS: '' #--dry-run
           SSH_USER: ${{ secrets.FTP_USERNAME }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_HOST: cloudways
           DESTINATION: "~/home/jhon/www/my-finances-planner/public/build"
