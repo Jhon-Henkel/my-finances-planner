@@ -70,11 +70,11 @@ jobs:
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
-          key: { %- raw -% } ${{ secrets.SSH_PRIVATE_KEY }}
+          key: {% raw %} ${{ secrets.SSH_PRIVATE_KEY }} {% endraw %}
           known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
 
       - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ secrets.SSH_HOST }}{% endraw%} >> ~/.ssh/known_hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }}{% endraw %} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
         run: rsync -avz ./public/build ${{ secrets.FTP_USERNAME }}@${{ secrets.SSH_HOST }}:/home/www/my-finances-planner/public/build
