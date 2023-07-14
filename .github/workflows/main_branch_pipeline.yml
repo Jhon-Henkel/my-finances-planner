@@ -58,7 +58,7 @@ jobs:
           node-version: 'latest'
 
       - name: Instalando dependências
-        run: npm install && composer update
+        run: npm install
 
       - name: Gerando .env
         run: |
