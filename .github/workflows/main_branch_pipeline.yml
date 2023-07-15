@@ -84,6 +84,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
-          server-dir: /home/jhon/www/my-finances-planner/
+          server-dir: /www/my-finances-planner/
           dangerous-clean-slate: true
           dry-run: true
