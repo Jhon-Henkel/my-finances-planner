@@ -89,7 +89,7 @@ jobs:
           dry-run: true
 
       - name: Sync vendor files
-        uses: SamKirkland/FTP-Deploy-Action@v3.3.1
+        uses: SamKirkland/FTP-Deploy-Action@master
         with:
           server: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
