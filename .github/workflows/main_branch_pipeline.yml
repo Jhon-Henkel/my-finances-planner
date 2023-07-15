@@ -75,12 +75,22 @@ jobs:
       - name: Gerando build
         run: npm run build
 
-      - name: Sync files
+      - name: Sync build files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: /home/jhon/www/my-finances-planner/
+          local-dir: ./public/build/
+          server-dir: /home/jhon/www/my-finances-planner/public/build/
+          dangerous-clean-slate: true
+
+      - name: Sync vendor files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_ADDRESS }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./vendor/
+          server-dir: /home/jhon/www/my-finances-planner/vendor/
           dangerous-clean-slate: true
