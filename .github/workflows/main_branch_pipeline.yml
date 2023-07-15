@@ -51,6 +51,8 @@ jobs:
     steps:
       - name: Configurando checkout V3
         uses: actions/checkout@v3
+        with:
+          fetch-depth : 100
 
       - name: Configurando Node
         uses: actions/setup-node@v3
@@ -66,7 +68,7 @@ jobs:
           php-version: '8.2'
 
       - name: Instalando dependências do PHP
-        run: composer install
+        run: composer install --no-dev
 
       - name: Gerando .env
         run: |
@@ -84,9 +86,10 @@ jobs:
           local-dir: ./public/build/
           server-dir: /home/jhon/www/my-finances-planner/public/build/
           dangerous-clean-slate: true
+          dry-run: true
 
       - name: Sync vendor files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v3.3.1
         with:
           server: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
@@ -94,3 +97,4 @@ jobs:
           local-dir: ./vendor/
           server-dir: /home/jhon/www/my-finances-planner/vendor/
           dangerous-clean-slate: true
+          dry-run: true
