@@ -83,6 +83,8 @@ jobs:
           host: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          command: |
-            cd /home/jhon/www/my-finances-planner/ && git pull &&
-            curl -sS https://getcomposer.org/installer | php && php composer.phar update --no-dev
+          script: |
+            cd /home/jhon/www/my-finances-planner/
+            git pull
+            curl -sS https://getcomposer.org/installer | php
+            php composer.phar update --no-dev
