@@ -52,21 +52,13 @@ jobs:
       - name: Configurando checkout V3
         uses: actions/checkout@v3
 
-      - name: Configurando PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-
       - name: Configurando Node
         uses: actions/setup-node@v3
         with:
           node-version: 'latest'
 
-      - name: Instalando dependências do front-end
+      - name: Instalando dependências
         run: npm install
-
-      - name: Instalando dependências do back-end
-        run: composer install --no-dev
 
       - name: Gerando .env
         run: |
@@ -85,12 +77,12 @@ jobs:
           server-dir: /home/jhon/www/my-finances-planner/public/build/
           dangerous-clean-slate: true
 
-      - name: Sync vendor files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: 📽 Commande SSH de 1&1 by Ionos
+        uses: garygrossgarten/github-action-ssh@release
         with:
-          server: ${{ secrets.FTP_ADDRESS }}
+          host: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./vendor/
-          server-dir: /home/jhon/www/my-finances-planner/vendor/
-          dangerous-clean-slate: true
+          command: |
+            cd /home/jhon/www/my-finances-planner/ && git pull &&
+            curl -sS https://getcomposer.org/installer | php && php composer.phar update --no-dev
