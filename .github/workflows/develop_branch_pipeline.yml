@@ -8,8 +8,6 @@ on:
 
 jobs:
   back-end-tests:
-    name: 🔨Testing Back-end code
-
     runs-on: ubuntu-latest
 
     steps:
