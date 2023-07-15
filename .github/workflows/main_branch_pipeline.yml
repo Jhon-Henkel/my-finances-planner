@@ -77,8 +77,8 @@ jobs:
           server-dir: /home/jhon/www/my-finances-planner/public/build/
           dangerous-clean-slate: true
 
-      - name: 📽 Commande SSH de 1&1 by Ionos
-        uses: garygrossgarten/github-action-ssh@release
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
