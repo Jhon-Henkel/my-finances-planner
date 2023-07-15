@@ -75,3 +75,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./public/build/
           server-dir: /www/my-finances-planner/public/build/
+          dangerous-clean-slate: true
