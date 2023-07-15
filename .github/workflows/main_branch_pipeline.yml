@@ -64,6 +64,9 @@ jobs:
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
+      - name: make .env readable
+        run: chmod 777 ./.env
+        
       - name: Gerando build
         run: npm run build
 
@@ -74,15 +77,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./public/build/
-          server-dir: ./my-finances-planner/public/build/
-          dangerous-clean-slate: true
-
-      - name: copy .env for test purposes
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_ADDRESS }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./.env
           server-dir: ./my-finances-planner/public/build/
           dangerous-clean-slate: true
