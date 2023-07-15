@@ -68,7 +68,7 @@ jobs:
         run: npm install
 
       - name: Instalando dependências do back-end
-        run: composer install
+        run: composer install --no-dev
 
       - name: Gerando .env
         run: |
