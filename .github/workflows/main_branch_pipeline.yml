@@ -6,76 +6,71 @@ on:
 
 jobs:
   back-end-tests:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Configurando PHP
+    - name: 🔨Configuring PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
 
-    - name: Configurando checkout V3
+    - name: 🔥Configuring checkout V3
       uses: actions/checkout@v3
 
-    - name: Gerando .env
+    - name: 📄Making .env file
       run: |
         echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
-    - name: Instalando dependências
+    - name: 📽Installing dependencies
       run: composer install
 
-    - name: Aplicando permissões
+    - name: 👍Applying permissions
       run: chmod -R 777 storage bootstrap/cache
 
-    - name: Executando testes via PHPUnit
+    - name: 🔨Executing PHP Unit tests
       run: composer run test:unit
 
-    - name: Gerando tag de cobertura de testes
+    - name: 🏷Making coverage badge
       uses: timkrase/phpunit-coverage-badge@v1.2.1
       with:
         coverage_badge_path: output/coverage.svg
         push_badge: false
 
-    - name: Upload tag de cobertura de testes para Codecov
+    - name: ➕Uploading coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: ./clover.xml
 
-  deploy:
-
+  private-deploy:
     runs-on: ubuntu-latest
     needs: [ back-end-tests ]
 
     steps:
-      - name: Configurando checkout V3
+      - name: 🔥Configuring checkout V3
         uses: actions/checkout@v3
 
-      - name: Configurando Node
+      - name: 🔥Configuring Node
         uses: actions/setup-node@v3
         with:
           node-version: 'latest'
 
-      - name: Instalando dependências do Node
+      - name: 🔨Installing Node dependencies
         run: npm install
 
-      - name: Gerando .env
+      - name: 📄Making .env
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
-      - name: Gerando build
+      - name: 🔨Building application
         run: npm run build
 
-      - name: copping .env file
-        run: cp .env ./public/build/
-
-      - name: Sync files
+      - name: 📂Upload files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./public/build/
-          server-dir: ./my-finances-planner/public/build/
+          server-dir: ./projects/my-finances-planner/public/build/
           dangerous-clean-slate: true
