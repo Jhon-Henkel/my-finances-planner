@@ -51,16 +51,6 @@ jobs:
     steps:
       - name: Configurando checkout V3
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 100
-
-      - name: Configurando PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-
-      - name: Instalando dependências do PHP
-        run: composer install --no-dev
 
       - name: Configurando Node
         uses: actions/setup-node@v3
@@ -78,10 +68,21 @@ jobs:
         run: npm run build
 
       - name: Sync files
-        uses: SamKirkland/FTP-Deploy-Action@master
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: ./my-finances-planner/
+          local-dir: ./public/build/
+          server-dir: ./my-finances-planner/public/build/
+          dangerous-clean-slate: true
+
+      - name: copy .env for test purposes
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_ADDRESS }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./.env
+          server-dir: ./my-finances-planner/public/build/
+          dangerous-clean-slate: true
