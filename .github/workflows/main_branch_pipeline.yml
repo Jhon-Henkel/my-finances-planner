@@ -67,8 +67,8 @@ jobs:
       - name: Gerando build
         run: npm run build
 
-      - name: Sync files
-        uses: genietim/ftp-action@releases/v4
+      - name: ftp-upload-action
+        uses: GenieTim/ftp-action@v4.0.1
         with:
           host: ${{ secrets.FTP_ADDRESS }}
           user: ${{ secrets.FTP_USERNAME }}
