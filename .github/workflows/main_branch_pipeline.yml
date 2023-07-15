@@ -57,8 +57,16 @@ jobs:
         with:
           node-version: 'latest'
 
-      - name: Instalando dependências
+      - name: Instalando dependências do Node
         run: npm install
+
+      - name: Configurando PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Instalando dependências do PHP
+        run: composer install
 
       - name: Gerando .env
         run: |
@@ -77,12 +85,12 @@ jobs:
           server-dir: /home/jhon/www/my-finances-planner/public/build/
           dangerous-clean-slate: true
 
-      - name: print out example job
-        uses: appleboy/ssh-action@v0.1.10
+      - name: Sync vendor files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.SSH_HOST }}
+          server: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          command_timeout: 30m
-          script: |
-            echo "Nice Job!!!"
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./vendor/
+          server-dir: /home/jhon/www/my-finances-planner/vendor/
+          dangerous-clean-slate: true
