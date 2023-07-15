@@ -67,17 +67,11 @@ jobs:
       - name: Gerando build
         run: npm run build
 
-      - name: Rsync Deploy
-        env:
-          dest: '"${{secrets.FTP_USERNAME}}"@"${{secrets.SSH_HOST}}":home/jhon/teste-rsync'
-        run: |
-          echo "${{secrets.SSH_PRIVATE_KEY}}" > deploy_key
-          chmod 600 ./deploy_key
-          rsync -chrlvzi --delete \
-            -e 'ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no' \
-            --exclude '/deploy_key' \
-            --exclude '/.*/' \
-            --exclude '.*' \
-            --exclude '/cgi-bin/' \
-            --exclude 'README.md' \
-            ./ ${{env.dest}}
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_ADDRESS }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./public/build
+          server-dir: /www/my-finances-planner/public/build

@@ -27,3 +27,4 @@ package-lock.json
 .DS_Store
 /public/.DS_Store
 composer.phar
+/public/build
