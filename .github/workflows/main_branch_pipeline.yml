@@ -67,11 +67,12 @@ jobs:
       - name: Gerando build
         run: npm run build
 
-      - name: ftp-upload-action
-        uses: GenieTim/ftp-action@v4.0.1
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.FTP_ADDRESS }}
-          user: ${{ secrets.FTP_USERNAME }}
+          server: ${{ secrets.FTP_ADDRESS }}
+          username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          localDir: ./public/build/
-          remoteDir: /www/my-finances-planner/public/build/
+          local-dir: ./public/build/
+          server-dir: /www/my-finances-planner/public/build/
+          dangerous-clean-slate: true
