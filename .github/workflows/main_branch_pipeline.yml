@@ -78,11 +78,12 @@ jobs:
           dangerous-clean-slate: true
 
       - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@v0.1.10
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          timeout: 120s
           script: |
             cd /home/jhon/www/my-finances-planner/
             git pull
