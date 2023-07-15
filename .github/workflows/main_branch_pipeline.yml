@@ -66,7 +66,10 @@ jobs:
 
       - name: make .env readable
         run: chmod 777 ./.env
-        
+
+      - name: copping .env file
+        run: cp .env ./tmp/
+
       - name: Gerando build
         run: npm run build
 
@@ -79,3 +82,12 @@ jobs:
           local-dir: ./public/build/
           server-dir: ./my-finances-planner/public/build/
           dangerous-clean-slate: true
+
+      - name: testing .file creation
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_ADDRESS }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./tmp/
+          server-dir: ./my-finances-planner/tmp/
