@@ -78,12 +78,12 @@ jobs:
         run: npm run build
 
       - name: Sync files
-        uses: SamKirkland/FTP-Deploy-Action@master
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           server: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: /www/my-finances-planner/
+          local-dir: ./public/build
+          server-dir: /www/my-finances-planner/public/build
           dangerous-clean-slate: true
           dry-run: true
