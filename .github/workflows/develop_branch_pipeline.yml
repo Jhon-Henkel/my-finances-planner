@@ -11,23 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🔨Configuring PHP
+      - name: 🔨 Configuring PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
 
-      - name: 🔥Configuring checkout V3
+      - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
 
-      - name: 📄Making .env file
+      - name: 📄 Making .env file
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
-      - name: 📽Installing dependencies
+      - name: 📽 Installing dependencies
         run: composer install
 
-      - name: 👍Applying permissions
+      - name: 👍 Applying permissions
         run: chmod -R 777 storage bootstrap/cache
 
-      - name: 🔨Executing PHP Unit tests
+      - name: 🔨 Executing PHP Unit tests
         run: composer run test:unit
