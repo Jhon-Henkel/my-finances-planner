@@ -56,5 +56,12 @@ export default defineConfig({
                 'app.css': '/resources/css/app.css',
             }
         }
+    },
+    test: {
+        coverage: {
+            all: true,
+            include: ['resources/js', 'resources/vue'],
+            reportsDirectory: './spec/coverage',
+        }
     }
 });

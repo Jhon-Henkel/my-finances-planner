@@ -78,6 +78,9 @@ describe('testing calendarTools file', () => {
 
         month = calendarTools.getMonthNameByNumber(11)
         expect(month).toBe('Dezembro')
+
+        month = calendarTools.getMonthNameByNumber(12)
+        expect(month).toBe('Mês inválido')
     })
 
     it('getThisMonth', async () => {
