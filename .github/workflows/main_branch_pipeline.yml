@@ -42,6 +42,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: ./clover.xml
         flags: backend
+        name: Backend Test
 
   front-end-tests:
     runs-on: ubuntu-latest
@@ -62,7 +63,7 @@ jobs:
       - name: ⚡️ Executing Vitest tests
         run: LARAVEL_BYPASS_ENV_CHECK=1 npm run test:coverage
 
-      - name: 📄 moving coverage to workspace folder
+      - name: 📄 Moving coverage to workspace folder
         run: mv ./spec/coverage/clover.xml ./clover.xml
 
       - name: 🏷 Making coverage badge
@@ -77,6 +78,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./clover.xml
           flags: frontend
+          name: Frontend Test
 
   private-server-deploy:
     runs-on: ubuntu-latest
