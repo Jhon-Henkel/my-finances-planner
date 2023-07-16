@@ -7,7 +7,7 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  back-end-tests:
+  testing-application:
     runs-on: ubuntu-latest
 
     steps:
