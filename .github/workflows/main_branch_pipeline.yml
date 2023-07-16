@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  testing-application:
+  back-end-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,32 +30,54 @@ jobs:
     - name: ⚡️ Executing PHP Unit tests
       run: composer run test:unit
 
-    - name: 🔑 Configuring Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 'latest'
-
-    - name: 🛠️ Installing Node dependencies
-      run: npm install
-
-    - name: ⚡️ Executing Vitest tests
-      run: LARAVEL_BYPASS_ENV_CHECK=1 npm run test:coverage
-
     - name: 🏷 Making coverage badge
       uses: timkrase/phpunit-coverage-badge@v1.2.1
       with:
-        coverage_badge_path: output/coverage.svg
+        coverage_badge_path: output/coverage-backend.svg
         push_badge: false
 
     - name: 💡️Uploading coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./clover.xml, ./spec/coverage/clover.xml
+        files: ./clover.xml
+        flags: backend
+
+  front-end-tests:
+    runs-on: ubuntu-latest
+    needs: [ back-end-tests ]
+
+    steps:
+      - name: 🔥 Configuring checkout V3
+        uses: actions/checkout@v3
+
+      - name: 🔑 Configuring Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'latest'
+
+      - name: 🛠️ Installing Node dependencies
+        run: npm install
+
+      - name: ⚡️ Executing Vitest tests
+        run: LARAVEL_BYPASS_ENV_CHECK=1 npm run test:coverage
+
+      - name: 🏷 Making coverage badge
+        uses: timkrase/phpunit-coverage-badge@v1.2.1
+        with:
+          coverage_badge_path: output/coverage-frontend.svg
+          push_badge: false
+
+      - name: 💡️Uploading coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./spec/coverage/clover.xml
+          flags: frontend
 
   private-server-deploy:
     runs-on: ubuntu-latest
-    needs: [ testing-application ]
+    needs: [ back-end-tests, front-end-tests ]
 
     steps:
       - name: 🔥 Configuring checkout V3
@@ -93,7 +115,7 @@ jobs:
 
   demo-server-deploy:
     runs-on: ubuntu-latest
-    needs: [ testing-application ]
+    needs: [ back-end-tests, front-end-tests ]
 
     steps:
       - name: 🔥 Configuring checkout V3
