@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 🔨 Configuring PHP
+    - name: 🔑 Configuring PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
@@ -21,13 +21,13 @@ jobs:
       run: |
         echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
-    - name: 📽 Installing dependencies
+    - name: 🛠️ Installing dependencies
       run: composer install
 
     - name: 👍 Applying permissions
       run: chmod -R 777 storage bootstrap/cache
 
-    - name: 🔨 Executing PHP Unit tests
+    - name: ⚡️ Executing PHP Unit tests
       run: composer run test:unit
 
     - name: 🏷 Making coverage badge
@@ -36,7 +36,7 @@ jobs:
         coverage_badge_path: output/coverage.svg
         push_badge: false
 
-    - name: ➕ Uploading coverage to Codecov
+    - name: 💡️Uploading coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
@@ -50,19 +50,19 @@ jobs:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
 
-      - name: 🔥 Configuring Node
+      - name: 🔑 Configuring Node
         uses: actions/setup-node@v3
         with:
           node-version: 'latest'
 
-      - name: 🔨 Installing Node dependencies
+      - name: 🛠️ Installing Node dependencies
         run: npm install
 
       - name: 📄 Making .env
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
-      - name: 🔨 Building application
+      - name: 📦️ Building application
         run: npm run build
 
       - name: 📂 Upload files
@@ -88,19 +88,19 @@ jobs:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
 
-      - name: 🔥 Configuring Node
+      - name: 🔑 Configuring Node
         uses: actions/setup-node@v3
         with:
           node-version: 'latest'
 
-      - name: 🔨 Installing Node dependencies
+      - name: 🛠️ Installing Node dependencies
         run: npm install
 
       - name: 📄 Making .env
         run: |
           echo "${{ secrets.ENV_MFP_DEMO }}" > .env
 
-      - name: 🔨 Building application
+      - name: 📦 Building application
         run: npm run build
 
       - name: 📂 Upload files
