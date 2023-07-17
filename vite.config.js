@@ -58,6 +58,7 @@ export default defineConfig({
         }
     },
     test: {
+        environment: 'happy-dom',
         coverage: {
             all: true,
             include: ['resources/js', 'resources/vue'],

@@ -41,7 +41,7 @@ const calendarTools = {
     },
     getNextThreeMonthsWithYear() {
         let months = []
-        let date = new Date()
+        let date = this.getToday()
         let month = date.getMonth()
         let year = date.getFullYear()
         for (let index = 0; index < 3; index++) {
@@ -87,6 +87,9 @@ const calendarTools = {
     getThisMonth() {
         let date = new Date()
         return date.getMonth()
+    },
+    getToday() {
+        return new Date()
     },
     addDaysInDate(date, days) {
         date.setDate(date.getDate() + days)

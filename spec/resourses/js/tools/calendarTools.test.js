@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import calendarTools from "../../../../resources/js/tools/calendarTools";
+import calendarTools from "../../../../resources/js/tools/calendarTools"
 
 describe('testing calendarTools file', () => {
     it('convertDateDbToBr with time', async () => {
@@ -86,5 +86,11 @@ describe('testing calendarTools file', () => {
     it('getThisMonth', async () => {
         let month = calendarTools.getThisMonth()
         expect(month).toBe(new Date().getMonth())
+    })
+
+    it('getToday', async () => {
+        let date = calendarTools.getToday()
+        expect(date).toBeInstanceOf(Date)
+        expect(date.getDate()).toBe(new Date().getDate())
     })
 })
