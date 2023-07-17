@@ -41,6 +41,11 @@ const routes = [
         component: DashboardView
     },
     {
+        path: "",
+        name: "dashboardRoot",
+        component: DashboardView
+    },
+    {
         path: "/movimentacoes",
         children: [
             {
