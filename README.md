@@ -1,10 +1,17 @@
 <p align="center"><img src="./public/favicon.png" width="200" alt="Laravel Logo"></p>
 
+<div style="text-align: center;">
 
-[![Tests](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/main_branch_pipeline.yml/badge.svg)](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/main_branch_pipeline.yml)
-[![codecov](https://codecov.io/gh/Jhon-Henkel/my-finances-planner/flag/backend/graph/badge.svg?flag=backend&token=ZWK28PWTZF&precision=2)](https://codecov.io/gh/Jhon-Henkel/my-finances-planner)
-[![codecov](https://codecov.io/gh/Jhon-Henkel/my-finances-planner/flag/backend/graph/badge.svg?flag=frontend&token=ZWK28PWTZF&precision=2)](https://codecov.io/gh/Jhon-Henkel/my-finances-planner)
-![My Finances Planner Demo](https://cronitor.io/badges/7TNGwI/production/Kx5Z8Ty_r1i5MPDI_w5JPm66d7Y.svg)
+[![main-branch-pipeline](https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/main_branch_pipeline.yml/badge.svg)](https://github.com/Jhon-Henkel/my-finances-planner/actions?query=branch%3Amain++&target=_blank)
+[![status page](https://cronitor.io/badges/7TNGwI/production/Kx5Z8Ty_r1i5MPDI_w5JPm66d7Y.svg)](https://my-finances-planner-demo.cronitorstatus.com/?target=_blank)
+
+</div>
+
+|                                                                                                 Teste Backend                                                                                                  |                                                                                                 Testes Frontend                                                                                                 |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| [![codecov](https://codecov.io/gh/Jhon-Henkel/my-finances-planner/branch/main/graph/badge.svg?flag=backend&token=ZWK28PWTZF&precision=2)](https://codecov.io/gh/Jhon-Henkel/my-finances-planner?target=_blank) | [![codecov](https://codecov.io/gh/Jhon-Henkel/my-finances-planner/branch/main/graph/badge.svg?flag=frontend&token=ZWK28PWTZF&precision=2)](https://codecov.io/gh/Jhon-Henkel/my-finances-planner?target=_blank) |
+
+
 ## Sobre My Finances Planner
 
 Com a necessidade de algo mais completo e personalizado para controle financeiro, resolvi desenvolver essa aplicação. Atualmente esse projeto está em fase de testes(Beta).
