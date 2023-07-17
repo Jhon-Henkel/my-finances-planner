@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import MonthlyClosingEnum from '../../../resources/js/enums/monthlyClosingEnum'
+import MonthlyClosingEnum from '../../../resources/js/enums/MonthlyClosingEnum'
 
 describe('Test monthlyClosingEnum file', () => {
     it('getFilterList', function () {
