@@ -19,8 +19,8 @@
 
 <script>
     import SideBarComponent from "./components/SideBarComponent.vue";
-    import routerNonAuthenticated from "../js/router/routerNonAuthenticated";
     import requestTools from "../js/tools/requestTools";
+    import RequestTools from "../js/tools/requestTools";
 
     export default {
         name: 'App',
@@ -36,17 +36,16 @@
         },
         methods: {
             async checkUserIsLogged() {
-                await routerNonAuthenticated.login.isUserLogged().then((response) => {
-                    if (response.data.isLogged) {
-                        this.isLoggedUser = true
-                        return
-                    }
-                    this.isLoggedUser = false
-                    if (this.$route.name === 'about') {
-                        return
-                    }
-                    this.$router.push({name: 'login'})
-                })
+                let isUserLogged = await RequestTools.user.isUserLogged()
+                if (isUserLogged) {
+                    this.isLoggedUser = true
+                    return
+                }
+                this.isLoggedUser = false
+                if (this.$route.name === 'about') {
+                    return
+                }
+                this.$router.push({name: 'login'})
             }
         },
         async mounted() {

@@ -68,6 +68,7 @@
     import MessageEnum from "../../../js/enums/messageEnum";
     import RequestTools from "../../../js/tools/requestTools";
     import LoadingComponent from "../../components/LoadingComponent.vue";
+    import apiRouter from "../../../js/router/apiRouter";
 
     export default {
         name: "LoginView",
@@ -118,17 +119,15 @@
                 }
             },
             async checkUserIsLogged() {
-                await routerNonAuthenticated.login.isUserLogged().then((response) => {
-                    if (response.data.isLogged) {
-                        this.$router.push({name: 'dashboard'})
-                        this.loadingDone = 1
-                        return
-                    }
+                let isUserLogged = await RequestTools.user.isUserLogged()
+                if (isUserLogged) {
+                    this.$router.push({name: 'dashboard'})
                     this.loadingDone = 1
-                    RequestTools.storage.removeItens()
-                }).catch(() => {
-                    RequestTools.storage.removeItens()
-                })
+                    return
+                }
+                this.loadingDone = 1
+                await apiRouter.userActions.logout()
+                this.$router.push({name: 'login'})
             },
             showMessage(type, message, title) {
                 this.$refs.message.showAlert(type, message, title)

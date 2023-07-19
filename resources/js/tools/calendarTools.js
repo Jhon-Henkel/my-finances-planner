@@ -1,3 +1,4 @@
+const THREE_HOURS_IN_MS = 10800000;
 const TEN_SECONDS_TIME_IN_MS = 10000;
 const FIVE_SECONDS_TIME_IN_MS = 5000;
 const THREE_SECONDS_TIME_IN_MS = 3000;
@@ -38,6 +39,9 @@ const calendarTools = {
     },
     oneHundredMs() {
         return ONE_HUNDRED_MS
+    },
+    threeHoursInMs() {
+        return THREE_HOURS_IN_MS
     },
     getNextThreeMonthsWithYear() {
         let months = []

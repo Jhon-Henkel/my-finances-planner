@@ -96,8 +96,7 @@ const apiRouter = {
     },
     userActions: {
         logout: async function() {
-            RequestTools.storage.removeItens()
-            localStorage.removeItem('salutation')
+            RequestTools.storage.removeStorageItems('userId', 'userSalary', 'isUserLogged', 'salutation')
             return await axios.get('/logout')
         }
     },

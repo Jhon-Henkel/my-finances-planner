@@ -17,6 +17,11 @@ describe('testing calendarTools file', () => {
         expect(time).toBe(5000)
     })
 
+    it('threeHoursInMs', async () => {
+        let time = calendarTools.threeHoursInMs()
+        expect(time).toBe(10800000)
+    })
+
     it('threeSecondsTimeInMs', async () => {
         let time = calendarTools.threeSecondsTimeInMs()
         expect(time).toBe(3000)
