@@ -1,49 +1,25 @@
 import {createRouter, createWebHistory} from "vue-router";
-import PageNotFoundView from "../../vue/view/PageNotFoundView.vue";
-import WalletView from "../../vue/view/wallet/WalletView.vue";
-import DashboardView from "../../vue/view/dashboard/DashboardView.vue";
-import WalletFormView from "../../vue/view/wallet/WalletFormView.vue";
-import ManageCardsView from "../../vue/view/creditCard/ManageCardsView.vue";
-import ManageCardsFormView from "../../vue/view/creditCard/ManageCardsFormView.vue";
-import LoginView from "../../vue/view/login/LoginView.vue";
-import CreditCardInvoiceView from "../../vue/view/creditCard/invoice/CreditCardInvoiceView.vue";
-import CreditCardExpenseForm from "../../vue/view/creditCard/expense/CreditCardExpenseForm.vue";
-import MovementView from "../../vue/view/movement/MovementView.vue";
-import MovementForm from "../../vue/view/movement/MovementForm.vue";
-import FutureGainView from "../../vue/view/futureGain/FutureGainView.vue";
-import FutureGainForm from "../../vue/view/futureGain/FutureGainForm.vue";
-import ToolsView from "../../vue/view/tools/ToolsView.vue";
-import SalaryCalculator from "../../vue/view/tools/salaryCalculator/SalaryCalculator.vue";
-import ExtraHoursCalculator from "../../vue/view/tools/extraHoursCalculator/ExtraHoursCalculator.vue";
-import ConfigurationsView from "../../vue/view/configurations/ConfigurationsView.vue";
-import PanoramaView from "../../vue/view/panorama/PanoramaView.vue";
-import PanoramaForm from "../../vue/view/panorama/PanoramaForm.vue";
-import AboutView from "../../vue/view/about/AboutView.vue";
-import PanoramaAllSpentAndGain from "../../vue/view/panorama/PanoramaAllSpentAndGain.vue";
-import FinancialHealthView from "../../vue/view/tools/financialHealth/FinancialHealthView.vue";
-import MonthlyClosingView from "../../vue/view/tools/monthlyClosing/MonthlyClosingView.vue";
-import MovementTransferForm from "../../vue/view/movement/MovementTransferForm.vue";
 
 const routes = [
     {
         path: "/sobre",
         name: "about",
-        component: AboutView
+        component: () => import("../../vue/view/about/AboutView.vue")
     },
     {
         path: "/login",
         name: "login",
-        component: LoginView
+        component: () => import("../../vue/view/login/LoginView.vue")
     },
     {
         path: "/dashboard",
         name: "dashboard",
-        component: DashboardView
+        component: () => import("../../vue/view/dashboard/DashboardView.vue")
     },
     {
         path: "",
         name: "dashboardRoot",
-        component: DashboardView
+        component: () => import("../../vue/view/dashboard/DashboardView.vue")
     },
     {
         path: "/movimentacoes",
@@ -51,22 +27,22 @@ const routes = [
             {
                 path: "",
                 name: "movementList",
-                component: MovementView
+                component: () => import("../../vue/view/movement/MovementView.vue")
             },
             {
                 path: "cadastrar",
                 name: "movementRegister",
-                component: MovementForm
+                component: () => import("../../vue/view/movement/MovementForm.vue")
             },
             {
                 path: ":id/atualizar",
                 name: "movementUpdate",
-                component: MovementForm
+                component: () => import("../../vue/view/movement/MovementForm.vue")
             },
             {
                 path: "transferir",
                 name: "newTransfer",
-                component: MovementTransferForm
+                component: () => import("../../vue/view/movement/MovementTransferForm.vue")
             }
         ]
     },
@@ -76,22 +52,22 @@ const routes = [
             {
                 path: "",
                 name: "panorama",
-                component: PanoramaView
+                component: () => import("../../vue/view/panorama/PanoramaView.vue")
             },
             {
                 path: "cadastrar-despesa",
                 name: "panoramaRegister",
-                component: PanoramaForm
+                component: () => import("../../vue/view/panorama/PanoramaForm.vue")
             },
             {
                 path: ":id/atualizar-despesa",
                 name: "panoramaUpdate",
-                component: PanoramaForm
+                component: () => import("../../vue/view/panorama/PanoramaForm.vue")
             },
             {
                 path: "todas-despesas-e-ganhos",
                 name: "manageAllSpentAndGain",
-                component: PanoramaAllSpentAndGain
+                component: () => import("../../vue/view/panorama/PanoramaAllSpentAndGain.vue")
             }
         ]
     },
@@ -101,17 +77,17 @@ const routes = [
             {
                 path: "",
                 name: "futureGainList",
-                component: FutureGainView
+                component: () => import("../../vue/view/futureGain/FutureGainView.vue")
             },
             {
                 path: "cadastrar",
                 name: "futureGainRegister",
-                component: FutureGainForm
+                component: () => import("../../vue/view/futureGain/FutureGainForm.vue")
             },
             {
                 path: ":id/atualizar",
                 name: "futureGainUpdate",
-                component: FutureGainForm
+                component: () => import("../../vue/view/futureGain/FutureGainForm.vue")
             }
         ]
     },
@@ -121,17 +97,17 @@ const routes = [
             {
                 path: "",
                 name: "walletList",
-                component: WalletView
+                component: () => import("../../vue/view/wallet/WalletView.vue")
             },
             {
                 path: "cadastrar",
                 name: "walletRegister",
-                component: WalletFormView
+                component: () => import("../../vue/view/wallet/WalletFormView.vue")
             },
             {
                 path: ":id/atualizar",
                 name: "walletUpdate",
-                component: WalletFormView
+                component: () => import("../../vue/view/wallet/WalletFormView.vue")
             }
         ]
     },
@@ -141,17 +117,17 @@ const routes = [
             {
                 path: "",
                 name: "manageCards",
-                component: ManageCardsView
+                component: () => import("../../vue/view/creditCard/ManageCardsView.vue")
             },
             {
                 path: "cadastrar",
                 name: "manageCardsRegister",
-                component: ManageCardsFormView
+                component: () => import("../../vue/view/creditCard/ManageCardsFormView.vue")
             },
             {
                 path: ":id/atualizar",
                 name: "manageCardsUpdate",
-                component: ManageCardsFormView
+                component: () => import("../../vue/view/creditCard/ManageCardsFormView.vue")
             },
         ]
     },
@@ -161,17 +137,17 @@ const routes = [
             {
                 path: "cadastrar",
                 name: "manageCardsExpenseRegister",
-                component: CreditCardExpenseForm
+                component: () => import("../../vue/view/creditCard/expense/CreditCardExpenseForm.vue")
             },
             {
                 path: ":cardId/cadastrar",
                 name: "manageCardsExpenseRegisterWithCard",
-                component: CreditCardExpenseForm
+                component: () => import("../../vue/view/creditCard/expense/CreditCardExpenseForm.vue")
             },
             {
                 path: ":id/atualizar",
                 name: "manageCardsExpenseUpdate",
-                component: CreditCardExpenseForm
+                component: () => import("../../vue/view/creditCard/expense/CreditCardExpenseForm.vue")
             },
         ]
     },
@@ -181,7 +157,7 @@ const routes = [
             {
                 path: ":id",
                 name: "creditCardsInvoices",
-                component: CreditCardInvoiceView
+                component: () => import("../../vue/view/creditCard/invoice/CreditCardInvoiceView.vue")
             },
         ]
     },
@@ -191,39 +167,39 @@ const routes = [
             {
                 path: "",
                 name: "tools",
-                component: ToolsView
+                component: () => import("../../vue/view/tools/ToolsView.vue")
             },
             {
                 path: "calculadora-salario",
                 name: "salaryCalculator",
-                component: SalaryCalculator
+                component: () => import("../../vue/view/tools/salaryCalculator/SalaryCalculator.vue")
             },
             {
                 path: "calculadora-horas-extras",
                 name: "extraHoursCalculator",
-                component: ExtraHoursCalculator
+                component: () => import("../../vue/view/tools/extraHoursCalculator/ExtraHoursCalculator.vue")
             },
             {
                 path: "saude-financeira",
                 name: "financialHealth",
-                component: FinancialHealthView
+                component: () => import("../../vue/view/tools/financialHealth/FinancialHealthView.vue")
             },
             {
                 path: "fechamento-mensal",
                 name: "monthlyClosing",
-                component: MonthlyClosingView
+                component: () => import("../../vue/view/tools/monthlyClosing/MonthlyClosingView.vue")
             }
         ]
     },
     {
         path: "/configuracoes",
         name: "configurations",
-        component: ConfigurationsView
+        component: () => import("../../vue/view/configurations/ConfigurationsView.vue")
     },
     {
         path: "/:pathMatch(.*)*",
         name: 'not-found',
-        component: PageNotFoundView
+        component: () => import("../../vue/view/PageNotFoundView.vue")
     }
 ]
 
