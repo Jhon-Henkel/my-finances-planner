@@ -1,49 +1,38 @@
-import {createRouter, createWebHistory} from "vue-router";
-import PageNotFoundView from "../../vue/view/PageNotFoundView.vue";
-import WalletView from "../../vue/view/wallet/WalletView.vue";
-import DashboardView from "../../vue/view/dashboard/DashboardView.vue";
-import WalletFormView from "../../vue/view/wallet/WalletFormView.vue";
-import ManageCardsView from "../../vue/view/creditCard/ManageCardsView.vue";
-import ManageCardsFormView from "../../vue/view/creditCard/ManageCardsFormView.vue";
-import LoginView from "../../vue/view/login/LoginView.vue";
-import CreditCardInvoiceView from "../../vue/view/creditCard/invoice/CreditCardInvoiceView.vue";
-import CreditCardExpenseForm from "../../vue/view/creditCard/expense/CreditCardExpenseForm.vue";
-import MovementView from "../../vue/view/movement/MovementView.vue";
-import MovementForm from "../../vue/view/movement/MovementForm.vue";
-import FutureGainView from "../../vue/view/futureGain/FutureGainView.vue";
-import FutureGainForm from "../../vue/view/futureGain/FutureGainForm.vue";
-import ToolsView from "../../vue/view/tools/ToolsView.vue";
-import SalaryCalculator from "../../vue/view/tools/salaryCalculator/SalaryCalculator.vue";
-import ExtraHoursCalculator from "../../vue/view/tools/extraHoursCalculator/ExtraHoursCalculator.vue";
-import ConfigurationsView from "../../vue/view/configurations/ConfigurationsView.vue";
-import PanoramaView from "../../vue/view/panorama/PanoramaView.vue";
-import PanoramaForm from "../../vue/view/panorama/PanoramaForm.vue";
-import AboutView from "../../vue/view/about/AboutView.vue";
-import PanoramaAllSpentAndGain from "../../vue/view/panorama/PanoramaAllSpentAndGain.vue";
-import FinancialHealthView from "../../vue/view/tools/financialHealth/FinancialHealthView.vue";
-import MonthlyClosingView from "../../vue/view/tools/monthlyClosing/MonthlyClosingView.vue";
-import MovementTransferForm from "../../vue/view/movement/MovementTransferForm.vue";
+import { createRouter, createWebHistory } from "vue-router";
+import routesControl from "./routes.js";
 
 const routes = [
     {
         path: "/sobre",
         name: "about",
-        component: AboutView
+        component: () => import("../../vue/view/about/AboutView.vue"),
+        meta: {
+            auth: false
+        }
     },
     {
         path: "/login",
         name: "login",
-        component: LoginView
+        component: () => import("../../vue/view/login/LoginView.vue"),
+        meta: {
+            auth: false
+        }
     },
     {
         path: "/dashboard",
         name: "dashboard",
-        component: DashboardView
+        component: () => import("../../vue/view/dashboard/DashboardView.vue"),
+        meta: {
+            auth: true
+        }
     },
     {
         path: "",
         name: "dashboardRoot",
-        component: DashboardView
+        component: () => import("../../vue/view/dashboard/DashboardView.vue"),
+        meta: {
+            auth: true
+        }
     },
     {
         path: "/movimentacoes",
@@ -51,22 +40,34 @@ const routes = [
             {
                 path: "",
                 name: "movementList",
-                component: MovementView
+                component: () => import("../../vue/view/movement/MovementView.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "cadastrar",
                 name: "movementRegister",
-                component: MovementForm
+                component: () => import("../../vue/view/movement/MovementForm.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: ":id/atualizar",
                 name: "movementUpdate",
-                component: MovementForm
+                component: () => import("../../vue/view/movement/MovementForm.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "transferir",
                 name: "newTransfer",
-                component: MovementTransferForm
+                component: () => import("../../vue/view/movement/MovementTransferForm.vue"),
+                meta: {
+                    auth: true
+                }
             }
         ]
     },
@@ -76,22 +77,34 @@ const routes = [
             {
                 path: "",
                 name: "panorama",
-                component: PanoramaView
+                component: () => import("../../vue/view/panorama/PanoramaView.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "cadastrar-despesa",
                 name: "panoramaRegister",
-                component: PanoramaForm
+                component: () => import("../../vue/view/panorama/PanoramaForm.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: ":id/atualizar-despesa",
                 name: "panoramaUpdate",
-                component: PanoramaForm
+                component: () => import("../../vue/view/panorama/PanoramaForm.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "todas-despesas-e-ganhos",
                 name: "manageAllSpentAndGain",
-                component: PanoramaAllSpentAndGain
+                component: () => import("../../vue/view/panorama/PanoramaAllSpentAndGain.vue"),
+                meta: {
+                    auth: true
+                }
             }
         ]
     },
@@ -101,17 +114,26 @@ const routes = [
             {
                 path: "",
                 name: "futureGainList",
-                component: FutureGainView
+                component: () => import("../../vue/view/futureGain/FutureGainView.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "cadastrar",
                 name: "futureGainRegister",
-                component: FutureGainForm
+                component: () => import("../../vue/view/futureGain/FutureGainForm.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: ":id/atualizar",
                 name: "futureGainUpdate",
-                component: FutureGainForm
+                component: () => import("../../vue/view/futureGain/FutureGainForm.vue"),
+                meta: {
+                    auth: true
+                }
             }
         ]
     },
@@ -121,17 +143,26 @@ const routes = [
             {
                 path: "",
                 name: "walletList",
-                component: WalletView
+                component: () => import("../../vue/view/wallet/WalletView.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "cadastrar",
                 name: "walletRegister",
-                component: WalletFormView
+                component: () => import("../../vue/view/wallet/WalletFormView.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: ":id/atualizar",
                 name: "walletUpdate",
-                component: WalletFormView
+                component: () => import("../../vue/view/wallet/WalletFormView.vue"),
+                meta: {
+                    auth: true
+                }
             }
         ]
     },
@@ -141,17 +172,26 @@ const routes = [
             {
                 path: "",
                 name: "manageCards",
-                component: ManageCardsView
+                component: () => import("../../vue/view/creditCard/ManageCardsView.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "cadastrar",
                 name: "manageCardsRegister",
-                component: ManageCardsFormView
+                component: () => import("../../vue/view/creditCard/ManageCardsFormView.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: ":id/atualizar",
                 name: "manageCardsUpdate",
-                component: ManageCardsFormView
+                component: () => import("../../vue/view/creditCard/ManageCardsFormView.vue"),
+                meta: {
+                    auth: true
+                }
             },
         ]
     },
@@ -161,17 +201,26 @@ const routes = [
             {
                 path: "cadastrar",
                 name: "manageCardsExpenseRegister",
-                component: CreditCardExpenseForm
+                component: () => import("../../vue/view/creditCard/expense/CreditCardExpenseForm.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: ":cardId/cadastrar",
                 name: "manageCardsExpenseRegisterWithCard",
-                component: CreditCardExpenseForm
+                component: () => import("../../vue/view/creditCard/expense/CreditCardExpenseForm.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: ":id/atualizar",
                 name: "manageCardsExpenseUpdate",
-                component: CreditCardExpenseForm
+                component: () => import("../../vue/view/creditCard/expense/CreditCardExpenseForm.vue"),
+                meta: {
+                    auth: true
+                }
             },
         ]
     },
@@ -181,7 +230,10 @@ const routes = [
             {
                 path: ":id",
                 name: "creditCardsInvoices",
-                component: CreditCardInvoiceView
+                component: () => import("../../vue/view/creditCard/invoice/CreditCardInvoiceView.vue"),
+                meta: {
+                    auth: true
+                }
             },
         ]
     },
@@ -191,39 +243,60 @@ const routes = [
             {
                 path: "",
                 name: "tools",
-                component: ToolsView
+                component: () => import("../../vue/view/tools/ToolsView.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "calculadora-salario",
                 name: "salaryCalculator",
-                component: SalaryCalculator
+                component: () => import("../../vue/view/tools/salaryCalculator/SalaryCalculator.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "calculadora-horas-extras",
                 name: "extraHoursCalculator",
-                component: ExtraHoursCalculator
+                component: () => import("../../vue/view/tools/extraHoursCalculator/ExtraHoursCalculator.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "saude-financeira",
                 name: "financialHealth",
-                component: FinancialHealthView
+                component: () => import("../../vue/view/tools/financialHealth/FinancialHealthView.vue"),
+                meta: {
+                    auth: true
+                }
             },
             {
                 path: "fechamento-mensal",
                 name: "monthlyClosing",
-                component: MonthlyClosingView
+                component: () => import("../../vue/view/tools/monthlyClosing/MonthlyClosingView.vue"),
+                meta: {
+                    auth: true
+                }
             }
         ]
     },
     {
         path: "/configuracoes",
         name: "configurations",
-        component: ConfigurationsView
+        component: () => import("../../vue/view/configurations/ConfigurationsView.vue"),
+        meta: {
+            auth: true
+        }
     },
     {
         path: "/:pathMatch(.*)*",
         name: 'not-found',
-        component: PageNotFoundView
+        component: () => import("../../vue/view/PageNotFoundView.vue"),
+        meta: {
+            auth: false
+        }
     }
 ]
 
@@ -231,5 +304,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+router.beforeEach(routesControl)
 
 export default router

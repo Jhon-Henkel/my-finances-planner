@@ -1,15 +1,30 @@
-const MFP_TOKEN = 'mfp_token'
+import CalendarTools from "./calendarTools";
 
 const RequestTools = {
-    user: {
-        getIdUserLogged: async function () {
-            return parseInt(localStorage.getItem('userId'))
-        }
-    },
     storage: {
-        removeItens: function () {
-            localStorage.removeItem('userId')
-            localStorage.removeItem('userSalary')
+        getStorageItem: function (key) {
+            let itemInStorage = localStorage.getItem(key)
+            if (itemInStorage) {
+                const itemParsed = JSON.parse(itemInStorage)
+                const now = CalendarTools.getToday()
+                if (now.getTime() < itemParsed.expiry) {
+                    return itemParsed.value
+                }
+                this.removeStorageItems(key)
+            }
+            return null
+        },
+        setStorageItem: function (key, value, expireTimeMs) {
+            let expiry = expireTimeMs ?? CalendarTools.threeHoursInMs()
+            localStorage.setItem(key, JSON.stringify({
+                value: value,
+                expiry: CalendarTools.getToday().getTime() + expiry,
+            }))
+        },
+        removeStorageItems: function (...keys) {
+            keys.forEach((key) => {
+                localStorage.removeItem(key)
+            })
         }
     },
     isApplicationInDemoMode: function () {

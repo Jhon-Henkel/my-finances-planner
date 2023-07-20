@@ -24,6 +24,7 @@ class DateEnum
     const NOVEMBER_MONTH_NUMBER = 11;
     const DECEMBER_MONTH_NUMBER = 12;
     const TWO_HOUR_IN_SECONDS = 7200;
+    const TREE_HOUR_IN_SECONDS = 10800;
 
     public static function getMonthNameByNumber(int $month): string
     {

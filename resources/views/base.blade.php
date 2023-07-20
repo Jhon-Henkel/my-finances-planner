@@ -1,6 +1,4 @@
 @php
-    use App\Tools\CalendarTools;
-    use Illuminate\Support\Facades\Auth;
     use App\Tools\RequestTools;
 @endphp
 <!DOCTYPE html>
@@ -22,13 +20,6 @@
             }
             gtag('js', new Date());
             gtag('config', 'G-TFXE4NPB8W');
-        </script>
-    @endif
-    @if (Auth::check())
-        <script>
-            localStorage.setItem('salutation', '{{ CalendarTools::salutation(Auth::user()->name, date('H')) }}')
-            localStorage.setItem('userId', '{{ Auth::user()->id }}')
-            localStorage.setItem('userSalary', '{{ Auth::user()->salary }}')
         </script>
     @endif
     <div class="container" id="app"></div>

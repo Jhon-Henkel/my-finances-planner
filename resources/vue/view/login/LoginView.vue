@@ -60,14 +60,18 @@
 <script>
     import iconEnum from "../../../js/enums/iconEnum";
     import RouterNonAuthenticated from "../../../js/router/routerNonAuthenticated";
-    import {HttpStatusCode} from "axios";
-    import routerNonAuthenticated from "../../../js/router/routerNonAuthenticated";
+    import { HttpStatusCode } from "axios";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
     import MfpMessage from "../../components/MessageAlert.vue";
     import MessageEnum from "../../../js/enums/messageEnum";
     import RequestTools from "../../../js/tools/requestTools";
     import LoadingComponent from "../../components/LoadingComponent.vue";
+    import apiRouter from "../../../js/router/apiRouter";
+    import Router from "../../../js/router";
+    import { userAuthStore } from "../../store/auth";
+
+    const auth = userAuthStore()
 
     export default {
         name: "LoginView",
@@ -91,11 +95,11 @@
         methods: {
             async login(event) {
                 event.preventDefault()
-                await RouterNonAuthenticated.login.makeLogin(this.populateDate()).then((response) => {
+                await RouterNonAuthenticated.auth.makeLogin(this.populateDate()).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
-                        // feito isso para carregar tudo no app.vue, pois sem dar reload o app não carregava a sidebar
-                        this.$router.push({name: 'dashboard'})
-                        window.location.reload()
+                        auth.setToken(response.data.token)
+                        auth.setUser(response.data.user)
+                        Router.push({name: 'dashboard'})
                     } else {
                         this.showMessage(
                             MessageEnum.alertTypeError(),
@@ -118,17 +122,15 @@
                 }
             },
             async checkUserIsLogged() {
-                await routerNonAuthenticated.login.isUserLogged().then((response) => {
-                    if (response.data.isLogged) {
-                        this.$router.push({name: 'dashboard'})
-                        this.loadingDone = 1
-                        return
-                    }
+                let isUserLogged = auth.isAuthUser()
+                if (isUserLogged) {
+                    await Router.push({name: 'dashboard'})
                     this.loadingDone = 1
-                    RequestTools.storage.removeItens()
-                }).catch(() => {
-                    RequestTools.storage.removeItens()
-                })
+                    return
+                }
+                this.loadingDone = 1
+                await apiRouter.userActions.logout()
+                await Router.push({name: 'login'})
             },
             showMessage(type, message, title) {
                 this.$refs.message.showAlert(type, message, title)

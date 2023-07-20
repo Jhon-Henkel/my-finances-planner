@@ -92,6 +92,9 @@
     import MfpMessage from "../../components/MessageAlert.vue";
     import ApiRouter from "../../../js/router/apiRouter";
     import RequestTools from "../../../js/tools/requestTools";
+    import { userAuthStore } from "../../store/auth";
+
+    const auth = userAuthStore();
 
     export default {
         name: "ConfigurationsView",
@@ -156,7 +159,7 @@
             }
         },
         async mounted() {
-            this.id = await RequestTools.user.getIdUserLogged()
+            this.id = auth.user.id
             await ApiRouter.user.show(this.id).then((response) => {
                 this.user = response;
                 this.loadingDone = this.loadingDone + 1;

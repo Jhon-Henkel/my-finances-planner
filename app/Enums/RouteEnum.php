@@ -50,10 +50,7 @@ class RouteEnum
     const API_PANORAMA_INDEX = 'apiPanoramaIndex';
     const API_FINANCIAL_HEALTH_INDEX_FILTERED = 'apiFinancialHealthIndex';
     const API_MONTHLY_CLOSING_INDEX_FILTERED = 'apiMonthlyClosingIndexFiltered';
-    const WEB_LOGIN = 'login';
-    const WEB_ABOUT = 'about';
     const WEB_LOGOUT = 'logout';
-    const WEB_IS_USER_LOGGED = 'webIsUserLogged';
     const WEB_MAKE_LOGIN = 'makeLogin';
     const WEB_SEND_TEST_EMAIL = 'sendTestEmail';
     const WEB_ACTIVE_USER = 'activeUser';

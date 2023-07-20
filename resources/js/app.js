@@ -2,7 +2,6 @@ import '../sass/app.scss';
 import './bootstrap';
 import '../css/app.css';
 import '../font/poppins.css'
-import * as bootstrap from 'bootstrap';
 import { createApp } from "vue";
 import app from "../vue/App.vue";
 import router from "./router";
@@ -14,10 +13,14 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import tooltip from "../directives/tooltip/tooltip.js";
 import "../directives/tooltip/tooltip.css";
 import moneyMask from "../directives/moneyMask/moneyMask";
+import { createPinia } from 'pinia'
 
 library.add(fas, far, fab)
-
+const pinia = createPinia()
 const appCreated = createApp(app)
 appCreated.directive("tooltip", tooltip);
 appCreated.directive("money", moneyMask);
-appCreated.component('font-awesome-icon', FontAwesomeIcon).use(router).mount("#app")
+appCreated.component('font-awesome-icon', FontAwesomeIcon)
+appCreated.use(router)
+appCreated.use(pinia)
+appCreated.mount("#app")

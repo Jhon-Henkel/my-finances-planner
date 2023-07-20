@@ -5,18 +5,15 @@ namespace App\Http\Controllers;
 use App\DTO\MailMessageDTO;
 use App\Enums\BasicFieldsEnum;
 use App\Enums\ConfigEnum;
-use App\Enums\ViewEnum;
 use App\Exceptions\UserException;
 use App\Http\Response\ResponseError;
 use App\Models\User;
 use App\Services\MailService;
 use App\Services\UserService;
+use App\Tools\CalendarTools;
 use App\Tools\ErrorReport;
+use App\Tools\JwtTools;
 use App\Tools\RequestTools;
-use Illuminate\Contracts\Foundation\Application as AppFoundation;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application as App;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,19 +27,14 @@ class AuthController extends Controller
     const INACTIVE_USER_CODE = 2;
     const OK_CODE = 3;
 
-    public function renderLoginView(): View|App|Factory|AppFoundation
-    {
-        return view(ViewEnum::VIEW_LOGIN);
-    }
-
-    public function login(Request $request): JsonResponse
+    public function auth(Request $request): JsonResponse
     {
         $data = $request->all();
         $user = $this->findUserForAuth($data['email']);
         $loginCode = $this->validateLogin($user, $data['password']);
         if ($loginCode === self::OK_CODE) {
             Auth::login($user);
-            return response()->json('Logado com sucesso!', ResponseAlias::HTTP_OK);
+            return response()->json($this->makeAuthUserResponseData($user), ResponseAlias::HTTP_OK);
         } elseif ($loginCode === self::INACTIVE_USER_CODE) {
             $message = 'Usuário inativo!';
             return ResponseError::responseError($message, ResponseAlias::HTTP_FORBIDDEN);
@@ -84,6 +76,19 @@ class AuthController extends Controller
         }
         $this->incrementWrongLoginAttempts($user);
         return self::INVALID_LOGIN_OR_PASSWORD_CODE;
+    }
+
+    protected function makeAuthUserResponseData(User $user): array
+    {
+        return [
+            'token' => JwtTools::createJWT($user),
+            'user' => [
+                'name' => $user->name,
+                'id' => $user->id,
+                'salutation' => CalendarTools::salutation($user->name, date('H')),
+                'salary' => $user->salary,
+            ]
+        ];
     }
 
     protected function inactiveUser(User $user): void
@@ -129,12 +134,14 @@ class AuthController extends Controller
         return response()->json([BasicFieldsEnum::MESSAGE => 'Logout realizado com sucesso']);
     }
 
-    public function isUserLogged(): JsonResponse
+    public function verifyIsAuthenticated(): JsonResponse
     {
-        $IsLogged = false;
-        if (Auth::check()) {
-            $IsLogged = true;
+        $authorization = $_SERVER['HTTP_AUTHORIZATION'];
+        $authentication = JwtTools::validateJWT($authorization);
+        if ($authentication && Auth::check()) {
+            return response()->json($authentication, ResponseAlias::HTTP_OK);
+        } else {
+            return response()->json(null, ResponseAlias::HTTP_UNAUTHORIZED);
         }
-        return response()->json([BasicFieldsEnum::IS_LOGGED => $IsLogged], ResponseAlias::HTTP_OK);
     }
 }
