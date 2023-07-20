@@ -62,6 +62,13 @@ export default defineConfig({
         coverage: {
             all: true,
             include: ['resources/js', 'resources/vue'],
+            exclude: [
+                'resources/js/app.js',
+                'resources/js/bootstrap.js',
+                'resources/js/router',
+                'resources/vue/store',
+                'resources/vue/App.vue',
+            ],
             reportsDirectory: './spec/coverage',
         }
     }
