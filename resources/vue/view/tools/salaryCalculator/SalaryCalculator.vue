@@ -57,6 +57,9 @@
     import Divider from "../../../components/DividerComponent.vue";
     import MfpTitle from "../../../components/TitleComponent.vue";
     import BackButton from "../../../components/buttons/BackButton.vue";
+    import { userAuthStore } from "../../../store/auth";
+
+    const auth = userAuthStore();
 
     export default {
         name: "SalaryCalculator",
@@ -86,10 +89,7 @@
             }
         },
         mounted() {
-            const salary = localStorage.getItem('userSalary');
-            if (salary) {
-                this.calculate.salary = salary;
-            }
+            this.calculate.salary = auth.user.salary ?? 0;
         }
     }
 </script>

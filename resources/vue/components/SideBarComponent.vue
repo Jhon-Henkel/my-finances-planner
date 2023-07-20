@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar glass" :class="isOpened ? 'open' : ''">
+    <div class="sidebar glass" :class="isOpened ? 'open' : ''" v-if="mustShow">
         <div class="sidebar-header">
             <div class="salutation">
                 {{ salutation }}
@@ -34,17 +34,19 @@
 </template>
 
 <script>
-    import apiRouter from "../../js/router/apiRouter";
+    import apiRouter from "../../js/router/apiRouter"
+    import { userAuthStore } from "../store/auth"
 
     export default {
         name: 'SideBarComponent',
         data() {
             return {
+                mustShow: this.mustShowSidebar(),
                 isOpened: false,
                 isMenuOpen: false,
                 isUsedVueRouter: false,
                 isPaddingLeft: true,
-                salutation: localStorage.getItem('salutation'),
+                salutation: userAuthStore().user?.salutation,
                 menuItens: [
                     {
                         title: 'Dashboard',
@@ -108,9 +110,7 @@
                         const targetPosition = target.getBoundingClientRect()
                         if (this.isOpened) return
                         tooltip.style.top = `${targetPosition.top + window.scrollY}px`
-                        tooltip.style.left = `${
-                            targetPosition.left + targetPosition.width + 20
-                        }px`
+                        tooltip.style.left = `${targetPosition.left + targetPosition.width + 20}px`
                         tooltip.classList.add('active')
                     })
                     target.addEventListener('mouseleave', () => {
@@ -118,14 +118,23 @@
                     })
                 })
             },
+            mustShowSidebar() {
+                const { name } = this.$route
+                const routesMustNotShow = ['login', 'about']
+                return !routesMustNotShow.includes(name)
+            }
         },
         watch: {
             isOpened() {
                 window.document.body.style.paddingLeft = this.isOpened && this.isPaddingLeft ? '300px' : '78px'
+            },
+            '$route'() {
+                this.mustShow = this.mustShowSidebar()
             }
         },
         mounted() {
             this.tooltipAttached()
+            this.mustShowSidebar()
         }
     }
 </script>

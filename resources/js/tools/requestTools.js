@@ -1,26 +1,6 @@
-import routerNonAuthenticated from "../router/routerNonAuthenticated";
 import CalendarTools from "./calendarTools";
 
 const RequestTools = {
-    user: {
-        getIdUserLogged: async function () {
-            return parseInt(localStorage.getItem('userId'))
-        },
-        async isUserLogged() {
-            let isUserLogged = RequestTools.storage.getStorageItem('isUserLogged')
-            if (isUserLogged) {
-                return isUserLogged
-            }
-            let isUserLoggedValue = false
-            await routerNonAuthenticated.login.isUserLogged().then((response) => {
-                if (response.data.isLogged) {
-                    RequestTools.storage.setStorageItem('isUserLogged', response.data.isLogged)
-                    isUserLoggedValue = true
-                }
-            })
-            return isUserLoggedValue
-        }
-    },
     storage: {
         getStorageItem: function (key) {
             let itemInStorage = localStorage.getItem(key)

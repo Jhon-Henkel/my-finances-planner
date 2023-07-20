@@ -1,4 +1,4 @@
-import RequestTools from "../tools/requestTools";
+import { userAuthStore } from '../../vue/store/auth'
 
 window.axios.defaults.headers.common['mfp-token'] = import.meta.env.VITE_PUSHER_APP_KEY;
 
@@ -96,7 +96,7 @@ const apiRouter = {
     },
     userActions: {
         logout: async function() {
-            RequestTools.storage.removeStorageItems('userId', 'userSalary', 'isUserLogged', 'salutation')
+            userAuthStore().logout()
             return await axios.get('/logout')
         }
     },

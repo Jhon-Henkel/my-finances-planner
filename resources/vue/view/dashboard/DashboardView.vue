@@ -107,6 +107,9 @@
     import AlertIcon from "../../components/AlertIcon.vue";
     import BarChart from "../../components/graphics/BarChart.vue";
     import dashboardChartParams from "../../../js/chartParams/dashboardChartParams";
+    import { userAuthStore } from "../../store/auth";
+
+    const auth = userAuthStore()
 
     export default {
         name: "DashboardView",
@@ -130,7 +133,7 @@
         data() {
             return {
                 loadingDone: false,
-                salutation: localStorage.getItem('salutation'),
+                salutation: auth.user.salutation,
                 graphOptions: dashboardChartParams.options,
                 chartData: dashboardChartParams.data,
                 data: {

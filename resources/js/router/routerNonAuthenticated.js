@@ -1,10 +1,14 @@
 const routerNonAuthenticated = {
-    login: {
+    auth: {
         makeLogin: async function(user) {
-            return await axios.post('/make-login',  user)
+            return await axios.post('/auth',  user)
         },
-        isUserLogged: async function() {
-            return await axios.get('/is-user-logged')
+        verify: async function(token) {
+            return await axios.get('/auth/verify', {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            })
         }
     }
 }

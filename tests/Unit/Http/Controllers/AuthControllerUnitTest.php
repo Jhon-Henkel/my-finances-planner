@@ -22,15 +22,6 @@ class AuthControllerUnitTest extends Falcon9
         $this->assertEquals(3, AuthController::OK_CODE);
     }
 
-    public function testRenderLoginView()
-    {
-        $authController = new AuthController();
-        $view = $authController->renderLoginView();
-
-        $this->assertInstanceOf(View::class, $authController->renderLoginView());
-        $this->assertEquals('login', $view->name());
-    }
-
     public function testFindUserForAuth()
     {
         $serviceMock = Mockery::mock(UserService::class)->makePartial();
@@ -148,5 +139,27 @@ class AuthControllerUnitTest extends Falcon9
         $this->assertEquals('Ativação de usuário', $data->getSubject());
         $this->assertEquals('emails.activeUser', $data->getTempleteFile());
         $this->assertEquals('name', $data->getParams()['name']);
+    }
+
+    public function testMakeAuthUserResponseData()
+    {
+        $user = new User();
+        $user->name = 'Joãozinho';
+        $user->id = 1;
+        $user->salary = 1300;
+
+        $controller = Mockery::mock(AuthController::class)->makePartial();
+        $controller->shouldAllowMockingProtectedMethods();
+
+        $data = $controller->makeAuthUserResponseData($user);
+
+        $this->assertIsArray($data);
+        $this->arrayHasKey('token', $data);
+        $this->arrayHasKey('user', $data);
+        $this->assertIsString($data['token']);
+        $this->assertEquals('Joãozinho', $data['user']['name']);
+        $this->assertEquals(1, $data['user']['id']);
+        $this->assertEquals(1300, $data['user']['salary']);
+        $this->assertStringContainsString('Joãozinho', $data['user']['salutation']);
     }
 }
