@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Resource\Service;
+namespace Tests\Unit\Service;
 
 use App\Services\CronService;
 use Mockery;

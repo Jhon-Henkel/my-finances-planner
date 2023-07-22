@@ -1,7 +1,12 @@
 <?php
 
-namespace Tests\Unit\Resource\Service;
+namespace Tests\Unit\Service;
 
+use App\Services\CreditCard\CreditCardTransactionService;
+use App\Services\FutureGainService;
+use App\Services\FutureSpentService;
+use App\Services\PanoramaService;
+use App\Services\WalletService;
 use App\VO\InvoiceVO;
 use Mockery;
 use Tests\Falcon9;
@@ -10,7 +15,7 @@ class PanoramaServiceUnitTest extends Falcon9
 {
     public function testGetPanoramaData()
     {
-        $serviceMock = Mockery::mock('App\Services\PanoramaService')->makePartial();
+        $serviceMock = Mockery::mock(PanoramaService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('getTotalFutureExpenses')->times(2)->andReturn([]);
         $serviceMock->shouldReceive('getTotalFutureGains')->once()->andReturn(new InvoiceVO());
@@ -32,11 +37,12 @@ class PanoramaServiceUnitTest extends Falcon9
 
     public function testGetWalletInvoiceData()
     {
-        $serviceMock = Mockery::mock('App\Services\PanoramaService')->makePartial();
+        $serviceMock = Mockery::mock(PanoramaService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $walletServiceMock = Mockery::mock('App\Services\WalletService');
+
+        $walletServiceMock = Mockery::mock(WalletService::class);
         $walletServiceMock->shouldReceive('getTotalWalletValue')->once()->andReturn(10.50);
-        $this->app->instance('App\Services\WalletService', $walletServiceMock);
+        $this->app->instance(WalletService::class, $walletServiceMock);
 
         $result = $serviceMock->getWalletInvoiceData();
 
@@ -46,11 +52,12 @@ class PanoramaServiceUnitTest extends Falcon9
 
     public function testGetTotalFutureExpenses()
     {
-        $serviceMock = Mockery::mock('App\Services\PanoramaService')->makePartial();
+        $serviceMock = Mockery::mock(PanoramaService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $invoiceServiceMock = Mockery::mock('App\Services\FutureSpentService');
+
+        $invoiceServiceMock = Mockery::mock(FutureSpentService::class);
         $invoiceServiceMock->shouldReceive('getNextSixMonthsFutureSpent')->once()->andReturn([]);
-        $this->app->instance('App\Services\FutureSpentService', $invoiceServiceMock);
+        $this->app->instance(FutureSpentService::class, $invoiceServiceMock);
 
         $result = $serviceMock->getTotalFutureExpenses();
 
@@ -60,11 +67,11 @@ class PanoramaServiceUnitTest extends Falcon9
 
     public function testGetTotalFutureGains()
     {
-        $serviceMock = Mockery::mock('App\Services\PanoramaService')->makePartial();
+        $serviceMock = Mockery::mock(PanoramaService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $gainServiceMock = Mockery::mock('App\Services\FutureGainService');
+        $gainServiceMock = Mockery::mock(FutureGainService::class);
         $gainServiceMock->shouldReceive('getNextSixMonthsFutureGain')->once()->andReturn([]);
-        $this->app->instance('App\Services\FutureGainService', $gainServiceMock);
+        $this->app->instance(FutureGainService::class, $gainServiceMock);
 
         $result = $serviceMock->getTotalFutureGains();
 
@@ -83,11 +90,11 @@ class PanoramaServiceUnitTest extends Falcon9
         $item->fifthInstallment = 10.50;
         $item->sixthInstallment = 10.50;
 
-        $serviceMock = Mockery::mock('App\Services\PanoramaService')->makePartial();
+        $serviceMock = Mockery::mock(PanoramaService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $invoiceServiceMock = Mockery::mock('App\Services\CreditCard\CreditCardTransactionService');
+        $invoiceServiceMock = Mockery::mock(CreditCardTransactionService::class);
         $invoiceServiceMock->shouldReceive('getAllCardsInvoices')->once()->andReturn([$item]);
-        $this->app->instance('App\Services\CreditCard\CreditCardTransactionService', $invoiceServiceMock);
+        $this->app->instance(CreditCardTransactionService::class, $invoiceServiceMock);
 
         $result = $serviceMock->getTotalCreditCardExpenses();
 
@@ -106,7 +113,7 @@ class PanoramaServiceUnitTest extends Falcon9
         $item->fifthInstallment = 10.50;
         $item->sixthInstallment = 10.50;
 
-        $serviceMock = Mockery::mock('App\Services\PanoramaService')->makePartial();
+        $serviceMock = Mockery::mock(PanoramaService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
 
         $result = $serviceMock->getTotalLeft($item, $item, $item);

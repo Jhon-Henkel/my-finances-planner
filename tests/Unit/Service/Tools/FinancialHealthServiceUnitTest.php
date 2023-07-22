@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Resource\Service\Tools;
+namespace Tests\Unit\Service\Tools;
 
 use App\DTO\Movement\MovementDTO;
 use App\Enums\MovementEnum;

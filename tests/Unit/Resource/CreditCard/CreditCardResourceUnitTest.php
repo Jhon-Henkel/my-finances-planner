@@ -14,7 +14,7 @@ class CreditCardResourceUnitTest extends Falcon9
     public function setUp(): void
     {
         parent::setUp();
-        $this->resource = $this->app->make('App\Resources\CreditCard\CreditCardResource');
+        $this->resource = $this->app->make(CreditCardResource::class);
     }
 
     public function testArrayToDto()

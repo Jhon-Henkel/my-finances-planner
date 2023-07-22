@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Resource\Service\Auth;
+namespace Tests\Unit\Service\Auth;
 
 use App\DTO\Mail\MailMessageDTO;
 use App\Models\User;

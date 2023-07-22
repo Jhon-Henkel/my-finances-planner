@@ -2,6 +2,10 @@
 
 namespace Tests\Unit\Http\Controllers;
 
+use App\Exceptions\NotImplementedException;
+use App\Http\Controllers\UserController;
+use App\Resources\UserResource;
+use App\Services\UserService;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -9,8 +13,8 @@ class UserControllerUnitTest extends TestCase
 {
     public function testRulesUpdate()
     {
-        $serviceMock = Mockery::mock('App\Services\UserService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\UserController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(UserService::class);
+        $controllerMock = Mockery::mock(UserController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -27,11 +31,11 @@ class UserControllerUnitTest extends TestCase
 
     public function testRulesInsert()
     {
-        $serviceMock = Mockery::mock('App\Services\UserService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\UserController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(UserService::class);
+        $controllerMock = Mockery::mock(UserController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
-        $this->expectException('App\Exceptions\NotImplementedException');
+        $this->expectException(NotImplementedException::class);
         $this->expectExceptionMessage('Not implemented');
 
         $controllerMock->rulesInsert();
@@ -39,23 +43,23 @@ class UserControllerUnitTest extends TestCase
 
     public function testGetService()
     {
-        $serviceMock = Mockery::mock('App\Services\UserService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\UserController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(UserService::class);
+        $controllerMock = Mockery::mock(UserController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
 
-        $this->assertInstanceOf('App\Services\UserService', $service);
+        $this->assertInstanceOf(UserService::class, $service);
     }
 
     public function testGetResource()
     {
-        $serviceMock = Mockery::mock('App\Services\UserService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\UserController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(UserService::class);
+        $controllerMock = Mockery::mock(UserController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();
 
-        $this->assertInstanceOf('App\Resources\UserResource', $resource);
+        $this->assertInstanceOf(UserResource::class, $resource);
     }
 }

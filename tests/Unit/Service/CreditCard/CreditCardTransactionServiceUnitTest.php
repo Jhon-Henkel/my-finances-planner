@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Resource\Service\CreditCard;
+namespace Tests\Unit\Service\CreditCard;
 
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\VO\InvoiceVO;

@@ -1,8 +1,10 @@
 <?php
 
-namespace Tests\Unit\Resource\Service;
+namespace Tests\Unit\Service;
 
 use App\DTO\WalletDTO;
+use App\Repositories\WalletRepository;
+use App\Services\Movement\MovementService;
 use App\Services\WalletService;
 use Mockery;
 use Tests\Falcon9;
@@ -11,7 +13,7 @@ class WalletServiceUnitTest extends Falcon9
 {
     public function testFindAllByType()
     {
-        $mock = Mockery::mock('App\Repositories\WalletRepository');
+        $mock = Mockery::mock(WalletRepository::class);
         $mock->shouldReceive('findAllByType')->once()->andReturn([]);
 
         $service = new WalletService($mock);
@@ -28,7 +30,7 @@ class WalletServiceUnitTest extends Falcon9
         $item->setId(1);
         $item->setType(6);
 
-        $mock = Mockery::mock('App\Repositories\WalletRepository');
+        $mock = Mockery::mock(WalletRepository::class);
         $mock->shouldReceive('findById')->times(2)->andReturn($item);
         $mock->shouldReceive('update')->once()->andReturn([]);
 
@@ -46,14 +48,14 @@ class WalletServiceUnitTest extends Falcon9
         $item->setId(1);
         $item->setType(5);
 
-        $mock = Mockery::mock('App\Repositories\WalletRepository');
+        $mock = Mockery::mock(WalletRepository::class);
         $mock->shouldReceive('findById')->times(2)->andReturn($item);
         $mock->shouldReceive('update')->once()->andReturn([]);
 
         $service = new WalletService($mock);
-        $result = $service->updateWalletValue(1, 1, 5, true);
+        $service->updateWalletValue(1, 1, 5, true);
 
-        $this->assertNull($result);
+        $this->assertTrue(true);
     }
 
     public function testGetTotalWalletValue()
@@ -64,7 +66,7 @@ class WalletServiceUnitTest extends Falcon9
         $item2 = new WalletDTO();
         $item2->setAmount(2);
 
-        $mock = Mockery::mock('App\Repositories\WalletRepository');
+        $mock = Mockery::mock(WalletRepository::class);
         $mock->shouldReceive('findAll')->once()->andReturn([$item1, $item2]);
         $service = new WalletService($mock);
 
@@ -79,13 +81,13 @@ class WalletServiceUnitTest extends Falcon9
         $item->setId(1);
         $item->setType(6);
 
-        $mock = Mockery::mock('App\Repositories\WalletRepository');
+        $mock = Mockery::mock(WalletRepository::class);
         $mock->shouldReceive('findById')->once()->andReturn($item);
         $mock->shouldReceive('update')->once()->andReturn($item);
 
-        $mockMovement = Mockery::mock('App\Services\Movement\MovementService');
+        $mockMovement = Mockery::mock(MovementService::class);
         $mockMovement->shouldReceive('launchMovementForWalletUpdate')->once()->andReturn(true);
-        $this->app->instance('App\Services\Movement\MovementService', $mockMovement);
+        $this->app->instance(MovementService::class, $mockMovement);
 
         $service = new WalletService($mock);
 

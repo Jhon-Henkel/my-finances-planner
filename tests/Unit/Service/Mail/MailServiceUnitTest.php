@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Resource\Service\Mail;
+namespace Tests\Unit\Service\Mail;
 
 use Tests\Falcon9;
 

@@ -12,7 +12,7 @@ class ResetDemoDatabase extends Command
      *
      * @var string
      */
-    protected $signature = 'reset:demodatabase';
+    protected $signature = 'reset:demo-database';
 
     /**
      * The console command description.

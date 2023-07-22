@@ -2,6 +2,9 @@
 
 namespace Tests\Unit\Http\Controllers;
 
+use App\Http\Controllers\WalletController;
+use App\Resources\WalletResource;
+use App\Services\WalletService;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -9,8 +12,8 @@ class WalletControllerUnitTest extends TestCase
 {
     public function testRulesUpdate()
     {
-        $serviceMock = Mockery::mock('App\Services\WalletService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\WalletController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(WalletService::class);
+        $controllerMock = Mockery::mock(WalletController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -25,8 +28,8 @@ class WalletControllerUnitTest extends TestCase
 
     public function testInsertRules()
     {
-        $serviceMock = Mockery::mock('App\Services\WalletService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\WalletController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(WalletService::class);
+        $controllerMock = Mockery::mock(WalletController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsert();
@@ -41,23 +44,23 @@ class WalletControllerUnitTest extends TestCase
 
     public function testGetService()
     {
-        $serviceMock = Mockery::mock('App\Services\WalletService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\WalletController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(WalletService::class);
+        $controllerMock = Mockery::mock(WalletController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
 
-        $this->assertInstanceOf('App\Services\WalletService', $service);
+        $this->assertInstanceOf(WalletService::class, $service);
     }
 
     public function testGetResource()
     {
-        $serviceMock = Mockery::mock('App\Services\WalletService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\WalletController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(WalletService::class);
+        $controllerMock = Mockery::mock(WalletController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();
 
-        $this->assertInstanceOf('App\Resources\WalletResource', $resource);
+        $this->assertInstanceOf(WalletResource::class, $resource);
     }
 }

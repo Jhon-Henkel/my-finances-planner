@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Resource\Service\Log;
+namespace Tests\Unit\Service\Log;
 
 use App\DTO\Log\AccessLogDTO;
 use App\Repositories\Log\AccessLogRepository;

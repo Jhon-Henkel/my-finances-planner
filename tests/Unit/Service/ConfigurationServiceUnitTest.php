@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Unit\Resource\Service;
+namespace Tests\Unit\Service;
 
 use App\DTO\ConfigurationDTO;
+use App\Repositories\ConfigurationRepository;
 use App\Services\ConfigurationService;
 use Mockery;
 use Tests\Falcon9;
@@ -15,13 +16,13 @@ class ConfigurationServiceUnitTest extends Falcon9
         $config->setName('name');
         $config->setValue('valueTest');
 
-        $mock = Mockery::mock('App\Repositories\ConfigurationRepository');
+        $mock = Mockery::mock(ConfigurationRepository::class);
         $mock->shouldReceive('findByName')->andReturn([$config]);
-        $this->app->instance('App\Repositories\ConfigurationRepository', $mock);
+        $this->app->instance(ConfigurationRepository::class, $mock);
 
-        $serviceMock = Mockery::mock('App\Services\ConfigurationService');
+        $serviceMock = Mockery::mock(ConfigurationService::class);
         $serviceMock->shouldReceive('findConfigByName')->andReturn($config);
-        $this->app->instance('App\Services\ConfigurationService', $serviceMock);
+        $this->app->instance(ConfigurationService::class, $serviceMock);
 
         $service = new ConfigurationService($mock);
         $result = $service->findConfigValue('name');
@@ -35,9 +36,9 @@ class ConfigurationServiceUnitTest extends Falcon9
         $config->setName('name');
         $config->setValue('valueTest');
 
-        $mock = Mockery::mock('App\Repositories\ConfigurationRepository');
+        $mock = Mockery::mock(ConfigurationRepository::class);
         $mock->shouldReceive('findByName')->once()->andReturn([$config]);
-        $this->app->instance('App\Repositories\ConfigurationRepository', $mock);
+        $this->app->instance(ConfigurationRepository::class, $mock);
 
         $service = new ConfigurationService($mock);
         $result = $service->findConfigByName('name');

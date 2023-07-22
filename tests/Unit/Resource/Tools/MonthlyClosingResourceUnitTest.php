@@ -13,7 +13,7 @@ class MonthlyClosingResourceUnitTest extends Falcon9
     protected function setUp(): void
     {
         parent::setUp();
-        $this->monthlyClosingResource = $this->app->make('App\Resources\Tools\MonthlyClosingResource');
+        $this->monthlyClosingResource = $this->app->make(MonthlyClosingResource::class);
     }
 
     public function testArrayToDto()

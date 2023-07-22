@@ -4,6 +4,7 @@ namespace Tests\Unit\Repository\Tools;
 
 use App\Models\MonthlyClosing;
 use App\Repositories\Tools\MonthlyClosingRepository;
+use App\Resources\Tools\MonthlyClosingResource;
 use Mockery;
 use Tests\Falcon9;
 
@@ -17,7 +18,7 @@ class MonthlyClosingRepositoryUnitTest extends Falcon9
         $model = $repositoryMock->getModel();
 
         $this->assertNotNull($model);
-        $this->assertInstanceOf('App\Models\MonthlyClosing', $model);
+        $this->assertInstanceOf(MonthlyClosing::class, $model);
     }
 
     public function testGetResource()
@@ -28,6 +29,6 @@ class MonthlyClosingRepositoryUnitTest extends Falcon9
         $resource = $repositoryMock->getResource();
 
         $this->assertNotNull($resource);
-        $this->assertInstanceOf('App\Resources\Tools\MonthlyClosingResource', $resource);
+        $this->assertInstanceOf(MonthlyClosingResource::class, $resource);
     }
 }
