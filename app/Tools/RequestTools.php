@@ -30,4 +30,14 @@ class RequestTools
     {
         return env('APP_ENV') != 'production';
     }
+
+    public static function getUserIp()
+    {
+        return $_SERVER['REMOTE_ADDR'] ?? null;
+    }
+
+    public static function getUserAgent()
+    {
+        return $_SERVER['HTTP_USER_AGENT'] ?? null;
+    }
 }

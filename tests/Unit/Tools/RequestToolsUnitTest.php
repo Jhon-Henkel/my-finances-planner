@@ -45,4 +45,18 @@ class RequestToolsUnitTest extends Falcon9
         $this->assertEquals('ert', RequestTools::inputGet('jkl'));
         $this->assertEquals(null, RequestTools::inputGet('aaa'));
     }
+
+    public function testGetUserIp()
+    {
+        $_SERVER['REMOTE_ADDR'] = '192.155.33.22';
+
+        $this->assertEquals('192.155.33.22', RequestTools::getUserIp());
+    }
+
+    public function testGetUserAgent()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)';
+
+        $this->assertEquals('Mozilla/5.0 (Windows NT 10.0; Win64; x64)', RequestTools::getUserAgent());
+    }
 }

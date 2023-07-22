@@ -52,6 +52,7 @@ class RouteEnum
     const API_MONTHLY_CLOSING_INDEX_FILTERED = 'apiMonthlyClosingIndexFiltered';
     const WEB_LOGOUT = 'logout';
     const WEB_MAKE_LOGIN = 'makeLogin';
+    const WEB_VERIFY_TOKEN = 'verifyToken';
     const WEB_SEND_TEST_EMAIL = 'sendTestEmail';
     const WEB_ACTIVE_USER = 'activeUser';
 }
