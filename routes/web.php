@@ -2,7 +2,7 @@
 
 use App\Enums\RouteEnum;
 use App\Enums\ViewEnum;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 /** @var Route $router */
 $router->prefix('/')->group(function ($router){
     $router->prefix('auth')->group(function () use ($router) {
-        $router->get('/verify', [AuthController::class, 'verifyIsAuthenticated'])->name('verifyToken');
+        $router->get('/verify', [AuthController::class, 'verifyIsAuthenticated'])->name(RouteEnum::WEB_VERIFY_TOKEN);
         $router->post('', [AuthController::class, 'auth'])->name(RouteEnum::WEB_MAKE_LOGIN);
     });
     $router->get('logout', [AuthController::class, 'logout'])->name(RouteEnum::WEB_LOGOUT);

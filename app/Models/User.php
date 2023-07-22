@@ -18,6 +18,7 @@ class User extends Authenticatable
         'unique_id',
         'password',
         'status',
+        'account_group',
         'salary',
         'password',
         'wrong_login_attempts'
