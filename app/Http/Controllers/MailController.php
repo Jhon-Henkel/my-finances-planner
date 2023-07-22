@@ -13,7 +13,7 @@ class MailController extends Controller
         if (! RequestTools::isApplicationInDevelopMode()) {
             return response()->json(['message' => 'Dont in develop mode!'], Response::HTTP_BAD_REQUEST);
         }
-        app('App\Services\MailService')->sendTestEmail();
+        app('App\Services\Mail\MailService')->sendTestEmail();
         return response()->json(['message' => 'E-mail send success!']);
     }
 }

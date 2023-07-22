@@ -2,7 +2,7 @@
 
 namespace App\Tools;
 
-use App\DTO\DatePeriodDTO;
+use App\DTO\Date\DatePeriodDTO;
 use App\Enums\DateEnum;
 use DateInterval;
 use DateTime;

@@ -2,18 +2,18 @@
 
 namespace App\Tools;
 
-use App\DTO\CreditCardDTO;
-use App\DTO\CreditCardTransactionDTO;
+use App\DTO\CreditCard\CreditCardDTO;
+use App\DTO\CreditCard\CreditCardTransactionDTO;
 use App\DTO\FutureGainDTO;
 use App\DTO\FutureSpentDTO;
-use App\DTO\MovementDTO;
+use App\DTO\Movement\MovementDTO;
 use App\DTO\WalletDTO;
 use App\Enums\DateEnum;
 use App\Models\CreditCardTransaction;
 use App\Models\MonthlyClosing;
-use App\Resources\MovementResource;
-use App\Services\CreditCardService;
-use App\Services\CreditCardTransactionService;
+use App\Resources\Movement\MovementResource;
+use App\Services\CreditCard\CreditCardService;
+use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\FutureGainService;
 use App\Services\FutureSpentService;
 use App\Services\WalletService;

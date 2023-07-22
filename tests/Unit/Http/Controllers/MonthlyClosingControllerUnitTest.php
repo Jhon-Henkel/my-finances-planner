@@ -49,22 +49,22 @@ class MonthlyClosingControllerUnitTest extends Falcon9
 
     public function testGetService()
     {
-        $serviceMock = $this->mock('App\Services\MonthlyClosingService')->makePartial();
+        $serviceMock = $this->mock('App\Services\Tools\MonthlyClosingService')->makePartial();
         $controllerMock = Mockery::mock('App\Http\Controllers\MonthlyClosingController', [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
 
-        $this->assertInstanceOf('App\Services\MonthlyClosingService', $service);    }
+        $this->assertInstanceOf('App\Services\Tools\MonthlyClosingService', $service);    }
 
     public function testGetResource()
     {
-        $serviceMock = $this->mock('App\Services\MonthlyClosingService')->makePartial();
+        $serviceMock = $this->mock('App\Services\Tools\MonthlyClosingService')->makePartial();
         $controllerMock = Mockery::mock('App\Http\Controllers\MonthlyClosingController', [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();
 
-        $this->assertInstanceOf('App\Resources\MonthlyClosingResource', $resource);
+        $this->assertInstanceOf('App\Resources\Tools\MonthlyClosingResource', $resource);
     }
 }

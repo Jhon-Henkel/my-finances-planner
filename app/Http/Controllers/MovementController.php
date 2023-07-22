@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Enums\MovementEnum;
 use App\Http\Response\ResponseError;
-use App\Resources\MovementResource;
-use App\Services\MovementService;
-use App\VO\MovementVO;
+use App\Resources\Movement\MovementResource;
+use App\Services\Movement\MovementService;
+use App\VO\Movement\MovementVO;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

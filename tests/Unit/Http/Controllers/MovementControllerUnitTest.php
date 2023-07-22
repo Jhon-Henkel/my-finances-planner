@@ -2,9 +2,8 @@
 
 namespace Tests\Unit\Http\Controllers;
 
-use App\DTO\MovementDTO;
+use App\DTO\Movement\MovementDTO;
 use App\Enums\MovementEnum;
-use App\Resources\MovementResource;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -28,7 +27,7 @@ class MovementControllerUnitTest extends Falcon9
 
     public function testInsertRules()
     {
-        $serviceMock = Mockery::mock('App\Services\MovementService');
+        $serviceMock = Mockery::mock('App\Services\Movement\MovementService');
         $controllerMock = Mockery::mock('App\Http\Controllers\MovementController', [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
@@ -47,7 +46,7 @@ class MovementControllerUnitTest extends Falcon9
 
     public function testInsertTransferRules()
     {
-        $serviceMock = Mockery::mock('App\Services\MovementService');
+        $serviceMock = Mockery::mock('App\Services\Movement\MovementService');
         $controllerMock = Mockery::mock('App\Http\Controllers\MovementController', [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
@@ -64,7 +63,7 @@ class MovementControllerUnitTest extends Falcon9
 
     public function testUpdateRules()
     {
-        $serviceMock = Mockery::mock('App\Services\MovementService');
+        $serviceMock = Mockery::mock('App\Services\Movement\MovementService');
         $controllerMock = Mockery::mock('App\Http\Controllers\MovementController', [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
@@ -83,29 +82,29 @@ class MovementControllerUnitTest extends Falcon9
 
     public function testGetService()
     {
-        $serviceMock = Mockery::mock('App\Services\MovementService');
+        $serviceMock = Mockery::mock('App\Services\Movement\MovementService');
         $controllerMock = Mockery::mock('App\Http\Controllers\MovementController', [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
 
-        $this->assertInstanceOf('App\Services\MovementService', $service);
+        $this->assertInstanceOf('App\Services\Movement\MovementService', $service);
     }
 
     public function testGetResource()
     {
-        $serviceMock = Mockery::mock('App\Services\MovementService');
+        $serviceMock = Mockery::mock('App\Services\Movement\MovementService');
         $controllerMock = Mockery::mock('App\Http\Controllers\MovementController', [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();
 
-        $this->assertInstanceOf('App\Resources\MovementResource', $resource);
+        $this->assertInstanceOf('App\Resources\Movement\MovementResource', $resource);
     }
 
     public function testDeleteTransfer()
     {
-        $serviceMock = Mockery::mock('App\Services\MovementService');
+        $serviceMock = Mockery::mock('App\Services\Movement\MovementService');
         $serviceMock->shouldReceive('deleteTransferById')->once()->andReturn(true);
 
         $controllerMock = Mockery::mock('App\Http\Controllers\MovementController', [$serviceMock])->makePartial();
@@ -118,7 +117,7 @@ class MovementControllerUnitTest extends Falcon9
 
     public function testDeleteTransferQueryException()
     {
-        $serviceMock = Mockery::mock('App\Services\MovementService');
+        $serviceMock = Mockery::mock('App\Services\Movement\MovementService');
         $serviceMock->shouldReceive('deleteTransferById')->once()->andThrowExceptions(
             [new QueryException('test', "SELECT ....", [], new Exception())]
         );
@@ -134,7 +133,7 @@ class MovementControllerUnitTest extends Falcon9
 
     public function testInsertTransferQueryException()
     {
-        $serviceMock = Mockery::mock('App\Services\MovementService');
+        $serviceMock = Mockery::mock('App\Services\Movement\MovementService');
         $serviceMock->shouldReceive('isInvalidRequest')->once()->andReturnFalse();
         $serviceMock->shouldReceive('insertWithWalletUpdateType')->once()->andThrowExceptions(
             [new QueryException('test', "SELECT ....", [], new Exception())]
@@ -152,7 +151,7 @@ class MovementControllerUnitTest extends Falcon9
 
     public function testInsertTransferWithInvalidRequest()
     {
-        $serviceMock = Mockery::mock('App\Services\MovementService');
+        $serviceMock = Mockery::mock('App\Services\Movement\MovementService');
         $serviceMock->shouldReceive('isInvalidRequest')->once()->andReturn(new MessageBag(['test']));
         $serviceMock->shouldReceive('insertWithWalletUpdateType')->never();
 
@@ -167,7 +166,7 @@ class MovementControllerUnitTest extends Falcon9
 
     public function testInsertTransferWithValidData()
     {
-        $serviceMock = Mockery::mock('App\Services\MovementService');
+        $serviceMock = Mockery::mock('App\Services\Movement\MovementService');
         $serviceMock->shouldReceive('isInvalidRequest')->once()->andReturnFalse();
         $serviceMock->shouldReceive('insertWithWalletUpdateType')->times(2)->andReturnUsing(
             function ($transfer, $type) {

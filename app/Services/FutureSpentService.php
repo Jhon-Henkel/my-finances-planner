@@ -8,6 +8,7 @@ use App\Enums\InvoiceEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\FutureSpentRepository;
 use App\Resources\FutureSpentResource;
+use App\Services\Movement\MovementService;
 use App\Tools\CalendarTools;
 use Exception;
 

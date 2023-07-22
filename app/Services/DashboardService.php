@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Enums\MovementEnum;
+use App\Services\CreditCard\CreditCardTransactionService;
+use App\Services\Movement\MovementService;
 
 class DashboardService
 {

@@ -4,7 +4,7 @@ namespace Tests\Unit\Http\Controllers;
 
 use App\Exceptions\NotImplementedException;
 use App\Http\Controllers\FinancialHealthController;
-use App\Services\FinancialHealthService;
+use App\Services\Tools\FinancialHealthService;
 use Monolog\Test\TestCase;
 
 class FinancialHealthControllerUnitTest extends TestCase

@@ -6,6 +6,7 @@ use App\DTO\WalletDTO;
 use App\Enums\MovementEnum;
 use App\Exceptions\ConstraintException;
 use App\Repositories\WalletRepository;
+use App\Services\Movement\MovementService;
 
 class WalletService extends BasicService
 {

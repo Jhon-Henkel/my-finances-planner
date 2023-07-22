@@ -4,8 +4,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Models\User;
 use App\Services\CronService;
-use App\Services\MailService;
-use App\Services\MonthlyClosingService;
+use App\Services\Mail\MailService;
+use App\Services\Tools\MonthlyClosingService;
 use App\Tools\ApplicationTools;
 
 ApplicationTools::startLaravelApp();

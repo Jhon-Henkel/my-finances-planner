@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Resources\MonthlyClosingResource;
-use App\Services\MonthlyClosingService;
+use App\Resources\Tools\MonthlyClosingResource;
+use App\Services\Tools\MonthlyClosingService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
