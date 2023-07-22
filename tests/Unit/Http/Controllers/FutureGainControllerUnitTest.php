@@ -2,6 +2,9 @@
 
 namespace Tests\Unit\Http\Controllers;
 
+use App\Http\Controllers\FutureGainController;
+use App\Resources\FutureGainResource;
+use App\Services\FutureGainService;
 use Mockery;
 use Tests\Falcon9;
 
@@ -9,8 +12,8 @@ class FutureGainControllerUnitTest extends Falcon9
 {
     public function testInsertRules()
     {
-        $serviceMock = Mockery::mock('App\Services\FutureGainService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\FutureGainController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(FutureGainService::class);
+        $controllerMock = Mockery::mock(FutureGainController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsert();
@@ -30,8 +33,8 @@ class FutureGainControllerUnitTest extends Falcon9
 
     public function testUpdateRules()
     {
-        $serviceMock = Mockery::mock('App\Services\FutureGainService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\FutureGainController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(FutureGainService::class);
+        $controllerMock = Mockery::mock(FutureGainController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -51,23 +54,23 @@ class FutureGainControllerUnitTest extends Falcon9
 
     public function testGetService()
     {
-        $serviceMock = Mockery::mock('App\Services\FutureGainService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\FutureGainController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(FutureGainService::class);
+        $controllerMock = Mockery::mock(FutureGainController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
 
-        $this->assertInstanceOf('App\Services\FutureGainService', $service);
+        $this->assertInstanceOf(FutureGainService::class, $service);
     }
 
     public function testGetResource()
     {
-        $serviceMock = Mockery::mock('App\Services\FutureGainService');
-        $controllerMock = Mockery::mock('App\Http\Controllers\FutureGainController', [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(FutureGainService::class);
+        $controllerMock = Mockery::mock(FutureGainController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();
 
-        $this->assertInstanceOf('App\Resources\FutureGainResource', $resource);
+        $this->assertInstanceOf(FutureGainResource::class, $resource);
     }
 }

@@ -3,14 +3,14 @@
 namespace App\Services\Auth;
 
 use App\DTO\Log\AccessLogDTO;
-use App\DTO\MailMessageDTO;
+use App\DTO\Mail\MailMessageDTO;
 use App\Enums\ConfigEnum;
 use App\Models\User;
 use App\Services\Log\AccessLogService;
-use App\Services\MailService;
+use App\Services\Mail\MailService;
 use App\Services\UserService;
+use App\Tools\Auth\JwtTools;
 use App\Tools\CalendarTools;
-use App\Tools\JwtTools;
 use App\Tools\RequestTools;
 use Illuminate\Support\Facades\Hash;
 

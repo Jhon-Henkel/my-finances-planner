@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\DTO\DatePeriodDTO;
+use App\DTO\Date\DatePeriodDTO;
 use App\Enums\BasicFieldsEnum;
 use App\Models\FutureSpent;
 use App\Resources\FutureSpentResource;

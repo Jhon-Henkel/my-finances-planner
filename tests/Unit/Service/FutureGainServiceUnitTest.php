@@ -3,10 +3,11 @@
 namespace Tests\Unit\Service;
 
 use App\DTO\FutureGainDTO;
-use App\DTO\MovementDTO;
+use App\DTO\Movement\MovementDTO;
 use App\Enums\BasicFieldsEnum;
-use App\Models\FutureGain;
+use App\Repositories\FutureGainRepository;
 use App\Services\FutureGainService;
+use App\Services\Movement\MovementService;
 use App\VO\InvoiceVO;
 use Mockery;
 use Tests\Falcon9;
@@ -24,9 +25,9 @@ class FutureGainServiceUnitTest extends Falcon9
         $item->setForecast('2020-01-01');
         $item->setInstallments(1);
 
-        $mock = Mockery::mock('App\Repositories\FutureGainRepository');
+        $mock = Mockery::mock(FutureGainRepository::class);
         $mock->shouldReceive('findByPeriod')->once()->andReturn([$item]);
-        $this->app->instance('App\Repositories\FutureGainRepository', $mock);
+        $this->app->instance(FutureGainRepository::class, $mock);
 
         $service = new FutureGainService($mock);
         $result = $service->getNextSixMonthsFutureGain();
@@ -55,9 +56,9 @@ class FutureGainServiceUnitTest extends Falcon9
         $item2->setForecast('2020-01-01');
         $item2->setInstallments(12);
 
-        $mock = Mockery::mock('App\Repositories\FutureGainRepository');
+        $mock = Mockery::mock(FutureGainRepository::class);
         $mock->shouldReceive('findByPeriod')->once()->andReturn([$item1, $item2]);
-        $this->app->instance('App\Repositories\FutureGainRepository', $mock);
+        $this->app->instance(FutureGainRepository::class, $mock);
 
         $service = new FutureGainService($mock);
         $result = $service->getThisYearFutureGainSum();
@@ -85,9 +86,9 @@ class FutureGainServiceUnitTest extends Falcon9
         $item2->setForecast('2020-01-01');
         $item2->setInstallments(12);
 
-        $mock = Mockery::mock('App\Repositories\FutureGainRepository');
+        $mock = Mockery::mock(FutureGainRepository::class);
         $mock->shouldReceive('findByPeriod')->once()->andReturn([$item1, $item2]);
-        $this->app->instance('App\Repositories\FutureGainRepository', $mock);
+        $this->app->instance(FutureGainRepository::class, $mock);
 
         $service = new FutureGainService($mock);
         $result = $service->getThisMonthFutureGainSum();
@@ -101,7 +102,7 @@ class FutureGainServiceUnitTest extends Falcon9
         $gain->setAmount(1.50);
         $gain->setWalletId(1);
 
-        $serviceMock = Mockery::mock('App\Services\FutureGainService');
+        $serviceMock = Mockery::mock(FutureGainService::class);
         $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
         $serviceMock->shouldReceive('receiveFullGain')->never();
         $serviceMock->shouldReceive('receiveWithOptions')->once()->andReturnTrue();
@@ -123,7 +124,7 @@ class FutureGainServiceUnitTest extends Falcon9
         $gain->setAmount(1.50);
         $gain->setWalletId(1);
 
-        $serviceMock = Mockery::mock('App\Services\FutureGainService');
+        $serviceMock = Mockery::mock(FutureGainService::class);
         $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
         $serviceMock->shouldReceive('receiveFullGain')->once()->andReturnTrue();
         $serviceMock->shouldReceive('receiveWithOptions')->never();
@@ -141,12 +142,12 @@ class FutureGainServiceUnitTest extends Falcon9
 
     public function testReceiveFullGainWithDontInsertMovement()
     {
-        $movementServiceMock = Mockery::mock('App\Services\MovementService');
+        $movementServiceMock = Mockery::mock(MovementService::class);
         $movementServiceMock->shouldReceive('populateByFutureGain')->once()->andReturn(new MovementDTO());
         $movementServiceMock->shouldReceive('insert')->once()->andReturnFalse();
-        $this->app->instance('App\Services\MovementService', $movementServiceMock);
+        $this->app->instance(MovementService::class, $movementServiceMock);
 
-        $serviceMock = Mockery::mock('App\Services\FutureGainService');
+        $serviceMock = Mockery::mock(FutureGainService::class);
         $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
         $serviceMock->shouldReceive('updateRemainingInstallments')->never();
 
@@ -157,12 +158,12 @@ class FutureGainServiceUnitTest extends Falcon9
 
     public function testReceiveFullGainWithInsertMovement()
     {
-        $movementServiceMock = Mockery::mock('App\Services\MovementService');
+        $movementServiceMock = Mockery::mock(MovementService::class);
         $movementServiceMock->shouldReceive('populateByFutureGain')->once()->andReturn(new MovementDTO());
         $movementServiceMock->shouldReceive('insert')->once()->andReturnTrue();
-        $this->app->instance('App\Services\MovementService', $movementServiceMock);
+        $this->app->instance(MovementService::class, $movementServiceMock);
 
-        $serviceMock = Mockery::mock('App\Services\FutureGainService');
+        $serviceMock = Mockery::mock(FutureGainService::class);
         $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
         $serviceMock->shouldReceive('updateRemainingInstallments')->once()->andReturnTrue();
 
@@ -177,12 +178,12 @@ class FutureGainServiceUnitTest extends Falcon9
         $gain->setInstallments(1);
         $gain->setId(1);
 
-        $repositoryMock = Mockery::mock('App\Repositories\FutureGainRepository');
+        $repositoryMock = Mockery::mock(FutureGainRepository::class);
         $repositoryMock->shouldReceive('deleteById')->once()->andReturnTrue();
         $repositoryMock->shouldReceive('update')->never();
-        $this->app->instance('App\Repositories\FutureGainRepository', $repositoryMock);
+        $this->app->instance(FutureGainRepository::class, $repositoryMock);
 
-        $serviceMock = Mockery::mock('App\Services\FutureGainService', [$repositoryMock]);
+        $serviceMock = Mockery::mock(FutureGainService::class, [$repositoryMock]);
         $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $serviceMock->updateRemainingInstallments($gain);
@@ -197,16 +198,16 @@ class FutureGainServiceUnitTest extends Falcon9
         $gain->setId(1);
         $gain->setForecast('2020-01-01');
 
-        $repositoryMock = Mockery::mock('App\Repositories\FutureGainRepository');
+        $repositoryMock = Mockery::mock(FutureGainRepository::class);
         $repositoryMock->shouldReceive('deleteById')->never();
         $repositoryMock->shouldReceive('update')->once()->withArgs(function ($id, $spent) {
             Falcon9::assertTrue($id == 1);
             Falcon9::assertTrue($spent->getInstallments() == 0);
             return true;
         })->andReturnTrue();
-        $this->app->instance('App\Repositories\FutureGainRepository', $repositoryMock);
+        $this->app->instance(FutureGainRepository::class, $repositoryMock);
 
-        $serviceMock = Mockery::mock('App\Services\FutureGainService', [$repositoryMock]);
+        $serviceMock = Mockery::mock(FutureGainService::class, [$repositoryMock]);
         $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $serviceMock->updateRemainingInstallments($gain);
@@ -221,16 +222,16 @@ class FutureGainServiceUnitTest extends Falcon9
         $gain->setId(1);
         $gain->setForecast('2020-01-01');
 
-        $repositoryMock = Mockery::mock('App\Repositories\FutureGainRepository');
+        $repositoryMock = Mockery::mock(FutureGainRepository::class);
         $repositoryMock->shouldReceive('deleteById')->never();
         $repositoryMock->shouldReceive('update')->once()->withArgs(function ($id, $spent) {
             Falcon9::assertTrue($id == 1);
             Falcon9::assertTrue($spent->getInstallments() == 9);
             return true;
         })->andReturn(true);
-        $this->app->instance('App\Repositories\FutureGainRepository', $repositoryMock);
+        $this->app->instance(FutureGainRepository::class, $repositoryMock);
 
-        $serviceMock = Mockery::mock('App\Services\FutureGainService', [$repositoryMock]);
+        $serviceMock = Mockery::mock(FutureGainService::class, [$repositoryMock]);
         $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $serviceMock->updateRemainingInstallments($gain);
@@ -254,12 +255,12 @@ class FutureGainServiceUnitTest extends Falcon9
         $movement = new MovementDTO();
         $movement->setDescription('test');
 
-        $movementServiceMock = Mockery::mock('App\Services\MovementService');
+        $movementServiceMock = Mockery::mock(MovementService::class);
         $movementServiceMock->shouldReceive('populateByFutureGain')->once()->andReturn($movement);
         $movementServiceMock->shouldReceive('insert')->once()->andReturnTrue();
-        $this->app->instance('App\Services\MovementService', $movementServiceMock);
+        $this->app->instance(MovementService::class, $movementServiceMock);
 
-        $futureSpentServiceMock = Mockery::mock('App\Services\FutureGainService');
+        $futureSpentServiceMock = Mockery::mock(FutureGainService::class);
         $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
         $futureSpentServiceMock->shouldReceive('makeGainForParcialReceive')->once()->withArgs(function($spent, $value) {
             Falcon9::assertTrue($value == 0.50);
@@ -289,12 +290,12 @@ class FutureGainServiceUnitTest extends Falcon9
         $movement = new MovementDTO();
         $movement->setDescription('test');
 
-        $movementServiceMock = Mockery::mock('App\Services\MovementService');
+        $movementServiceMock = Mockery::mock(MovementService::class);
         $movementServiceMock->shouldReceive('populateByFutureGain')->once()->andReturn($movement);
         $movementServiceMock->shouldReceive('insert')->once()->andReturnFalse();
-        $this->app->instance('App\Services\MovementService', $movementServiceMock);
+        $this->app->instance(MovementService::class, $movementServiceMock);
 
-        $futureSpentServiceMock = Mockery::mock('App\Services\FutureGainService');
+        $futureSpentServiceMock = Mockery::mock(FutureGainService::class);
         $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
         $futureSpentServiceMock->shouldReceive('makeGainForParcialReceive')->never();
         $futureSpentServiceMock->shouldReceive('insert')->never();
@@ -321,12 +322,12 @@ class FutureGainServiceUnitTest extends Falcon9
         $movement = new MovementDTO();
         $movement->setDescription('test');
 
-        $movementServiceMock = Mockery::mock('App\Services\MovementService');
+        $movementServiceMock = Mockery::mock(MovementService::class);
         $movementServiceMock->shouldReceive('populateByFutureGain')->once()->andReturn($movement);
         $movementServiceMock->shouldReceive('insert')->once()->andReturnTrue();
-        $this->app->instance('App\Services\MovementService', $movementServiceMock);
+        $this->app->instance(MovementService::class, $movementServiceMock);
 
-        $futureSpentServiceMock = Mockery::mock('App\Services\FutureGainService');
+        $futureSpentServiceMock = Mockery::mock(FutureGainService::class);
         $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
         $futureSpentServiceMock->shouldReceive('makeGainForParcialReceive')->never();
         $futureSpentServiceMock->shouldReceive('insert')->never();
@@ -346,7 +347,7 @@ class FutureGainServiceUnitTest extends Falcon9
         $spent->setInstallments(10);
         $spent->setForecast('2020-01-01');
 
-        $futureSpentServiceMock = Mockery::mock('App\Services\FutureGainService');
+        $futureSpentServiceMock = Mockery::mock(FutureGainService::class);
         $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $futureSpentServiceMock->makeGainForParcialReceive($spent, 100);

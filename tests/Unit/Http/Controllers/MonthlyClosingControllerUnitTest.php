@@ -2,6 +2,9 @@
 
 namespace Tests\Unit\Http\Controllers;
 
+use App\Http\Controllers\MonthlyClosingController;
+use App\Resources\Tools\MonthlyClosingResource;
+use App\Services\Tools\MonthlyClosingService;
 use Mockery;
 use Tests\Falcon9;
 
@@ -9,7 +12,7 @@ class MonthlyClosingControllerUnitTest extends Falcon9
 {
     public function testRulesInsert()
     {
-        $controllerMock = $this->mock('App\Http\Controllers\MonthlyClosingController')->makePartial();
+        $controllerMock = $this->mock(MonthlyClosingController::class)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsert();
@@ -29,7 +32,7 @@ class MonthlyClosingControllerUnitTest extends Falcon9
 
     public function testUpdateRules()
     {
-        $controllerMock = $this->mock('App\Http\Controllers\MonthlyClosingController')->makePartial();
+        $controllerMock = $this->mock(MonthlyClosingController::class)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -49,22 +52,22 @@ class MonthlyClosingControllerUnitTest extends Falcon9
 
     public function testGetService()
     {
-        $serviceMock = $this->mock('App\Services\MonthlyClosingService')->makePartial();
-        $controllerMock = Mockery::mock('App\Http\Controllers\MonthlyClosingController', [$serviceMock])->makePartial();
+        $serviceMock = $this->mock(MonthlyClosingService::class)->makePartial();
+        $controllerMock = Mockery::mock(MonthlyClosingController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
 
-        $this->assertInstanceOf('App\Services\MonthlyClosingService', $service);    }
+        $this->assertInstanceOf(MonthlyClosingService::class, $service);    }
 
     public function testGetResource()
     {
-        $serviceMock = $this->mock('App\Services\MonthlyClosingService')->makePartial();
-        $controllerMock = Mockery::mock('App\Http\Controllers\MonthlyClosingController', [$serviceMock])->makePartial();
+        $serviceMock = $this->mock(MonthlyClosingService::class)->makePartial();
+        $controllerMock = Mockery::mock(MonthlyClosingController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();
 
-        $this->assertInstanceOf('App\Resources\MonthlyClosingResource', $resource);
+        $this->assertInstanceOf(MonthlyClosingResource::class, $resource);
     }
 }

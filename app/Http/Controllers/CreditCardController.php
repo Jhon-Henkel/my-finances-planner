@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ConstraintException;
 use App\Http\Response\ResponseError;
-use App\Resources\CreditCardResource;
-use App\Services\CreditCardService;
+use App\Resources\CreditCard\CreditCardResource;
+use App\Services\CreditCard\CreditCardService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;

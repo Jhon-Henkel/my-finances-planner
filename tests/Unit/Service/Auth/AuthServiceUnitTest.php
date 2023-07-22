@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Service\Auth;
 
-use App\DTO\MailMessageDTO;
+use App\DTO\Mail\MailMessageDTO;
 use App\Models\User;
 use App\Services\Auth\AuthService;
 use App\Services\Log\AccessLogService;
-use App\Services\MailService;
+use App\Services\Mail\MailService;
 use App\Services\UserService;
 use Mockery;
 use Tests\Falcon9;

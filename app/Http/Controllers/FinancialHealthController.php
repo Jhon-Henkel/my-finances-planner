@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\NotImplementedException;
-use App\Services\FinancialHealthService;
+use App\Services\Tools\FinancialHealthService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 

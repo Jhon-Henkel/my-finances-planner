@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Resources\CreditCardTransactionResource;
-use App\Services\CreditCardTransactionService;
+use App\Resources\CreditCard\CreditCardTransactionResource;
+use App\Services\CreditCard\CreditCardTransactionService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
