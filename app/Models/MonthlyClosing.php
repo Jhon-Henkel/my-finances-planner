@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Enums\DateEnum;
+use App\Models\Trait\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 
 class MonthlyClosing extends Model
 {
+    use Tenantable;
+
     protected $table = 'monthly_closing';
     protected $fillable = ['id', 'predicted_earnings', 'predicted_expenses', 'real_earnings', 'real_expenses', 'balance'];
     protected $casts = [

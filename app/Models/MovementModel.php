@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Enums\DateEnum;
+use App\Models\Trait\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 
 class MovementModel extends Model
 {
+    use Tenantable;
+
     protected $table = 'movements';
     protected $fillable = ['id', 'wallet_id', 'description', 'type', 'amount'];
     protected $casts = [

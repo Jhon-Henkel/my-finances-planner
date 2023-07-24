@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Enums\DateEnum;
+use App\Models\Trait\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 
 class CreditCard extends Model
 {
+    use Tenantable;
+
     protected $table = 'credit_card';
     protected $fillable = ['id', 'name', 'limit', 'due_date', 'closing_day'];
     protected $casts = [
