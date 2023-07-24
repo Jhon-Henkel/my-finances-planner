@@ -52,7 +52,7 @@ class AuthController extends Controller
     {
         $authentication = $this->validateJWT();
         if ($authentication && $this->checkAuth()) {
-            return response()->json($authentication, ResponseAlias::HTTP_OK);
+            return response()->json(['isAuthenticated' => true], ResponseAlias::HTTP_OK);
         }
         return response()->json(null, ResponseAlias::HTTP_UNAUTHORIZED);
     }
@@ -60,10 +60,10 @@ class AuthController extends Controller
     /**
      * @codeCoverageIgnore
      */
-    protected function validateJWT(): object|bool
+    protected function validateJWT(): bool
     {
         $authorization = $_SERVER['HTTP_AUTHORIZATION'];
-        return JwtTools::validateJWT($authorization);
+        return (bool)JwtTools::validateJWT($authorization);
     }
 
     /**

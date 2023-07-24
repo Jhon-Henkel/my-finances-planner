@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <mfp-title :title="title"/>
             <divider/>
@@ -89,7 +89,7 @@
     import BottomButtons from "../../components/BottomButtons.vue";
     import apiRouter from "../../../js/router/apiRouter";
     import InputMoney from "../../components/inputMoneyComponent.vue";
-    import {HttpStatusCode} from "axios";
+    import { HttpStatusCode } from "axios";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
     import MessageEnum from "../../../js/enums/messageEnum";
@@ -192,6 +192,11 @@
                     forecast: this.gain.forecast,
                 }
             },
+            async getGain(gainId) {
+                this.loadingDone = false
+                this.gain = await apiRouter.futureGain.show(gainId)
+                this.loadingDone = true
+            },
             messageError(message) {
                 this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
             },
@@ -205,12 +210,13 @@
         async mounted() {
             if (this.$route.params.id) {
                 this.title = 'Atualizar Ganho'
-                this.gain = await apiRouter.futureGain.show(this.$route.params.id)
+                await this.getGain(this.$route.params.id)
                 this.gain.forecast = this.gain.forecast.split('T')[0].slice(0, 10)
                 this.gain.fix = this.gain.installments === FIX_GAIN;
             } else {
                 this.title = 'Cadastrar Ganho'
                 this.gain.fix = false
+                this.loadingDone = true
             }
             if (this.$route.query.referer) {
                 this.redirect = '/' + this.$route.query.referer

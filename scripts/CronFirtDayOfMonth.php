@@ -6,9 +6,9 @@ use App\Models\User;
 use App\Services\CronService;
 use App\Services\Mail\MailService;
 use App\Services\Tools\MonthlyClosingService;
-use App\Tools\ApplicationTools;
+use App\Tools\AppTools;
 
-ApplicationTools::startLaravelApp();
+AppTools::startLaravelApp();
 $cron = app(CronService::class);
 
 ///////////////////////////////////////////////////////////////////////

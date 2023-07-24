@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <mfp-title :title="title"/>
             <divider/>
@@ -70,7 +70,7 @@
     import iconEnum from "../../../js/enums/iconEnum";
     import apiRouter from "../../../js/router/apiRouter";
     import InputMoney from "../../components/inputMoneyComponent.vue";
-    import {HttpStatusCode} from "axios";
+    import { HttpStatusCode } from "axios";
     import BottomButtons from "../../components/BottomButtons.vue";
     import Divider from "../../components/DividerComponent.vue";
     import MfpTitle from "../../components/TitleComponent.vue";
@@ -166,6 +166,11 @@
                     this.messageError(response.response.data.error)
                 })
             },
+            async getCard(cardId) {
+                this.loadingDone = false
+                this.card = await apiRouter.cards.show(cardId)
+                this.loadingDone = true
+            },
             populateData() {
                 return {
                     name: this.card.name,
@@ -178,11 +183,12 @@
         async mounted() {
             if (this.$route.params.id) {
                 this.title = 'Atualizar Cartão'
-                this.card = await apiRouter.cards.show(this.$route.params.id)
+                await this.getCard(this.$route.params.id)
                 this.card.dueDate = parseInt(this.card.dueDate)
                 this.card.closingDay = parseInt(this.card.closingDay)
             } else {
                 this.title = 'Cadastrar Cartão'
+                this.loadingDone = true
             }
         }
     }

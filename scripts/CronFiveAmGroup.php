@@ -3,10 +3,10 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Services\CronService;
-use App\Tools\ApplicationTools;
+use App\Tools\AppTools;
 use App\Tools\DemoApplicationTools;
 
-ApplicationTools::startLaravelApp();
+AppTools::startLaravelApp();
 $cron = app(CronService::class);
 
 ///////////////////////////////////////////////////////////////////////

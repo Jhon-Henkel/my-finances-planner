@@ -1,7 +1,7 @@
 <template>
     <div class="base-container">
         <mfp-message ref="message"/>
-        <loading-component v-show="loadingDone === false" @loading-done="loadingDone = true"/>
+        <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <mfp-title :title="title"/>
             <divider/>
@@ -209,6 +209,11 @@
                     this.messageError(response.response.data.error)
                 })
             },
+            async getExpense(expenseId) {
+                this.loadingDone = false
+                this.expense = await apiRouter.expense.show(expenseId)
+                this.loadingDone = true
+            },
             populateExpense() {
                 let installmentsToPopulate = FIX_EXPENSE
                 if (this.expense.fix === false) {
@@ -226,25 +231,26 @@
         async mounted() {
             if (this.$route.params.id) {
                 this.title = 'Atualizar Despesa'
-                this.expense = await apiRouter.expense.show(this.$route.params.id)
+                await this.getExpense(this.$route.params.id)
                 if (this.expense.installments === FIX_EXPENSE) {
                     this.expense.fix = true
                 } else {
                     this.expense.fix = false
                 }
+                this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.expense.creditCardId
             } else {
                 this.title = 'Cadastrar Despesa'
                 this.expense.fix = false
+                this.loadingDone = true
             }
             this.nextThreeMonthsWithYear = CalendarTools.getNextThreeMonthsWithYear()
             this.creditCards = await apiRouter.cards.index()
             if (this.$route.params.cardId) {
                 this.expense.creditCardId = this.$route.params.cardId
-                this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.$route.params.cardId
+                this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.expense.creditCardId
             }
             if (! this.expense.nextInstallment) {
-                let date = CalendarTools.addDaysInDate(new Date(), 30)
-                this.expense.nextInstallment = date
+                this.expense.nextInstallment = CalendarTools.addDaysInDate(new Date(), 30)
             }
         }
     }

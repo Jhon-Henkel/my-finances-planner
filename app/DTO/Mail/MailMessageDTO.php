@@ -2,6 +2,8 @@
 
 namespace App\DTO\Mail;
 
+use App\Tools\AppTools;
+
 class MailMessageDTO
 {
     private string $addressee;
@@ -21,8 +23,8 @@ class MailMessageDTO
     ) {
         $this->addressee = $addressee;
         $this->addresseeName = $addresseeName;
-        $this->sender = env('MAIL_FROM_ADDRESS');
-        $this->senderName = str_replace('_', ' ', env('MAIL_FROM_NAME'));
+        $this->sender = AppTools::getEnvValue('MAIL_FROM_ADDRESS');
+        $this->senderName = str_replace('_', ' ', AppTools::getEnvValue('MAIL_FROM_NAME'));
         $this->subject = $subject;
         $this->templeteFile = $templeteFile;
         $this->params = $params;

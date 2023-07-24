@@ -160,17 +160,17 @@
                     : 'Fatura mês ' + month + ' não paga'
             },
             async getCards() {
+                this.loadingDone = false
                  await apiRouter.cards.index().then((response) => {
-                     this.loadingDone = false
                      this.cards = response
                      this.loadingDone = true
-                }).catch((response) => {
+                }).catch(() => {
                     this.messageError('Erro inesperado ao buscar Cartões!')
                 })
             },
             async deleteCard(cardId, cardName) {
                 if(confirm("Tem certeza que realmente quer deletar o cartão " + cardName + '?')) {
-                    await apiRouter.cards.delete(cardId).then((response) => {
+                    await apiRouter.cards.delete(cardId).then(() => {
                         this.messageSuccess('Cartão deletada com sucesso!')
                         this.getCards()
                     }).catch((response) => {
