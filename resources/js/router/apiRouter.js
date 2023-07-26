@@ -1,188 +1,187 @@
 import { userAuthStore } from '../../vue/store/auth'
-
-window.axios.defaults.headers.common['mfp-token'] = import.meta.env.VITE_PUSHER_APP_KEY;
+import requestTools from "../tools/requestTools";
 
 const apiRouter = {
     wallet: {
         index: async function() {
-            const request = await axios.get('/api/wallet')
+            const request = await requestTools.request.get('/api/wallet')
             return request.data
         },
         show: async function(id) {
-            const request = await axios.get('/api/wallet/' + id)
+            const request = await requestTools.request.get('/api/wallet/' + id)
             return request.data
         },
         insert: async function(wallet) {
-            return await axios.post('/api/wallet', wallet)
+            return await requestTools.request.post('/api/wallet', wallet)
         },
         update: async function(wallet, id) {
-            return await axios.put('/api/wallet/' + id, wallet)
+            return await requestTools.request.put('/api/wallet/' + id, wallet)
         },
         delete: async function(id) {
-            return await axios.delete('/api/wallet/' + id)
+            return await requestTools.request.delete('/api/wallet/' + id)
         },
     },
     cards: {
         index: async function() {
-            const request = await axios.get('/api/credit-card')
+            const request = await requestTools.request.get('/api/credit-card')
             return request.data
         },
         show: async function(id) {
-            const request = await axios.get('/api/credit-card/' + id)
+            const request = await requestTools.request.get('/api/credit-card/' + id)
             return request.data
         },
         insert: async function(card) {
-            return await axios.post('/api/credit-card', card)
+            return await requestTools.request.post('/api/credit-card', card)
         },
         update: async function(card, id) {
-            return await axios.put('/api/credit-card/' + id, card)
+            return await requestTools.request.put('/api/credit-card/' + id, card)
         },
         delete: async function(id) {
-            return await axios.delete('/api/credit-card/' + id)
+            return await requestTools.request.delete('/api/credit-card/' + id)
         },
         invoices: {
             index: async function(cardId) {
-                const request = await axios.get('/api/credit-card/' + cardId + '/invoices')
+                const request = await requestTools.request.get('/api/credit-card/' + cardId + '/invoices')
                 return request.data
             },
             payInvoice: async function(walletId, cardId) {
-                return await axios.put('/api/credit-card/' + cardId + '/invoices/' + walletId)
+                return await requestTools.request.put('/api/credit-card/' + cardId + '/invoices/' + walletId)
             }
         }
     },
     expense: {
         index: async function() {
-            const request = await axios.get('/api/credit-card/transaction')
+            const request = await requestTools.request.get('/api/credit-card/transaction')
             return request.data
         },
         show: async function(id) {
-            const request = await axios.get('/api/credit-card/transaction/' + id)
+            const request = await requestTools.request.get('/api/credit-card/transaction/' + id)
             return request.data
         },
         insert: async function(expense) {
-            return await axios.post('/api/credit-card/transaction', expense)
+            return await requestTools.request.post('/api/credit-card/transaction', expense)
         },
         update: async function(expense, id) {
-            return await axios.put('/api/credit-card/transaction/' + id, expense)
+            return await requestTools.request.put('/api/credit-card/transaction/' + id, expense)
         },
         delete: async function(id) {
-            return await axios.delete('/api/credit-card/transaction/' + id)
+            return await requestTools.request.delete('/api/credit-card/transaction/' + id)
         }
     },
     movement: {
         indexFiltered: async function(filter) {
-            const request = await axios.get('/api/movement/filter/' + filter)
+            const request = await requestTools.request.get('/api/movement/filter/' + filter)
             return request.data
         },
         delete: async function(id) {
-            return await axios.delete('/api/movement/' + id)
+            return await requestTools.request.delete('/api/movement/' + id)
         },
         show: async function(id) {
-            const request = await axios.get('/api/movement/' + id)
+            const request = await requestTools.request.get('/api/movement/' + id)
             return request.data
         },
         insert: async function(movement) {
-            return await axios.post('/api/movement', movement)
+            return await requestTools.request.post('/api/movement', movement)
         },
         update: async function(movement, id) {
-            return await axios.put('/api/movement/' + id, movement)
+            return await requestTools.request.put('/api/movement/' + id, movement)
         },
         insertTransfer: async function(transfer) {
-            return await axios.post('/api/movement/transfer', transfer)
+            return await requestTools.request.post('/api/movement/transfer', transfer)
         },
         deleteTransfer: async function(id) {
-            return await axios.delete('/api/movement/transfer/' + id)
+            return await requestTools.request.delete('/api/movement/transfer/' + id)
         }
     },
     userActions: {
         logout: async function() {
             userAuthStore().logout()
-            return await axios.get('/logout')
+            return await requestTools.request.get('/logout')
         }
     },
     futureGain: {
         getNextSixMonthsGains: async function() {
-            const request = await axios.get('/api/future-gain/next-six-months')
+            const request = await requestTools.request.get('/api/future-gain/next-six-months')
             return request.data
         },
         delete: async function(id) {
-            return await axios.delete('/api/future-gain/' + id)
+            return await requestTools.request.delete('/api/future-gain/' + id)
         },
         receive: async function(id, data) {
-            return await axios.post('/api/future-gain/' + id + '/receive', data)
+            return await requestTools.request.post('/api/future-gain/' + id + '/receive', data)
         },
         show: async function(id) {
-            const request = await axios.get('/api/future-gain/' + id)
+            const request = await requestTools.request.get('/api/future-gain/' + id)
             return request.data
         },
         insert: async function(futureGain) {
-            return await axios.post('/api/future-gain', futureGain)
+            return await requestTools.request.post('/api/future-gain', futureGain)
         },
         update: async function(futureGain, id) {
-            return await axios.put('/api/future-gain/' + id, futureGain)
+            return await requestTools.request.put('/api/future-gain/' + id, futureGain)
         },
         index: async function() {
-            const request = await axios.get('/api/future-gain')
+            const request = await requestTools.request.get('/api/future-gain')
             return request.data
         }
     },
     futureSpent: {
         delete: async function(id) {
-            return await axios.delete('/api/future-spent/' + id)
+            return await requestTools.request.delete('/api/future-spent/' + id)
         },
         pay: async function(id, data) {
-            return await axios.post('/api/future-spent/' + id + '/pay', data)
+            return await requestTools.request.post('/api/future-spent/' + id + '/pay', data)
         },
         show: async function(id) {
-            const request = await axios.get('/api/future-spent/' + id)
+            const request = await requestTools.request.get('/api/future-spent/' + id)
             return request.data
         },
         insert: async function(futureSpent) {
-            return await axios.post('/api/future-spent', futureSpent)
+            return await requestTools.request.post('/api/future-spent', futureSpent)
         },
         update: async function(futureSpent, id) {
-            return await axios.put('/api/future-spent/' + id, futureSpent)
+            return await requestTools.request.put('/api/future-spent/' + id, futureSpent)
         },
         index: async function() {
-            const request = await axios.get('/api/future-spent')
+            const request = await requestTools.request.get('/api/future-spent')
             return request.data
         }
     },
     dashboard: {
         index: async function() {
-            const request = await axios.get('/api/dashboard')
+            const request = await requestTools.request.get('/api/dashboard')
             return request.data
         }
     },
     configurations: {
         update: async function(config, data) {
-            return await axios.put('/api/configurations/' + config, data)
+            return await requestTools.request.put('/api/configurations/' + config, data)
         }
     },
     user: {
         show: async function(id) {
-            const request = await axios.get('/api/user/' + id)
+            const request = await requestTools.request.get('/api/user/' + id)
             return request.data
         },
         update: async function(id, user) {
-            return await axios.put('/api/user/' + id, user)
+            return await requestTools.request.put('/api/user/' + id, user)
         }
     },
     panorama: {
         index: async function() {
-            const request = await axios.get('/api/panorama')
+            const request = await requestTools.request.get('/api/panorama')
             return request.data
         }
     },
     financialHealth: {
         indexFiltered: async function(filter) {
-            const request = await axios.get('/api/financial-health/filter/' + filter)
+            const request = await requestTools.request.get('/api/financial-health/filter/' + filter)
             return request.data
         },
     },
     monthlyClosing : {
         indexFiltered: async function(filter) {
-            const request = await axios.get('/api/monthly-closing/filter/' + filter)
+            const request = await requestTools.request.get('/api/monthly-closing/filter/' + filter)
             return request.data
         }
     }

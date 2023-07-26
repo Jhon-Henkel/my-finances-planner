@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\ConfigEnum;
 use App\Models\User;
+use App\Tools\Auth\JwtTools;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,17 +20,14 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     */
     public function boot(): void
     {
         Auth::viaRequest(ConfigEnum::MFP_TOKEN, function (Request $request) {
-            $requestToken = $request->header(ConfigEnum::MFP_TOKEN) ?? null;
-            if (is_null($requestToken)) {
-                return null;
-            }
-            return (env('PUSHER_APP_KEY') == $requestToken) ? new User() : null;
+            $mfpUserToken = $_SERVER[ConfigEnum::X_MFP_USER_TOKEN] ?? '';
+            $user = JwtTools::validateJWT($mfpUserToken);
+            $mfpApiTokenEncrypted = bcrypt(env('PUSHER_APP_KEY'));
+            $mfpApiToken = $request->header(ConfigEnum::MFP_TOKEN) ?? '';
+            return password_verify($mfpApiToken, $mfpApiTokenEncrypted) && $user ? new User() : null;
         });
     }
 }

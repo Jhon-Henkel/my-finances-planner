@@ -16,6 +16,7 @@
         "laravel/ui": "^4.2"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.8",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.21",
@@ -53,7 +54,7 @@
         "test:unit": "vendor/bin/phpunit ./tests/Unit",
         "test:coverage": "vendor/bin/phpunit --coverage-html ./tests/coverage/",
         "test:feature": "vendor/bin/phpunit ./tests/Feature",
-        "migration:make": "php artisan make:migration migration",
+        "migration:make": "php artisan make:migration",
         "migration:run": "php artisan migrate",
         "migration:rollback": "php artisan migrate:rollback",
         "migration:status": "php artisan migrate:status",

@@ -16,14 +16,14 @@ class JwtTools
             'iat' => time(),
             'data' => $data
         );
-        return JWT::encode($payload, env('PUSHER_APP_KEY'), 'HS256');
+        return JWT::encode($payload, env('APP_KEY'), 'HS256');
     }
 
     public static function validateJWT(string $authorization): bool|object
     {
         try {
             $token = str_replace('Bearer ', '', $authorization);
-            $key = new Key(env('PUSHER_APP_KEY'), 'HS256');
+            $key = new Key(env('APP_KEY'), 'HS256');
             return JWT::decode($token, $key);
         } catch (\Exception $e) {
             return false;
