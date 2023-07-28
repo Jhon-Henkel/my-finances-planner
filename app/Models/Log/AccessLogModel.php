@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccessLogModel extends Model
 {
-    use Tenantable;
-
     protected $table = 'access_log';
-    protected $fillable = ['id', 'user_id', 'user_ip', 'user_agent', 'logged', 'comments', 'account_group'];
+    protected $fillable = ['id', 'user_id', 'user_ip', 'user_agent', 'logged', 'comments', 'account_group', 'tenant_id'];
     protected $casts = ['created_at' => DateEnum::MODEL_DEFAULT_DATE_FORMAT,];
     protected $hidden = [];
     public $timestamps = false;

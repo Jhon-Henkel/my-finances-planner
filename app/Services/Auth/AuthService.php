@@ -109,6 +109,7 @@ class AuthService
             RequestTools::getUserAgent(),
             $logged,
             $comments,
+            $user->tenant_id,
         );
         $accessLogService = app(AccessLogService::class);
         $accessLogService->saveAccessLog($log);

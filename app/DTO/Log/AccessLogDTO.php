@@ -12,7 +12,8 @@ readonly class AccessLogDTO
         private string $userAgent,
         private int $logged,
         private ?string $comments,
-        private mixed $created_at = null,
+        private string|int $tenantId,
+        private mixed $created_at = null
     ) {}
 
     public function getId(): ?string
@@ -53,5 +54,10 @@ readonly class AccessLogDTO
     public function getCreatedAt(): mixed
     {
         return $this->created_at;
+    }
+
+    public function getTenantId(): string|int
+    {
+        return $this->tenantId;
     }
 }
