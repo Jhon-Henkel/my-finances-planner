@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Enums\DateEnum;
 use App\Models\Trait\Tenantable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CreditCardTransaction extends Model
 {
-    use Tenantable;
+    use Tenantable, HasFactory;
 
     protected $table = 'credit_card_transaction';
     protected $fillable = ['id', 'credit_card_id', 'name', 'value', 'installments', 'next_installment'];

@@ -63,7 +63,8 @@
         "reset:demo-database": "php artisan reset:demo-database",
         "insert:user": "php artisan create:user",
         "insert:wallets": "php artisan db:seed --class=WalletSeeder",
-        "insert:credit-cards": "php artisan db:seed --class=CreditCardSeeder"
+        "insert:credit-cards": "php artisan db:seed --class=CreditCardSeeder",
+        "insert:credit-card-transactions": "php artisan db:seed --class=CreditCardTransactionSeeder"
     },
     "extra": {
         "laravel": {
