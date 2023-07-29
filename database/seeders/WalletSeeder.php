@@ -12,7 +12,7 @@ class WalletSeeder extends Seeder
 {
     public function run(): void
     {
-        for ($i = 0; $i < 7; $i++) {
+        for ($index = 0; $index < 7; $index++) {
             $data = $this->geDataToInsert();
             WalletModel::factory()->create(['name' => $data['name'], 'type' => $data['type']]);
         }
