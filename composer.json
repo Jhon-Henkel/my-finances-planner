@@ -61,13 +61,15 @@
         "cache:clear": "php artisan cache:clear",
         "help:artisan": "php artisan list",
         "reset:demo-database": "php artisan reset:demo-database",
-        "insert:user": "php artisan create:user",
-        "insert:wallets": "php artisan db:seed --class=WalletSeeder",
-        "insert:credit-cards": "php artisan db:seed --class=CreditCardSeeder",
-        "insert:credit-card-transactions": "php artisan db:seed --class=CreditCardTransactionSeeder",
-        "insert:future-gain": "php artisan db:seed --class=FutureGainSeeder",
-        "insert:future-spent": "php artisan db:seed --class=FutureSpentSeeder",
-        "insert:movements": "php artisan db:seed --class=MovementsSeeder"
+        "seed:user": "php artisan create:user",
+        "seed:wallets": "php artisan db:seed --class=WalletSeeder",
+        "seed:credit-cards": "php artisan db:seed --class=CreditCardSeeder",
+        "seed:credit-card-transactions": "php artisan db:seed --class=CreditCardTransactionSeeder",
+        "seed:future-gain": "php artisan db:seed --class=FutureGainSeeder",
+        "seed:future-spent": "php artisan db:seed --class=FutureSpentSeeder",
+        "seed:movements": "php artisan db:seed --class=MovementsSeeder",
+        "seed:monthly-closing": "php artisan db:seed --class=MonthlyClosingSeeder",
+        "seed:all-data": "php artisan db:seed"
     },
     "extra": {
         "laravel": {
