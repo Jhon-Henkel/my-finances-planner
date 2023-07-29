@@ -17,6 +17,11 @@ use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\FutureGainService;
 use App\Services\FutureSpentService;
 use App\Services\WalletService;
+use Database\Seeders\CreditCardSeeder;
+use Database\Seeders\CreditCardTransactionSeeder;
+use Database\Seeders\FutureGainSeeder;
+use Database\Seeders\FutureSpentSeeder;
+use Database\Seeders\WalletSeeder;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -47,176 +52,14 @@ class DemoApplicationTools
         if (! RequestTools::isApplicationInDemoMode()) {
             return false;
         }
-        self::insertWallets();
-        self::insertCreditCards();
-        self::insertCreditCardsTransactions();
-        self::insertFutureGains();
-        self::insertFutureSpending();
+        (new WalletSeeder)->run();
+        (new CreditCardSeeder)->run();
+        (new CreditCardTransactionSeeder)->run();
+        (new FutureGainSeeder)->run();
+        (new FutureSpentSeeder)->run();
         self::insertMovements();
         self::insertMonthlyClosing();
         return true;
-    }
-
-    protected static function insertWallets(): void
-    {
-        $walletService = app(WalletService::class);
-        $wallets = self::makeDemoWallets();
-        foreach($wallets as $wallet) {
-            $walletService->insert($wallet);
-        }
-    }
-
-    /**
-     * @return WalletDTO[]
-     */
-    public static function makeDemoWallets(): array
-    {
-        $wallets = [];
-        $names = [
-            'Dinheiro',
-            'Banco Inter',
-            'Poupança',
-            'Vale Alimentação',
-            'Vale Transporte',
-            'Gim Pass',
-            'Vaquinha carro',
-            'Vaquinha macbook'
-        ];
-        $amounts = [100, 10.50, 153.95, 27.10, 100, 50, 1584.55, 2950.69];
-        $types = [5, 6, 6, 8, 9, 0, 0, 0];
-        for ($index = 0; $index < 8; $index ++) {
-            $item = new WalletDTO();
-            $item->setId($index + 1);
-            $item->setName($names[$index]);
-            $item->setAmount($amounts[$index]);
-            $item->setType($types[$index]);
-            $wallets[] = $item;
-        }
-        return $wallets;
-    }
-
-    protected static function insertCreditCards(): void
-    {
-        $creditCardService = app(CreditCardService::class);
-        $creditCards = self::makeDemoCreditCards();
-        foreach($creditCards as $creditCard) {
-            $creditCardService->insert($creditCard);
-        }
-    }
-
-    /**
-     * @return CreditCardDTO[]
-     */
-    public static function makeDemoCreditCards(): array
-    {
-        $creditCards = [];
-        $names = ['Banco Inter', 'C6 Bank', 'Nubank'];
-        $limits = [1000, 2500, 10000];
-        $closes = [5, 10, 15];
-        $dues = [10, 15, 20];
-        for ($index = 0; $index < 3; $index ++) {
-            $item = new CreditCardDTO();
-            $item->setId($index + 1);
-            $item->setName($names[$index]);
-            $item->setLimit($limits[$index]);
-            $item->setDueDate($dues[$index]);
-            $item->setClosingDay($closes[$index]);
-            $creditCards[] = $item;
-        }
-        return $creditCards;
-    }
-
-    protected static function insertCreditCardsTransactions(): void
-    {
-        $creditCardTransactionsService = app(CreditCardTransactionService::class);
-        $transactions = self::makeDemoCreditCardsTransactions();
-        foreach($transactions as $transaction) {
-            $creditCardTransactionsService->insert($transaction);
-        }
-    }
-
-    /**
-     * @return CreditCardTransaction[]
-     */
-    protected static function makeDemoCreditCardsTransactions(): array
-    {
-        $transactions = [];
-        $cardIds = [1, 1, 1, 2, 2, 2, 3, 3];
-        $names = ['Netflix', 'IPhone', 'Curso de PHP', 'Camiseta', 'Pneu Carro', 'Jogos', 'Spotify', 'Curso de Inglês'];
-        $values = [100, 299.50, 153.95, 27.10, 100, 50, 24.9, 2950.69];
-        $installments = [0, 24, 4, 2, 6, 10, 0, 5];
-        $date = CalendarTools::getDateNow()->format(DateEnum::USA_DATE_FORMAT_WITHOUT_TIME);
-        for ($index = 0; $index < 8; $index++) {
-            $item = new CreditCardTransactionDTO();
-            $item->setId($index + 1);
-            $item->setCreditCardId($cardIds[$index]);
-            $item->setName($names[$index]);
-            $item->setValue($values[$index]);
-            $item->setInstallments($installments[$index]);
-            $item->setNextInstallment($date);
-            $transactions[] = $item;
-        }
-        return $transactions;
-    }
-
-    protected static function insertFutureGains(): void
-    {
-        $futureGainService = app(FutureGainService::class);
-        $futureGains = self::makeDemoFutureGains();
-        foreach($futureGains as $futureGain) {
-            $futureGainService->insert($futureGain);
-        }
-    }
-
-    /**
-     * @return FutureGainDTO[]
-     * @throws Exception
-     */
-    protected static function makeDemoFutureGains(): array
-    {
-        $futureGains = [];
-        $descriptions = [
-            'Salário',
-            'Vale Alimentação',
-            'Vale Transporte',
-            'Gim Pass',
-            'Saque aniversário FGTS',
-            'Empréstimo Joãozinho'
-        ];
-        $values = [5310, 350, 150, 100, 1310.90, 150];
-        $now = CalendarTools::getDateNow()->format(DateEnum::DEFAULT_DB_DATE_FORMAT);
-        $forecasts = [
-            $now,
-            CalendarTools::addMonthInDate($now, 1),
-            $now,
-            $now,
-            CalendarTools::addMonthInDate($now, 2),
-            CalendarTools::addMonthInDate($now, 3)
-        ];
-        $installments = [0, 0, 0, 0, 1, 3];
-        $walletIds = [2, 4, 5, 6, 2, 1];
-        for ($index = 0; $index < 6; $index++) {
-            $item = new FutureGainDTO();
-            $item->setId($index + 1);
-            $item->setDescription($descriptions[$index]);
-            $item->setAmount($values[$index]);
-            $item->setForecast($forecasts[$index]);
-            $item->setInstallments($installments[$index]);
-            $item->setWalletId($walletIds[$index]);
-            $item->setCreatedAt($now);
-            $item->setUpdatedAt($now);
-            $futureGains[] = $item;
-        }
-        return $futureGains;
-    }
-
-    protected static function insertFutureSpending(): void
-    {
-        $futureSpentService = app(FutureSpentService::class);
-        $futureSpending = self::makeDemoFutureSpending();
-        foreach($futureSpending as $futureSpent) {
-            $futureSpentService->insert($futureSpent);
-        }
     }
 
     /**

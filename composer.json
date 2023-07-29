@@ -65,7 +65,8 @@
         "insert:wallets": "php artisan db:seed --class=WalletSeeder",
         "insert:credit-cards": "php artisan db:seed --class=CreditCardSeeder",
         "insert:credit-card-transactions": "php artisan db:seed --class=CreditCardTransactionSeeder",
-        "insert:future-gain": "php artisan db:seed --class=FutureGainSeeder"
+        "insert:future-gain": "php artisan db:seed --class=FutureGainSeeder",
+        "insert:future-spent": "php artisan db:seed --class=FutureSpentSeeder"
     },
     "extra": {
         "laravel": {
