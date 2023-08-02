@@ -2,9 +2,9 @@
 
 namespace App\Models\Trait;
 
-use App\Scope\TenantScope;
 use App\Models\Tenant;
-use App\Tools\Auth\JwtTools;
+use App\Scope\TenantScope;
+use App\Tools\Request\RequestTools;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait Tenantable
@@ -12,8 +12,7 @@ trait Tenantable
     protected static function bootTenantable(): void
     {
         static::addGlobalScope(new TenantScope);
-        $token = $_SERVER['HTTP_X_MFP_USER_TOKEN'] ?? '';
-        $user = JwtTools::validateJWT($token);
+        $user = RequestTools::getUserDataInRequest();
         if (! $user) {
             return;
         }

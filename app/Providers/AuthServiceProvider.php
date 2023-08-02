@@ -23,11 +23,14 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Auth::viaRequest(ConfigEnum::MFP_TOKEN, function (Request $request) {
-            $mfpUserToken = $_SERVER[ConfigEnum::X_MFP_USER_TOKEN] ?? '';
+            $mfpUserToken = $request->header(ConfigEnum::MFP_USER_TOKEN) ?? '';
             $user = JwtTools::validateJWT($mfpUserToken);
             $mfpApiTokenEncrypted = bcrypt(env('PUSHER_APP_KEY'));
             $mfpApiToken = $request->header(ConfigEnum::MFP_TOKEN) ?? '';
-            return password_verify($mfpApiToken, $mfpApiTokenEncrypted) && $user ? new User() : null;
+            if (password_verify($mfpApiToken, $mfpApiTokenEncrypted) && $user) {
+                return new User((array)$user->data);
+            }
+            return null;
         });
     }
 }

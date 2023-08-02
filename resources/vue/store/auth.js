@@ -4,7 +4,7 @@ import routerNonAuthenticated from "../../js/router/routerNonAuthenticated";
 import RequestTools from "../../js/tools/requestTools";
 
 export const userAuthStore = defineStore('auth', () => {
-    const token =  ref(RequestTools.storage.getStorageItem('mfp-token'))
+    const token = ref(RequestTools.storage.getStorageItem('mfp-token'))
     const user = ref(RequestTools.storage.getStorageItem('mfp-user'))
 
     function setToken(tokenValue) {
