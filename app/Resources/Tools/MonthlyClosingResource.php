@@ -19,7 +19,8 @@ class MonthlyClosingResource extends BasicResource
             $item['real_expenses'] ?? null,
             $item['balance'] ?? null,
             $item['created_at'] ?? null,
-            $item['updated_at'] ?? null
+            $item['updated_at'] ?? null,
+            $item['tenant_id'] ?? null
         );
     }
 
@@ -37,7 +38,8 @@ class MonthlyClosingResource extends BasicResource
             'real_expenses' => $item->getRealExpenses(),
             'balance' => $item->getBalance(),
             'created_at' => $item->getCreatedAt(),
-            'updated_at' => $item->getUpdatedAt()
+            'updated_at' => $item->getUpdatedAt(),
+            'tenant_id' => $item->getTenantId()
         ];
     }
 
@@ -55,7 +57,8 @@ class MonthlyClosingResource extends BasicResource
             $item->getRealExpenses(),
             $item->getBalance(),
             $item->getCreatedAt(),
-            $item->getUpdatedAt()
+            $item->getUpdatedAt(),
+            $item->getTenantId()
         );
     }
 }

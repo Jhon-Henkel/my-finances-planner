@@ -169,6 +169,7 @@ class AuthServiceUnitTest extends Falcon9
         $user->status = 1;
         $user->wrong_login_attempts = 0;
         $user->password = bcrypt('password');
+        $user->tenant_id = 1;
 
         $service = Mockery::mock(AuthService::class)->makePartial();
         $service->shouldAllowMockingProtectedMethods();

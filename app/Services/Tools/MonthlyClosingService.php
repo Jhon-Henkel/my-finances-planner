@@ -7,6 +7,7 @@ use App\DTO\Mail\MailMessageDTO;
 use App\DTO\Tools\MonthlyClosingDTO;
 use App\Enums\MonthlyCLosingEnum;
 use App\Exceptions\FilterException;
+use App\Models\User;
 use App\Repositories\Tools\MonthlyClosingRepository;
 use App\Services\BasicService;
 use App\Services\FutureGainService;
@@ -30,10 +31,10 @@ class MonthlyClosingService extends BasicService
         return $this->repository;
     }
 
-    public function findByFilter(int $filterOption): array
+    public function findByFilter(int $filterOption, int $tenantId): array
     {
         $filter = $this->getFilter($filterOption);
-        $data = $this->getRepository()->findByPeriod($filter);
+        $data = $this->getRepository()->findByPeriodAndTenantId($filter, $tenantId);
         return $this->addChartData($data);
     }
 
@@ -78,32 +79,38 @@ class MonthlyClosingService extends BasicService
         return ['chartData' => $chartData, 'data' => $data];
     }
 
-    public function generateMonthlyClosing(): MonthlyClosingDTO
+    public function generateMonthlyClosing(User $user): MonthlyClosingDTO
     {
-        $lastClosing = $this->getRepository()->findLast();
+        $tenantId = $user->tenant_id;
+        $lastClosing = $this->getRepository()->findLast($tenantId);
         if ($lastClosing) {
-            $this->updateLastMonthlyClosing($lastClosing);
+            $this->updateLastMonthlyClosing($lastClosing, $tenantId);
         }
-        $monthlyClosing = $this->createMonthlyClosing();
+        $monthlyClosing = $this->createMonthlyClosing($tenantId);
         return $this->getRepository()->insert($monthlyClosing);
     }
 
-    protected function updateLastMonthlyClosing(MonthlyClosingDTO $lastClosing): void
+    protected function updateLastMonthlyClosing(MonthlyClosingDTO $lastClosing, int $tenantId): void
     {
         $period = CalendarTools::getMonthPeriodFromDate($lastClosing->getCreatedAt());
         $movementService = app(MovementService::class);
-        $sumValues = $movementService->getSumValuesForPeriod($period);
+        $sumValues = $movementService->getSumValuesForPeriod($period, $tenantId);
         $lastClosing->setRealEarning($sumValues->getEarnings());
         $lastClosing->setRealExpenses($sumValues->getExpenses());
         $lastClosing->setBalance();
         $this->getRepository()->update($lastClosing->getId(), $lastClosing);
     }
 
-    protected function createMonthlyClosing(): MonthlyClosingDTO
+    protected function createMonthlyClosing(int $tenantId): MonthlyClosingDTO
     {
-        $predicatedEarnings = app(FutureGainService::class)->getThisMonthFutureGainSum();
-        $predicatedExpenses = app(FutureSpentService::class)->getThisMonthFutureSpentSum();
-        return new MonthlyClosingDTO(null, $predicatedEarnings, $predicatedExpenses);
+        $predicatedEarnings = app(FutureGainService::class)->getThisMonthFutureGainSum($tenantId);
+        $predicatedExpenses = app(FutureSpentService::class)->getThisMonthFutureSpentSum($tenantId);
+        return new MonthlyClosingDTO(
+            id: null,
+            predictedEarnings: $predicatedEarnings,
+            predictedExpenses: $predicatedExpenses,
+            tenantId: $tenantId
+        );
     }
 
     public function generateMailMonthlyClosingDone(string $email, string $name): MailMessageDTO

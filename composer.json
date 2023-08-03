@@ -16,6 +16,7 @@
         "laravel/ui": "^4.2"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.8",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.21",
@@ -51,15 +52,24 @@
             "@php artisan key:generate --ansi"
         ],
         "test:unit": "vendor/bin/phpunit ./tests/Unit",
-        "test:coverage": "vendor/bin/phpunit --coverage-html ./tests/coverage/",
         "test:feature": "vendor/bin/phpunit ./tests/Feature",
-        "migration:make": "php artisan make:migration migration",
+        "test:coverage": "vendor/bin/phpunit --coverage-html ./tests/coverage/",
+        "migration:make": "php artisan make:migration",
         "migration:run": "php artisan migrate",
         "migration:rollback": "php artisan migrate:rollback",
         "migration:status": "php artisan migrate:status",
         "cache:clear": "php artisan cache:clear",
         "help:artisan": "php artisan list",
-        "reset:demo-database": "php artisan reset:demo-database"
+        "reset:demo-database": "php artisan reset:demo-database",
+        "seed:user": "php artisan create:user",
+        "seed:wallets": "php artisan db:seed --class=WalletSeeder",
+        "seed:credit-cards": "php artisan db:seed --class=CreditCardSeeder",
+        "seed:credit-card-transactions": "php artisan db:seed --class=CreditCardTransactionSeeder",
+        "seed:future-gain": "php artisan db:seed --class=FutureGainSeeder",
+        "seed:future-spent": "php artisan db:seed --class=FutureSpentSeeder",
+        "seed:movements": "php artisan db:seed --class=MovementsSeeder",
+        "seed:monthly-closing": "php artisan db:seed --class=MonthlyClosingSeeder",
+        "seed:all-data": "php artisan db:seed"
     },
     "extra": {
         "laravel": {

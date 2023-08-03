@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Response\ResponseError;
 use App\Resources\Tools\MonthlyClosingResource;
 use App\Services\Tools\MonthlyClosingService;
+use App\Tools\Request\RequestTools;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -52,7 +54,11 @@ class MonthlyClosingController extends BasicController
 
     public function indexFiltered(string|int $filterOption): JsonResponse
     {
-        $results = $this->getService()->findByFilter((int)$filterOption);
+        $user = RequestTools::getUserDataInRequest();
+        if (! $user) {
+            return ResponseError::responseError('Usuário não encontrado', Response::HTTP_BAD_REQUEST);
+        }
+        $results = $this->getService()->findByFilter((int)$filterOption, $user->data->tenant_id);
         $items['data'] = $this->getResource()->arrayDtoToVoItens($results['data']);
         $items['chartData'] = $results['chartData'];
         return response()->json($items, Response::HTTP_OK);

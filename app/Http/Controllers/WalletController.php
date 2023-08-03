@@ -28,7 +28,7 @@ class WalletController extends BasicController
     protected function rulesInsert(): array
     {
         return array(
-            'name' => 'required|unique:App\Models\WalletModel,name|max:255|min:2|string',
+            'name' => 'required|max:255|min:2|string',
             'type' => 'required|int',
             'amount' => 'required|decimal:0,2'
         );
@@ -37,7 +37,6 @@ class WalletController extends BasicController
     protected function rulesUpdate(): array
     {
         return array(
-            // todo validar se nome já não existe em outro registro
             'name' => 'required|max:255|min:2|string',
             'type' => 'required|int',
             'amount' => 'required|decimal:0,2'

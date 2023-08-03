@@ -8,7 +8,9 @@ use App\DTO\Movement\MovementSumValuesDTO;
 use App\DTO\Tools\MonthlyClosingDTO;
 use App\Enums\MonthlyCLosingEnum;
 use App\Exceptions\FilterException;
+use App\Models\MonthlyClosing;
 use App\Repositories\Tools\MonthlyClosingRepository;
+use App\Resources\Tools\MonthlyClosingResource;
 use App\Services\FutureGainService;
 use App\Services\FutureSpentService;
 use App\Services\Movement\MovementService;
@@ -72,15 +74,18 @@ class MonthlyClosingServiceUnitTest extends Falcon9
 
     public function testFindByFilter()
     {
-        $repositoryMock = Mockery::mock(MonthlyClosingRepository::class )->makePartial();
-        $repositoryMock->shouldReceive('findByPeriod')->once()->andReturn([]);
+        $modelMock = Mockery::mock(MonthlyClosing::class);
+
+        $mocks = [$modelMock, new MonthlyClosingResource()];
+        $repositoryMock = Mockery::mock(MonthlyClosingRepository::class, $mocks)->makePartial();
+        $repositoryMock->shouldReceive('findByPeriodAndTenantId')->once()->andReturn([]);
 
         $datePeriod = new DatePeriodDTO('2021-01-01 00:00:00', '2021-12-31 23:59:59');
         $serviceMock = Mockery::mock(MonthlyClosingService::class, [$repositoryMock])->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('getFilter')->once()->andReturn($datePeriod);
 
-        $result = $serviceMock->findByFilter(MonthlyCLosingEnum::THIS_YEAR);
+        $result = $serviceMock->findByFilter(MonthlyCLosingEnum::THIS_YEAR, 1);
 
         $this->assertIsArray($result);
     }
@@ -138,7 +143,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         $serviceMock = Mockery::mock(MonthlyClosingService::class, [$repositoryMock])->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
 
-        $serviceMock->updateLastMonthlyClosing($monthlyClosing);
+        $serviceMock->updateLastMonthlyClosing($monthlyClosing, 1);
     }
 
     public function testCreateMonthlyClosing()
@@ -153,7 +158,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
 
         $monthlyClosingServiceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
         $monthlyClosingServiceMock->shouldAllowMockingProtectedMethods();
-        $monthlyClosing = $monthlyClosingServiceMock->createMonthlyClosing();
+        $monthlyClosing = $monthlyClosingServiceMock->createMonthlyClosing(1);
 
         $this->assertInstanceOf(MonthlyClosingDTO::class, $monthlyClosing);
         $this->assertEquals(100, $monthlyClosing->getPredictedEarnings());

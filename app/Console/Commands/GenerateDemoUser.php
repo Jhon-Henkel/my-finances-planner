@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\ConfigEnum;
+use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Console\Command;
 
@@ -30,15 +31,23 @@ class GenerateDemoUser extends Command
      */
     public function handle(): void
     {
-        User::factory()->create([
+        $user = User::create([
             'name' => 'Demo User',
             'email' => 'demo@demo.dev',
             'password' => bcrypt('1234'),
             'status' => ConfigEnum::STATUS_ACTIVE,
             'salary' => 1000,
             'wrong_login_attempts' => 0,
-            'verify_hash' => ''
         ]);
+        $user->save();
+
+        $tenant = Tenant::create([
+            'user_id' => $user->id,
+        ]);
+
+        $user->tenant_id = $tenant->id;
+        $user->save();
+
         $this->info('Success!');
         $this->info('User = demo@demo.dev');
         $this->info('Password = 1234');

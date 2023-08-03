@@ -20,7 +20,7 @@ try {
     $users = User::all();
     foreach ($users as $user) {
         $monthlyClosingService = app(MonthlyClosingService::class);
-        $monthlyClosingService->generateMonthlyClosing();
+        $monthlyClosingService->generateMonthlyClosing($user);
         $mail = $monthlyClosingService->generateMailMonthlyClosingDone($user->email, $user->name);
         try {
             app(MailService::class)->sendEmail($mail);
@@ -30,7 +30,7 @@ try {
         }
     }
     $cron->notifyCronjobDone('TbaGhj');
-    echo 'Monthly closing generated successfully';
+    echo 'All monthly closing generated successfully';
 } catch (Throwable $exception) {
     $message = 'Error: ' . $exception->getMessage();
     $cron->notifyCronjobFailed('TbaGhj', $message);

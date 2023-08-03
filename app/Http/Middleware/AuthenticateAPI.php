@@ -7,8 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticateAPI extends Middleware
 {
-    protected function unauthenticated($request, array $args): ?string
+    protected function unauthenticated($request, array $guards): ?string
     {
-        abort(response()->json('Token API ausente ou inválido!', Response::HTTP_UNAUTHORIZED));
+        $message = 'Tokens obrigatórios ausentes ou inválidos!';
+        abort(response()->json($message, Response::HTTP_UNAUTHORIZED));
     }
 }

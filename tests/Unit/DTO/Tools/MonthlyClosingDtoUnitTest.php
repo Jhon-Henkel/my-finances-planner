@@ -17,7 +17,8 @@ class MonthlyClosingDtoUnitTest extends Falcon9
             100.00,
             100.00,
             '2021-06-25 15:42:39',
-            '2021-06-25 15:42:39'
+            '2021-06-25 15:42:39',
+            1
         );
 
         $this->assertEquals(1, $dto->getId());
@@ -28,6 +29,7 @@ class MonthlyClosingDtoUnitTest extends Falcon9
         $this->assertEquals(100.00, $dto->getBalance());
         $this->assertEquals('2021-06-25 15:42:39', $dto->getCreatedAt());
         $this->assertEquals('2021-06-25 15:42:39', $dto->getUpdatedAt());
+        $this->assertEquals(1, $dto->getTenantId());
 
         $dto->setRealEarning(200.00);
         $dto->setRealExpenses(100.00);
@@ -48,7 +50,8 @@ class MonthlyClosingDtoUnitTest extends Falcon9
             null,
             null,
             '2021-06-25 15:42:39',
-            '2021-06-25 15:42:39'
+            '2021-06-25 15:42:39',
+            2
         );
 
         $this->assertEquals(1, $dto->getId());
@@ -59,6 +62,7 @@ class MonthlyClosingDtoUnitTest extends Falcon9
         $this->assertEquals(null, $dto->getBalance());
         $this->assertEquals('2021-06-25 15:42:39', $dto->getCreatedAt());
         $this->assertEquals('2021-06-25 15:42:39', $dto->getUpdatedAt());
+        $this->assertEquals(2, $dto->getTenantId());
 
         $dto->setRealEarning(200.00);
         $dto->setRealExpenses(100.00);

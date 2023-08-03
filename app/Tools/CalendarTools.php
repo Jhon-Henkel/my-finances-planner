@@ -133,8 +133,7 @@ class CalendarTools
         string $format = DateEnum::DEFAULT_DB_DATE_FORMAT
     ): string {
         $date = new DateTime($date);
-        return $date->add(new DateInterval('P'. $months . 'M'))
-            ->format($format);
+        return $date->add(new DateInterval('P'. $months . 'M'))->format($format);
     }
 
     /**
