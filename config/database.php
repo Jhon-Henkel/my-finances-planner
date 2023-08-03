@@ -65,11 +65,11 @@ return [
 
         'mysql_testing' => [
             'driver' => 'mysql',
-            'host' => '192.168.152.51',
-            'database' => 'my_finances_testing',
-            'username' => 'root',
-            'password' => '123',
-            'port' => '3306',
+            'host' => env('DB_TEST_HOST', '127.0.0.1'),
+            'database' => env('DB_TEST_DATABASE', 'forge'),
+            'username' => env('DB_TEST_USERNAME', 'forge'),
+            'password' => env('DB_TEST_PASSWORD', ''),
+            'port' => env('DB_TEST_PORT', '3306'),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
