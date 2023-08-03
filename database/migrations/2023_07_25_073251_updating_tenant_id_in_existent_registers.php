@@ -10,8 +10,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::table('users')->update(['tenant_id' => 1]);
         DB::table('tenants')->insert(['user_id' => 1]);
+        DB::table('users')->update(['tenant_id' => 1]);
         DB::table('access_log')->update(['tenant_id' => 1]);
         DB::table('configurations')->update(['tenant_id' => 1]);
         DB::table('credit_card')->update(['tenant_id' => 1]);
