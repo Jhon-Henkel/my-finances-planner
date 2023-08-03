@@ -28,16 +28,20 @@ class FutureGainRepository extends BasicRepository
         return $this->resource;
     }
 
-    public function findByPeriod(DatePeriodDTO $period): array
+    public function findByPeriod(DatePeriodDTO $period, ?int $tenantId = null): array
     {
-        $itens = $this->getModel()
+        $items = $this->getModel()
+            ->query()
             ->select('future_gain.*', 'wallets.name')
             ->where('future_gain.forecast', '>=', $period->getStartDate())
-            ->where('future_gain.forecast', '<=', $period->getEndDate())
-            ->join('wallets', 'future_gain.wallet_id', '=', 'wallets.id')
-            ->orderBy(BasicFieldsEnum::ID, 'desc')
-            ->get();
-        return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
+            ->where('future_gain.forecast', '<=', $period->getEndDate());
+        if ($tenantId) {
+            $items->where('future_gain.tenant_id', '=', $tenantId);
+        }
+        $items->join('wallets', 'future_gain.wallet_id', '=', 'wallets.id')
+            ->orderBy(BasicFieldsEnum::ID, 'desc');
+        $items = $items->get();
+        return $items ? $this->getResource()->arrayToDtoItens($items->toArray()) : [];
     }
 
     public function findAll(): array

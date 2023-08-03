@@ -14,6 +14,7 @@ readonly class AccessLogVO
     public string $logged;
     public ?string $comments;
     public string $createdAt;
+    public string|int $tenantId;
 
     public function __construct(AccessLogDTO $dto)
     {
@@ -25,5 +26,6 @@ readonly class AccessLogVO
         $this->logged = $dto->getLogged();
         $this->comments = $dto->getComments();
         $this->createdAt = $dto->getCreatedAt();
+        $this->tenantId = $dto->getTenantId();
     }
 }

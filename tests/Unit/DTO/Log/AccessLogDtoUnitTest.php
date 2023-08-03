@@ -17,6 +17,7 @@ class AccessLogDtoUnitTest extends Falcon9
             'abc',
             0,
             null,
+            1,
             '2020-01-01 00:00:00'
         );
 
@@ -27,6 +28,7 @@ class AccessLogDtoUnitTest extends Falcon9
         $this->assertEquals('abc', $data->getUserAgent());
         $this->assertEquals(0, $data->getLogged());
         $this->assertEquals(null, $data->getComments());
+        $this->assertEquals(1, $data->getTenantId());
         $this->assertEquals('2020-01-01 00:00:00', $data->getCreatedAt());
     }
 }

@@ -17,6 +17,7 @@ class MonthlyClosingVoUnitTest extends Falcon9
         $balance = 50.00;
         $createdAt = '2021-06-25 15:42:39';
         $updatedAt = '2021-06-25 15:42:39';
+        $tenantId = 1;
 
         $vo = new MonthlyClosingVO(
             $id,
@@ -26,7 +27,8 @@ class MonthlyClosingVoUnitTest extends Falcon9
             $realExpenses,
             $balance,
             $createdAt,
-            $updatedAt
+            $updatedAt,
+            $tenantId
         );
 
         $this->assertEquals($id, $vo->id);
@@ -37,5 +39,6 @@ class MonthlyClosingVoUnitTest extends Falcon9
         $this->assertEquals($balance, $vo->balance);
         $this->assertEquals($createdAt, $vo->createdAt);
         $this->assertEquals($updatedAt, $vo->updatedAt);
+        $this->assertEquals($tenantId, $vo->tenantId);
     }
 }

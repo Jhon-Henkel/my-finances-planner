@@ -32,6 +32,36 @@ const RequestTools = {
             return true
         }
         return false
+    },
+    request: {
+        async get(url) {
+            return await axios.get(url, {
+                headers: this.getHeaders()
+            })
+        },
+        async post(url, data) {
+            return await axios.post(url, data, {
+                headers: this.getHeaders(),
+            })
+        },
+        async put(url, data) {
+            return await axios.put(url, data, {
+                headers: this.getHeaders(),
+            })
+        },
+        async delete(url) {
+            return await axios.delete(url, {
+                headers: this.getHeaders()
+            })
+        },
+        getHeaders() {
+            return {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'MFP-TOKEN': import.meta.env.VITE_PUSHER_APP_KEY,
+                'X-MFP-USER-TOKEN': 'Bearer ' + RequestTools.storage.getStorageItem('mfp-token')
+            }
+        }
     }
 }
 

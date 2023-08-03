@@ -24,6 +24,7 @@ class AccessLogResourceUnitTest extends Falcon9
             'abc',
             0,
             'test',
+            1,
             '2020-01-01 00:00:00'
         );
     }
@@ -43,6 +44,7 @@ class AccessLogResourceUnitTest extends Falcon9
             'deg',
             1,
             'test',
+            1,
             '2020-01-01 00:00:00'
         );
 
@@ -70,6 +72,7 @@ class AccessLogResourceUnitTest extends Falcon9
                 'user_agent' => 'sssss',
                 'logged' => 0,
                 'comments' => 'test',
+                'tenant_id' => '2',
                 'created_at' => '2021-01-01 00:00:00',
             ],
             [
@@ -80,6 +83,7 @@ class AccessLogResourceUnitTest extends Falcon9
                 'user_agent' => 'ppppppp',
                 'logged' => 1,
                 'comments' => 'test1',
+                'tenant_id' => '1',
                 'created_at' => '2023-01-01 00:00:00',
             ]
         ]);
@@ -95,7 +99,7 @@ class AccessLogResourceUnitTest extends Falcon9
         $item = $this->accessLogResource->dtoToArray($this->accessLogDTO);
 
         $this->assertIsArray($item);
-        $this->assertCount(8, $item);
+        $this->assertCount(9, $item);
         $this->assertArrayHasKey('id', $item);
         $this->assertArrayHasKey('user_id', $item);
         $this->assertArrayHasKey('user_ip', $item);

@@ -4,34 +4,17 @@ namespace App\DTO\Tools;
 
 class MonthlyClosingDTO
 {
-    private null|int $id;
-    private null|float $predictedEarnings;
-    private null|float $predictedExpenses;
-    private null|float $realEarnings;
-    private null|float $realExpenses;
-    private null|float $balance;
-    private mixed $createdAt;
-    private mixed $updatedAt;
-
     public function __construct(
-        null|int $id,
-        null|float $predictedEarnings,
-        null|float $predictedExpenses,
-        null|float $realEarnings = null,
-        null|float $realExpenses = null,
-        null|float $balance = null,
-        mixed $createdAt = null,
-        mixed $updatedAt = null
-    ) {
-        $this->id = $id;
-        $this->predictedEarnings = $predictedEarnings;
-        $this->predictedExpenses = $predictedExpenses;
-        $this->realEarnings = $realEarnings;
-        $this->realExpenses = $realExpenses;
-        $this->balance = $balance;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
-    }
+        private readonly null|int $id,
+        private readonly null|float $predictedEarnings,
+        private readonly null|float $predictedExpenses,
+        private null|float $realEarnings = null,
+        private null|float $realExpenses = null,
+        private null|float $balance = null,
+        private readonly mixed $createdAt = null,
+        private readonly mixed $updatedAt = null,
+        private readonly null|int $tenantId = null
+    ) {}
 
     public function getId(): ?int
     {
@@ -86,5 +69,10 @@ class MonthlyClosingDTO
     public function getUpdatedAt(): mixed
     {
         return $this->updatedAt;
+    }
+
+    public function getTenantId(): ?int
+    {
+        return $this->tenantId;
     }
 }

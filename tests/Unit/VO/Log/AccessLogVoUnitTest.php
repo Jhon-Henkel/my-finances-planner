@@ -18,6 +18,7 @@ class AccessLogVoUnitTest extends Falcon9
             'abc',
             0,
             null,
+            1,
             '2020-01-01 00:00:00'
         );
 
@@ -30,6 +31,7 @@ class AccessLogVoUnitTest extends Falcon9
         $this->assertEquals('abc', $vo->userAgent);
         $this->assertEquals(0, $vo->logged);
         $this->assertEquals(null, $vo->comments);
+        $this->assertEquals(1, $vo->tenantId);
         $this->assertEquals('2020-01-01 00:00:00', $vo->createdAt);
 
     }

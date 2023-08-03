@@ -37,7 +37,7 @@ class WalletControllerUnitTest extends TestCase
         $this->assertArrayHasKey('name', $rules);
         $this->assertArrayHasKey('type', $rules);
         $this->assertArrayHasKey('amount', $rules);
-        $this->assertEquals('required|unique:App\Models\WalletModel,name|max:255|min:2|string', $rules['name']);
+        $this->assertEquals('required|max:255|min:2|string', $rules['name']);
         $this->assertEquals('required|int', $rules['type']);
         $this->assertEquals('required|decimal:0,2', $rules['amount']);
     }

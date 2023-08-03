@@ -32,18 +32,23 @@ class MovementRepository extends BasicRepository
     }
 
     /**
-     * @param array $period
+     * @param DatePeriodDTO $period
      * @return MovementDTO[]
      */
-    public function findByPeriod(DatePeriodDTO $period): array
+    public function findByPeriod(DatePeriodDTO $period, ?int $tenantId = null): array
     {
-        $itens = $this->model::select('movements.*', 'wallets.name')
+        $items = $this->getModel()
+            ->query()
+            ->select('movements.*', 'wallets.name')
             ->where('movements.created_at', '>=', $period->getStartDate())
-            ->where('movements.created_at', '<=', $period->getEndDate())
-            ->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
-            ->orderBy(BasicFieldsEnum::ID, 'desc')
-            ->get();
-        return $this->resource->arrayToDtoItens($itens->toArray());
+            ->where('movements.created_at', '<=', $period->getEndDate());
+        if ($tenantId) {
+            $items->where('movements.tenant_id', '=', $tenantId);
+        }
+        $items->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
+            ->orderBy(BasicFieldsEnum::ID, 'desc');
+        $items = $items->get();
+        return $this->getResource()->arrayToDtoItens($items->toArray());
     }
 
     public function getSumMovementsByPeriod(DatePeriodDTO $period): array
