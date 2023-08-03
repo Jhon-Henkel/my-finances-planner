@@ -13,7 +13,10 @@ class MonthlyClosingRepositoryUnitTest extends Falcon9
     public function testGetModel()
     {
         $modelMock = Mockery::mock(MonthlyClosing::class);
-        $repositoryMock = Mockery::mock(MonthlyClosingRepository::class, [$modelMock])->makePartial();
+        $repositoryMock = Mockery::mock(
+            MonthlyClosingRepository::class,
+            [$modelMock, new MonthlyClosingResource()]
+        )->makePartial();
         $repositoryMock->shouldAllowMockingProtectedMethods();
         $model = $repositoryMock->getModel();
 
@@ -24,7 +27,10 @@ class MonthlyClosingRepositoryUnitTest extends Falcon9
     public function testGetResource()
     {
         $modelMock = Mockery::mock(MonthlyClosing::class);
-        $repositoryMock = Mockery::mock(MonthlyClosingRepository::class, [$modelMock])->makePartial();
+        $repositoryMock = Mockery::mock(
+            MonthlyClosingRepository::class,
+            [$modelMock, new MonthlyClosingResource()]
+        )->makePartial();
         $repositoryMock->shouldAllowMockingProtectedMethods();
         $resource = $repositoryMock->getResource();
 

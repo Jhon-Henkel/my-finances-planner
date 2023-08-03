@@ -12,6 +12,7 @@ class MonthlyClosingVO
     public null|float $balance;
     public mixed $createdAt;
     public mixed $updatedAt;
+    public null|int $tenantId;
 
     public function __construct(
         null|int $id,
@@ -21,7 +22,8 @@ class MonthlyClosingVO
         null|float $realExpenses,
         null|float $balance,
         mixed $createdAt,
-        mixed $updatedAt
+        mixed $updatedAt,
+        null|int $tenantId = null
     ) {
         $this->id = $id;
         $this->predictedEarnings = $predictedEarnings;
@@ -31,5 +33,6 @@ class MonthlyClosingVO
         $this->balance = $balance;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->tenantId = $tenantId;
     }
 }

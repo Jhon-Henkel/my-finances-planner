@@ -26,7 +26,8 @@ class MonthlyClosingResourceUnitTest extends Falcon9
             'real_expenses' => 500.00,
             'balance' => 500.00,
             'created_at' => '2021-01-01 00:00:00',
-            'updated_at' => '2021-01-01 00:00:00'
+            'updated_at' => '2021-01-01 00:00:00',
+            'tenant_id' => 1
         ];
 
         $dto = $this->monthlyClosingResource->arrayToDto($item);
@@ -39,6 +40,7 @@ class MonthlyClosingResourceUnitTest extends Falcon9
         $this->assertEquals($item['balance'], $dto->getBalance());
         $this->assertEquals($item['created_at'], $dto->getCreatedAt());
         $this->assertEquals($item['updated_at'], $dto->getUpdatedAt());
+        $this->assertEquals($item['tenant_id'], $dto->getTenantId());
     }
 
     public function testDtoToArray()
@@ -51,7 +53,8 @@ class MonthlyClosingResourceUnitTest extends Falcon9
             500.00,
             500.00,
             '2021-01-01 00:00:00',
-            '2021-01-01 00:00:00'
+            '2021-01-01 00:00:00',
+            1
         );
 
         $item = $this->monthlyClosingResource->dtoToArray($dto);
@@ -64,6 +67,7 @@ class MonthlyClosingResourceUnitTest extends Falcon9
         $this->assertEquals($dto->getBalance(), $item['balance']);
         $this->assertEquals($dto->getCreatedAt(), $item['created_at']);
         $this->assertEquals($dto->getUpdatedAt(), $item['updated_at']);
+        $this->assertEquals($dto->getTenantId(), $item['tenant_id']);
     }
 
     public function testDtoToVo()
@@ -76,7 +80,8 @@ class MonthlyClosingResourceUnitTest extends Falcon9
             500.00,
             500.00,
             '2021-01-01 00:00:00',
-            '2021-01-01 00:00:00'
+            '2021-01-01 00:00:00',
+            2
         );
 
         $vo = $this->monthlyClosingResource->dtoToVo($dto);
@@ -89,5 +94,6 @@ class MonthlyClosingResourceUnitTest extends Falcon9
         $this->assertEquals($dto->getBalance(), $vo->balance);
         $this->assertEquals($dto->getCreatedAt(), $vo->createdAt);
         $this->assertEquals($dto->getUpdatedAt(), $vo->updatedAt);
+        $this->assertEquals($dto->getTenantId(), $vo->tenantId);
     }
 }

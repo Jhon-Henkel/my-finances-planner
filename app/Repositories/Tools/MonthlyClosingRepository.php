@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Tools;
 
+use App\DTO\Date\DatePeriodDTO;
 use App\DTO\Tools\MonthlyClosingDTO;
+use App\Enums\BasicFieldsEnum;
 use App\Models\MonthlyClosing;
 use App\Repositories\BasicRepository;
 use App\Resources\Tools\MonthlyClosingResource;
@@ -12,10 +14,10 @@ class MonthlyClosingRepository extends BasicRepository
     protected MonthlyClosing $model;
     protected MonthlyClosingResource $resource;
 
-    public function __construct(MonthlyClosing $model)
+    public function __construct(MonthlyClosing $model, MonthlyClosingResource $resource)
     {
         $this->model = $model;
-        $this->resource = app(MonthlyClosingResource::class);
+        $this->resource = $resource;
     }
 
     protected function getModel(): MonthlyClosing
@@ -28,9 +30,26 @@ class MonthlyClosingRepository extends BasicRepository
         return $this->resource;
     }
 
-    public function findLast(): null|MonthlyClosingDTO
+    public function findLast(int $tenantId): null|MonthlyClosingDTO
     {
-        $last = $this->getModel()->orderBy('id', 'desc')->first();
+        $last = $this->getModel()
+            ->query()
+            ->where('tenant_id', $tenantId)
+            ->orderBy('id', 'desc')
+            ->first();
         return $last ? $this->getResource()->arrayToDto($last->toArray()) : null;
+    }
+
+    public function findByPeriodAndTenantId(DatePeriodDTO $period, int $tenantId): array
+    {
+        $itens = $this->getModel()
+            ->query()
+            ->select()
+            ->where('created_at', '>=', $period->getStartDate())
+            ->where('created_at', '<=', $period->getEndDate())
+            ->where('tenant_id', $tenantId)
+            ->orderBy(BasicFieldsEnum::ID, 'desc')
+            ->get();
+        return $this->resource->arrayToDtoItens($itens->toArray());
     }
 }
