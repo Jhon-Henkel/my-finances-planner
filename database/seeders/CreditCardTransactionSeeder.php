@@ -80,7 +80,9 @@ class CreditCardTransactionSeeder extends Seeder
         } else {
             $month++;
         }
-        $dates[] = $thisYear . '-' . $month . '-' . rand(1, 28);
+        $month = str_pad($month, 2, '0', STR_PAD_LEFT);
+        $day = str_pad(rand(1, 28), 2, '0', STR_PAD_LEFT);
+        $dates[] = $thisYear . '-' . $month . '-' . $day;
         return rand(0, 1) ? $dates[0] : $dates[1];
     }
 }
