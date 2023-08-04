@@ -107,6 +107,18 @@ const calendarTools = {
             month = '0' + month
         }
         return explodeDate[2] + '-' + month + '-' + day
+    },
+    getNextSixMonths(thisMonth) {
+        let months = []
+        let month = parseInt(thisMonth)
+        for (let index = 0; index < 6; index++) {
+            if (month > 11) {
+                month = 0
+            }
+            months.push(month)
+            month++
+        }
+        return months
     }
 }
 export default calendarTools
