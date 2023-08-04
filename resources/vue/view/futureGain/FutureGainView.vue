@@ -256,14 +256,7 @@
         },
         async mounted() {
             this.thisMonth = CalendarTools.getThisMonth()
-            this.months = [
-                this.thisMonth,
-                this.thisMonth + 1,
-                this.thisMonth + 2,
-                this.thisMonth + 3,
-                this.thisMonth + 4,
-                this.thisMonth + 5
-            ]
+            this.months = CalendarTools.getNextSixMonths(this.thisMonth)
             await this.updateFutureGainsList()
         }
     }
