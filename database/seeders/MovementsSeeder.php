@@ -7,7 +7,7 @@ use App\Enums\MovementEnum;
 use App\Models\MovementModel;
 use App\Models\User;
 use App\Models\WalletModel;
-use App\Tools\CalendarTools;
+use App\Tools\Calendar\CalendarTools;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -94,7 +94,7 @@ class MovementsSeeder extends Seeder
     protected function getCreatedAtDates(): array
     {
         $now = CalendarTools::getDateNow()->format(DateEnum::DEFAULT_DB_DATE_FORMAT);
-        $today = (int)CalendarTools::getDayFromDate($now);
+        $today = (int)CalendarTools::getDayFromStringDate($now);
         $firstMonth = CalendarTools::getThisMonth();
         $firstYear = CalendarTools::getThisYear();
         $firstDate = $firstYear . '-' . $firstMonth . '-';

@@ -14,7 +14,7 @@ use App\Repositories\Movement\MovementRepository;
 use App\Resources\Movement\MovementResource;
 use App\Services\BasicService;
 use App\Services\WalletService;
-use App\Tools\CalendarTools;
+use App\Tools\Calendar\CalendarTools;
 
 class MovementService extends BasicService
 {
@@ -54,12 +54,9 @@ class MovementService extends BasicService
     protected function getFilter(int $option): DatePeriodDTO
     {
         return match ($option) {
-            MovementEnum::FILTER_BY_LAST_MONTH => CalendarTools::getLastMonthPeriod(
-                CalendarTools::getThisMonth(),
-                CalendarTools::getThisYear()
-            ),
-            MovementEnum::FILTER_BY_THIS_YEAR => CalendarTools::getThisYearPeriod(CalendarTools::getThisYear()),
-            default => CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear()),
+            MovementEnum::FILTER_BY_LAST_MONTH => CalendarTools::getLastMonthPeriod(),
+            MovementEnum::FILTER_BY_THIS_YEAR => CalendarTools::getThisYearPeriod(),
+            default => CalendarTools::getThisMonthPeriod(),
         };
     }
 

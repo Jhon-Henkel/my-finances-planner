@@ -8,7 +8,7 @@ use App\Repositories\CreditCard\CreditCardTransactionRepository;
 use App\Resources\CreditCard\CreditCardResource;
 use App\Services\BasicService;
 use App\Services\Movement\MovementService;
-use App\Tools\CalendarTools;
+use App\Tools\Calendar\CalendarTools;
 use App\VO\InvoiceVO;
 use Exception;
 
@@ -108,7 +108,7 @@ class CreditCardTransactionService extends BasicService
 
     public function getThisYearInvoiceSum(): float
     {
-        $period = CalendarTools::getThisYearPeriod(CalendarTools::getThisYear());
+        $period = CalendarTools::getThisYearPeriod();
         $transactions = $this->getRepository()->findByPeriod($period);
         $total = 0;
         foreach ($transactions as $transaction) {
@@ -119,7 +119,7 @@ class CreditCardTransactionService extends BasicService
 
     public function getThisMonthInvoiceSum(): float
     {
-        $period = CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
+        $period = CalendarTools::getThisMonthPeriod();
         $transactions = $this->getRepository()->findByPeriod($period);
         $total = 0;
         foreach ($transactions as $transaction) {
@@ -169,9 +169,7 @@ class CreditCardTransactionService extends BasicService
 
     public function isThisMonthInvoicePaid(int $cardId): bool
     {
-        $thisMonth = CalendarTools::getThisMonth();
-        $thisYear = CalendarTools::getThisYear();
-        $period = CalendarTools::getThisMonthPeriod($thisMonth, $thisYear);
+        $period = CalendarTools::getThisMonthPeriod();
         $isThisMonthInvoicePaid = $this->getRepository()->countByPeriod($period, $cardId);
         return $isThisMonthInvoicePaid === 0;
     }

@@ -15,6 +15,7 @@ use App\Services\FutureGainService;
 use App\Services\FutureSpentService;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\MonthlyClosingService;
+use App\Tools\Calendar\CalendarToolsReal;
 use App\VO\Chart\ChartDataVO;
 use Mockery;
 use Tests\Falcon9;
@@ -23,9 +24,12 @@ class MonthlyClosingServiceUnitTest extends Falcon9
 {
     public function testGetFilterThisYear()
     {
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
+
         $serviceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('getThisYear')->once()->andReturn('2021');
 
         $filter = $serviceMock->getFilter(MonthlyCLosingEnum::THIS_YEAR);
 
@@ -36,9 +40,12 @@ class MonthlyClosingServiceUnitTest extends Falcon9
 
     public function testGetFilterLastYear()
     {
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
+
         $serviceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('getThisYear')->once()->andReturn('2021');
 
         $filter = $serviceMock->getFilter(MonthlyCLosingEnum::LAST_YEAR);
 
@@ -49,9 +56,12 @@ class MonthlyClosingServiceUnitTest extends Falcon9
 
     public function testGetFilterLastFiveYears()
     {
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
+
         $serviceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('getThisYear')->once()->andReturn('2021');
 
         $filter = $serviceMock->getFilter(MonthlyCLosingEnum::LAST_FIVE_YEARS);
 
@@ -62,12 +72,15 @@ class MonthlyClosingServiceUnitTest extends Falcon9
 
     public function testGetFilterException()
     {
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
+
         $this->expectExceptionMessage('Opção de filtro inválida');
         $this->expectException(FilterException::class);
 
         $serviceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('getThisYear')->once()->andReturn('2021');
 
         $serviceMock->getFilter(999);
     }

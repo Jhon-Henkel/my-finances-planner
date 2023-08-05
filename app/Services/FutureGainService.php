@@ -9,7 +9,7 @@ use App\Factory\InvoiceFactory;
 use App\Repositories\FutureGainRepository;
 use App\Resources\FutureGainResource;
 use App\Services\Movement\MovementService;
-use App\Tools\CalendarTools;
+use App\Tools\Calendar\CalendarTools;
 use Exception;
 
 class FutureGainService extends BasicService
@@ -121,7 +121,7 @@ class FutureGainService extends BasicService
 
     public function getThisYearFutureGainSum(): float
     {
-        $period = CalendarTools::getThisYearPeriod(CalendarTools::getThisYear());
+        $period = CalendarTools::getThisYearPeriod();
         $gains = $this->getRepository()->findByPeriod($period);
         $total = 0;
         foreach ($gains as $gain) {
@@ -133,7 +133,7 @@ class FutureGainService extends BasicService
 
     public function getThisMonthFutureGainSum(?int $tenantId = null): float
     {
-        $period = CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
+        $period = CalendarTools::getThisMonthPeriod();
         $gains = $this->getRepository()->findByPeriod($period, $tenantId);
         $total = 0;
         foreach ($gains as $gain) {

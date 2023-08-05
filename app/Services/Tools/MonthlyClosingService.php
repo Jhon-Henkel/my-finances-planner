@@ -13,7 +13,7 @@ use App\Services\BasicService;
 use App\Services\FutureGainService;
 use App\Services\FutureSpentService;
 use App\Services\Movement\MovementService;
-use App\Tools\CalendarTools;
+use App\Tools\Calendar\CalendarTools;
 use App\VO\Chart\ChartDataVO;
 use App\VO\Chart\DatasetsVO;
 
@@ -40,18 +40,12 @@ class MonthlyClosingService extends BasicService
 
     protected function getFilter(int $filterOption): DatePeriodDTO
     {
-        $year = $this->getThisYear();
         return match ($filterOption) {
-            MonthlyCLosingEnum::THIS_YEAR => CalendarTools::getThisYearPeriod($year),
-            MonthlyCLosingEnum::LAST_YEAR => CalendarTools::getThisYearPeriod(($year - 1)),
-            MonthlyCLosingEnum::LAST_FIVE_YEARS => CalendarTools::getLastFiveYearPeriod($year),
+            MonthlyCLosingEnum::THIS_YEAR => CalendarTools::getThisYearPeriod(),
+            MonthlyCLosingEnum::LAST_YEAR => CalendarTools::getYearPeriod((CalendarTools::getThisYear() - 1)),
+            MonthlyCLosingEnum::LAST_FIVE_YEARS => CalendarTools::getLastFiveYearPeriod(),
             default => throw new FilterException('Opção de filtro inválida')
         };
-    }
-
-    protected function getThisYear(): string
-    {
-        return CalendarTools::getThisYear();
     }
 
     /**
