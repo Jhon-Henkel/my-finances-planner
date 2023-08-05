@@ -36,9 +36,11 @@ class StartDevelopProject extends Command
         system('php artisan create:user');
         $this->info('=> Running seeds...');
         system('php artisan db:seed');
+        $this->info('=> Building...');
+        system('npm run build');
         $this->info('<=== Project configured! ===>');
         $this->info('<===========================>');
-        $this->info('Access the project at http://localhost after running "npm run dev" in your Docker container');
+        $this->info('Access the project at http://localhost. For rot reload, run "npm run dev" in your container');
         $this->info('User = demo@demo.dev');
         $this->info('Password = 1234');
     }
