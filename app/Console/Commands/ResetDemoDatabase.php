@@ -7,24 +7,10 @@ use Illuminate\Console\Command;
 
 class ResetDemoDatabase extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'reset:demo-database';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Reset demo database to default values.';
 
-    /**
-     * Execute the console command.
-     */
-    public function handle()
+    public function handle(): void
     {
         $this->info('Resetting demo database...');
         app(CronController::class)->resetDatabaseDemo();
