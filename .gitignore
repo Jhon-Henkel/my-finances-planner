@@ -30,3 +30,4 @@ composer.phar
 /public/build
 coverage
 spec/coverage
+.env.bkp

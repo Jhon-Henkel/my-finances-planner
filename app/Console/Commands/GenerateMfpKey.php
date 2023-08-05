@@ -9,23 +9,9 @@ use Illuminate\Console\Command;
  */
 class GenerateMfpKey extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'key:mfp-key';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Save the MFP-key on .env file.';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
         $key = md5(uniqid()) . md5(uniqid());
