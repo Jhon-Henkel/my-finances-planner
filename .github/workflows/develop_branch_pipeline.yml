@@ -28,17 +28,17 @@ jobs:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
 
-      - name: Setup Runner Database
-        run: |
-          mysql --protocol=tcp -h localhost --port 33306 -uroot -p123 -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
-          php artisan migrate --database=mysql_testing --force
-
       - name: 📄 Making .env file
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
       - name: 🛠️ Installing dependencies
         run: composer install
+
+      - name: Setup Runner Database
+        run: |
+          mysql --protocol=tcp -h localhost --port 33306 -uroot -p123 -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
+          php artisan migrate --database=mysql_testing --force
 
       - name: 👍 Applying permissions
         run: chmod -R 777 storage bootstrap/cache
