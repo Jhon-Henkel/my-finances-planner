@@ -196,6 +196,8 @@
                         this.messageSuccess('Fatura paga com sucesso!')
                         this.showPayInvoice = false
                         await this.getCards()
+                        this.walletId = 0
+                        this.cardId = 0
                     }).catch(() => {
                         this.messageError('Erro ao pagar fatura!')
                     })
