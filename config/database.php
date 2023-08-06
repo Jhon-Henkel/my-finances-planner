@@ -65,7 +65,7 @@ return [
 
         'mysql_testing' => [
             'driver' => 'mysql',
-            'host' => env('DB_TEST_HOST', 'localhost'),
+            'host' => env('DB_TEST_HOST', 'mysql'),
             'database' => env('DB_TEST_DATABASE', 'my_finances_testing'),
             'username' => env('DB_TEST_USERNAME', 'root'),
             'password' => env('DB_TEST_PASSWORD', '123'),
