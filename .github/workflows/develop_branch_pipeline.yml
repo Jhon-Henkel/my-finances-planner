@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: kirschbaumdevelopment/laravel-test-runner:8.1
+      image: kirschbaumdevelopment/laravel-test-runner:8.2
 
     services:
-      database_test:
+      mysql_testing:
         image: mysql:5.7
         ports:
           - 33306:3306
@@ -45,7 +45,7 @@ jobs:
 
       - name: Setup Runner Database
         run: |
-          mysql --protocol=tcp -h localhost --port 33306 -uroot -p123 -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
+          mysql --protocol=tcp -h mysql_testing --port 33306 -uroot -p123 -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
           php artisan migrate --database=mysql_testing --force
 
       - name: 👍 Applying permissions
