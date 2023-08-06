@@ -11,11 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      database_test:
-        image: mysql:latest
+      mysql:
+        image: mysql:5.7
         env:
+          MYSQL_DATABASE: my_finances_testing
+          MYSQL_USER: root
+          MYSQL_PASSWORD: 123
           MYSQL_ROOT_PASSWORD: 123
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: 🔑 Configuring PHP
@@ -26,9 +31,12 @@ jobs:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
 
-      - name: Setup Runner Database
+      - name: Verify MySQL connection
         run: |
-          mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port 3306 -u root -p 123 -e "SHOW DATABASES"
+          mysql --host 127.0.0.1 --port 3306 -u root -p 123 -e "CREATE DATABASE IF NOT EXISTS my_finances_testing"
 
       - name: 📄 Making .env file
         run: |
@@ -44,6 +52,11 @@ jobs:
         run: composer run test:unit
 
       - name: ⚡️ Executing PHP Feature tests
+        env:
+          MYSQL_DATABASE: my_finances_testing
+          DB_USERNAME: root
+          DB_PASSWORD: 123
+          DB_PORT: 3306
         run: composer run test:feature
 
       - name: 🔑 Configuring Node
