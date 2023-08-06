@@ -38,7 +38,7 @@ jobs:
       - name: Setup Runner Database
         run: |
           mysql --protocol=tcp -h localhost --port 33306 -uroot -p123 -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
-          php artisan migrate --database=mysql_testing --force
+          php artisan migrate --database=my_finances_testing --force
 
       - name: 👍 Applying permissions
         run: chmod -R 777 storage bootstrap/cache
