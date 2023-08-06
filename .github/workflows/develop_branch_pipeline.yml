@@ -10,6 +10,13 @@ jobs:
   testing-application:
     runs-on: ubuntu-latest
 
+    services:
+      database_test:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: 123
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
     steps:
       - name: 🔑 Configuring PHP
         uses: shivammathur/setup-php@v2
@@ -19,10 +26,12 @@ jobs:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
 
+      - name: Setup Runner Database
+        run: |
+          mysql -u root -h 127.0.0.1 -p 123 -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
       - name: 📄 Making .env file
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
-
       - name: 🛠️ Installing dependencies
         run: composer install
 
@@ -31,6 +40,9 @@ jobs:
 
       - name: ⚡️ Executing PHP Unit tests
         run: composer run test:unit
+
+      - name: ⚡️ Executing PHP Feature tests
+        run: composer run test:feature
 
       - name: 🔑 Configuring Node
         uses: actions/setup-node@v3
