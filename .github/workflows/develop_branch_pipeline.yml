@@ -43,6 +43,16 @@ jobs:
       - name: 🛠️ Installing dependencies
         run: composer install
 
+      - name: Install additional PHP extensions
+        run: |
+          pecl install xdebug \
+          && echo "[XDEBUG]" > /usr/local/etc/php/conf.d/xdebug.ini \
+          && echo "zend_extension=\"xdebug.so\"" >> /usr/local/etc/php/conf.d/xdebug.ini \
+          && echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/xdebug.ini \
+          && echo "xdebug.client_host = 127.0.0.1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+          && echo "xdebug.client_port = 9003" >> /usr/local/etc/php/conf.d/xdebug.ini \
+          && echo "xdebug.start_with_request=trigger" >> /usr/local/etc/php/conf.d/xdebug.ini \
+
       - name: Setup Runner Database
         run: |
           php artisan migrate --database=mysql_testing --force
