@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Tools;
 
-use App\Tools\RequestTools;
+use App\Tools\Request\RequestTools;
 use Tests\Falcon9;
 
 class RequestToolsUnitTest extends Falcon9
@@ -21,7 +21,7 @@ class RequestToolsUnitTest extends Falcon9
         parent::tearDown();
     }
 
-    public function testImputPost()
+    public function testInputPost()
     {
         $_POST['abc'] = 'def';
 
@@ -29,7 +29,7 @@ class RequestToolsUnitTest extends Falcon9
         $this->assertEquals(null, RequestTools::inputPost('aaa'));
     }
 
-    public function testImputPostAll()
+    public function testInputPostAll()
     {
         $_POST['abc'] = 'def';
         $post = RequestTools::inputPostAll();
@@ -38,7 +38,7 @@ class RequestToolsUnitTest extends Falcon9
         $this->assertArrayHasKey('abc', $post);
     }
 
-    public function testImputGet()
+    public function testInputGet()
     {
         $_GET['jkl'] = 'ert';
 

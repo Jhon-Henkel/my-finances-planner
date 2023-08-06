@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\NotImplementedException;
 use App\Resources\UserResource;
 use App\Services\UserService;
-use App\Tools\RequestTools;
+use App\Tools\Request\RequestTools;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;

@@ -2,6 +2,7 @@
 
 namespace App\Tools;
 
+use App\Tools\Request\RequestTools;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\DB;
 

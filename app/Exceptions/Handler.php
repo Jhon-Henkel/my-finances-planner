@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use App\Tools\ErrorReport;
-use App\Tools\RequestTools;
+use App\Tools\Request\RequestTools;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 

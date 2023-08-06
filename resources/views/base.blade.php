@@ -1,5 +1,5 @@
 @php
-    use App\Tools\RequestTools;
+    use App\Tools\Request\RequestTools;
 @endphp
 <!DOCTYPE html>
 <html lang="pt-br">
