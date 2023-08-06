@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Enums\ConfigEnum;
 use App\Models\User;
 use App\Tools\Auth\JwtTools;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -28,6 +29,7 @@ abstract class Falcon9Feature extends BaseTestCase
             $user = DB::select($query);
         }
         $this->user = new User((array)$user[0]);
+        User::query()->where('email', $this->user->email)->update(['status' => ConfigEnum::STATUS_ACTIVE]);
         $this->apiHeaders = $this->makeHeaders();
     }
 
