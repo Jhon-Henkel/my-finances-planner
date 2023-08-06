@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Tools\RequestTools;
+use App\Tools\Request\RequestTools;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 

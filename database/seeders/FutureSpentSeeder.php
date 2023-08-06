@@ -6,8 +6,7 @@ use App\Enums\DateEnum;
 use App\Models\FutureSpent;
 use App\Models\User;
 use App\Models\WalletModel;
-use App\Tools\CalendarTools;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Tools\Calendar\CalendarTools;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

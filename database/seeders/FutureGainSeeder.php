@@ -6,7 +6,7 @@ use App\Enums\DateEnum;
 use App\Models\FutureGain;
 use App\Models\User;
 use App\Models\WalletModel;
-use App\Tools\CalendarTools;
+use App\Tools\Calendar\CalendarTools;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

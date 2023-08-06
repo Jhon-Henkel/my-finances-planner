@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\CronService;
 use App\Tools\DemoApplicationTools;
-use App\Tools\RequestTools;
+use App\Tools\Request\RequestTools;
 
 class CronController
 {

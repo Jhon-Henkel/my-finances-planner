@@ -9,7 +9,7 @@ use App\Factory\InvoiceFactory;
 use App\Repositories\FutureSpentRepository;
 use App\Resources\FutureSpentResource;
 use App\Services\Movement\MovementService;
-use App\Tools\CalendarTools;
+use App\Tools\Calendar\CalendarTools;
 use Exception;
 
 class FutureSpentService extends BasicService
@@ -127,7 +127,7 @@ class FutureSpentService extends BasicService
 
     public function getThisYearFutureSpentSum(): float
     {
-        $period = CalendarTools::getThisYearPeriod(CalendarTools::getThisYear());
+        $period = CalendarTools::getThisYearPeriod();
         $spending = $this->getRepository()->findByPeriod($period);
         $total = 0;
         foreach ($spending as $spent) {
@@ -138,7 +138,7 @@ class FutureSpentService extends BasicService
 
     public function getThisMonthFutureSpentSum(?int $tenantId = null): float
     {
-        $period = CalendarTools::getThisMonthPeriod(CalendarTools::getThisMonth(), CalendarTools::getThisYear());
+        $period = CalendarTools::getThisMonthPeriod();
         $spending = $this->getRepository()->findByPeriod($period, $tenantId);
         $total = 0;
         foreach ($spending as $spent) {

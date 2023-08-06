@@ -10,8 +10,8 @@ use App\Services\Log\AccessLogService;
 use App\Services\Mail\MailService;
 use App\Services\UserService;
 use App\Tools\Auth\JwtTools;
-use App\Tools\CalendarTools;
-use App\Tools\RequestTools;
+use App\Tools\Calendar\CalendarTools;
+use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService

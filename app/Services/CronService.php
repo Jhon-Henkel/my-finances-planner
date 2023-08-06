@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Tools\RequestTools;
+use App\Tools\Request\RequestTools;
 use Cronitor;
 
 class CronService

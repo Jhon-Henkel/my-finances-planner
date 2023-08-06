@@ -2,7 +2,8 @@
 
 namespace Tests\Unit\Tools;
 
-use App\Tools\CalendarTools;
+use App\Tools\Calendar\CalendarTools;
+use App\Tools\Calendar\CalendarToolsReal;
 use Exception;
 use Mockery;
 use Tests\Falcon9;
@@ -67,7 +68,7 @@ class CalendarToolsUnitTest extends Falcon9
 
     public function testUsToBrDate()
     {
-        $date = CalendarTools::usToBrDate('2022-12-01 15:10:50');
+        $date = CalendarTools::stringUsToBrDate('2022-12-01 15:10:50');
 
         $this->assertEquals('01/12/2022 15:10:50', $date);
     }
@@ -97,7 +98,7 @@ class CalendarToolsUnitTest extends Falcon9
      */
     public function testGetMonthFromDate(string $date, string $expected)
     {
-        $this->assertEquals($expected, CalendarTools::getMonthFromDate($date));
+        $this->assertEquals($expected, CalendarTools::getMonthFromStringDate($date));
     }
 
     public static function dataProviderTestGetMonthFromDate(): array
@@ -124,7 +125,7 @@ class CalendarToolsUnitTest extends Falcon9
      */
     public function testGetDayFromData(string $date, string $expected)
     {
-        $this->assertEquals($expected, CalendarTools::getDayFromDate($date));
+        $this->assertEquals($expected, CalendarTools::getDayFromStringDate($date));
     }
 
     public static function dataProviderTestGetDayFromData(): array
@@ -174,7 +175,12 @@ class CalendarToolsUnitTest extends Falcon9
      */
     public function testGetThisMonthPeriod($expectedDateStart, $expectedDateEnd, $month, $year)
     {
-        $date = CalendarTools::getThisMonthPeriod($month, $year);
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisMonth')->andReturn($month);
+        $calendarMock->shouldReceive('getThisYear')->andReturn($year);
+
+        $date = $calendarMock->getThisMonthPeriod();
+
         $this->assertEquals($expectedDateStart, $date->getStartDate());
         $this->assertEquals($expectedDateEnd, $date->getEndDate());
     }
@@ -199,9 +205,21 @@ class CalendarToolsUnitTest extends Falcon9
 
     public function testGetThisYearPeriod()
     {
-        $date = CalendarTools::getThisYearPeriod(2023);
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisYear')->andReturn(2023);
+
+        $date = $calendarMock->getThisYearPeriod();
         $this->assertEquals("2023-01-01 00:00:00", $date->getStartDate());
         $this->assertEquals("2023-12-31 23:59:59", $date->getEndDate());
+    }
+
+    public function testGetYearPeriod()
+    {
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+
+        $date = $calendarMock->getYearPeriod(2022);
+        $this->assertEquals("2022-01-01 00:00:00", $date->getStartDate());
+        $this->assertEquals("2022-12-31 23:59:59", $date->getEndDate());
     }
 
     /**
@@ -214,7 +232,12 @@ class CalendarToolsUnitTest extends Falcon9
      */
     public function testGetLastMonthPeriod($expectedDateStart, $expectedDateEnd, $month, $year)
     {
-        $date = CalendarTools::getLastMonthPeriod($month, $year);
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisMonth')->andReturn($month);
+        $calendarMock->shouldReceive('getThisYear')->andReturn($year);
+
+        $date = $calendarMock->getLastMonthPeriod();
+
         $this->assertEquals($expectedDateStart, $date->getStartDate());
         $this->assertEquals($expectedDateEnd, $date->getEndDate());
     }
@@ -312,7 +335,7 @@ class CalendarToolsUnitTest extends Falcon9
 
     public function testGetYearFromDate()
     {
-        $this->assertEquals('2022', CalendarTools::getYearFromDate('2022-01-01 00:00:00'));
+        $this->assertEquals('2022', CalendarTools::getYearFromStringDate('2022-01-01 00:00:00'));
     }
 
     public function testGetMonthPeriodFromDate()

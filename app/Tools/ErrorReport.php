@@ -2,6 +2,7 @@
 
 namespace App\Tools;
 
+use App\Tools\Request\RequestTools;
 use Throwable;
 
 class ErrorReport

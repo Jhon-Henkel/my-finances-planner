@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Enums\ConfigEnum;
+use App\Models\User;
 use Tests\Falcon9Feature;
 
 class AuthApiTest extends Falcon9Feature
@@ -42,5 +44,18 @@ class AuthApiTest extends Falcon9Feature
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertIsArray(json_decode($response->getContent()));
+    }
+
+    public function testWithInactiveUser()
+    {
+        User::query()->where('email', $this->user->email)->update(['status' => ConfigEnum::STATUS_INACTIVE]);
+
+        $headers = $this->apiHeaders;
+
+        $response = $this->get('/api/wallet', $headers);
+
+        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertEquals('Tokens obrigatórios ausentes ou inválidos!', json_decode($response->getContent()));
+
     }
 }
