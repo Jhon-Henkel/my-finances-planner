@@ -36,6 +36,7 @@ jobs:
       - name: 📄 Making .env file
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
+
       - name: 🛠️ Installing dependencies
         run: composer install
 
