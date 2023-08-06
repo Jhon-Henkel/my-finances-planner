@@ -30,7 +30,7 @@ jobs:
 
       - name: Setup Runner Database
         run: |
-          mysql --protocol=tcp -h localhost --port 33306 -uroot -ppassword -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
+          mysql --protocol=tcp -h localhost --port 33306 -uroot -p123 -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
 
       - name: 📄 Making .env file
         run: |
