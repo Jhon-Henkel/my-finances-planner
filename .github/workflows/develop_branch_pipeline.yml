@@ -12,12 +12,17 @@ jobs:
 
     services:
       database_test:
-        image: mysql:latest
+        image: mysql:5.7
         ports:
           - 33306:3306
         env:
           MYSQL_ROOT_PASSWORD: 123
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+          MYSQL_DATABASE: my_finances_testing
+        options:
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: 🔑 Configuring PHP
