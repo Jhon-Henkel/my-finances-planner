@@ -13,6 +13,8 @@ jobs:
     services:
       database_test:
         image: mysql:latest
+        ports:
+          - 33306:3306
         env:
           MYSQL_ROOT_PASSWORD: 123
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
@@ -28,7 +30,8 @@ jobs:
 
       - name: Setup Runner Database
         run: |
-          mysql -u root -h 127.0.0.1 -p 123 -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
+          mysql --protocol=tcp -h localhost --port 33306 -uroot -ppassword -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
+
       - name: 📄 Making .env file
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
