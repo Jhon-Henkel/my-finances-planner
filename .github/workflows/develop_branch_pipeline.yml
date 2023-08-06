@@ -10,6 +10,9 @@ jobs:
   testing-application:
     runs-on: ubuntu-latest
 
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.1
+
     services:
       database_test:
         image: mysql:5.7
