@@ -31,6 +31,7 @@ jobs:
       - name: Setup Runner Database
         run: |
           mysql --protocol=tcp -h localhost --port 33306 -uroot -p123 -e 'CREATE DATABASE IF NOT EXISTS my_finances_testing;'
+          php artisan migrate --database=mysql_testing --force
 
       - name: 📄 Making .env file
         run: |
