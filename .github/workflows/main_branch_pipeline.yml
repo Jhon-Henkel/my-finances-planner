@@ -43,11 +43,8 @@ jobs:
     - name: 👍 Applying permissions
       run: chmod -R 777 storage bootstrap/cache
 
-    - name: ⚡️ Executing PHP Unit tests
-      run: composer run test:unit
-
-    - name: ⚡️ Executing PHP Feature tests
-      run: composer run test:feature
+    - name: ⚡️ Executing PHP test coverage
+      run: composer run test:coverage
 
     - name: 🏷 Making coverage badge
       uses: timkrase/phpunit-coverage-badge@v1.2.1
