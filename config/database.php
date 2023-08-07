@@ -65,10 +65,10 @@ return [
 
         'mysql_testing' => [
             'driver' => 'mysql',
-            'host' => env('DB_TEST_HOST', '127.0.0.1'),
-            'database' => env('DB_TEST_DATABASE', 'forge'),
-            'username' => env('DB_TEST_USERNAME', 'forge'),
-            'password' => env('DB_TEST_PASSWORD', ''),
+            'host' => env('DB_TEST_HOST', 'mysql'),
+            'database' => env('DB_TEST_DATABASE', 'my_finances_testing'),
+            'username' => env('DB_TEST_USERNAME', 'root'),
+            'password' => env('DB_TEST_PASSWORD', '123'),
             'port' => env('DB_TEST_PORT', '3306'),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
