@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: Jhon-Henkel/my-finances-planner:latest
+      image: kirschbaumdevelopment/laravel-test-runner:8.2
 
     services:
       mysql:
@@ -51,7 +51,7 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: ⚡️ Executing PHP Unit tests
-        run: composer run test:unit
+        run: phpdbg -dmemory_limit=1G -qrr vendor/bin/phpunit ./tests/Unit --coverage-clover ./clover.xml --coverage-text
 
       - name: ⚡️ Executing PHP Feature tests
         run: composer run test:feature
