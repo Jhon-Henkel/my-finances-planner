@@ -25,7 +25,7 @@ Forma mais rápida de iniciar o projeto:
 Caso precise configurar o projeto manualmente, leia o arquivo de [primeiros passos](https://github.com/Jhon-Henkel/my-finances-planner/blob/main/.docs/FIRST_STEPS.md).
 
 ## Monitoramentos
-- **Erros**: Para monitoramento de erros estou utilizando o [honeybadger](https://app.honeybadger.io/), para configurar basta popular 
+- **Erros**: Para monitoramento de erros estou utilizando o [honeybadger](https://www.honeybadger.io/), para configurar basta popular 
 a variável **HONEYBADGER_API_KEY** com a chave de acesso da sua conta.
 - **Cron**: Para monitoramento de cron estou utilizando o [cronitor](https://cronitor.io/), para configura, basta popular
 a variável **CRONITOR_API_KEY** com a chave de acesso da sua conta.

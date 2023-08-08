@@ -183,4 +183,14 @@
     .text-button-login {
         font-size: 20px;
     }
+    @media (max-width: 1000px) {
+        .login-box {
+            width: 100%;
+            margin: auto 50 auto auto;
+            top: 0;
+            padding: 0;
+            height:auto;
+            max-width: 100%;
+        }
+    }
 </style>
