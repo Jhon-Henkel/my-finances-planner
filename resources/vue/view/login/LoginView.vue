@@ -186,7 +186,7 @@
     @media (max-width: 1000px) {
         .login-box {
             width: 100%;
-            margin: auto 50 auto auto;
+            margin-top: 50%;
             top: 0;
             padding: 0;
             height:auto;
