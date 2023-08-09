@@ -33,4 +33,13 @@
     .loading-container {
         margin: 30% auto auto 50%;
     }
+    @media (max-width: 1000px) {
+        .loading-container {
+            margin: 100% auto auto 50%;
+            max-width: 50%;
+            min-width: 50%;
+            max-height: 50%;
+            min-height: 50%;
+        }
+    }
 </style>
