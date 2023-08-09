@@ -364,13 +364,41 @@
         top: 25%;
         position: relative;
     }
-    @media (max-width: 420px) {
-        .sidebar li .tooltip {
-            display: none;
-        }
-    }
     .portfolio-link {
         color: #04fac9;
         text-decoration: none;
+    }
+    @media (max-width: 1000px) {
+        .sidebar li .tooltip {
+            display: none;
+        }
+        .sidebar.open {
+            width: 100%;
+            height: 100%;
+            background: #11101d;
+            border-radius: 0;
+        }
+        .sidebar.open hr {
+            width: 80%;
+            height: 8px;
+            border: 0;
+            border-radius: 0 15px 15px 0;
+            background-color: #04fac9;
+        }
+        .sidebar {
+            height: 50px;
+            background: transparent;
+        }
+        .sidebar hr {
+            display: none;
+        }
+        .sidebar div.sidebar-footer {
+            display: none;
+        }
+        .sidebar.open div.sidebar-footer {
+            display: flex;
+            width: 100%;
+        }
+
     }
 </style>
