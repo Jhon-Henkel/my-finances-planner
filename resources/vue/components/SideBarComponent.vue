@@ -388,6 +388,7 @@
         .sidebar {
             height: 50px;
             background: transparent;
+            border-radius: 0 0 15px 0;
         }
         .sidebar hr {
             display: none;

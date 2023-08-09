@@ -100,3 +100,12 @@ table tr:first-child th {
     background-color: transparent !important;
     color: #ffffff;
 }
+
+@media (max-width: 1000px) {
+    body {
+        padding-left: 0 !important;
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
