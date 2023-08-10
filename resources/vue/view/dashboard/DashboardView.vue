@@ -64,7 +64,7 @@
             </div>
             <div class="row mt-4 ms-1">
                 <div class="col-4">
-                    <div class="card glass success">
+                    <div class="card glass success last-movements-card">
                         <div class="card-body text-center">
                             <h4 class="card-title">
                                 <font-awesome-icon :icon="iconEnum.sackDollar()" class="me-2"/>
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-8 glass success"  style="width: 63%">
+                <div class="col-8 glass success graph-card"  style="width: 63%">
                     <bar-chart id="graph-movement" :graph-options="graphOptions" :chart-data="chartData" />
                 </div>
             </div>
@@ -292,5 +292,23 @@
     }
     .transfer-icon {
         color: $info-icon-color;
+    }
+    @media (max-width: 1000px) {
+        .card {
+            width: 100%;
+            margin: auto auto 25px -10px;
+        }
+        .balance-card {
+            width: 95%;
+            margin-top: -15px;
+        }
+        .last-movements-card {
+            margin-top: -15px;
+        }
+        .graph-card {
+            margin-top: 5px;
+            width: 95% !important;
+            height: 180px !important;
+        }
     }
 </style>
