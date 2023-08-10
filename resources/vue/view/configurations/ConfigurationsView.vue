@@ -4,7 +4,7 @@
         <loading-component v-show="loadingDone === 0"/>
         <div v-show="loadingDone === 1">
             <div class="nav mt-2 justify-content-end">
-                <mfp-title :title="'Configurações do usuário'"/>
+                <mfp-title :title="'Configurações'"/>
             </div>
             <divider/>
             <input-money :value="user.salary" :title="'Salário Bruto'" @input-money="user.salary = $event"/>
