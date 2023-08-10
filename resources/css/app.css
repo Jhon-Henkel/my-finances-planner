@@ -108,4 +108,7 @@ table tr:first-child th {
         min-width: 100%;
         max-width: 100%;
     }
+    .base-container {
+        margin-top: 15px;
+    }
 }

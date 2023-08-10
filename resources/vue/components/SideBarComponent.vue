@@ -372,6 +372,13 @@
         .sidebar li .tooltip {
             display: none;
         }
+        .sidebar.glass {
+            background-color: transparent;
+            box-shadow: none;
+            border-radius: 0;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
         .sidebar.open {
             width: 100%;
             height: 100%;
@@ -387,6 +394,7 @@
         }
         .sidebar {
             height: 50px;
+            width: 65px;
             background: transparent;
             border-radius: 0 0 15px 0;
         }
