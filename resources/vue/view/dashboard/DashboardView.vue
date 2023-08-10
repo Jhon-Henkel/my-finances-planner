@@ -34,18 +34,18 @@
                         <hr>
                         <div class="card-text">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-4 last-month-balance">
                                     <h6>Ultimo mês</h6>
                                 </div>
                                 <div class="col-4">
                                     <h6>Este mês</h6>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-4 this-year-balance">
                                     <h6>Este ano</h6>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-4 last-month-balance">
                                     {{ StringTools.formatFloatValueToBrString(balance.lastMonth) }}
                                     <alert-icon v-if="balance.lastMonth < 0"/>
                                 </div>
@@ -53,7 +53,7 @@
                                     {{ StringTools.formatFloatValueToBrString(balance.thisMonth) }}
                                     <alert-icon v-if="balance.thisMonth < 0"/>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-4 this-year-balance">
                                     {{ StringTools.formatFloatValueToBrString(balance.thisYear) }}
                                     <alert-icon v-if="balance.thisYear < 0"/>
                                 </div>
@@ -309,6 +309,10 @@
             margin-top: 5px;
             width: 95% !important;
             height: 180px !important;
+        }
+        .this-year-balance,
+        .last-month-balance {
+            display: none;
         }
     }
 </style>
