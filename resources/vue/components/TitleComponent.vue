@@ -19,4 +19,9 @@
     .title {
         margin: auto auto auto 0
     }
+    @media (max-width: 1000px) {
+        .title {
+            margin: auto auto auto 70px;
+        }
+    }
 </style>
