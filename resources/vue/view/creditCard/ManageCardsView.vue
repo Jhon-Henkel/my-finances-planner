@@ -4,62 +4,64 @@
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
-                <mfp-title :title="'Cartões'"/>
-                <router-link class="btn btn-success rounded-5 me-2" to="/gerenciar-cartoes/cadastrar">
+                <mfp-title title="Cartões"/>
+                <router-link class="btn btn-success rounded-5 top-button" to="/gerenciar-cartoes/cadastrar">
                     <font-awesome-icon :icon="iconEnum.creditCard()" class="me-2"/>
                     Novo Cartão
                 </router-link>
-                <router-link class="btn btn-success rounded-5" to="/gerenciar-cartoes/despesa/cadastrar">
+                <router-link class="btn btn-success rounded-5 ms-2 top-button" to="/gerenciar-cartoes/despesa/cadastrar">
                     <font-awesome-icon :icon="iconEnum.expense()" class="me-2"/>
                     Nova despesa
                 </router-link>
             </div>
             <divider/>
-            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                <thead class="table-dark text-center">
-                    <tr>
-                        <th scope="col"><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
-                        <th scope="col">Cartão</th>
-                        <th scope="col">Limite</th>
-                        <th scope="col">Limite Restante</th>
-                        <th scope="col">Fecha Dia</th>
-                        <th scope="col">Valor Fatura</th>
-                        <th scope="col">Ações</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    <tr v-show="cards.length === 0">
-                        <td colspan="7">Nenhum cartão cadastrado ainda!</td>
-                    </tr>
-                    <tr v-for="card in cards" :key="card.id">
-                        <td>
-                            <span class="badge rounded-5"
-                                  :class="getBadgeTypeForForecastDate(card)"
-                                  :title="getTitleForForecastDate(card)">
-                                {{ card.dueDate }}
-                            </span>
-                        </td>
-                        <td>{{ card.name }}</td>
-                        <td>{{ stringTools.formatFloatValueToBrString(card.limit) }}</td>
-                        <td>{{ stringTools.formatFloatValueToBrString(card.limit - card.totalValueSpending) }}</td>
-                        <td>{{ card.closingDay }}</td>
-                        <td>{{ stringTools.formatFloatValueToBrString(card.nextInvoiceValue) }}</td>
-                        <td>
-                            <action-buttons :delete-tooltip="'Deletar Cartão'"
-                                            :tooltip-edit="'Editar Cartão'"
-                                            :info-tooltip="'Consultar Faturas'"
-                                            :info-to="'/gerenciar-cartoes/fatura-cartao/' + card.id"
-                                            :show-info-button="true"
-                                            :edit-to="'/gerenciar-cartoes/' + card.id + '/atualizar'"
-                                            @delete-clicked="deleteCard(card.id, card.name)"/>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive-lg">
+                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                    <thead class="table-dark text-center">
+                        <tr>
+                            <th scope="col"><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
+                            <th scope="col">Cartão</th>
+                            <th scope="col">Limite</th>
+                            <th scope="col">Limite Restante</th>
+                            <th scope="col">Fecha Dia</th>
+                            <th scope="col">Valor Fatura</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr v-show="cards.length === 0">
+                            <td colspan="7">Nenhum cartão cadastrado ainda!</td>
+                        </tr>
+                        <tr v-for="card in cards" :key="card.id">
+                            <td>
+                                <span class="badge rounded-5"
+                                      :class="getBadgeTypeForForecastDate(card)"
+                                      :title="getTitleForForecastDate(card)">
+                                    {{ card.dueDate }}
+                                </span>
+                            </td>
+                            <td>{{ card.name }}</td>
+                            <td>{{ stringTools.formatFloatValueToBrString(card.limit) }}</td>
+                            <td>{{ stringTools.formatFloatValueToBrString(card.limit - card.totalValueSpending) }}</td>
+                            <td>{{ card.closingDay }}</td>
+                            <td>{{ stringTools.formatFloatValueToBrString(card.nextInvoiceValue) }}</td>
+                            <td>
+                                <action-buttons :delete-tooltip="'Deletar Cartão'"
+                                                :tooltip-edit="'Editar Cartão'"
+                                                :info-tooltip="'Consultar Faturas'"
+                                                :info-to="'/gerenciar-cartoes/fatura-cartao/' + card.id"
+                                                :show-info-button="true"
+                                                :edit-to="'/gerenciar-cartoes/' + card.id + '/atualizar'"
+                                                @delete-clicked="deleteCard(card.id, card.name)"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <divider/>
             <div>
                 <div class="input-group mb-3">
-                    <button class="btn btn-success"
+                    <button class="btn btn-success show-pay-options"
                             :class="showPayInvoice ? '' : 'rounded-5'"
                             @click="showPayInvoice = !showPayInvoice">
                         <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
@@ -77,7 +79,7 @@
                             {{ wallet.name }}
                         </option>
                     </select>
-                    <button class="btn btn-success" type="button" v-show="showPayInvoice" @click="payNextInvoice">
+                    <button class="btn btn-success pay-button" type="button" v-show="showPayInvoice" @click="payNextInvoice">
                         <font-awesome-icon :icon="iconEnum.check()" class="me-2"/>
                         Pagar
                     </button>
@@ -210,3 +212,34 @@
         }
     }
 </script>
+
+<style scoped>
+    @media (max-width: 1000px) {
+        .nav {
+            flex-direction: column;
+        }
+        .top-button {
+            margin-top: 10px;
+            border-radius: 8px !important;
+        }
+        .ms-2 {
+            margin-left: 0 !important;
+        }
+        .input-group {
+            flex-direction: column;
+        }
+        .form-select {
+            margin-bottom: 10px;
+            width: 100%;
+            border-radius: 8px !important;
+        }
+        .pay-button,
+        .show-pay-options {
+            width: 100%;
+            border-radius: 8px !important;
+        }
+        .show-pay-options {
+            margin-bottom: 10px;
+        }
+    }
+</style>

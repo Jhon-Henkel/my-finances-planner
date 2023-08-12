@@ -52,3 +52,11 @@
         }
     }
 </script>
+
+<style scoped>
+    @media (max-width: 1000px) {
+        .rounded-5 {
+            border-radius: 8px !important;
+        }
+    }
+</style>

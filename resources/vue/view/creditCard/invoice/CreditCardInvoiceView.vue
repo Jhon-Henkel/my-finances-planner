@@ -7,63 +7,66 @@
                 <mfp-title :title="title"/>
                 <router-link-button title="Voltar" :icon="iconEnum.back()"
                                     redirect-to="/gerenciar-cartoes"
-                                    class="me-2"/>
+                                    class="top-button"/>
                 <router-link-button title="Nova despesa"
                                     :icon="iconEnum.expense()"
-                                    :redirect-to="'/gerenciar-cartoes/despesa/' + cardId + '/cadastrar'"/>
+                                    :redirect-to="'/gerenciar-cartoes/despesa/' + cardId + '/cadastrar'"
+                                    class="ms-2 top-button"/>
             </div>
             <divider/>
-            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                <thead class="table-dark text-center">
-                    <tr>
-                        <th scope="col">Descrição</th>
-                        <th scope="col" v-for="(month, index) in months" :key="index">
-                            {{ calendarTools.getMonthNameByNumber(month) }}
-                        </th>
-                        <th scope="col">Restam</th>
-                        <th scope="col">Ações</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    <tr v-show="invoices.length === 0">
-                        <td colspan="9">Nenhuma despesa cadastrada ainda!</td>
-                    </tr>
-                    <tr v-for="expense in invoices" :key="expense.id">
-                        <td>{{ expense.name }}</td>
-                        <td>{{ formatValueToBr(expense.firstInstallment) }}</td>
-                        <td>{{ formatValueToBr(expense.secondInstallment) }}</td>
-                        <td>{{ formatValueToBr(expense.thirdInstallment) }}</td>
-                        <td>{{ formatValueToBr(expense.forthInstallment) }}</td>
-                        <td>{{ formatValueToBr(expense.fifthInstallment) }}</td>
-                        <td>{{ formatValueToBr(expense.sixthInstallment) }}</td>
-                        <td v-if="expense.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
-                        <td v-else v-tooltip="formatValueToBr(expense.totalRemainingValue)">
-                            {{ expense.remainingInstallments }}
-                        </td>
-                        <td>
-                            <action-buttons :delete-tooltip="'Deletar Fatura'"
-                                            :tooltip-edit="'Editar Fatura'"
-                                            :edit-to="'/gerenciar-cartoes/despesa/' + expense.id + '/atualizar'"
-                                            @delete-clicked="deleteExpense(expense.id, expense.name)"/>
-                        </td>
-                    </tr>
-                    <tr class="border-table">
-                        <td>Total</td>
-                        <td>{{ formatValueToBr(totalPerMonth.firstMonth) }}</td>
-                        <td>{{ formatValueToBr(totalPerMonth.secondMonth) }}</td>
-                        <td>{{ formatValueToBr(totalPerMonth.thirdMonth) }}</td>
-                        <td>{{ formatValueToBr(totalPerMonth.forthMonth) }}</td>
-                        <td>{{ formatValueToBr(totalPerMonth.fifthMonth) }}</td>
-                        <td>{{ formatValueToBr(totalPerMonth.sixthMonth) }}</td>
-                        <td>{{ formatValueToBr(totalPerMonth.totalRemaining) }}</td>
-                        <td>-</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive-lg">
+                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                    <thead class="table-dark text-center">
+                        <tr>
+                            <th scope="col">Descrição</th>
+                            <th scope="col" v-for="(month, index) in months" :key="index">
+                                {{ calendarTools.getMonthNameByNumber(month) }}
+                            </th>
+                            <th scope="col">Restam</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr v-show="invoices.length === 0">
+                            <td colspan="9">Nenhuma despesa cadastrada ainda!</td>
+                        </tr>
+                        <tr v-for="expense in invoices" :key="expense.id">
+                            <td>{{ expense.name }}</td>
+                            <td>{{ formatValueToBr(expense.firstInstallment) }}</td>
+                            <td>{{ formatValueToBr(expense.secondInstallment) }}</td>
+                            <td>{{ formatValueToBr(expense.thirdInstallment) }}</td>
+                            <td>{{ formatValueToBr(expense.forthInstallment) }}</td>
+                            <td>{{ formatValueToBr(expense.fifthInstallment) }}</td>
+                            <td>{{ formatValueToBr(expense.sixthInstallment) }}</td>
+                            <td v-if="expense.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
+                            <td v-else v-tooltip="formatValueToBr(expense.totalRemainingValue)">
+                                {{ expense.remainingInstallments }}
+                            </td>
+                            <td>
+                                <action-buttons :delete-tooltip="'Deletar Fatura'"
+                                                :tooltip-edit="'Editar Fatura'"
+                                                :edit-to="'/gerenciar-cartoes/despesa/' + expense.id + '/atualizar'"
+                                                @delete-clicked="deleteExpense(expense.id, expense.name)"/>
+                            </td>
+                        </tr>
+                        <tr class="border-table">
+                            <td>Total</td>
+                            <td>{{ formatValueToBr(totalPerMonth.firstMonth) }}</td>
+                            <td>{{ formatValueToBr(totalPerMonth.secondMonth) }}</td>
+                            <td>{{ formatValueToBr(totalPerMonth.thirdMonth) }}</td>
+                            <td>{{ formatValueToBr(totalPerMonth.forthMonth) }}</td>
+                            <td>{{ formatValueToBr(totalPerMonth.fifthMonth) }}</td>
+                            <td>{{ formatValueToBr(totalPerMonth.sixthMonth) }}</td>
+                            <td>{{ formatValueToBr(totalPerMonth.totalRemaining) }}</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <divider/>
             <div>
                 <div class="input-group mb-3">
-                    <button class="btn btn-success"
+                    <button class="btn btn-success show-pay-options"
                             :class="showPayInvoice ? '' : 'rounded-5'"
                             @click="showPayInvoice = !showPayInvoice">
                         <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
@@ -75,7 +78,7 @@
                             {{ wallet.name }}
                         </option>
                     </select>
-                    <button class="btn btn-success" type="button" v-show="showPayInvoice" @click="payNextInvoice">
+                    <button class="btn btn-success pay-button" type="button" v-show="showPayInvoice" @click="payNextInvoice">
                         <font-awesome-icon :icon="iconEnum.check()" class="me-2"/>
                         Pagar
                     </button>
@@ -228,5 +231,33 @@
 
     .border-table {
         border-top: 2px solid $table-line-divider-color;
+    }
+    @media (max-width: 1000px) {
+        .nav {
+            flex-direction: column;
+        }
+        .top-button {
+            margin-top: 10px;
+            border-radius: 8px !important;
+        }
+        .ms-2 {
+            margin-left: 0 !important;
+        }
+        .input-group {
+            flex-direction: column;
+        }
+        .form-select {
+            margin-bottom: 10px;
+            width: 100%;
+            border-radius: 8px !important;
+        }
+        .pay-button,
+        .show-pay-options {
+            width: 100%;
+            border-radius: 8px !important;
+        }
+        .show-pay-options {
+            margin-bottom: 10px;
+        }
     }
 </style>
