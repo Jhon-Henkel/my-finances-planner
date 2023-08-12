@@ -5,66 +5,74 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Ganhos Futuros'"/>
-                <router-link class="btn btn-success rounded-5" to="/ganhos-futuros/cadastrar">
+                <router-link class="btn btn-success rounded-5 top-button" to="/ganhos-futuros/cadastrar">
                     <font-awesome-icon :icon="iconEnum.sackDollar()" class="me-2"/>
                     Novo Ganho Futuro
                 </router-link>
             </div>
             <divider/>
-            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                <thead class="table-dark">
-                    <tr class="text-center">
-                        <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
-                        <th>Descrição</th>
-                        <th>Carteira</th>
-                        <th scope="col" v-for="(month, index) in months" :key="index">
-                            {{ calendarTools.getMonthNameByNumber(month) }}
-                        </th>
-                        <th>Restam</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-show="futureGains.length === 0" class="text-center">
-                        <td colspan="11">Nenhum ganho cadastrado ainda!</td>
-                    </tr>
-                    <tr v-for="gain in futureGains" :key="gain.id" class="text-center">
-                        <td>{{ gain.nextInstallmentDay }}</td>
-                        <td>{{ gain.name }}</td>
-                        <td>{{ gain.countName }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(gain.firstInstallment) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(gain.secondInstallment) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(gain.thirdInstallment) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(gain.forthInstallment) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(gain.fifthInstallment) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(gain.sixthInstallment) }}</td>
-                        <td v-if="gain.remainingInstallments === 0" v-tooltip="'Ganho Fixo'">Fixo</td>
-                        <td v-else v-tooltip="StringTools.formatFloatValueToBrString(gain.totalRemainingValue)">
-                            {{ gain.remainingInstallments }}
-                        </td>
-                        <td class="text-center">
-                            <action-buttons
-                                :delete-tooltip="'Deletar Ganho'"
-                                :tooltip-edit="'Editar Ganho'"
-                                :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar'"
-                                :check-button="showCheckButton(gain)"
-                                :check-tooltip="'Marcar próxima como recebido'"
-                                @delete-clicked="deleteGain(gain.id, gain.name)"
-                                @check-clicked="showReceiveGainForm(gain.id, gain.countId, getNextGainValue(gain), gain.name)"/>
-                        </td>
-                    </tr>
-                    <tr class="text-center border-table">
-                        <td colspan="3">Total</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.firstMonth) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.secondMonth) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.thirdMonth) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.forthMonth) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.fifthMonth) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.sixthMonth) }}</td>
-                        <td colspan="2"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive-lg">
+                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                    <thead class="table-dark">
+                        <tr class="text-center">
+                            <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
+                            <th>Descrição</th>
+                            <th>Carteira</th>
+                            <th scope="col" v-for="(month, index) in months" :key="index">
+                                {{ calendarTools.getMonthNameByNumber(month) }}
+                            </th>
+                            <th>Restam</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-show="futureGains.length === 0" class="text-center">
+                            <td colspan="11">Nenhum ganho cadastrado ainda!</td>
+                        </tr>
+                        <tr v-for="gain in futureGains" :key="gain.id" class="text-center">
+                            <td>{{ gain.nextInstallmentDay }}</td>
+                            <td>{{ gain.name }}</td>
+                            <td>{{ gain.countName }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(gain.firstInstallment) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(gain.secondInstallment) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(gain.thirdInstallment) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(gain.forthInstallment) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(gain.fifthInstallment) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(gain.sixthInstallment) }}</td>
+                            <td v-if="gain.remainingInstallments === 0" v-tooltip="'Ganho Fixo'">Fixo</td>
+                            <td v-else v-tooltip="StringTools.formatFloatValueToBrString(gain.totalRemainingValue)">
+                                {{ gain.remainingInstallments }}
+                            </td>
+                            <td class="text-center">
+                                <action-buttons
+                                    :delete-tooltip="'Deletar Ganho'"
+                                    :tooltip-edit="'Editar Ganho'"
+                                    :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar'"
+                                    :check-button="showCheckButton(gain)"
+                                    :check-tooltip="'Marcar próxima como recebido'"
+                                    @delete-clicked="deleteGain(gain.id, gain.name)"
+                                    @check-clicked="showReceiveGainForm(
+                                        gain.id,
+                                        gain.countId,
+                                        getNextGainValue(gain),
+                                        gain.name
+                                    )"
+                                />
+                            </td>
+                        </tr>
+                        <tr class="text-center border-table">
+                            <td colspan="3">Total</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.firstMonth) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.secondMonth) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.thirdMonth) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.forthMonth) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.fifthMonth) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.sixthMonth) }}</td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <pay-receive :show-pay-receive="showReceiveGain"
                          :value="receiveGainValue"
                          :check-tooltip="'Receber Ganho'"
@@ -276,5 +284,17 @@
     }
     .card-text {
         font-size: 1.5rem;
+    }
+    @media (max-width: 1000px) {
+        .nav {
+            flex-direction: column;
+        }
+        .top-button {
+            margin-top: 10px;
+            border-radius: 8px !important;
+        }
+        .balance-card {
+            width: 97%;
+        }
     }
 </style>
