@@ -4,10 +4,16 @@
         <loading-component v-show="loadingDone === false" />
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
-                <mfp-title :title="'Movimentações'" class="title"/>
+                <mfp-title title="Movimentações"/>
                 <filter-top-right :filter="filterList" @callbackMethod="getMovementIndexFiltered($event)"/>
-                <router-link-button :title="'Novo Gasto/Ganho'" :icon="iconEnum.movement()" :redirect-to="newGainSpentLink" class="top-button me-2"/>
-                <router-link-button :title="'Nova Transferência'" :icon="iconEnum.buildingColumns()" :redirect-to="newTransferLink" class="top-button"/>
+                <router-link-button title="Novo Gasto/Ganho"
+                                    :icon="iconEnum.movement()"
+                                    :redirect-to="newGainSpentLink"
+                                    class="top-button me-2"/>
+                <router-link-button title="Nova Transferência"
+                                    :icon="iconEnum.buildingColumns()"
+                                    :redirect-to="newTransferLink"
+                                    class="top-button"/>
             </div>
             <divider/>
             <div class="table-responsive-lg">
@@ -28,9 +34,15 @@
                         </tr>
                         <tr v-for="movement in movements" :key="movement.id">
                             <td>
-                                <font-awesome-icon v-if="movement.type === movementEnum.type.transfer()" :icon="iconEnum.circleArrowRight()" class="movement-transfer-icon"/>
-                                <font-awesome-icon v-else-if="movement.type === movementEnum.type.spent()" :icon="iconEnum.circleArrowDown()" class="movement-spent-icon"/>
-                                <font-awesome-icon v-else-if="movement.type === movementEnum.type.gain()" :icon="iconEnum.circleArrowUp()" class="movement-gain-icon"/>
+                                <font-awesome-icon v-if="movement.type === movementEnum.type.transfer()"
+                                                   :icon="iconEnum.circleArrowRight()"
+                                                   class="movement-transfer-icon"/>
+                                <font-awesome-icon v-else-if="movement.type === movementEnum.type.spent()"
+                                                   :icon="iconEnum.circleArrowDown()"
+                                                   class="movement-spent-icon"/>
+                                <font-awesome-icon v-else-if="movement.type === movementEnum.type.gain()"
+                                                   :icon="iconEnum.circleArrowUp()"
+                                                   class="movement-gain-icon"/>
                             </td>
                             <td>{{ movement.description }}</td>
                             <td>{{ movement.walletName }}</td>
@@ -240,10 +252,6 @@
         .top-button {
             margin-top: 10px;
             border-radius: 8px !important;
-        }
-        .title {
-            margin-bottom: 20px;
-            margin-left: auto;
         }
         .balance-card {
             width: 100%;

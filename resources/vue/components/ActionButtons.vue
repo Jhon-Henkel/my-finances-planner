@@ -89,3 +89,16 @@
         },
     }
 </script>
+
+<style scoped>
+    @media (max-width: 1000px) {
+        .btn {
+            border-radius: 8px !important;
+            font-size: 20px !important;
+            width: 50px !important;
+        }
+        .me-1 {
+            margin-right: 8px !important;
+        }
+    }
+</style>
