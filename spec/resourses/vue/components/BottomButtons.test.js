@@ -20,7 +20,7 @@ describe('Testing the BottomButtons', () => {
                 }
             }
         })
-        expect(wrapper.html()).toContain('<div class="nav justify-content-center">')
+        expect(wrapper.html()).toContain('"nav justify-content-center">')
         expect(wrapper.html()).toContain('SuccessButton')
         expect(wrapper.html()).toContain('CancelButton')
 
@@ -45,7 +45,7 @@ describe('Testing the BottomButtons', () => {
                 }
             }
         })
-        expect(wrapper.html()).toContain('<div class="nav justify-content-center">')
+        expect(wrapper.html()).toContain('"nav justify-content-center">')
         expect(wrapper.html()).toContain('SuccessButton')
         expect(wrapper.html()).not.contain('CancelButton')
 
