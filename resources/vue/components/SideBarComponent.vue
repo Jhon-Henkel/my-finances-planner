@@ -41,7 +41,7 @@
         name: 'SideBarComponent',
         data() {
             return {
-                mustShow: this.mustShowSidebar(),
+                mustShow: false,
                 isOpened: false,
                 isMenuOpen: false,
                 isUsedVueRouter: false,

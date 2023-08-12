@@ -4,7 +4,7 @@
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
-                <mfp-title :title="salutation + ', é bom ter você aqui...'"/>
+                <mfp-title :title="salutation + ', é bom ter você aqui...'" class="title"/>
             </div>
             <divider/>
             <div class="row ms-2" style="display: inline-flex; width: 100%">
@@ -313,6 +313,11 @@
         .this-year-balance,
         .last-month-balance {
             display: none;
+        }
+        .title {
+            font-size: 1.5rem;
+            margin-left: 50px;
+            margin-bottom: 5px;
         }
     }
 </style>
