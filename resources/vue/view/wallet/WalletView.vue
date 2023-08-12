@@ -4,47 +4,49 @@
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
-                <mfp-title :title="'Carteiras'"/>
-                <router-link class="btn btn-success rounded-5" to="/carteiras/cadastrar">
+                <mfp-title title="Carteiras"/>
+                <router-link class="btn btn-success rounded-5 top-button" to="/carteiras/cadastrar">
                     <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
                     Nova Carteira
                 </router-link>
             </div>
             <divider/>
-            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                <thead class="table-dark">
-                    <tr class="text-center">
-                        <th scope="col">Carteira</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Valor Atual</th>
-                        <th scope="col">Ações</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    <tr v-show="wallets.length === 0">
-                        <td colspan="4">Nenhuma carteira cadastrada ainda!</td>
-                    </tr>
-                    <tr v-for="wallet in wallets" :key="wallet.id" class="text-center">
-                        <td>{{ wallet.name }}</td>
-                        <td>{{ walletEnum.getDescription(wallet.type) }}</td>
-                        <td>
-                            {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
-                            <alert-icon v-if="wallet.amount < 0" />
-                        </td>
-                        <td>
-                            <action-buttons
-                                :delete-tooltip="'Deletar Carteira'"
-                                :tooltip-edit="'Editar Carteira'"
-                                :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
-                                @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
-                        </td>
-                    </tr>
-                    <tr class="border-table">
-                        <td colspan="2">Total</td>
-                        <td colspan="2">{{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive-lg">
+                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                    <thead class="table-dark">
+                        <tr class="text-center">
+                            <th scope="col">Carteira</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Valor Atual</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr v-show="wallets.length === 0">
+                            <td colspan="4">Nenhuma carteira cadastrada ainda!</td>
+                        </tr>
+                        <tr v-for="wallet in wallets" :key="wallet.id" class="text-center">
+                            <td>{{ wallet.name }}</td>
+                            <td>{{ walletEnum.getDescription(wallet.type) }}</td>
+                            <td>
+                                {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
+                                <alert-icon v-if="wallet.amount < 0" />
+                            </td>
+                            <td>
+                                <action-buttons
+                                    :delete-tooltip="'Deletar Carteira'"
+                                    :tooltip-edit="'Editar Carteira'"
+                                    :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
+                                    @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
+                            </td>
+                        </tr>
+                        <tr class="border-table">
+                            <td colspan="2">Total</td>
+                            <td colspan="2">{{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="row ms-1">
                 <div class="card glass success balance-card">
                     <div class="card-body text-center">
@@ -225,5 +227,17 @@
     }
     .border-table {
         border-top: 2px solid $table-line-divider-color;
+    }
+    @media (max-width: 1000px) {
+        .nav {
+            flex-direction: column;
+        }
+        .top-button {
+            margin-top: 10px;
+            border-radius: 8px !important;
+        }
+        .balance-card {
+            width: 97%;
+        }
     }
 </style>
