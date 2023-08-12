@@ -41,4 +41,13 @@
         font-size: 22px;
         color: $success-icon-color;
     }
+
+    @media (max-width: 1000px) {
+        .filter {
+            display: none;
+        }
+        .me-3 {
+            margin-right: 0 !important;
+        }
+    }
 </style>
