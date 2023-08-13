@@ -230,7 +230,7 @@
         }
         .form-select {
             margin-bottom: 10px;
-            width: 100%;
+            width: 100% !important;
             border-radius: 8px !important;
         }
         .pay-button,
