@@ -1,7 +1,7 @@
 <template>
     <mfp-message ref="message"/>
-    <div class="row mt-4 was-validated" v-show="showPayReceive">
-        <div class="col-4">
+    <div class="row mt-4 was-validated pay-receive" v-show="showPayReceive">
+        <div class="col-4 money">
             <input-money :value="value"
                          @input-money="value = $event"
                          :show-title="false"
@@ -17,7 +17,7 @@
                 </option>
             </select>
         </div>
-        <div class="col-2 mt-2">
+        <div class="col-2 mt-2 switch">
             <div class="form-check form-switch">
                 <label class="form-check-label" for="partial">
                     {{ partialLabel }}
@@ -25,7 +25,7 @@
                 <input class="form-check-input" v-model="partial" type="checkbox" role="switch" id="partial">
             </div>
         </div>
-        <div class="col-1" style="margin-top: -25px">
+        <div class="col-1 button-group" style="margin-top: -25px">
             <button class="btn btn-success rounded-5 me-2" @click="pay" v-tooltip="checkTooltip">
                 <font-awesome-icon :icon="iconEnum.check()"/>
             </button>
@@ -127,3 +127,34 @@
         }
     }
 </script>
+
+<style scoped>
+    @media (max-width: 1000px) {
+        .pay-receive {
+            flex-direction: column;
+        }
+        .form-group {
+            margin-bottom: 10px;
+            width: 100% !important;
+            border-radius: 8px !important;
+        }
+        .switch {
+            width: 100% !important;
+        }
+        .button-group {
+            margin-top: 10px !important;
+            width: 100% !important;
+        }
+        .btn {
+            border-radius: 8px !important;
+            font-size: 20px !important;
+            width: 100% !important;
+        }
+        .money {
+            margin-bottom: 10px !important;
+        }
+        .btn-success {
+            margin-bottom: 10px !important;
+        }
+    }
+</style>
