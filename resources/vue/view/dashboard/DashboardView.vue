@@ -88,6 +88,7 @@
                     <bar-chart id="graph-movement" :graph-options="graphOptions" :chart-data="chartData" />
                 </div>
             </div>
+            <divider/>
         </div>
     </div>
 </template>
