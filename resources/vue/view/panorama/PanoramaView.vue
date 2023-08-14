@@ -94,7 +94,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="text-center">
+                                        <tr class="text-center text-nowrap">
                                             <td>
                                                 <font-awesome-icon :icon="iconEnum.circleArrowDown()"
                                                                    class="spent-icon me-2"/>
@@ -107,7 +107,7 @@
                                             <td>{{ formatValueToBr(totalSpending.fifthInstallment) }}</td>
                                             <td>{{ formatValueToBr(totalSpending.sixthInstallment) }}</td>
                                         </tr>
-                                        <tr class="text-center">
+                                        <tr class="text-center text-nowrap">
                                             <td>
                                                 <font-awesome-icon :icon="iconEnum.creditCard()"
                                                                    class="card-icon me-2"/>
@@ -125,7 +125,7 @@
                                             <td>{{ formatValueToBr(cardsInvoice.fifthInstallment) }}</td>
                                             <td>{{ formatValueToBr(cardsInvoice.sixthInstallment) }}</td>
                                         </tr>
-                                        <tr class="text-center">
+                                        <tr class="text-center text-nowrap">
                                             <td>
                                                 <font-awesome-icon :icon="iconEnum.circleArrowUp()"
                                                                    class="gain-icon me-2"/>
@@ -143,7 +143,7 @@
                                             <td>{{ formatValueToBr(totalFutureGain.fifthInstallment) }}</td>
                                             <td>{{ formatValueToBr(totalFutureGain.sixthInstallment) }}</td>
                                         </tr>
-                                        <tr class="text-center">
+                                        <tr class="text-center text-nowrap">
                                             <td><font-awesome-icon :icon="iconEnum.circleArrowRight()"
                                                                    class="remaining-icon me-2"/>
                                             </td>
