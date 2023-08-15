@@ -116,7 +116,10 @@ table tr:first-child th {
     }
     .btn-info:hover,
     .btn-danger:hover,
-    .btn-success:hover {
+    .btn-success:hover,
+    .btn-info:focus,
+    .btn-danger:focus,
+    .btn-success:focus{
         transform: none;
         transition-duration: 0ms;
         transition: none;

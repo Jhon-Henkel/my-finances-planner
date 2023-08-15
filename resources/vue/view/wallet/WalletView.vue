@@ -49,13 +49,13 @@
             </div>
             <div class="row ms-1">
                 <div class="card glass success balance-card">
-                    <div class="card-body text-center">
+                    <div class="card-body text-center resume-card">
                         <h4 class="card-title">
                             <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
                             Resumo
                         </h4>
                         <hr>
-                        <div class="card-text">
+                        <div class="card-text resume-content">
                             <div class="row">
                                 <div class="col-2">
                                     <h6>Dinheiro</h6>
@@ -76,7 +76,7 @@
                                     <h6>Outros</h6>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row resume-value">
                                 <div class="col-2">
                                     {{ stringTools.formatFloatValueToBrString(walletsPerType.money) }}
                                 </div>
@@ -238,6 +238,25 @@
         }
         .balance-card {
             width: 97%;
+        }
+        .resume-content {
+            display: table-row;
+            width: 100%;
+            white-space: nowrap;
+        }
+        .resume-content .row {
+            display: table-cell;
+        }
+        .resume-content h6,
+        .resume-content .col-2 {
+            font-size: 0.8rem;
+        }
+        .resume-value .col-2 {
+            margin-bottom: 0.28rem;
+        }
+        .resume-value {
+            white-space: nowrap;
+            overflow: hidden;
         }
     }
 </style>
