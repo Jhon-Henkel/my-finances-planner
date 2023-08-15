@@ -187,7 +187,7 @@
                             Previsão considerando valor em carteira
                         </h4>
                         <hr>
-                        <div class="card-text">
+                        <div class="card-text balance-content">
                             <div class="row">
                                 <div class="col-4">
                                     <h6>
@@ -211,13 +211,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-4 balance-value">
                                     {{ formatValueToBr(totalWalletsValue) }}
                                 </div>
-                                <div class="col-4">
+                                <div class="col-4 select-balance-value">
                                     {{ formatValueToBr(getValueForTotalSum()) }}
                                 </div>
-                                <div class="col-4">
+                                <div class="col-4 balance-value">
                                     {{ formatValueToBr(totalWalletsValue + getValueForTotalSum()) }}
                                     <alert-icon v-if="totalWalletsValue + getValueForTotalSum() < 0"/>
                                 </div>
@@ -497,6 +497,28 @@
         }
         .balance-card {
             width: 97%;
+        }
+        .balance-content {
+            display: table-row;
+            width: 100%;
+        }
+        .balance-content .row {
+            display: table-cell;
+        }
+        .balance-content h6 {
+            font-size: 0.8rem;
+        }
+        .balance-content .col-4 .form-select-sm {
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .balance-value {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .select-balance-value {
+            margin-bottom: 18px;
+            margin-top: 18px;
         }
     }
 </style>

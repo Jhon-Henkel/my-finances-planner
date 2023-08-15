@@ -114,4 +114,11 @@ table tr:first-child th {
     .col-4 {
         width: 100%;
     }
+    .btn-info:hover,
+    .btn-danger:hover,
+    .btn-success:hover {
+        transform: none;
+        transition-duration: 0ms;
+        transition: none;
+    }
 }
