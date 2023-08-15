@@ -509,16 +509,16 @@
             font-size: 0.8rem;
         }
         .balance-content .col-4 .form-select-sm {
-            margin-bottom: 10px;
-            margin-top: 10px;
+            margin-bottom: 0.68rem;
+            margin-top: 0.68rem;
         }
         .balance-value {
             white-space: nowrap;
             overflow: hidden;
         }
         .select-balance-value {
-            margin-bottom: 18px;
-            margin-top: 18px;
+            margin-bottom: 1.2rem;
+            margin-top: 1.2rem;
         }
     }
 </style>

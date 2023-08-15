@@ -75,7 +75,7 @@
                             Resumo
                         </h4>
                         <hr>
-                        <div class="card-text">
+                        <div class="card-text resume-content">
                             <div class="row">
                                 <div class="col-4">
                                     <h6>
@@ -96,7 +96,7 @@
                                     </h6>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row resume-value">
                                 <div class="col-4">
                                     {{ StringTools.formatFloatValueToBrString(totalGain) }}
                                     <alert-icon v-if="totalGain < 0"/>
@@ -264,6 +264,25 @@
             border-radius: 8px !important;
             font-size: 20px !important;
             width: 50px !important;
+        }
+        .resume-content {
+            display: table-row;
+            width: 100%;
+            white-space: nowrap;
+        }
+        .resume-content .row {
+            display: table-cell;
+        }
+        .resume-content h6,
+        .resume-content .col-4 {
+            font-size: 0.8rem;
+        }
+        .resume-value .col-4 {
+            margin-bottom: 0.28rem;
+        }
+        .resume-value {
+            white-space: nowrap;
+            overflow: hidden;
         }
     }
 </style>
