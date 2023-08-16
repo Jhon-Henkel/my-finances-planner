@@ -3,7 +3,7 @@
         <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === false" />
         <div v-show="loadingDone">
-            <mfp-title :title="title" />
+            <mfp-title :title="title" class="title"/>
             <divider/>
             <form class="was-validated">
                 <div class="row justify-content-center">
@@ -181,3 +181,11 @@
         }
     }
 </script>
+
+<style scoped>
+@media (max-width: 1000px) {
+    .title {
+        margin: auto auto auto 75px !important;
+    }
+}
+</style>

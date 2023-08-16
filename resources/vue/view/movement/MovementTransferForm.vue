@@ -3,7 +3,7 @@
     <div class="base-container">
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
-            <mfp-title :title="title"/>
+            <mfp-title :title="title" class="title"/>
             <divider/>
             <input-money :value="transfer.amount" @input-money="transfer.amount = $event"/>
             <form>
@@ -170,5 +170,10 @@
 
     .transfer-icon {
         color: $success-icon-color;
+    }
+    @media (max-width: 1000px) {
+        .title {
+            margin: auto auto auto 75px !important;
+        }
     }
 </style>
