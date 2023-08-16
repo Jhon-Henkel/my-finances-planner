@@ -267,7 +267,6 @@
         }
         .resume-content {
             display: table-row;
-            width: 100%;
             white-space: nowrap;
         }
         .resume-content .row {
@@ -276,6 +275,7 @@
         .resume-content h6,
         .resume-content .col-4 {
             font-size: 0.8rem;
+            width: 33%;
         }
         .resume-value .col-4 {
             margin-bottom: 0.28rem;
