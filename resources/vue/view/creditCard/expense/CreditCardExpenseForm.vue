@@ -186,6 +186,7 @@
                     if (response.status === HttpStatusCode.Created) {
                         this.messageSuccess('Despesa cadastrada com sucesso!')
                         this.expense = {}
+                        this.expense.nextInstallment = CalendarTools.addDaysInDate(new Date(), 30)
                         this.expense.fix = false
                         if (this.$route.params.cardId) {
                             this.expense.creditCardId = this.$route.params.cardId
