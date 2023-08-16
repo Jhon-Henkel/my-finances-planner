@@ -408,6 +408,9 @@
             display: flex;
             width: 100%;
         }
+        .bx-menu {
+            color: #04fac9 !important;
+        }
 
     }
 </style>
