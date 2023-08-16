@@ -9,7 +9,6 @@
                 Você está utilizando o sistema em modo demonstração, algumas funcionalidades podem estar desabilitadas.
                 <br>
                 Para mais detalhes clique <a href="/sobre">aqui</a>.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" />
             </div>
         </div>
         <router-view/>
