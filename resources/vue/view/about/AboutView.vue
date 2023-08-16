@@ -22,11 +22,6 @@
                     prévio, mas que com esse projeto eu pude aprofundar mais ainda meus conhecimentos.
                 </p>
                 <p>
-                    Este projeto foi desenvolvido pensando apenas na versão desktop, portanto pode ser que algumas
-                    funcionalidades não funcionem corretamente em dispositivos mobile. Tenha preferência por utilizar
-                    em um computador.
-                </p>
-                <p>
                     O projeto está disponível no <a :href="projectLink" target="_blank" class="link">github</a>, caso
                     queira contribuir com o projeto, fique a vontade para fazer um fork e enviar um pull request.
                 </p>
