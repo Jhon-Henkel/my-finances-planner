@@ -3,9 +3,9 @@
         <loading-component v-show="loadingDone === false" />
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
-                <mfp-title :title="'Relatório fechamento de mês'"/>
+                <mfp-title title="Relatório fechamento de mês" />
                 <filter-top-right :filter="filterList" @callbackMethod="getMonthlyClosingsIndexFiltered($event)"/>
-                <back-button to="/ferramentas"/>
+                <back-button to="/ferramentas" class="top-button"/>
             </div>
             <divider/>
             <div class="glass chart-div mb-4">
@@ -13,46 +13,48 @@
                     <line-chart :options="chartOptions" :data="chartData" />
                 </div>
             </div>
-            <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                <thead class="table-dark">
-                    <tr class="text-center">
-                        <td>
-                            <font-awesome-icon :icon="iconEnum.calendarCheck()" />
-                            Data
-                        </td>
-                        <td>
-                            <spent-icon/>
-                            Gasto Previsto
-                        </td>
-                        <td>
-                            <spent-icon/>
-                            Gasto Real
-                        </td>
-                        <td>
-                            <gain-icon/>
-                            Ganho Previsto
-                        </td>
-                        <td>
-                            <gain-icon/>
-                            Ganho Real
-                        </td>
-                        <td>
-                            <font-awesome-icon :icon="iconEnum.scaleBalanced()" />
-                            Balanço
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="text-center" v-for="closing in monthlyClosings" :key="closing.id">
-                        <td>{{ CalendarTools.convertDateDbToBr(closing.createdAt) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(closing.predictedExpenses) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(closing.realExpenses) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(closing.predictedEarnings) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(closing.realEarnings) }}</td>
-                        <td>{{ StringTools.formatFloatValueToBrString(closing.balance) }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive-lg">
+                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
+                    <thead class="table-dark">
+                        <tr class="text-center">
+                            <td>
+                                <font-awesome-icon :icon="iconEnum.calendarCheck()" />
+                                Data
+                            </td>
+                            <td>
+                                <spent-icon/>
+                                Gasto Previsto
+                            </td>
+                            <td>
+                                <spent-icon/>
+                                Gasto Real
+                            </td>
+                            <td>
+                                <gain-icon/>
+                                Ganho Previsto
+                            </td>
+                            <td>
+                                <gain-icon/>
+                                Ganho Real
+                            </td>
+                            <td>
+                                <font-awesome-icon :icon="iconEnum.scaleBalanced()" />
+                                Balanço
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center" v-for="closing in monthlyClosings" :key="closing.id">
+                            <td>{{ CalendarTools.convertDateDbToBr(closing.createdAt) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(closing.predictedExpenses) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(closing.realExpenses) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(closing.predictedEarnings) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(closing.realEarnings) }}</td>
+                            <td>{{ StringTools.formatFloatValueToBrString(closing.balance) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <divider/>
         </div>
     </div>
@@ -135,5 +137,25 @@
 <style scoped lang="scss">
     .chart-div{
         width: 100%;
+    }
+    @media (max-width: 1000px) {
+        .nav {
+            flex-direction: column;
+        }
+        .top-button {
+            margin-top: 10px;
+            border-radius: 8px !important;
+        }
+        .balance-card {
+            width: 100%;
+        }
+        .card-text .row .col-6 {
+            margin-bottom: 20px;
+            width: 100%;
+            font-size: 0.8rem;
+        }
+        .chart-div {
+            display: none;
+        }
     }
 </style>

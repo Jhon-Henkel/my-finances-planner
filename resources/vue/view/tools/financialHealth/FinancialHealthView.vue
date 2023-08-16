@@ -4,8 +4,8 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Saúde Financeira'"/>
-                <filter-top-right :filter="filterList" @callbackMethod="getMovementIndexFiltered($event)"/>
-                <back-button to="/ferramentas"/>
+                <filter-top-right :filter="filterList" @callbackMethod="getMovementIndexFiltered($event)" />
+                <back-button to="/ferramentas" class="top-button"/>
             </div>
             <divider/>
             <div class="card glass balance-card ms-1">
@@ -207,5 +207,22 @@
     }
     .balance-card {
         width: 80.5rem;
+    }
+    @media (max-width: 1000px) {
+        .nav {
+            flex-direction: column;
+        }
+        .top-button {
+            margin-top: 10px;
+            border-radius: 8px !important;
+        }
+        .balance-card {
+            width: 100%;
+        }
+        .card-text .row .col-6 {
+            margin-bottom: 20px;
+            width: 100%;
+            font-size: 0.8rem;
+        }
     }
 </style>
