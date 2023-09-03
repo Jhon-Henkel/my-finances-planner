@@ -233,7 +233,7 @@ class MovementService extends BasicService
         foreach ($movements as $movement) {
             if ($movement->getType() == MovementEnum::GAIN) {
                 $gain += $movement->getAmount();
-            } else {
+            } elseif ($movement->getType() == MovementEnum::SPENT) {
                 $spent += $movement->getAmount();
             }
         }
