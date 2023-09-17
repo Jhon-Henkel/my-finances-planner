@@ -6,8 +6,8 @@
         "test:watch": "vitest",
         "test:run": "vitest --run",
         "test:coverage": "vitest run --coverage",
-        "analyse:eslint": "eslint --ext .js,.vue .",
-        "autocorrect:eslint": "eslint --ext .js,.vue --fix ."
+        "analyse:eslint": "eslint --ext .js,.vue ./resources",
+        "autocorrect:eslint": "eslint --ext .js,.vue --fix ./resources"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.7",

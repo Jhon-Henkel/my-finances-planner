@@ -15,5 +15,10 @@
         "vue"
     ],
     "rules": {
+        "semi": ["error", "never"],
+        "quotes": ["error", "single"],
+        "indent": ["error", 4],
+        "space-before-function-paren": ["error", "never"],
+        "eol-last": ["error", "never"]
     }
 }
