@@ -14,7 +14,6 @@ use App\VO\Movement\MovementVO;
  */
 class MovementResource extends BasicResource
 {
-
     public function arrayToDto(array $item): MovementDTO
     {
         $dto = new MovementDTO();

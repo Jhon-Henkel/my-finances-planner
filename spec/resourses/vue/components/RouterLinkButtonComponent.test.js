@@ -17,7 +17,7 @@ describe('Testing the RouterLinkButtonComponent', () => {
                 }
             }
         })
-        expect(wrapper.html()).toContain('class="btn btn-success rounded-5"')
+        expect(wrapper.html()).toContain('class="btn btn-success rounded-2"')
         expect(wrapper.html()).toContain('Home Title')
     })
 })

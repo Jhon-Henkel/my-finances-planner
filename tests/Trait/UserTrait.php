@@ -38,10 +38,10 @@ trait UserTrait
     protected function makeHeadersSecondUser(User $user): array
     {
         return [
-            'Content-Type'=> 'application/json',
+            'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'MFP-TOKEN'=> env('PUSHER_APP_KEY'),
-            'X-MFP-USER-TOKEN'=> 'Bearer ' . JwtTools::createJWT($user)
+            'MFP-TOKEN' => env('PUSHER_APP_KEY'),
+            'X-MFP-USER-TOKEN' => 'Bearer ' . JwtTools::createJWT($user)
         ];
     }
 }

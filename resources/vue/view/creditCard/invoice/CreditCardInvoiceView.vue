@@ -14,60 +14,66 @@
                                     class="ms-2 top-button"/>
             </div>
             <divider/>
-            <div class="table-responsive-lg">
-                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                    <thead class="table-dark text-center">
-                        <tr>
-                            <th scope="col">Descrição</th>
-                            <th scope="col" v-for="(month, index) in months" :key="index">
-                                {{ calendarTools.getMonthNameByNumber(month) }}
-                            </th>
-                            <th scope="col">Restam</th>
-                            <th scope="col">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr v-show="invoices.length === 0">
-                            <td colspan="9">Nenhuma despesa cadastrada ainda!</td>
-                        </tr>
-                        <tr v-for="expense in invoices" :key="expense.id">
-                            <td>{{ expense.name }}</td>
-                            <td>{{ formatValueToBr(expense.firstInstallment) }}</td>
-                            <td>{{ formatValueToBr(expense.secondInstallment) }}</td>
-                            <td>{{ formatValueToBr(expense.thirdInstallment) }}</td>
-                            <td>{{ formatValueToBr(expense.forthInstallment) }}</td>
-                            <td>{{ formatValueToBr(expense.fifthInstallment) }}</td>
-                            <td>{{ formatValueToBr(expense.sixthInstallment) }}</td>
-                            <td v-if="expense.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
-                            <td v-else v-tooltip="formatValueToBr(expense.totalRemainingValue)">
-                                {{ expense.remainingInstallments }}
-                            </td>
-                            <td>
-                                <action-buttons :delete-tooltip="'Deletar Fatura'"
-                                                :tooltip-edit="'Editar Fatura'"
-                                                :edit-to="'/gerenciar-cartoes/despesa/' + expense.id + '/atualizar'"
-                                                @delete-clicked="deleteExpense(expense.id, expense.name)"/>
-                            </td>
-                        </tr>
-                        <tr class="border-table">
-                            <td>Total</td>
-                            <td>{{ formatValueToBr(totalPerMonth.firstMonth) }}</td>
-                            <td>{{ formatValueToBr(totalPerMonth.secondMonth) }}</td>
-                            <td>{{ formatValueToBr(totalPerMonth.thirdMonth) }}</td>
-                            <td>{{ formatValueToBr(totalPerMonth.forthMonth) }}</td>
-                            <td>{{ formatValueToBr(totalPerMonth.fifthMonth) }}</td>
-                            <td>{{ formatValueToBr(totalPerMonth.sixthMonth) }}</td>
-                            <td>{{ formatValueToBr(totalPerMonth.totalRemaining) }}</td>
-                            <td>-</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card glass success balance-card">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        <div class="table-responsive-lg">
+                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col" v-for="(month, index) in months" :key="index">
+                                            {{ calendarTools.getMonthNameByNumber(month) }}
+                                        </th>
+                                        <th scope="col">Restam</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center table-body-hover">
+                                    <tr v-show="invoices.length === 0">
+                                        <td colspan="9">Nenhuma despesa cadastrada ainda!</td>
+                                    </tr>
+                                    <tr v-for="expense in invoices" :key="expense.id">
+                                        <td>{{ expense.name }}</td>
+                                        <td>{{ formatValueToBr(expense.firstInstallment) }}</td>
+                                        <td>{{ formatValueToBr(expense.secondInstallment) }}</td>
+                                        <td>{{ formatValueToBr(expense.thirdInstallment) }}</td>
+                                        <td>{{ formatValueToBr(expense.forthInstallment) }}</td>
+                                        <td>{{ formatValueToBr(expense.fifthInstallment) }}</td>
+                                        <td>{{ formatValueToBr(expense.sixthInstallment) }}</td>
+                                        <td v-if="expense.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
+                                        <td v-else v-tooltip="formatValueToBr(expense.totalRemainingValue)">
+                                            {{ expense.remainingInstallments }}
+                                        </td>
+                                        <td>
+                                            <action-buttons :delete-tooltip="'Deletar Fatura'"
+                                                            :tooltip-edit="'Editar Fatura'"
+                                                            :edit-to="'/gerenciar-cartoes/despesa/' + expense.id + '/atualizar'"
+                                                            @delete-clicked="deleteExpense(expense.id, expense.name)"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-table">
+                                        <td>Total</td>
+                                        <td>{{ formatValueToBr(totalPerMonth.firstMonth) }}</td>
+                                        <td>{{ formatValueToBr(totalPerMonth.secondMonth) }}</td>
+                                        <td>{{ formatValueToBr(totalPerMonth.thirdMonth) }}</td>
+                                        <td>{{ formatValueToBr(totalPerMonth.forthMonth) }}</td>
+                                        <td>{{ formatValueToBr(totalPerMonth.fifthMonth) }}</td>
+                                        <td>{{ formatValueToBr(totalPerMonth.sixthMonth) }}</td>
+                                        <td>{{ formatValueToBr(totalPerMonth.totalRemaining) }}</td>
+                                        <td>-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <divider/>
             <div>
                 <div class="input-group mb-3">
                     <button class="btn btn-success show-pay-options"
-                            :class="showPayInvoice ? '' : 'rounded-5'"
+                            :class="showPayInvoice ? '' : 'rounded-2'"
                             @click="showPayInvoice = !showPayInvoice">
                         <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
                         Pagar próxima fatura

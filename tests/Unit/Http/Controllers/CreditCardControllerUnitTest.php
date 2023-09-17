@@ -7,7 +7,6 @@ use App\Resources\CreditCard\CreditCardResource;
 use App\Services\CreditCard\CreditCardService;
 use Mockery;
 use Tests\Falcon9;
-use Tests\Unit\Resource\CreditCard\CreditCardResourceUnitTest;
 
 class CreditCardControllerUnitTest extends Falcon9
 {

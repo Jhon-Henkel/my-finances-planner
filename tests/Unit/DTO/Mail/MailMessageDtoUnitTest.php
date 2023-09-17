@@ -15,12 +15,12 @@ class MailMessageDtoUnitTest extends Falcon9
             'Test',
             'Test subject',
             'emails.testMail',
-            ['title'=>'This is a mail test', 'body' => 'A test send mail from app']
+            ['title' => 'This is a mail test', 'body' => 'A test send mail from app']
         );
 
         $mailFrom = AppTools::getEnvValue('MAIL_FROM_ADDRESS');
         $mailFromName = str_replace('_', ' ', AppTools::getEnvValue('MAIL_FROM_NAME'));
-        $params = ['title'=>'This is a mail test', 'body' => 'A test send mail from app'];
+        $params = ['title' => 'This is a mail test', 'body' => 'A test send mail from app'];
 
         $this->assertEquals('test@test.com', $mailMessageDto->getAddressee());
         $this->assertEquals('Test', $mailMessageDto->getAddresseeName());

@@ -4,9 +4,9 @@ namespace App\Resources;
 
 abstract class BasicResource implements BasicResourceContract
 {
-    public abstract function arrayToDto(array $item);
-    public abstract function dtoToArray($item): array;
-    public abstract function dtoToVo($item);
+    abstract public function arrayToDto(array $item);
+    abstract public function dtoToArray($item): array;
+    abstract public function dtoToVo($item);
 
     public function arrayDtoToVoItens(null|array $itens): array
     {

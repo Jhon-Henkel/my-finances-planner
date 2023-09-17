@@ -1,21 +1,21 @@
 <template>
     <div class="text-center action-buttons">
-        <router-link class="btn btn-sm btn-info rounded-5 me-1"
+        <router-link class="btn btn-sm btn-info rounded-2 me-1"
                      :to="infoTo"
                      v-tooltip="infoTooltip"
                      v-show="showInfoButton">
             <font-awesome-icon :icon="infoIcon" />
         </router-link>
-        <button class="btn btn-sm btn-success rounded-5 me-1"
+        <button class="btn btn-sm btn-success rounded-2 me-1"
                 @click="this.$emit('check-clicked')"
                 v-tooltip="checkTooltip"
                 v-show="checkButton">
             <font-awesome-icon :icon="checkIcon" />
         </button>
-        <router-link class="btn btn-sm btn-success rounded-5 me-1" :to="editTo" v-tooltip="tooltipEdit">
+        <router-link class="btn btn-sm btn-success rounded-2 me-1" :to="editTo" v-tooltip="tooltipEdit">
             <font-awesome-icon :icon="editIcon" />
         </router-link>
-        <button class="btn btn-sm btn-danger rounded-5"
+        <button class="btn btn-sm btn-danger rounded-2"
                 @click="this.$emit('delete-clicked')"
                 v-tooltip="deleteTooltip">
             <font-awesome-icon :icon="deleteIcon" />

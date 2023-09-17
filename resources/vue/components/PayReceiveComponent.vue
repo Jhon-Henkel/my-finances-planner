@@ -26,10 +26,10 @@
             </div>
         </div>
         <div class="col-1 button-group" style="margin-top: -25px">
-            <button class="btn btn-success rounded-5 me-2" @click="pay" v-tooltip="checkTooltip">
+            <button class="btn btn-success rounded-2 me-2" @click="pay" v-tooltip="checkTooltip">
                 <font-awesome-icon :icon="iconEnum.check()"/>
             </button>
-            <button class="btn btn-danger rounded-5" @click="hidePay" v-tooltip="'Cancelar'">
+            <button class="btn btn-danger rounded-2" @click="hidePay" v-tooltip="'Cancelar'">
                 <font-awesome-icon :icon="iconEnum.xMark()"/>
             </button>
         </div>

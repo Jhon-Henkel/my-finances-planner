@@ -15,10 +15,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 abstract class BasicController extends Controller implements BasicControllerContract
 {
-    protected abstract function rulesInsert():array;
-    protected abstract function rulesUpdate():array;
-    protected abstract function getService();
-    protected abstract function getResource();
+    abstract protected function rulesInsert(): array;
+    abstract protected function rulesUpdate(): array;
+    abstract protected function getService();
+    abstract protected function getResource();
 
     public function index(): JsonResponse
     {
@@ -37,7 +37,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
             $find = $this->getService()->findById($id);
             return $find
                 ? response()->json($this->getResource()->dtoToVo($find), ResponseAlias::HTTP_OK)
-                : response()->json('Registro não encontrado!',ResponseAlias::HTTP_NOT_FOUND);
+                : response()->json('Registro não encontrado!', ResponseAlias::HTTP_NOT_FOUND);
         } catch (QueryException $exception) {
             return $this->returnErrorDatabaseConnect();
         }
@@ -89,8 +89,8 @@ abstract class BasicController extends Controller implements BasicControllerCont
 
     public function showByType(int $type): array
     {
-        $itens = $this->service->findAllByType($type);
-        return $this->resource->arrayDtoToVoItens($itens);
+        $itens = $this->getService()->findAllByType($type);
+        return $this->getResource()->arrayDtoToVoItens($itens);
     }
 
     protected function returnErrorDatabaseConnect(): JsonResponse

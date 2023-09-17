@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
 use Mockery;
-use stdClass;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\Falcon9;
 

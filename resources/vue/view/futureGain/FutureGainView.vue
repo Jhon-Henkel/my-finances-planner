@@ -5,73 +5,79 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Ganhos Futuros'"/>
-                <router-link class="btn btn-success rounded-5 top-button" to="/ganhos-futuros/cadastrar">
+                <router-link class="btn btn-success rounded-2 top-button" to="/ganhos-futuros/cadastrar">
                     <font-awesome-icon :icon="iconEnum.sackDollar()" class="me-2"/>
                     Novo Ganho Futuro
                 </router-link>
             </div>
             <divider/>
-            <div class="table-responsive-lg">
-                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                    <thead class="table-dark">
-                        <tr class="text-center">
-                            <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
-                            <th>Descrição</th>
-                            <th>Carteira</th>
-                            <th scope="col" v-for="(month, index) in months" :key="index">
-                                {{ calendarTools.getMonthNameByNumber(month) }}
-                            </th>
-                            <th>Restam</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-show="futureGains.length === 0" class="text-center">
-                            <td colspan="11">Nenhum ganho cadastrado ainda!</td>
-                        </tr>
-                        <tr v-for="gain in futureGains" :key="gain.id" class="text-center">
-                            <td>{{ gain.nextInstallmentDay }}</td>
-                            <td>{{ gain.name }}</td>
-                            <td>{{ gain.countName }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(gain.firstInstallment) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(gain.secondInstallment) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(gain.thirdInstallment) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(gain.forthInstallment) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(gain.fifthInstallment) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(gain.sixthInstallment) }}</td>
-                            <td v-if="gain.remainingInstallments === 0" v-tooltip="'Ganho Fixo'">Fixo</td>
-                            <td v-else v-tooltip="StringTools.formatFloatValueToBrString(gain.totalRemainingValue)">
-                                {{ gain.remainingInstallments }}
-                            </td>
-                            <td class="text-center">
-                                <action-buttons
-                                    :delete-tooltip="'Deletar Ganho'"
-                                    :tooltip-edit="'Editar Ganho'"
-                                    :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar'"
-                                    :check-button="showCheckButton(gain)"
-                                    :check-tooltip="'Marcar próxima como recebido'"
-                                    @delete-clicked="deleteGain(gain.id, gain.name)"
-                                    @check-clicked="showReceiveGainForm(
-                                        gain.id,
-                                        gain.countId,
-                                        getNextGainValue(gain),
-                                        gain.name
-                                    )"
-                                />
-                            </td>
-                        </tr>
-                        <tr class="text-center border-table">
-                            <td colspan="3">Total</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.firstMonth) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.secondMonth) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.thirdMonth) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.forthMonth) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.fifthMonth) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.sixthMonth) }}</td>
-                            <td colspan="2"></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card glass success balance-card">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        <div class="table-responsive-lg">
+                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
+                                <thead class="text-center">
+                                    <tr class="text-center">
+                                        <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
+                                        <th>Descrição</th>
+                                        <th>Carteira</th>
+                                        <th scope="col" v-for="(month, index) in months" :key="index">
+                                            {{ calendarTools.getMonthNameByNumber(month) }}
+                                        </th>
+                                        <th>Restam</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-body-hover">
+                                    <tr v-show="futureGains.length === 0" class="text-center">
+                                        <td colspan="11">Nenhum ganho cadastrado ainda!</td>
+                                    </tr>
+                                    <tr v-for="gain in futureGains" :key="gain.id" class="text-center">
+                                        <td>{{ gain.nextInstallmentDay }}</td>
+                                        <td class="text-start">{{ gain.name }}</td>
+                                        <td class="text-start">{{ gain.countName }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(gain.firstInstallment) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(gain.secondInstallment) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(gain.thirdInstallment) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(gain.forthInstallment) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(gain.fifthInstallment) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(gain.sixthInstallment) }}</td>
+                                        <td v-if="gain.remainingInstallments === 0" v-tooltip="'Ganho Fixo'">Fixo</td>
+                                        <td v-else v-tooltip="StringTools.formatFloatValueToBrString(gain.totalRemainingValue)">
+                                            {{ gain.remainingInstallments }}
+                                        </td>
+                                        <td class="text-center">
+                                            <action-buttons
+                                                :delete-tooltip="'Deletar Ganho'"
+                                                :tooltip-edit="'Editar Ganho'"
+                                                :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar'"
+                                                :check-button="showCheckButton(gain)"
+                                                :check-tooltip="'Marcar próxima como recebido'"
+                                                @delete-clicked="deleteGain(gain.id, gain.name)"
+                                                @check-clicked="showReceiveGainForm(
+                                                    gain.id,
+                                                    gain.countId,
+                                                    getNextGainValue(gain),
+                                                    gain.name
+                                                )"
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center border-table">
+                                        <td colspan="3">Total</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.firstMonth) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.secondMonth) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.thirdMonth) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.forthMonth) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.fifthMonth) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.sixthMonth) }}</td>
+                                        <td colspan="2"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <pay-receive :show-pay-receive="showReceiveGain"
                          :value="receiveGainValue"
@@ -81,14 +87,14 @@
                          @hide-pay-receive="showReceiveGain = false"
                          @pay="receiveGain($event)"/>
             <div class="row ms-1 mt-4">
-                <div class="card glass balance-card">
+                <div class="card glass balance-card card-resume balance-card-resume">
                     <div class="card-body text-center">
                         <h4 class="card-title">
                             <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
                             Resumo
                         </h4>
                         <hr>
-                        <div class="card-text">
+                        <div class="card-text card-text-resume">
                             <div class="row">
                                 <div class="col-12">
                                     <h6>Total previsto no período</h6>
@@ -274,15 +280,15 @@
     @import "../../../sass/variables";
 
     .border-table {
-            border-top: 2px solid $table-line-divider-color;
+        border-top: 2px solid $table-line-divider-color;
     }
-    .card {
+    .card-resume {
         width: 24rem;
     }
-    .balance-card {
+    .balance-card-resume {
         width: 80.5rem;
     }
-    .card-text {
+    .card-text-resume {
         font-size: 1.5rem;
     }
     @media (max-width: 1000px) {
@@ -293,7 +299,7 @@
             margin-top: 10px;
             border-radius: 8px !important;
         }
-        .balance-card {
+        .balance-card-resume {
             width: 97%;
         }
     }

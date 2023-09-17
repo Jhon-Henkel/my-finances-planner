@@ -70,7 +70,7 @@ class UserRepositoryUnitTest extends Falcon9
     public function testFindByVerifyHash()
     {
         $mockModel = Mockery::mock(User::class);
-        $mockModel->shouldReceive('where->first')->once()->andReturn(new User);
+        $mockModel->shouldReceive('where->first')->once()->andReturn(new User());
 
         $resourceMock = Mockery::mock(UserResource::class);
         $resourceMock->shouldReceive('arrayToDto')->once()->andReturn(new UserDTO());

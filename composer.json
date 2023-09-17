@@ -22,6 +22,9 @@
         "laravel/sail": "^1.21",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-mockery": "^1.1",
         "phpunit/phpunit": "^10.0",
         "spatie/laravel-ignition": "^2.0"
     },
@@ -69,7 +72,10 @@
         "seed:future-spent": "php artisan db:seed --class=FutureSpentSeeder",
         "seed:movements": "php artisan db:seed --class=MovementsSeeder",
         "seed:monthly-closing": "php artisan db:seed --class=MonthlyClosingSeeder",
-        "seed:all-data": "php artisan db:seed"
+        "seed:all-data": "php artisan db:seed",
+        "analyze:phpstan": "./vendor/bin/phpstan analyse --memory-limit=512M app tests",
+        "analyze:pint": "./vendor/bin/pint --test --config pint.json",
+        "autocorrect:pint": "./vendor/bin/pint --config pint.json"
     },
     "extra": {
         "laravel": {
@@ -82,7 +88,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
         }
     },
     "minimum-stability": "stable",

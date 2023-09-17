@@ -7,7 +7,7 @@ class UserDTO
     private int $id;
     private string $name;
     private string $email;
-    private  null|string $password;
+    private null|string $password;
     private string $unique_id;
     private null|int $status;
     private float $salary;

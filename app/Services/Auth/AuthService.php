@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
-    const INVALID_LOGIN_OR_PASSWORD_CODE = 1;
-    const INACTIVE_USER_CODE = 2;
-    const OK_CODE = 3;
+    public const INVALID_LOGIN_OR_PASSWORD_CODE = 1;
+    public const INACTIVE_USER_CODE = 2;
+    public const OK_CODE = 3;
 
     public function findUserForAuth(string $email): null|User
     {
@@ -26,7 +26,7 @@ class AuthService
         return $userService->findUserByEmail($email);
     }
 
-    public function validateLogin(?User $user, string $password):  int
+    public function validateLogin(?User $user, string $password): int
     {
         if (! $user) {
             return self::INVALID_LOGIN_OR_PASSWORD_CODE;

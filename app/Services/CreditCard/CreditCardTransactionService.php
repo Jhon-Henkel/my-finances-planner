@@ -38,7 +38,7 @@ class CreditCardTransactionService extends BasicService
         $launchMovementAndUpdateWallet = false;
         $installment = $this->getNextInstallmentOrder($invoices);
         foreach ($invoices as $invoice) {
-            if (! $invoice->$installment){
+            if (! $invoice->$installment) {
                 continue;
             }
             $launchMovementAndUpdateWallet = true;
@@ -73,17 +73,17 @@ class CreditCardTransactionService extends BasicService
     protected function getNextInstallmentOrder(array $invoices): null|string
     {
         foreach ($invoices as $invoice) {
-            if ($invoice->firstInstallment){
+            if ($invoice->firstInstallment) {
                 return 'firstInstallment';
-            } elseif ($invoice->secondInstallment){
+            } elseif ($invoice->secondInstallment) {
                 return 'secondInstallment';
-            } elseif ($invoice->thirdInstallment){
+            } elseif ($invoice->thirdInstallment) {
                 return 'thirdInstallment';
-            } elseif ($invoice->forthInstallment){
+            } elseif ($invoice->forthInstallment) {
                 return 'forthInstallment';
-            } elseif ($invoice->fifthInstallment){
+            } elseif ($invoice->fifthInstallment) {
                 return 'fifthInstallment';
-            } elseif ($invoice->sixthInstallment){
+            } elseif ($invoice->sixthInstallment) {
                 return 'sixthInstallment';
             }
             return null;

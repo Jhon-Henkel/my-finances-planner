@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->exec( 'php ' . base_path('artisan') . ' reset:demodatabase' );
+        $schedule->exec('php ' . base_path('artisan') . ' reset:demodatabase');
     }
 
     /**

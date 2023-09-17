@@ -65,7 +65,7 @@ class FutureSpentService extends BasicService
     {
         $movementService = app(MovementService::class);
         $movement = $movementService->populateByFutureSpent($spent);
-        if (! $movementService->insert($movement)){
+        if (! $movementService->insert($movement)) {
             return false;
         }
         return $this->updateRemainingInstallments($spent);
@@ -104,7 +104,7 @@ class FutureSpentService extends BasicService
             $description = 'Pagamento parcial ' . strtolower($spent->getDescription());
         }
         $movement->setDescription($description);
-        if (! $movementService->insert($movement)){
+        if (! $movementService->insert($movement)) {
             return false;
         }
         return $this->updateRemainingInstallments($spent);

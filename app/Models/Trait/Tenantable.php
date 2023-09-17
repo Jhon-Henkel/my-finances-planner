@@ -11,7 +11,7 @@ trait Tenantable
 {
     protected static function bootTenantable(): void
     {
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new TenantScope());
         $user = RequestTools::getUserDataInRequest();
         if (! $user) {
             return;

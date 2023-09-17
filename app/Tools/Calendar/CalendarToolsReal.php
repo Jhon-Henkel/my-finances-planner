@@ -14,7 +14,7 @@ class CalendarToolsReal
     {
         if($hour >= 4 && $hour <= 12) {
             return 'Bom dia ' . $name ?? '';
-        } else if ($hour > 12 && $hour <19) {
+        } elseif ($hour > 12 && $hour < 19) {
             return 'Boa tarde ' . $name ?? '';
         } else {
             return 'Boa noite ' . $name ?? '';
@@ -96,7 +96,7 @@ class CalendarToolsReal
             $lastMonth = $thisMonth - 1;
             $year = $thisYear;
         }
-        $startDate = $this->mountStringDateTime($year, $lastMonth,  1, '00:00:00');
+        $startDate = $this->mountStringDateTime($year, $lastMonth, 1, '00:00:00');
         $lastDay = $this->getLastDayOfData($startDate);
         $endDate = $this->mountStringDateTime($year, $lastMonth, $lastDay, '23:59:59');
         return new DatePeriodDTO($startDate, $endDate);

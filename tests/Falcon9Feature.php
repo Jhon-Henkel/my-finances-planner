@@ -43,10 +43,10 @@ abstract class Falcon9Feature extends BaseTestCase
     protected function makeHeaders(): array
     {
         return [
-            'Content-Type'=> 'application/json',
+            'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'MFP-TOKEN'=> env('PUSHER_APP_KEY'),
-            'X-MFP-USER-TOKEN'=> 'Bearer ' . JwtTools::createJWT($this->user)
+            'MFP-TOKEN' => env('PUSHER_APP_KEY'),
+            'X-MFP-USER-TOKEN' => 'Bearer ' . JwtTools::createJWT($this->user)
         ];
     }
 

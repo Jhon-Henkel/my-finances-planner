@@ -8,7 +8,7 @@ use Illuminate\Support\MessageBag;
 
 abstract class BasicService implements BasicServiceContract
 {
-    protected abstract function getRepository();
+    abstract protected function getRepository();
 
     public function findAll()
     {

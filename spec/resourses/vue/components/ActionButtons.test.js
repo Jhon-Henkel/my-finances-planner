@@ -30,10 +30,10 @@ describe('Testing the ActionButtons', () => {
             }
         })
         expect(wrapper.html()).toContain('class="text-center action-buttons">')
-        expect(wrapper.html()).toContain('class="btn btn-sm btn-danger rounded-5"')
-        expect(wrapper.html()).toContain('class="btn btn-sm btn-success rounded-5 me-1"')
-        expect(wrapper.html()).toContain('class="btn btn-sm btn-success rounded-5 me-1"')
-        expect(wrapper.html()).toContain('class="btn btn-sm btn-info rounded-5 me-1"')
+        expect(wrapper.html()).toContain('class="btn btn-sm btn-danger rounded-2"')
+        expect(wrapper.html()).toContain('class="btn btn-sm btn-success rounded-2 me-1"')
+        expect(wrapper.html()).toContain('class="btn btn-sm btn-success rounded-2 me-1"')
+        expect(wrapper.html()).toContain('class="btn btn-sm btn-info rounded-2 me-1"')
 
         await wrapper.find('button.btn-success').trigger('click')
         expect(wrapper.emitted('check-clicked').length).toBe(1)

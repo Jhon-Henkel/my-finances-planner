@@ -14,7 +14,8 @@ readonly class AccessLogDTO
         private ?string $comments,
         private string|int $tenantId,
         private mixed $created_at = null
-    ) {}
+    ) {
+    }
 
     public function getId(): ?string
     {

@@ -14,7 +14,8 @@ class MonthlyClosingDTO
         private readonly mixed $createdAt = null,
         private readonly mixed $updatedAt = null,
         private readonly null|int $tenantId = null
-    ) {}
+    ) {
+    }
 
     public function getId(): ?int
     {

@@ -8,7 +8,6 @@ use App\VO\ConfigurationsVO;
 
 class ConfigurationResource extends BasicResource
 {
-
     public function arrayToDto(array $item): ConfigurationDTO
     {
         $dto = new ConfigurationDTO();

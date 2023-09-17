@@ -8,81 +8,93 @@
                 <back-button to="/panorama" class="top-button"/>
             </div>
             <divider/>
-            <div class="table-responsive-lg">
-                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                    <thead class="table-dark">
-                        <tr class="text-center">
-                            <td colspan="11">
-                                <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-2"/>
-                                Todas as Despesas (Exceto Cartões)
-                            </td>
-                        </tr>
-                        <tr class="text-center">
-                            <td>Id</td>
-                            <td>Nome Carteira</td>
-                            <td>Descrição</td>
-                            <td>Valor</td>
-                            <td>Parcelas</td>
-                            <td>Primeiro Vencimento</td>
-                            <td>Ações</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="spent in spending" :key="spending.id" class="text-center">
-                            <td>{{ spent.id }}</td>
-                            <td>{{ spent.walletName }}</td>
-                            <td>{{ spent.description }}</td>
-                            <td>{{ stringTools.formatFloatValueToBrString(spent.amount) }}</td>
-                            <td>{{ spent.installments === 0 ? 'Fixo' : spent.installments }}</td>
-                            <td>{{ calendarTools.convertDateDbToBr(spent.forecast) }}</td>
-                            <td>
-                                <action-buttons
-                                    :delete-tooltip="'Deletar Despesa'"
-                                    :tooltip-edit="'Editar Despesa'"
-                                    :edit-to="'/panorama/' + spent.id + '/atualizar-despesa?referer=' + referer"
-                                    @delete-clicked="deleteSpent(spent.id, spent.description)" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card glass success balance-card">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        <div class="table-responsive-lg">
+                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
+                                <thead class="text-center">
+                                    <tr class="text-center">
+                                        <td colspan="11" class="border-table">
+                                            <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-2"/>
+                                            Todas as Despesas (Exceto Cartões)
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center border-table">
+                                        <td>Id</td>
+                                        <td>Nome Carteira</td>
+                                        <td>Descrição</td>
+                                        <td>Valor</td>
+                                        <td>Parcelas</td>
+                                        <td>Primeiro Vencimento</td>
+                                        <td>Ações</td>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-body-hover">
+                                    <tr v-for="spent in spending" :key="spending.id" class="text-center">
+                                        <td>{{ spent.id }}</td>
+                                        <td>{{ spent.walletName }}</td>
+                                        <td>{{ spent.description }}</td>
+                                        <td>{{ stringTools.formatFloatValueToBrString(spent.amount) }}</td>
+                                        <td>{{ spent.installments === 0 ? 'Fixo' : spent.installments }}</td>
+                                        <td>{{ calendarTools.convertDateDbToBr(spent.forecast) }}</td>
+                                        <td>
+                                            <action-buttons
+                                                :delete-tooltip="'Deletar Despesa'"
+                                                :tooltip-edit="'Editar Despesa'"
+                                                :edit-to="'/panorama/' + spent.id + '/atualizar-despesa?referer=' + referer"
+                                                @delete-clicked="deleteSpent(spent.id, spent.description)" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="table-responsive-lg">
-                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                    <thead class="table-dark">
-                        <tr class="text-center">
-                            <td colspan="11">
-                                <font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-2"/>
-                                Todos os Ganhos
-                            </td>
-                        </tr>
-                        <tr class="text-center">
-                            <td>Id</td>
-                            <td>Nome Carteira</td>
-                            <td>Descrição</td>
-                            <td>Valor</td>
-                            <td>Parcelas</td>
-                            <td>Primeiro Vencimento</td>
-                            <td>Ações</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="gain in gains" :key="gain.id" class="text-center">
-                            <td>{{ gain.id }}</td>
-                            <td>{{ gain.walletName }}</td>
-                            <td>{{ gain.description }}</td>
-                            <td>{{ stringTools.formatFloatValueToBrString(gain.amount) }}</td>
-                            <td>{{ gain.installments === 0 ? 'Fixo' : gain.installments }}</td>
-                            <td>{{ calendarTools.convertDateDbToBr(gain.forecast) }}</td>
-                            <td>
-                                <action-buttons
-                                    :delete-tooltip="'Deletar Ganho'"
-                                    :tooltip-edit="'Editar Ganho'"
-                                    :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar?referer=' + referer"
-                                    @delete-clicked="deleteGain(gain.id, gain.description)" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card glass success balance-card mt-4">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        <div class="table-responsive-lg">
+                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
+                                <thead class="text-center">
+                                    <tr class="text-center">
+                                        <td colspan="11" class="border-table">
+                                            <font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-2"/>
+                                            Todos os Ganhos
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center border-table">
+                                        <td>Id</td>
+                                        <td>Nome Carteira</td>
+                                        <td>Descrição</td>
+                                        <td>Valor</td>
+                                        <td>Parcelas</td>
+                                        <td>Primeiro Vencimento</td>
+                                        <td>Ações</td>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-body-hover">
+                                    <tr v-for="gain in gains" :key="gain.id" class="text-center">
+                                        <td>{{ gain.id }}</td>
+                                        <td>{{ gain.walletName }}</td>
+                                        <td>{{ gain.description }}</td>
+                                        <td>{{ stringTools.formatFloatValueToBrString(gain.amount) }}</td>
+                                        <td>{{ gain.installments === 0 ? 'Fixo' : gain.installments }}</td>
+                                        <td>{{ calendarTools.convertDateDbToBr(gain.forecast) }}</td>
+                                        <td>
+                                            <action-buttons
+                                                :delete-tooltip="'Deletar Ganho'"
+                                                :tooltip-edit="'Editar Ganho'"
+                                                :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar?referer=' + referer"
+                                                @delete-clicked="deleteGain(gain.id, gain.description)" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <divider/>
         </div>
@@ -195,6 +207,9 @@
     }
     .spent-icon {
         color: $danger-icon-color;
+    }
+    .border-table {
+        border-bottom: 2px solid $table-line-divider-color;
     }
     @media (max-width: 1000px) {
         .title {

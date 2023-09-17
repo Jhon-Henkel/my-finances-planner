@@ -208,7 +208,7 @@ class MovementService extends BasicService
             }
             if ($movement['type'] == MovementEnum::GAIN) {
                 $gainData[] = (float)$movement['total'];
-            } else if ($movement['type'] == MovementEnum::SPENT) {
+            } elseif ($movement['type'] == MovementEnum::SPENT) {
                 $spentData[] = (float)$movement['total'];
             }
         }

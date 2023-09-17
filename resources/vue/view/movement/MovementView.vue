@@ -16,59 +16,65 @@
                                     class="top-button"/>
             </div>
             <divider/>
-            <div class="table-responsive-lg">
-                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                    <thead class="table-dark">
-                        <tr class="text-center">
-                            <th></th>
-                            <th scope="col">Descrição</th>
-                            <th scope="col">Carteira</th>
-                            <th scope="col">Valor</th>
-                            <th scope="col">Data</th>
-                            <th scope="col">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr v-show="movements.length === 0">
-                            <td colspan="8">Nenhuma movimentação cadastrada ainda!</td>
-                        </tr>
-                        <tr v-for="movement in movements" :key="movement.id">
-                            <td>
-                                <font-awesome-icon v-if="movement.type === movementEnum.type.transfer()"
-                                                   :icon="iconEnum.circleArrowRight()"
-                                                   class="movement-transfer-icon"/>
-                                <font-awesome-icon v-else-if="movement.type === movementEnum.type.spent()"
-                                                   :icon="iconEnum.circleArrowDown()"
-                                                   class="movement-spent-icon"/>
-                                <font-awesome-icon v-else-if="movement.type === movementEnum.type.gain()"
-                                                   :icon="iconEnum.circleArrowUp()"
-                                                   class="movement-gain-icon"/>
-                            </td>
-                            <td>{{ movement.description }}</td>
-                            <td>{{ movement.walletName }}</td>
-                            <td>{{ stringTools.formatFloatValueToBrString(movement.amount) }}</td>
-                            <td>{{ calendarTools.convertDateDbToBr(movement.createdAt) }}</td>
-                            <td>
-                                <action-buttons
-                                    v-if="movement.type !== movementEnum.type.transfer()"
-                                    :delete-tooltip="'Deletar Movimentação'"
-                                    :tooltip-edit="'Editar Movimentação'"
-                                    :edit-to="'/movimentacoes/' + movement.id + '/atualizar'"
-                                    @delete-clicked="deleteMovement(movement.id, movement.description)"/>
-                                <div class="text-center action-buttons" v-if="movement.type === movementEnum.type.transfer()">
-                                    <button class="btn btn-sm btn-danger rounded-5 text-center action-buttons delete-button"
-                                            @click="deleteTransfer(movement.id, movement.description)"
-                                            v-tooltip="'Deletar Movimentação'" >
-                                        <font-awesome-icon :icon="iconEnum.trashIcon()" />
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card glass success balance-card">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        <div class="table-responsive-lg">
+                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th></th>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Carteira</th>
+                                        <th scope="col">Valor</th>
+                                        <th scope="col">Data</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center table-body-hover">
+                                    <tr v-show="movements.length === 0">
+                                        <td colspan="8">Nenhuma movimentação cadastrada ainda!</td>
+                                    </tr>
+                                    <tr v-for="movement in movements" :key="movement.id">
+                                        <td>
+                                            <font-awesome-icon v-if="movement.type === movementEnum.type.transfer()"
+                                                            :icon="iconEnum.circleArrowRight()"
+                                                            class="movement-transfer-icon"/>
+                                            <font-awesome-icon v-else-if="movement.type === movementEnum.type.spent()"
+                                                            :icon="iconEnum.circleArrowDown()"
+                                                            class="movement-spent-icon"/>
+                                            <font-awesome-icon v-else-if="movement.type === movementEnum.type.gain()"
+                                                            :icon="iconEnum.circleArrowUp()"
+                                                            class="movement-gain-icon"/>
+                                        </td>
+                                        <td class="text-start">{{ movement.description }}</td>
+                                        <td class="text-start">{{ movement.walletName }}</td>
+                                        <td>{{ stringTools.formatFloatValueToBrString(movement.amount) }}</td>
+                                        <td>{{ calendarTools.convertDateDbToBr(movement.createdAt) }}</td>
+                                        <td>
+                                            <action-buttons
+                                                v-if="movement.type !== movementEnum.type.transfer()"
+                                                :delete-tooltip="'Deletar Movimentação'"
+                                                :tooltip-edit="'Editar Movimentação'"
+                                                :edit-to="'/movimentacoes/' + movement.id + '/atualizar'"
+                                                @delete-clicked="deleteMovement(movement.id, movement.description)"/>
+                                            <div class="text-center action-buttons" v-if="movement.type === movementEnum.type.transfer()">
+                                                <button class="btn btn-sm btn-danger rounded-2 text-center action-buttons delete-button"
+                                                        @click="deleteTransfer(movement.id, movement.description)"
+                                                        v-tooltip="'Deletar Movimentação'" >
+                                                    <font-awesome-icon :icon="iconEnum.trashIcon()" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row ms-1">
-                <div class="card glass success balance-card">
+            <div class="row ms-1 mt-4">
+                <div class="card glass success balance-card card-resume balance-card-resume">
                     <div class="card-body text-center">
                         <h4 class="card-title">
                             <font-awesome-icon :icon="iconEnum.movement()" class="me-2"/>
@@ -232,13 +238,13 @@
     .movement-gain-icon {
         color: $success-icon-color;
     }
-    .card {
+    .card-resume {
         width: 24rem;
     }
-    .balance-card {
+    .balance-card-resume {
         width: 80.5rem;
     }
-    .card-text {
+    .card-text-resume {
         font-size: 1.5rem;
     }
 
@@ -253,7 +259,7 @@
             margin-top: 10px;
             border-radius: 8px !important;
         }
-        .balance-card {
+        .balance-card-resume {
             width: 100%;
         }
         .ms-1 {

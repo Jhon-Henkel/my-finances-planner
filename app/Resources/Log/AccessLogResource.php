@@ -19,7 +19,7 @@ class AccessLogResource extends BasicResource
             $item['logged'],
             $item['comments'],
             $item['tenant_id'],
-        $item['created_at'] ?? null,
+            $item['created_at'] ?? null,
         );
     }
 

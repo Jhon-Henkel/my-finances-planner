@@ -6,5 +6,4 @@ use RuntimeException;
 
 class NotImplementedException extends RuntimeException
 {
-
 }
