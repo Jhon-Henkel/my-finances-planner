@@ -137,8 +137,12 @@ class MovementService extends BasicService
         $walletService = app(WalletService::class);
         if ($movement->getAmount() != $item->getAmount()) {
             $type = $this->getTypeForMovementUpdate($movement, $item);
-            $value = round($movement->getAmount() - $item->getAmount(), 2);
-            $walletService->updateWalletValue($value, $movement->getWalletId(), $type, true);
+            if ($type == MovementEnum::GAIN) {
+                $value = round($item->getAmount() - $movement->getAmount(), 2);
+            } else {
+                $value = round($movement->getAmount() - $item->getAmount(), 2);
+            }
+            $walletService->updateWalletValue(abs($value), $movement->getWalletId(), $type, true);
         } elseif ($movement->getType() != $item->getType()) {
             $walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $item->getType(), true);
         }

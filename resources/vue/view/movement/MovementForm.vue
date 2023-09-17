@@ -21,7 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-center mt-3">
+                <div class="row justify-content-center mt-3" v-show="! movement.id">
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label" for="movement-type">
