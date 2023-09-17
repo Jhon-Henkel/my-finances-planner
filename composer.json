@@ -22,6 +22,7 @@
         "laravel/sail": "^1.21",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
+        "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.0",
         "spatie/laravel-ignition": "^2.0"
     },
@@ -69,7 +70,8 @@
         "seed:future-spent": "php artisan db:seed --class=FutureSpentSeeder",
         "seed:movements": "php artisan db:seed --class=MovementsSeeder",
         "seed:monthly-closing": "php artisan db:seed --class=MonthlyClosingSeeder",
-        "seed:all-data": "php artisan db:seed"
+        "seed:all-data": "php artisan db:seed",
+        "analyze:phpstan": "phpstan analyse --memory-limit=512M app"
     },
     "extra": {
         "laravel": {

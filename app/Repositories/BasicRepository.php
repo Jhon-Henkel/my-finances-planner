@@ -62,6 +62,6 @@ abstract class BasicRepository implements BasicRepositoryContract
             ->where('created_at', '<=', $period->getEndDate())
             ->orderBy(BasicFieldsEnum::ID, 'desc')
             ->get();
-        return $this->resource->arrayToDtoItens($itens->toArray());
+        return $this->getResource()->arrayToDtoItens($itens->toArray());
     }
 }
