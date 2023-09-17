@@ -74,7 +74,8 @@
         "seed:monthly-closing": "php artisan db:seed --class=MonthlyClosingSeeder",
         "seed:all-data": "php artisan db:seed",
         "analyze:phpstan": "./vendor/bin/phpstan analyse --memory-limit=512M app tests",
-        "analyze:pint": "./vendor/bin/pint --test --config pint.json"
+        "analyze:pint": "./vendor/bin/pint --test --config pint.json",
+        "autocorrect:pint": "./vendor/bin/pint --config pint.json"
     },
     "extra": {
         "laravel": {
