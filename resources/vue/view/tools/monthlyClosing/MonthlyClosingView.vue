@@ -13,47 +13,53 @@
                     <line-chart :options="chartOptions" :data="chartData" />
                 </div>
             </div>
-            <div class="table-responsive-lg">
-                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                    <thead class="table-dark">
-                        <tr class="text-center">
-                            <td>
-                                <font-awesome-icon :icon="iconEnum.calendarCheck()" />
-                                Data
-                            </td>
-                            <td>
-                                <spent-icon/>
-                                Gasto Previsto
-                            </td>
-                            <td>
-                                <spent-icon/>
-                                Gasto Real
-                            </td>
-                            <td>
-                                <gain-icon/>
-                                Ganho Previsto
-                            </td>
-                            <td>
-                                <gain-icon/>
-                                Ganho Real
-                            </td>
-                            <td>
-                                <font-awesome-icon :icon="iconEnum.scaleBalanced()" />
-                                Balanço
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center" v-for="closing in monthlyClosings" :key="closing.id">
-                            <td>{{ CalendarTools.convertDateDbToBr(closing.createdAt) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(closing.predictedExpenses) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(closing.realExpenses) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(closing.predictedEarnings) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(closing.realEarnings) }}</td>
-                            <td>{{ StringTools.formatFloatValueToBrString(closing.balance) }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card glass success balance-card">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        <div class="table-responsive-lg">
+                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
+                                <thead class="text-center">
+                                    <tr class="text-center border-table">
+                                        <td>
+                                            <font-awesome-icon :icon="iconEnum.calendarCheck()" />
+                                            Data
+                                        </td>
+                                        <td>
+                                            <spent-icon/>
+                                            Gasto Previsto
+                                        </td>
+                                        <td>
+                                            <spent-icon/>
+                                            Gasto Real
+                                        </td>
+                                        <td>
+                                            <gain-icon/>
+                                            Ganho Previsto
+                                        </td>
+                                        <td>
+                                            <gain-icon/>
+                                            Ganho Real
+                                        </td>
+                                        <td>
+                                            <font-awesome-icon :icon="iconEnum.scaleBalanced()" />
+                                            Balanço
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-body-hover">
+                                    <tr class="text-center" v-for="closing in monthlyClosings" :key="closing.id">
+                                        <td>{{ CalendarTools.convertDateDbToBr(closing.createdAt) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(closing.predictedExpenses) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(closing.realExpenses) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(closing.predictedEarnings) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(closing.realEarnings) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(closing.balance) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <divider/>
         </div>
@@ -135,8 +141,12 @@
 </script>
 
 <style scoped lang="scss">
+    @import "../../../../sass/variables";
     .chart-div{
         width: 100%;
+    }
+    .border-table {
+        border-bottom: 2px solid $table-line-divider-color;
     }
     @media (max-width: 1000px) {
         .nav {
