@@ -1,10 +1,10 @@
 <template>
     <div class="nav justify-content-center">
-        <router-link class="btn btn-danger rounded-5" :to="redirectTo" v-if="showButtonCancel">
+        <router-link class="btn btn-danger rounded-2" :to="redirectTo" v-if="showButtonCancel">
             <font-awesome-icon :icon="buttonCancelIcon" class="me-2"/>
             {{ buttonCancelText }}
         </router-link>
-        <button class="btn btn-success rounded-5 ms-3" @click="this.$emit('btn-clicked')">
+        <button class="btn btn-success rounded-2 ms-3" @click="this.$emit('btn-clicked')">
             <font-awesome-icon :icon="buttonSuccessIcon" class="me-2" />
             {{ buttonSuccessText }}
         </button>
@@ -55,7 +55,7 @@
 
 <style scoped>
     @media (max-width: 1000px) {
-        .rounded-5 {
+        .rounded-2 {
             border-radius: 8px !important;
         }
     }

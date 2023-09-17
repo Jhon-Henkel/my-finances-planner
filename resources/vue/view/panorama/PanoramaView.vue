@@ -5,11 +5,11 @@
         <div v-show="loadingDone === 1">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Panorama"/>
-                <router-link class="btn btn-success rounded-5 top-button" to="/panorama/cadastrar-despesa">
+                <router-link class="btn btn-success rounded-2 top-button" to="/panorama/cadastrar-despesa">
                     <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
                     Novo Gasto Futuro
                 </router-link>
-                <router-link class="btn btn-success rounded-5 ms-2 top-button" to="/panorama/todas-despesas-e-ganhos">
+                <router-link class="btn btn-success rounded-2 ms-2 top-button" to="/panorama/todas-despesas-e-ganhos">
                     <font-awesome-icon :icon="iconEnum.movement()" class="me-2"/>
                     Ver todos Ganhos/Gastos
                 </router-link>

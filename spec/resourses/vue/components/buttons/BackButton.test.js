@@ -15,7 +15,7 @@ describe('Testing the BackButton', () => {
                 }
             }
         })
-        expect(wrapper.html()).toContain('class="btn btn-success rounded-5')
+        expect(wrapper.html()).toContain('class="btn btn-success rounded-2')
         expect(wrapper.html()).toContain('icon="fas,angle-left"')
         expect(wrapper.html()).toContain('> Voltar')
     })

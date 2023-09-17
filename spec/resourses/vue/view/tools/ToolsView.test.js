@@ -17,6 +17,6 @@ describe('Testing the ToolsView', () => {
         })
         expect(wrapper.html()).toContain('Ferramentas que auxiliam nas suas finanças pessoais')
         expect(wrapper.html()).toContain('class="card-img-top image-card"')
-        expect(wrapper.html()).toContain('class="btn btn-success rounded-5 btn-full"')
+        expect(wrapper.html()).toContain('class="btn btn-success rounded-2 btn-full"')
     })
 })

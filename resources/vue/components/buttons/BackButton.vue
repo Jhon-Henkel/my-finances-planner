@@ -1,5 +1,5 @@
 <template>
-    <router-link class="btn btn-success rounded-5" :to="to">
+    <router-link class="btn btn-success " :to="to">
         <font-awesome-icon :icon="iconEnum.back()" class="me-2"/>
         Voltar
     </router-link>

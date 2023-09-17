@@ -5,7 +5,7 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Ganhos Futuros'"/>
-                <router-link class="btn btn-success rounded-5 top-button" to="/ganhos-futuros/cadastrar">
+                <router-link class="btn btn-success rounded-2 top-button" to="/ganhos-futuros/cadastrar">
                     <font-awesome-icon :icon="iconEnum.sackDollar()" class="me-2"/>
                     Novo Ganho Futuro
                 </router-link>

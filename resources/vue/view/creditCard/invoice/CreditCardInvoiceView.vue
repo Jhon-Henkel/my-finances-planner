@@ -67,7 +67,7 @@
             <div>
                 <div class="input-group mb-3">
                     <button class="btn btn-success show-pay-options"
-                            :class="showPayInvoice ? '' : 'rounded-5'"
+                            :class="showPayInvoice ? '' : 'rounded-2'"
                             @click="showPayInvoice = !showPayInvoice">
                         <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
                         Pagar próxima fatura

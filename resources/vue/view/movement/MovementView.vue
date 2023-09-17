@@ -56,7 +56,7 @@
                                     :edit-to="'/movimentacoes/' + movement.id + '/atualizar'"
                                     @delete-clicked="deleteMovement(movement.id, movement.description)"/>
                                 <div class="text-center action-buttons" v-if="movement.type === movementEnum.type.transfer()">
-                                    <button class="btn btn-sm btn-danger rounded-5 text-center action-buttons delete-button"
+                                    <button class="btn btn-sm btn-danger rounded-2 text-center action-buttons delete-button"
                                             @click="deleteTransfer(movement.id, movement.description)"
                                             v-tooltip="'Deletar Movimentação'" >
                                         <font-awesome-icon :icon="iconEnum.trashIcon()" />

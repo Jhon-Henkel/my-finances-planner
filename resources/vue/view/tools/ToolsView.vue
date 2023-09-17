@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ item.title }}</h5>
                     <p class="card-text">{{ item.description }}</p>
-                    <a :href="item.redirectTo" class="btn btn-success rounded-5 btn-full">
+                    <a :href="item.redirectTo" class="btn btn-success rounded-2 btn-full">
                         <font-awesome-icon :icon="iconEnum.wrench()" class="me-2"/>
                         Usar
                     </a>

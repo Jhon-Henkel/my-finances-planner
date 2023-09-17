@@ -6,10 +6,12 @@
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Cartões"/>
                 <router-link class="btn btn-success rounded-5 top-button" to="/gerenciar-cartoes/cadastrar">
+                <router-link class="btn btn-success rounded-2 top-button" to="/gerenciar-cartoes/cadastrar">
                     <font-awesome-icon :icon="iconEnum.creditCard()" class="me-2"/>
                     Novo Cartão
                 </router-link>
                 <router-link class="btn btn-success rounded-5 ms-2 top-button" to="/gerenciar-cartoes/despesa/cadastrar">
+                <router-link class="btn btn-success rounded-2 ms-2 top-button" to="/gerenciar-cartoes/despesa/cadastrar">
                     <font-awesome-icon :icon="iconEnum.expense()" class="me-2"/>
                     Nova despesa
                 </router-link>
@@ -63,6 +65,7 @@
                 <div class="input-group mb-3">
                     <button class="btn btn-success show-pay-options"
                             :class="showPayInvoice ? '' : 'rounded-5'"
+                            :class="showPayInvoice ? '' : 'rounded-2'"
                             @click="showPayInvoice = !showPayInvoice">
                         <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
                         Pagar próxima fatura

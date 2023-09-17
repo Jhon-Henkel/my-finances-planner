@@ -1,5 +1,5 @@
 <template>
-    <router-link class="btn btn-success rounded-5" :to="redirectTo">
+    <router-link class="btn btn-success rounded-2" :to="redirectTo">
         <font-awesome-icon :icon="icon" class="me-2"/>
         {{ title }}
     </router-link>
