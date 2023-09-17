@@ -11,51 +11,57 @@
                 </router-link>
             </div>
             <divider/>
-            <div class="table-responsive-lg">
-                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                    <thead class="table-dark">
-                        <tr class="text-center">
-                            <th scope="col">Carteira</th>
-                            <th scope="col">Tipo</th>
-                            <th scope="col">Valor Atual</th>
-                            <th scope="col">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr v-show="wallets.length === 0">
-                            <td colspan="4">Nenhuma carteira cadastrada ainda!</td>
-                        </tr>
-                        <tr v-for="wallet in wallets" :key="wallet.id" class="text-center">
-                            <td>{{ wallet.name }}</td>
-                            <td>{{ walletEnum.getDescription(wallet.type) }}</td>
-                            <td>
-                                {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
-                                <alert-icon v-if="wallet.amount < 0" />
-                            </td>
-                            <td>
-                                <action-buttons
-                                    :delete-tooltip="'Deletar Carteira'"
-                                    :tooltip-edit="'Editar Carteira'"
-                                    :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
-                                    @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
-                            </td>
-                        </tr>
-                        <tr class="border-table">
-                            <td colspan="2">Total</td>
-                            <td colspan="2">{{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card glass success balance-card">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        <div class="table-responsive-lg">
+                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
+                                <thead class="text-center">
+                                    <tr class="text-center">
+                                        <th scope="col">Carteira</th>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Valor Atual</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr v-show="wallets.length === 0">
+                                        <td colspan="4">Nenhuma carteira cadastrada ainda!</td>
+                                    </tr>
+                                    <tr v-for="wallet in wallets" :key="wallet.id" class="text-center">
+                                        <td>{{ wallet.name }}</td>
+                                        <td>{{ walletEnum.getDescription(wallet.type) }}</td>
+                                        <td>
+                                            {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
+                                            <alert-icon v-if="wallet.amount < 0" />
+                                        </td>
+                                        <td>
+                                            <action-buttons
+                                                :delete-tooltip="'Deletar Carteira'"
+                                                :tooltip-edit="'Editar Carteira'"
+                                                :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
+                                                @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
+                                        </td>
+                                    </tr>
+                                    <tr class="border-table">
+                                        <td colspan="2">Total</td>
+                                        <td colspan="2">{{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row ms-1">
-                <div class="card glass success balance-card">
+            <div class="row ms-1 mt-4">
+                <div class="card glass success balance-card card-resume balance-card-resume">
                     <div class="card-body text-center resume-card">
                         <h4 class="card-title">
                             <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
                             Resumo
                         </h4>
                         <hr>
-                        <div class="card-text resume-content">
+                        <div class="card-text resume-content card-text-resume">
                             <div class="row">
                                 <div class="col-2">
                                     <h6>Dinheiro</h6>
@@ -216,13 +222,13 @@
          font-size: 15px;
          top: 50%;
     }
-    .card {
+    .card-resume {
         width: 24rem;
     }
-    .balance-card {
+    .balance-card-resume {
         width: 80.5rem;
     }
-    .card-text {
+    .card-text-resume {
         font-size: 1.5rem;
     }
     .border-table {
@@ -236,7 +242,7 @@
             margin-top: 10px;
             border-radius: 8px !important;
         }
-        .balance-card {
+        .balance-card-resume {
             width: 97%;
         }
         .resume-content {
