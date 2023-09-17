@@ -90,136 +90,138 @@
 </template>
 
 <script>
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import apiRouter from "../../../js/router/apiRouter";
-    import BottomButtons from "../../components/BottomButtons.vue";
-    import {HttpStatusCode} from "axios";
-    import InputMoney from "../../components/inputMoneyComponent.vue";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import MfpMessage from "../../components/MessageAlert.vue";
+import MfpTitle from '../../components/TitleComponent.vue'
+import Divider from '../../components/DividerComponent.vue'
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import apiRouter from '../../../js/router/apiRouter'
+import BottomButtons from '../../components/BottomButtons.vue'
+import { HttpStatusCode } from 'axios'
+import InputMoney from '../../components/inputMoneyComponent.vue'
+import MessageEnum from '../../../js/enums/messageEnum'
+import MfpMessage from '../../components/MessageAlert.vue'
 
-    const FIX_SPENT = 0
+const FIX_SPENT = 0
 
-    export default {
-        name: "PanoramaForm",
-        components: {
-            MfpMessage,
-            InputMoney,
-            BottomButtons,
-            LoadingComponent,
-            Divider,
-            MfpTitle
-        },
-        data() {
-            return {
-                title: '',
-                loadingDone: false,
-                wallets: {},
-                spent: {},
-                redirect: '/panorama',
-            }
-        },
-        methods: {
-            async updateOrInsertSpent() {
-                this.validateSpent()
-                if (! this.isValid) {
-                    return
-                }
-                if (this.$route.params.id) {
-                    await this.updateSpent()
-                    return
-                }
-                await this.insertSpent()
-            },
-            validateSpent() {
-                let field = null
-                if (! this.spent.description) {
-                    field = 'description'
-                } else if (! this.spent.forecast) {
-                    field = 'primeira parcela'
-                } else if (! this.spent.amount || this.spent.amount === 0) {
-                    field = 'valor'
-                } else if (! this.spent.walletId) {
-                    field = 'carteira'
-                } else if (this.spent.fix === false && (! this.spent.installments || this.spent.installments === 0)) {
-                    field = 'quantidade de vezes'
-                }
-                if (field) {
-                    this.showMessage(
-                        MessageEnum.alertTypeInfo(),
-                        'Campo "' + field + '" é inválido!',
-                        'Campo inválido!'
-                    )
-                    this.isValid = false
-                    return
-                }
-                this.isValid = true
-            },
-            async updateSpent() {
-                await apiRouter.futureSpent.update(this.populateSpent(), this.spent.id).then((response) => {
-                    if (response.status === HttpStatusCode.Ok) {
-                        this.messageSuccess('Gasto atualizado com sucesso!')
-                    } else {
-                        this.messageError('Erro inesperado ao atualizar gasto!')
-                    }
-                }).catch((response) => {
-                    this.messageError(response.response.data.error)
-                })            },
-            async insertSpent() {
-                await apiRouter.futureSpent.insert(this.populateSpent()).then((response) => {
-                    if (response.status === HttpStatusCode.Created) {
-                        this.messageSuccess('Gasto cadastrada com sucesso!')
-                        this.spent = {}
-                        this.spent.fix = false
-                    } else {
-                        this.messageError('Erro inesperado ao inserir gasto!')
-                    }
-                }).catch((response) => {
-                    this.messageError(response.response.data.error)
-                })            },
-            populateSpent() {
-                let installmentsToPopulate = FIX_SPENT
-                if (this.spent.fix === false) {
-                    installmentsToPopulate = this.spent.installments
-                }
-                return {
-                    description: this.spent.description,
-                    installments: installmentsToPopulate,
-                    amount: this.spent.amount,
-                    walletId: this.spent.walletId,
-                    forecast: this.spent.forecast,
-                }
-            },
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, header) {
-                this.$refs.message.showAlert(type,message,header)
-            }
-        },
-        async mounted() {
-            if (this.$route.params.id) {
-                this.title = 'Atualizar Gasto'
-                await apiRouter.futureSpent.show(this.$route.params.id).then((response) => {
-                    this.spent = response
-                    this.loadingDone = true
-                })
-                this.spent.forecast = this.spent.forecast.split('T')[0].slice(0, 10)
-                this.spent.fix = this.spent.installments === FIX_SPENT;
-            } else {
-                this.title = 'Cadastrar Gasto'
-                this.spent.fix = false
-                this.loadingDone = true
-            }
-            if (this.$route.query.referer) {
-                this.redirect = '/' + this.$route.query.referer
-            }
-            this.wallets = await apiRouter.wallet.index()
+export default {
+    name: 'PanoramaForm',
+    components: {
+        MfpMessage,
+        InputMoney,
+        BottomButtons,
+        LoadingComponent,
+        Divider,
+        MfpTitle
+    },
+    data() {
+        return {
+            title: '',
+            loadingDone: false,
+            wallets: {},
+            spent: {},
+            redirect: '/panorama'
         }
+    },
+    methods: {
+        async updateOrInsertSpent() {
+            this.validateSpent()
+            if (!this.isValid) {
+                return
+            }
+            if (this.$route.params.id) {
+                await this.updateSpent()
+                return
+            }
+            await this.insertSpent()
+        },
+        validateSpent() {
+            let field = null
+            if (!this.spent.description) {
+                field = 'description'
+            } else if (!this.spent.forecast) {
+                field = 'primeira parcela'
+            } else if (!this.spent.amount || this.spent.amount === 0) {
+                field = 'valor'
+            } else if (!this.spent.walletId) {
+                field = 'carteira'
+            } else if (this.spent.fix === false && (!this.spent.installments || this.spent.installments === 0)) {
+                field = 'quantidade de vezes'
+            }
+            if (field) {
+                this.showMessage(
+                    MessageEnum.alertTypeInfo(),
+                    'Campo "' + field + '" é inválido!',
+                    'Campo inválido!'
+                )
+                this.isValid = false
+                return
+            }
+            this.isValid = true
+        },
+        async updateSpent() {
+            await apiRouter.futureSpent.update(this.populateSpent(), this.spent.id).then((response) => {
+                if (response.status === HttpStatusCode.Ok) {
+                    this.messageSuccess('Gasto atualizado com sucesso!')
+                } else {
+                    this.messageError('Erro inesperado ao atualizar gasto!')
+                }
+            }).catch((response) => {
+                this.messageError(response.response.data.error)
+            })
+        },
+        async insertSpent() {
+            await apiRouter.futureSpent.insert(this.populateSpent()).then((response) => {
+                if (response.status === HttpStatusCode.Created) {
+                    this.messageSuccess('Gasto cadastrada com sucesso!')
+                    this.spent = {}
+                    this.spent.fix = false
+                } else {
+                    this.messageError('Erro inesperado ao inserir gasto!')
+                }
+            }).catch((response) => {
+                this.messageError(response.response.data.error)
+            })
+        },
+        populateSpent() {
+            let installmentsToPopulate = FIX_SPENT
+            if (this.spent.fix === false) {
+                installmentsToPopulate = this.spent.installments
+            }
+            return {
+                description: this.spent.description,
+                installments: installmentsToPopulate,
+                amount: this.spent.amount,
+                walletId: this.spent.walletId,
+                forecast: this.spent.forecast
+            }
+        },
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, header) {
+            this.$refs.message.showAlert(type, message, header)
+        }
+    },
+    async mounted() {
+        if (this.$route.params.id) {
+            this.title = 'Atualizar Gasto'
+            await apiRouter.futureSpent.show(this.$route.params.id).then((response) => {
+                this.spent = response
+                this.loadingDone = true
+            })
+            this.spent.forecast = this.spent.forecast.split('T')[0].slice(0, 10)
+            this.spent.fix = this.spent.installments === FIX_SPENT
+        } else {
+            this.title = 'Cadastrar Gasto'
+            this.spent.fix = false
+            this.loadingDone = true
+        }
+        if (this.$route.query.referer) {
+            this.redirect = '/' + this.$route.query.referer
+        }
+        this.wallets = await apiRouter.wallet.index()
     }
+}
 </script>

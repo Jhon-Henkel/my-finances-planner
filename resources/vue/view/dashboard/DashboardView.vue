@@ -94,177 +94,177 @@
 </template>
 
 <script>
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import ApiRouter from "../../../js/router/apiRouter";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import StringTools from "../../../js/tools/stringTools";
-    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import calendarTools from "../../../js/tools/calendarTools";
-    import movementEnum from "../../../js/enums/movementEnum";
-    import AlertIcon from "../../components/AlertIcon.vue";
-    import BarChart from "../../components/graphics/BarChart.vue";
-    import dashboardChartParams from "../../../js/chartParams/dashboardChartParams";
-    import { userAuthStore } from "../../store/auth";
+import MfpTitle from '../../components/TitleComponent.vue'
+import Divider from '../../components/DividerComponent.vue'
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import ApiRouter from '../../../js/router/apiRouter'
+import MfpMessage from '../../components/MessageAlert.vue'
+import MessageEnum from '../../../js/enums/messageEnum'
+import StringTools from '../../../js/tools/stringTools'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import iconEnum from '../../../js/enums/iconEnum'
+import calendarTools from '../../../js/tools/calendarTools'
+import movementEnum from '../../../js/enums/movementEnum'
+import AlertIcon from '../../components/AlertIcon.vue'
+import BarChart from '../../components/graphics/BarChart.vue'
+import dashboardChartParams from '../../../js/chartParams/dashboardChartParams'
+import { userAuthStore } from '../../store/auth'
 
-    const auth = userAuthStore()
+const auth = userAuthStore()
 
-    export default {
-        name: "DashboardView",
-        computed: {
-            iconEnum() {
-                return iconEnum
-            },
-            StringTools() {
-                return StringTools
-            }
+export default {
+    name: 'DashboardView',
+    computed: {
+        iconEnum() {
+            return iconEnum
         },
-        components: {
-            BarChart,
-            AlertIcon,
-            FontAwesomeIcon,
-            MfpMessage,
-            LoadingComponent,
-            Divider,
-            MfpTitle
-        },
-        data() {
-            return {
-                loadingDone: false,
-                salutation: auth.user.salutation,
-                graphOptions: dashboardChartParams.options,
-                chartData: dashboardChartParams.data,
-                data: {
-                    walletBalance: 0,
-                    movements: {
-                        thisMonthSpent: 0,
-                        thisMonthGain: 0,
-                        lastMonthSpent: 0,
-                        lastMonthGain: 0,
-                        thisYearSpent: 0,
-                        thisYearGain: 0,
-                        lastMovements: [
-                            {
-                                createdAt: '',
-                                walletName: '',
-                            }
-                        ],
-                        dataForGraph: {
-                            labels: [],
-                            spentData: [],
-                            gainData: []
+        StringTools() {
+            return StringTools
+        }
+    },
+    components: {
+        BarChart,
+        AlertIcon,
+        FontAwesomeIcon,
+        MfpMessage,
+        LoadingComponent,
+        Divider,
+        MfpTitle
+    },
+    data() {
+        return {
+            loadingDone: false,
+            salutation: auth.user.salutation,
+            graphOptions: dashboardChartParams.options,
+            chartData: dashboardChartParams.data,
+            data: {
+                walletBalance: 0,
+                movements: {
+                    thisMonthSpent: 0,
+                    thisMonthGain: 0,
+                    lastMonthSpent: 0,
+                    lastMonthGain: 0,
+                    thisYearSpent: 0,
+                    thisYearGain: 0,
+                    lastMovements: [
+                        {
+                            createdAt: '',
+                            walletName: ''
                         }
-                    },
-                    futureSpent: {
-                        thisMonth: 0,
-                    },
-                    futureGain: {
-                        thisMonth: 0,
+                    ],
+                    dataForGraph: {
+                        labels: [],
+                        spentData: [],
+                        gainData: []
                     }
                 },
-                cardData: {
-                    wallet: {
-                        title: 'Total em carteira',
-                        value: 0,
-                        type: 'success',
-                        icon: iconEnum.wallet(),
-                        iconClass: ''
-                    },
-                    futureSpent: {
-                        title: 'Pagar este mês',
-                        value: 0,
-                        type: 'warning',
-                        icon: iconEnum.circleArrowDown(),
-                        iconClass: 'spent-icon'
-                    },
-                    futureGain: {
-                        title: 'Receber este mês',
-                        value: 0,
-                        type: 'success',
-                        icon: iconEnum.circleArrowUp(),
-                        iconClass: 'gain-icon'
-                    },
+                futureSpent: {
+                    thisMonth: 0
                 },
-                balance: {
-                    thisMonth: 0,
-                    lastMonth: 0,
-                    thisYear: 0,
-                },
-                lastMovements: [],
-            }
-        },
-        methods: {
-            populateData() {
-                this.cardData.wallet.value = this.data.walletBalance;
-                this.cardData.wallet.type = this.data.walletBalance < 0 ? 'warning' : 'success'
-                this.cardData.futureSpent.value = this.data.futureSpent.thisMonth + this.data.creditCards.thisMonth
-                this.cardData.futureGain.value = this.data.futureGain.thisMonth;
-                this.balance.thisMonth = this.data.movements.thisMonthGain - this.data.movements.thisMonthSpent
-                this.balance.lastMonth = this.data.movements.lastMonthGain - this.data.movements.lastMonthSpent
-                this.balance.thisYear = this.data.movements.thisYearGain - this.data.movements.thisYearSpent
-                this.data.movements.lastMovements.forEach(movement => {
-                    this.lastMovements.push({
-                        date: calendarTools.convertDateDbToBr(movement.createdAt).slice(0, 5),
-                        type: this.getIconForType(movement.type),
-                        description: movement.walletName,
-                        value: StringTools.formatFloatValueToBrString(movement.amount),
-                        class: this.getCssClassForIconType(movement.type)
-                    })
-                })
-            },
-            getIconForType(type) {
-                switch (type) {
-                    case movementEnum.type.gain():
-                        return iconEnum.circleArrowUp();
-                    case movementEnum.type.spent():
-                        return iconEnum.circleArrowDown();
-                    case movementEnum.type.transfer():
-                        return iconEnum.circleArrowRight();
+                futureGain: {
+                    thisMonth: 0
                 }
             },
-            getCssClassForIconType(type) {
-                switch (type) {
-                    case movementEnum.type.gain():
-                        return 'gain-icon';
-                    case movementEnum.type.spent():
-                        return 'spent-icon';
-                    case movementEnum.type.transfer():
-                        return 'transfer-icon';
+            cardData: {
+                wallet: {
+                    title: 'Total em carteira',
+                    value: 0,
+                    type: 'success',
+                    icon: iconEnum.wallet(),
+                    iconClass: ''
+                },
+                futureSpent: {
+                    title: 'Pagar este mês',
+                    value: 0,
+                    type: 'warning',
+                    icon: iconEnum.circleArrowDown(),
+                    iconClass: 'spent-icon'
+                },
+                futureGain: {
+                    title: 'Receber este mês',
+                    value: 0,
+                    type: 'success',
+                    icon: iconEnum.circleArrowUp(),
+                    iconClass: 'gain-icon'
                 }
-            }
-        },
-        async mounted() {
-            await ApiRouter.dashboard.index().then(response => {
-                this.data = response;
-                this.populateData();
-                this.chartData = {
-                    labels: this.data.movements.dataForGraph.labels,
-                    datasets: [
-                        {
-                            label: 'Ganhos',
-                            backgroundColor: '#1ead98',
-                            data: this.data.movements.dataForGraph.gainData
-                        },
-                        {
-                            label: 'Gastos',
-                            backgroundColor: '#dc3545',
-                            data: this.data.movements.dataForGraph.spentData
-                        },
-                    ]
-                }
-                this.loadingDone = true;
-            }).catch(error => {
-                this.$refs.message.showAlert(
-                    MessageEnum.alertTypeError(),
-                    error.response.data.message,
-                    'Ocorreu um erro!'
-                )
-            })
+            },
+            balance: {
+                thisMonth: 0,
+                lastMonth: 0,
+                thisYear: 0
+            },
+            lastMovements: []
         }
+    },
+    methods: {
+        populateData() {
+            this.cardData.wallet.value = this.data.walletBalance
+            this.cardData.wallet.type = this.data.walletBalance < 0 ? 'warning' : 'success'
+            this.cardData.futureSpent.value = this.data.futureSpent.thisMonth + this.data.creditCards.thisMonth
+            this.cardData.futureGain.value = this.data.futureGain.thisMonth
+            this.balance.thisMonth = this.data.movements.thisMonthGain - this.data.movements.thisMonthSpent
+            this.balance.lastMonth = this.data.movements.lastMonthGain - this.data.movements.lastMonthSpent
+            this.balance.thisYear = this.data.movements.thisYearGain - this.data.movements.thisYearSpent
+            this.data.movements.lastMovements.forEach(movement => {
+                this.lastMovements.push({
+                    date: calendarTools.convertDateDbToBr(movement.createdAt).slice(0, 5),
+                    type: this.getIconForType(movement.type),
+                    description: movement.walletName,
+                    value: StringTools.formatFloatValueToBrString(movement.amount),
+                    class: this.getCssClassForIconType(movement.type)
+                })
+            })
+        },
+        getIconForType(type) {
+            switch (type) {
+            case movementEnum.type.gain():
+                return iconEnum.circleArrowUp()
+            case movementEnum.type.spent():
+                return iconEnum.circleArrowDown()
+            case movementEnum.type.transfer():
+                return iconEnum.circleArrowRight()
+            }
+        },
+        getCssClassForIconType(type) {
+            switch (type) {
+            case movementEnum.type.gain():
+                return 'gain-icon'
+            case movementEnum.type.spent():
+                return 'spent-icon'
+            case movementEnum.type.transfer():
+                return 'transfer-icon'
+            }
+        }
+    },
+    async mounted() {
+        await ApiRouter.dashboard.index().then(response => {
+            this.data = response
+            this.populateData()
+            this.chartData = {
+                labels: this.data.movements.dataForGraph.labels,
+                datasets: [
+                    {
+                        label: 'Ganhos',
+                        backgroundColor: '#1ead98',
+                        data: this.data.movements.dataForGraph.gainData
+                    },
+                    {
+                        label: 'Gastos',
+                        backgroundColor: '#dc3545',
+                        data: this.data.movements.dataForGraph.spentData
+                    }
+                ]
+            }
+            this.loadingDone = true
+        }).catch(error => {
+            this.$refs.message.showAlert(
+                MessageEnum.alertTypeError(),
+                error.response.data.message,
+                'Ocorreu um erro!'
+            )
+        })
     }
+}
 </script>
 
 <style lang="scss" scoped>

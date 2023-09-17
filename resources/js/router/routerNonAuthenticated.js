@@ -1,7 +1,7 @@
 const routerNonAuthenticated = {
     auth: {
         makeLogin: async function(user) {
-            return await axios.post('/auth',  user)
+            return await axios.post('/auth', user)
         },
         verify: async function(token) {
             return await axios.get('/auth/verify', {
@@ -13,4 +13,4 @@ const routerNonAuthenticated = {
     }
 }
 
-export default routerNonAuthenticated;
+export default routerNonAuthenticated

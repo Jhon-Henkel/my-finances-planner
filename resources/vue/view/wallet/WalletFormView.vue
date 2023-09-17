@@ -45,141 +45,141 @@
 </template>
 
 <script>
-    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-    import messageEnum from "../../../js/enums/messageEnum";
-    import walletEnum from "../../../js/enums/walletEnum";
-    import apiRouter from "../../../js/router/apiRouter";
-    import {HttpStatusCode} from "axios";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import InputMoney from "../../components/inputMoneyComponent.vue";
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import BottomButtons from "../../components/BottomButtons.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import stringTools from "../../../js/tools/stringTools";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import messageEnum from '../../../js/enums/messageEnum'
+import walletEnum from '../../../js/enums/walletEnum'
+import apiRouter from '../../../js/router/apiRouter'
+import { HttpStatusCode } from 'axios'
+import iconEnum from '../../../js/enums/iconEnum'
+import InputMoney from '../../components/inputMoneyComponent.vue'
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import BottomButtons from '../../components/BottomButtons.vue'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import MfpMessage from '../../components/MessageAlert.vue'
+import MessageEnum from '../../../js/enums/messageEnum'
+import stringTools from '../../../js/tools/stringTools'
 
-    export default {
-        name: "WalletFormView",
-        computed: {
-            iconEnum() {
-                return iconEnum
+export default {
+    name: 'WalletFormView',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    components: {
+        MfpMessage,
+        MfpTitle,
+        Divider,
+        BottomButtons,
+        LoadingComponent,
+        InputMoney,
+        FontAwesomeIcon
+    },
+    data() {
+        return {
+            idToUpdate: null,
+            wallet: {
+                type: 0,
+                amount: 0
+            },
+            title: '',
+            isValid: null,
+            loadingDone: false,
+            typesOfWallet: walletEnum.getIdAndDescriptionTypeList()
+        }
+    },
+    methods: {
+        async updateOrInsertWallet() {
+            this.validateWallet()
+            if (!this.isValid) {
+                return
             }
-        },
-        components: {
-            MfpMessage,
-            MfpTitle,
-            Divider,
-            BottomButtons,
-            LoadingComponent,
-            InputMoney,
-            FontAwesomeIcon,
-        },
-        data() {
-            return {
-                idToUpdate: null,
-                wallet: {
-                    type: 0,
-                    amount: 0
-                },
-                title: '',
-                isValid: null,
-                loadingDone: false,
-                typesOfWallet: walletEnum.getIdAndDescriptionTypeList()
-            }
-        },
-        methods: {
-            async updateOrInsertWallet() {
-                this.validateWallet()
-                if (! this.isValid) {
-                    return
-                }
-                if (this.wallet.id) {
-                    await this.updateWallet()
-                } else {
-                    await this.insertWallet()
-                }
-            },
-            validateWallet() {
-                let field = null
-                if (! this.wallet.name || this.wallet.name.length < 2) {
-                    field = 'nome'
-                } else if (this.wallet.type < 0 || this.wallet.type > 10) {
-                    field = 'tipo de conta'
-                }
-                if (field) {
-                    this.showMessage(
-                        MessageEnum.alertTypeInfo(),
-                        'Campo "' + field + '" é inválido!',
-                        'Campo inválido!'
-                    )
-                    this.isValid = false
-                    return
-                }
-                this.isValid = true
-            },
-            populateData() {
-                return {
-                    name: this.wallet.name,
-                    type: this.wallet.type,
-                    amount: this.wallet.amount
-                }
-            },
-            async updateWallet() {
-                if (
-                    confirm('Deseja realmente atualizar a carteira "'
-                    + this.wallet.name + '" com o valor "'
-                    + stringTools.formatFloatValueToBrString(this.wallet.amount)
-                    + '" ?') === false
-                ) {
-                    return
-                }
-                await apiRouter.wallet.update(this.populateData(), this.wallet.id).then((response) => {
-                    if (response.status === HttpStatusCode.Ok) {
-                        this.messageSuccess('Carteira atualizada com sucesso!')
-                    } else {
-                        this.messageError('Erro inesperado ao atualizar carteira!')
-                    }
-                }).catch((response) => {
-                    this.messageError(response.response.data.error)
-                })
-            },
-            async insertWallet() {
-                await apiRouter.wallet.insert(this.populateData()).then((response) => {
-                    if (response.status === HttpStatusCode.Created) {
-                        this.messageSuccess('Carteira cadastrada com sucesso!')
-                        this.wallet = {}
-                    } else {
-                        this.messageError('Erro inesperado ao inserir carteira!')
-                    }
-                }).catch((response) => {
-                    this.messageError(response.response.data.error)
-                })
-            },
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, header) {
-                this.$refs.message.showAlert(type,message,header)
-            }
-        },
-        async mounted() {
-            if (this.$route.params.id) {
-                this.title = 'Atualizar Carteira'
-                await apiRouter.wallet.show(this.$route.params.id).then((response) => {
-                    this.wallet = response
-                    this.loadingDone = true
-                })
+            if (this.wallet.id) {
+                await this.updateWallet()
             } else {
-                this.loadingDone = true
-                this.title = 'Cadastrar Carteira'
+                await this.insertWallet()
             }
+        },
+        validateWallet() {
+            let field = null
+            if (!this.wallet.name || this.wallet.name.length < 2) {
+                field = 'nome'
+            } else if (this.wallet.type < 0 || this.wallet.type > 10) {
+                field = 'tipo de conta'
+            }
+            if (field) {
+                this.showMessage(
+                    MessageEnum.alertTypeInfo(),
+                    'Campo "' + field + '" é inválido!',
+                    'Campo inválido!'
+                )
+                this.isValid = false
+                return
+            }
+            this.isValid = true
+        },
+        populateData() {
+            return {
+                name: this.wallet.name,
+                type: this.wallet.type,
+                amount: this.wallet.amount
+            }
+        },
+        async updateWallet() {
+            if (
+                confirm('Deseja realmente atualizar a carteira "' +
+                    this.wallet.name + '" com o valor "' +
+                    stringTools.formatFloatValueToBrString(this.wallet.amount) +
+                    '" ?') === false
+            ) {
+                return
+            }
+            await apiRouter.wallet.update(this.populateData(), this.wallet.id).then((response) => {
+                if (response.status === HttpStatusCode.Ok) {
+                    this.messageSuccess('Carteira atualizada com sucesso!')
+                } else {
+                    this.messageError('Erro inesperado ao atualizar carteira!')
+                }
+            }).catch((response) => {
+                this.messageError(response.response.data.error)
+            })
+        },
+        async insertWallet() {
+            await apiRouter.wallet.insert(this.populateData()).then((response) => {
+                if (response.status === HttpStatusCode.Created) {
+                    this.messageSuccess('Carteira cadastrada com sucesso!')
+                    this.wallet = {}
+                } else {
+                    this.messageError('Erro inesperado ao inserir carteira!')
+                }
+            }).catch((response) => {
+                this.messageError(response.response.data.error)
+            })
+        },
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, header) {
+            this.$refs.message.showAlert(type, message, header)
+        }
+    },
+    async mounted() {
+        if (this.$route.params.id) {
+            this.title = 'Atualizar Carteira'
+            await apiRouter.wallet.show(this.$route.params.id).then((response) => {
+                this.wallet = response
+                this.loadingDone = true
+            })
+        } else {
+            this.loadingDone = true
+            this.title = 'Cadastrar Carteira'
         }
     }
+}
 </script>
 
 <style scoped>

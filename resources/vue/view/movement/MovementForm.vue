@@ -61,137 +61,139 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import BottomButtons from "../../components/BottomButtons.vue";
-    import apiRouter from "../../../js/router/apiRouter";
-    import {HttpStatusCode} from "axios";
-    import MovementEnum from "../../../js/enums/movementEnum";
-    import InputMoney from "../../components/inputMoneyComponent.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import MessageEnum from "../../../js/enums/messageEnum";
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import BottomButtons from '../../components/BottomButtons.vue'
+import apiRouter from '../../../js/router/apiRouter'
+import { HttpStatusCode } from 'axios'
+import MovementEnum from '../../../js/enums/movementEnum'
+import InputMoney from '../../components/inputMoneyComponent.vue'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import MfpMessage from '../../components/MessageAlert.vue'
+import MessageEnum from '../../../js/enums/messageEnum'
 
-    export default {
-        name: "MovementForm",
-        components: {
-            MfpMessage,
-            MfpTitle,
-            Divider,
-            InputMoney,
-            BottomButtons,
-            LoadingComponent
-        },
-        data() {
-            return {
-                loadingDone: false,
-                title: "",
-                isValid: false,
-                movement: {
-                    walletId: 0,
-                    type: MovementEnum.type.spent(),
-                },
-                wallets: {},
-                types: {}
-            }
-        },
-        methods: {
-            async updateOrInsertMovement() {
-                this.validateMovement()
-                if (! this.isValid) {
-                    return
-                }
-                if (this.$route.params.id) {
-                    await this.updateMovement()
-                    return
-                }
-                await this.insertMovement()
+export default {
+    name: 'MovementForm',
+    components: {
+        MfpMessage,
+        MfpTitle,
+        Divider,
+        InputMoney,
+        BottomButtons,
+        LoadingComponent
+    },
+    data() {
+        return {
+            loadingDone: false,
+            title: '',
+            isValid: false,
+            movement: {
+                walletId: 0,
+                type: MovementEnum.type.spent()
             },
-            validateMovement() {
-                let field = null
-                if (! this.movement.description) {
-                    field = 'descrição'
-                } else if (! this.movement.type) {
-                    field = 'tipo'
-                } else if (! this.movement.walletId || this.movement.walletId === 0) {
-                    field = 'carteira'
-                } else if (! this.movement.amount) {
-                    field = 'valor'
-                }
-                if (field) {
-                    this.showMessage(
-                        MessageEnum.alertTypeInfo(),
-                        'Campo "' + field + '" é inválido!',
-                        'Campo inválido!'
-                    )
-                    this.isValid = false
-                    return
-                }
-                this.isValid = true
-            },
-            async updateMovement() {
-                await apiRouter.movement.update(this.populateMovement(), this.movement.id).then((response) => {
-                    if (response.status === HttpStatusCode.Ok) {
-                        this.messageSuccess('Movimentação atualizada com sucesso!')
-                    } else {
-                        this.messageError('Erro inesperado ao atualizar movimentação!')
-                    }
-                }).catch((response) => {
-                    this.messageError(response.response.data.error)
-                })            },
-            async insertMovement() {
-                await apiRouter.movement.insert(this.populateMovement()).then((response) => {
-                    if (response.status === HttpStatusCode.Created) {
-                        this.messageSuccess('Movimentação cadastrada com sucesso!')
-                        this.movement = {}
-                        this.movement.type = MovementEnum.type.spent()
-                    } else {
-                        this.messageError('Erro inesperado ao inserir movimentação!')
-                    }
-                }).catch((response) => {
-                    this.messageError(response.response.data.error)
-                })            },
-            populateMovement() {
-                return {
-                    description: this.movement.description,
-                    type: this.movement.type,
-                    walletId: this.movement.walletId,
-                    amount: this.movement.amount
-                }
-            },
-            async getWallets() {
-                await apiRouter.wallet.index().then((response) => {
-                    this.wallets = response
-                })
-            },
-            async getMovement(movementId) {
-                await apiRouter.movement.show(movementId).then((response) => {
-                    this.movement = response
-                })
-            },
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, title) {
-                this.$refs.message.showAlert(type, message, title)
-            }
-        },
-        async mounted() {
-            if (this.$route.params.id) {
-                this.title = 'Atualizar Movimentação'
-                await this.getMovement(this.$route.params.id)
-            } else {
-                this.title = 'Cadastrar Movimentação'
-                this.movement.type = MovementEnum.type.spent()
-            }
-            await this.getWallets()
-            this.loadingDone = true
-            this.types = MovementEnum.getTypeList()
+            wallets: {},
+            types: {}
         }
+    },
+    methods: {
+        async updateOrInsertMovement() {
+            this.validateMovement()
+            if (!this.isValid) {
+                return
+            }
+            if (this.$route.params.id) {
+                await this.updateMovement()
+                return
+            }
+            await this.insertMovement()
+        },
+        validateMovement() {
+            let field = null
+            if (!this.movement.description) {
+                field = 'descrição'
+            } else if (!this.movement.type) {
+                field = 'tipo'
+            } else if (!this.movement.walletId || this.movement.walletId === 0) {
+                field = 'carteira'
+            } else if (!this.movement.amount) {
+                field = 'valor'
+            }
+            if (field) {
+                this.showMessage(
+                    MessageEnum.alertTypeInfo(),
+                    'Campo "' + field + '" é inválido!',
+                    'Campo inválido!'
+                )
+                this.isValid = false
+                return
+            }
+            this.isValid = true
+        },
+        async updateMovement() {
+            await apiRouter.movement.update(this.populateMovement(), this.movement.id).then((response) => {
+                if (response.status === HttpStatusCode.Ok) {
+                    this.messageSuccess('Movimentação atualizada com sucesso!')
+                } else {
+                    this.messageError('Erro inesperado ao atualizar movimentação!')
+                }
+            }).catch((response) => {
+                this.messageError(response.response.data.error)
+            })
+        },
+        async insertMovement() {
+            await apiRouter.movement.insert(this.populateMovement()).then((response) => {
+                if (response.status === HttpStatusCode.Created) {
+                    this.messageSuccess('Movimentação cadastrada com sucesso!')
+                    this.movement = {}
+                    this.movement.type = MovementEnum.type.spent()
+                } else {
+                    this.messageError('Erro inesperado ao inserir movimentação!')
+                }
+            }).catch((response) => {
+                this.messageError(response.response.data.error)
+            })
+        },
+        populateMovement() {
+            return {
+                description: this.movement.description,
+                type: this.movement.type,
+                walletId: this.movement.walletId,
+                amount: this.movement.amount
+            }
+        },
+        async getWallets() {
+            await apiRouter.wallet.index().then((response) => {
+                this.wallets = response
+            })
+        },
+        async getMovement(movementId) {
+            await apiRouter.movement.show(movementId).then((response) => {
+                this.movement = response
+            })
+        },
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, title) {
+            this.$refs.message.showAlert(type, message, title)
+        }
+    },
+    async mounted() {
+        if (this.$route.params.id) {
+            this.title = 'Atualizar Movimentação'
+            await this.getMovement(this.$route.params.id)
+        } else {
+            this.title = 'Cadastrar Movimentação'
+            this.movement.type = MovementEnum.type.spent()
+        }
+        await this.getWallets()
+        this.loadingDone = true
+        this.types = MovementEnum.getTypeList()
     }
+}
 </script>
 
 <style scoped>

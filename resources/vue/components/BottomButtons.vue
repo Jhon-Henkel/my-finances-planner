@@ -12,45 +12,45 @@
 </template>
 
 <script>
-    import iconEnum from "../../js/enums/iconEnum";
+import iconEnum from '../../js/enums/iconEnum'
 
-    export default {
-        name: "BottomButtons",
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'BottomButtons',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    emits: [
+        'btn-clicked'
+    ],
+    props: {
+        buttonSuccessText: {
+            type: String,
+            required: true
         },
-        emits: [
-            'btn-clicked'
-        ],
-        props: {
-            buttonSuccessText: {
-                type: String,
-                required: true
-            },
-            buttonSuccessIcon: {
-                type: Array,
-                default: iconEnum.check()
-            },
-            buttonCancelText: {
-                type: String,
-                default: 'Voltar'
-            },
-            buttonCancelIcon: {
-                type: Array,
-                default: iconEnum.back()
-            },
-            redirectTo: {
-                type: String,
-                required: false
-            },
-            showButtonCancel: {
-                type: Boolean,
-                default: true
-            }
+        buttonSuccessIcon: {
+            type: Array,
+            default: iconEnum.check()
+        },
+        buttonCancelText: {
+            type: String,
+            default: 'Voltar'
+        },
+        buttonCancelIcon: {
+            type: Array,
+            default: iconEnum.back()
+        },
+        redirectTo: {
+            type: String,
+            required: false
+        },
+        showButtonCancel: {
+            type: Boolean,
+            default: true
         }
     }
+}
 </script>
 
 <style scoped>

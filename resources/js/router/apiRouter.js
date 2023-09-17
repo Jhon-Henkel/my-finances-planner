@@ -1,5 +1,5 @@
 import { userAuthStore } from '../../vue/store/auth'
-import requestTools from "../tools/requestTools";
+import requestTools from '../tools/requestTools'
 
 const apiRouter = {
     wallet: {
@@ -19,7 +19,7 @@ const apiRouter = {
         },
         delete: async function(id) {
             return await requestTools.request.delete('/api/wallet/' + id)
-        },
+        }
     },
     cards: {
         index: async function() {
@@ -177,9 +177,9 @@ const apiRouter = {
         indexFiltered: async function(filter) {
             const request = await requestTools.request.get('/api/financial-health/filter/' + filter)
             return request.data
-        },
+        }
     },
-    monthlyClosing : {
+    monthlyClosing: {
         indexFiltered: async function(filter) {
             const request = await requestTools.request.get('/api/monthly-closing/filter/' + filter)
             return request.data

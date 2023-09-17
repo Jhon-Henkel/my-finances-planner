@@ -7,26 +7,26 @@
 </template>
 
 <script>
-    import CalendarTools from "../../js/tools/calendarTools";
+import CalendarTools from '../../js/tools/calendarTools'
 
-    export default {
-        name: "LoadingComponent",
-        props: {
-            time: {
-                type: Number,
-                default: CalendarTools.oneHundredMs()
-            }
-        },
-        emits: [
-            'loading-done'
-        ],
-        mounted() {
-            setTimeout(() =>
-                [this.$emit('loading-done')],
-                this.time
-            )
+export default {
+    name: 'LoadingComponent',
+    props: {
+        time: {
+            type: Number,
+            default: CalendarTools.oneHundredMs()
         }
+    },
+    emits: [
+        'loading-done'
+    ],
+    mounted() {
+        setTimeout(() =>
+            [this.$emit('loading-done')],
+        this.time
+        )
     }
+}
 </script>
 
 <style scoped>

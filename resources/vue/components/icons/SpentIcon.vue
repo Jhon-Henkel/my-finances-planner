@@ -3,20 +3,20 @@
 </template>
 
 <script>
-    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-    import iconEnum from "../../../js/enums/iconEnum";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import iconEnum from '../../../js/enums/iconEnum'
 
-    export default {
-        name: "SpentIcon",
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
-        },
-        components: {
-            FontAwesomeIcon
+export default {
+    name: 'SpentIcon',
+    computed: {
+        iconEnum() {
+            return iconEnum
         }
+    },
+    components: {
+        FontAwesomeIcon
     }
+}
 </script>
 
 <style scoped lang="scss">

@@ -102,101 +102,101 @@
 </template>
 
 <script>
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import ApiRouter from "../../../js/router/apiRouter";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-    import stringTools from "../../../js/tools/stringTools";
-    import ActionButtons from "../../components/ActionButtons.vue";
-    import calendarTools from "../../../js/tools/calendarTools";
-    import BackButton from "../../components/buttons/BackButton.vue";
+import MfpMessage from '../../components/MessageAlert.vue'
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import Divider from '../../components/DividerComponent.vue'
+import iconEnum from '../../../js/enums/iconEnum'
+import ApiRouter from '../../../js/router/apiRouter'
+import MessageEnum from '../../../js/enums/messageEnum'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import stringTools from '../../../js/tools/stringTools'
+import ActionButtons from '../../components/ActionButtons.vue'
+import calendarTools from '../../../js/tools/calendarTools'
+import BackButton from '../../components/buttons/BackButton.vue'
 
-    export default {
-        name: "PanoramaAllSpentAndGain",
-        computed: {
-            calendarTools() {
-                return calendarTools
-            },
-            stringTools() {
-                return stringTools
-            },
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'PanoramaAllSpentAndGain',
+    computed: {
+        calendarTools() {
+            return calendarTools
         },
-        components: {
-            BackButton,
-            ActionButtons,
-            FontAwesomeIcon,
-            Divider,
-            MfpTitle,
-            LoadingComponent,
-            MfpMessage
+        stringTools() {
+            return stringTools
         },
-        data() {
-            return {
-                loadingDone: 0,
-                gains: {},
-                spending: {},
-                referer: 'panorama/todas-despesas-e-ganhos',
-            }
-        },
-        methods: {
-            async getAllSpending() {
-                await ApiRouter.futureSpent.index().then(response => {
-                    this.spending = response
-                }).catch(error => {
-                    this.messageError(error.response.data.message)
-                })
-                this.loadingDone = this.loadingDone + 1
-            },
-            async getAllGains() {
-                await ApiRouter.futureGain.index().then(response => {
-                    this.gains = response
-                }).catch(error => {
-                    this.messageError(error.response.data.message)
-                })
-                this.loadingDone = this.loadingDone + 1
-            },
-            async deleteSpent(id, spentName) {
-                if(confirm("Tem certeza que realmente quer deletar a despesa " + spentName + '?')) {
-                    await ApiRouter.futureSpent.delete(id).then(response => {
-                        this.messageSuccess('Despesa deletada com sucesso!')
-                        this.getAllSpending()
-                    }).catch(() => {
-                        this.messageError('Não foi possível deletar a despesa!')
-                    })
-                }
-            },
-            async deleteGain(id, gainName) {
-                if(confirm("Tem certeza que realmente quer deletar o ganho " + gainName + '?')) {
-                    await ApiRouter.futureGain.delete(id).then(response => {
-                        this.messageSuccess('Ganho deletado com sucesso!')
-                        this.getAllGains()
-                    }).catch(error => {
-                        this.messageError('Não foi possível deletar o ganho!')
-                    })
-                }
-            },
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, header) {
-                this.$refs.message.showAlert(type,message,header)
-            }
-        },
-        mounted() {
-            this.getAllSpending()
-            this.getAllGains()
+        iconEnum() {
+            return iconEnum
         }
+    },
+    components: {
+        BackButton,
+        ActionButtons,
+        FontAwesomeIcon,
+        Divider,
+        MfpTitle,
+        LoadingComponent,
+        MfpMessage
+    },
+    data() {
+        return {
+            loadingDone: 0,
+            gains: {},
+            spending: {},
+            referer: 'panorama/todas-despesas-e-ganhos'
+        }
+    },
+    methods: {
+        async getAllSpending() {
+            await ApiRouter.futureSpent.index().then(response => {
+                this.spending = response
+            }).catch(error => {
+                this.messageError(error.response.data.message)
+            })
+            this.loadingDone = this.loadingDone + 1
+        },
+        async getAllGains() {
+            await ApiRouter.futureGain.index().then(response => {
+                this.gains = response
+            }).catch(error => {
+                this.messageError(error.response.data.message)
+            })
+            this.loadingDone = this.loadingDone + 1
+        },
+        async deleteSpent(id, spentName) {
+            if (confirm('Tem certeza que realmente quer deletar a despesa ' + spentName + '?')) {
+                await ApiRouter.futureSpent.delete(id).then(response => {
+                    this.messageSuccess('Despesa deletada com sucesso!')
+                    this.getAllSpending()
+                }).catch(() => {
+                    this.messageError('Não foi possível deletar a despesa!')
+                })
+            }
+        },
+        async deleteGain(id, gainName) {
+            if (confirm('Tem certeza que realmente quer deletar o ganho ' + gainName + '?')) {
+                await ApiRouter.futureGain.delete(id).then(response => {
+                    this.messageSuccess('Ganho deletado com sucesso!')
+                    this.getAllGains()
+                }).catch(error => {
+                    this.messageError('Não foi possível deletar o ganho!')
+                })
+            }
+        },
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, header) {
+            this.$refs.message.showAlert(type, message, header)
+        }
+    },
+    mounted() {
+        this.getAllSpending()
+        this.getAllGains()
     }
+}
 </script>
 
 <style scoped lang="scss">

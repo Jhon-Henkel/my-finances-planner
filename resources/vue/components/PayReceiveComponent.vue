@@ -37,95 +37,95 @@
 </template>
 
 <script>
-    import InputMoney from "./inputMoneyComponent.vue";
-    import iconEnum from "../../js/enums/iconEnum";
-    import ApiRouter from "../../js/router/apiRouter";
-    import MfpMessage from "./MessageAlert.vue";
-    import MessageEnum from "../../js/enums/messageEnum";
+import InputMoney from './inputMoneyComponent.vue'
+import iconEnum from '../../js/enums/iconEnum'
+import ApiRouter from '../../js/router/apiRouter'
+import MfpMessage from './MessageAlert.vue'
+import MessageEnum from '../../js/enums/messageEnum'
 
-    export default {
-        name: 'pay-receive',
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'pay-receive',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    components: {
+        MfpMessage,
+        InputMoney
+    },
+    data() {
+        return {
+            partial: false,
+            wallets: {},
+            internalWalletId: 0
+        }
+    },
+    emits: [
+        'pay',
+        'hide-pay-receive'
+    ],
+    props: {
+        value: {
+            type: Number,
+            default: 0
         },
-        components: {
-            MfpMessage,
-            InputMoney
+        showPayReceive: {
+            type: Boolean,
+            default: false
         },
-        data() {
-            return {
-                partial: false,
-                wallets: {},
-                internalWalletId: 0
-            }
+        checkTooltip: {
+            type: String,
+            required: true,
+            default: ''
         },
-        emits: [
-            'pay',
-            'hide-pay-receive'
-        ],
-        props:{
-            value: {
-                type: Number,
-                default: 0
-            },
-            showPayReceive: {
-                type: Boolean,
-                default: false
-            },
-            checkTooltip: {
-                type: String,
-                required: true,
-                default: ''
-            },
-            walletId: {
-                type: Number,
-                default: 0
-            },
-            partialLabel: {
-                type: String,
-                default: 'Pagamento parcial'
-            }
+        walletId: {
+            type: Number,
+            default: 0
         },
-        methods: {
-            pay() {
-                if (this.value > 0 && this.internalWalletId > 0) {
-                    this.$emit('pay', {
-                        value: this.value,
-                        walletId: this.internalWalletId,
-                        partial: this.partial
-                    })
-                    this.partial = false
-                } else {
-                    this.showMessage(
-                        MessageEnum.alertTypeInfo(),
-                        'Um valor maior que zero e uma carteira deve ser selecionados',
-                        'Informação'
-                    )
-                }
-            },
-            hidePay() {
+        partialLabel: {
+            type: String,
+            default: 'Pagamento parcial'
+        }
+    },
+    methods: {
+        pay() {
+            if (this.value > 0 && this.internalWalletId > 0) {
+                this.$emit('pay', {
+                    value: this.value,
+                    walletId: this.internalWalletId,
+                    partial: this.partial
+                })
                 this.partial = false
-                this.$emit('hide-pay-receive')
-            },
-            showMessage(type, message, header) {
-                this.$refs.message.showAlert(type,message,header)
+            } else {
+                this.showMessage(
+                    MessageEnum.alertTypeInfo(),
+                    'Um valor maior que zero e uma carteira deve ser selecionados',
+                    'Informação'
+                )
             }
         },
-        async mounted() {
-            await ApiRouter.wallet.index().then(response => {
-                this.wallets = response
-            })
+        hidePay() {
+            this.partial = false
+            this.$emit('hide-pay-receive')
         },
-        watch: {
-            walletId: {
-                handler() {
-                    this.internalWalletId = this.walletId
-                }
+        showMessage(type, message, header) {
+            this.$refs.message.showAlert(type, message, header)
+        }
+    },
+    async mounted() {
+        await ApiRouter.wallet.index().then(response => {
+            this.wallets = response
+        })
+    },
+    watch: {
+        walletId: {
+            handler() {
+                this.internalWalletId = this.walletId
             }
         }
     }
+}
 </script>
 
 <style scoped>

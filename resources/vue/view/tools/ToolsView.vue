@@ -26,52 +26,52 @@
 </template>
 
 <script>
-    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import iconEnum from '../../../js/enums/iconEnum'
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
 
-    export default {
-        name: "ToolsView",
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
-        },
-        components: {MfpTitle, Divider, LoadingComponent, FontAwesomeIcon},
-        data() {
-            return {
-                loadingDone: false,
-                items: [
-                    {
-                        title: 'Calcular Salário',
-                        imagePath: '../../../../public/images/tools/wage.png',
-                        description: 'Faça o cálculo de seu salário conforme os dias trabalhados.',
-                        redirectTo: '/ferramentas/calculadora-salario'
-                    },
-                    {
-                        title: 'Calcular Horas Extras',
-                        imagePath: '../../../../public/images/tools/extra-hour.jpg',
-                        description: 'Faça o cálculo de quanto você vai receber em horas extras.',
-                        redirectTo: '/ferramentas/calculadora-horas-extras'
-                    },
-                    {
-                        title: 'Saúde Financeira',
-                        imagePath: '../../../../public/images/tools/financial-health.jpg',
-                        description: 'Relatório que separa as movimentações por tipo.',
-                        redirectTo: '/ferramentas/saude-financeira'
-                    },
-                    {
-                        title: 'Fechamento de Mês',
-                        imagePath: '../../../../public/images/tools/monthly-closing.jpg',
-                        description: 'Relatório que mostra o fechamento do mês.',
-                        redirectTo: '/ferramentas/fechamento-mensal'
-                    }
-                ]
-            }
+export default {
+    name: 'ToolsView',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    components: { MfpTitle, Divider, LoadingComponent, FontAwesomeIcon },
+    data() {
+        return {
+            loadingDone: false,
+            items: [
+                {
+                    title: 'Calcular Salário',
+                    imagePath: '../../../../public/images/tools/wage.png',
+                    description: 'Faça o cálculo de seu salário conforme os dias trabalhados.',
+                    redirectTo: '/ferramentas/calculadora-salario'
+                },
+                {
+                    title: 'Calcular Horas Extras',
+                    imagePath: '../../../../public/images/tools/extra-hour.jpg',
+                    description: 'Faça o cálculo de quanto você vai receber em horas extras.',
+                    redirectTo: '/ferramentas/calculadora-horas-extras'
+                },
+                {
+                    title: 'Saúde Financeira',
+                    imagePath: '../../../../public/images/tools/financial-health.jpg',
+                    description: 'Relatório que separa as movimentações por tipo.',
+                    redirectTo: '/ferramentas/saude-financeira'
+                },
+                {
+                    title: 'Fechamento de Mês',
+                    imagePath: '../../../../public/images/tools/monthly-closing.jpg',
+                    description: 'Relatório que mostra o fechamento do mês.',
+                    redirectTo: '/ferramentas/fechamento-mensal'
+                }
+            ]
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -93,64 +93,64 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../../components/LoadingComponent.vue";
-    import InputMoney from "../../../components/inputMoneyComponent.vue";
-    import iconEnum from "../../../../js/enums/iconEnum";
-    import StringTools from "../../../../js/tools/stringTools";
-    import Divider from "../../../components/DividerComponent.vue";
-    import MfpTitle from "../../../components/TitleComponent.vue";
-    import BackButton from "../../../components/buttons/BackButton.vue";
-    import { userAuthStore } from "../../../store/auth";
+import LoadingComponent from '../../../components/LoadingComponent.vue'
+import InputMoney from '../../../components/inputMoneyComponent.vue'
+import iconEnum from '../../../../js/enums/iconEnum'
+import StringTools from '../../../../js/tools/stringTools'
+import Divider from '../../../components/DividerComponent.vue'
+import MfpTitle from '../../../components/TitleComponent.vue'
+import BackButton from '../../../components/buttons/BackButton.vue'
+import { userAuthStore } from '../../../store/auth'
 
-    const auth = userAuthStore();
+const auth = userAuthStore()
 
-    export default {
-        name: "ExtraHoursCalculator",
-        computed: {
-            StringTools() {
-                return StringTools
-            },
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'ExtraHoursCalculator',
+    computed: {
+        StringTools() {
+            return StringTools
         },
-        components: {
-            BackButton,
-            MfpTitle,
-            Divider,
-            InputMoney,
-            LoadingComponent
-        },
-        data() {
-            return {
-                loadingDone: false,
-                calculate: {
-                    salary: 0,
-                    extraHours: 0,
-                    extraPercent: 0,
-                    hourWorkedInMonth: 170,
-                },
-                total: 0,
-                totalPerHour: 0
-            }
-        },
-        methods: {
-            getExtraHoursResult() {
-                this.totalPerHour = this.calculate.salary / this.calculate.hourWorkedInMonth;
-                let extraHours = this.totalPerHour * this.calculate.extraHours
-                this.total = extraHours + (extraHours * (this.calculate.extraPercent / 100));
-            }
-        },
-        watch: {
-            calculate: {
-                handler() {
-                    this.getExtraHoursResult();
-                },
-                deep: true
-            }
-        },
-        mounted() {
-            this.calculate.salary = auth.user.salary ?? 0;
+        iconEnum() {
+            return iconEnum
         }
+    },
+    components: {
+        BackButton,
+        MfpTitle,
+        Divider,
+        InputMoney,
+        LoadingComponent
+    },
+    data() {
+        return {
+            loadingDone: false,
+            calculate: {
+                salary: 0,
+                extraHours: 0,
+                extraPercent: 0,
+                hourWorkedInMonth: 170
+            },
+            total: 0,
+            totalPerHour: 0
+        }
+    },
+    methods: {
+        getExtraHoursResult() {
+            this.totalPerHour = this.calculate.salary / this.calculate.hourWorkedInMonth
+            const extraHours = this.totalPerHour * this.calculate.extraHours
+            this.total = extraHours + (extraHours * (this.calculate.extraPercent / 100))
+        }
+    },
+    watch: {
+        calculate: {
+            handler() {
+                this.getExtraHoursResult()
+            },
+            deep: true
+        }
+    },
+    mounted() {
+        this.calculate.salary = auth.user.salary ?? 0
     }
+}
 </script>

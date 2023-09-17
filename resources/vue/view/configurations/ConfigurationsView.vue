@@ -82,90 +82,90 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import InputMoney from "../../components/inputMoneyComponent.vue";
-    import BottomButtons from "../../components/BottomButtons.vue";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import ApiRouter from "../../../js/router/apiRouter";
-    import RequestTools from "../../../js/tools/requestTools";
-    import { userAuthStore } from "../../store/auth";
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import InputMoney from '../../components/inputMoneyComponent.vue'
+import BottomButtons from '../../components/BottomButtons.vue'
+import iconEnum from '../../../js/enums/iconEnum'
+import MessageEnum from '../../../js/enums/messageEnum'
+import MfpMessage from '../../components/MessageAlert.vue'
+import ApiRouter from '../../../js/router/apiRouter'
+import RequestTools from '../../../js/tools/requestTools'
+import { userAuthStore } from '../../store/auth'
 
-    const auth = userAuthStore();
+const auth = userAuthStore()
 
-    export default {
-        name: "ConfigurationsView",
-        computed: {
-            iconEnum() {
-                return iconEnum
+export default {
+    name: 'ConfigurationsView',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    components: {
+        MfpMessage,
+        BottomButtons,
+        InputMoney,
+        MfpTitle,
+        Divider,
+        LoadingComponent
+    },
+    data() {
+        return {
+            loadingDone: 0,
+            id: 0,
+            user: {
+                salary: 0,
+                name: '',
+                email: '',
+                password: ''
+            },
+            newPassword: '',
+            newPasswordConfirmation: '',
+            alterPassword: false
+        }
+    },
+    methods: {
+        async updateConfigs() {
+            if (RequestTools.isApplicationInDemoMode() === true) {
+                this.messageWarning('Aplicação em mode demo não permite alterar as configurações!')
+                return
             }
-        },
-        components: {
-            MfpMessage,
-            BottomButtons,
-            InputMoney,
-            MfpTitle,
-            Divider,
-            LoadingComponent
-        },
-        data() {
-            return {
-                loadingDone: 0,
-                id: 0,
-                user: {
-                    salary: 0,
-                    name: '',
-                    email: '',
-                    password: '',
-                },
-                newPassword: '',
-                newPasswordConfirmation: '',
-                alterPassword: false,
-            }
-        },
-        methods: {
-            async updateConfigs() {
-                if (RequestTools.isApplicationInDemoMode() === true) {
-                    this.messageWarning('Aplicação em mode demo não permite alterar as configurações!')
-                    return;
+            if (this.alterPassword === true) {
+                if (this.newPassword !== this.newPasswordConfirmation) {
+                    this.messageError('Senhas não conferem!')
+                    return
                 }
-                if (this.alterPassword === true) {
-                    if (this.newPassword !== this.newPasswordConfirmation) {
-                        this.messageError('Senhas não conferem!')
-                        return;
-                    }
-                    this.user.password = this.newPassword;
-                }
-                await ApiRouter.user.update(this.id, this.user).then(() => {
-                    this.messageSuccess('Faça login novamente.');
-                }).catch((error) => {
-                    this.messageError('Erro ao atualizar dados do usuário!')
-                });
-            },
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageWarning(message) {
-                this.showMessage(MessageEnum.alertTypeWarning(), message, 'Aviso!')
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Configurações atualizadas!')
-            },
-            showMessage(type, message, title) {
-                this.$refs.message.showAlert(type, message, title)
+                this.user.password = this.newPassword
             }
+            await ApiRouter.user.update(this.id, this.user).then(() => {
+                this.messageSuccess('Faça login novamente.')
+            }).catch((error) => {
+                this.messageError('Erro ao atualizar dados do usuário!')
+            })
         },
-        async mounted() {
-            this.id = auth.user.id
-            await ApiRouter.user.show(this.id).then((response) => {
-                this.user = response;
-                this.loadingDone = this.loadingDone + 1;
-            }).catch((erro) => {
-                this.messageError('Erro ao carregar dados do usuário!')
-            });
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
         },
+        messageWarning(message) {
+            this.showMessage(MessageEnum.alertTypeWarning(), message, 'Aviso!')
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Configurações atualizadas!')
+        },
+        showMessage(type, message, title) {
+            this.$refs.message.showAlert(type, message, title)
+        }
+    },
+    async mounted() {
+        this.id = auth.user.id
+        await ApiRouter.user.show(this.id).then((response) => {
+            this.user = response
+            this.loadingDone = this.loadingDone + 1
+        }).catch((erro) => {
+            this.messageError('Erro ao carregar dados do usuário!')
+        })
     }
+}
 </script>

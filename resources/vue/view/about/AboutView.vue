@@ -92,31 +92,31 @@
 </template>
 
 <script>
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import iconEnum from "../../../js/enums/iconEnum";
+import MfpTitle from '../../components/TitleComponent.vue'
+import Divider from '../../components/DividerComponent.vue'
+import iconEnum from '../../../js/enums/iconEnum'
 
-    export default {
-        name: "AboutView",
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
-        },
-        components: {Divider, MfpTitle},
-        data() {
-            return {
-                projectLink: import.meta.env.VITE_LINK_PROJETC,
-                openIssueLink: import.meta.env.VITE_LINK_OPEN_ISSUE,
-                linkedinLink: import.meta.env.VITE_LINK_LINKEDIN,
-                githubLink: import.meta.env.VITE_LINK_GITHUB,
-                mediumLink: import.meta.env.VITE_LINK_MEDIUM,
-                email: import.meta.env.VITE_EMAIL_CONTACT,
-                demoUser: import.meta.env.VITE_DEMO_USER,
-                demoPassword: import.meta.env.VITE_DEMO_PASSWORD
-            }
-        },
+export default {
+    name: 'AboutView',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    components: { Divider, MfpTitle },
+    data() {
+        return {
+            projectLink: import.meta.env.VITE_LINK_PROJETC,
+            openIssueLink: import.meta.env.VITE_LINK_OPEN_ISSUE,
+            linkedinLink: import.meta.env.VITE_LINK_LINKEDIN,
+            githubLink: import.meta.env.VITE_LINK_GITHUB,
+            mediumLink: import.meta.env.VITE_LINK_MEDIUM,
+            email: import.meta.env.VITE_EMAIL_CONTACT,
+            demoUser: import.meta.env.VITE_DEMO_USER,
+            demoPassword: import.meta.env.VITE_DEMO_PASSWORD
+        }
     }
+}
 </script>
 
 <style lang="scss" scoped>

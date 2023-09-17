@@ -24,70 +24,70 @@
 </template>
 
 <script>
-    import iconEnum from "../../js/enums/iconEnum";
+import iconEnum from '../../js/enums/iconEnum'
 
-    export default {
-        name: "ActionButtons",
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'ActionButtons',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    emits: [
+        'delete-clicked',
+        'check-clicked'
+    ],
+    props: {
+        editTo: {
+            type: String,
+            required: true
         },
-        emits: [
-            'delete-clicked',
-            'check-clicked'
-        ],
-        props: {
-            editTo: {
-                type: String,
-                required: true
-            },
-            editIcon: {
-                type: Array,
-                default: iconEnum.editIcon()
-            },
-            tooltipEdit: {
-                type: String,
-                required: true
-            },
-            deleteIcon: {
-                type: Array,
-                default: iconEnum.trashIcon()
-            },
-            deleteTooltip: {
-                type: String,
-                required: true
-            },
-            showInfoButton: {
-                type: Boolean,
-                default: false
-            },
-            infoIcon: {
-                type: Array,
-                default: iconEnum.invoice()
-            },
-            infoTo: {
-                type: String,
-                default: ''
-            },
-            infoTooltip: {
-                type: String,
-                default: ''
-            },
-            checkButton: {
-                type: Boolean,
-                default: false
-            },
-            checkTooltip: {
-                type: String,
-                default: ''
-            },
-            checkIcon: {
-                type: Array,
-                default: iconEnum.check()
-            }
+        editIcon: {
+            type: Array,
+            default: iconEnum.editIcon()
         },
+        tooltipEdit: {
+            type: String,
+            required: true
+        },
+        deleteIcon: {
+            type: Array,
+            default: iconEnum.trashIcon()
+        },
+        deleteTooltip: {
+            type: String,
+            required: true
+        },
+        showInfoButton: {
+            type: Boolean,
+            default: false
+        },
+        infoIcon: {
+            type: Array,
+            default: iconEnum.invoice()
+        },
+        infoTo: {
+            type: String,
+            default: ''
+        },
+        infoTooltip: {
+            type: String,
+            default: ''
+        },
+        checkButton: {
+            type: Boolean,
+            default: false
+        },
+        checkTooltip: {
+            type: String,
+            default: ''
+        },
+        checkIcon: {
+            type: Array,
+            default: iconEnum.check()
+        }
     }
+}
 </script>
 
 <style scoped>

@@ -10,28 +10,28 @@
 </template>
 
 <script>
-    import iconEnum from "../../../js/enums/iconEnum";
+import iconEnum from '../../../js/enums/iconEnum'
 
-    export default {
-        name: "filterTopRight",
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
-        },
-        props: {
-            filter: {
-                type: Object,
-                required: true
-            }
-        },
-        emits: ["callbackMethod"],
-        methods: {
-            callbackMethod(event) {
-                this.$emit("callbackMethod", event.target.value)
-            }
+export default {
+    name: 'filterTopRight',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    props: {
+        filter: {
+            type: Object,
+            required: true
+        }
+    },
+    emits: ['callbackMethod'],
+    methods: {
+        callbackMethod(event) {
+            this.$emit('callbackMethod', event.target.value)
         }
     }
+}
 </script>
 
 <style scoped lang="scss">

@@ -1,4 +1,4 @@
-import { userAuthStore } from "../../vue/store/auth";
+import { userAuthStore } from '../../vue/store/auth'
 
 export default async function routesControl(to, from, next) {
     try {
@@ -10,15 +10,15 @@ export default async function routesControl(to, from, next) {
                 if (isAuthenticated && isLogged) {
                     next()
                 } else {
-                    next({name: 'login'})
+                    next({ name: 'login' })
                 }
             } else {
-                next({name: 'login'})
+                next({ name: 'login' })
             }
         } else {
             next()
         }
     } catch (error) {
-        next({name: 'login'})
+        next({ name: 'login' })
     }
 }

@@ -238,220 +238,220 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import ActionButtons from "../../components/ActionButtons.vue";
-    import calendarTools from "../../../js/tools/calendarTools";
-    import StringTools from "../../../js/tools/stringTools";
-    import CalendarTools from "../../../js/tools/calendarTools";
-    import ApiRouter from "../../../js/router/apiRouter";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import PayReceive from "../../components/PayReceiveComponent.vue";
-    import AlertIcon from "../../components/AlertIcon.vue";
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import iconEnum from '../../../js/enums/iconEnum'
+import ActionButtons from '../../components/ActionButtons.vue'
+import calendarTools from '../../../js/tools/calendarTools'
+import StringTools from '../../../js/tools/stringTools'
+import CalendarTools from '../../../js/tools/calendarTools'
+import ApiRouter from '../../../js/router/apiRouter'
+import MessageEnum from '../../../js/enums/messageEnum'
+import MfpMessage from '../../components/MessageAlert.vue'
+import PayReceive from '../../components/PayReceiveComponent.vue'
+import AlertIcon from '../../components/AlertIcon.vue'
 
-    export default {
-        name: "PanoramaView",
-        computed: {
-            StringTools() {
-                return StringTools
-            },
-            calendarTools() {
-                return calendarTools
-            },
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'PanoramaView',
+    computed: {
+        StringTools() {
+            return StringTools
         },
-        components: {
-            AlertIcon,
-            PayReceive,
-            MfpMessage,
-            ActionButtons,
-            MfpTitle,
-            Divider,
-            LoadingComponent
+        calendarTools() {
+            return calendarTools
         },
-        data() {
-            return {
-                loadingDone: 0,
-                months: [],
-                spent: {
-                    totalRemainingValue: 0,
-                    remainingInstallments: 0,
-                    countName: '',
-                    nextInstallmentDay: 0,
-                    countId: 0,
-                },
-                response: {
-                    futureExpenses: 0,
-                    totalFutureExpenses: 0,
-                    totalFutureGains: 0,
-                    totalLeft: 0,
-                    totalCreditCardExpenses: 0,
-                    totalWalletValue: 0
-                },
-                totalSpending: {
-                    firstInstallment: 0,
-                    secondInstallment: 0,
-                    thirdInstallment: 0,
-                    forthInstallment: 0,
-                    fifthInstallment: 0,
-                    sixthInstallment: 0,
-                },
-                totalFutureGain: {
-                    firstInstallment: 0,
-                    secondInstallment: 0,
-                    thirdInstallment: 0,
-                    forthInstallment: 0,
-                    fifthInstallment: 0,
-                    sixthInstallment: 0,
-                },
-                totalRemaining: {
-                    firstInstallment: 0,
-                    secondInstallment: 0,
-                    thirdInstallment: 0,
-                    forthInstallment: 0,
-                    fifthInstallment: 0,
-                    sixthInstallment: 0
-                },
-                cardsInvoice: {
-                    firstInstallment: 0,
-                    secondInstallment: 0,
-                    thirdInstallment: 0,
-                    forthInstallment: 0,
-                    fifthInstallment: 0,
-                    sixthInstallment: 0
-                },
-                futureSpending: {},
-                totalWalletsValue: 0,
-                monthRemaining: 10,
-                paySpentValue: 0,
-                paySpentId: 0,
-                showPaySpent: false,
-                paySpentName: '',
-                paySpentWalletId: 0,
-            }
-        },
-        methods: {
-            async updateFutureSpendingList() {
-                this.loadingDone = 0
-                await ApiRouter.panorama.index().then(response => {
-                    this.futureSpending = response.futureExpenses
-                    this.totalSpending = response.totalFutureExpenses
-                    this.totalFutureGain = response.totalFutureGains
-                    this.totalRemaining = response.totalLeft
-                    this.cardsInvoice = response.totalCreditCardExpenses
-                    this.totalWalletsValue = response.totalWalletValue
-                    this.loadingDone = this.loadingDone + 1
-                }).catch(() => {
-                    this.messageError('Não foi possível carregar o panorama!')
-                })
-            },
-            async deleteSpent(id, spentName) {
-                if(confirm("Tem certeza que realmente quer deletar a despesa " + spentName + '?')) {
-                    await ApiRouter.futureSpent.delete(id).then(response => {
-                        this.messageSuccess('Despesa deletada com sucesso!')
-                        this.updateFutureSpendingList()
-                    }).catch(() => {
-                        this.messageError('Não foi possível deletar a despesa!')
-                    })
-                }
-            },
-            showPaySpentForm(id, walletId, value, name) {
-                this.paySpentId = id
-                this.paySpentWalletId = walletId
-                this.paySpentValue = value
-                this.paySpentName = name
-                this.showPaySpent = true
-            },
-            getNextSpentValue(spent) {
-                if (spent.firstInstallment) {
-                    return spent.firstInstallment
-                } else if (spent.secondInstallment) {
-                    return spent.secondInstallment
-                } else if (spent.thirdInstallment) {
-                    return spent.thirdInstallment
-                } else if (spent.forthInstallment) {
-                    return spent.forthInstallment
-                } else if (spent.fifthInstallment) {
-                    return spent.fifthInstallment
-                } else if (spent.sixthInstallment) {
-                    return spent.sixthInstallment
-                }
-            },
-            async paySpent(event) {
-                let partial = event.partial ? " de forma parcial" : ""
-                let confirmMessage = 'Você confirma o pagamento da despesa '
-                confirmMessage = confirmMessage + '"' + this.paySpentName + '"'
-                confirmMessage = confirmMessage + partial
-                confirmMessage = confirmMessage + ' no valor de ' + StringTools.formatFloatValueToBrString(event.value)
-                if(confirm(confirmMessage + '?')) {
-                    let object = {
-                        walletId: event.walletId,
-                        value: event.value,
-                        partial: event.partial
-                    }
-                    await ApiRouter.futureSpent.pay(this.paySpentId, object).then(response => {
-                        this.messageSuccess('Despesa paga com sucesso!')
-                        this.updateFutureSpendingList()
-                        this.showPaySpent = false
-                    }).catch(() => {
-                        this.messageError('Não foi possível pagar a despesa!')
-                    })
-                }
-            },
-            showCheckButton(spent) {
-                if (
-                    ! spent.firstInstallment
-                    && ! spent.secondInstallment
-                    && ! spent.thirdInstallment
-                    && ! spent.forthInstallment
-                    && ! spent.fifthInstallment
-                    && ! spent.sixthInstallment
-                ) {
-                    return false
-                }
-                return true
-            },
-            getValueForTotalSum() {
-                if (this.monthRemaining === 10) {
-                    return 0
-                } else if (this.monthRemaining === 0) {
-                    return this.totalRemaining.firstInstallment
-                } else if (this.monthRemaining === 1) {
-                    return this.totalRemaining.secondInstallment
-                } else if (this.monthRemaining === 2) {
-                    return this.totalRemaining.thirdInstallment
-                } else if (this.monthRemaining === 3) {
-                    return this.totalRemaining.forthInstallment
-                } else if (this.monthRemaining === 4) {
-                    return this.totalRemaining.fifthInstallment
-                } else if (this.monthRemaining === 5) {
-                    return this.totalRemaining.sixthInstallment
-                }
-            },
-            formatValueToBr(value) {
-                return StringTools.formatFloatValueToBrString(value)
-            },
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, header) {
-                this.$refs.message.showAlert(type,message,header)
-            }
-        },
-        async mounted() {
-            this.thisMonth = CalendarTools.getThisMonth()
-            this.months = CalendarTools.getNextSixMonths(this.thisMonth)
-            await this.updateFutureSpendingList()
+        iconEnum() {
+            return iconEnum
         }
+    },
+    components: {
+        AlertIcon,
+        PayReceive,
+        MfpMessage,
+        ActionButtons,
+        MfpTitle,
+        Divider,
+        LoadingComponent
+    },
+    data() {
+        return {
+            loadingDone: 0,
+            months: [],
+            spent: {
+                totalRemainingValue: 0,
+                remainingInstallments: 0,
+                countName: '',
+                nextInstallmentDay: 0,
+                countId: 0
+            },
+            response: {
+                futureExpenses: 0,
+                totalFutureExpenses: 0,
+                totalFutureGains: 0,
+                totalLeft: 0,
+                totalCreditCardExpenses: 0,
+                totalWalletValue: 0
+            },
+            totalSpending: {
+                firstInstallment: 0,
+                secondInstallment: 0,
+                thirdInstallment: 0,
+                forthInstallment: 0,
+                fifthInstallment: 0,
+                sixthInstallment: 0
+            },
+            totalFutureGain: {
+                firstInstallment: 0,
+                secondInstallment: 0,
+                thirdInstallment: 0,
+                forthInstallment: 0,
+                fifthInstallment: 0,
+                sixthInstallment: 0
+            },
+            totalRemaining: {
+                firstInstallment: 0,
+                secondInstallment: 0,
+                thirdInstallment: 0,
+                forthInstallment: 0,
+                fifthInstallment: 0,
+                sixthInstallment: 0
+            },
+            cardsInvoice: {
+                firstInstallment: 0,
+                secondInstallment: 0,
+                thirdInstallment: 0,
+                forthInstallment: 0,
+                fifthInstallment: 0,
+                sixthInstallment: 0
+            },
+            futureSpending: {},
+            totalWalletsValue: 0,
+            monthRemaining: 10,
+            paySpentValue: 0,
+            paySpentId: 0,
+            showPaySpent: false,
+            paySpentName: '',
+            paySpentWalletId: 0
+        }
+    },
+    methods: {
+        async updateFutureSpendingList() {
+            this.loadingDone = 0
+            await ApiRouter.panorama.index().then(response => {
+                this.futureSpending = response.futureExpenses
+                this.totalSpending = response.totalFutureExpenses
+                this.totalFutureGain = response.totalFutureGains
+                this.totalRemaining = response.totalLeft
+                this.cardsInvoice = response.totalCreditCardExpenses
+                this.totalWalletsValue = response.totalWalletValue
+                this.loadingDone = this.loadingDone + 1
+            }).catch(() => {
+                this.messageError('Não foi possível carregar o panorama!')
+            })
+        },
+        async deleteSpent(id, spentName) {
+            if (confirm('Tem certeza que realmente quer deletar a despesa ' + spentName + '?')) {
+                await ApiRouter.futureSpent.delete(id).then(response => {
+                    this.messageSuccess('Despesa deletada com sucesso!')
+                    this.updateFutureSpendingList()
+                }).catch(() => {
+                    this.messageError('Não foi possível deletar a despesa!')
+                })
+            }
+        },
+        showPaySpentForm(id, walletId, value, name) {
+            this.paySpentId = id
+            this.paySpentWalletId = walletId
+            this.paySpentValue = value
+            this.paySpentName = name
+            this.showPaySpent = true
+        },
+        getNextSpentValue(spent) {
+            if (spent.firstInstallment) {
+                return spent.firstInstallment
+            } else if (spent.secondInstallment) {
+                return spent.secondInstallment
+            } else if (spent.thirdInstallment) {
+                return spent.thirdInstallment
+            } else if (spent.forthInstallment) {
+                return spent.forthInstallment
+            } else if (spent.fifthInstallment) {
+                return spent.fifthInstallment
+            } else if (spent.sixthInstallment) {
+                return spent.sixthInstallment
+            }
+        },
+        async paySpent(event) {
+            const partial = event.partial ? ' de forma parcial' : ''
+            let confirmMessage = 'Você confirma o pagamento da despesa '
+            confirmMessage = confirmMessage + '"' + this.paySpentName + '"'
+            confirmMessage = confirmMessage + partial
+            confirmMessage = confirmMessage + ' no valor de ' + StringTools.formatFloatValueToBrString(event.value)
+            if (confirm(confirmMessage + '?')) {
+                const object = {
+                    walletId: event.walletId,
+                    value: event.value,
+                    partial: event.partial
+                }
+                await ApiRouter.futureSpent.pay(this.paySpentId, object).then(response => {
+                    this.messageSuccess('Despesa paga com sucesso!')
+                    this.updateFutureSpendingList()
+                    this.showPaySpent = false
+                }).catch(() => {
+                    this.messageError('Não foi possível pagar a despesa!')
+                })
+            }
+        },
+        showCheckButton(spent) {
+            if (
+                !spent.firstInstallment &&
+                    !spent.secondInstallment &&
+                    !spent.thirdInstallment &&
+                    !spent.forthInstallment &&
+                    !spent.fifthInstallment &&
+                    !spent.sixthInstallment
+            ) {
+                return false
+            }
+            return true
+        },
+        getValueForTotalSum() {
+            if (this.monthRemaining === 10) {
+                return 0
+            } else if (this.monthRemaining === 0) {
+                return this.totalRemaining.firstInstallment
+            } else if (this.monthRemaining === 1) {
+                return this.totalRemaining.secondInstallment
+            } else if (this.monthRemaining === 2) {
+                return this.totalRemaining.thirdInstallment
+            } else if (this.monthRemaining === 3) {
+                return this.totalRemaining.forthInstallment
+            } else if (this.monthRemaining === 4) {
+                return this.totalRemaining.fifthInstallment
+            } else if (this.monthRemaining === 5) {
+                return this.totalRemaining.sixthInstallment
+            }
+        },
+        formatValueToBr(value) {
+            return StringTools.formatFloatValueToBrString(value)
+        },
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, header) {
+            this.$refs.message.showAlert(type, message, header)
+        }
+    },
+    async mounted() {
+        this.thisMonth = CalendarTools.getThisMonth()
+        this.months = CalendarTools.getNextSixMonths(this.thisMonth)
+        await this.updateFutureSpendingList()
     }
+}
 </script>
 
 <style lang="scss" scoped>

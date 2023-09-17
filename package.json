@@ -6,7 +6,7 @@
         "test:watch": "vitest",
         "test:run": "vitest --run",
         "test:coverage": "vitest run --coverage",
-        "analyse:eslint": "eslint --ext .js,.vue ./resources",
+        "analyze:eslint": "eslint --ext .js,.vue ./resources",
         "autocorrect:eslint": "eslint --ext .js,.vue --fix ./resources"
     },
     "devDependencies": {

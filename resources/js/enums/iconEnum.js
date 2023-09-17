@@ -100,6 +100,6 @@ const iconEnum = {
     },
     buildingColumns() {
         return ['fas', 'building-columns']
-    },
+    }
 }
-export default iconEnum;
+export default iconEnum

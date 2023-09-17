@@ -1,4 +1,4 @@
-import StringTools from "../tools/stringTools";
+import StringTools from '../tools/stringTools'
 
 const dashboardChartParams = {
     options: {
@@ -46,9 +46,9 @@ const dashboardChartParams = {
                             label += StringTools.formatFloatValueToBrString(context.parsed.y)
                         }
                         return label
-                    },
+                    }
                 }
-            },
+            }
         }
     },
     data: {
@@ -57,12 +57,12 @@ const dashboardChartParams = {
             {
                 label: 'Gastos',
                 backgroundColor: '#f87979',
-                data: [0,0,0,0,0,0,0,0,0,0,0,0]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             {
                 label: 'Ganhos',
                 backgroundColor: '#79f879',
-                data: [0,0,0,0,0,0,0,0,0,0,0,0]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             }
         ]
     }

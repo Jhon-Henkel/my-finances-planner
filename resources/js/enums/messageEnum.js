@@ -12,4 +12,4 @@ const MessageEnum = {
         return 'warning'
     }
 }
-export default MessageEnum;
+export default MessageEnum
