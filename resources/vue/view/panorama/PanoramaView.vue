@@ -15,58 +15,64 @@
                 </router-link>
             </div>
             <divider/>
-            <div class="table-responsive-lg">
-                <table class="table table-dark table-striped table-sm table-hover table-bordered align-middle">
-                    <thead class="table-dark">
-                        <tr class="text-center">
-                            <td colspan="11">Despesas</td>
-                        </tr>
-                        <tr class="text-center">
-                            <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
-                            <th>Descrição</th>
-                            <th scope="col" v-for="(month, index) in months" :key="index">
-                                {{ calendarTools.getMonthNameByNumber(month) }}
-                            </th>
-                            <th>Restam</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr v-show="futureSpending.length === 0">
-                            <td colspan="11">Nenhuma despesa cadastrada ainda!</td>
-                        </tr>
-                        <tr v-for="spent in futureSpending" :key="spent.id">
-                            <td>{{ spent.nextInstallmentDay }}</td>
-                            <td>{{ spent.name }}</td>
-                            <td>{{ formatValueToBr(spent.firstInstallment) }}</td>
-                            <td>{{formatValueToBr(spent.secondInstallment) }}</td>
-                            <td>{{ formatValueToBr(spent.thirdInstallment) }}</td>
-                            <td>{{ formatValueToBr(spent.forthInstallment) }}</td>
-                            <td>{{ formatValueToBr(spent.fifthInstallment) }}</td>
-                            <td>{{ formatValueToBr(spent.sixthInstallment) }}</td>
-                            <td v-if="spent.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
-                            <td v-else v-tooltip="formatValueToBr(spent.totalRemainingValue)">
-                                {{ spent.remainingInstallments }}
-                            </td>
-                            <td class="text-center">
-                                <action-buttons
-                                    :delete-tooltip="'Deletar Despesa'"
-                                    :tooltip-edit="'Editar Despesa'"
-                                    :edit-to="'/panorama/' + spent.id + '/atualizar-despesa'"
-                                    :check-button="showCheckButton(spent)"
-                                    :check-tooltip="'Marcar próxima como pago'"
-                                    @delete-clicked="deleteSpent(spent.id, spent.name)"
-                                    @check-clicked="showPaySpentForm(
-                                        spent.id,
-                                        spent.countId,
-                                        getNextSpentValue(spent),
-                                        spent.name
-                                    )"
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card glass success balance-card">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        <div class="table-responsive-lg">
+                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
+                                <thead class="text-center">
+                                    <tr class="text-center">
+                                        <td colspan="11">Despesas</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
+                                        <th>Descrição</th>
+                                        <th scope="col" v-for="(month, index) in months" :key="index">
+                                            {{ calendarTools.getMonthNameByNumber(month) }}
+                                        </th>
+                                        <th>Restam</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr v-show="futureSpending.length === 0">
+                                        <td colspan="11">Nenhuma despesa cadastrada ainda!</td>
+                                    </tr>
+                                    <tr v-for="spent in futureSpending" :key="spent.id">
+                                        <td>{{ spent.nextInstallmentDay }}</td>
+                                        <td class="text-start">{{ spent.name }}</td>
+                                        <td>{{ formatValueToBr(spent.firstInstallment) }}</td>
+                                        <td>{{formatValueToBr(spent.secondInstallment) }}</td>
+                                        <td>{{ formatValueToBr(spent.thirdInstallment) }}</td>
+                                        <td>{{ formatValueToBr(spent.forthInstallment) }}</td>
+                                        <td>{{ formatValueToBr(spent.fifthInstallment) }}</td>
+                                        <td>{{ formatValueToBr(spent.sixthInstallment) }}</td>
+                                        <td v-if="spent.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
+                                        <td v-else v-tooltip="formatValueToBr(spent.totalRemainingValue)">
+                                            {{ spent.remainingInstallments }}
+                                        </td>
+                                        <td class="text-center">
+                                            <action-buttons
+                                                :delete-tooltip="'Deletar Despesa'"
+                                                :tooltip-edit="'Editar Despesa'"
+                                                :edit-to="'/panorama/' + spent.id + '/atualizar-despesa'"
+                                                :check-button="showCheckButton(spent)"
+                                                :check-tooltip="'Marcar próxima como pago'"
+                                                @delete-clicked="deleteSpent(spent.id, spent.name)"
+                                                @check-clicked="showPaySpentForm(
+                                                    spent.id,
+                                                    spent.countId,
+                                                    getNextSpentValue(spent),
+                                                    spent.name
+                                                )"
+                                            />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <pay-receive :show-pay-receive="showPaySpent"
                          :value="paySpentValue"
