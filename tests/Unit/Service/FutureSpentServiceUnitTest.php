@@ -262,7 +262,7 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $futureSpentServiceMock = Mockery::mock(FutureSpentService::class);
         $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
-        $futureSpentServiceMock->shouldReceive('makeSpentForParcialPay')->once()->withArgs(function($spent, $value) {
+        $futureSpentServiceMock->shouldReceive('makeSpentForParcialPay')->once()->withArgs(function ($spent, $value) {
             Falcon9::assertTrue($value == 0.50);
             return true;
         })->andReturn(new FutureSpentDTO());

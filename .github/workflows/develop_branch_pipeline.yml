@@ -45,6 +45,9 @@ jobs:
       - name: 👍 Applying permissions
         run: chmod -R 777 storage bootstrap/cache
 
+      - name: ⚡️ Analyzing PHP Code Quality
+        run: composer run analyze:pint && composer run analyze:phpstan
+
       - name: ⚡️ Executing PHP Unit tests
         run: composer run test:unit
 

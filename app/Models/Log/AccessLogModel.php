@@ -3,7 +3,6 @@
 namespace App\Models\Log;
 
 use App\Enums\DateEnum;
-use App\Models\Trait\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 
 class AccessLogModel extends Model

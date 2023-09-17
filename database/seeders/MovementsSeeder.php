@@ -20,7 +20,7 @@ class MovementsSeeder extends Seeder
         $types = $this->makeTypes();
         $amounts = $this->makeAmounts();
         $dates = $this->getCreatedAtDates();
-        for ($index = 0; $index < 13*3; $index++) {
+        for ($index = 0; $index < 13 * 3; $index++) {
             MovementModel::factory()->create(
                 [
                     'description' => $descriptions[$index],

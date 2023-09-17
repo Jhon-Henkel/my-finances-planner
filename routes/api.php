@@ -16,7 +16,7 @@ use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 /** @var Route $router */
-$router->prefix('/')->middleware('auth.api:api')->group(function ($router){
+$router->prefix('/')->middleware('auth.api:api')->group(function ($router) {
     $router->prefix('dashboard')->group(function () use ($router) {
         $router->get('', [DashboardController::class, 'index'])->name(RouteEnum::API_DASHBOARD_INDEX);
     });
@@ -66,7 +66,7 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router){
         $router->put('/{id}', [FutureGainController::class, 'update'])->name(RouteEnum::API_FUTURE_GAIN_UPDATE);
         $router->delete('/{id}', [FutureGainController::class, 'delete'])->name(RouteEnum::API_FUTURE_GAIN_DELETE);
     });
-    $router->prefix('future-spent')->group(function() use ($router) {
+    $router->prefix('future-spent')->group(function () use ($router) {
         $router->get('', [FutureSpentController::class, 'index'])->name(RouteEnum::API_FUTURE_SPENT_INDEX);
         $router->get('/{id}', [FutureSpentController::class, 'show'])->name(RouteEnum::API_FUTURE_SPENT_SHOW);
         $router->post('', [FutureSpentController::class, 'insert'])->name(RouteEnum::API_FUTURE_SPENT_INSERT);

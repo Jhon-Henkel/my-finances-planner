@@ -7,9 +7,9 @@ use Cronitor;
 
 class CronService
 {
-    const CRONJOB_RUNNING_STATUS = 'run';
-    const CRONJOB_DONE_STATUS = 'complete';
-    const CRONJOB_FAIL_STATUS = 'fail';
+    public const CRONJOB_RUNNING_STATUS = 'run';
+    public const CRONJOB_DONE_STATUS = 'complete';
+    public const CRONJOB_FAIL_STATUS = 'fail';
 
     public function notifyCronjobStart(string $taskName): void
     {

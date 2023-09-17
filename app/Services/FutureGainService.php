@@ -59,7 +59,7 @@ class FutureGainService extends BasicService
     {
         $movementService = app(MovementService::class);
         $movement = $movementService->populateByFutureGain($gain);
-        if (! $movementService->insert($movement)){
+        if (! $movementService->insert($movement)) {
             return false;
         }
         return $this->updateRemainingInstallments($gain);
@@ -98,7 +98,7 @@ class FutureGainService extends BasicService
             $description = 'Recebimento parcial ' . strtolower($gain->getDescription());
         }
         $movement->setDescription($description);
-        if (! $movementService->insert($movement)){
+        if (! $movementService->insert($movement)) {
             return false;
         }
         return $this->updateRemainingInstallments($gain);

@@ -8,7 +8,6 @@ use App\VO\Tools\MonthlyClosingVO;
 
 class MonthlyClosingResource extends BasicResource
 {
-
     public function arrayToDto(array $item): MonthlyClosingDTO
     {
         return new MonthlyClosingDTO(

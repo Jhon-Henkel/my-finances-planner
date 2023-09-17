@@ -262,7 +262,7 @@ class FutureGainServiceUnitTest extends Falcon9
 
         $futureSpentServiceMock = Mockery::mock(FutureGainService::class);
         $futureSpentServiceMock->shouldAllowMockingProtectedMethods()->makePartial();
-        $futureSpentServiceMock->shouldReceive('makeGainForParcialReceive')->once()->withArgs(function($spent, $value) {
+        $futureSpentServiceMock->shouldReceive('makeGainForParcialReceive')->once()->withArgs(function ($spent, $value) {
             Falcon9::assertTrue($value == 0.50);
             return true;
         })->andReturn(new FutureGainDTO());

@@ -58,7 +58,8 @@ class MonthlyClosingControllerUnitTest extends Falcon9
 
         $service = $controllerMock->getService();
 
-        $this->assertInstanceOf(MonthlyClosingService::class, $service);    }
+        $this->assertInstanceOf(MonthlyClosingService::class, $service);
+    }
 
     public function testGetResource()
     {

@@ -28,7 +28,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
         $this->app->instance(CalendarToolsReal::class, $calendarMock);
 
-        $serviceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
+        $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
 
         $filter = $serviceMock->getFilter(MonthlyCLosingEnum::THIS_YEAR);
@@ -44,7 +44,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
         $this->app->instance(CalendarToolsReal::class, $calendarMock);
 
-        $serviceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
+        $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
 
         $filter = $serviceMock->getFilter(MonthlyCLosingEnum::LAST_YEAR);
@@ -60,7 +60,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
         $this->app->instance(CalendarToolsReal::class, $calendarMock);
 
-        $serviceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
+        $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
 
         $filter = $serviceMock->getFilter(MonthlyCLosingEnum::LAST_FIVE_YEARS);
@@ -79,7 +79,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         $this->expectExceptionMessage('Opção de filtro inválida');
         $this->expectException(FilterException::class);
 
-        $serviceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
+        $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
 
         $serviceMock->getFilter(999);
@@ -105,7 +105,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
 
     public function testAddChartData()
     {
-        $serviceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
+        $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
 
         $dataOne = new MonthlyClosingDTO(1, 500, 1000, 2000, 100, 100, '2021-01-01 00:00:00', '2021-01-31 23:59:59');
@@ -137,7 +137,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
             '2021-01-01 00:00:00',
             '2021-01-31 23:59:59'
         );
-        $repositoryMock = Mockery::mock(MonthlyClosingRepository::class )->makePartial();
+        $repositoryMock = Mockery::mock(MonthlyClosingRepository::class)->makePartial();
         $repositoryMock->shouldReceive('update')->once()->andReturn(function (int $id, MonthlyClosingDTO $lastClosing) {
             Falcon9::assertEquals(1, $id);
             Falcon9::assertInstanceOf(MonthlyClosingDTO::class, $lastClosing);
@@ -149,7 +149,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         });
 
         $sumValues = new MovementSumValuesDTO(100, 200, 100);
-        $movementServiceMock = Mockery::mock(MovementService::class )->makePartial();
+        $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
         $movementServiceMock->shouldReceive('getSumValuesForPeriod')->once()->andReturn($sumValues);
         $this->app->instance(MovementService::class, $movementServiceMock);
 
@@ -161,15 +161,15 @@ class MonthlyClosingServiceUnitTest extends Falcon9
 
     public function testCreateMonthlyClosing()
     {
-        $futureGainServiceMock = Mockery::mock(FutureGainService::class )->makePartial();
+        $futureGainServiceMock = Mockery::mock(FutureGainService::class)->makePartial();
         $futureGainServiceMock->shouldReceive('getThisMonthFutureGainSum')->once()->andReturn(100);
         $this->app->instance(FutureGainService::class, $futureGainServiceMock);
 
-        $futureSpentServiceMock = Mockery::mock(FutureSpentService::class )->makePartial();
+        $futureSpentServiceMock = Mockery::mock(FutureSpentService::class)->makePartial();
         $futureSpentServiceMock->shouldReceive('getThisMonthFutureSpentSum')->once()->andReturn(200);
         $this->app->instance(FutureSpentService::class, $futureSpentServiceMock);
 
-        $monthlyClosingServiceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
+        $monthlyClosingServiceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
         $monthlyClosingServiceMock->shouldAllowMockingProtectedMethods();
         $monthlyClosing = $monthlyClosingServiceMock->createMonthlyClosing(1);
 
@@ -180,7 +180,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
 
     public function testGenerateMailMonthlyClosingDone()
     {
-        $monthlyClosingServiceMock = Mockery::mock(MonthlyClosingService::class )->makePartial();
+        $monthlyClosingServiceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
         $monthlyClosingServiceMock->shouldAllowMockingProtectedMethods();
         $mail = $monthlyClosingServiceMock->generateMailMonthlyClosingDone('test@test.com', 'Fulano Da Silva');
 

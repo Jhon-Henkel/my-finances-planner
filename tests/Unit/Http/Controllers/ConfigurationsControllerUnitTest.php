@@ -2,11 +2,9 @@
 
 namespace Tests\Unit\Http\Controllers;
 
-use App\DTO\ConfigurationDTO;
 use App\Http\Controllers\ConfigurationsController;
 use App\Resources\ConfigurationResource;
 use App\Services\ConfigurationService;
-use App\VO\ConfigurationsVO;
 use Mockery;
 use Tests\Falcon9;
 

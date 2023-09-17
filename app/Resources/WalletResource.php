@@ -6,10 +6,10 @@ use App\DTO\WalletDTO;
 use App\Enums\BasicFieldsEnum;
 use App\VO\WalletVO;
 
- /**
- * @method WalletVO[] arrayDtoToVoItens(null|array $itens)
- * @method WalletDTO[] arrayToDtoItens(null|array $itens)
- */
+/**
+* @method WalletVO[] arrayDtoToVoItens(null|array $itens)
+* @method WalletDTO[] arrayToDtoItens(null|array $itens)
+*/
 class WalletResource extends BasicResource
 {
     public function arrayToDto(array $item): WalletDTO

@@ -40,7 +40,7 @@ class AuthController extends Controller
             $message = 'Usuário ou senha incorreto!';
             $authService->saveAccessLog($user, 0, $message);
             return ResponseError::responseError($message, ResponseAlias::HTTP_UNAUTHORIZED);
-        }else {
+        } else {
             $message = 'Erro inesperado ao realizar login!';
             $authService->saveAccessLog($user, 0, $message);
             ErrorReport::report(new UserException($message));

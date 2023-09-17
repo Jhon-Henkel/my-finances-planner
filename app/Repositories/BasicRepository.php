@@ -7,8 +7,8 @@ use App\Enums\BasicFieldsEnum;
 
 abstract class BasicRepository implements BasicRepositoryContract
 {
-    protected abstract function getModel();
-    protected abstract function getResource();
+    abstract protected function getModel();
+    abstract protected function getResource();
 
     public function findAll(): array
     {

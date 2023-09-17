@@ -34,6 +34,6 @@ class StringTools
 
     public static function generateRandomHexColor(): string
     {
-        return sprintf("#%06x",rand(0,16777215));
+        return sprintf("#%06x", rand(0, 16777215));
     }
 }

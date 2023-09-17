@@ -71,7 +71,8 @@
         "seed:movements": "php artisan db:seed --class=MovementsSeeder",
         "seed:monthly-closing": "php artisan db:seed --class=MonthlyClosingSeeder",
         "seed:all-data": "php artisan db:seed",
-        "analyze:phpstan": "phpstan analyse --memory-limit=512M app"
+        "analyze:phpstan": "phpstan analyse --memory-limit=512M app",
+        "analyze:pint": "./vendor/bin/pint --test --config pint.json"
     },
     "extra": {
         "laravel": {
