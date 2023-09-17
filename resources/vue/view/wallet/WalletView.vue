@@ -5,7 +5,6 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Carteiras"/>
-                <router-link class="btn btn-success rounded-5 top-button" to="/carteiras/cadastrar">
                 <router-link class="btn btn-success rounded-2 top-button" to="/carteiras/cadastrar">
                     <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
                     Nova Carteira

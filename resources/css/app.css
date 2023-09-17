@@ -101,6 +101,11 @@ table tr:first-child th {
     color: #ffffff;
 }
 
+.table-hover tr:hover td, .table-hover tr:hover th{
+    background-color: #096452 !important;
+    color: #ffffff;
+}
+
 @media (max-width: 1000px) {
     body {
         padding-left: 0 !important;
