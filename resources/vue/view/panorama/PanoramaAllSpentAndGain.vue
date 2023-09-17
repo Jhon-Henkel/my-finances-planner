@@ -15,12 +15,12 @@
                             <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
                                 <thead class="text-center">
                                     <tr class="text-center">
-                                        <td colspan="11">
+                                        <td colspan="11" class="border-table">
                                             <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="spent-icon me-2"/>
                                             Todas as Despesas (Exceto Cartões)
                                         </td>
                                     </tr>
-                                    <tr class="text-center">
+                                    <tr class="text-center border-table">
                                         <td>Id</td>
                                         <td>Nome Carteira</td>
                                         <td>Descrição</td>
@@ -30,7 +30,7 @@
                                         <td>Ações</td>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="table-body-hover">
                                     <tr v-for="spent in spending" :key="spending.id" class="text-center">
                                         <td>{{ spent.id }}</td>
                                         <td>{{ spent.walletName }}</td>
@@ -59,12 +59,12 @@
                             <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
                                 <thead class="text-center">
                                     <tr class="text-center">
-                                        <td colspan="11">
+                                        <td colspan="11" class="border-table">
                                             <font-awesome-icon :icon="iconEnum.circleArrowUp()" class="gain-icon me-2"/>
                                             Todos os Ganhos
                                         </td>
                                     </tr>
-                                    <tr class="text-center">
+                                    <tr class="text-center border-table">
                                         <td>Id</td>
                                         <td>Nome Carteira</td>
                                         <td>Descrição</td>
@@ -74,7 +74,7 @@
                                         <td>Ações</td>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="table-body-hover">
                                     <tr v-for="gain in gains" :key="gain.id" class="text-center">
                                         <td>{{ gain.id }}</td>
                                         <td>{{ gain.walletName }}</td>
@@ -207,6 +207,9 @@
     }
     .spent-icon {
         color: $danger-icon-color;
+    }
+    .border-table {
+        border-bottom: 2px solid $table-line-divider-color;
     }
     @media (max-width: 1000px) {
         .title {

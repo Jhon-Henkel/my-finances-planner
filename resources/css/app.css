@@ -96,12 +96,12 @@ table tr:first-child th {
     border-bottom: 2px solid #096452;
 }
 
-.table-transparent tr td, .table-transparent tr th{
+.table-transparent tr td, .table-transparent tr th {
     background-color: transparent !important;
     color: #ffffff;
 }
 
-.table-hover tr:hover td, .table-hover tr:hover th{
+.table-body-hover tr:hover td, .table-body-hover tr:hover th {
     background-color: #096452 !important;
     color: #ffffff;
 }

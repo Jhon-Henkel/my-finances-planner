@@ -34,7 +34,7 @@
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-center">
+                                <tbody class="text-center table-body-hover">
                                     <tr v-show="futureSpending.length === 0">
                                         <td colspan="11">Nenhuma despesa cadastrada ainda!</td>
                                     </tr>
@@ -485,7 +485,8 @@
         font-size: 10px;
     }
     .border-table {
-            border-top: 2px solid $table-line-divider-color;
+        border-top: 2px solid $table-line-divider-color;
+        border-bottom: 2px solid $table-line-divider-color;
     }
     @media (max-width: 1000px) {
         .nav {

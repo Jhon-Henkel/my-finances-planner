@@ -31,7 +31,7 @@
                                         <th scope="col">Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-center">
+                                <tbody class="text-center table-body-hover">
                                     <tr v-show="movements.length === 0">
                                         <td colspan="8">Nenhuma movimentação cadastrada ainda!</td>
                                     </tr>

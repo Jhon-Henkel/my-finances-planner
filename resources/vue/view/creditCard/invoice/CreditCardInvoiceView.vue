@@ -29,7 +29,7 @@
                                         <th scope="col">Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-center">
+                                <tbody class="text-center table-body-hover">
                                     <tr v-show="invoices.length === 0">
                                         <td colspan="9">Nenhuma despesa cadastrada ainda!</td>
                                     </tr>

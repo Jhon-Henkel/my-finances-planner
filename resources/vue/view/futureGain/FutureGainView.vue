@@ -28,7 +28,7 @@
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="table-body-hover">
                                     <tr v-show="futureGains.length === 0" class="text-center">
                                         <td colspan="11">Nenhum ganho cadastrado ainda!</td>
                                     </tr>
@@ -280,7 +280,7 @@
     @import "../../../sass/variables";
 
     .border-table {
-            border-top: 2px solid $table-line-divider-color;
+        border-top: 2px solid $table-line-divider-color;
     }
     .card-resume {
         width: 24rem;

@@ -24,7 +24,7 @@
                                         <th scope="col">Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-center">
+                                <tbody class="text-center table-body-hover">
                                     <tr v-show="wallets.length === 0">
                                         <td colspan="4">Nenhuma carteira cadastrada ainda!</td>
                                     </tr>

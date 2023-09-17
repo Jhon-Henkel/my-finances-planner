@@ -31,7 +31,7 @@
                                         <th scope="col">Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-center">
+                                <tbody class="text-center table-body-hover">
                                     <tr v-show="cards.length === 0">
                                         <td colspan="7">Nenhum cartão cadastrado ainda!</td>
                                     </tr>
