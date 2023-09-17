@@ -24,7 +24,7 @@
                                     <tr class="text-center">
                                         <td colspan="11">Despesas</td>
                                     </tr>
-                                    <tr class="text-center">
+                                    <tr class="text-center border-table">
                                         <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
                                         <th>Descrição</th>
                                         <th scope="col" v-for="(month, index) in months" :key="index">
@@ -483,6 +483,9 @@
     }
     .icon-out {
         font-size: 10px;
+    }
+    .border-table {
+            border-top: 2px solid $table-line-divider-color;
     }
     @media (max-width: 1000px) {
         .nav {
