@@ -46,7 +46,7 @@
                 isMenuOpen: false,
                 isUsedVueRouter: false,
                 isPaddingLeft: true,
-                salutation: userAuthStore().user?.salutation,
+                salutation: '',
                 menuItens: [
                     {
                         title: 'Dashboard',
@@ -127,6 +127,7 @@
         watch: {
             isOpened() {
                 window.document.body.style.paddingLeft = this.isOpened && this.isPaddingLeft ? '300px' : '78px'
+                this.salutation = userAuthStore().user?.salutation
             },
             '$route'() {
                 this.mustShow = this.mustShowSidebar()
