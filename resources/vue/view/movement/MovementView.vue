@@ -37,28 +37,28 @@
                                     </tr>
                                     <tr v-for="movement in movements" :key="movement.id">
                                         <td>
-                                            <font-awesome-icon v-if="movement.type === movementEnum.type.transfer()"
+                                            <font-awesome-icon v-if="movement.type === MovementEnum.type.transfer()"
                                                             :icon="iconEnum.circleArrowRight()"
                                                             class="movement-transfer-icon"/>
-                                            <font-awesome-icon v-else-if="movement.type === movementEnum.type.spent()"
+                                            <font-awesome-icon v-else-if="movement.type === MovementEnum.type.spent()"
                                                             :icon="iconEnum.circleArrowDown()"
                                                             class="movement-spent-icon"/>
-                                            <font-awesome-icon v-else-if="movement.type === movementEnum.type.gain()"
+                                            <font-awesome-icon v-else-if="movement.type === MovementEnum.type.gain()"
                                                             :icon="iconEnum.circleArrowUp()"
                                                             class="movement-gain-icon"/>
                                         </td>
                                         <td class="text-start">{{ movement.description }}</td>
                                         <td class="text-start">{{ movement.walletName }}</td>
-                                        <td>{{ stringTools.formatFloatValueToBrString(movement.amount) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(movement.amount) }}</td>
                                         <td>{{ calendarTools.convertDateDbToBr(movement.createdAt) }}</td>
                                         <td>
                                             <action-buttons
-                                                v-if="movement.type !== movementEnum.type.transfer()"
+                                                v-if="movement.type !== MovementEnum.type.transfer()"
                                                 :delete-tooltip="'Deletar Movimentação'"
                                                 :tooltip-edit="'Editar Movimentação'"
                                                 :edit-to="'/movimentacoes/' + movement.id + '/atualizar'"
                                                 @delete-clicked="deleteMovement(movement.id, movement.description)"/>
-                                            <div class="text-center action-buttons" v-if="movement.type === movementEnum.type.transfer()">
+                                            <div class="text-center action-buttons" v-if="movement.type === MovementEnum.type.transfer()">
                                                 <button class="btn btn-sm btn-danger rounded-2 text-center action-buttons delete-button"
                                                         @click="deleteTransfer(movement.id, movement.description)"
                                                         v-tooltip="'Deletar Movimentação'" >
@@ -131,9 +131,7 @@ import iconEnum from '../../../js/enums/iconEnum'
 import ActionButtons from '../../components/ActionButtons.vue'
 import MovementEnum from '../../../js/enums/movementEnum'
 import apiRouter from '../../../js/router/apiRouter'
-import stringTools from '../../../js/tools/stringTools'
 import calendarTools from '../../../js/tools/calendarTools'
-import movementEnum from '../../../js/enums/movementEnum'
 import numberTools from '../../../js/tools/numberTools'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
@@ -150,14 +148,11 @@ export default {
         StringTools() {
             return StringTools
         },
-        movementEnum() {
-            return movementEnum
+        MovementEnum() {
+            return MovementEnum
         },
         calendarTools() {
             return calendarTools
-        },
-        stringTools() {
-            return stringTools
         },
         iconEnum() {
             return iconEnum

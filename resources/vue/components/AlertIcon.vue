@@ -3,8 +3,8 @@
 </template>
 
 <script>
+import { icon } from '@fortawesome/fontawesome-svg-core'
 import iconEnum from '../../js/enums/iconEnum'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
     name: 'AlertIcon',

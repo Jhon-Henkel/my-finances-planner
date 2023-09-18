@@ -28,7 +28,7 @@
                                         <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
                                         <th>Descrição</th>
                                         <th scope="col" v-for="(month, index) in months" :key="index">
-                                            {{ calendarTools.getMonthNameByNumber(month) }}
+                                            {{ CalendarTools.getMonthNameByNumber(month) }}
                                         </th>
                                         <th>Restam</th>
                                         <th>Ações</th>
@@ -95,7 +95,7 @@
                                             <td></td>
                                             <td></td>
                                             <th scope="col" v-for="(month, index) in months" :key="index">
-                                                {{ calendarTools.getMonthNameByNumber(month) }}
+                                                {{ CalendarTools.getMonthNameByNumber(month) }}
                                             </th>
                                         </tr>
                                     </thead>
@@ -205,7 +205,7 @@
                                     <select v-model="monthRemaining" class="form-select-sm text-center">
                                         <option value="10" disabled>Selecione o mês</option>
                                         <option v-for="(month, index) in months" :key="index" :value="index">
-                                            {{ calendarTools.getMonthNameByNumber(month) }}
+                                            {{ CalendarTools.getMonthNameByNumber(month) }}
                                         </option>
                                     </select>
                                 </div>
@@ -243,7 +243,6 @@ import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
 import iconEnum from '../../../js/enums/iconEnum'
 import ActionButtons from '../../components/ActionButtons.vue'
-import calendarTools from '../../../js/tools/calendarTools'
 import StringTools from '../../../js/tools/stringTools'
 import CalendarTools from '../../../js/tools/calendarTools'
 import ApiRouter from '../../../js/router/apiRouter'
@@ -258,8 +257,8 @@ export default {
         StringTools() {
             return StringTools
         },
-        calendarTools() {
-            return calendarTools
+        CalendarTools() {
+            return CalendarTools
         },
         iconEnum() {
             return iconEnum

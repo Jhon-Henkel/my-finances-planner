@@ -1,5 +1,3 @@
-import MovementEnum from './movementEnum'
-
 const THIS_YEAR = 4
 const THIS_YEAR_LABEL = 'Este Ano'
 const LAST_YEAR = 5

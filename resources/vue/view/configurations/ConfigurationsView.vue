@@ -141,7 +141,7 @@ export default {
             }
             await ApiRouter.user.update(this.id, this.user).then(() => {
                 this.messageSuccess('Faça login novamente.')
-            }).catch((error) => {
+            }).catch(() => {
                 this.messageError('Erro ao atualizar dados do usuário!')
             })
         },

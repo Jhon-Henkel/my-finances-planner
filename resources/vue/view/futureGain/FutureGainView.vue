@@ -22,7 +22,7 @@
                                         <th>Descrição</th>
                                         <th>Carteira</th>
                                         <th scope="col" v-for="(month, index) in months" :key="index">
-                                            {{ calendarTools.getMonthNameByNumber(month) }}
+                                            {{ CalendarTools.getMonthNameByNumber(month) }}
                                         </th>
                                         <th>Restam</th>
                                         <th>Ações</th>
@@ -119,7 +119,6 @@ import LoadingComponent from '../../components/LoadingComponent.vue'
 import iconEnum from '../../../js/enums/iconEnum'
 import CalendarTools from '../../../js/tools/calendarTools'
 import ActionButtons from '../../components/ActionButtons.vue'
-import calendarTools from '../../../js/tools/calendarTools'
 import ApiRouter from '../../../js/router/apiRouter'
 import MessageEnum from '../../../js/enums/messageEnum'
 import StringTools from '../../../js/tools/stringTools'
@@ -135,8 +134,8 @@ export default {
         StringTools() {
             return StringTools
         },
-        calendarTools() {
-            return calendarTools
+        CalendarTools() {
+            return CalendarTools
         },
         iconEnum() {
             return iconEnum
@@ -178,7 +177,7 @@ export default {
                 this.futureGains = response
                 this.calculateTotalPerMonth()
                 this.loadingDone = true
-            }).catch(error => {
+            }).catch(() => {
                 this.messageError('Não foi possível carregar os ganhos futuros!')
             })
         },
@@ -197,7 +196,7 @@ export default {
                 await ApiRouter.futureGain.delete(id).then(response => {
                     this.messageSuccess('Ganho deletado com sucesso!')
                     this.updateFutureGainsList()
-                }).catch(error => {
+                }).catch(() => {
                     this.messageError('Não foi possível deletar o ganho!')
                 })
             }

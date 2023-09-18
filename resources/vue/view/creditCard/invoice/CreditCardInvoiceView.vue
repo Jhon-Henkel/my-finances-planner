@@ -23,7 +23,7 @@
                                     <tr>
                                         <th scope="col">Descrição</th>
                                         <th scope="col" v-for="(month, index) in months" :key="index">
-                                            {{ calendarTools.getMonthNameByNumber(month) }}
+                                            {{ CalendarTools.getMonthNameByNumber(month) }}
                                         </th>
                                         <th scope="col">Restam</th>
                                         <th scope="col">Ações</th>
@@ -99,7 +99,6 @@ import LoadingComponent from '../../../components/LoadingComponent.vue'
 import CalendarTools from '../../../../js/tools/calendarTools'
 import iconEnum from '../../../../js/enums/iconEnum'
 import apiRouter from '../../../../js/router/apiRouter'
-import calendarTools from '../../../../js/tools/calendarTools'
 import StringTools from '../../../../js/tools/stringTools'
 import ActionButtons from '../../../components/ActionButtons.vue'
 import { HttpStatusCode } from 'axios'
@@ -116,8 +115,8 @@ export default {
         StringTools() {
             return StringTools
         },
-        calendarTools() {
-            return calendarTools
+        CalendarTools() {
+            return CalendarTools
         },
         iconEnum() {
             return iconEnum

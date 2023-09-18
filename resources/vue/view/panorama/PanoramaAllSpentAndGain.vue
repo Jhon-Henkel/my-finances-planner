@@ -177,7 +177,7 @@ export default {
                 await ApiRouter.futureGain.delete(id).then(response => {
                     this.messageSuccess('Ganho deletado com sucesso!')
                     this.getAllGains()
-                }).catch(error => {
+                }).catch(() => {
                     this.messageError('Não foi possível deletar o ganho!')
                 })
             }

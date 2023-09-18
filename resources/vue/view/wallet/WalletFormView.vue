@@ -45,8 +45,6 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import messageEnum from '../../../js/enums/messageEnum'
 import walletEnum from '../../../js/enums/walletEnum'
 import apiRouter from '../../../js/router/apiRouter'
 import { HttpStatusCode } from 'axios'
@@ -73,8 +71,7 @@ export default {
         Divider,
         BottomButtons,
         LoadingComponent,
-        InputMoney,
-        FontAwesomeIcon
+        InputMoney
     },
     data() {
         return {

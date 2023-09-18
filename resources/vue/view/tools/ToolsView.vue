@@ -28,7 +28,6 @@
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import iconEnum from '../../../js/enums/iconEnum'
-import LoadingComponent from '../../components/LoadingComponent.vue'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
 
@@ -39,7 +38,7 @@ export default {
             return iconEnum
         }
     },
-    components: { MfpTitle, Divider, LoadingComponent, FontAwesomeIcon },
+    components: { MfpTitle, Divider, FontAwesomeIcon },
     data() {
         return {
             loadingDone: false,

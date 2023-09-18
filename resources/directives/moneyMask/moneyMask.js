@@ -7,8 +7,7 @@ export default function(element, binding) {
     const option = assign(defaults, binding.value)
     if (element.tagName.toLocaleUpperCase() !== 'INPUT') {
         const elements = element.getElementsByTagName('input')
-        if (elements.length !== 1) {
-        } else {
+        if (elements.length === 1) {
             element = elements[0]
         }
     }
