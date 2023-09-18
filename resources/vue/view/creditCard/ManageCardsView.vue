@@ -96,127 +96,127 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import apiRouter from "../../../js/router/apiRouter";
-    import stringTools from "../../../js/tools/stringTools";
-    import calendarTools from "../../../js/tools/calendarTools";
-    import ActionButtons from "../../components/ActionButtons.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-    import {HttpStatusCode} from "axios";
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import iconEnum from '../../../js/enums/iconEnum'
+import apiRouter from '../../../js/router/apiRouter'
+import stringTools from '../../../js/tools/stringTools'
+import calendarTools from '../../../js/tools/calendarTools'
+import ActionButtons from '../../components/ActionButtons.vue'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import MfpMessage from '../../components/MessageAlert.vue'
+import MessageEnum from '../../../js/enums/messageEnum'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { HttpStatusCode } from 'axios'
 
-    export default {
-        name: "ManageCardsView",
-        computed: {
-            calendarTools() {
-                return calendarTools
-            },
-            stringTools() {
-                return stringTools
-            },
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'ManageCardsView',
+    computed: {
+        calendarTools() {
+            return calendarTools
         },
-        components: {
-            FontAwesomeIcon,
-            MfpMessage,
-            MfpTitle,
-            Divider,
-            ActionButtons,
-            LoadingComponent
+        stringTools() {
+            return stringTools
         },
-        data() {
-            return {
-                cards: {},
-                card: {
-                    totalValueSpending: 0,
-                    nextInvoiceValue: 0,
-                    isThinsMouthInvoicePayed: false
-                },
-                loadingDone: false,
-                showPayInvoice: false,
-                wallets: {},
-                walletId: 0,
-                cardId: 0,
-            }
-        },
-        methods: {
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageWarning(message, title) {
-                this.showMessage(MessageEnum.alertTypeWarning(), message, title)
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, title) {
-                this.$refs.message.showAlert(type, message, title)
-            },
-            getBadgeTypeForForecastDate(card) {
-                return card.isThinsMouthInvoicePayed ? 'text-bg-success' : 'text-bg-danger'
-            },
-            getTitleForForecastDate(card) {
-                let month = calendarTools.getMonthNameByNumber(calendarTools.getThisMonth())
-                return card.isThinsMouthInvoicePayed
-                    ? 'Fatura mês ' + month + ' paga'
-                    : 'Fatura mês ' + month + ' não paga'
-            },
-            async getCards() {
-                this.loadingDone = false
-                 await apiRouter.cards.index().then((response) => {
-                     this.cards = response
-                     this.loadingDone = true
-                }).catch(() => {
-                    this.messageError('Erro inesperado ao buscar Cartões!')
-                })
-            },
-            async deleteCard(cardId, cardName) {
-                if(confirm("Tem certeza que realmente quer deletar o cartão " + cardName + '?')) {
-                    await apiRouter.cards.delete(cardId).then(() => {
-                        this.messageSuccess('Cartão deletada com sucesso!')
-                        this.getCards()
-                    }).catch((response) => {
-                        this.messageError(response.response.data.message)
-                    })
-                }
-            },
-            async payNextInvoice() {
-                if (this.cardId === 0) {
-                    this.messageWarning('Você deve selecionar um cartão!', 'Cartão não informado!')
-                    return
-                }
-                if (this.walletId === 0) {
-                    this.messageWarning('Você deve selecionar uma carteira!', 'Carteira não informada!')
-                    return
-                }
-                if (confirm('Deseja realmente pagar a próxima fatura ?')) {
-                    await apiRouter.cards.invoices.payInvoice(this.walletId, this.cardId).then(async (response) => {
-                        if (response.status !== HttpStatusCode.Ok) {
-                            this.messageError('Erro ao pagar fatura!')
-                            return
-                        }
-                        this.messageSuccess('Fatura paga com sucesso!')
-                        this.showPayInvoice = false
-                        await this.getCards()
-                        this.walletId = 0
-                        this.cardId = 0
-                    }).catch(() => {
-                        this.messageError('Erro ao pagar fatura!')
-                    })
-                }
-            },
-        },
-        async mounted() {
-            this.getCards()
-            this.wallets = await apiRouter.wallet.index()
+        iconEnum() {
+            return iconEnum
         }
+    },
+    components: {
+        FontAwesomeIcon,
+        MfpMessage,
+        MfpTitle,
+        Divider,
+        ActionButtons,
+        LoadingComponent
+    },
+    data() {
+        return {
+            cards: {},
+            card: {
+                totalValueSpending: 0,
+                nextInvoiceValue: 0,
+                isThinsMouthInvoicePayed: false
+            },
+            loadingDone: false,
+            showPayInvoice: false,
+            wallets: {},
+            walletId: 0,
+            cardId: 0
+        }
+    },
+    methods: {
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+        },
+        messageWarning(message, title) {
+            this.showMessage(MessageEnum.alertTypeWarning(), message, title)
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, title) {
+            this.$refs.message.showAlert(type, message, title)
+        },
+        getBadgeTypeForForecastDate(card) {
+            return card.isThinsMouthInvoicePayed ? 'text-bg-success' : 'text-bg-danger'
+        },
+        getTitleForForecastDate(card) {
+            const month = calendarTools.getMonthNameByNumber(calendarTools.getThisMonth())
+            return card.isThinsMouthInvoicePayed
+                ? 'Fatura mês ' + month + ' paga'
+                : 'Fatura mês ' + month + ' não paga'
+        },
+        async getCards() {
+            this.loadingDone = false
+            await apiRouter.cards.index().then((response) => {
+                this.cards = response
+                this.loadingDone = true
+            }).catch(() => {
+                this.messageError('Erro inesperado ao buscar Cartões!')
+            })
+        },
+        async deleteCard(cardId, cardName) {
+            if (confirm('Tem certeza que realmente quer deletar o cartão ' + cardName + '?')) {
+                await apiRouter.cards.delete(cardId).then(() => {
+                    this.messageSuccess('Cartão deletada com sucesso!')
+                    this.getCards()
+                }).catch((response) => {
+                    this.messageError(response.response.data.message)
+                })
+            }
+        },
+        async payNextInvoice() {
+            if (this.cardId === 0) {
+                this.messageWarning('Você deve selecionar um cartão!', 'Cartão não informado!')
+                return
+            }
+            if (this.walletId === 0) {
+                this.messageWarning('Você deve selecionar uma carteira!', 'Carteira não informada!')
+                return
+            }
+            if (confirm('Deseja realmente pagar a próxima fatura ?')) {
+                await apiRouter.cards.invoices.payInvoice(this.walletId, this.cardId).then(async(response) => {
+                    if (response.status !== HttpStatusCode.Ok) {
+                        this.messageError('Erro ao pagar fatura!')
+                        return
+                    }
+                    this.messageSuccess('Fatura paga com sucesso!')
+                    this.showPayInvoice = false
+                    await this.getCards()
+                    this.walletId = 0
+                    this.cardId = 0
+                }).catch(() => {
+                    this.messageError('Erro ao pagar fatura!')
+                })
+            }
+        }
+    },
+    async mounted() {
+        this.getCards()
+        this.wallets = await apiRouter.wallet.index()
     }
+}
 </script>
 
 <style scoped>

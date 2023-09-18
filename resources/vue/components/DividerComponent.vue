@@ -3,9 +3,9 @@
 </template>
 
 <script>
-    export default {
-        name: "Divider"
-    }
+export default {
+    name: 'Divider'
+}
 </script>
 
 <style lang="scss" scoped>

@@ -21,69 +21,69 @@
 </template>
 
 <script>
-    import iconEnum from "../../js/enums/iconEnum";
-    import CalendarTools from "../../js/tools/calendarTools";
-    import messageEnum from "../../js/enums/messageEnum";
+import iconEnum from '../../js/enums/iconEnum'
+import CalendarTools from '../../js/tools/calendarTools'
+import messageEnum from '../../js/enums/messageEnum'
 
-    export default {
-        name: 'mfp-message',
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'mfp-message',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    data() {
+        return {
+            icon: iconEnum.info(),
+            position: 'top center',
+            status: false,
+            isHide: false,
+            alertType: 'info',
+            header: 'Algo Aconteceu!',
+            message: 'Mas não sei o que!'
+        }
+    },
+    methods: {
+        showAlert(alertType, alertMessage, alertHeader) {
+            this.alertType = alertType
+            this.header = alertHeader || alertType.toUpperCase()
+            this.message = alertMessage
+            setTimeout(() => {
+                this.status = true
+            }, CalendarTools.oneHundredMs())
+            setTimeout(() => {
+                this.isHide = false
+                this.status = false
+                this.header = ''
+                this.message = ''
+            }, CalendarTools.tenSecondsTimeInMs())
         },
-        data() {
-            return {
-                icon: iconEnum.info(),
-                position: 'top center',
-                status: false,
-                isHide: false,
-                alertType: 'info',
-                header: 'Algo Aconteceu!',
-                message: 'Mas não sei o que!',
-            };
-        },
-        methods: {
-            showAlert(alertType, alertMessage, alertHeader) {
-                this.alertType = alertType
-                this.header = alertHeader ? alertHeader : alertType.toUpperCase()
-                this.message = alertMessage
-                setTimeout(() =>{
-                    this.status = true
-                }, CalendarTools.oneHundredMs())
-                setTimeout(() => {
-                    this.isHide = false
-                    this.status = false
-                    this.header = ''
-                    this.message = ''
-                }, CalendarTools.tenSecondsTimeInMs())
-            },
-            closeAlert() {
-                this.isHide = true
-                setTimeout(() => {
-                    this.isHide = false
-                    this.status = false
-                    this.header = ''
-                    this.message = ''
-                }, CalendarTools.twoHundredMs())
-            },
-        },
-        watch: {
-            message: function (message) {
-                if (message !== 'Mas não sei o que!') {
-                    if (this.alertType === messageEnum.alertTypeSuccess()) {
-                        this.icon = iconEnum.check()
-                    } else if (this.alertType === messageEnum.alertTypeError()) {
-                        this.icon = iconEnum.xMark()
-                    } else if (this.alertType === messageEnum.alertTypeWarning()) {
-                        this.icon = iconEnum.triangleExclamation()
-                    } else if (this.alertType === messageEnum.alertTypeInfo()) {
-                        this.icon = iconEnum.info()
-                    }
+        closeAlert() {
+            this.isHide = true
+            setTimeout(() => {
+                this.isHide = false
+                this.status = false
+                this.header = ''
+                this.message = ''
+            }, CalendarTools.twoHundredMs())
+        }
+    },
+    watch: {
+        message: function(message) {
+            if (message !== 'Mas não sei o que!') {
+                if (this.alertType === messageEnum.alertTypeSuccess()) {
+                    this.icon = iconEnum.check()
+                } else if (this.alertType === messageEnum.alertTypeError()) {
+                    this.icon = iconEnum.xMark()
+                } else if (this.alertType === messageEnum.alertTypeWarning()) {
+                    this.icon = iconEnum.triangleExclamation()
+                } else if (this.alertType === messageEnum.alertTypeInfo()) {
+                    this.icon = iconEnum.info()
                 }
             }
         }
-    };
+    }
+}
 </script>
 
 <style lang="scss" scoped>

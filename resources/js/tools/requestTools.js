@@ -1,9 +1,10 @@
-import CalendarTools from "./calendarTools";
+import axios from 'axios'
+import CalendarTools from './calendarTools'
 
 const RequestTools = {
     storage: {
-        getStorageItem: function (key) {
-            let itemInStorage = localStorage.getItem(key)
+        getStorageItem: function(key) {
+            const itemInStorage = localStorage.getItem(key)
             if (itemInStorage) {
                 const itemParsed = JSON.parse(itemInStorage)
                 const now = CalendarTools.getToday()
@@ -14,20 +15,20 @@ const RequestTools = {
             }
             return null
         },
-        setStorageItem: function (key, value, expireTimeMs) {
-            let expiry = expireTimeMs ?? CalendarTools.threeHoursInMs()
+        setStorageItem: function(key, value, expireTimeMs) {
+            const expiry = expireTimeMs ?? CalendarTools.threeHoursInMs()
             localStorage.setItem(key, JSON.stringify({
-                value: value,
-                expiry: CalendarTools.getToday().getTime() + expiry,
+                value,
+                expiry: CalendarTools.getToday().getTime() + expiry
             }))
         },
-        removeStorageItems: function (...keys) {
+        removeStorageItems: function(...keys) {
             keys.forEach((key) => {
                 localStorage.removeItem(key)
             })
         }
     },
-    isApplicationInDemoMode: function () {
+    isApplicationInDemoMode: function() {
         if (import.meta.env.VITE_APP_DEMO_MODE === 'true') {
             return true
         }
@@ -41,12 +42,12 @@ const RequestTools = {
         },
         async post(url, data) {
             return await axios.post(url, data, {
-                headers: this.getHeaders(),
+                headers: this.getHeaders()
             })
         },
         async put(url, data) {
             return await axios.put(url, data, {
-                headers: this.getHeaders(),
+                headers: this.getHeaders()
             })
         },
         async delete(url) {
@@ -57,7 +58,7 @@ const RequestTools = {
         getHeaders() {
             return {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'MFP-TOKEN': import.meta.env.VITE_PUSHER_APP_KEY,
                 'X-MFP-USER-TOKEN': 'Bearer ' + RequestTools.storage.getStorageItem('mfp-token')
             }
@@ -65,4 +66,4 @@ const RequestTools = {
     }
 }
 
-export default RequestTools;
+export default RequestTools

@@ -22,7 +22,7 @@
                                         <th>Descrição</th>
                                         <th>Carteira</th>
                                         <th scope="col" v-for="(month, index) in months" :key="index">
-                                            {{ calendarTools.getMonthNameByNumber(month) }}
+                                            {{ CalendarTools.getMonthNameByNumber(month) }}
                                         </th>
                                         <th>Restam</th>
                                         <th>Ações</th>
@@ -115,165 +115,164 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import CalendarTools from "../../../js/tools/calendarTools";
-    import ActionButtons from "../../components/ActionButtons.vue";
-    import calendarTools from "../../../js/tools/calendarTools";
-    import ApiRouter from "../../../js/router/apiRouter";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import StringTools from "../../../js/tools/stringTools";
-    import NumberTools from "../../../js/tools/numberTools";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import PayReceive from "../../components/PayReceiveComponent.vue";
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import iconEnum from '../../../js/enums/iconEnum'
+import CalendarTools from '../../../js/tools/calendarTools'
+import ActionButtons from '../../components/ActionButtons.vue'
+import ApiRouter from '../../../js/router/apiRouter'
+import MessageEnum from '../../../js/enums/messageEnum'
+import StringTools from '../../../js/tools/stringTools'
+import NumberTools from '../../../js/tools/numberTools'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import MfpMessage from '../../components/MessageAlert.vue'
+import PayReceive from '../../components/PayReceiveComponent.vue'
 
-    export default {
-        name: "FutureGainView",
-        computed: {
-            StringTools() {
-                return StringTools
-            },
-            calendarTools() {
-                return calendarTools
-            },
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'FutureGainView',
+    computed: {
+        StringTools() {
+            return StringTools
         },
-        components: {
-            PayReceive,
-            MfpMessage,
-            MfpTitle,
-            Divider,
-            ActionButtons,
-            LoadingComponent,
+        CalendarTools() {
+            return CalendarTools
         },
-        data() {
-            return {
-                loadingDone: false,
-                months: [],
-                totalPerMonth: {
-                    firstMonth: 0,
-                    secondMonth: 0,
-                    thirdMonth: 0,
-                    forthMonth: 0,
-                    fifthMonth: 0,
-                    sixthMonth: 0,
-                    total: 0
-                },
-                receiveGainValue: 0,
-                receiveGainWalletId: 0,
-                receiveGainId: 0,
-                receiveGainName: '',
-                showReceiveGain: false,
-                futureGains: {},
-            }
-        },
-        methods: {
-            async updateFutureGainsList() {
-                await ApiRouter.futureGain.getNextSixMonthsGains().then(response => {
-                    this.loadingDone = false
-                    this.futureGains = response
-                    this.calculateTotalPerMonth()
-                    this.loadingDone = true
-                }).catch(error => {
-                    this.messageError('Não foi possível carregar os ganhos futuros!')
-                })
-            },
-            calculateTotalPerMonth() {
-                let totalPerMonthCount = NumberTools.calculateTotalPerMonthInvoiceItem(this.futureGains)
-                this.totalPerMonth.firstMonth = totalPerMonthCount.firstMonth
-                this.totalPerMonth.secondMonth = totalPerMonthCount.secondMonth
-                this.totalPerMonth.thirdMonth = totalPerMonthCount.thirdMonth
-                this.totalPerMonth.forthMonth = totalPerMonthCount.forthMonth
-                this.totalPerMonth.fifthMonth = totalPerMonthCount.fifthMonth
-                this.totalPerMonth.sixthMonth = totalPerMonthCount.sixthMonth
-                this.totalPerMonth.total = totalPerMonthCount.total
-            },
-            async deleteGain(id, gainName) {
-                if(confirm("Tem certeza que realmente quer deletar o ganho " + gainName + '?')) {
-                    await ApiRouter.futureGain.delete(id).then(response => {
-                        this.messageSuccess('Ganho deletado com sucesso!')
-                        this.updateFutureGainsList()
-                    }).catch(error => {
-                        this.messageError('Não foi possível deletar o ganho!')
-                    })
-                }
-            },
-            async receiveGain(event) {
-                let partial = event.partial ? " de forma parcial" : ""
-                let confirmMessage = 'Você confirma o recebimento do ganho '
-                confirmMessage = confirmMessage + '"' + this.receiveGainName + '"'
-                confirmMessage = confirmMessage + partial
-                confirmMessage = confirmMessage + ' no valor de ' + StringTools.formatFloatValueToBrString(event.value)
-                if(confirm(confirmMessage + '?')) {
-                    let object = {
-                        walletId: event.walletId,
-                        value: event.value,
-                        partial: event.partial
-                    }
-                    await ApiRouter.futureGain.receive(this.receiveGainId, object).then(response => {
-                        this.messageSuccess('Ganho recebido com sucesso!')
-                        this.updateFutureGainsList()
-                        this.showReceiveGain = false
-                    }).catch(() => {
-                        this.messageError('Não foi possível receber o ganho!')
-                    })
-                }
-            },
-            showReceiveGainForm(id, countId, value, gainName) {
-                this.receiveGainValue = value
-                this.receiveGainWalletId = countId
-                this.receiveGainId = id
-                this.receiveGainName = gainName
-                this.showReceiveGain = true
-            },
-            getNextGainValue(gain) {
-                if (gain.firstInstallment) {
-                    return gain.firstInstallment
-                } else if (gain.secondInstallment) {
-                    return gain.secondInstallment
-                } else if (gain.thirdInstallment) {
-                    return gain.thirdInstallment
-                } else if (gain.forthInstallment) {
-                    return gain.forthInstallment
-                } else if (gain.fifthInstallment) {
-                    return gain.fifthInstallment
-                } else if (gain.sixthInstallment) {
-                    return gain.sixthInstallment
-                }
-            },
-            showCheckButton(gain) {
-                if (
-                    ! gain.firstInstallment
-                    && ! gain.secondInstallment
-                    && ! gain.thirdInstallment
-                    && ! gain.forthInstallment
-                    && ! gain.fifthInstallment
-                    && ! gain.sixthInstallment
-                ) {
-                    return false
-                }
-                return true
-            },
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, title) {
-                this.$refs.message.showAlert(type, message, title)
-            }
-        },
-        async mounted() {
-            this.thisMonth = CalendarTools.getThisMonth()
-            this.months = CalendarTools.getNextSixMonths(this.thisMonth)
-            await this.updateFutureGainsList()
+        iconEnum() {
+            return iconEnum
         }
+    },
+    components: {
+        PayReceive,
+        MfpMessage,
+        MfpTitle,
+        Divider,
+        ActionButtons,
+        LoadingComponent
+    },
+    data() {
+        return {
+            loadingDone: false,
+            months: [],
+            totalPerMonth: {
+                firstMonth: 0,
+                secondMonth: 0,
+                thirdMonth: 0,
+                forthMonth: 0,
+                fifthMonth: 0,
+                sixthMonth: 0,
+                total: 0
+            },
+            receiveGainValue: 0,
+            receiveGainWalletId: 0,
+            receiveGainId: 0,
+            receiveGainName: '',
+            showReceiveGain: false,
+            futureGains: {}
+        }
+    },
+    methods: {
+        async updateFutureGainsList() {
+            await ApiRouter.futureGain.getNextSixMonthsGains().then(response => {
+                this.loadingDone = false
+                this.futureGains = response
+                this.calculateTotalPerMonth()
+                this.loadingDone = true
+            }).catch(() => {
+                this.messageError('Não foi possível carregar os ganhos futuros!')
+            })
+        },
+        calculateTotalPerMonth() {
+            const totalPerMonthCount = NumberTools.calculateTotalPerMonthInvoiceItem(this.futureGains)
+            this.totalPerMonth.firstMonth = totalPerMonthCount.firstMonth
+            this.totalPerMonth.secondMonth = totalPerMonthCount.secondMonth
+            this.totalPerMonth.thirdMonth = totalPerMonthCount.thirdMonth
+            this.totalPerMonth.forthMonth = totalPerMonthCount.forthMonth
+            this.totalPerMonth.fifthMonth = totalPerMonthCount.fifthMonth
+            this.totalPerMonth.sixthMonth = totalPerMonthCount.sixthMonth
+            this.totalPerMonth.total = totalPerMonthCount.total
+        },
+        async deleteGain(id, gainName) {
+            if (confirm('Tem certeza que realmente quer deletar o ganho ' + gainName + '?')) {
+                await ApiRouter.futureGain.delete(id).then(response => {
+                    this.messageSuccess('Ganho deletado com sucesso!')
+                    this.updateFutureGainsList()
+                }).catch(() => {
+                    this.messageError('Não foi possível deletar o ganho!')
+                })
+            }
+        },
+        async receiveGain(event) {
+            const partial = event.partial ? ' de forma parcial' : ''
+            let confirmMessage = 'Você confirma o recebimento do ganho '
+            confirmMessage = confirmMessage + '"' + this.receiveGainName + '"'
+            confirmMessage = confirmMessage + partial
+            confirmMessage = confirmMessage + ' no valor de ' + StringTools.formatFloatValueToBrString(event.value)
+            if (confirm(confirmMessage + '?')) {
+                const object = {
+                    walletId: event.walletId,
+                    value: event.value,
+                    partial: event.partial
+                }
+                await ApiRouter.futureGain.receive(this.receiveGainId, object).then(response => {
+                    this.messageSuccess('Ganho recebido com sucesso!')
+                    this.updateFutureGainsList()
+                    this.showReceiveGain = false
+                }).catch(() => {
+                    this.messageError('Não foi possível receber o ganho!')
+                })
+            }
+        },
+        showReceiveGainForm(id, countId, value, gainName) {
+            this.receiveGainValue = value
+            this.receiveGainWalletId = countId
+            this.receiveGainId = id
+            this.receiveGainName = gainName
+            this.showReceiveGain = true
+        },
+        getNextGainValue(gain) {
+            if (gain.firstInstallment) {
+                return gain.firstInstallment
+            } else if (gain.secondInstallment) {
+                return gain.secondInstallment
+            } else if (gain.thirdInstallment) {
+                return gain.thirdInstallment
+            } else if (gain.forthInstallment) {
+                return gain.forthInstallment
+            } else if (gain.fifthInstallment) {
+                return gain.fifthInstallment
+            } else if (gain.sixthInstallment) {
+                return gain.sixthInstallment
+            }
+        },
+        showCheckButton(gain) {
+            if (
+                !gain.firstInstallment &&
+                    !gain.secondInstallment &&
+                    !gain.thirdInstallment &&
+                    !gain.forthInstallment &&
+                    !gain.fifthInstallment &&
+                    !gain.sixthInstallment
+            ) {
+                return false
+            }
+            return true
+        },
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, title) {
+            this.$refs.message.showAlert(type, message, title)
+        }
+    },
+    async mounted() {
+        this.thisMonth = CalendarTools.getThisMonth()
+        this.months = CalendarTools.getNextSixMonths(this.thisMonth)
+        await this.updateFutureGainsList()
     }
+}
 </script>
 
 <style lang="scss" scoped>

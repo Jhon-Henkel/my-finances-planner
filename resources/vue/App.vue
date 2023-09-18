@@ -16,21 +16,21 @@
 </template>
 
 <script>
-    import SideBarComponent from "./components/SideBarComponent.vue";
-    import RequestTools from "../js/tools/requestTools";
+import SideBarComponent from './components/SideBarComponent.vue'
+import RequestTools from '../js/tools/requestTools'
 
-    export default {
-        name: 'App',
-        components: {
-            SideBarComponent
-        },
-        data() {
-            return {
-                isDemoMode: false
-            }
-        },
-        async mounted() {
-            this.isDemoMode = RequestTools.isApplicationInDemoMode()
+export default {
+    name: 'App',
+    components: {
+        SideBarComponent
+    },
+    data() {
+        return {
+            isDemoMode: false
         }
+    },
+    async mounted() {
+        this.isDemoMode = RequestTools.isApplicationInDemoMode()
     }
+}
 </script>

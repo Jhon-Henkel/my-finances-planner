@@ -3,26 +3,26 @@
 </template>
 
 <script>
-    import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
-    import { Line } from "vue-chartjs";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
+import { Line } from 'vue-chartjs'
 
-    ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
-    ChartJS.defaults.color = '#ffffff';
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
+ChartJS.defaults.color = '#ffffff'
 
-    export default {
-        name: "LineChart",
-        components: {
-            Line
+export default {
+    name: 'LineChart',
+    components: {
+        Line
+    },
+    props: {
+        data: {
+            type: Object,
+            required: true
         },
-        props: {
-            data: {
-                type: Object,
-                required: true
-            },
-            options: {
-                type: Object,
-                required: true
-            }
-        },
+        options: {
+            type: Object,
+            required: true
+        }
     }
+}
 </script>

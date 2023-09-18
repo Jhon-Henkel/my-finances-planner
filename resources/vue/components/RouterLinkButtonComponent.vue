@@ -6,21 +6,21 @@
 </template>
 
 <script>
-    export default {
-        name: "RouterLinkButton",
-        props: {
-            redirectTo: {
-                type: String,
-                required: true
-            },
-            title: {
-                type: String,
-                required: true
-            },
-            icon: {
-                type: Array,
-                required: true
-            }
+export default {
+    name: 'RouterLinkButton',
+    props: {
+        redirectTo: {
+            type: String,
+            required: true
+        },
+        title: {
+            type: String,
+            required: true
+        },
+        icon: {
+            type: Array,
+            required: true
         }
     }
+}
 </script>

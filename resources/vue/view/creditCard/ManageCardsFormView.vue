@@ -66,132 +66,132 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import apiRouter from "../../../js/router/apiRouter";
-    import InputMoney from "../../components/inputMoneyComponent.vue";
-    import { HttpStatusCode } from "axios";
-    import BottomButtons from "../../components/BottomButtons.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import MessageEnum from "../../../js/enums/messageEnum";
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import iconEnum from '../../../js/enums/iconEnum'
+import apiRouter from '../../../js/router/apiRouter'
+import InputMoney from '../../components/inputMoneyComponent.vue'
+import { HttpStatusCode } from 'axios'
+import BottomButtons from '../../components/BottomButtons.vue'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import MfpMessage from '../../components/MessageAlert.vue'
+import MessageEnum from '../../../js/enums/messageEnum'
 
-    export default {
-        name: "ManageCardsFormView",
-        computed: {
-            iconEnum() {
-                return iconEnum
+export default {
+    name: 'ManageCardsFormView',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    components: {
+        MfpMessage,
+        MfpTitle,
+        Divider,
+        BottomButtons,
+        InputMoney,
+        LoadingComponent
+    },
+    data() {
+        return {
+            card: {},
+            title: '',
+            isValid: null,
+            loadingDone: false
+        }
+    },
+    methods: {
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, title) {
+            this.$refs.message.showAlert(type, message, title)
+        },
+        async updateOrInsertCard() {
+            this.validateWallet()
+            if (!this.isValid) {
+                return
             }
-        },
-        components: {
-            MfpMessage,
-            MfpTitle,
-            Divider,
-            BottomButtons,
-            InputMoney,
-            LoadingComponent
-        },
-        data() {
-            return {
-                card: {},
-                title: '',
-                isValid: null,
-                loadingDone: false,
-            }
-        },
-        methods: {
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, title) {
-                this.$refs.message.showAlert(type, message, title)
-            },
-            async updateOrInsertCard() {
-                this.validateWallet()
-                if (! this.isValid) {
-                    return
-                }
-                if (this.card.id) {
-                    await this.updateCard()
-                } else {
-                    await this.insertCard()
-                }
-            },
-            validateWallet() {
-                let field = null
-                if (! this.card.name || this.card.name.length < 2) {
-                    field = 'nome'
-                } else if (! this.card.limit) {
-                    field = 'limite'
-                } else if (! this.card.dueDate) {
-                    field = 'vence dia'
-                } else if (! this.card.closingDay) {
-                    field = 'fecha dia'
-                }
-                if (field) {
-                    this.showMessage(
-                        MessageEnum.alertTypeInfo(),
-                        'Campo "' + field + '" é inválido!',
-                        'Campo inválido!'
-                    )
-                    this.isValid = false
-                    return
-                }
-                this.isValid = true
-            },
-            async updateCard() {
-                await apiRouter.cards.update(this.populateData(), this.card.id).then((response) => {
-                    if (response.status === HttpStatusCode.Ok) {
-                        this.messageSuccess('Cartão atualizado com sucesso!')
-                        return
-                    }
-                    this.messageError('Erro inesperado ao atualizar cartão!')
-                }).catch((response) => {
-                    this.messageError(response.response.data.error)
-                })
-            },
-            async insertCard() {
-                await apiRouter.cards.insert(this.populateData()).then((response) => {
-                    if (response.status === HttpStatusCode.Created) {
-                        this.messageSuccess('Cartão cadastrada com sucesso!')
-                        this.card = {}
-                    } else {
-                        this.messageError('Erro inesperado ao inserir cartão!')
-                    }
-                }).catch((response) => {
-                    this.messageError(response.response.data.error)
-                })
-            },
-            async getCard(cardId) {
-                this.loadingDone = false
-                this.card = await apiRouter.cards.show(cardId)
-                this.loadingDone = true
-            },
-            populateData() {
-                return {
-                    name: this.card.name,
-                    limit: this.card.limit,
-                    dueDate: this.card.dueDate,
-                    closingDay: this.card.closingDay
-                }
-            },
-        },
-        async mounted() {
-            if (this.$route.params.id) {
-                this.title = 'Atualizar Cartão'
-                await this.getCard(this.$route.params.id)
-                this.card.dueDate = parseInt(this.card.dueDate)
-                this.card.closingDay = parseInt(this.card.closingDay)
+            if (this.card.id) {
+                await this.updateCard()
             } else {
-                this.title = 'Cadastrar Cartão'
-                this.loadingDone = true
+                await this.insertCard()
+            }
+        },
+        validateWallet() {
+            let field = null
+            if (!this.card.name || this.card.name.length < 2) {
+                field = 'nome'
+            } else if (!this.card.limit) {
+                field = 'limite'
+            } else if (!this.card.dueDate) {
+                field = 'vence dia'
+            } else if (!this.card.closingDay) {
+                field = 'fecha dia'
+            }
+            if (field) {
+                this.showMessage(
+                    MessageEnum.alertTypeInfo(),
+                    'Campo "' + field + '" é inválido!',
+                    'Campo inválido!'
+                )
+                this.isValid = false
+                return
+            }
+            this.isValid = true
+        },
+        async updateCard() {
+            await apiRouter.cards.update(this.populateData(), this.card.id).then((response) => {
+                if (response.status === HttpStatusCode.Ok) {
+                    this.messageSuccess('Cartão atualizado com sucesso!')
+                    return
+                }
+                this.messageError('Erro inesperado ao atualizar cartão!')
+            }).catch((response) => {
+                this.messageError(response.response.data.error)
+            })
+        },
+        async insertCard() {
+            await apiRouter.cards.insert(this.populateData()).then((response) => {
+                if (response.status === HttpStatusCode.Created) {
+                    this.messageSuccess('Cartão cadastrada com sucesso!')
+                    this.card = {}
+                } else {
+                    this.messageError('Erro inesperado ao inserir cartão!')
+                }
+            }).catch((response) => {
+                this.messageError(response.response.data.error)
+            })
+        },
+        async getCard(cardId) {
+            this.loadingDone = false
+            this.card = await apiRouter.cards.show(cardId)
+            this.loadingDone = true
+        },
+        populateData() {
+            return {
+                name: this.card.name,
+                limit: this.card.limit,
+                dueDate: this.card.dueDate,
+                closingDay: this.card.closingDay
             }
         }
+    },
+    async mounted() {
+        if (this.$route.params.id) {
+            this.title = 'Atualizar Cartão'
+            await this.getCard(this.$route.params.id)
+            this.card.dueDate = parseInt(this.card.dueDate)
+            this.card.closingDay = parseInt(this.card.closingDay)
+        } else {
+            this.title = 'Cadastrar Cartão'
+            this.loadingDone = true
+        }
     }
+}
 </script>
 
 <style scoped>

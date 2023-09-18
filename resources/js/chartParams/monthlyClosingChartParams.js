@@ -1,4 +1,4 @@
-import StringTools from "../tools/stringTools";
+import StringTools from '../tools/stringTools'
 
 export const monthlyClosingChartParams = {
     options: {
@@ -37,9 +37,9 @@ export const monthlyClosingChartParams = {
                             label += StringTools.formatFloatValueToBrString(context.parsed.y)
                         }
                         return label
-                    },
+                    }
                 }
-            },
+            }
         }
     },
     data: {

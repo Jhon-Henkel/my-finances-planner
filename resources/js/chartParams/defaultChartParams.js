@@ -1,4 +1,4 @@
-import StringTools from "../tools/stringTools";
+import StringTools from '../tools/stringTools'
 
 const defaultChartParams = {
     options(legendPosition) {
@@ -21,9 +21,9 @@ const defaultChartParams = {
                                 label += StringTools.formatFloatValueToBrString(context.parsed)
                             }
                             return label
-                        },
+                        }
                     }
-                },
+                }
             }
         }
     },
@@ -38,4 +38,4 @@ const defaultChartParams = {
     }
 }
 
-export default defaultChartParams;
+export default defaultChartParams

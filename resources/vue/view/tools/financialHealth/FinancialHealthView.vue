@@ -106,97 +106,97 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../../components/LoadingComponent.vue";
-    import MfpTitle from "../../../components/TitleComponent.vue";
-    import Divider from "../../../components/DividerComponent.vue";
-    import apiRouter from "../../../../js/router/apiRouter";
-    import MovementEnum from "../../../../js/enums/movementEnum";
-    import DoughnutChart from "../../../components/graphics/DoughnutChart.vue";
-    import stringTools from "../../../../js/tools/stringTools";
-    import BackButton from "../../../components/buttons/BackButton.vue";
-    import FilterTopRight from "../../../components/filters/filterTopRight.vue";
-    import defaultChartParams from "../../../../js/chartParams/defaultChartParams";
-    import SpentIcon from "../../../components/icons/SpentIcon.vue";
-    import GainIcon from "../../../components/icons/GainIcon.vue";
-    import numberTools from "../../../../js/tools/numberTools";
+import LoadingComponent from '../../../components/LoadingComponent.vue'
+import MfpTitle from '../../../components/TitleComponent.vue'
+import Divider from '../../../components/DividerComponent.vue'
+import apiRouter from '../../../../js/router/apiRouter'
+import MovementEnum from '../../../../js/enums/movementEnum'
+import DoughnutChart from '../../../components/graphics/DoughnutChart.vue'
+import stringTools from '../../../../js/tools/stringTools'
+import BackButton from '../../../components/buttons/BackButton.vue'
+import FilterTopRight from '../../../components/filters/filterTopRight.vue'
+import defaultChartParams from '../../../../js/chartParams/defaultChartParams'
+import SpentIcon from '../../../components/icons/SpentIcon.vue'
+import GainIcon from '../../../components/icons/GainIcon.vue'
+import numberTools from '../../../../js/tools/numberTools'
 
-    const SPENT_ID = MovementEnum.type.spent()
-    const GAIN_ID = MovementEnum.type.gain()
+const SPENT_ID = MovementEnum.type.spent()
+const GAIN_ID = MovementEnum.type.gain()
 
-    export default {
-        name: "FinancialHealthView",
-        computed: {
-            numberTools() {
-                return numberTools
-            },
-            MovementEnum() {
-                return MovementEnum
-            },
-            stringTools() {
-                return stringTools
-            },
+export default {
+    name: 'FinancialHealthView',
+    computed: {
+        numberTools() {
+            return numberTools
         },
-        components: {
-            GainIcon,
-            SpentIcon,
-            FilterTopRight,
-            BackButton,
-            DoughnutChart,
-            Divider,
-            MfpTitle,
-            LoadingComponent,
+        MovementEnum() {
+            return MovementEnum
         },
-        data() {
-            return {
-                loadingDone: false,
-                lastFilter: null,
-                filterList: {},
-                movements: {},
-                graphOptions: defaultChartParams.options('right'),
-                spendingGraphData: defaultChartParams.data,
-                gainsGraphData: defaultChartParams.data,
-                totalGains: 0,
-                totalSpent: 0,
-            }
-        },
-        methods: {
-            async getMovementIndexFiltered(filterId) {
-                this.loadingDone = false
-                await apiRouter.financialHealth.indexFiltered(filterId).then((response) => {
-                    this.movements = response
-                    let spending = response.dataForGraph[SPENT_ID]
-                    let gains = response.dataForGraph[GAIN_ID]
-                    this.totalSpent = spending.total
-                    this.totalGains = gains.total
-                    this.spendingGraphData = {
-                        labels: spending.label,
-                        datasets: [
-                            {
-                                backgroundColor: spending.color,
-                                borderColor: spending.color,
-                                data: spending.data
-                            }
-                        ]
-                    }
-                    this.gainsGraphData = {
-                        labels: gains.label,
-                        datasets: [
-                            {
-                                backgroundColor: gains.color,
-                                borderColor: gains.color,
-                                data: gains.data
-                            }
-                        ]
-                    }
-                })
-                this.loadingDone = true
-            },
-        },
-        async mounted() {
-            this.filterList = MovementEnum.getFilterList()
-            await this.getMovementIndexFiltered(MovementEnum.filter.thisMonth())
+        stringTools() {
+            return stringTools
         }
+    },
+    components: {
+        GainIcon,
+        SpentIcon,
+        FilterTopRight,
+        BackButton,
+        DoughnutChart,
+        Divider,
+        MfpTitle,
+        LoadingComponent
+    },
+    data() {
+        return {
+            loadingDone: false,
+            lastFilter: null,
+            filterList: {},
+            movements: {},
+            graphOptions: defaultChartParams.options('right'),
+            spendingGraphData: defaultChartParams.data,
+            gainsGraphData: defaultChartParams.data,
+            totalGains: 0,
+            totalSpent: 0
+        }
+    },
+    methods: {
+        async getMovementIndexFiltered(filterId) {
+            this.loadingDone = false
+            await apiRouter.financialHealth.indexFiltered(filterId).then((response) => {
+                this.movements = response
+                const spending = response.dataForGraph[SPENT_ID]
+                const gains = response.dataForGraph[GAIN_ID]
+                this.totalSpent = spending.total
+                this.totalGains = gains.total
+                this.spendingGraphData = {
+                    labels: spending.label,
+                    datasets: [
+                        {
+                            backgroundColor: spending.color,
+                            borderColor: spending.color,
+                            data: spending.data
+                        }
+                    ]
+                }
+                this.gainsGraphData = {
+                    labels: gains.label,
+                    datasets: [
+                        {
+                            backgroundColor: gains.color,
+                            borderColor: gains.color,
+                            data: gains.data
+                        }
+                    ]
+                }
+            })
+            this.loadingDone = true
+        }
+    },
+    async mounted() {
+        this.filterList = MovementEnum.getFilterList()
+        await this.getMovementIndexFiltered(MovementEnum.filter.thisMonth())
     }
+}
 </script>
 
 <style scoped lang="scss">

@@ -1,4 +1,4 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
     <div class="base-container">
         <mfp-message ref="message"/>
         <loading-component v-show="loadingDone === false"/>
@@ -85,145 +85,145 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import BottomButtons from "../../components/BottomButtons.vue";
-    import apiRouter from "../../../js/router/apiRouter";
-    import InputMoney from "../../components/inputMoneyComponent.vue";
-    import { HttpStatusCode } from "axios";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import MfpMessage from "../../components/MessageAlert.vue";
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import BottomButtons from '../../components/BottomButtons.vue'
+import apiRouter from '../../../js/router/apiRouter'
+import InputMoney from '../../components/inputMoneyComponent.vue'
+import { HttpStatusCode } from 'axios'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import MessageEnum from '../../../js/enums/messageEnum'
+import MfpMessage from '../../components/MessageAlert.vue'
 
-    const FIX_GAIN = 0
+const FIX_GAIN = 0
 
-    export default {
-        name: "FutureGainForm",
-        components: {
-            MfpMessage,
-            MfpTitle,
-            Divider,
-            InputMoney,
-            BottomButtons,
-            LoadingComponent
-        },
-        data() {
-            return {
-                gain: {
-                    walletId: 0,
-                },
-                title: '',
-                isValid: null,
-                loadingDone: false,
-                wallets: {},
-                redirect: '/ganhos-futuros',
-            }
-        },
-        methods: {
-            async updateOrInsertGain() {
-                this.validateGain()
-                if (! this.isValid) {
-                    return
-                }
-                if (this.gain.id) {
-                    await this.updateGain()
-                } else {
-                    await this.insertGain()
-                }
+export default {
+    name: 'FutureGainForm',
+    components: {
+        MfpMessage,
+        MfpTitle,
+        Divider,
+        InputMoney,
+        BottomButtons,
+        LoadingComponent
+    },
+    data() {
+        return {
+            gain: {
+                walletId: 0
             },
-            validateGain() {
-                let field = null
-                if (! this.gain.description) {
-                    field = 'descrição'
-                } else if (! this.gain.forecast) {
-                    field = 'primeira parcela'
-                } else if (! this.gain.amount || this.gain.amount === 0) {
-                    field = 'valor'
-                } else if (! this.gain.walletId || this.gain.walletId === 0) {
-                    field = 'carteira'
-                } else if (this.gain.fix === false && (! this.gain.installments || this.gain.installments === 0)) {
-                    field = 'quantidade de vezes'
-                }
-                if (field) {
-                    this.showMessage(
-                        MessageEnum.alertTypeInfo(),
-                        'Campo "' + field + '" é inválido!',
-                        'Campo inválido!'
-                    )
-                    this.isValid = false
-                    return
-                }
-                this.isValid = true
-            },
-            async updateGain() {
-                await apiRouter.futureGain.update(this.populateGain(), this.gain.id).then((response) => {
-                    if (response.status === HttpStatusCode.Ok) {
-                        this.messageSuccess('Ganho atualizado com sucesso!')
-                    } else {
-                        this.messageError('Erro inesperado ao atualizar ganho!')
-                    }
-                }).catch((response) => {
-                    this.messageError(response.response.data.error)
-                })
-            },
-            async insertGain() {
-                await apiRouter.futureGain.insert(this.populateGain()).then((response) => {
-                    if (response.status === HttpStatusCode.Created) {
-                        this.messageSuccess('Ganho cadastrada com sucesso!')
-                        this.gain = {}
-                        this.gain.fix = false
-                    } else {
-                        this.showMessage('Campo "Erro inesperado ao inserir ganho!')
-                    }
-                }).catch((response) => {
-                    this.messageError(response.response.data.error)
-                })
-            },
-            populateGain() {
-                let installmentsToPopulate = FIX_GAIN
-                if (this.gain.fix === false) {
-                    installmentsToPopulate = this.gain.installments
-                }
-                return {
-                    description: this.gain.description,
-                    installments: installmentsToPopulate,
-                    amount: this.gain.amount,
-                    walletId: this.gain.walletId,
-                    forecast: this.gain.forecast,
-                }
-            },
-            async getGain(gainId) {
-                this.loadingDone = false
-                this.gain = await apiRouter.futureGain.show(gainId)
-                this.loadingDone = true
-            },
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, title) {
-                this.$refs.message.showAlert(type, message, title)
-            }
-        },
-        async mounted() {
-            if (this.$route.params.id) {
-                this.title = 'Atualizar Ganho'
-                await this.getGain(this.$route.params.id)
-                this.gain.forecast = this.gain.forecast.split('T')[0].slice(0, 10)
-                this.gain.fix = this.gain.installments === FIX_GAIN;
-            } else {
-                this.title = 'Cadastrar Ganho'
-                this.gain.fix = false
-                this.loadingDone = true
-            }
-            if (this.$route.query.referer) {
-                this.redirect = '/' + this.$route.query.referer
-            }
-            this.wallets = await apiRouter.wallet.index()
+            title: '',
+            isValid: null,
+            loadingDone: false,
+            wallets: {},
+            redirect: '/ganhos-futuros'
         }
+    },
+    methods: {
+        async updateOrInsertGain() {
+            this.validateGain()
+            if (!this.isValid) {
+                return
+            }
+            if (this.gain.id) {
+                await this.updateGain()
+            } else {
+                await this.insertGain()
+            }
+        },
+        validateGain() {
+            let field = null
+            if (!this.gain.description) {
+                field = 'descrição'
+            } else if (!this.gain.forecast) {
+                field = 'primeira parcela'
+            } else if (!this.gain.amount || this.gain.amount === 0) {
+                field = 'valor'
+            } else if (!this.gain.walletId || this.gain.walletId === 0) {
+                field = 'carteira'
+            } else if (this.gain.fix === false && (!this.gain.installments || this.gain.installments === 0)) {
+                field = 'quantidade de vezes'
+            }
+            if (field) {
+                this.showMessage(
+                    MessageEnum.alertTypeInfo(),
+                    'Campo "' + field + '" é inválido!',
+                    'Campo inválido!'
+                )
+                this.isValid = false
+                return
+            }
+            this.isValid = true
+        },
+        async updateGain() {
+            await apiRouter.futureGain.update(this.populateGain(), this.gain.id).then((response) => {
+                if (response.status === HttpStatusCode.Ok) {
+                    this.messageSuccess('Ganho atualizado com sucesso!')
+                } else {
+                    this.messageError('Erro inesperado ao atualizar ganho!')
+                }
+            }).catch((response) => {
+                this.messageError(response.response.data.error)
+            })
+        },
+        async insertGain() {
+            await apiRouter.futureGain.insert(this.populateGain()).then((response) => {
+                if (response.status === HttpStatusCode.Created) {
+                    this.messageSuccess('Ganho cadastrada com sucesso!')
+                    this.gain = {}
+                    this.gain.fix = false
+                } else {
+                    this.showMessage('Campo "Erro inesperado ao inserir ganho!')
+                }
+            }).catch((response) => {
+                this.messageError(response.response.data.error)
+            })
+        },
+        populateGain() {
+            let installmentsToPopulate = FIX_GAIN
+            if (this.gain.fix === false) {
+                installmentsToPopulate = this.gain.installments
+            }
+            return {
+                description: this.gain.description,
+                installments: installmentsToPopulate,
+                amount: this.gain.amount,
+                walletId: this.gain.walletId,
+                forecast: this.gain.forecast
+            }
+        },
+        async getGain(gainId) {
+            this.loadingDone = false
+            this.gain = await apiRouter.futureGain.show(gainId)
+            this.loadingDone = true
+        },
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, title) {
+            this.$refs.message.showAlert(type, message, title)
+        }
+    },
+    async mounted() {
+        if (this.$route.params.id) {
+            this.title = 'Atualizar Ganho'
+            await this.getGain(this.$route.params.id)
+            this.gain.forecast = this.gain.forecast.split('T')[0].slice(0, 10)
+            this.gain.fix = this.gain.installments === FIX_GAIN
+        } else {
+            this.title = 'Cadastrar Ganho'
+            this.gain.fix = false
+            this.loadingDone = true
+        }
+        if (this.$route.query.referer) {
+            this.redirect = '/' + this.$route.query.referer
+        }
+        this.wallets = await apiRouter.wallet.index()
     }
+}
 </script>
 
 <style scoped>

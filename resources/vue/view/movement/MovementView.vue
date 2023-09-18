@@ -37,28 +37,28 @@
                                     </tr>
                                     <tr v-for="movement in movements" :key="movement.id">
                                         <td>
-                                            <font-awesome-icon v-if="movement.type === movementEnum.type.transfer()"
+                                            <font-awesome-icon v-if="movement.type === MovementEnum.type.transfer()"
                                                             :icon="iconEnum.circleArrowRight()"
                                                             class="movement-transfer-icon"/>
-                                            <font-awesome-icon v-else-if="movement.type === movementEnum.type.spent()"
+                                            <font-awesome-icon v-else-if="movement.type === MovementEnum.type.spent()"
                                                             :icon="iconEnum.circleArrowDown()"
                                                             class="movement-spent-icon"/>
-                                            <font-awesome-icon v-else-if="movement.type === movementEnum.type.gain()"
+                                            <font-awesome-icon v-else-if="movement.type === MovementEnum.type.gain()"
                                                             :icon="iconEnum.circleArrowUp()"
                                                             class="movement-gain-icon"/>
                                         </td>
                                         <td class="text-start">{{ movement.description }}</td>
                                         <td class="text-start">{{ movement.walletName }}</td>
-                                        <td>{{ stringTools.formatFloatValueToBrString(movement.amount) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(movement.amount) }}</td>
                                         <td>{{ calendarTools.convertDateDbToBr(movement.createdAt) }}</td>
                                         <td>
                                             <action-buttons
-                                                v-if="movement.type !== movementEnum.type.transfer()"
+                                                v-if="movement.type !== MovementEnum.type.transfer()"
                                                 :delete-tooltip="'Deletar Movimentação'"
                                                 :tooltip-edit="'Editar Movimentação'"
                                                 :edit-to="'/movimentacoes/' + movement.id + '/atualizar'"
                                                 @delete-clicked="deleteMovement(movement.id, movement.description)"/>
-                                            <div class="text-center action-buttons" v-if="movement.type === movementEnum.type.transfer()">
+                                            <div class="text-center action-buttons" v-if="movement.type === MovementEnum.type.transfer()">
                                                 <button class="btn btn-sm btn-danger rounded-2 text-center action-buttons delete-button"
                                                         @click="deleteTransfer(movement.id, movement.description)"
                                                         v-tooltip="'Deletar Movimentação'" >
@@ -126,104 +126,99 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import ActionButtons from "../../components/ActionButtons.vue";
-    import MovementEnum from "../../../js/enums/movementEnum";
-    import apiRouter from "../../../js/router/apiRouter";
-    import stringTools from "../../../js/tools/stringTools";
-    import calendarTools from "../../../js/tools/calendarTools";
-    import movementEnum from "../../../js/enums/movementEnum";
-    import numberTools from "../../../js/tools/numberTools";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import StringTools from "../../../js/tools/stringTools";
-    import AlertIcon from "../../components/AlertIcon.vue";
-    import FilterTopRight from "../../components/filters/filterTopRight.vue";
-    import RouterLinkButton from "../../components/RouterLinkButtonComponent.vue";
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import iconEnum from '../../../js/enums/iconEnum'
+import ActionButtons from '../../components/ActionButtons.vue'
+import MovementEnum from '../../../js/enums/movementEnum'
+import apiRouter from '../../../js/router/apiRouter'
+import calendarTools from '../../../js/tools/calendarTools'
+import numberTools from '../../../js/tools/numberTools'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import MfpMessage from '../../components/MessageAlert.vue'
+import MessageEnum from '../../../js/enums/messageEnum'
+import StringTools from '../../../js/tools/stringTools'
+import AlertIcon from '../../components/AlertIcon.vue'
+import FilterTopRight from '../../components/filters/filterTopRight.vue'
+import RouterLinkButton from '../../components/RouterLinkButtonComponent.vue'
 
-    export default {
-        name: "MovementView",
-        computed: {
-            StringTools() {
-                return StringTools
-            },
-            movementEnum() {
-                return movementEnum
-            },
-            calendarTools() {
-                return calendarTools
-            },
-            stringTools() {
-                return stringTools
-            },
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'MovementView',
+    computed: {
+        StringTools() {
+            return StringTools
         },
-        components: {
-            RouterLinkButton,
-            FilterTopRight,
-            AlertIcon,
-            MfpMessage,
-            MfpTitle,
-            Divider,
-            ActionButtons,
-            LoadingComponent,
+        MovementEnum() {
+            return MovementEnum
         },
-        data() {
-            return {
-                loadingDone: false,
-                movements: {},
-                filterList: {},
-                totalSpent: 0,
-                totalGain: 0,
-                balance: 0,
-                lastFilter: null,
-                newGainSpentLink: '/movimentacoes/cadastrar',
-                newTransferLink: '/movimentacoes/transferir',
-            }
+        calendarTools() {
+            return calendarTools
         },
-        methods: {
-            async deleteMovement(id, movementName) {
-                if(confirm("Tem certeza que realmente quer deletar a movimentação \"" + movementName + "\"? " +
-                    "O valor será retornado para a carteira vinculada.")) {
-                    await apiRouter.movement.delete(id)
-                    this.messageSuccess('Movimentação deletada com sucesso!')
-                    await this.getMovementIndexFiltered(this.lastFilter)
-                }
-            },
-            async deleteTransfer(id, movementName) {
-                if(confirm("Tem certeza que realmente quer deletar a transferência \"" + movementName + "\"? " +
-                    "O valor será retornado para a carteira vinculada.")) {
-                    await apiRouter.movement.deleteTransfer(id)
-                    this.messageSuccess('Transferência deletada com sucesso!')
-                    await this.getMovementIndexFiltered(this.lastFilter)
-                }
-            },
-            async getMovementIndexFiltered(filterId) {
-                this.loadingDone = false
-                this.movements = await apiRouter.movement.indexFiltered(filterId)
-                let sum = numberTools.getSumAmountPerMovementType(this.movements)
-                this.totalSpent = sum.totalSpent
-                this.totalGain = sum.totalGain
-                this.balance = sum.totalGain - sum.totalSpent
-                this.loadingDone = true
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, title) {
-                this.$refs.message.showAlert(type, message, title)
-            }
-        },
-        async mounted() {
-            this.filterList = MovementEnum.getFilterList()
-            await this.getMovementIndexFiltered(MovementEnum.filter.thisMonth())
+        iconEnum() {
+            return iconEnum
         }
+    },
+    components: {
+        RouterLinkButton,
+        FilterTopRight,
+        AlertIcon,
+        MfpMessage,
+        MfpTitle,
+        Divider,
+        ActionButtons,
+        LoadingComponent
+    },
+    data() {
+        return {
+            loadingDone: false,
+            movements: {},
+            filterList: {},
+            totalSpent: 0,
+            totalGain: 0,
+            balance: 0,
+            lastFilter: null,
+            newGainSpentLink: '/movimentacoes/cadastrar',
+            newTransferLink: '/movimentacoes/transferir'
+        }
+    },
+    methods: {
+        async deleteMovement(id, movementName) {
+            if (confirm('Tem certeza que realmente quer deletar a movimentação "' + movementName + '"? ' +
+                    'O valor será retornado para a carteira vinculada.')) {
+                await apiRouter.movement.delete(id)
+                this.messageSuccess('Movimentação deletada com sucesso!')
+                await this.getMovementIndexFiltered(this.lastFilter)
+            }
+        },
+        async deleteTransfer(id, movementName) {
+            if (confirm('Tem certeza que realmente quer deletar a transferência "' + movementName + '"? ' +
+                    'O valor será retornado para a carteira vinculada.')) {
+                await apiRouter.movement.deleteTransfer(id)
+                this.messageSuccess('Transferência deletada com sucesso!')
+                await this.getMovementIndexFiltered(this.lastFilter)
+            }
+        },
+        async getMovementIndexFiltered(filterId) {
+            this.loadingDone = false
+            this.movements = await apiRouter.movement.indexFiltered(filterId)
+            const sum = numberTools.getSumAmountPerMovementType(this.movements)
+            this.totalSpent = sum.totalSpent
+            this.totalGain = sum.totalGain
+            this.balance = sum.totalGain - sum.totalSpent
+            this.loadingDone = true
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, title) {
+            this.$refs.message.showAlert(type, message, title)
+        }
+    },
+    async mounted() {
+        this.filterList = MovementEnum.getFilterList()
+        await this.getMovementIndexFiltered(MovementEnum.filter.thisMonth())
     }
+}
 </script>
 
 <style lang="scss" scoped>

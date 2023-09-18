@@ -112,107 +112,107 @@
 </template>
 
 <script>
-    import apiRouter from "../../../js/router/apiRouter";
-    import walletEnum from "../../../js/enums/walletEnum";
-    import stringTools from "../../../js/tools/stringTools";
-    import numberTools from "../../../js/tools/numberTools";
-    import iconEnum from "../../../js/enums/iconEnum";
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import ActionButtons from "../../components/ActionButtons.vue";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import AlertIcon from "../../components/AlertIcon.vue";
+import apiRouter from '../../../js/router/apiRouter'
+import walletEnum from '../../../js/enums/walletEnum'
+import stringTools from '../../../js/tools/stringTools'
+import numberTools from '../../../js/tools/numberTools'
+import iconEnum from '../../../js/enums/iconEnum'
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import ActionButtons from '../../components/ActionButtons.vue'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import MfpMessage from '../../components/MessageAlert.vue'
+import MessageEnum from '../../../js/enums/messageEnum'
+import AlertIcon from '../../components/AlertIcon.vue'
 
-    export default {
-        name: "WalletView",
-        components: {
-            AlertIcon,
-            MfpMessage,
-            MfpTitle,
-            Divider,
-            ActionButtons,
-            LoadingComponent,
+export default {
+    name: 'WalletView',
+    components: {
+        AlertIcon,
+        MfpMessage,
+        MfpTitle,
+        Divider,
+        ActionButtons,
+        LoadingComponent
+    },
+    computed: {
+        iconEnum() {
+            return iconEnum
         },
-        computed: {
-            iconEnum() {
-                return iconEnum
-            },
-            walletEnum() {
-                return walletEnum
-            },
-            stringTools() {
-                return stringTools
-            }
+        walletEnum() {
+            return walletEnum
         },
-        data() {
-            return {
-                wallets: {},
-                wallet: {
-                    updatedAt: '',
-                },
-                sumTotalAmount: 0,
-                loadingDone: false,
-                walletsPerType: {
-                    money: 0,
-                    bank: 0,
-                    mealTicket: 0,
-                    transportTicket: 0,
-                    healthTicketType: 0,
-                    others: 0
-                }
-            }
-        },
-        methods: {
-            async getWallets() {
-                this.loadingDone = false
-                this.wallets = await apiRouter.wallet.index()
-                this.sumTotalAmount = numberTools.getSumTotalAmount(this.wallets)
-                this.loadingDone = true
-                this.separeWallets()
-            },
-            separeWallets() {
-                this.wallets.forEach(wallet => {
-                    if (wallet.type === walletEnum.type.bankType) {
-                        this.walletsPerType.bank += wallet.amount
-                    } else if (wallet.type === walletEnum.type.moneyType) {
-                        this.walletsPerType.money += wallet.amount
-                    } else if (wallet.type === walletEnum.type.otherType) {
-                        this.walletsPerType.others += wallet.amount
-                    } else if (wallet.type === walletEnum.type.mealTicketType) {
-                        this.walletsPerType.mealTicket += wallet.amount
-                    } else if (wallet.type === walletEnum.type.transportTicketType) {
-                        this.walletsPerType.transportTicket += wallet.amount
-                    } else if (wallet.type === walletEnum.type.healthTicketType) {
-                        this.walletsPerType.healthTicketType += wallet.amount
-                    }
-                })
-            },
-            async deleteWallet(walletId, walletName) {
-                if(confirm("Tem certeza que realmente quer deletar a carteira " + walletName + '?')) {
-                    await apiRouter.wallet.delete(walletId).then((response) => {
-                        this.messageSuccess('Carteira deletada com sucesso!')
-                        this.getWallets()
-                    }).catch((response) => {
-                        this.messageError(response.response.data.message)
-                    })
-                }
-            },
-            messageError(message) {
-                this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-            },
-            messageSuccess(message) {
-                this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-            },
-            showMessage(type, message, header) {
-                this.$refs.message.showAlert(type,message,header)
-            }
-        },
-        mounted() {
-            this.getWallets()
+        stringTools() {
+            return stringTools
         }
+    },
+    data() {
+        return {
+            wallets: {},
+            wallet: {
+                updatedAt: ''
+            },
+            sumTotalAmount: 0,
+            loadingDone: false,
+            walletsPerType: {
+                money: 0,
+                bank: 0,
+                mealTicket: 0,
+                transportTicket: 0,
+                healthTicketType: 0,
+                others: 0
+            }
+        }
+    },
+    methods: {
+        async getWallets() {
+            this.loadingDone = false
+            this.wallets = await apiRouter.wallet.index()
+            this.sumTotalAmount = numberTools.getSumTotalAmount(this.wallets)
+            this.loadingDone = true
+            this.separeWallets()
+        },
+        separeWallets() {
+            this.wallets.forEach(wallet => {
+                if (wallet.type === walletEnum.type.bankType) {
+                    this.walletsPerType.bank += wallet.amount
+                } else if (wallet.type === walletEnum.type.moneyType) {
+                    this.walletsPerType.money += wallet.amount
+                } else if (wallet.type === walletEnum.type.otherType) {
+                    this.walletsPerType.others += wallet.amount
+                } else if (wallet.type === walletEnum.type.mealTicketType) {
+                    this.walletsPerType.mealTicket += wallet.amount
+                } else if (wallet.type === walletEnum.type.transportTicketType) {
+                    this.walletsPerType.transportTicket += wallet.amount
+                } else if (wallet.type === walletEnum.type.healthTicketType) {
+                    this.walletsPerType.healthTicketType += wallet.amount
+                }
+            })
+        },
+        async deleteWallet(walletId, walletName) {
+            if (confirm('Tem certeza que realmente quer deletar a carteira ' + walletName + '?')) {
+                await apiRouter.wallet.delete(walletId).then((response) => {
+                    this.messageSuccess('Carteira deletada com sucesso!')
+                    this.getWallets()
+                }).catch((response) => {
+                    this.messageError(response.response.data.message)
+                })
+            }
+        },
+        messageError(message) {
+            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
+        },
+        messageSuccess(message) {
+            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
+        },
+        showMessage(type, message, header) {
+            this.$refs.message.showAlert(type, message, header)
+        }
+    },
+    mounted() {
+        this.getWallets()
     }
+}
 </script>
 
 <style lang="scss" scoped>

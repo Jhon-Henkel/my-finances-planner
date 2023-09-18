@@ -1,19 +1,19 @@
-import movementEnum from "../enums/movementEnum";
+import movementEnum from '../enums/movementEnum'
 
 const numberTools = {
-    getPercentageNumber: function (value, total) {
+    getPercentageNumber: function(value, total) {
         return ((value / total) * 100).toFixed(2) + ' %'
     },
-    getSumTotalAmount: function (itens) {
+    getSumTotalAmount: function(itens) {
         let sumTotalAmount = 0
         itens.forEach(item => {
             sumTotalAmount = sumTotalAmount + item.amount
         })
         return sumTotalAmount
     },
-    getSumAmountPerMovementType: function (movement) {
-        let sumSpent = 0;
-        let sumGain = 0;
+    getSumAmountPerMovementType: function(movement) {
+        let sumSpent = 0
+        let sumGain = 0
         movement.forEach(item => {
             if (item.type === movementEnum.type.gain()) {
                 sumGain = sumGain + item.amount
@@ -23,7 +23,7 @@ const numberTools = {
         })
         return { totalSpent: sumSpent, totalGain: sumGain }
     },
-    calculateTotalPerMonthInvoiceItem: function (invoiceItem) {
+    calculateTotalPerMonthInvoiceItem: function(invoiceItem) {
         let firstMonth = 0
         let secondMonth = 0
         let thirdMonth = 0
@@ -62,15 +62,15 @@ const numberTools = {
             }
         })
         return {
-            firstMonth: firstMonth,
-            secondMonth: secondMonth,
-            thirdMonth: thirdMonth,
-            forthMonth: forthMonth,
-            fifthMonth: fifthMonth,
-            sixthMonth: sixthMonth,
-            totalRemaining: totalRemaining,
-            total: total
+            firstMonth,
+            secondMonth,
+            thirdMonth,
+            forthMonth,
+            fifthMonth,
+            sixthMonth,
+            totalRemaining,
+            total
         }
-    },
+    }
 }
 export default numberTools

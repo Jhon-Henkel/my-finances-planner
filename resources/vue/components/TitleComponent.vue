@@ -3,16 +3,16 @@
 </template>
 
 <script>
-    export default {
-        name: "MfpTitle",
-        props: {
-            title: {
-                type: String,
-                required: true,
-                default: ''
-            }
+export default {
+    name: 'MfpTitle',
+    props: {
+        title: {
+            type: String,
+            required: true,
+            default: ''
         }
     }
+}
 </script>
 
 <style scoped>

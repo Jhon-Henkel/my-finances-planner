@@ -49,47 +49,47 @@
 </template>
 
 <script>
-    import LoadingComponent from "../../../components/LoadingComponent.vue";
-    import iconEnum from "../../../../js/enums/iconEnum";
-    import InputMoney from "../../../components/inputMoneyComponent.vue";
-    import StringTools from "../../../../js/tools/stringTools";
-    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-    import Divider from "../../../components/DividerComponent.vue";
-    import MfpTitle from "../../../components/TitleComponent.vue";
-    import BackButton from "../../../components/buttons/BackButton.vue";
-    import { userAuthStore } from "../../../store/auth";
+import LoadingComponent from '../../../components/LoadingComponent.vue'
+import iconEnum from '../../../../js/enums/iconEnum'
+import InputMoney from '../../../components/inputMoneyComponent.vue'
+import StringTools from '../../../../js/tools/stringTools'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import Divider from '../../../components/DividerComponent.vue'
+import MfpTitle from '../../../components/TitleComponent.vue'
+import BackButton from '../../../components/buttons/BackButton.vue'
+import { userAuthStore } from '../../../store/auth'
 
-    const auth = userAuthStore();
+const auth = userAuthStore()
 
-    export default {
-        name: "SalaryCalculator",
-        computed: {
-            StringTools() {
-                return StringTools
-            },
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'SalaryCalculator',
+    computed: {
+        StringTools() {
+            return StringTools
         },
-        components: {
-            BackButton,
-            MfpTitle,
-            Divider,
-            FontAwesomeIcon,
-            InputMoney,
-            LoadingComponent
-        },
-        data() {
-            return {
-                loadingDone: false,
-                calculate: {
-                    salary: 0,
-                    workDays: 30,
-                }
-            }
-        },
-        mounted() {
-            this.calculate.salary = auth.user.salary ?? 0;
+        iconEnum() {
+            return iconEnum
         }
+    },
+    components: {
+        BackButton,
+        MfpTitle,
+        Divider,
+        FontAwesomeIcon,
+        InputMoney,
+        LoadingComponent
+    },
+    data() {
+        return {
+            loadingDone: false,
+            calculate: {
+                salary: 0,
+                workDays: 30
+            }
+        }
+    },
+    mounted() {
+        this.calculate.salary = auth.user.salary ?? 0
     }
+}
 </script>

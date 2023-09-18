@@ -6,20 +6,20 @@
 </template>
 
 <script>
-    import iconEnum from "../../../js/enums/iconEnum";
+import iconEnum from '../../../js/enums/iconEnum'
 
-    export default {
-        name: "BackButton",
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
-        },
-        props: {
-            to: {
-                type: String,
-                required: true
-            }
+export default {
+    name: 'BackButton',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    props: {
+        to: {
+            type: String,
+            required: true
         }
     }
+}
 </script>

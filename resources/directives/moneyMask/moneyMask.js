@@ -1,18 +1,17 @@
-import {format, setCursor, event} from './util'
+import { format, setCursor, event } from './util'
 import assign from './assign'
 import defaults from './options'
 
-export default function (element, binding) {
+export default function(element, binding) {
     if (!binding.value) return
-    let option = assign(defaults, binding.value)
+    const option = assign(defaults, binding.value)
     if (element.tagName.toLocaleUpperCase() !== 'INPUT') {
-        let elements = element.getElementsByTagName('input')
-        if (elements.length !== 1) {
-        } else {
+        const elements = element.getElementsByTagName('input')
+        if (elements.length === 1) {
             element = elements[0]
         }
     }
-    element.oninput = function () {
+    element.oninput = function() {
         let positionFromEnd = element.value.length - element.selectionEnd
         element.value = format(element.value, option)
         positionFromEnd = Math.max(positionFromEnd, option.suffix.length)
@@ -21,7 +20,7 @@ export default function (element, binding) {
         setCursor(element, positionFromEnd)
         element.dispatchEvent(event('change'))
     }
-    element.onfocus = function () {
+    element.onfocus = function() {
         setCursor(element, element.value.length - option.suffix.length)
     }
     element.oninput()

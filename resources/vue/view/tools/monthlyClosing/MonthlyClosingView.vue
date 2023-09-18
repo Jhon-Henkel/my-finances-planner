@@ -67,77 +67,77 @@
 </template>
 
 <script>
-    import Divider from "../../../components/DividerComponent.vue";
-    import MfpTitle from "../../../components/TitleComponent.vue";
-    import iconEnum from "../../../../js/enums/iconEnum";
-    import LoadingComponent from "../../../components/LoadingComponent.vue";
-    import BackButton from "../../../components/buttons/BackButton.vue";
-    import MonthlyClosingEnum from "../../../../js/enums/MonthlyClosingEnum";
-    import apiRouter from "../../../../js/router/apiRouter";
-    import CalendarTools from "../../../../js/tools/calendarTools";
-    import StringTools from "../../../../js/tools/stringTools";
-    import FilterTopRight from "../../../components/filters/filterTopRight.vue";
-    import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-    import GainIcon from "../../../components/icons/GainIcon.vue";
-    import SpentIcon from "../../../components/icons/SpentIcon.vue";
-    import LineChart from "../../../components/graphics/LineChart.vue";
-    import { monthlyClosingChartParams } from "../../../../js/chartParams/monthlyClosingChartParams";
+import Divider from '../../../components/DividerComponent.vue'
+import MfpTitle from '../../../components/TitleComponent.vue'
+import iconEnum from '../../../../js/enums/iconEnum'
+import LoadingComponent from '../../../components/LoadingComponent.vue'
+import BackButton from '../../../components/buttons/BackButton.vue'
+import MonthlyClosingEnum from '../../../../js/enums/MonthlyClosingEnum'
+import apiRouter from '../../../../js/router/apiRouter'
+import CalendarTools from '../../../../js/tools/calendarTools'
+import StringTools from '../../../../js/tools/stringTools'
+import FilterTopRight from '../../../components/filters/filterTopRight.vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import GainIcon from '../../../components/icons/GainIcon.vue'
+import SpentIcon from '../../../components/icons/SpentIcon.vue'
+import LineChart from '../../../components/graphics/LineChart.vue'
+import { monthlyClosingChartParams } from '../../../../js/chartParams/monthlyClosingChartParams'
 
-    export default {
-        name: "MonthlyClosingView",
-        computed: {
-            StringTools() {
-                return StringTools
-            },
-            CalendarTools() {
-                return CalendarTools
-            },
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'MonthlyClosingView',
+    computed: {
+        StringTools() {
+            return StringTools
         },
-        components: {
-            LineChart,
-            SpentIcon,
-            GainIcon,
-            FontAwesomeIcon,
-            FilterTopRight,
-            BackButton,
-            LoadingComponent,
-            MfpTitle,
-            Divider
+        CalendarTools() {
+            return CalendarTools
         },
-        data() {
-            return {
-                loadingDone: false,
-                filterList: {},
-                monthlyClosings: {
-                    createdAt: "",
-                    predictedExpenses: 0,
-                    realExpenses: 0,
-                    predictedEarnings: 0,
-                    realEarnings: 0,
-                    balance: 0
-                },
-                chartOptions: monthlyClosingChartParams.options,
-                chartData: monthlyClosingChartParams.data
-            }
-        },
-        methods: {
-            async getMonthlyClosingsIndexFiltered(filterId) {
-                this.loadingDone = false
-                await apiRouter.monthlyClosing.indexFiltered(filterId).then(response => {
-                    this.monthlyClosings = response.data
-                    this.chartData = response.chartData
-                })
-                this.loadingDone = true
-            }
-        },
-        async mounted() {
-            this.filterList = MonthlyClosingEnum.getFilterList()
-            await this.getMonthlyClosingsIndexFiltered(MonthlyClosingEnum.filter.thisYear())
+        iconEnum() {
+            return iconEnum
         }
+    },
+    components: {
+        LineChart,
+        SpentIcon,
+        GainIcon,
+        FontAwesomeIcon,
+        FilterTopRight,
+        BackButton,
+        LoadingComponent,
+        MfpTitle,
+        Divider
+    },
+    data() {
+        return {
+            loadingDone: false,
+            filterList: {},
+            monthlyClosings: {
+                createdAt: '',
+                predictedExpenses: 0,
+                realExpenses: 0,
+                predictedEarnings: 0,
+                realEarnings: 0,
+                balance: 0
+            },
+            chartOptions: monthlyClosingChartParams.options,
+            chartData: monthlyClosingChartParams.data
+        }
+    },
+    methods: {
+        async getMonthlyClosingsIndexFiltered(filterId) {
+            this.loadingDone = false
+            await apiRouter.monthlyClosing.indexFiltered(filterId).then(response => {
+                this.monthlyClosings = response.data
+                this.chartData = response.chartData
+            })
+            this.loadingDone = true
+        }
+    },
+    async mounted() {
+        this.filterList = MonthlyClosingEnum.getFilterList()
+        await this.getMonthlyClosingsIndexFiltered(MonthlyClosingEnum.filter.thisYear())
     }
+}
 </script>
 
 <style scoped lang="scss">

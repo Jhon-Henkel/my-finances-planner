@@ -34,110 +34,110 @@
 </template>
 
 <script>
-    import apiRouter from "../../js/router/apiRouter"
-    import { userAuthStore } from "../store/auth"
+import apiRouter from '../../js/router/apiRouter'
+import { userAuthStore } from '../store/auth'
 
-    export default {
-        name: 'SideBarComponent',
-        data() {
-            return {
-                mustShow: false,
-                isOpened: false,
-                isMenuOpen: false,
-                isUsedVueRouter: false,
-                isPaddingLeft: true,
-                salutation: '',
-                menuItens: [
-                    {
-                        title: 'Dashboard',
-                        icon: 'bx bxs-pie-chart-alt-2 me-2',
-                        to: '/dashboard'
-                    },
-                    {
-                        title: 'Panorama',
-                        icon: 'bx bxs-compass me-2',
-                        to: '/panorama'
-                    },
-                    {
-                        title: 'Movimentações',
-                        icon: 'bx bxs-coin-stack me-2',
-                        to: '/movimentacoes'
-                    },
-                    {
-                        title: 'Ganhos Futuros',
-                        icon: 'bx bxs-dollar-circle me-2',
-                        to: '/ganhos-futuros'
-                    },
-                    {
-                        title: 'Carteiras',
-                        icon: 'bx bxs-wallet me-2',
-                        to: '/carteiras'
-                    },
-                    {
-                        title: 'Gerenciar Cartões',
-                        icon: 'bx bxs-credit-card me-2',
-                        to: '/gerenciar-cartoes'
-                    },
-                    {
-                        title: 'Ferramentas',
-                        icon: 'bx bxs-wrench me-2',
-                        to: '/ferramentas'
-                    },
-                    {
-                        title: 'Configurações',
-                        icon: 'bx bxs-cog me-2',
-                        to: '/configuracoes'
-                    },
-                ]
-            }
-        },
-        methods: {
-            logout() {
-                apiRouter.userActions.logout().then(() => {
-                    this.$router.go('/login');
-                })
-            },
-            tooltipAttached() {
-                const tooltips = document.querySelectorAll('.tooltip')
-                tooltips.forEach(tooltip => {
-                    document.body.appendChild(tooltip)
-                })
-                document.querySelectorAll('.tooltip').forEach(tooltip => {
-                    const targetID = tooltip.dataset.target
-                    const target = document.querySelector(`#${targetID}`)
-                    if (!target) return
-                    target.addEventListener('mouseenter', () => {
-                        const targetPosition = target.getBoundingClientRect()
-                        if (this.isOpened) return
-                        tooltip.style.top = `${targetPosition.top + window.scrollY}px`
-                        tooltip.style.left = `${targetPosition.left + targetPosition.width + 20}px`
-                        tooltip.classList.add('active')
-                    })
-                    target.addEventListener('mouseleave', () => {
-                        tooltip.classList.remove('active')
-                    })
-                })
-            },
-            mustShowSidebar() {
-                const { name } = this.$route
-                const routesMustNotShow = ['login', 'about']
-                return !routesMustNotShow.includes(name)
-            }
-        },
-        watch: {
-            isOpened() {
-                window.document.body.style.paddingLeft = this.isOpened && this.isPaddingLeft ? '300px' : '78px'
-                this.salutation = userAuthStore().user?.salutation
-            },
-            '$route'() {
-                this.mustShow = this.mustShowSidebar()
-            }
-        },
-        mounted() {
-            this.tooltipAttached()
-            this.mustShowSidebar()
+export default {
+    name: 'SideBarComponent',
+    data() {
+        return {
+            mustShow: false,
+            isOpened: false,
+            isMenuOpen: false,
+            isUsedVueRouter: false,
+            isPaddingLeft: true,
+            salutation: '',
+            menuItens: [
+                {
+                    title: 'Dashboard',
+                    icon: 'bx bxs-pie-chart-alt-2 me-2',
+                    to: '/dashboard'
+                },
+                {
+                    title: 'Panorama',
+                    icon: 'bx bxs-compass me-2',
+                    to: '/panorama'
+                },
+                {
+                    title: 'Movimentações',
+                    icon: 'bx bxs-coin-stack me-2',
+                    to: '/movimentacoes'
+                },
+                {
+                    title: 'Ganhos Futuros',
+                    icon: 'bx bxs-dollar-circle me-2',
+                    to: '/ganhos-futuros'
+                },
+                {
+                    title: 'Carteiras',
+                    icon: 'bx bxs-wallet me-2',
+                    to: '/carteiras'
+                },
+                {
+                    title: 'Gerenciar Cartões',
+                    icon: 'bx bxs-credit-card me-2',
+                    to: '/gerenciar-cartoes'
+                },
+                {
+                    title: 'Ferramentas',
+                    icon: 'bx bxs-wrench me-2',
+                    to: '/ferramentas'
+                },
+                {
+                    title: 'Configurações',
+                    icon: 'bx bxs-cog me-2',
+                    to: '/configuracoes'
+                }
+            ]
         }
+    },
+    methods: {
+        logout() {
+            apiRouter.userActions.logout().then(() => {
+                this.$router.go('/login')
+            })
+        },
+        tooltipAttached() {
+            const tooltips = document.querySelectorAll('.tooltip')
+            tooltips.forEach(tooltip => {
+                document.body.appendChild(tooltip)
+            })
+            document.querySelectorAll('.tooltip').forEach(tooltip => {
+                const targetID = tooltip.dataset.target
+                const target = document.querySelector(`#${targetID}`)
+                if (!target) return
+                target.addEventListener('mouseenter', () => {
+                    const targetPosition = target.getBoundingClientRect()
+                    if (this.isOpened) return
+                    tooltip.style.top = `${targetPosition.top + window.scrollY}px`
+                    tooltip.style.left = `${targetPosition.left + targetPosition.width + 20}px`
+                    tooltip.classList.add('active')
+                })
+                target.addEventListener('mouseleave', () => {
+                    tooltip.classList.remove('active')
+                })
+            })
+        },
+        mustShowSidebar() {
+            const { name } = this.$route
+            const routesMustNotShow = ['login', 'about']
+            return !routesMustNotShow.includes(name)
+        }
+    },
+    watch: {
+        isOpened() {
+            window.document.body.style.paddingLeft = this.isOpened && this.isPaddingLeft ? '300px' : '78px'
+            this.salutation = userAuthStore().user?.salutation
+        },
+        '$route'() {
+            this.mustShow = this.mustShowSidebar()
+        }
+    },
+    mounted() {
+        this.tooltipAttached()
+        this.mustShowSidebar()
     }
+}
 </script>
 
 <style scoped>

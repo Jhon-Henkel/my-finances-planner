@@ -58,94 +58,94 @@
 </template>
 
 <script>
-    import iconEnum from "../../../js/enums/iconEnum";
-    import RouterNonAuthenticated from "../../../js/router/routerNonAuthenticated";
-    import { HttpStatusCode } from "axios";
-    import Divider from "../../components/DividerComponent.vue";
-    import MfpTitle from "../../components/TitleComponent.vue";
-    import MfpMessage from "../../components/MessageAlert.vue";
-    import MessageEnum from "../../../js/enums/messageEnum";
-    import RequestTools from "../../../js/tools/requestTools";
-    import LoadingComponent from "../../components/LoadingComponent.vue";
-    import apiRouter from "../../../js/router/apiRouter";
-    import Router from "../../../js/router";
-    import { userAuthStore } from "../../store/auth";
+import iconEnum from '../../../js/enums/iconEnum'
+import RouterNonAuthenticated from '../../../js/router/routerNonAuthenticated'
+import { HttpStatusCode } from 'axios'
+import Divider from '../../components/DividerComponent.vue'
+import MfpTitle from '../../components/TitleComponent.vue'
+import MfpMessage from '../../components/MessageAlert.vue'
+import MessageEnum from '../../../js/enums/messageEnum'
+import RequestTools from '../../../js/tools/requestTools'
+import LoadingComponent from '../../components/LoadingComponent.vue'
+import apiRouter from '../../../js/router/apiRouter'
+import Router from '../../../js/router'
+import { userAuthStore } from '../../store/auth'
 
-    const auth = userAuthStore()
+const auth = userAuthStore()
 
-    export default {
-        name: "LoginView",
-        components: {
-            LoadingComponent,
-            MfpMessage,
-            MfpTitle,
-            Divider,
-        },
-        data() {
-            return {
-                user: {},
-                loadingDone: 0,
-                isAppInDemoMode: RequestTools.isApplicationInDemoMode()
-            }
-        },
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
-        },
-        methods: {
-            async login(event) {
-                event.preventDefault()
-                await RouterNonAuthenticated.auth.makeLogin(this.populateDate()).then((response) => {
-                    if (response.status === HttpStatusCode.Ok) {
-                        auth.setToken(response.data.token)
-                        auth.setUser(response.data.user)
-                        Router.push({name: 'dashboard'})
-                    } else {
-                        this.showMessage(
-                            MessageEnum.alertTypeError(),
-                            'Campo "Algo deu errado ao efetuar seu login!',
-                            'Ocorreu um erro!'
-                        )
-                    }
-                }).catch((response) => {
+export default {
+    name: 'LoginView',
+    components: {
+        LoadingComponent,
+        MfpMessage,
+        MfpTitle,
+        Divider
+    },
+    data() {
+        return {
+            user: {},
+            loadingDone: 0,
+            isAppInDemoMode: RequestTools.isApplicationInDemoMode()
+        }
+    },
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    methods: {
+        async login(event) {
+            event.preventDefault()
+            await RouterNonAuthenticated.auth.makeLogin(this.populateDate()).then((response) => {
+                if (response.status === HttpStatusCode.Ok) {
+                    auth.setToken(response.data.token)
+                    auth.setUser(response.data.user)
+                    Router.push({ name: 'dashboard' })
+                } else {
                     this.showMessage(
                         MessageEnum.alertTypeError(),
-                        response.response.data.message,
+                        'Campo "Algo deu errado ao efetuar seu login!',
                         'Ocorreu um erro!'
                     )
-                })
-            },
-            populateDate() {
-                return {
-                    email: this.user.email,
-                    password: this.user.password
                 }
-            },
-            async checkUserIsLogged() {
-                let isUserLogged = auth.isAuthUser()
-                if (isUserLogged) {
-                    await Router.push({name: 'dashboard'})
-                    this.loadingDone = 1
-                    return
-                }
-                this.loadingDone = 1
-                await apiRouter.userActions.logout()
-                await Router.push({name: 'login'})
-            },
-            showMessage(type, message, title) {
-                this.$refs.message.showAlert(type, message, title)
+            }).catch((response) => {
+                this.showMessage(
+                    MessageEnum.alertTypeError(),
+                    response.response.data.message,
+                    'Ocorreu um erro!'
+                )
+            })
+        },
+        populateDate() {
+            return {
+                email: this.user.email,
+                password: this.user.password
             }
         },
-        async mounted() {
-            this.loadingDone = 0
-            await this.checkUserIsLogged()
-            if (RequestTools.isApplicationInDemoMode()) {
-                this.user.email = import.meta.env.VITE_DEMO_USER;
-                this.user.password = import.meta.env.VITE_DEMO_PASSWORD;
+        async checkUserIsLogged() {
+            const isUserLogged = auth.isAuthUser()
+            if (isUserLogged) {
+                await Router.push({ name: 'dashboard' })
+                this.loadingDone = 1
+                return
             }
+            this.loadingDone = 1
+            await apiRouter.userActions.logout()
+            await Router.push({ name: 'login' })
+        },
+        showMessage(type, message, title) {
+            this.$refs.message.showAlert(type, message, title)
+        }
+    },
+    async mounted() {
+        this.loadingDone = 0
+        await this.checkUserIsLogged()
+        if (RequestTools.isApplicationInDemoMode()) {
+            this.user.email = import.meta.env.VITE_DEMO_USER
+            this.user.password = import.meta.env.VITE_DEMO_PASSWORD
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -6,22 +6,22 @@ const HEALTH_TICKET_TYPE = 10
 const OTHER_TYPE = 0
 
 const walletEnum = {
-    getDescription: function (id) {
+    getDescription: function(id) {
         switch (id) {
-            case MONEY_TYPE:
-                return  'Dinheiro'
-            case BANK_COUNT_TYPE:
-                return 'Conta Bancária'
-            case MEAL_TICKET_TYPE:
-                return 'Vale Alimentação'
-            case TRANSPORT_TICKET_TYPE:
-                return 'Vale Transporte'
-            case HEALTH_TICKET_TYPE:
-                return 'Vale Saúde'
-            case OTHER_TYPE:
-                return 'Outros'
-            default:
-                return 'Desconhecido'
+        case MONEY_TYPE:
+            return 'Dinheiro'
+        case BANK_COUNT_TYPE:
+            return 'Conta Bancária'
+        case MEAL_TICKET_TYPE:
+            return 'Vale Alimentação'
+        case TRANSPORT_TICKET_TYPE:
+            return 'Vale Transporte'
+        case HEALTH_TICKET_TYPE:
+            return 'Vale Saúde'
+        case OTHER_TYPE:
+            return 'Outros'
+        default:
+            return 'Desconhecido'
         }
     },
     type: {
@@ -32,7 +32,7 @@ const walletEnum = {
         healthTicketType: HEALTH_TICKET_TYPE,
         otherType: OTHER_TYPE
     },
-    getIdAndDescriptionTypeList: function () {
+    getIdAndDescriptionTypeList: function() {
         return [
             {
                 id: MONEY_TYPE,

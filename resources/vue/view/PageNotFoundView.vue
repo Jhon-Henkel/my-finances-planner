@@ -7,9 +7,9 @@
 </template>
 
 <script>
-    export default {
-        name: "PageNotFoundView"
-    }
+export default {
+    name: 'PageNotFoundView'
+}
 </script>
 
 <style scoped>

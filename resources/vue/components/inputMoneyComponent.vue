@@ -23,98 +23,98 @@
 </template>
 
 <script>
-    import money from '../../directives/moneyMask/moneyMask'
-    import defaults from '../../directives/moneyMask/options'
-    import {format, unformat} from '../../directives/moneyMask/util'
-    import iconEnum from "../../js/enums/iconEnum";
+import money from '../../directives/moneyMask/moneyMask'
+import defaults from '../../directives/moneyMask/options'
+import { format, unformat } from '../../directives/moneyMask/util'
+import iconEnum from '../../js/enums/iconEnum'
 
-    export default {
-        name: 'inputMoney',
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'inputMoney',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    emits: [
+        'input-money'
+    ],
+    props: {
+        customClassCol: {
+            type: String,
+            default: 'col-4'
         },
-        emits: [
-            'input-money'
-        ],
-        props: {
-            customClassCol: {
-                type: String,
-                default: 'col-4'
-            },
-            customClassRow: {
-                type: String,
-                default: 'justify-content-center'
-            },
-            customClassForm: {
-                type: String,
-                default: 'mt-2'
-            },
-            showTitle: {
-                type: Boolean,
-                default: true
-            },
-            title: {
-                type: String,
-                default: 'Valor'
-            },
-            value: {
-                required: true,
-                type: [Number, String],
-                default: 0
-            },
-            masked: {
-                type: Boolean,
-                default: false
-            },
-            precision: {
-                type: Number,
-                default: () => defaults.precision
-            },
-            decimal: {
-                type: String,
-                default: () => defaults.decimal
-            },
-            thousands: {
-                type: String,
-                default: () => defaults.thousands
-            },
-            prefix: {
-                type: String,
-                default: () => defaults.prefix
-            },
-            suffix: {
-                type: String,
-                default: () => defaults.suffix
-            }
+        customClassRow: {
+            type: String,
+            default: 'justify-content-center'
         },
-        directives: {
-            money
+        customClassForm: {
+            type: String,
+            default: 'mt-2'
         },
-        data () {
-            return {
-                formattedValue: ''
-            }
+        showTitle: {
+            type: Boolean,
+            default: true
         },
-        watch: {
-            value: {
-                immediate: true,
-                handler (newValue, oldValue) {
-                    let formatted = format(newValue, this.$props)
-                    if (formatted !== this.formattedValue) {
-                        this.formattedValue = formatted
-                    }
+        title: {
+            type: String,
+            default: 'Valor'
+        },
+        value: {
+            required: true,
+            type: [Number, String],
+            default: 0
+        },
+        masked: {
+            type: Boolean,
+            default: false
+        },
+        precision: {
+            type: Number,
+            default: () => defaults.precision
+        },
+        decimal: {
+            type: String,
+            default: () => defaults.decimal
+        },
+        thousands: {
+            type: String,
+            default: () => defaults.thousands
+        },
+        prefix: {
+            type: String,
+            default: () => defaults.prefix
+        },
+        suffix: {
+            type: String,
+            default: () => defaults.suffix
+        }
+    },
+    directives: {
+        money
+    },
+    data() {
+        return {
+            formattedValue: ''
+        }
+    },
+    watch: {
+        value: {
+            immediate: true,
+            handler(newValue, oldValue) {
+                const formatted = format(newValue, this.$props)
+                if (formatted !== this.formattedValue) {
+                    this.formattedValue = formatted
                 }
             }
-        },
-        methods: {
-            change (event) {
-                this.$emit(
-                    'input-money',
-                    this.masked ? event.target.value : unformat(event.target.value, this.precision)
-                )
-            }
+        }
+    },
+    methods: {
+        change(event) {
+            this.$emit(
+                'input-money',
+                this.masked ? event.target.value : unformat(event.target.value, this.precision)
+            )
         }
     }
+}
 </script>
