@@ -1,9 +1,8 @@
 <template>
-    <font-awesome-icon :icon="icon" :title="title" :class="classIcon" />
+    <font-awesome-icon :icon="iconEnum.triangleExclamation()" :title="title" :class="classIcon" />
 </template>
 
 <script>
-import { icon } from '@fortawesome/fontawesome-svg-core'
 import iconEnum from '../../js/enums/iconEnum'
 
 export default {
@@ -15,7 +14,6 @@ export default {
     },
     data() {
         return {
-            icon: iconEnum.triangleExclamation(),
             title: 'Atenção, valor negativo!',
             classIcon: 'icon-alert'
         }

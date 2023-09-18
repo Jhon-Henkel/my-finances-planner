@@ -31,7 +31,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-body-hover">
-                                    <tr v-for="spent in spending" :key="spending.id" class="text-center">
+                                    <tr v-for="spent in spending" class="text-center">
                                         <td>{{ spent.id }}</td>
                                         <td>{{ spent.walletName }}</td>
                                         <td>{{ spent.description }}</td>

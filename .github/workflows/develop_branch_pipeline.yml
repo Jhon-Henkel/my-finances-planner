@@ -57,5 +57,8 @@ jobs:
       - name: 🛠️ Installing Node dependencies
         run: npm install
 
+      - name: ⚡️ Analyzing JS Code Quality
+        run: npm run analyze:eslint
+
       - name: ⚡️ Executing Vitest tests
         run: LARAVEL_BYPASS_ENV_CHECK=1 npm run test:run
