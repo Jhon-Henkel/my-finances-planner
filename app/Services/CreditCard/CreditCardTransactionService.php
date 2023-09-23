@@ -79,8 +79,8 @@ class CreditCardTransactionService extends BasicService
                 return 'secondInstallment';
             } elseif ($invoice->thirdInstallment) {
                 return 'thirdInstallment';
-            } elseif ($invoice->forthInstallment) {
-                return 'forthInstallment';
+            } elseif ($invoice->fourthInstallment) {
+                return 'fourthInstallment';
             } elseif ($invoice->fifthInstallment) {
                 return 'fifthInstallment';
             } elseif ($invoice->sixthInstallment) {

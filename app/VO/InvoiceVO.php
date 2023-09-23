@@ -15,7 +15,7 @@ class InvoiceVO
     public ?float $firstInstallment;
     public ?float $secondInstallment;
     public ?float $thirdInstallment;
-    public ?float $forthInstallment;
+    public ?float $fourthInstallment;
     public ?float $fifthInstallment;
     public ?float $sixthInstallment;
     public ?float $totalRemainingValue;
@@ -32,7 +32,7 @@ class InvoiceVO
         $invoice->firstInstallment = $installments[0] ?? 0;
         $invoice->secondInstallment = $installments[1] ?? 0;
         $invoice->thirdInstallment = $installments[2] ?? 0;
-        $invoice->forthInstallment = $installments[3] ?? 0;
+        $invoice->fourthInstallment = $installments[3] ?? 0;
         $invoice->fifthInstallment = $installments[4] ?? 0;
         $invoice->sixthInstallment = $installments[5] ?? 0;
         $invoice->totalRemainingValue = $remainingValue;

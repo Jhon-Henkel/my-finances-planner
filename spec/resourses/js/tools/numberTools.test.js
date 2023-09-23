@@ -44,7 +44,7 @@ describe('testing numberTools file', () => {
         expect(total.firstMonth).toBe(0)
         expect(total.secondMonth).toBe(0)
         expect(total.thirdMonth).toBe(0)
-        expect(total.forthMonth).toBe(0)
+        expect(total.fourthMonth).toBe(0)
         expect(total.fifthMonth).toBe(0)
         expect(total.sixthMonth).toBe(0)
         expect(total.totalRemaining).toBe(0)
@@ -57,7 +57,7 @@ describe('testing numberTools file', () => {
                 firstInstallment: 10.55,
                 secondInstallment: 20.66,
                 thirdInstallment: 30.76,
-                forthInstallment: 40.12,
+                fourthInstallment: 40.12,
                 fifthInstallment: 50.45,
                 sixthInstallment: 60.64,
                 totalRemainingValue: 70.07
@@ -66,7 +66,7 @@ describe('testing numberTools file', () => {
                 firstInstallment: 10,
                 secondInstallment: 20,
                 thirdInstallment: 30,
-                forthInstallment: 40,
+                fourthInstallment: 40,
                 fifthInstallment: 50,
                 sixthInstallment: 60,
                 totalRemainingValue: 70
@@ -75,7 +75,7 @@ describe('testing numberTools file', () => {
                 firstInstallment: 10,
                 secondInstallment: 20,
                 thirdInstallment: 30,
-                forthInstallment: 40,
+                fourthInstallment: 40,
                 fifthInstallment: 50,
                 sixthInstallment: 60,
                 totalRemainingValue: 70
@@ -86,7 +86,7 @@ describe('testing numberTools file', () => {
         expect(total.firstMonth).toBe(30.55)
         expect(total.secondMonth).toBe(60.66)
         expect(total.thirdMonth).toBe(90.76)
-        expect(total.forthMonth).toBe(120.12)
+        expect(total.fourthMonth).toBe(120.12)
         expect(total.fifthMonth).toBe(150.45)
         expect(total.sixthMonth).toBe(180.64)
         expect(total.totalRemaining).toBe(210.07)
@@ -99,7 +99,7 @@ describe('testing numberTools file', () => {
                 firstInstallment: 0,
                 secondInstallment: 20.66,
                 thirdInstallment: 30.76,
-                forthInstallment: 40.12,
+                fourthInstallment: 40.12,
                 fifthInstallment: 50.45,
                 sixthInstallment: 60.64,
                 totalRemainingValue: 70.07
@@ -108,7 +108,7 @@ describe('testing numberTools file', () => {
                 firstInstallment: 10,
                 secondInstallment: 0,
                 thirdInstallment: 30,
-                forthInstallment: 40,
+                fourthInstallment: 40,
                 fifthInstallment: 50,
                 sixthInstallment: 60,
                 totalRemainingValue: 70
@@ -117,7 +117,7 @@ describe('testing numberTools file', () => {
                 firstInstallment: 10,
                 secondInstallment: 20,
                 thirdInstallment: 0,
-                forthInstallment: 40,
+                fourthInstallment: 40,
                 fifthInstallment: 50,
                 sixthInstallment: 60,
                 totalRemainingValue: 70
@@ -126,7 +126,7 @@ describe('testing numberTools file', () => {
                 firstInstallment: 10,
                 secondInstallment: 20,
                 thirdInstallment: 30,
-                forthInstallment: 0,
+                fourthInstallment: 0,
                 fifthInstallment: 50,
                 sixthInstallment: 60,
                 totalRemainingValue: 70
@@ -135,7 +135,7 @@ describe('testing numberTools file', () => {
                 firstInstallment: 10,
                 secondInstallment: 20,
                 thirdInstallment: 30,
-                forthInstallment: 40,
+                fourthInstallment: 40,
                 fifthInstallment: 0,
                 sixthInstallment: 60,
                 totalRemainingValue: 70
@@ -144,7 +144,7 @@ describe('testing numberTools file', () => {
                 firstInstallment: 10,
                 secondInstallment: 20,
                 thirdInstallment: 30,
-                forthInstallment: 40,
+                fourthInstallment: 40,
                 fifthInstallment: 50,
                 sixthInstallment: 0,
                 totalRemainingValue: 70
@@ -155,7 +155,7 @@ describe('testing numberTools file', () => {
         expect(total.firstMonth).toBe(50)
         expect(total.secondMonth).toBe(100.66)
         expect(total.thirdMonth).toBe(150.76)
-        expect(total.forthMonth).toBe(200.12)
+        expect(total.fourthMonth).toBe(200.12)
         expect(total.fifthMonth).toBe(250.45)
         expect(total.sixthMonth).toBe(300.64)
         expect(total.totalRemaining).toBe(420.07)

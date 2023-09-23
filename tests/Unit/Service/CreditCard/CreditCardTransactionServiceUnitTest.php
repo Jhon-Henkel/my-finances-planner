@@ -18,7 +18,7 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $invoice->firstInstallment = 1;
         $invoice->secondInstallment = 2;
         $invoice->thirdInstallment = 3;
-        $invoice->forthInstallment = 4;
+        $invoice->fourthInstallment = 4;
         $invoice->fifthInstallment = 5;
         $invoice->sixthInstallment = 6;
 
@@ -34,9 +34,9 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
 
         $invoice->thirdInstallment = null;
 
-        $this->assertEquals('forthInstallment', $serviceMock->getNextInstallmentOrder([$invoice]));
+        $this->assertEquals('fourthInstallment', $serviceMock->getNextInstallmentOrder([$invoice]));
 
-        $invoice->forthInstallment = null;
+        $invoice->fourthInstallment = null;
 
         $this->assertEquals('fifthInstallment', $serviceMock->getNextInstallmentOrder([$invoice]));
 
