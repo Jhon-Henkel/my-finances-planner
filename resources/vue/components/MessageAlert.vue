@@ -63,11 +63,11 @@ export default {
             setTimeout(() => {
                 this.status = true
             }, CalendarTools.oneHundredMs())
-            setTimeout(() => {this.resetData()}, CalendarTools.tenSecondsTimeInMs())
+            setTimeout(() => { this.resetData() }, CalendarTools.tenSecondsTimeInMs())
         },
         closeAlert() {
             this.isHide = true
-            setTimeout(() => {this.resetData()}, CalendarTools.twoHundredMs())
+            setTimeout(() => { this.resetData() }, CalendarTools.twoHundredMs())
         },
         resetData() {
             this.isHide = false
