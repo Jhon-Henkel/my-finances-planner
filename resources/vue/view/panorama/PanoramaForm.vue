@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
@@ -97,8 +97,8 @@ import apiRouter from '../../../js/router/apiRouter'
 import BottomButtons from '../../components/BottomButtons.vue'
 import { HttpStatusCode } from 'axios'
 import InputMoney from '../../components/inputMoneyComponent.vue'
-import MessageEnum from '../../../js/enums/messageEnum'
 import MfpMessage from '../../components/MessageAlert.vue'
+import messageTools from '../../../js/tools/messageTools'
 
 const FIX_SPENT = 0
 
@@ -118,7 +118,8 @@ export default {
             loadingDone: false,
             wallets: {},
             spent: {},
-            redirect: '/panorama'
+            redirect: '/panorama',
+            messageData: {}
         }
     },
     methods: {
@@ -147,11 +148,7 @@ export default {
                 field = 'quantidade de vezes'
             }
             if (field) {
-                this.showMessage(
-                    MessageEnum.alertTypeInfo(),
-                    'Campo "' + field + '" é inválido!',
-                    'Campo inválido!'
-                )
+                this.messageData = messageTools.invalidFieldMessage(field)
                 this.isValid = false
                 return
             }
@@ -160,25 +157,25 @@ export default {
         async updateSpent() {
             await apiRouter.futureSpent.update(this.populateSpent(), this.spent.id).then((response) => {
                 if (response.status === HttpStatusCode.Ok) {
-                    this.messageSuccess('Gasto atualizado com sucesso!')
+                    this.messageData = messageTools.successMessage('Gasto atualizado com sucesso!')
                 } else {
-                    this.messageError('Erro inesperado ao atualizar gasto!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao atualizar gasto!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         async insertSpent() {
             await apiRouter.futureSpent.insert(this.populateSpent()).then((response) => {
                 if (response.status === HttpStatusCode.Created) {
-                    this.messageSuccess('Gasto cadastrada com sucesso!')
+                    this.messageData = messageTools.successMessage('Gasto cadastrada com sucesso!')
                     this.spent = {}
                     this.spent.fix = false
                 } else {
-                    this.messageError('Erro inesperado ao inserir gasto!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao inserir gasto!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         populateSpent() {
@@ -193,15 +190,6 @@ export default {
                 walletId: this.spent.walletId,
                 forecast: this.spent.forecast
             }
-        },
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, header) {
-            this.$refs.message.showAlert(type, message, header)
         }
     },
     async mounted() {

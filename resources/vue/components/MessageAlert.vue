@@ -43,29 +43,37 @@ export default {
             message: 'Mas não sei o que!'
         }
     },
+    props: {
+        messageData: {
+            type: Object,
+            default: () => {
+                return {
+                    alertType: messageEnum.alertTypeInfo(),
+                    alertMessage: 'Mas não sei o que!',
+                    alertHeader: 'Algo Aconteceu!'
+                }
+            }
+        }
+    },
     methods: {
-        showAlert(alertType, alertMessage, alertHeader) {
-            this.alertType = alertType
-            this.header = alertHeader || alertType.toUpperCase()
-            this.message = alertMessage
+        showAlert() {
+            this.alertType = this.messageData.alertType
+            this.header = this.messageData.alertHeader || this.messageData.alertType.toUpperCase()
+            this.message = this.messageData.alertMessage
             setTimeout(() => {
                 this.status = true
             }, CalendarTools.oneHundredMs())
-            setTimeout(() => {
-                this.isHide = false
-                this.status = false
-                this.header = ''
-                this.message = ''
-            }, CalendarTools.tenSecondsTimeInMs())
+            setTimeout(() => { this.resetData() }, CalendarTools.tenSecondsTimeInMs())
         },
         closeAlert() {
             this.isHide = true
-            setTimeout(() => {
-                this.isHide = false
-                this.status = false
-                this.header = ''
-                this.message = ''
-            }, CalendarTools.twoHundredMs())
+            setTimeout(() => { this.resetData() }, CalendarTools.twoHundredMs())
+        },
+        resetData() {
+            this.isHide = false
+            this.status = false
+            this.header = ''
+            this.message = ''
         }
     },
     watch: {
@@ -81,6 +89,9 @@ export default {
                     this.icon = iconEnum.info()
                 }
             }
+        },
+        messageData: function() {
+            this.showAlert()
         }
     }
 }

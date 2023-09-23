@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === 0" />
         <div v-show="loadingDone === 1">
             <div class="nav mt-2 justify-content-end">
@@ -108,6 +108,7 @@ import NumberTools from '../../../../js/tools/numberTools'
 import RouterLinkButton from '../../../components/RouterLinkButtonComponent.vue'
 import MfpMessage from '../../../components/MessageAlert.vue'
 import MessageEnum from '../../../../js/enums/messageEnum'
+import messageTools from '../../../../js/tools/messageTools'
 
 export default {
     name: 'CreditCardInvoiceView',
@@ -141,6 +142,7 @@ export default {
             months: [],
             wallets: {},
             showPayInvoice: false,
+            messageData: {},
             totalPerMonth: {
                 firstMonth: 0,
                 secondMonth: 0,
@@ -154,19 +156,10 @@ export default {
         }
     },
     methods: {
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
-        },
         async deleteExpense(id, name) {
             if (confirm('Deseja realmente deletar a despesa ' + name + '?')) {
                 await apiRouter.expense.delete(id)
-                this.messageSuccess('Despesa deletada com sucesso!')
+                this.messageData = messageTools.successMessage('Despesa deletada com sucesso!')
                 await this.getInvoice()
             }
         },
@@ -177,7 +170,7 @@ export default {
                 this.loadingDone++
                 this.calculateTotalPerMonth()
             }).catch(error => {
-                this.messageError(error.response.data.message)
+                this.messageData = messageTools.errorMessage(error.response.data.message)
             })
         },
         calculateTotalPerMonth() {
@@ -193,7 +186,7 @@ export default {
         },
         async payNextInvoice() {
             if (this.walletId === 0) {
-                this.showMessage(
+                this.messageData = messageTools.newMessage(
                     MessageEnum.alertTypeInfo(),
                     'Você deve selecionar uma carteira!',
                     'Carteira não informada!'
@@ -203,15 +196,15 @@ export default {
             if (confirm('Deseja realmente pagar a próxima fatura ?')) {
                 await apiRouter.cards.invoices.payInvoice(this.walletId, this.cardId).then(async(response) => {
                     if (response.status !== HttpStatusCode.Ok) {
-                        this.messageError('Erro ao pagar fatura!')
+                        this.messageData = messageTools.errorMessage('Erro ao pagar fatura!')
                         return
                     }
-                    this.messageSuccess('Fatura paga com sucesso!')
+                    this.messageData = messageTools.successMessage('Fatura paga com sucesso!')
                     this.showPayInvoice = false
                     await this.getInvoice()
                     this.walletId = 0
                 }).catch(() => {
-                    this.messageError('Erro ao pagar fatura!')
+                    this.messageData = messageTools.errorMessage('Erro ao pagar fatura!')
                 })
             }
         },

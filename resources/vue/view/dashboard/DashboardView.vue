@@ -1,5 +1,5 @@
 <template>
-    <mfp-message ref="message"/>
+    <mfp-message :message-data="messageData"/>
     <div class="base-container">
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
@@ -99,7 +99,6 @@ import Divider from '../../components/DividerComponent.vue'
 import LoadingComponent from '../../components/LoadingComponent.vue'
 import ApiRouter from '../../../js/router/apiRouter'
 import MfpMessage from '../../components/MessageAlert.vue'
-import MessageEnum from '../../../js/enums/messageEnum'
 import StringTools from '../../../js/tools/stringTools'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import iconEnum from '../../../js/enums/iconEnum'
@@ -109,6 +108,7 @@ import AlertIcon from '../../components/AlertIcon.vue'
 import BarChart from '../../components/graphics/BarChart.vue'
 import dashboardChartParams from '../../../js/chartParams/dashboardChartParams'
 import { userAuthStore } from '../../store/auth'
+import messageTools from '../../../js/tools/messageTools'
 
 const auth = userAuthStore()
 
@@ -193,7 +193,8 @@ export default {
                 lastMonth: 0,
                 thisYear: 0
             },
-            lastMovements: []
+            lastMovements: [],
+            messageData: {}
         }
     },
     methods: {
@@ -257,11 +258,7 @@ export default {
             }
             this.loadingDone = true
         }).catch(error => {
-            this.$refs.message.showAlert(
-                MessageEnum.alertTypeError(),
-                error.response.data.message,
-                'Ocorreu um erro!'
-            )
+            this.$messageData = messageTools.errorMessage(error.response.data.message)
         })
     }
 }

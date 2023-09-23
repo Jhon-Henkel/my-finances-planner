@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone < 2"/>
         <div v-show="loadingDone >= 2">
             <div class="nav justify-content-end">
@@ -108,12 +108,12 @@ import MfpTitle from '../../components/TitleComponent.vue'
 import Divider from '../../components/DividerComponent.vue'
 import iconEnum from '../../../js/enums/iconEnum'
 import ApiRouter from '../../../js/router/apiRouter'
-import MessageEnum from '../../../js/enums/messageEnum'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import stringTools from '../../../js/tools/stringTools'
 import ActionButtons from '../../components/ActionButtons.vue'
 import calendarTools from '../../../js/tools/calendarTools'
 import BackButton from '../../components/buttons/BackButton.vue'
+import messageTools from '../../../js/tools/messageTools'
 
 export default {
     name: 'PanoramaAllSpentAndGain',
@@ -142,7 +142,8 @@ export default {
             loadingDone: 0,
             gains: {},
             spending: {},
-            referer: 'panorama/todas-despesas-e-ganhos'
+            referer: 'panorama/todas-despesas-e-ganhos',
+            messageData: {}
         }
     },
     methods: {
@@ -150,7 +151,7 @@ export default {
             await ApiRouter.futureSpent.index().then(response => {
                 this.spending = response
             }).catch(error => {
-                this.messageError(error.response.data.message)
+                this.messageData = messageTools.errorMessage(error.response.data.message)
             })
             this.loadingDone = this.loadingDone + 1
         },
@@ -158,38 +159,29 @@ export default {
             await ApiRouter.futureGain.index().then(response => {
                 this.gains = response
             }).catch(error => {
-                this.messageError(error.response.data.message)
+                this.messageData = messageTools.errorMessage(error.response.data.message)
             })
             this.loadingDone = this.loadingDone + 1
         },
         async deleteSpent(id, spentName) {
             if (confirm('Tem certeza que realmente quer deletar a despesa ' + spentName + '?')) {
                 await ApiRouter.futureSpent.delete(id).then(response => {
-                    this.messageSuccess('Despesa deletada com sucesso!')
+                    this.messageData = messageTools.successMessage('Despesa deletada com sucesso!')
                     this.getAllSpending()
                 }).catch(() => {
-                    this.messageError('Não foi possível deletar a despesa!')
+                    this.messageData = messageTools.errorMessage('Não foi possível deletar a despesa!')
                 })
             }
         },
         async deleteGain(id, gainName) {
             if (confirm('Tem certeza que realmente quer deletar o ganho ' + gainName + '?')) {
                 await ApiRouter.futureGain.delete(id).then(response => {
-                    this.messageSuccess('Ganho deletado com sucesso!')
+                    this.messageData = messageTools.successMessage('Ganho deletado com sucesso!')
                     this.getAllGains()
                 }).catch(() => {
-                    this.messageError('Não foi possível deletar o ganho!')
+                    this.messageData = messageTools.errorMessage('Não foi possível deletar o ganho!')
                 })
             }
-        },
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, header) {
-            this.$refs.message.showAlert(type, message, header)
         }
     },
     mounted() {

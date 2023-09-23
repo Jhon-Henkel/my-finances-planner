@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false" />
         <div v-show="loadingDone">
             <mfp-title :title="title" class="title"/>
@@ -55,8 +55,8 @@ import BottomButtons from '../../components/BottomButtons.vue'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
 import MfpMessage from '../../components/MessageAlert.vue'
-import MessageEnum from '../../../js/enums/messageEnum'
 import stringTools from '../../../js/tools/stringTools'
+import messageTools from '../../../js/tools/messageTools'
 
 export default {
     name: 'WalletFormView',
@@ -83,6 +83,7 @@ export default {
             title: '',
             isValid: null,
             loadingDone: false,
+            messageData: {},
             typesOfWallet: walletEnum.getIdAndDescriptionTypeList()
         }
     },
@@ -106,11 +107,7 @@ export default {
                 field = 'tipo de conta'
             }
             if (field) {
-                this.showMessage(
-                    MessageEnum.alertTypeInfo(),
-                    'Campo "' + field + '" é inválido!',
-                    'Campo inválido!'
-                )
+                this.messageData = messageTools.invalidFieldMessage(field)
                 this.isValid = false
                 return
             }
@@ -134,34 +131,25 @@ export default {
             }
             await apiRouter.wallet.update(this.populateData(), this.wallet.id).then((response) => {
                 if (response.status === HttpStatusCode.Ok) {
-                    this.messageSuccess('Carteira atualizada com sucesso!')
+                    this.messageData = messageTools.successMessage('Carteira atualizada com sucesso!')
                 } else {
-                    this.messageError('Erro inesperado ao atualizar carteira!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao atualizar carteira!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         async insertWallet() {
             await apiRouter.wallet.insert(this.populateData()).then((response) => {
                 if (response.status === HttpStatusCode.Created) {
-                    this.messageSuccess('Carteira cadastrada com sucesso!')
+                    this.messageData = messageTools.successMessage('Carteira cadastrada com sucesso!')
                     this.wallet = {}
                 } else {
-                    this.messageError('Erro inesperado ao inserir carteira!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao atualizar carteira!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
-        },
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, header) {
-            this.$refs.message.showAlert(type, message, header)
         }
     },
     async mounted() {
