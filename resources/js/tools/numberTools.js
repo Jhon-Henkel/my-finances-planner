@@ -27,7 +27,7 @@ const numberTools = {
         let firstMonth = 0
         let secondMonth = 0
         let thirdMonth = 0
-        let forthMonth = 0
+        let fourthMonth = 0
         let fifthMonth = 0
         let sixthMonth = 0
         let totalRemaining = 0
@@ -45,9 +45,9 @@ const numberTools = {
                 thirdMonth = thirdMonth + item.thirdInstallment
                 total = total + item.thirdInstallment
             }
-            if (item.forthInstallment) {
-                forthMonth = forthMonth + item.forthInstallment
-                total = total + item.forthInstallment
+            if (item.fourthInstallment) {
+                fourthMonth = fourthMonth + item.fourthInstallment
+                total = total + item.fourthInstallment
             }
             if (item.fifthInstallment) {
                 fifthMonth = fifthMonth + item.fifthInstallment
@@ -65,7 +65,7 @@ const numberTools = {
             firstMonth,
             secondMonth,
             thirdMonth,
-            forthMonth,
+            fourthMonth,
             fifthMonth,
             sixthMonth,
             totalRemaining,

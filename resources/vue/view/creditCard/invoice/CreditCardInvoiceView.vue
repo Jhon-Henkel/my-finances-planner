@@ -38,7 +38,7 @@
                                         <td>{{ formatValueToBr(expense.firstInstallment) }}</td>
                                         <td>{{ formatValueToBr(expense.secondInstallment) }}</td>
                                         <td>{{ formatValueToBr(expense.thirdInstallment) }}</td>
-                                        <td>{{ formatValueToBr(expense.forthInstallment) }}</td>
+                                        <td>{{ formatValueToBr(expense.fourthInstallment) }}</td>
                                         <td>{{ formatValueToBr(expense.fifthInstallment) }}</td>
                                         <td>{{ formatValueToBr(expense.sixthInstallment) }}</td>
                                         <td v-if="expense.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
@@ -57,7 +57,7 @@
                                         <td>{{ formatValueToBr(totalPerMonth.firstMonth) }}</td>
                                         <td>{{ formatValueToBr(totalPerMonth.secondMonth) }}</td>
                                         <td>{{ formatValueToBr(totalPerMonth.thirdMonth) }}</td>
-                                        <td>{{ formatValueToBr(totalPerMonth.forthMonth) }}</td>
+                                        <td>{{ formatValueToBr(totalPerMonth.fourthMonth) }}</td>
                                         <td>{{ formatValueToBr(totalPerMonth.fifthMonth) }}</td>
                                         <td>{{ formatValueToBr(totalPerMonth.sixthMonth) }}</td>
                                         <td>{{ formatValueToBr(totalPerMonth.totalRemaining) }}</td>
@@ -147,7 +147,7 @@ export default {
                 firstMonth: 0,
                 secondMonth: 0,
                 thirdMonth: 0,
-                forthMonth: 0,
+                fourthMonth: 0,
                 fifthMonth: 0,
                 sixthMonth: 0,
                 totalRemaining: 0,
@@ -178,7 +178,7 @@ export default {
             this.totalPerMonth.firstMonth = totalPerMonthCount.firstMonth
             this.totalPerMonth.secondMonth = totalPerMonthCount.secondMonth
             this.totalPerMonth.thirdMonth = totalPerMonthCount.thirdMonth
-            this.totalPerMonth.forthMonth = totalPerMonthCount.forthMonth
+            this.totalPerMonth.fourthMonth = totalPerMonthCount.fourthMonth
             this.totalPerMonth.fifthMonth = totalPerMonthCount.fifthMonth
             this.totalPerMonth.sixthMonth = totalPerMonthCount.sixthMonth
             this.totalPerMonth.totalRemaining = totalPerMonthCount.totalRemaining

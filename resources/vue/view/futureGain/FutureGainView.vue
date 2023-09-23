@@ -39,7 +39,7 @@
                                         <td>{{ StringTools.formatFloatValueToBrString(gain.firstInstallment) }}</td>
                                         <td>{{ StringTools.formatFloatValueToBrString(gain.secondInstallment) }}</td>
                                         <td>{{ StringTools.formatFloatValueToBrString(gain.thirdInstallment) }}</td>
-                                        <td>{{ StringTools.formatFloatValueToBrString(gain.forthInstallment) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(gain.fourthInstallment) }}</td>
                                         <td>{{ StringTools.formatFloatValueToBrString(gain.fifthInstallment) }}</td>
                                         <td>{{ StringTools.formatFloatValueToBrString(gain.sixthInstallment) }}</td>
                                         <td v-if="gain.remainingInstallments === 0" v-tooltip="'Ganho Fixo'">Fixo</td>
@@ -68,7 +68,7 @@
                                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.firstMonth) }}</td>
                                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.secondMonth) }}</td>
                                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.thirdMonth) }}</td>
-                                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.forthMonth) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.fourthMonth) }}</td>
                                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.fifthMonth) }}</td>
                                         <td>{{ StringTools.formatFloatValueToBrString(totalPerMonth.sixthMonth) }}</td>
                                         <td colspan="2"></td>
@@ -157,7 +157,7 @@ export default {
                 firstMonth: 0,
                 secondMonth: 0,
                 thirdMonth: 0,
-                forthMonth: 0,
+                fourthMonth: 0,
                 fifthMonth: 0,
                 sixthMonth: 0,
                 total: 0
@@ -187,7 +187,7 @@ export default {
             this.totalPerMonth.firstMonth = totalPerMonthCount.firstMonth
             this.totalPerMonth.secondMonth = totalPerMonthCount.secondMonth
             this.totalPerMonth.thirdMonth = totalPerMonthCount.thirdMonth
-            this.totalPerMonth.forthMonth = totalPerMonthCount.forthMonth
+            this.totalPerMonth.fourthMonth = totalPerMonthCount.fourthMonth
             this.totalPerMonth.fifthMonth = totalPerMonthCount.fifthMonth
             this.totalPerMonth.sixthMonth = totalPerMonthCount.sixthMonth
             this.totalPerMonth.total = totalPerMonthCount.total
@@ -237,8 +237,8 @@ export default {
                 return gain.secondInstallment
             } else if (gain.thirdInstallment) {
                 return gain.thirdInstallment
-            } else if (gain.forthInstallment) {
-                return gain.forthInstallment
+            } else if (gain.fourthInstallment) {
+                return gain.fourthInstallment
             } else if (gain.fifthInstallment) {
                 return gain.fifthInstallment
             } else if (gain.sixthInstallment) {
@@ -250,7 +250,7 @@ export default {
                 !gain.firstInstallment &&
                     !gain.secondInstallment &&
                     !gain.thirdInstallment &&
-                    !gain.forthInstallment &&
+                    !gain.fourthInstallment &&
                     !gain.fifthInstallment &&
                     !gain.sixthInstallment
             ) {

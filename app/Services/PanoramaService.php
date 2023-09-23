@@ -56,7 +56,7 @@ class PanoramaService
             0 => $gains->firstInstallment - ($expenses->firstInstallment + $creditCardExpenses->firstInstallment),
             1 => $gains->secondInstallment - ($expenses->secondInstallment + $creditCardExpenses->secondInstallment),
             2 => $gains->thirdInstallment - ($expenses->thirdInstallment + $creditCardExpenses->thirdInstallment),
-            3 => $gains->forthInstallment - ($expenses->forthInstallment + $creditCardExpenses->forthInstallment),
+            3 => $gains->fourthInstallment - ($expenses->fourthInstallment + $creditCardExpenses->fourthInstallment),
             4 => $gains->fifthInstallment - ($expenses->fifthInstallment + $creditCardExpenses->fifthInstallment),
             5 => $gains->sixthInstallment - ($expenses->sixthInstallment + $creditCardExpenses->sixthInstallment),
         ];

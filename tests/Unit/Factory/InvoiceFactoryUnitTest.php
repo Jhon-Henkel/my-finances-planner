@@ -21,7 +21,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(100.5, $testOne->firstInstallment);
         $this->assertEquals(100.5, $testOne->secondInstallment);
         $this->assertEquals(100.5, $testOne->thirdInstallment);
-        $this->assertEquals(100.5, $testOne->forthInstallment);
+        $this->assertEquals(100.5, $testOne->fourthInstallment);
         $this->assertEquals(100.5, $testOne->fifthInstallment);
         $this->assertEquals(null, $testOne->sixthInstallment);
     }
@@ -39,7 +39,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(100.5, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(null, $testOne->fifthInstallment);
         $this->assertEquals(null, $testOne->sixthInstallment);
     }
@@ -57,7 +57,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(100.5, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(null, $testOne->fifthInstallment);
         $this->assertEquals(null, $testOne->sixthInstallment);
     }
@@ -75,12 +75,12 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(100.5, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(null, $testOne->fifthInstallment);
         $this->assertEquals(null, $testOne->sixthInstallment);
     }
 
-    public function testFactoryInvoiceWithOnlyForthInstallments()
+    public function testFactoryInvoiceWithOnlyFourthInstallments()
     {
         $dtoOne = new InvoiceItemDTO(1, 50, 'Test-one', 'Test-one', 100.5, '2023-4', 1);
         $testOne = InvoiceFactory::factoryInvoice($dtoOne, 1);
@@ -93,7 +93,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(100.5, $testOne->forthInstallment);
+        $this->assertEquals(100.5, $testOne->fourthInstallment);
         $this->assertEquals(null, $testOne->fifthInstallment);
         $this->assertEquals(null, $testOne->sixthInstallment);
     }
@@ -111,7 +111,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(100.5, $testOne->fifthInstallment);
         $this->assertEquals(null, $testOne->sixthInstallment);
     }
@@ -129,7 +129,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(null, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -147,7 +147,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(100.5, $testOne->secondInstallment);
         $this->assertEquals(100.5, $testOne->thirdInstallment);
-        $this->assertEquals(100.5, $testOne->forthInstallment);
+        $this->assertEquals(100.5, $testOne->fourthInstallment);
         $this->assertEquals(100.5, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -165,7 +165,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(100.5, $testOne->thirdInstallment);
-        $this->assertEquals(100.5, $testOne->forthInstallment);
+        $this->assertEquals(100.5, $testOne->fourthInstallment);
         $this->assertEquals(100.5, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -183,12 +183,12 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(100.5, $testOne->forthInstallment);
+        $this->assertEquals(100.5, $testOne->fourthInstallment);
         $this->assertEquals(100.5, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
 
-    public function testFactoryInvoiceWithFromForthInstallments()
+    public function testFactoryInvoiceWithFromFourthInstallments()
     {
         $dtoOne = new InvoiceItemDTO(1, 50, 'Test-one', 'Test-one', 100.5, '2023-5', 2);
         $testOne = InvoiceFactory::factoryInvoice($dtoOne, 1);
@@ -201,7 +201,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(100.5, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -219,7 +219,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(null, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -237,7 +237,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(null, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -255,7 +255,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(null, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -273,7 +273,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(null, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -291,7 +291,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(100.5, $testOne->secondInstallment);
         $this->assertEquals(100.5, $testOne->thirdInstallment);
-        $this->assertEquals(100.5, $testOne->forthInstallment);
+        $this->assertEquals(100.5, $testOne->fourthInstallment);
         $this->assertEquals(100.5, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -309,7 +309,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(100.5, $testOne->thirdInstallment);
-        $this->assertEquals(100.5, $testOne->forthInstallment);
+        $this->assertEquals(100.5, $testOne->fourthInstallment);
         $this->assertEquals(100.5, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -327,7 +327,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(100.5, $testOne->forthInstallment);
+        $this->assertEquals(100.5, $testOne->fourthInstallment);
         $this->assertEquals(100.5, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -345,7 +345,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(100.5, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }
@@ -363,7 +363,7 @@ class InvoiceFactoryUnitTest extends Falcon9
         $this->assertEquals(null, $testOne->firstInstallment);
         $this->assertEquals(null, $testOne->secondInstallment);
         $this->assertEquals(null, $testOne->thirdInstallment);
-        $this->assertEquals(null, $testOne->forthInstallment);
+        $this->assertEquals(null, $testOne->fourthInstallment);
         $this->assertEquals(null, $testOne->fifthInstallment);
         $this->assertEquals(100.5, $testOne->sixthInstallment);
     }

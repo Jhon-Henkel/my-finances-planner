@@ -86,7 +86,7 @@ class PanoramaServiceUnitTest extends Falcon9
         $item->firstInstallment = 10.50;
         $item->secondInstallment = 10.50;
         $item->thirdInstallment = 10.50;
-        $item->forthInstallment = 10.50;
+        $item->fourthInstallment = 10.50;
         $item->fifthInstallment = 10.50;
         $item->sixthInstallment = 10.50;
 
@@ -109,7 +109,7 @@ class PanoramaServiceUnitTest extends Falcon9
         $item->firstInstallment = 10.50;
         $item->secondInstallment = 10.50;
         $item->thirdInstallment = 10.50;
-        $item->forthInstallment = 10.50;
+        $item->fourthInstallment = 10.50;
         $item->fifthInstallment = 10.50;
         $item->sixthInstallment = 10.50;
 
