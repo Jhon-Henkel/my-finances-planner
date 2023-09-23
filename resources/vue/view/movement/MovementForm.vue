@@ -1,5 +1,5 @@
 <template>
-    <mfp-message ref="message"/>
+    <mfp-message :message-data="messageData"/>
     <div class="base-container">
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
@@ -70,7 +70,7 @@ import InputMoney from '../../components/inputMoneyComponent.vue'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
 import MfpMessage from '../../components/MessageAlert.vue'
-import MessageEnum from '../../../js/enums/messageEnum'
+import messageTools from '../../../js/tools/messageTools'
 
 export default {
     name: 'MovementForm',
@@ -92,7 +92,8 @@ export default {
                 type: MovementEnum.type.spent()
             },
             wallets: {},
-            types: {}
+            types: {},
+            messageData: {}
         }
     },
     methods: {
@@ -119,11 +120,7 @@ export default {
                 field = 'valor'
             }
             if (field) {
-                this.showMessage(
-                    MessageEnum.alertTypeInfo(),
-                    'Campo "' + field + '" é inválido!',
-                    'Campo inválido!'
-                )
+                this.messageData = messageTools.invalidFieldMessage(field)
                 this.isValid = false
                 return
             }
@@ -132,25 +129,25 @@ export default {
         async updateMovement() {
             await apiRouter.movement.update(this.populateMovement(), this.movement.id).then((response) => {
                 if (response.status === HttpStatusCode.Ok) {
-                    this.messageSuccess('Movimentação atualizada com sucesso!')
+                    this.messageData = messageTools.successMessage('Movimentação atualizada com sucesso!')
                 } else {
-                    this.messageError('Erro inesperado ao atualizar movimentação!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao atualizar movimentação!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         async insertMovement() {
             await apiRouter.movement.insert(this.populateMovement()).then((response) => {
                 if (response.status === HttpStatusCode.Created) {
-                    this.messageSuccess('Movimentação cadastrada com sucesso!')
+                    this.messageData = messageTools.successMessage('Movimentação cadastrada com sucesso!')
                     this.movement = {}
                     this.movement.type = MovementEnum.type.spent()
                 } else {
-                    this.messageError('Erro inesperado ao inserir movimentação!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao inserir movimentação!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         populateMovement() {
@@ -170,15 +167,6 @@ export default {
             await apiRouter.movement.show(movementId).then((response) => {
                 this.movement = response
             })
-        },
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
         }
     },
     async mounted() {

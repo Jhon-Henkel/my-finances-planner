@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <mfp-title :title="title" class="title"/>
@@ -75,7 +75,7 @@ import BottomButtons from '../../components/BottomButtons.vue'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
 import MfpMessage from '../../components/MessageAlert.vue'
-import MessageEnum from '../../../js/enums/messageEnum'
+import messageTools from '../../../js/tools/messageTools'
 
 export default {
     name: 'ManageCardsFormView',
@@ -97,19 +97,11 @@ export default {
             card: {},
             title: '',
             isValid: null,
-            loadingDone: false
+            loadingDone: false,
+            messageData: {}
         }
     },
     methods: {
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
-        },
         async updateOrInsertCard() {
             this.validateWallet()
             if (!this.isValid) {
@@ -133,11 +125,7 @@ export default {
                 field = 'fecha dia'
             }
             if (field) {
-                this.showMessage(
-                    MessageEnum.alertTypeInfo(),
-                    'Campo "' + field + '" é inválido!',
-                    'Campo inválido!'
-                )
+                this.messageData = messageTools.invalidFieldMessage(field)
                 this.isValid = false
                 return
             }
@@ -146,24 +134,24 @@ export default {
         async updateCard() {
             await apiRouter.cards.update(this.populateData(), this.card.id).then((response) => {
                 if (response.status === HttpStatusCode.Ok) {
-                    this.messageSuccess('Cartão atualizado com sucesso!')
+                    this.messageData = messageTools.successMessage('Cartão atualizado com sucesso!')
                     return
                 }
-                this.messageError('Erro inesperado ao atualizar cartão!')
+                this.messageData = messageTools.errorMessage('Erro inesperado ao atualizar cartão!')
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         async insertCard() {
             await apiRouter.cards.insert(this.populateData()).then((response) => {
                 if (response.status === HttpStatusCode.Created) {
-                    this.messageSuccess('Cartão cadastrada com sucesso!')
+                    this.messageData = messageTools.successMessage('Cartão cadastrada com sucesso!')
                     this.card = {}
                 } else {
-                    this.messageError('Erro inesperado ao inserir cartão!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao inserir cartão!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         async getCard(cardId) {

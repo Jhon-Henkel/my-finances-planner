@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
@@ -122,8 +122,8 @@ import ActionButtons from '../../components/ActionButtons.vue'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
 import MfpMessage from '../../components/MessageAlert.vue'
-import MessageEnum from '../../../js/enums/messageEnum'
 import AlertIcon from '../../components/AlertIcon.vue'
+import messageTools from '../../../js/tools/messageTools'
 
 export default {
     name: 'WalletView',
@@ -161,7 +161,8 @@ export default {
                 transportTicket: 0,
                 healthTicketType: 0,
                 others: 0
-            }
+            },
+            messageData: {}
         }
     },
     methods: {
@@ -192,21 +193,12 @@ export default {
         async deleteWallet(walletId, walletName) {
             if (confirm('Tem certeza que realmente quer deletar a carteira ' + walletName + '?')) {
                 await apiRouter.wallet.delete(walletId).then((response) => {
-                    this.messageSuccess('Carteira deletada com sucesso!')
+                    this.messageData = messageTools.successMessage('Carteira deletada com sucesso!')
                     this.getWallets()
                 }).catch((response) => {
-                    this.messageError(response.response.data.message)
+                    this.messageData = messageTools.errorMessage(response.response.data.message)
                 })
             }
-        },
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, header) {
-            this.$refs.message.showAlert(type, message, header)
         }
     },
     mounted() {

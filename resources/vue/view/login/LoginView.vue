@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === 0"/>
         <div class="card text-center login-box glass" v-if="loadingDone === 1">
             <mfp-title class="title" :title="'Login'"/>
@@ -64,12 +64,12 @@ import { HttpStatusCode } from 'axios'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
 import MfpMessage from '../../components/MessageAlert.vue'
-import MessageEnum from '../../../js/enums/messageEnum'
 import RequestTools from '../../../js/tools/requestTools'
 import LoadingComponent from '../../components/LoadingComponent.vue'
 import apiRouter from '../../../js/router/apiRouter'
 import Router from '../../../js/router'
 import { userAuthStore } from '../../store/auth'
+import messageTools from '../../../js/tools/messageTools'
 
 const auth = userAuthStore()
 
@@ -85,7 +85,8 @@ export default {
         return {
             user: {},
             loadingDone: 0,
-            isAppInDemoMode: RequestTools.isApplicationInDemoMode()
+            isAppInDemoMode: RequestTools.isApplicationInDemoMode(),
+            messageData: {}
         }
     },
     computed: {
@@ -102,18 +103,10 @@ export default {
                     auth.setUser(response.data.user)
                     Router.push({ name: 'dashboard' })
                 } else {
-                    this.showMessage(
-                        MessageEnum.alertTypeError(),
-                        'Campo "Algo deu errado ao efetuar seu login!',
-                        'Ocorreu um erro!'
-                    )
+                    this.messageData = messageTools.errorMessage('Algo deu errado ao efetuar seu login!')
                 }
             }).catch((response) => {
-                this.showMessage(
-                    MessageEnum.alertTypeError(),
-                    response.response.data.message,
-                    'Ocorreu um erro!'
-                )
+                this.messageData = messageTools.errorMessage(response.response.data.message)
             })
         },
         populateDate() {
@@ -132,9 +125,6 @@ export default {
             this.loadingDone = 1
             await apiRouter.userActions.logout()
             await Router.push({ name: 'login' })
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
         }
     },
     async mounted() {

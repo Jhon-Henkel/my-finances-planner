@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false" />
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
@@ -136,11 +136,11 @@ import numberTools from '../../../js/tools/numberTools'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
 import MfpMessage from '../../components/MessageAlert.vue'
-import MessageEnum from '../../../js/enums/messageEnum'
 import StringTools from '../../../js/tools/stringTools'
 import AlertIcon from '../../components/AlertIcon.vue'
 import FilterTopRight from '../../components/filters/filterTopRight.vue'
 import RouterLinkButton from '../../components/RouterLinkButtonComponent.vue'
+import messageTools from '../../../js/tools/messageTools'
 
 export default {
     name: 'MovementView',
@@ -178,7 +178,8 @@ export default {
             balance: 0,
             lastFilter: null,
             newGainSpentLink: '/movimentacoes/cadastrar',
-            newTransferLink: '/movimentacoes/transferir'
+            newTransferLink: '/movimentacoes/transferir',
+            messageData: {}
         }
     },
     methods: {
@@ -186,7 +187,7 @@ export default {
             if (confirm('Tem certeza que realmente quer deletar a movimentação "' + movementName + '"? ' +
                     'O valor será retornado para a carteira vinculada.')) {
                 await apiRouter.movement.delete(id)
-                this.messageSuccess('Movimentação deletada com sucesso!')
+                this.messageData = messageTools.successMessage('Movimentação deletada com sucesso!')
                 await this.getMovementIndexFiltered(this.lastFilter)
             }
         },
@@ -194,7 +195,7 @@ export default {
             if (confirm('Tem certeza que realmente quer deletar a transferência "' + movementName + '"? ' +
                     'O valor será retornado para a carteira vinculada.')) {
                 await apiRouter.movement.deleteTransfer(id)
-                this.messageSuccess('Transferência deletada com sucesso!')
+                this.messageData = messageTools.successMessage('Transferência deletada com sucesso!')
                 await this.getMovementIndexFiltered(this.lastFilter)
             }
         },
@@ -206,12 +207,6 @@ export default {
             this.totalGain = sum.totalGain
             this.balance = sum.totalGain - sum.totalSpent
             this.loadingDone = true
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
         }
     },
     async mounted() {
