@@ -38,7 +38,7 @@ const messageTools = {
     },
     invalidFieldMessage(field) {
         return {
-            alertType: messageEnum.alertTypeWarning(),
+            alertType: messageEnum.alertTypeInfo(),
             alertMessage: 'Campo "' + field + '" é inválido!',
             alertHeader: 'Campo inválido!'
         }

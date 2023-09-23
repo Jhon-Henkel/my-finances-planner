@@ -41,4 +41,11 @@ describe('testing messageTools file', () => {
         expect(message.alertMessage).toBe('message 2')
         expect(message.alertHeader).toBe('header 2')
     })
+
+    it('invalid fields', async () => {
+        let message = messageTools.invalidFieldMessage('testField')
+        expect(message.alertType).toBe('info')
+        expect(message.alertMessage).toBe('Campo "testField" é inválido!')
+        expect(message.alertHeader).toBe('Campo inválido!')
+    })
 })
