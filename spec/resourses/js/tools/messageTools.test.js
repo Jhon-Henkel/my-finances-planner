@@ -25,7 +25,7 @@ describe('testing messageTools file', () => {
 
     it('errorMessage', async () => {
         let message = messageTools.errorMessage('message')
-        expect(message.alertType).toBe('warning')
+        expect(message.alertType).toBe('error')
         expect(message.alertMessage).toBe('message')
         expect(message.alertHeader).toBe('Ocorreu um erro!')
     })

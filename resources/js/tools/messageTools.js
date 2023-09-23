@@ -24,7 +24,7 @@ const messageTools = {
     },
     errorMessage(message) {
         return {
-            alertType: messageEnum.alertTypeWarning(),
+            alertType: messageEnum.alertTypeError(),
             alertMessage: message,
             alertHeader: 'Ocorreu um erro!'
         }
