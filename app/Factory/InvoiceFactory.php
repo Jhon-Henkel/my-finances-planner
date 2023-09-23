@@ -81,7 +81,7 @@ class InvoiceFactory
             $sum[0] = ($sum[0] ?? 0) + $invoice->firstInstallment;
             $sum[1] = ($sum[1] ?? 0) + $invoice->secondInstallment;
             $sum[2] = ($sum[2] ?? 0) + $invoice->thirdInstallment;
-            $sum[3] = ($sum[3] ?? 0) + $invoice->forthInstallment;
+            $sum[3] = ($sum[3] ?? 0) + $invoice->fourthInstallment;
             $sum[4] = ($sum[4] ?? 0) + $invoice->fifthInstallment;
             $sum[5] = ($sum[5] ?? 0) + $invoice->sixthInstallment;
         }

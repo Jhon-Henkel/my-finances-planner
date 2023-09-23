@@ -29,7 +29,7 @@ class InvoiceVoUnitTest extends Falcon9
         $this->assertEquals(10.99, $vo->firstInstallment);
         $this->assertEquals(10.99, $vo->secondInstallment);
         $this->assertEquals(null, $vo->thirdInstallment);
-        $this->assertEquals(null, $vo->forthInstallment);
+        $this->assertEquals(null, $vo->fourthInstallment);
         $this->assertEquals(null, $vo->fifthInstallment);
         $this->assertEquals(null, $vo->sixthInstallment);
         $this->assertEquals(21.98, $vo->totalRemainingValue);

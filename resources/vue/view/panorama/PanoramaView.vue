@@ -44,7 +44,7 @@
                                         <td>{{ formatValueToBr(spent.firstInstallment) }}</td>
                                         <td>{{formatValueToBr(spent.secondInstallment) }}</td>
                                         <td>{{ formatValueToBr(spent.thirdInstallment) }}</td>
-                                        <td>{{ formatValueToBr(spent.forthInstallment) }}</td>
+                                        <td>{{ formatValueToBr(spent.fourthInstallment) }}</td>
                                         <td>{{ formatValueToBr(spent.fifthInstallment) }}</td>
                                         <td>{{ formatValueToBr(spent.sixthInstallment) }}</td>
                                         <td v-if="spent.remainingInstallments === 0" v-tooltip="'Despesa Fixa'">Fixo</td>
@@ -109,7 +109,7 @@
                                             <td>{{ formatValueToBr(totalSpending.firstInstallment) }}</td>
                                             <td>{{ formatValueToBr(totalSpending.secondInstallment) }}</td>
                                             <td>{{ formatValueToBr(totalSpending.thirdInstallment) }}</td>
-                                            <td>{{ formatValueToBr(totalSpending.forthInstallment) }}</td>
+                                            <td>{{ formatValueToBr(totalSpending.fourthInstallment) }}</td>
                                             <td>{{ formatValueToBr(totalSpending.fifthInstallment) }}</td>
                                             <td>{{ formatValueToBr(totalSpending.sixthInstallment) }}</td>
                                         </tr>
@@ -127,7 +127,7 @@
                                             <td>{{ formatValueToBr(cardsInvoice.firstInstallment) }}</td>
                                             <td>{{ formatValueToBr(cardsInvoice.secondInstallment) }}</td>
                                             <td>{{ formatValueToBr(cardsInvoice.thirdInstallment) }}</td>
-                                            <td>{{ formatValueToBr(cardsInvoice.forthInstallment) }}</td>
+                                            <td>{{ formatValueToBr(cardsInvoice.fourthInstallment) }}</td>
                                             <td>{{ formatValueToBr(cardsInvoice.fifthInstallment) }}</td>
                                             <td>{{ formatValueToBr(cardsInvoice.sixthInstallment) }}</td>
                                         </tr>
@@ -145,7 +145,7 @@
                                             <td>{{ formatValueToBr(totalFutureGain.firstInstallment) }}</td>
                                             <td>{{ formatValueToBr(totalFutureGain.secondInstallment) }}</td>
                                             <td>{{ formatValueToBr(totalFutureGain.thirdInstallment) }}</td>
-                                            <td>{{ formatValueToBr(totalFutureGain.forthInstallment) }}</td>
+                                            <td>{{ formatValueToBr(totalFutureGain.fourthInstallment) }}</td>
                                             <td>{{ formatValueToBr(totalFutureGain.fifthInstallment) }}</td>
                                             <td>{{ formatValueToBr(totalFutureGain.sixthInstallment) }}</td>
                                         </tr>
@@ -166,8 +166,8 @@
                                                 <alert-icon v-if="totalRemaining.thirdInstallment < 0"/>
                                             </td>
                                             <td>
-                                                {{ formatValueToBr(totalRemaining.forthInstallment) }}
-                                                <alert-icon v-if="totalRemaining.forthInstallment < 0"/>
+                                                {{ formatValueToBr(totalRemaining.fourthInstallment) }}
+                                                <alert-icon v-if="totalRemaining.fourthInstallment < 0"/>
                                             </td>
                                             <td>
                                                 {{ formatValueToBr(totalRemaining.fifthInstallment) }}
@@ -296,7 +296,7 @@ export default {
                 firstInstallment: 0,
                 secondInstallment: 0,
                 thirdInstallment: 0,
-                forthInstallment: 0,
+                fourthInstallment: 0,
                 fifthInstallment: 0,
                 sixthInstallment: 0
             },
@@ -304,7 +304,7 @@ export default {
                 firstInstallment: 0,
                 secondInstallment: 0,
                 thirdInstallment: 0,
-                forthInstallment: 0,
+                fourthInstallment: 0,
                 fifthInstallment: 0,
                 sixthInstallment: 0
             },
@@ -312,7 +312,7 @@ export default {
                 firstInstallment: 0,
                 secondInstallment: 0,
                 thirdInstallment: 0,
-                forthInstallment: 0,
+                fourthInstallment: 0,
                 fifthInstallment: 0,
                 sixthInstallment: 0
             },
@@ -320,7 +320,7 @@ export default {
                 firstInstallment: 0,
                 secondInstallment: 0,
                 thirdInstallment: 0,
-                forthInstallment: 0,
+                fourthInstallment: 0,
                 fifthInstallment: 0,
                 sixthInstallment: 0
             },
@@ -374,8 +374,8 @@ export default {
                 return spent.secondInstallment
             } else if (spent.thirdInstallment) {
                 return spent.thirdInstallment
-            } else if (spent.forthInstallment) {
-                return spent.forthInstallment
+            } else if (spent.fourthInstallment) {
+                return spent.fourthInstallment
             } else if (spent.fifthInstallment) {
                 return spent.fifthInstallment
             } else if (spent.sixthInstallment) {
@@ -408,7 +408,7 @@ export default {
                 !spent.firstInstallment &&
                     !spent.secondInstallment &&
                     !spent.thirdInstallment &&
-                    !spent.forthInstallment &&
+                    !spent.fourthInstallment &&
                     !spent.fifthInstallment &&
                     !spent.sixthInstallment
             ) {
@@ -426,7 +426,7 @@ export default {
             } else if (this.monthRemaining === 2) {
                 return this.totalRemaining.thirdInstallment
             } else if (this.monthRemaining === 3) {
-                return this.totalRemaining.forthInstallment
+                return this.totalRemaining.fourthInstallment
             } else if (this.monthRemaining === 4) {
                 return this.totalRemaining.fifthInstallment
             } else if (this.monthRemaining === 5) {
