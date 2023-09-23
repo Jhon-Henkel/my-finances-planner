@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone < 1"/>
         <div v-show="loadingDone === 1">
             <div class="nav mt-2 justify-content-end">
@@ -246,10 +246,10 @@ import ActionButtons from '../../components/ActionButtons.vue'
 import StringTools from '../../../js/tools/stringTools'
 import CalendarTools from '../../../js/tools/calendarTools'
 import ApiRouter from '../../../js/router/apiRouter'
-import MessageEnum from '../../../js/enums/messageEnum'
 import MfpMessage from '../../components/MessageAlert.vue'
 import PayReceive from '../../components/PayReceiveComponent.vue'
 import AlertIcon from '../../components/AlertIcon.vue'
+import messageTools from '../../../js/tools/messageTools'
 
 export default {
     name: 'PanoramaView',
@@ -331,7 +331,8 @@ export default {
             paySpentId: 0,
             showPaySpent: false,
             paySpentName: '',
-            paySpentWalletId: 0
+            paySpentWalletId: 0,
+            messageData: {}
         }
     },
     methods: {
@@ -346,16 +347,16 @@ export default {
                 this.totalWalletsValue = response.totalWalletValue
                 this.loadingDone = this.loadingDone + 1
             }).catch(() => {
-                this.messageError('Não foi possível carregar o panorama!')
+                this.messageData = messageTools.errorMessage('Não foi possível carregar o panorama!')
             })
         },
         async deleteSpent(id, spentName) {
             if (confirm('Tem certeza que realmente quer deletar a despesa ' + spentName + '?')) {
                 await ApiRouter.futureSpent.delete(id).then(response => {
-                    this.messageSuccess('Despesa deletada com sucesso!')
+                    this.messageData = messageTools.successMessage('Despesa deletada com sucesso!')
                     this.updateFutureSpendingList()
                 }).catch(() => {
-                    this.messageError('Não foi possível deletar a despesa!')
+                    this.messageData = messageTools.errorMessage('Não foi possível deletar a despesa!')
                 })
             }
         },
@@ -394,11 +395,11 @@ export default {
                     partial: event.partial
                 }
                 await ApiRouter.futureSpent.pay(this.paySpentId, object).then(response => {
-                    this.messageSuccess('Despesa paga com sucesso!')
+                    this.messageData = messageTools.successMessage('Despesa paga com sucesso!')
                     this.updateFutureSpendingList()
                     this.showPaySpent = false
                 }).catch(() => {
-                    this.messageError('Não foi possível pagar a despesa!')
+                    this.messageData = messageTools.errorMessage('Não foi possível pagar a despesa!')
                 })
             }
         },
@@ -434,15 +435,6 @@ export default {
         },
         formatValueToBr(value) {
             return StringTools.formatFloatValueToBrString(value)
-        },
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, header) {
-            this.$refs.message.showAlert(type, message, header)
         }
     },
     async mounted() {

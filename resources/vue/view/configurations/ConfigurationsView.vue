@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === 0"/>
         <div v-show="loadingDone === 1">
             <div class="nav mt-2 justify-content-end">
@@ -88,11 +88,11 @@ import MfpTitle from '../../components/TitleComponent.vue'
 import InputMoney from '../../components/inputMoneyComponent.vue'
 import BottomButtons from '../../components/BottomButtons.vue'
 import iconEnum from '../../../js/enums/iconEnum'
-import MessageEnum from '../../../js/enums/messageEnum'
 import MfpMessage from '../../components/MessageAlert.vue'
 import ApiRouter from '../../../js/router/apiRouter'
 import RequestTools from '../../../js/tools/requestTools'
 import { userAuthStore } from '../../store/auth'
+import messageTools from '../../../js/tools/messageTools'
 
 const auth = userAuthStore()
 
@@ -123,39 +123,29 @@ export default {
             },
             newPassword: '',
             newPasswordConfirmation: '',
-            alterPassword: false
+            alterPassword: false,
+            messageData: {}
         }
     },
     methods: {
         async updateConfigs() {
             if (RequestTools.isApplicationInDemoMode() === true) {
-                this.messageWarning('Aplicação em mode demo não permite alterar as configurações!')
+                const message = 'Aplicação em mode demo não permite alterar as configurações!'
+                this.messageData = messageTools.warningMessage(message)
                 return
             }
             if (this.alterPassword === true) {
                 if (this.newPassword !== this.newPasswordConfirmation) {
-                    this.messageError('Senhas não conferem!')
+                    this.messageData = messageTools.errorMessage('Senhas não conferem!')
                     return
                 }
                 this.user.password = this.newPassword
             }
             await ApiRouter.user.update(this.id, this.user).then(() => {
-                this.messageSuccess('Faça login novamente.')
+                this.messageData = messageTools.successMessage('Faça login novamente.')
             }).catch(() => {
-                this.messageError('Erro ao atualizar dados do usuário!')
+                this.messageData = messageTools.errorMessage('Erro ao atualizar dados do usuário!')
             })
-        },
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageWarning(message) {
-            this.showMessage(MessageEnum.alertTypeWarning(), message, 'Aviso!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Configurações atualizadas!')
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
         }
     },
     async mounted() {
@@ -163,8 +153,8 @@ export default {
         await ApiRouter.user.show(this.id).then((response) => {
             this.user = response
             this.loadingDone = this.loadingDone + 1
-        }).catch((erro) => {
-            this.messageError('Erro ao carregar dados do usuário!')
+        }).catch(() => {
+            this.messageData = messageTools.errorMessage('Erro ao carregar dados do usuário!')
         })
     }
 }

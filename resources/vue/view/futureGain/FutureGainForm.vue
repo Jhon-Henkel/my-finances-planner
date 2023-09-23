@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <mfp-title :title="title" class="title"/>
@@ -92,8 +92,8 @@ import InputMoney from '../../components/inputMoneyComponent.vue'
 import { HttpStatusCode } from 'axios'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
-import MessageEnum from '../../../js/enums/messageEnum'
 import MfpMessage from '../../components/MessageAlert.vue'
+import messageTools from '../../../js/tools/messageTools'
 
 const FIX_GAIN = 0
 
@@ -116,7 +116,8 @@ export default {
             isValid: null,
             loadingDone: false,
             wallets: {},
-            redirect: '/ganhos-futuros'
+            redirect: '/ganhos-futuros',
+            messageData: {}
         }
     },
     methods: {
@@ -145,11 +146,7 @@ export default {
                 field = 'quantidade de vezes'
             }
             if (field) {
-                this.showMessage(
-                    MessageEnum.alertTypeInfo(),
-                    'Campo "' + field + '" é inválido!',
-                    'Campo inválido!'
-                )
+                this.messageData = messageTools.invalidFieldMessage(field)
                 this.isValid = false
                 return
             }
@@ -158,25 +155,25 @@ export default {
         async updateGain() {
             await apiRouter.futureGain.update(this.populateGain(), this.gain.id).then((response) => {
                 if (response.status === HttpStatusCode.Ok) {
-                    this.messageSuccess('Ganho atualizado com sucesso!')
+                    this.messageData = messageTools.successMessage('Ganho atualizado com sucesso!')
                 } else {
-                    this.messageError('Erro inesperado ao atualizar ganho!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao atualizar ganho!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         async insertGain() {
             await apiRouter.futureGain.insert(this.populateGain()).then((response) => {
                 if (response.status === HttpStatusCode.Created) {
-                    this.messageSuccess('Ganho cadastrada com sucesso!')
+                    this.messageData = messageTools.successMessage('Ganho cadastrada com sucesso!')
                     this.gain = {}
                     this.gain.fix = false
                 } else {
-                    this.showMessage('Campo "Erro inesperado ao inserir ganho!')
+                    this.messageData = messageTools.errorMessage('Campo "Erro inesperado ao inserir ganho!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         populateGain() {
@@ -196,15 +193,6 @@ export default {
             this.loadingDone = false
             this.gain = await apiRouter.futureGain.show(gainId)
             this.loadingDone = true
-        },
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
         }
     },
     async mounted() {

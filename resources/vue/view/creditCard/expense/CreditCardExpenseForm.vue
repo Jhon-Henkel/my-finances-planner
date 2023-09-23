@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <mfp-title :title="title" class="title"/>
@@ -101,7 +101,7 @@ import BottomButtons from '../../../components/BottomButtons.vue'
 import Divider from '../../../components/DividerComponent.vue'
 import MfpTitle from '../../../components/TitleComponent.vue'
 import MfpMessage from '../../../components/MessageAlert.vue'
-import MessageEnum from '../../../../js/enums/messageEnum'
+import messageTools from '../../../../js/tools/messageTools'
 
 const FIX_EXPENSE = 0
 
@@ -133,19 +133,11 @@ export default {
             isValid: null,
             nextThreeMonthsWithYear: null,
             creditCards: {},
-            redirect: '/gerenciar-cartoes'
+            redirect: '/gerenciar-cartoes',
+            messageData: {}
         }
     },
     methods: {
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
-        },
         async updateOrInsertExpense() {
             this.validateExpense()
             if (!this.isValid) {
@@ -171,11 +163,7 @@ export default {
                 field = 'cartão de credito'
             }
             if (field) {
-                this.showMessage(
-                    MessageEnum.alertTypeInfo(),
-                    'Campo "' + field + '" é inválido!',
-                    'Campo inválido!'
-                )
+                this.messageData = messageTools.invalidFieldMessage(field)
                 this.isValid = false
                 return
             }
@@ -184,7 +172,7 @@ export default {
         async insertExpense() {
             await apiRouter.expense.insert(this.populateExpense()).then((response) => {
                 if (response.status === HttpStatusCode.Created) {
-                    this.messageSuccess('Despesa cadastrada com sucesso!')
+                    this.messageData = messageTools.successMessage('Despesa cadastrada com sucesso!')
                     this.expense = {}
                     this.expense.nextInstallment = CalendarTools.addDaysInDate(new Date(), 30)
                     this.expense.fix = false
@@ -192,22 +180,22 @@ export default {
                         this.expense.creditCardId = this.$route.params.cardId
                     }
                 } else {
-                    this.messageError('Erro inesperado ao inserir despesa!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao inserir despesa!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         async updateExpense() {
             await apiRouter.expense.update(this.populateExpense(), this.expense.id).then((response) => {
                 if (response.status === HttpStatusCode.Ok) {
                     this.card = {}
-                    this.messageSuccess('Despesa atualizada com sucesso!')
+                    this.messageData = messageTools.successMessage('Despesa atualizada com sucesso!')
                 } else {
-                    this.messageError('Erro inesperado ao atualizar despesa!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao atualizar despesa!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         async getExpense(expenseId) {

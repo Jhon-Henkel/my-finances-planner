@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
@@ -120,13 +120,13 @@ import iconEnum from '../../../js/enums/iconEnum'
 import CalendarTools from '../../../js/tools/calendarTools'
 import ActionButtons from '../../components/ActionButtons.vue'
 import ApiRouter from '../../../js/router/apiRouter'
-import MessageEnum from '../../../js/enums/messageEnum'
 import StringTools from '../../../js/tools/stringTools'
 import NumberTools from '../../../js/tools/numberTools'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
 import MfpMessage from '../../components/MessageAlert.vue'
 import PayReceive from '../../components/PayReceiveComponent.vue'
+import messageTools from '../../../js/tools/messageTools'
 
 export default {
     name: 'FutureGainView',
@@ -167,7 +167,8 @@ export default {
             receiveGainId: 0,
             receiveGainName: '',
             showReceiveGain: false,
-            futureGains: {}
+            futureGains: {},
+            messageData: {}
         }
     },
     methods: {
@@ -178,7 +179,7 @@ export default {
                 this.calculateTotalPerMonth()
                 this.loadingDone = true
             }).catch(() => {
-                this.messageError('Não foi possível carregar os ganhos futuros!')
+                this.messageData = messageTools.errorMessage('Não foi possível carregar os ganhos futuros!')
             })
         },
         calculateTotalPerMonth() {
@@ -194,10 +195,10 @@ export default {
         async deleteGain(id, gainName) {
             if (confirm('Tem certeza que realmente quer deletar o ganho ' + gainName + '?')) {
                 await ApiRouter.futureGain.delete(id).then(response => {
-                    this.messageSuccess('Ganho deletado com sucesso!')
+                    this.messageData = messageTools.successMessage('Ganho deletado com sucesso!')
                     this.updateFutureGainsList()
                 }).catch(() => {
-                    this.messageError('Não foi possível deletar o ganho!')
+                    this.messageData = messageTools.errorMessage('Não foi possível deletar o ganho!')
                 })
             }
         },
@@ -214,11 +215,11 @@ export default {
                     partial: event.partial
                 }
                 await ApiRouter.futureGain.receive(this.receiveGainId, object).then(response => {
-                    this.messageSuccess('Ganho recebido com sucesso!')
+                    this.messageData = messageTools.successMessage('Ganho recebido com sucesso!')
                     this.updateFutureGainsList()
                     this.showReceiveGain = false
                 }).catch(() => {
-                    this.messageError('Não foi possível receber o ganho!')
+                    this.messageData = messageTools.errorMessage('Não foi possível receber o ganho!')
                 })
             }
         },
@@ -256,15 +257,6 @@ export default {
                 return false
             }
             return true
-        },
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
         }
     },
     async mounted() {

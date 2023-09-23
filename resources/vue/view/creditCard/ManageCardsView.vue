@@ -1,6 +1,6 @@
 <template>
     <div class="base-container">
-        <mfp-message ref="message"/>
+        <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
@@ -105,9 +105,9 @@ import ActionButtons from '../../components/ActionButtons.vue'
 import Divider from '../../components/DividerComponent.vue'
 import MfpTitle from '../../components/TitleComponent.vue'
 import MfpMessage from '../../components/MessageAlert.vue'
-import MessageEnum from '../../../js/enums/messageEnum'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { HttpStatusCode } from 'axios'
+import messageTools from '../../../js/tools/messageTools'
 
 export default {
     name: 'ManageCardsView',
@@ -142,22 +142,11 @@ export default {
             showPayInvoice: false,
             wallets: {},
             walletId: 0,
-            cardId: 0
+            cardId: 0,
+            messageData: {}
         }
     },
     methods: {
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageWarning(message, title) {
-            this.showMessage(MessageEnum.alertTypeWarning(), message, title)
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
-        },
         getBadgeTypeForForecastDate(card) {
             return card.isThinsMouthInvoicePayed ? 'text-bg-success' : 'text-bg-danger'
         },
@@ -173,41 +162,41 @@ export default {
                 this.cards = response
                 this.loadingDone = true
             }).catch(() => {
-                this.messageError('Erro inesperado ao buscar Cartões!')
+                this.messageData = messageTools.errorMessage('Erro inesperado ao buscar Cartões!')
             })
         },
         async deleteCard(cardId, cardName) {
             if (confirm('Tem certeza que realmente quer deletar o cartão ' + cardName + '?')) {
                 await apiRouter.cards.delete(cardId).then(() => {
-                    this.messageSuccess('Cartão deletada com sucesso!')
+                    this.messageData = messageTools.successMessage('Cartão deletada com sucesso!')
                     this.getCards()
                 }).catch((response) => {
-                    this.messageError(response.response.data.message)
+                    this.messageData = messageTools.errorMessage(response.response.data.message)
                 })
             }
         },
         async payNextInvoice() {
             if (this.cardId === 0) {
-                this.messageWarning('Você deve selecionar um cartão!', 'Cartão não informado!')
+                this.messageData = messageTools.warningMessage('Você deve selecionar um cartão!', 'Cartão não informado!')
                 return
             }
             if (this.walletId === 0) {
-                this.messageWarning('Você deve selecionar uma carteira!', 'Carteira não informada!')
+                this.messageData = messageTools.warningMessage('Você deve selecionar uma carteira!', 'Carteira não informada!')
                 return
             }
             if (confirm('Deseja realmente pagar a próxima fatura ?')) {
                 await apiRouter.cards.invoices.payInvoice(this.walletId, this.cardId).then(async(response) => {
                     if (response.status !== HttpStatusCode.Ok) {
-                        this.messageError('Erro ao pagar fatura!')
+                        this.messageData = messageTools.errorMessage('Erro ao pagar fatura!')
                         return
                     }
-                    this.messageSuccess('Fatura paga com sucesso!')
+                    this.messageData = messageTools.successMessage('Fatura paga com sucesso!')
                     this.showPayInvoice = false
                     await this.getCards()
                     this.walletId = 0
                     this.cardId = 0
                 }).catch(() => {
-                    this.messageError('Erro ao pagar fatura!')
+                    this.messageData = messageTools.errorMessage('Erro ao pagar fatura!')
                 })
             }
         }

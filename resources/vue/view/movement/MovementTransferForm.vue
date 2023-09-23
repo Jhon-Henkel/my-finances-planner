@@ -1,5 +1,5 @@
 <template>
-    <mfp-message ref="message"/>
+    <mfp-message :message-data="messageData"/>
     <div class="base-container">
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
@@ -61,8 +61,8 @@ import apiRouter from '../../../js/router/apiRouter'
 import InputMoney from '../../components/inputMoneyComponent.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import iconEnum from '../../../js/enums/iconEnum'
-import MessageEnum from '../../../js/enums/messageEnum'
 import { HttpStatusCode } from 'axios'
+import messageTools from '../../../js/tools/messageTools'
 
 export default {
     name: 'MovementTransferForm',
@@ -90,7 +90,8 @@ export default {
                 amount: 0,
                 originId: 0,
                 destinationId: 0
-            }
+            },
+            messageData: {}
         }
     },
     methods: {
@@ -101,17 +102,17 @@ export default {
             }
             await apiRouter.movement.insertTransfer(this.populateMovement()).then((response) => {
                 if (response.status === HttpStatusCode.Created) {
-                    this.messageSuccess('Transferência cadastrada com sucesso!')
+                    this.messageData = messageTools.successMessage('Transferência cadastrada com sucesso!')
                     this.transfer = {
                         amount: 0,
                         originId: 0,
                         destinationId: 0
                     }
                 } else {
-                    this.messageError('Erro inesperado ao inserir transferência!')
+                    this.messageData = messageTools.errorMessage('Erro inesperado ao inserir transferência!')
                 }
             }).catch((response) => {
-                this.messageError(response.response.data.error)
+                this.messageData = messageTools.errorMessage(response.response.data.error)
             })
         },
         populateMovement() {
@@ -138,24 +139,11 @@ export default {
                 field = 'carteira de origem e destino'
             }
             if (field) {
-                this.showMessage(
-                    MessageEnum.alertTypeInfo(),
-                    'Campo "' + field + '" é inválido!',
-                    'Campo inválido!'
-                )
+                this.messageData = messageTools.invalidFieldMessage(field)
                 this.isValid = false
                 return
             }
             this.isValid = true
-        },
-        messageError(message) {
-            this.showMessage(MessageEnum.alertTypeError(), message, 'Ocorreu um erro!')
-        },
-        messageSuccess(message) {
-            this.showMessage(MessageEnum.alertTypeSuccess(), message, 'Sucesso!')
-        },
-        showMessage(type, message, title) {
-            this.$refs.message.showAlert(type, message, title)
         }
     },
     async mounted() {
