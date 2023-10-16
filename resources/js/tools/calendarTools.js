@@ -1,3 +1,5 @@
+import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths, subYears } from 'date-fns'
+
 const THREE_HOURS_IN_MS = 10800000
 const TEN_SECONDS_TIME_IN_MS = 10000
 const FIVE_SECONDS_TIME_IN_MS = 5000
@@ -119,6 +121,34 @@ const calendarTools = {
             month++
         }
         return months
+    },
+    getThisMonthPeriod() {
+        const date = this.getToday()
+        return [
+            startOfMonth(date),
+            endOfMonth(date)
+        ]
+    },
+    getLastMonthPeriod() {
+        const date = this.getToday()
+        return [
+            startOfMonth(subMonths(date, 1)),
+            endOfMonth(subMonths(date, 1))
+        ]
+    },
+    getThisYearPeriod() {
+        const date = this.getToday()
+        return [
+            startOfYear(date),
+            endOfYear(date)
+        ]
+    },
+    getLastYearPeriod() {
+        const date = this.getToday()
+        return [
+            startOfYear(subYears(date, 1)),
+            endOfYear(subYears(date, 1))
+        ]
     }
 }
 export default calendarTools
