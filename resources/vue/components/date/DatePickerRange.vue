@@ -94,7 +94,9 @@ export default {
         dateRangeChangedEmit() {
             if (this.date !== this.lastDateChanged) {
                 this.lastDateChanged = this.date
-                this.$emit('dateRangeChanged', this.date)
+                const dateStart = new Date(this.date[0]).toISOString()
+                const dateEnd = new Date(this.date[1]).toISOString()
+                this.$emit('dateRangeChanged', [dateStart, dateEnd])
             }
         }
     },
