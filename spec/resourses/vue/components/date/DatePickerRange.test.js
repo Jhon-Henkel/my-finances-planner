@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import calendarTools from '../../../../../resources/js/tools/calendarTools'
-import datePickerRange from '../../../../../resources/vue/components/date/DatepickerRange.vue'
+import MfpDatePickerRange from '../../../../../resources/vue/components/date/DatepickerRange.vue'
 
 describe("Testing DatepickerRange component", () => {
     it ("renders DatepickerRange", async () => {
-        const wrapper = shallowMount(datePickerRange, {
+        const wrapper = shallowMount(MfpDatePickerRange, {
             propsData: {
                 date: calendarTools.getThisMonthPeriod()
             }
