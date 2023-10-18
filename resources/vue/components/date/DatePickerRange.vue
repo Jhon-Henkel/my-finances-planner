@@ -37,8 +37,8 @@ const defaultDateRange = calendarTools.getThisMonthPeriod()
 
 export default {
     name: 'MfpDatePickerRange',
-    components: { 
-        VueDatePicker 
+    components: {
+        VueDatePicker
     },
     data() {
         return {
