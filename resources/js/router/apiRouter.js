@@ -70,6 +70,9 @@ const apiRouter = {
     },
     movement: {
         indexFiltered: async function(quest) {
+            if (quest === undefined) {
+                quest = ''
+            }
             const request = await requestTools.request.get('/api/movement/filter/' + quest)
             return request.data
         },
