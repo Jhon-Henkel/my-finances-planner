@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
+import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
     server: {
@@ -43,7 +44,9 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '~bootstrap': '/node_modules/bootstrap'
+            '~bootstrap': '/node_modules/bootstrap',
+            '~vue': fileURLToPath(new URL('./resources/vue', import.meta.url)),
+            '~js': fileURLToPath(new URL('./resources/js', import.meta.url)),
         }
     },
     build: {
