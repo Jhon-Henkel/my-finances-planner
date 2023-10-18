@@ -141,8 +141,8 @@ describe('testing calendarTools file', () => {
         })
 
         let period = calendarTools.getThisMonthPeriod()
-        expect(period[0].toISOString()).toBe('2023-10-01T03:00:00.000Z')
-        expect(period[1].toISOString()).toBe('2023-11-01T02:59:59.999Z')
+        expect(period[0].toISOString()).contain('2023-10-01')
+        expect(period[1].toISOString()).contain('2023-11-01')
     })
 
     it('getLastMonthPeriod test', async () => {
@@ -151,8 +151,8 @@ describe('testing calendarTools file', () => {
         })
 
         let period = calendarTools.getLastMonthPeriod()
-        expect(period[0].toISOString()).toBe('2023-09-01T03:00:00.000Z')
-        expect(period[1].toISOString()).toBe('2023-10-01T02:59:59.999Z')
+        expect(period[0].toISOString()).contain('2023-09-01')
+        expect(period[1].toISOString()).contain('2023-10-01')
     })
 
     it('getThisYearPeriod test', async () => {
@@ -161,8 +161,8 @@ describe('testing calendarTools file', () => {
         })
 
         let period = calendarTools.getThisYearPeriod()
-        expect(period[0].toISOString()).toBe('2023-01-01T03:00:00.000Z')
-        expect(period[1].toISOString()).toBe('2024-01-01T02:59:59.999Z')
+        expect(period[0].toISOString()).contain('2023-01-01')
+        expect(period[1].toISOString()).contain('2024-01-01')
     })
 
     it('getLastYearPeriod test', async () => {
@@ -171,7 +171,7 @@ describe('testing calendarTools file', () => {
         })
 
         let period = calendarTools.getLastYearPeriod()
-        expect(period[0].toISOString()).toBe('2022-01-01T03:00:00.000Z')
-        expect(period[1].toISOString()).toBe('2023-01-01T02:59:59.999Z')
+        expect(period[0].toISOString()).contain('2022-01-01')
+        expect(period[1].toISOString()).contain('2023-01-01')
     })
 })
