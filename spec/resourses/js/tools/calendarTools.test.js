@@ -142,7 +142,7 @@ describe('testing calendarTools file', () => {
 
         let period = calendarTools.getThisMonthPeriod()
         expect(period[0].toISOString()).contain('2023-10-01')
-        expect(period[1].toISOString()).contain('2023-11-01')
+        expect(period[1].toISOString()).contain('2023-10-31')
     })
 
     it('getLastMonthPeriod test', async () => {
@@ -152,7 +152,7 @@ describe('testing calendarTools file', () => {
 
         let period = calendarTools.getLastMonthPeriod()
         expect(period[0].toISOString()).contain('2023-09-01')
-        expect(period[1].toISOString()).contain('2023-10-01')
+        expect(period[1].toISOString()).contain('2023-09-30')
     })
 
     it('getThisYearPeriod test', async () => {
@@ -162,7 +162,7 @@ describe('testing calendarTools file', () => {
 
         let period = calendarTools.getThisYearPeriod()
         expect(period[0].toISOString()).contain('2023-01-01')
-        expect(period[1].toISOString()).contain('2024-01-01')
+        expect(period[1].toISOString()).contain('2023-12-31')
     })
 
     it('getLastYearPeriod test', async () => {
@@ -172,6 +172,6 @@ describe('testing calendarTools file', () => {
 
         let period = calendarTools.getLastYearPeriod()
         expect(period[0].toISOString()).contain('2022-01-01')
-        expect(period[1].toISOString()).contain('2023-01-01')
+        expect(period[1].toISOString()).contain('2022-12-31')
     })
 })

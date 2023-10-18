@@ -16,7 +16,6 @@ describe('Testing the filterTopRight', () => {
                 }
             }
         })
-        console.log(wrapper.html())
         expect(wrapper.html()).toContain('type="button" class="btn btn-success me-3 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">')
         expect(wrapper.html()).toContain('icon="fas,filter-circle-dollar" class="me-2 mt-1 filter"></font-awesome-icon-stub> Filtrar')
         expect(wrapper.html()).toContain('>Rage de data</span>')
