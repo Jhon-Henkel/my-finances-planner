@@ -69,8 +69,8 @@ const apiRouter = {
         }
     },
     movement: {
-        indexFiltered: async function(filter) {
-            const request = await requestTools.request.get('/api/movement/filter/' + filter)
+        indexFiltered: async function(quest) {
+            const request = await requestTools.request.get('/api/movement/filter/' + quest)
             return request.data
         },
         delete: async function(id) {

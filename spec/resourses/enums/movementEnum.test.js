@@ -26,8 +26,10 @@ describe('Test movementEnum file', () => {
     it('getTypeList', function () {
         const typeList = MovementEnum.getTypeList()
         expect(typeList).toEqual([
-            { id: 6, label: 'Receita' },
+            { id: 0, label: 'Todos' },
             { id: 5, label: 'Despesa' },
+            { id: 6, label: 'Receita' },
+            { id: 7, label: 'Transferência' }
         ])
     })
 
@@ -36,6 +38,7 @@ describe('Test movementEnum file', () => {
         expect(MovementEnum.getLabelForType(6)).toEqual('Receita')
         expect(MovementEnum.getLabelForType(7)).toEqual('Transferência')
         expect(MovementEnum.getLabelForType(8)).toEqual('Desconhecido')
+        expect(MovementEnum.getLabelForType(0)).toEqual('Todos')
     })
 
     it('type.spent', function () {
@@ -48,5 +51,9 @@ describe('Test movementEnum file', () => {
 
     it('type.transfer', function () {
         expect(MovementEnum.type.transfer()).toEqual(7)
+    })
+
+    it('type.all', function () {
+        expect(MovementEnum.type.all()).toEqual(0)
     })
 })

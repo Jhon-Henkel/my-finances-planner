@@ -16,10 +16,15 @@ describe('Testing the filterTopRight', () => {
                 }
             }
         })
-        expect(wrapper.html()).toContain('class="form-select form-select-sm"')
+        console.log(wrapper.html())
+        expect(wrapper.html()).toContain('type="button" class="btn btn-success me-3 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">')
+        expect(wrapper.html()).toContain('icon="fas,filter-circle-dollar" class="me-2 mt-1 filter"></font-awesome-icon-stub> Filtrar')
+        expect(wrapper.html()).toContain('>Rage de data</span>')
+        expect(wrapper.html()).toContain('class="me-2 mt-1 filter"')
         expect(wrapper.html()).toContain('icon="fas,filter-circle-dollar"')
-
-        await wrapper.find('select.form-select').trigger('change')
-        expect(wrapper.emitted('callbackMethod').length).toBe(1)
+        expect(wrapper.html()).toContain('value="0">Todos</option>')
+        expect(wrapper.html()).toContain('value="5">Despesa</option>')
+        expect(wrapper.html()).toContain('value="6">Receita</option>')
+        expect(wrapper.html()).toContain('value="7">Transferência</option>')
     })
 })
