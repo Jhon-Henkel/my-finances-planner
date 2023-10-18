@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import calendarTools from '~js/tools/calendarTools'
-import MfpDatePickerRange from '~vue/components/date/DatepickerRange.vue'
+import MfpDatePickerRange from '~vue-component/date/DatepickerRange.vue'
 
 describe("Testing DatepickerRange component", () => {
     it ("Render DatepickerRange", async () => {
