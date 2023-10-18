@@ -4,6 +4,7 @@ namespace App\Enums;
 
 class MovementEnum
 {
+    const ALL = 0;
     const FILTER_BY_THIS_MONTH = 2;
     const FILTER_BY_LAST_MONTH = 3;
     const FILTER_BY_THIS_YEAR = 4;
