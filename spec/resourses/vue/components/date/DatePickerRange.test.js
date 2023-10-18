@@ -4,7 +4,7 @@ import calendarTools from '~js/tools/calendarTools'
 import MfpDatePickerRange from '~vue/components/date/DatepickerRange.vue'
 
 describe("Testing DatepickerRange component", () => {
-    it ("renders DatepickerRange", async () => {
+    it ("Render DatepickerRange", async () => {
         const wrapper = shallowMount(MfpDatePickerRange, {
             propsData: {
                 date: calendarTools.getThisMonthPeriod()
