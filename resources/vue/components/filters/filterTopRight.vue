@@ -66,9 +66,6 @@ export default {
             const dateEnd = this.date[1]
             const quest = `?dateStart=${dateStart}&dateEnd=${dateEnd}&type=${this.filterTypeSelected}`
             this.$emit('filterQuest', quest)
-        },
-        alterVisibilityFilter() {
-            this.mustShowFilters = !this.mustShowFilters
         }
     }
 }
