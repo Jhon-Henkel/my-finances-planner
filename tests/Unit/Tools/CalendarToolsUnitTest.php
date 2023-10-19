@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Tools;
 
+use App\DTO\Date\DatePeriodDTO;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\Calendar\CalendarToolsReal;
 use Exception;
@@ -341,6 +342,20 @@ class CalendarToolsUnitTest extends Falcon9
     public function testGetMonthPeriodFromDate()
     {
         $period = CalendarTools::getMonthPeriodFromDate('2022-01-01 00:00:00');
+        $this->assertEquals('2022-01-01 00:00:00', $period->getStartDate());
+        $this->assertEquals('2022-01-31 23:59:59', $period->getEndDate());
+    }
+
+    public function testMountDatePeriodFromIsoDateRange()
+    {
+        $datePeriod = [
+            'dateStart' => '2022-01-01T00:00:00.000Z',
+            'dateEnd' => '2022-01-31T23:59:59.000Z'
+        ];
+
+        $period = CalendarTools::mountDatePeriodFromIsoDateRange($datePeriod);
+
+        $this->assertInstanceOf(DatePeriodDTO::class, $period);
         $this->assertEquals('2022-01-01 00:00:00', $period->getStartDate());
         $this->assertEquals('2022-01-31 23:59:59', $period->getEndDate());
     }
