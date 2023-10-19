@@ -1,6 +1,7 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite'
+import laravel from 'laravel-vite-plugin'
+import vue from '@vitejs/plugin-vue'
+import { resolve } from 'node:path'
 
 export default defineConfig({
     server: {
@@ -42,12 +43,24 @@ export default defineConfig({
         }),
     ],
     resolve: {
-        alias: {
-            '~bootstrap': '/node_modules/bootstrap',
-            '~vue': './resources/vue',
-            '~vue-component': './resources/vue/components',
-            '~js': './resources/js'
-        }
+        alias: [
+            {
+                find: "~bootstrap",
+                replacement: resolve(__dirname, "/node_modules/bootstrap")
+            },
+            {
+                find: "~vue",
+                replacement: resolve(__dirname, "/resources/vue")
+            },
+            {
+                find: "~vue-component",
+                replacement: resolve(__dirname, "/resources/vue/components")
+            },
+            {
+                find: "~js",
+                replacement: resolve(__dirname, "/resources/js")
+            }
+        ]
     },
     build: {
         manifest: true,

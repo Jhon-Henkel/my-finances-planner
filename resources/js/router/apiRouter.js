@@ -73,7 +73,7 @@ const apiRouter = {
             if (quest === undefined) {
                 quest = ''
             }
-            const request = await requestTools.request.get('/api/movement/filter/' + quest)
+            const request = await requestTools.request.get('/api/movement/filter' + quest)
             return request.data
         },
         delete: async function(id) {
@@ -181,7 +181,7 @@ const apiRouter = {
             if (quest === undefined) {
                 quest = ''
             }
-            const request = await requestTools.request.get('/api/financial-health/filter/' + quest)
+            const request = await requestTools.request.get('/api/financial-health/filter' + quest)
             return request.data
         }
     },
@@ -190,7 +190,7 @@ const apiRouter = {
             if (quest === undefined) {
                 quest = ''
             }
-            const request = await requestTools.request.get('/api/monthly-closing/filter/' + quest)
+            const request = await requestTools.request.get('/api/monthly-closing/filter' + quest)
             return request.data
         }
     }
