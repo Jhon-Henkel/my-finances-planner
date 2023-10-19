@@ -178,4 +178,14 @@ class CalendarToolsReal
         $endDate = $this->mountStringDateTime($year, $month, $lastDay, '23:59:59');
         return new DatePeriodDTO($startDate, $endDate);
     }
+
+    public function mountDatePeriodFromIsoDateRange(array $rangeDate): DatePeriodDTO
+    {
+        $dateStart = new DateTime($rangeDate['dateStart']);
+        $dateEnd = new DateTime($rangeDate['dateEnd']);
+        return new DatePeriodDTO(
+            $dateStart->format(DateEnum::USA_DATE_FORMAT_WITHOUT_TIME) . ' 00:00:00',
+            $dateEnd->format(DateEnum::USA_DATE_FORMAT_WITHOUT_TIME) . ' 23:59:59'
+        );
+    }
 }

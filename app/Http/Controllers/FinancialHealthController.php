@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\NotImplementedException;
 use App\Services\Tools\FinancialHealthService;
+use App\Tools\Request\RequestTools;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -26,9 +27,10 @@ class FinancialHealthController
         throw new NotImplementedException();
     }
 
-    public function indexFiltered(string|int $filterOption): JsonResponse
+    public function indexFiltered(): JsonResponse
     {
-        $data = $this->getService()->findByFilter((int)$filterOption);
+        $filterOption = RequestTools::inputGet();
+        $data = $this->getService()->findByFilter($filterOption);
         return response()->json($data, ResponseAlias::HTTP_OK);
     }
 }

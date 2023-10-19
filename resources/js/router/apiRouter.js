@@ -69,8 +69,11 @@ const apiRouter = {
         }
     },
     movement: {
-        indexFiltered: async function(filter) {
-            const request = await requestTools.request.get('/api/movement/filter/' + filter)
+        indexFiltered: async function(quest) {
+            if (quest === undefined) {
+                quest = ''
+            }
+            const request = await requestTools.request.get('/api/movement/filter/' + quest)
             return request.data
         },
         delete: async function(id) {
@@ -174,14 +177,20 @@ const apiRouter = {
         }
     },
     financialHealth: {
-        indexFiltered: async function(filter) {
-            const request = await requestTools.request.get('/api/financial-health/filter/' + filter)
+        indexFiltered: async function(quest) {
+            if (quest === undefined) {
+                quest = ''
+            }
+            const request = await requestTools.request.get('/api/financial-health/filter/' + quest)
             return request.data
         }
     },
     monthlyClosing: {
-        indexFiltered: async function(filter) {
-            const request = await requestTools.request.get('/api/monthly-closing/filter/' + filter)
+        indexFiltered: async function(quest) {
+            if (quest === undefined) {
+                quest = ''
+            }
+            const request = await requestTools.request.get('/api/monthly-closing/filter/' + quest)
             return request.data
         }
     }

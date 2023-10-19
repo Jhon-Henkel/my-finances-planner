@@ -33,7 +33,7 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router) {
             $router->delete('/{id}', [MovementController::class, 'deleteTransfer'])->name(RouteEnum::API_MOVEMENT_DELETE_TRANSFER);
         });
         $router->get('', [MovementController::class, 'index'])->name(RouteEnum::API_MOVEMENT_INDEX);
-        $router->get('/filter/{filter}', [MovementController::class, 'indexFiltered'])->name(RouteEnum::API_MOVEMENT_INDEX_FILTERED);
+        $router->get('/filter', [MovementController::class, 'indexFiltered'])->name(RouteEnum::API_MOVEMENT_INDEX_FILTERED);
         $router->get('/{id}', [MovementController::class, 'show'])->name(RouteEnum::API_MOVEMENT_SHOW);
         $router->post('', [MovementController::class, 'insert'])->name(RouteEnum::API_MOVEMENT_INSERT);
         $router->put('/{id}', [MovementController::class, 'update'])->name(RouteEnum::API_MOVEMENT_UPDATE);
@@ -86,9 +86,9 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router) {
         $router->get('', [PanoramaController::class, 'getPanoramaData'])->name(RouteEnum::API_PANORAMA_INDEX);
     });
     $router->prefix('financial-health')->group(function () use ($router) {
-        $router->get('/filter/{filter}', [FinancialHealthController::class, 'indexFiltered'])->name(RouteEnum::API_FINANCIAL_HEALTH_INDEX_FILTERED);
+        $router->get('/filter', [FinancialHealthController::class, 'indexFiltered'])->name(RouteEnum::API_FINANCIAL_HEALTH_INDEX_FILTERED);
     });
     $router->prefix('monthly-closing')->group(function () use ($router) {
-        $router->get('/filter/{filter}', [MonthlyClosingController::class, 'indexFiltered'])->name(RouteEnum::API_MONTHLY_CLOSING_INDEX_FILTERED);
+        $router->get('/filter', [MonthlyClosingController::class, 'indexFiltered'])->name(RouteEnum::API_MONTHLY_CLOSING_INDEX_FILTERED);
     });
 });

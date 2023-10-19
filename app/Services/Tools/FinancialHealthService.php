@@ -10,7 +10,7 @@ use App\Tools\StringTools;
 
 class FinancialHealthService
 {
-    public function findByFilter(int $filterOption): array
+    public function findByFilter(array $filterOption): array
     {
         $movements = $this->getMovementsByPeriod($filterOption);
         $movementsCategorized = $this->categorizeMovements($movements);
@@ -21,7 +21,7 @@ class FinancialHealthService
      * @param int $filterOption
      * @return MovementDTO[]
      */
-    protected function getMovementsByPeriod(int $filterOption): array
+    protected function getMovementsByPeriod(array $filterOption): array
     {
         $movementService = app(MovementService::class);
         return $movementService->findByFilter($filterOption);

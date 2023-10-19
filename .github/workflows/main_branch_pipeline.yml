@@ -36,7 +36,7 @@ jobs:
     - name: 🛠️ Installing dependencies
       run: composer install
 
-    - name: 🛠Setup Runner Database
+    - name: 🛠 Setup Runner Database
       run: |
         php artisan migrate --database=mysql_testing --force
 

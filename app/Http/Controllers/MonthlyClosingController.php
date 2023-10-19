@@ -52,13 +52,14 @@ class MonthlyClosingController extends BasicController
         return $this->resource;
     }
 
-    public function indexFiltered(string|int $filterOption): JsonResponse
+    public function indexFiltered(): JsonResponse
     {
+        $filterOption = RequestTools::inputGet();
         $user = RequestTools::getUserDataInRequest();
         if (! $user) {
             return ResponseError::responseError('Usuário não encontrado', Response::HTTP_BAD_REQUEST);
         }
-        $results = $this->getService()->findByFilter((int)$filterOption, $user->data->tenant_id);
+        $results = $this->getService()->findByFilter($filterOption, $user->data->tenant_id);
         $items['data'] = $this->getResource()->arrayDtoToVoItens($results['data']);
         $items['chartData'] = $results['chartData'];
         return response()->json($items, Response::HTTP_OK);

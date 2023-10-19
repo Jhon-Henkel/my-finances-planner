@@ -6,8 +6,6 @@ use App\DTO\Date\DatePeriodDTO;
 use App\DTO\Mail\MailMessageDTO;
 use App\DTO\Movement\MovementSumValuesDTO;
 use App\DTO\Tools\MonthlyClosingDTO;
-use App\Enums\MonthlyCLosingEnum;
-use App\Exceptions\FilterException;
 use App\Models\MonthlyClosing;
 use App\Repositories\Tools\MonthlyClosingRepository;
 use App\Resources\Tools\MonthlyClosingResource;
@@ -22,69 +20,6 @@ use Tests\Falcon9;
 
 class MonthlyClosingServiceUnitTest extends Falcon9
 {
-    public function testGetFilterThisYear()
-    {
-        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
-        $this->app->instance(CalendarToolsReal::class, $calendarMock);
-
-        $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
-        $serviceMock->shouldAllowMockingProtectedMethods();
-
-        $filter = $serviceMock->getFilter(MonthlyCLosingEnum::THIS_YEAR);
-
-        $this->assertInstanceOf(DatePeriodDTO::class, $filter);
-        $this->assertEquals('2021-01-01 00:00:00', $filter->getStartDate());
-        $this->assertEquals('2021-12-31 23:59:59', $filter->getEndDate());
-    }
-
-    public function testGetFilterLastYear()
-    {
-        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
-        $this->app->instance(CalendarToolsReal::class, $calendarMock);
-
-        $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
-        $serviceMock->shouldAllowMockingProtectedMethods();
-
-        $filter = $serviceMock->getFilter(MonthlyCLosingEnum::LAST_YEAR);
-
-        $this->assertInstanceOf(DatePeriodDTO::class, $filter);
-        $this->assertEquals('2020-01-01 00:00:00', $filter->getStartDate());
-        $this->assertEquals('2020-12-31 23:59:59', $filter->getEndDate());
-    }
-
-    public function testGetFilterLastFiveYears()
-    {
-        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
-        $this->app->instance(CalendarToolsReal::class, $calendarMock);
-
-        $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
-        $serviceMock->shouldAllowMockingProtectedMethods();
-
-        $filter = $serviceMock->getFilter(MonthlyCLosingEnum::LAST_FIVE_YEARS);
-
-        $this->assertInstanceOf(DatePeriodDTO::class, $filter);
-        $this->assertEquals('2016-01-01 00:00:00', $filter->getStartDate());
-        $this->assertEquals('2021-12-31 23:59:59', $filter->getEndDate());
-    }
-
-    public function testGetFilterException()
-    {
-        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarMock->shouldReceive('getThisYear')->andReturn('2021');
-        $this->app->instance(CalendarToolsReal::class, $calendarMock);
-
-        $this->expectExceptionMessage('Opção de filtro inválida');
-        $this->expectException(FilterException::class);
-
-        $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
-        $serviceMock->shouldAllowMockingProtectedMethods();
-
-        $serviceMock->getFilter(999);
-    }
-
     public function testFindByFilter()
     {
         $modelMock = Mockery::mock(MonthlyClosing::class);
@@ -96,9 +31,9 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         $datePeriod = new DatePeriodDTO('2021-01-01 00:00:00', '2021-12-31 23:59:59');
         $serviceMock = Mockery::mock(MonthlyClosingService::class, [$repositoryMock])->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('getFilter')->once()->andReturn($datePeriod);
+        $serviceMock->shouldReceive('makeDateRange')->once()->andReturn($datePeriod);
 
-        $result = $serviceMock->findByFilter(MonthlyCLosingEnum::THIS_YEAR, 1);
+        $result = $serviceMock->findByFilter([], 1);
 
         $this->assertIsArray($result);
     }
@@ -193,5 +128,47 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         $this->assertCount(2, $mail->getParams());
         $this->assertArrayHasKey('link', $mail->getParams());
         $this->assertArrayHasKey('name', $mail->getParams());
+    }
+
+    /**
+     * Parâmetros do teste
+     *  - Sem as posições necessárias no array
+     */
+    public function testMakeDateRangeTestOne()
+    {
+        $datePeriod = new DatePeriodDTO('2018-01-01', '2018-01-31');
+
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisMonthPeriod')->once()->andReturn($datePeriod);
+        $calendarMock->shouldReceive('mountDatePeriodFromIsoDateRange')->never();
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
+
+        $mockRepository = Mockery::mock(MonthlyClosingRepository::class);
+
+        $serviceMocke = Mockery::mock(MonthlyClosingService::class, [$mockRepository])->makePartial();
+        $serviceMocke->shouldAllowMockingProtectedMethods();
+
+        $this->assertEquals($datePeriod, $serviceMocke->makeDateRange([]));
+    }
+
+    /**
+     * Parâmetros do teste
+     *  - Sem as posições necessárias no array
+     */
+    public function testMakeDateRangeTestTwo()
+    {
+        $datePeriod = new DatePeriodDTO('2018-01-01', '2018-01-31');
+
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('mountDatePeriodFromIsoDateRange')->once()->andReturn($datePeriod);
+        $calendarMock->shouldReceive('getThisMonthPeriod')->never();
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
+
+        $mockRepository = Mockery::mock(MonthlyClosingRepository::class);
+
+        $serviceMocke = Mockery::mock(MonthlyClosingService::class, [$mockRepository])->makePartial();
+        $serviceMocke->shouldAllowMockingProtectedMethods();
+
+        $this->assertEquals($datePeriod, $serviceMocke->makeDateRange(['dateStart' => '', 'dateEnd' => '']));
     }
 }

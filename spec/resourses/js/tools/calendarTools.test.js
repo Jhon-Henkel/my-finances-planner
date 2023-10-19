@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vitest } from 'vitest'
 import calendarTools from "../../../../resources/js/tools/calendarTools"
 
 describe('testing calendarTools file', () => {
@@ -133,5 +133,45 @@ describe('testing calendarTools file', () => {
         expect(months[3]).toBe(1)
         expect(months[4]).toBe(2)
         expect(months[5]).toBe(3)
+    })
+
+    it('getThisMonthPeriod test', async () => {
+        vitest.spyOn(calendarTools, 'getToday').mockImplementation(() => {
+            return new Date('2023-10-16')
+        })
+
+        let period = calendarTools.getThisMonthPeriod()
+        expect(period[0].toISOString()).contain('2023-10-01')
+        expect(period[1].toISOString()).contain('2023-10-31')
+    })
+
+    it('getLastMonthPeriod test', async () => {
+        vitest.spyOn(calendarTools, 'getToday').mockImplementation(() => {
+            return new Date('2023-10-16')
+        })
+
+        let period = calendarTools.getLastMonthPeriod()
+        expect(period[0].toISOString()).contain('2023-09-01')
+        expect(period[1].toISOString()).contain('2023-09-30')
+    })
+
+    it('getThisYearPeriod test', async () => {
+        vitest.spyOn(calendarTools, 'getToday').mockImplementation(() => {
+            return new Date('2023-10-16')
+        })
+
+        let period = calendarTools.getThisYearPeriod()
+        expect(period[0].toISOString()).contain('2023-01-01')
+        expect(period[1].toISOString()).contain('2023-12-31')
+    })
+
+    it('getLastYearPeriod test', async () => {
+        vitest.spyOn(calendarTools, 'getToday').mockImplementation(() => {
+            return new Date('2023-10-16')
+        })
+
+        let period = calendarTools.getLastYearPeriod()
+        expect(period[0].toISOString()).contain('2022-01-01')
+        expect(period[1].toISOString()).contain('2022-12-31')
     })
 })

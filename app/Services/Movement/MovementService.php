@@ -42,13 +42,27 @@ class MovementService extends BasicService
     }
 
     /**
-     * @param int $filterOption
      * @return MovementDTO[]
      */
-    public function findByFilter(int $filterOption): array
+    public function findByFilter(array $filterOption): array
     {
-        $filter = $this->getFilter($filterOption);
-        return $this->repository->findByPeriod($filter);
+        $type = MovementEnum::ALL;
+        if (isset($filterOption['type'])) {
+            $type = $this->validateType($filterOption['type']);
+        }
+        $dateRange = $this->makeDateRange($filterOption);
+        return $this->repository->findByPeriodAndType($dateRange, $type);
+    }
+
+    protected function validateType(null|int $type): int
+    {
+        if (! $type) {
+            return MovementEnum::ALL;
+        }
+        if (! in_array($type, [MovementEnum::TRANSFER, MovementEnum::GAIN, MovementEnum::SPENT])) {
+            return MovementEnum::ALL;
+        }
+        return $type;
     }
 
     protected function getFilter(int $option): DatePeriodDTO
@@ -58,6 +72,14 @@ class MovementService extends BasicService
             MovementEnum::FILTER_BY_THIS_YEAR => CalendarTools::getThisYearPeriod(),
             default => CalendarTools::getThisMonthPeriod(),
         };
+    }
+
+    protected function makeDateRange(array $dates): DatePeriodDTO
+    {
+        if (! isset($dates['dateStart'], $dates['dateEnd'])) {
+            return CalendarTools::getThisMonthPeriod();
+        }
+        return CalendarTools::mountDatePeriodFromIsoDateRange($dates);
     }
 
     public function populateByFutureGain(FutureGainDTO $gain): MovementDTO
@@ -170,6 +192,12 @@ class MovementService extends BasicService
         return true;
     }
 
+    public function getMonthSumMovementsByOptionFilter(int $option): array
+    {
+        $period = $this->getFilter($option);
+        return $this->repository->getSumMovementsByPeriod($period);
+    }
+
     public function launchMovementForCreditCardInvoicePay(int $walletId, float $totalValue, string $cardName): bool
     {
         $movement = new MovementDTO();
@@ -179,12 +207,6 @@ class MovementService extends BasicService
         $movement->setAmount($totalValue);
         $this->insert($movement);
         return true;
-    }
-
-    public function getMonthSumMovementsByOptionFilter(int $option): array
-    {
-        $period = $this->getFilter($option);
-        return $this->repository->getSumMovementsByPeriod($period);
     }
 
     /**

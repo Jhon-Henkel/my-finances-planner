@@ -28,8 +28,11 @@ class RequestToolsReal
         return $_POST;
     }
 
-    public function inputGet(null|string $key): mixed
+    public function inputGet(null|string $key = null): mixed
     {
+        if (! $key) {
+            return $_GET;
+        }
         return $_GET[$key] ?? null;
     }
 

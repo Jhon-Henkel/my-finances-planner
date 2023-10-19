@@ -7,6 +7,7 @@ const THIS_YEAR_LABEL = 'Este Ano'
 const SPENT = 5
 const GAIN = 6
 const TRANSFER = 7
+const ALL = 0
 
 const MovementEnum = {
     getFilterList: () => {
@@ -21,12 +22,6 @@ const MovementEnum = {
         lastMonth: () => LAST_MONTH,
         thisYear: () => THIS_YEAR
     },
-    getTypeList: () => {
-        return [
-            { id: GAIN, label: 'Receita' },
-            { id: SPENT, label: 'Despesa' }
-        ]
-    },
     getLabelForType: function(type) {
         switch (type) {
         case SPENT:
@@ -35,14 +30,25 @@ const MovementEnum = {
             return 'Receita'
         case TRANSFER:
             return 'Transferência'
+        case ALL:
+            return 'Todos'
         default:
             return 'Desconhecido'
         }
     },
+    getTypeList: function() {
+        return [
+            { id: ALL, label: this.getLabelForType(ALL) },
+            { id: SPENT, label: this.getLabelForType(SPENT) },
+            { id: GAIN, label: this.getLabelForType(GAIN) },
+            { id: TRANSFER, label: this.getLabelForType(TRANSFER) }
+        ]
+    },
     type: {
         spent: () => SPENT,
         gain: () => GAIN,
-        transfer: () => TRANSFER
+        transfer: () => TRANSFER,
+        all: () => ALL
     }
 }
 export default MovementEnum

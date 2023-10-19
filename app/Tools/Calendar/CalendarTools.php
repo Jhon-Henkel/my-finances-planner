@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static DatePeriodDTO getIntervalMonthPeriodByMonthAndYear(int $month, int $year, int $interval)
  * @method static string getMonthLabelWithYear(string $date)
  * @method static DatePeriodDTO getMonthPeriodFromDate(string $date)
+ * @method static DatePeriodDTO mountDatePeriodFromIsoDateRange(array $rangeDate)
  *
  * @see CalendarToolsReal
  */
