@@ -5,11 +5,11 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Movimentações"/>
-                <filter-top-right :filter="filterList" @callbackMethod="getMovementIndexFiltered($event)"/>
+                <filter-top-right @filter-quest="getMovementIndexFiltered($event)"/>
                 <router-link-button title="Novo Gasto/Ganho"
                                     :icon="iconEnum.movement()"
                                     :redirect-to="newGainSpentLink"
-                                    class="top-button me-2"/>
+                                    class="top-button me-3"/>
                 <router-link-button title="Nova Transferência"
                                     :icon="iconEnum.buildingColumns()"
                                     :redirect-to="newTransferLink"
@@ -126,21 +126,21 @@
 </template>
 
 <script>
-import LoadingComponent from '../../components/LoadingComponent.vue'
-import iconEnum from '../../../js/enums/iconEnum'
-import ActionButtons from '../../components/ActionButtons.vue'
-import MovementEnum from '../../../js/enums/movementEnum'
-import apiRouter from '../../../js/router/apiRouter'
-import calendarTools from '../../../js/tools/calendarTools'
-import numberTools from '../../../js/tools/numberTools'
-import Divider from '../../components/DividerComponent.vue'
-import MfpTitle from '../../components/TitleComponent.vue'
-import MfpMessage from '../../components/MessageAlert.vue'
-import StringTools from '../../../js/tools/stringTools'
-import AlertIcon from '../../components/AlertIcon.vue'
-import FilterTopRight from '../../components/filters/filterTopRight.vue'
-import RouterLinkButton from '../../components/RouterLinkButtonComponent.vue'
-import messageTools from '../../../js/tools/messageTools'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import iconEnum from '~js/enums/iconEnum'
+import ActionButtons from '~vue-component/ActionButtons.vue'
+import MovementEnum from '~js/enums/movementEnum'
+import apiRouter from '~js/router/apiRouter'
+import calendarTools from '~js/tools/calendarTools'
+import numberTools from '~js/tools/numberTools'
+import Divider from '~vue-component/DividerComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import StringTools from '~js/tools/stringTools'
+import AlertIcon from '~vue-component/AlertIcon.vue'
+import FilterTopRight from '~vue-component/filters/filterTopRight.vue'
+import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
+import messageTools from '~js/tools/messageTools'
 
 export default {
     name: 'MovementView',
@@ -199,9 +199,9 @@ export default {
                 await this.getMovementIndexFiltered(this.lastFilter)
             }
         },
-        async getMovementIndexFiltered(filterId) {
+        async getMovementIndexFiltered(quest) {
             this.loadingDone = false
-            this.movements = await apiRouter.movement.indexFiltered(filterId)
+            this.movements = await apiRouter.movement.indexFiltered(quest)
             const sum = numberTools.getSumAmountPerMovementType(this.movements)
             this.totalSpent = sum.totalSpent
             this.totalGain = sum.totalGain
@@ -211,7 +211,7 @@ export default {
     },
     async mounted() {
         this.filterList = MovementEnum.getFilterList()
-        await this.getMovementIndexFiltered(MovementEnum.filter.thisMonth())
+        await this.getMovementIndexFiltered()
     }
 }
 </script>
