@@ -44,24 +44,12 @@ export default defineConfig({
         }),
     ],
     resolve: {
-        alias: [
-            {
-                find: "~bootstrap",
-                replacement: resolve(__dirname, "'/node_modules/bootstrap'")
-            },
-            {
-                find: "~vue",
-                replacement: resolve(__dirname, "./resources/vue")
-            },
-            {
-                find: "~vue-component",
-                replacement: resolve(__dirname, "./resources/vue/components")
-            },
-            {
-                find: "~js",
-                replacement: resolve(__dirname, "./resources/js")
-            }
-        ]
+        alias: {
+            '~bootstrap': '/node_modules/bootstrap',
+            '~vue': './resources/vue',
+            '~vue-component': './resources/vue/components',
+            '~js': './resources/js'
+        }
     },
     build: {
         manifest: true,
