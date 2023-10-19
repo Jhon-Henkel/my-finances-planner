@@ -69,18 +69,18 @@
 <script>
 import Divider from '~vue-component/DividerComponent.vue'
 import MfpTitle from '~vue-component/TitleComponent.vue'
-import iconEnum from '~js/enums/iconEnum'
+import iconEnum from '~js/enums/iconEnum.js'
 import LoadingComponent from '~vue-component/LoadingComponent.vue'
 import BackButton from '~vue-component/buttons/BackButton.vue'
-import apiRouter from '~js/router/apiRouter'
-import CalendarTools from '~js/tools/calendarTools'
-import StringTools from '~js/tools/stringTools'
+import apiRouter from '~js/router/apiRouter.js'
+import CalendarTools from '~js/tools/calendarTools.js'
+import StringTools from '~js/tools/stringTools.js'
 import FilterTopRight from '~vue-component/filters/filterTopRight.vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome.js'
 import GainIcon from '~vue-component/icons/GainIcon.vue'
 import SpentIcon from '~vue-component/icons/SpentIcon.vue'
 import LineChart from '~vue-component/graphics/LineChart.vue'
-import { monthlyClosingChartParams } from '~js/chartParams/monthlyClosingChartParams'
+import { monthlyClosingChartParams } from '~js/chartParams/monthlyClosingChartParams.js'
 
 export default {
     name: 'MonthlyClosingView',
