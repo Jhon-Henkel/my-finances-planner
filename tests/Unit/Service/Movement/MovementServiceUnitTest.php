@@ -513,4 +513,14 @@ class MovementServiceUnitTest extends Falcon9
 
         $this->assertEquals($datePeriod, $serviceMocke->makeDateRange(['dateStart' => '', 'dateEnd' => '']));
     }
+
+    public function testGetMonthSumMovementsByOptionFilter()
+    {
+        $mock = Mockery::mock(MovementRepository::class);
+        $mock->shouldReceive('getSumMovementsByPeriod')->once()->andReturn([50]);
+        $this->app->instance(MovementRepository::class, $mock);
+        $service = new MovementService($mock);
+        $result = $service->getMonthSumMovementsByOptionFilter(1);
+        $this->assertEquals(50, $result[0]);
+    }
 }

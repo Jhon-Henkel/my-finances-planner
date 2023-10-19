@@ -65,6 +65,15 @@ class MovementService extends BasicService
         return $type;
     }
 
+    protected function getFilter(int $option): DatePeriodDTO
+    {
+        return match ($option) {
+            MovementEnum::FILTER_BY_LAST_MONTH => CalendarTools::getLastMonthPeriod(),
+            MovementEnum::FILTER_BY_THIS_YEAR => CalendarTools::getThisYearPeriod(),
+            default => CalendarTools::getThisMonthPeriod(),
+        };
+    }
+    
     protected function makeDateRange(array $dates): DatePeriodDTO
     {
         if (! isset($dates['dateStart'], $dates['dateEnd'])) {
@@ -181,6 +190,12 @@ class MovementService extends BasicService
         $movement = $this->resource->populateMovementForWalletUpdate($value, $walletId);
         $this->getRepository()->insert($movement);
         return true;
+    }
+
+    public function getMonthSumMovementsByOptionFilter(int $option): array
+    {
+        $period = $this->getFilter($option);
+        return $this->repository->getSumMovementsByPeriod($period);
     }
 
     public function launchMovementForCreditCardInvoicePay(int $walletId, float $totalValue, string $cardName): bool
