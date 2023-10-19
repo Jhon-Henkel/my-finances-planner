@@ -4,7 +4,7 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Saúde Financeira'"/>
-                <filter-top-right :filter="filterList" @callbackMethod="getMovementIndexFiltered($event)" />
+                <filter-top-right @filter-quest="getMovementIndexFiltered($event)" />
                 <back-button to="/ferramentas" class="top-button"/>
             </div>
             <divider/>
@@ -106,19 +106,19 @@
 </template>
 
 <script>
-import LoadingComponent from '../../../components/LoadingComponent.vue'
-import MfpTitle from '../../../components/TitleComponent.vue'
-import Divider from '../../../components/DividerComponent.vue'
-import apiRouter from '../../../../js/router/apiRouter'
-import MovementEnum from '../../../../js/enums/movementEnum'
-import DoughnutChart from '../../../components/graphics/DoughnutChart.vue'
-import stringTools from '../../../../js/tools/stringTools'
-import BackButton from '../../../components/buttons/BackButton.vue'
-import FilterTopRight from '../../../components/filters/filterTopRight.vue'
-import defaultChartParams from '../../../../js/chartParams/defaultChartParams'
-import SpentIcon from '../../../components/icons/SpentIcon.vue'
-import GainIcon from '../../../components/icons/GainIcon.vue'
-import numberTools from '../../../../js/tools/numberTools'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import apiRouter from '~js/router/apiRouter'
+import MovementEnum from '~js/enums/movementEnum'
+import DoughnutChart from '~vue-component/graphics/DoughnutChart.vue'
+import stringTools from '~js/tools/stringTools'
+import BackButton from '~vue-component/buttons/BackButton.vue'
+import FilterTopRight from '~vue-component/filters/filterTopRight.vue'
+import defaultChartParams from '~js/chartParams/defaultChartParams'
+import SpentIcon from '~vue-component/icons/SpentIcon.vue'
+import GainIcon from '~vue-component/icons/GainIcon.vue'
+import numberTools from '~js/tools/numberTools'
 
 const SPENT_ID = MovementEnum.type.spent()
 const GAIN_ID = MovementEnum.type.gain()
@@ -150,7 +150,6 @@ export default {
         return {
             loadingDone: false,
             lastFilter: null,
-            filterList: {},
             movements: {},
             graphOptions: defaultChartParams.options('right'),
             spendingGraphData: defaultChartParams.data,
@@ -160,9 +159,9 @@ export default {
         }
     },
     methods: {
-        async getMovementIndexFiltered(filterId) {
+        async getMovementIndexFiltered(quest) {
             this.loadingDone = false
-            await apiRouter.financialHealth.indexFiltered(filterId).then((response) => {
+            await apiRouter.financialHealth.indexFiltered(quest).then((response) => {
                 this.movements = response
                 const spending = response.dataForGraph[SPENT_ID]
                 const gains = response.dataForGraph[GAIN_ID]
@@ -193,8 +192,7 @@ export default {
         }
     },
     async mounted() {
-        this.filterList = MovementEnum.getFilterList()
-        await this.getMovementIndexFiltered(MovementEnum.filter.thisMonth())
+        await this.getMovementIndexFiltered()
     }
 }
 </script>

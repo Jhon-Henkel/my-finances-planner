@@ -91,7 +91,7 @@ class FinancialHealthServiceUnitTest extends Falcon9
 
         $serviceMock = Mockery::mock(FinancialHealthService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $result = $serviceMock->getMovementsByPeriod(1);
+        $result = $serviceMock->getMovementsByPeriod([]);
 
         $this->assertIsArray($result);
     }
@@ -102,7 +102,7 @@ class FinancialHealthServiceUnitTest extends Falcon9
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('getMovementsByPeriod')->once()->andReturn([]);
         $serviceMock->shouldReceive('categorizeMovements')->once()->andReturn([]);
-        $result = $serviceMock->findByFilter(1);
+        $result = $serviceMock->findByFilter([]);
 
         $this->assertIsArray($result);
     }
