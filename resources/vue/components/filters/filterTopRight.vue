@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import iconEnum from '~js/enums/iconEnum'
+import iconEnum from '~js/enums/iconEnum.js'
 import MfpDatePickerRange from '~vue/components/date/DatePickerRange.vue'
-import MovementEnum from '~js/enums/movementEnum'
+import MovementEnum from '~js/enums/movementEnum.js'
 
 export default {
     name: 'filterTopRight',
