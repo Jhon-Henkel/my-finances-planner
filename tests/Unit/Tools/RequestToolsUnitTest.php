@@ -44,6 +44,7 @@ class RequestToolsUnitTest extends Falcon9
 
         $this->assertEquals('ert', RequestTools::inputGet('jkl'));
         $this->assertEquals(null, RequestTools::inputGet('aaa'));
+        $this->assertEquals(['jkl' => 'ert'], RequestTools::inputGet());
     }
 
     public function testGetUserIp()
