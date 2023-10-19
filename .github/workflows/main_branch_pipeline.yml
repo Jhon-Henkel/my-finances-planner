@@ -95,13 +95,15 @@ jobs:
 
   private-server-deploy:
     runs-on: ubuntu-latest
-
-    container:
-      image: jhowrf/php-image:latest
       
     steps:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
+
+      - name: 🔑 Configuring Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
       - name: 🛠️ Installing Node dependencies
         run: npm install
@@ -130,13 +132,15 @@ jobs:
 
   demo-server-deploy:
     runs-on: ubuntu-latest
-
-    container:
-      image: jhowrf/php-image:latest
       
     steps:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
+
+      - name: 🔑 Configuring Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
       - name: 🛠️ Installing Node dependencies
         run: npm install
