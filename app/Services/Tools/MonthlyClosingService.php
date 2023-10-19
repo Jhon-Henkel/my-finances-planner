@@ -5,8 +5,6 @@ namespace App\Services\Tools;
 use App\DTO\Date\DatePeriodDTO;
 use App\DTO\Mail\MailMessageDTO;
 use App\DTO\Tools\MonthlyClosingDTO;
-use App\Enums\MonthlyCLosingEnum;
-use App\Exceptions\FilterException;
 use App\Models\User;
 use App\Repositories\Tools\MonthlyClosingRepository;
 use App\Services\BasicService;

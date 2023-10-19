@@ -6,8 +6,6 @@ use App\DTO\Date\DatePeriodDTO;
 use App\DTO\Mail\MailMessageDTO;
 use App\DTO\Movement\MovementSumValuesDTO;
 use App\DTO\Tools\MonthlyClosingDTO;
-use App\Enums\MonthlyCLosingEnum;
-use App\Exceptions\FilterException;
 use App\Models\MonthlyClosing;
 use App\Repositories\Tools\MonthlyClosingRepository;
 use App\Resources\Tools\MonthlyClosingResource;

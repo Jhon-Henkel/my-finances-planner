@@ -73,7 +73,7 @@ class MovementService extends BasicService
             default => CalendarTools::getThisMonthPeriod(),
         };
     }
-    
+
     protected function makeDateRange(array $dates): DatePeriodDTO
     {
         if (! isset($dates['dateStart'], $dates['dateEnd'])) {
