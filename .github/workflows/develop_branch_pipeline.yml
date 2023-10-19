@@ -62,3 +62,6 @@ jobs:
 
       - name: ⚡️ Executing Vitest tests
         run: LARAVEL_BYPASS_ENV_CHECK=1 npm run test:run
+
+      - name: 📦 Testing building application
+        run: npm run build

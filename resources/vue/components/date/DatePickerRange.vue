@@ -31,7 +31,7 @@
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { ref } from 'vue'
-import calendarTools from '~js/tools/calendarTools'
+import calendarTools from '~js/tools/calendarTools.js'
 
 const defaultDateRange = calendarTools.getThisMonthPeriod()
 
