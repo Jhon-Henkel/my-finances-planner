@@ -32,7 +32,6 @@ class MovementRepository extends BasicRepository
     }
 
     /**
-     * @param DatePeriodDTO $period
      * @return MovementDTO[]
      */
     public function findByPeriod(DatePeriodDTO $period, ?int $tenantId = null): array
@@ -44,6 +43,25 @@ class MovementRepository extends BasicRepository
             ->where('movements.created_at', '<=', $period->getEndDate());
         if ($tenantId) {
             $items->where('movements.tenant_id', '=', $tenantId);
+        }
+        $items->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
+            ->orderBy(BasicFieldsEnum::ID, 'desc');
+        $items = $items->get();
+        return $this->getResource()->arrayToDtoItens($items->toArray());
+    }
+
+    /**
+     * @return MovementDTO[]
+     */
+    public function findByPeriodAndType(DatePeriodDTO $period, int $type): array
+    {
+        $items = $this->getModel()
+            ->query()
+            ->select('movements.*', 'wallets.name')
+            ->where('movements.created_at', '>=', $period->getStartDate())
+            ->where('movements.created_at', '<=', $period->getEndDate());
+        if ($type != 0) {
+            $items->where('movements.type', '=', $type);
         }
         $items->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
             ->orderBy(BasicFieldsEnum::ID, 'desc');

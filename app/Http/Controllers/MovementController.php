@@ -6,6 +6,7 @@ use App\Enums\MovementEnum;
 use App\Http\Response\ResponseError;
 use App\Resources\Movement\MovementResource;
 use App\Services\Movement\MovementService;
+use App\Tools\Request\RequestTools;
 use App\VO\Movement\MovementVO;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
@@ -66,9 +67,10 @@ class MovementController extends BasicController
         return $this->resource;
     }
 
-    public function indexFiltered(string|int $filterOption): JsonResponse
+    public function indexFiltered(): JsonResponse
     {
-        $find = $this->getService()->findByFilter((int)$filterOption);
+        $params = RequestTools::inputGet();
+        $find = $this->getService()->findByFilter($params);
         $itens = $this->getResource()->arrayDtoToVoItens($find);
         return response()->json($itens, ResponseAlias::HTTP_OK);
     }
