@@ -127,20 +127,20 @@
 
 <script>
 import LoadingComponent from '~vue-component/LoadingComponent.vue'
-import iconEnum from '~js/enums/iconEnum'
+import iconEnum from '~js/enums/iconEnum.js'
 import ActionButtons from '~vue-component/ActionButtons.vue'
-import MovementEnum from '~js/enums/movementEnum'
-import apiRouter from '~js/router/apiRouter'
-import calendarTools from '~js/tools/calendarTools'
-import numberTools from '~js/tools/numberTools'
+import MovementEnum from '~js/enums/movementEnum.js'
+import apiRouter from '~js/router/apiRouter.js'
+import calendarTools from '~js/tools/calendarTools.js'
+import numberTools from '~js/tools/numberTools.js'
 import Divider from '~vue-component/DividerComponent.vue'
 import MfpTitle from '~vue-component/TitleComponent.vue'
 import MfpMessage from '~vue-component/MessageAlert.vue'
-import StringTools from '~js/tools/stringTools'
+import StringTools from '~js/tools/stringTools.js'
 import AlertIcon from '~vue-component/AlertIcon.vue'
 import FilterTopRight from '~vue-component/filters/filterTopRight.vue'
 import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
-import messageTools from '~js/tools/messageTools'
+import messageTools from '~js/tools/messageTools.js'
 
 export default {
     name: 'MovementView',
