@@ -89,6 +89,6 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router) {
         $router->get('/filter', [FinancialHealthController::class, 'indexFiltered'])->name(RouteEnum::API_FINANCIAL_HEALTH_INDEX_FILTERED);
     });
     $router->prefix('monthly-closing')->group(function () use ($router) {
-        $router->get('/filter/{filter}', [MonthlyClosingController::class, 'indexFiltered'])->name(RouteEnum::API_MONTHLY_CLOSING_INDEX_FILTERED);
+        $router->get('/filter', [MonthlyClosingController::class, 'indexFiltered'])->name(RouteEnum::API_MONTHLY_CLOSING_INDEX_FILTERED);
     });
 });

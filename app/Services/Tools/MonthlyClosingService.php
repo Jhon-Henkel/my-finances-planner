@@ -31,21 +31,19 @@ class MonthlyClosingService extends BasicService
         return $this->repository;
     }
 
-    public function findByFilter(int $filterOption, int $tenantId): array
+    public function findByFilter(array $filterOption, int $tenantId): array
     {
-        $filter = $this->getFilter($filterOption);
+        $filter = $this->makeDateRange($filterOption);
         $data = $this->getRepository()->findByPeriodAndTenantId($filter, $tenantId);
         return $this->addChartData($data);
     }
 
-    protected function getFilter(int $filterOption): DatePeriodDTO
+    protected function makeDateRange(array $dates): DatePeriodDTO
     {
-        return match ($filterOption) {
-            MonthlyCLosingEnum::THIS_YEAR => CalendarTools::getThisYearPeriod(),
-            MonthlyCLosingEnum::LAST_YEAR => CalendarTools::getYearPeriod((CalendarTools::getThisYear() - 1)),
-            MonthlyCLosingEnum::LAST_FIVE_YEARS => CalendarTools::getLastFiveYearPeriod(),
-            default => throw new FilterException('Opção de filtro inválida')
-        };
+        if (! isset($dates['dateStart'], $dates['dateEnd'])) {
+            return CalendarTools::getThisMonthPeriod();
+        }
+        return CalendarTools::mountDatePeriodFromIsoDateRange($dates);
     }
 
     /**

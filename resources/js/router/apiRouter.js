@@ -186,8 +186,11 @@ const apiRouter = {
         }
     },
     monthlyClosing: {
-        indexFiltered: async function(filter) {
-            const request = await requestTools.request.get('/api/monthly-closing/filter/' + filter)
+        indexFiltered: async function(quest) {
+            if (quest === undefined) {
+                quest = ''
+            }
+            const request = await requestTools.request.get('/api/monthly-closing/filter/' + quest)
             return request.data
         }
     }

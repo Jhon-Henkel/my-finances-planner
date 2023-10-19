@@ -4,7 +4,7 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="'Saúde Financeira'"/>
-                <filter-top-right @filter-quest="getMovementIndexFiltered($event)" />
+                <filter-top-right :useTypeMovementFilter="false" @filter-quest="getMovementIndexFiltered($event)" />
                 <back-button to="/ferramentas" class="top-button"/>
             </div>
             <divider/>

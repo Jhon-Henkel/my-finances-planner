@@ -4,7 +4,7 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Relatório fechamento de mês" />
-                <filter-top-right :filter="filterList" @callbackMethod="getMonthlyClosingsIndexFiltered($event)"/>
+                <filter-top-right :useTypeMovementFilter="false" @filter-quest="getMonthlyClosingsIndexFiltered($event)"/>
                 <back-button to="/ferramentas" class="top-button"/>
             </div>
             <divider/>
@@ -67,21 +67,21 @@
 </template>
 
 <script>
-import Divider from '../../../components/DividerComponent.vue'
-import MfpTitle from '../../../components/TitleComponent.vue'
-import iconEnum from '../../../../js/enums/iconEnum'
-import LoadingComponent from '../../../components/LoadingComponent.vue'
-import BackButton from '../../../components/buttons/BackButton.vue'
-import MonthlyClosingEnum from '../../../../js/enums/MonthlyClosingEnum'
-import apiRouter from '../../../../js/router/apiRouter'
-import CalendarTools from '../../../../js/tools/calendarTools'
-import StringTools from '../../../../js/tools/stringTools'
-import FilterTopRight from '../../../components/filters/filterTopRight.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import iconEnum from '~js/enums/iconEnum'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import BackButton from '~vue-component/buttons/BackButton.vue'
+import MonthlyClosingEnum from '~js/enums/MonthlyClosingEnum'
+import apiRouter from '~js/router/apiRouter'
+import CalendarTools from '~js/tools/calendarTools'
+import StringTools from '~js/tools/stringTools'
+import FilterTopRight from '~vue-component/filters/filterTopRight.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import GainIcon from '../../../components/icons/GainIcon.vue'
-import SpentIcon from '../../../components/icons/SpentIcon.vue'
-import LineChart from '../../../components/graphics/LineChart.vue'
-import { monthlyClosingChartParams } from '../../../../js/chartParams/monthlyClosingChartParams'
+import GainIcon from '~vue-component/icons/GainIcon.vue'
+import SpentIcon from '~vue-component/icons/SpentIcon.vue'
+import LineChart from '~vue-component/graphics/LineChart.vue'
+import { monthlyClosingChartParams } from '~js/chartParams/monthlyClosingChartParams'
 
 export default {
     name: 'MonthlyClosingView',
@@ -110,7 +110,6 @@ export default {
     data() {
         return {
             loadingDone: false,
-            filterList: {},
             monthlyClosings: {
                 createdAt: '',
                 predictedExpenses: 0,
@@ -124,9 +123,9 @@ export default {
         }
     },
     methods: {
-        async getMonthlyClosingsIndexFiltered(filterId) {
+        async getMonthlyClosingsIndexFiltered(quest) {
             this.loadingDone = false
-            await apiRouter.monthlyClosing.indexFiltered(filterId).then(response => {
+            await apiRouter.monthlyClosing.indexFiltered(quest).then(response => {
                 this.monthlyClosings = response.data
                 this.chartData = response.chartData
             })
@@ -134,8 +133,7 @@ export default {
         }
     },
     async mounted() {
-        this.filterList = MonthlyClosingEnum.getFilterList()
-        await this.getMonthlyClosingsIndexFiltered(MonthlyClosingEnum.filter.thisYear())
+        await this.getMonthlyClosingsIndexFiltered()
     }
 }
 </script>
