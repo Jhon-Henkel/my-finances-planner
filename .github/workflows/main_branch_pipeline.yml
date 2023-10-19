@@ -63,6 +63,9 @@ jobs:
   front-end-coverage:
     runs-on: ubuntu-latest
 
+    container:
+      image: jhowrf/php-image:latest
+
     steps:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
@@ -98,6 +101,9 @@ jobs:
   private-server-deploy:
     runs-on: ubuntu-latest
 
+    container:
+      image: jhowrf/php-image:latest
+      
     steps:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
@@ -135,6 +141,9 @@ jobs:
   demo-server-deploy:
     runs-on: ubuntu-latest
 
+    container:
+      image: jhowrf/php-image:latest
+      
     steps:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
