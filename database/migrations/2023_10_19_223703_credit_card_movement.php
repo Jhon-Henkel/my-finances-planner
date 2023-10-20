@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('description', '255')->default(null);
             $table->integer('type')->nullable(false);
             $table->decimal('amount', 60,2)->nullable(false);
+            $table->unsignedBigInteger('tenant_id')->nullable()->index();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->foreign('credit_card_id')->references('id')->on('credit_card');
+            $table->foreign('tenant_id')->references('id')->on('tenants');
         });
     }
 
