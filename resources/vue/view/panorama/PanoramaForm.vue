@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <input-money :value="spent.amount" @input-money="spent.amount = $event"/>
+                <input-money :value="spent.amount" title="Valor Parcela" @input-money="spent.amount = $event"/>
                 <div class="row justify-content-center mt-3">
                     <div class="col-4">
                         <div class="form-check form-switch">
