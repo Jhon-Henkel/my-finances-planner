@@ -14,10 +14,10 @@ class CreditCardMovementResource extends BasicResource
             $item['id'] ?? null,
             $item['credit_card_id'],
             $item['description'],
-            $item['type'], 
+            $item['type'],
             $item['amount'],
             $item['created_at'] ?? null,
-            $item['updated_at']?? null
+            $item['updated_at'] ?? null
         );
     }
 
@@ -27,7 +27,7 @@ class CreditCardMovementResource extends BasicResource
             'credit_card_id' => $item->getCreditCardId(),
             'description' => $item->getDescription(),
             'type' => $item->getType(),
-            'amount' => $item->getAmount(),
+            'amount' => $item->getAmount()
         ];
     }
 

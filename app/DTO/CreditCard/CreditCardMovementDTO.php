@@ -2,7 +2,7 @@
 
 namespace App\DTO\CreditCard;
 
-class CreditCardMovementDTO 
+class CreditCardMovementDTO
 {
     public function __construct(
         private ?int $id,
