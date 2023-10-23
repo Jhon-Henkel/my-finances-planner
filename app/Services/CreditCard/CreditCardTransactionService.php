@@ -16,11 +16,21 @@ class CreditCardTransactionService extends BasicService
 {
     protected CreditCardTransactionRepository $repository;
     protected CreditCardResource $resource;
+    protected CreditCardMovementService $creditCardMovementService;
+    protected CreditCardService $creditCardService;
+    protected MovementService $movementService;
 
-    public function __construct(CreditCardTransactionRepository $repository)
-    {
+    public function __construct(
+        CreditCardTransactionRepository $repository,
+        CreditCardMovementService $creditCardMovementService,
+        CreditCardService $creditCardService,
+        MovementService $movementService
+    ) {
         $this->repository = $repository;
-        $this->resource = app(CreditCardResource::class);
+        $this->resource = new CreditCardResource();
+        $this->creditCardMovementService = $creditCardMovementService;
+        $this->creditCardService = $creditCardService;
+        $this->movementService = $movementService;
     }
 
     protected function getRepository(): CreditCardTransactionRepository
@@ -44,26 +54,22 @@ class CreditCardTransactionService extends BasicService
             $launchMovementAndUpdateWallet = true;
             $totalValue += $invoice->$installment;
             $transaction = $this->findById($invoice->id);
+            $this->creditCardMovementService->insertMovementByTransaction($transaction, $cardId);
             $remainingInstallments = $transaction->getInstallments() - 1;
             if ($remainingInstallments === 0) {
                 $this->deleteById($transaction->getId());
                 continue;
             }
             $transaction->setInstallments($remainingInstallments < 0 ? 0 : $transaction->getInstallments() - 1);
-            $nextInstallment = CalendarTools::addMonthInDate(
-                $transaction->getNextInstallment(),
-                1,
-                DateEnum::USA_DATE_FORMAT_WITHOUT_TIME
-            );
+            $nextInstallment = $this->getNextPaymentDateByInstallment($transaction->getNextInstallment());
             $transaction->setNextInstallment($nextInstallment);
             $this->update($transaction->getId(), $transaction);
         }
         if (! $launchMovementAndUpdateWallet) {
             return false;
         }
-        $card = app(CreditCardService::class)->getRepository()->findById($cardId);
-        app(MovementService::class)->launchMovementForCreditCardInvoicePay($walletId, $totalValue, $card->getName());
-        return true;
+        $card = $this->creditCardService->findById($cardId);
+        return $this->movementService->launchMovementForCreditCardInvoicePay($walletId, $totalValue, $card->getName());
     }
 
     /**
@@ -89,6 +95,12 @@ class CreditCardTransactionService extends BasicService
             return null;
         }
         return null;
+    }
+
+    protected function getNextPaymentDateByInstallment(string $nextInstallment): string
+    {
+        $format = DateEnum::USA_DATE_FORMAT_WITHOUT_TIME;
+        return CalendarTools::addMonthInDate($nextInstallment, 1, $format);
     }
 
     /**

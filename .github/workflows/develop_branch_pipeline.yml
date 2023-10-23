@@ -3,8 +3,6 @@ name: Develop Branch Pipeline
 on:
   push:
     branches-ignore: [ "main" ]
-  pull_request:
-    types: [ opened, reopened ]
 
 jobs:
   testing-application:
