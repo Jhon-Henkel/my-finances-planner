@@ -359,4 +359,36 @@ class CalendarToolsUnitTest extends Falcon9
         $this->assertEquals('2022-01-01 00:00:00', $period->getStartDate());
         $this->assertEquals('2022-01-31 23:59:59', $period->getEndDate());
     }
+
+    /**
+     * Parâmetros do teste
+     *  - Sem as posições necessárias no array
+     */
+    public function testMakeDateRangeByDefaultFilterParamsTestOne()
+    {
+        $datePeriod = new DatePeriodDTO('2018-01-01', '2018-01-31');
+
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisMonthPeriod')->once()->andReturn($datePeriod);
+        $calendarMock->shouldReceive('mountDatePeriodFromIsoDateRange')->never();
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
+
+        $this->assertEquals($datePeriod, $calendarMock->makeDateRangeByDefaultFilterParams([]));
+    }
+
+    /**
+     * Parâmetros do teste
+     *  - Sem as posições necessárias no array
+     */
+    public function testMakeDateRangeByDefaultFilterParamsTestTwo()
+    {
+        $datePeriod = new DatePeriodDTO('2018-01-01', '2018-01-31');
+
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('mountDatePeriodFromIsoDateRange')->once()->andReturn($datePeriod);
+        $calendarMock->shouldReceive('getThisMonthPeriod')->never();
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
+
+        $this->assertEquals($datePeriod, $calendarMock->makeDateRangeByDefaultFilterParams(['dateStart' => '', 'dateEnd' => '']));
+    }
 }

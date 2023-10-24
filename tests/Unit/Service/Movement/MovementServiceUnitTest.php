@@ -46,10 +46,14 @@ class MovementServiceUnitTest extends Falcon9
         $mock = Mockery::mock(MovementRepository::class);
         $mock->shouldReceive('findByPeriodAndType')->once()->andReturn([]);
 
+        $dates = new DatePeriodDTO('2018-01-01', '2018-01-31');
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisMonthPeriod')->once()->andReturn($dates);
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
+
         $serviceMocke = Mockery::mock(MovementService::class, [$mock])->makePartial();
         $serviceMocke->shouldAllowMockingProtectedMethods();
         $serviceMocke->shouldReceive('validateType')->once()->andReturn(0);
-        $serviceMocke->shouldReceive('makeDateRange')->once()->andReturn(new DatePeriodDTO('2018-01-01', '2018-01-31'));
         $result = $serviceMocke->findByFilter(['type' => 1]);
 
         $this->assertIsArray($result);
@@ -470,48 +474,6 @@ class MovementServiceUnitTest extends Falcon9
         $this->assertEquals(MovementEnum::TRANSFER, $serviceMocke->validateType(MovementEnum::TRANSFER));
         $this->assertEquals(MovementEnum::GAIN, $serviceMocke->validateType(MovementEnum::GAIN));
         $this->assertEquals(MovementEnum::SPENT, $serviceMocke->validateType(MovementEnum::SPENT));
-    }
-
-    /**
-     * Parâmetros do teste
-     *  - Sem as posições necessárias no array
-     */
-    public function testMakeDateRangeTestOne()
-    {
-        $datePeriod = new DatePeriodDTO('2018-01-01', '2018-01-31');
-
-        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarMock->shouldReceive('getThisMonthPeriod')->once()->andReturn($datePeriod);
-        $calendarMock->shouldReceive('mountDatePeriodFromIsoDateRange')->never();
-        $this->app->instance(CalendarToolsReal::class, $calendarMock);
-
-        $mockRepository = Mockery::mock(MovementRepository::class);
-
-        $serviceMocke = Mockery::mock(MovementService::class, [$mockRepository])->makePartial();
-        $serviceMocke->shouldAllowMockingProtectedMethods();
-
-        $this->assertEquals($datePeriod, $serviceMocke->makeDateRange([]));
-    }
-
-    /**
-     * Parâmetros do teste
-     *  - Sem as posições necessárias no array
-     */
-    public function testMakeDateRangeTestTwo()
-    {
-        $datePeriod = new DatePeriodDTO('2018-01-01', '2018-01-31');
-
-        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarMock->shouldReceive('mountDatePeriodFromIsoDateRange')->once()->andReturn($datePeriod);
-        $calendarMock->shouldReceive('getThisMonthPeriod')->never();
-        $this->app->instance(CalendarToolsReal::class, $calendarMock);
-
-        $mockRepository = Mockery::mock(MovementRepository::class);
-
-        $serviceMocke = Mockery::mock(MovementService::class, [$mockRepository])->makePartial();
-        $serviceMocke->shouldAllowMockingProtectedMethods();
-
-        $this->assertEquals($datePeriod, $serviceMocke->makeDateRange(['dateStart' => '', 'dateEnd' => '']));
     }
 
     public function testGetMonthSumMovementsByOptionFilter()

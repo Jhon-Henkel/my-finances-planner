@@ -50,7 +50,7 @@ class MovementService extends BasicService
         if (isset($filterOption['type'])) {
             $type = $this->validateType($filterOption['type']);
         }
-        $dateRange = $this->makeDateRange($filterOption);
+        $dateRange = CalendarTools::makeDateRangeByDefaultFilterParams($filterOption);
         return $this->repository->findByPeriodAndType($dateRange, $type);
     }
 
@@ -72,14 +72,6 @@ class MovementService extends BasicService
             MovementEnum::FILTER_BY_THIS_YEAR => CalendarTools::getThisYearPeriod(),
             default => CalendarTools::getThisMonthPeriod(),
         };
-    }
-
-    protected function makeDateRange(array $dates): DatePeriodDTO
-    {
-        if (! isset($dates['dateStart'], $dates['dateEnd'])) {
-            return CalendarTools::getThisMonthPeriod();
-        }
-        return CalendarTools::mountDatePeriodFromIsoDateRange($dates);
     }
 
     public function populateByFutureGain(FutureGainDTO $gain): MovementDTO
