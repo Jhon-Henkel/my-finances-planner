@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Resource\CreditCard;
 
+use App\DTO\CreditCard\CreditCardMovementDTO;
 use App\Exceptions\NotImplementedException;
 use App\Resources\CreditCard\CreditCardMovementResource;
 use Tests\Falcon9;
@@ -71,5 +72,20 @@ class CreditCardMovementResourceUnitTest extends Falcon9
                 'updated_at' => '2021-01-01 00:00:00',
             ])
         );
+    }
+
+    public function testConvertCreditCardMovementsToMovements()
+    {
+        $creditCardMovementDto = new CreditCardMovementDTO(1, 2, 'Ds teste', 3, 10.90);
+
+        $movements = $this->resource->convertCreditCardMovementsToMovements([$creditCardMovementDto]);
+
+        $this->assertIsArray($movements);
+        $this->assertEquals(1, $movements[0]->getId());
+        $this->assertEquals(3, $movements[0]->getType());
+        $this->assertEquals('Ds teste', $movements[0]->getDescription());
+        $this->assertEquals(10.90, $movements[0]->getAmount());
+        $this->assertNull($movements[0]->getCreatedAt());
+        $this->assertNull($movements[0]->getUpdatedAt());
     }
 }
