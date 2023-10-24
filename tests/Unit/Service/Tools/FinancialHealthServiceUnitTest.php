@@ -4,6 +4,7 @@ namespace Tests\Unit\Service\Tools;
 
 use App\DTO\Movement\MovementDTO;
 use App\Enums\MovementEnum;
+use App\Services\CreditCard\CreditCardMovementService;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\FinancialHealthService;
 use Mockery;
@@ -37,11 +38,15 @@ class FinancialHealthServiceUnitTest extends Falcon9
         ];
     }
 
-    public function testCategorizeMovements()
+    /**
+     * Parâmetros do teste:
+     * - Agrupando despesas cartão
+     */
+    public function testCategorizeMovementsTestOne()
     {
         $movementOne = new MovementDTO();
         $movementOne->setType(MovementEnum::SPENT);
-        $movementOne->setDescription('Pagamento Escola');
+        $movementOne->setDescription('Cartão de crédito');
         $movementOne->setAmount(100);
 
         $movementTwo = new MovementDTO();
@@ -68,17 +73,66 @@ class FinancialHealthServiceUnitTest extends Falcon9
 
         $serviceMock = Mockery::mock(FinancialHealthService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $result = $serviceMock->categorizeMovements($movements);
+        $result = $serviceMock->categorizeMovements($movements, false);
 
         $this->assertCount(2, $result);
         $this->assertCount(2, $result[MovementEnum::SPENT]);
         $this->assertCount(1, $result[MovementEnum::GAIN]);
         $this->assertArrayHasKey(MovementEnum::SPENT, $result);
         $this->assertArrayHasKey(MovementEnum::GAIN, $result);
-        $this->assertArrayHasKey('Escola', $result[MovementEnum::SPENT]);
+        $this->assertArrayHasKey('Cartão de crédito', $result[MovementEnum::SPENT]);
         $this->assertArrayHasKey('Energia', $result[MovementEnum::SPENT]);
         $this->assertArrayHasKey('Salário', $result[MovementEnum::GAIN]);
-        $this->assertEquals(100, $result[MovementEnum::SPENT]['Escola']);
+        $this->assertEquals(100, $result[MovementEnum::SPENT]['Cartão de crédito']);
+        $this->assertEquals(700, $result[MovementEnum::SPENT]['Energia']);
+        $this->assertEquals(700, $result[MovementEnum::GAIN]['Salário']);
+    }
+
+    /**
+     * Parâmetros do teste:
+     * - Não agrupando despesas cartão
+     */
+    public function testCategorizeMovementsTestTwo()
+    {
+        $movementOne = new MovementDTO();
+        $movementOne->setType(MovementEnum::SPENT);
+        $movementOne->setDescription('Cartão de crédito');
+        $movementOne->setAmount(100);
+
+        $movementTwo = new MovementDTO();
+        $movementTwo->setType(MovementEnum::SPENT);
+        $movementTwo->setDescription('Pagamento Energia');
+        $movementTwo->setAmount(200);
+
+        $movementThree = new MovementDTO();
+        $movementThree->setType(MovementEnum::GAIN);
+        $movementThree->setDescription('Recebimento Salário');
+        $movementThree->setAmount(300);
+
+        $movementFour = new MovementDTO();
+        $movementFour->setType(MovementEnum::GAIN);
+        $movementFour->setDescription('Recebimento Salário');
+        $movementFour->setAmount(400);
+
+        $movementFive = new MovementDTO();
+        $movementFive->setType(MovementEnum::SPENT);
+        $movementFive->setDescription('Pagamento Energia');
+        $movementFive->setAmount(500);
+
+        $movements = [$movementOne, $movementTwo, $movementThree, $movementFour, $movementFive];
+
+        $serviceMock = Mockery::mock(FinancialHealthService::class)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+        $result = $serviceMock->categorizeMovements($movements, true);
+
+        $this->assertCount(2, $result);
+        $this->assertCount(1, $result[MovementEnum::SPENT]);
+        $this->assertCount(1, $result[MovementEnum::GAIN]);
+        $this->assertArrayHasKey(MovementEnum::SPENT, $result);
+        $this->assertArrayHasKey(MovementEnum::GAIN, $result);
+        $this->assertArrayNotHasKey('Cartão de crédito', $result[MovementEnum::SPENT]);
+        $this->assertArrayHasKey('Energia', $result[MovementEnum::SPENT]);
+        $this->assertArrayHasKey('Salário', $result[MovementEnum::GAIN]);
         $this->assertEquals(700, $result[MovementEnum::SPENT]['Energia']);
         $this->assertEquals(700, $result[MovementEnum::GAIN]['Salário']);
     }
@@ -128,5 +182,41 @@ class FinancialHealthServiceUnitTest extends Falcon9
             '{"gain":{"e":500,"d":50,"c":10.59,"a":10.5,"b":9},"spent":{"e":1000,"b":400,"a":300,"d":200,"c":100}}',
             $resultJson
         );
+    }
+
+    /**
+     * Parâmetros do teste:
+     * - Agrupando despesas cartão
+     */
+    public function testFindByFilterTestOne()
+    {
+        $creditCardMovementServiceMock = Mockery::mock(CreditCardMovementService::class)->makePartial();
+        $creditCardMovementServiceMock->shouldReceive('findByPeriod')->never();
+
+        $serviceMock = Mockery::mock(FinancialHealthService::class, [$creditCardMovementServiceMock])->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+        $serviceMock->shouldReceive('getMovementsByPeriod')->once()->andReturn([]);
+        $serviceMock->shouldReceive('categorizeMovements')->once()->andReturn([]);
+        $serviceMock->shouldReceive('addDataForGraph')->once()->andReturn([]);
+
+        $this->assertEquals([], $serviceMock->findByFilter([]));
+    }
+
+    /**
+     * Parâmetros do teste:
+     * - Nãoo agrupando despesas cartão
+     */
+    public function testFindByFilterTestTwo()
+    {
+        $creditCardMovementServiceMock = Mockery::mock(CreditCardMovementService::class)->makePartial();
+        $creditCardMovementServiceMock->shouldReceive('findByPeriod')->once()->andReturn([]);
+
+        $serviceMock = Mockery::mock(FinancialHealthService::class, [$creditCardMovementServiceMock])->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+        $serviceMock->shouldReceive('getMovementsByPeriod')->once()->andReturn([]);
+        $serviceMock->shouldReceive('categorizeMovements')->once()->andReturn([]);
+        $serviceMock->shouldReceive('addDataForGraph')->once()->andReturn([]);
+
+        $this->assertEquals([], $serviceMock->findByFilter(['dontGroupCardExpenses' => 'true']));
     }
 }

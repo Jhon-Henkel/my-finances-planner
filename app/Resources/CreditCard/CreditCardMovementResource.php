@@ -3,6 +3,7 @@
 namespace App\Resources\CreditCard;
 
 use App\DTO\CreditCard\CreditCardMovementDTO;
+use App\DTO\Movement\MovementDTO;
 use App\Exceptions\NotImplementedException;
 use App\Resources\BasicResource;
 
@@ -34,5 +35,25 @@ class CreditCardMovementResource extends BasicResource
     public function dtoToVo($item)
     {
         throw new NotImplementedException();
+    }
+
+    /**
+     * @param CreditCardMovementDTO[] $creditCardMovement
+     * @return MovementDTO[]
+     */
+    public function convertCreditCardMovementsToMovements(array $creditCardMovement): array
+    {
+        $movements = [];
+        foreach ($creditCardMovement as $movement) {
+            $movementDto = new MovementDTO();
+            $movementDto->setId($movement->getId());
+            $movementDto->setType($movement->getType());
+            $movementDto->setDescription($movement->getDescription());
+            $movementDto->setAmount($movement->getAmount());
+            $movementDto->setCreatedAt($movement->getCreatedAt());
+            $movementDto->setUpdatedAt($movement->getUpdatedAt());
+            $movements[] = $movement;
+        }
+        return $movements;
     }
 }

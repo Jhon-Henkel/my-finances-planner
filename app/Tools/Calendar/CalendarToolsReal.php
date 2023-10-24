@@ -188,4 +188,12 @@ class CalendarToolsReal
             $dateEnd->format(DateEnum::USA_DATE_FORMAT_WITHOUT_TIME) . ' 23:59:59'
         );
     }
+
+    public function makeDateRangeByDefaultFilterParams(array $dates): DatePeriodDTO
+    {
+        if (! isset($dates['dateStart'], $dates['dateEnd'])) {
+            return CalendarTools::getThisMonthPeriod();
+        }
+        return CalendarTools::mountDatePeriodFromIsoDateRange($dates);
+    }
 }

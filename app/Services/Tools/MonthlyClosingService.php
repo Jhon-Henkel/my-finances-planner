@@ -2,7 +2,6 @@
 
 namespace App\Services\Tools;
 
-use App\DTO\Date\DatePeriodDTO;
 use App\DTO\Mail\MailMessageDTO;
 use App\DTO\Tools\MonthlyClosingDTO;
 use App\Models\User;
@@ -31,17 +30,9 @@ class MonthlyClosingService extends BasicService
 
     public function findByFilter(array $filterOption, int $tenantId): array
     {
-        $filter = $this->makeDateRange($filterOption);
+        $filter = CalendarTools::makeDateRangeByDefaultFilterParams($filterOption);
         $data = $this->getRepository()->findByPeriodAndTenantId($filter, $tenantId);
         return $this->addChartData($data);
-    }
-
-    protected function makeDateRange(array $dates): DatePeriodDTO
-    {
-        if (! isset($dates['dateStart'], $dates['dateEnd'])) {
-            return CalendarTools::getThisMonthPeriod();
-        }
-        return CalendarTools::mountDatePeriodFromIsoDateRange($dates);
     }
 
     /**

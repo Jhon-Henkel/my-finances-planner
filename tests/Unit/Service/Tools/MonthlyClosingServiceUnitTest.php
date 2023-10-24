@@ -31,7 +31,10 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         $datePeriod = new DatePeriodDTO('2021-01-01 00:00:00', '2021-12-31 23:59:59');
         $serviceMock = Mockery::mock(MonthlyClosingService::class, [$repositoryMock])->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('makeDateRange')->once()->andReturn($datePeriod);
+
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisMonthPeriod')->once()->andReturn($datePeriod);
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
 
         $result = $serviceMock->findByFilter([], 1);
 
@@ -128,47 +131,5 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         $this->assertCount(2, $mail->getParams());
         $this->assertArrayHasKey('link', $mail->getParams());
         $this->assertArrayHasKey('name', $mail->getParams());
-    }
-
-    /**
-     * Parâmetros do teste
-     *  - Sem as posições necessárias no array
-     */
-    public function testMakeDateRangeTestOne()
-    {
-        $datePeriod = new DatePeriodDTO('2018-01-01', '2018-01-31');
-
-        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarMock->shouldReceive('getThisMonthPeriod')->once()->andReturn($datePeriod);
-        $calendarMock->shouldReceive('mountDatePeriodFromIsoDateRange')->never();
-        $this->app->instance(CalendarToolsReal::class, $calendarMock);
-
-        $mockRepository = Mockery::mock(MonthlyClosingRepository::class);
-
-        $serviceMocke = Mockery::mock(MonthlyClosingService::class, [$mockRepository])->makePartial();
-        $serviceMocke->shouldAllowMockingProtectedMethods();
-
-        $this->assertEquals($datePeriod, $serviceMocke->makeDateRange([]));
-    }
-
-    /**
-     * Parâmetros do teste
-     *  - Sem as posições necessárias no array
-     */
-    public function testMakeDateRangeTestTwo()
-    {
-        $datePeriod = new DatePeriodDTO('2018-01-01', '2018-01-31');
-
-        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarMock->shouldReceive('mountDatePeriodFromIsoDateRange')->once()->andReturn($datePeriod);
-        $calendarMock->shouldReceive('getThisMonthPeriod')->never();
-        $this->app->instance(CalendarToolsReal::class, $calendarMock);
-
-        $mockRepository = Mockery::mock(MonthlyClosingRepository::class);
-
-        $serviceMocke = Mockery::mock(MonthlyClosingService::class, [$mockRepository])->makePartial();
-        $serviceMocke->shouldAllowMockingProtectedMethods();
-
-        $this->assertEquals($datePeriod, $serviceMocke->makeDateRange(['dateStart' => '', 'dateEnd' => '']));
     }
 }

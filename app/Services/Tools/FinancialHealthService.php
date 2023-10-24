@@ -4,16 +4,32 @@ namespace App\Services\Tools;
 
 use App\DTO\Movement\MovementDTO;
 use App\Enums\MovementEnum;
+use App\Services\CreditCard\CreditCardMovementService;
 use App\Services\Movement\MovementService;
 use App\Tools\NumberTools;
 use App\Tools\StringTools;
 
 class FinancialHealthService
 {
+    private CreditCardMovementService $creditCardMovementService;
+
+    public function __construct(CreditCardMovementService $creditCardMovementService)
+    {
+        $this->creditCardMovementService = $creditCardMovementService;
+    }
+
     public function findByFilter(array $filterOption): array
     {
         $movements = $this->getMovementsByPeriod($filterOption);
-        $movementsCategorized = $this->categorizeMovements($movements);
+        $dontGroupCards = false;
+        if (isset($filterOption['dontGroupCardExpenses']) && $filterOption['dontGroupCardExpenses'] === "true") {
+            $dontGroupCards = true;
+        }
+        if ($dontGroupCards) {
+            $creditCardMovements = $this->creditCardMovementService->findByPeriod($filterOption);
+            $movements = array_merge($movements, $creditCardMovements);
+        }
+        $movementsCategorized = $this->categorizeMovements($movements, $dontGroupCards);
         return $this->addDataForGraph($movementsCategorized);
     }
 
@@ -31,12 +47,15 @@ class FinancialHealthService
      * @param MovementDTO[] $movements
      * @return array
      */
-    protected function categorizeMovements(array $movements): array
+    protected function categorizeMovements(array $movements, bool $dontGroupCards): array
     {
         $data = [];
         foreach ($movements as $movement) {
             $description = $movement->getDescription();
             $title = $this->getCategoryTitleByDescription($description);
+            if ($dontGroupCards && $title === 'Cartão de crédito') {
+                continue;
+            }
             $amount = NumberTools::roundFloatAmount($movement->getAmount());
             if (isset($data[$movement->getType()][$title])) {
                 $data[$movement->getType()][$title] += $amount;
