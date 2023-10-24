@@ -16,6 +16,18 @@
                 </option>
             </select>
         </li>
+        <li class="mt-2" v-if="useRadioGroupCardExpenses">
+            <div class="form-check form-switch">
+                <label class="form-check-label" for="group-card-expenses">
+                    Desagrupar despesas cartão
+                </label>
+                <input class="form-check-input"
+                       v-model="groupCardExpenses"
+                       type="checkbox"
+                       role="switch"
+                       id="group-card-expenses">
+            </div>
+        </li>
         <li>
             <button class="btn btn-success btn-full mt-4" @click="callbackMethod">
                 Filtrar
@@ -44,7 +56,8 @@ export default {
             date: [],
             mustShowFilters: false,
             filterTypeList: MovementEnum.getTypeList(),
-            filterTypeSelected: MovementEnum.type.all()
+            filterTypeSelected: MovementEnum.type.all(),
+            groupCardExpenses: false
         }
     },
     props: {
@@ -55,6 +68,10 @@ export default {
         useTypeMovementFilter: {
             type: Boolean,
             default: true
+        },
+        useRadioGroupCardExpenses: {
+            type: Boolean,
+            default: false
         }
     },
     emits: [
@@ -64,7 +81,10 @@ export default {
         callbackMethod() {
             const dateStart = this.date[0]
             const dateEnd = this.date[1]
-            const quest = `?dateStart=${dateStart}&dateEnd=${dateEnd}&type=${this.filterTypeSelected}`
+            let quest = `?dateStart=${dateStart}&dateEnd=${dateEnd}&type=${this.filterTypeSelected}`
+            if (this.groupCardExpenses) {
+                quest += `&groupCardExpenses=${this.groupCardExpenses}`
+            }
             this.$emit('filterQuest', quest)
         }
     }
@@ -72,12 +92,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+    @import "../../../sass/variables";
+
     .filter {
         font-size: 22px;
     }
     .dropdown-menu {
         width: 300px;
         padding: 10px;
+    }
+    .form-check-input:checked {
+        background-color: $form-switch-color;
+        border-color: $form-switch-color;
     }
 
     @media (max-width: 1000px) {
