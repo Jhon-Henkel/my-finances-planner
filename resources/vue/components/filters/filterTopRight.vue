@@ -22,7 +22,7 @@
                     Desagrupar despesas cartão
                 </label>
                 <input class="form-check-input"
-                       v-model="groupCardExpenses"
+                       v-model="dontGroupCardExpenses"
                        type="checkbox"
                        role="switch"
                        id="group-card-expenses">
@@ -57,7 +57,7 @@ export default {
             mustShowFilters: false,
             filterTypeList: MovementEnum.getTypeList(),
             filterTypeSelected: MovementEnum.type.all(),
-            groupCardExpenses: false
+            dontGroupCardExpenses: false
         }
     },
     props: {
@@ -82,8 +82,8 @@ export default {
             const dateStart = this.date[0]
             const dateEnd = this.date[1]
             let quest = `?dateStart=${dateStart}&dateEnd=${dateEnd}&type=${this.filterTypeSelected}`
-            if (this.groupCardExpenses) {
-                quest += `&groupCardExpenses=${this.groupCardExpenses}`
+            if (this.dontGroupCardExpenses) {
+                quest += `&dontGroupCardExpenses=${this.dontGroupCardExpenses}`
             }
             this.$emit('filterQuest', quest)
         }
