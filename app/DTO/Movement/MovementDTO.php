@@ -106,7 +106,7 @@ class MovementDTO
      */
     public function setAmount(float|int $amount): void
     {
-        $this->amount = $amount;
+        $this->amount = abs($amount);
     }
 
     /**

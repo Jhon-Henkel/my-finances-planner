@@ -28,4 +28,15 @@ class MovementDtoUnitTest extends Falcon9
         $this->assertEquals('2022-10-01 00:00:00', $dto->getCreatedAt());
         $this->assertEquals('2023-01-15 10:50:43', $dto->getUpdatedAt());
     }
+
+    public function testMovementDtoWithNegativeAmount()
+    {
+        $dto = new MovementDTO();
+        $dto->setAmount(-165.74);
+
+        $this->assertEquals(165.74, $dto->getAmount());
+
+        $dto->setAmount("-169.74");
+        $this->assertEquals(169.74, $dto->getAmount());
+    }
 }
