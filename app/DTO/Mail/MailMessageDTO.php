@@ -30,57 +30,36 @@ class MailMessageDTO
         $this->params = $params;
     }
 
-    /**
-     * @return string
-     */
     public function getAddressee(): string
     {
         return $this->addressee;
     }
 
-    /**
-     * @return string
-     */
     public function getAddresseeName(): string
     {
         return $this->addresseeName;
     }
 
-    /**
-     * @return string
-     */
     public function getSender(): string
     {
         return $this->sender;
     }
 
-    /**
-     * @return string
-     */
     public function getSenderName(): string
     {
         return $this->senderName;
     }
 
-    /**
-     * @return string
-     */
     public function getSubject(): string
     {
         return $this->subject;
     }
 
-    /**
-     * @return string
-     */
     public function getTempleteFile(): string
     {
         return $this->templeteFile;
     }
 
-    /**
-     * @return array
-     */
     public function getParams(): array
     {
         return $this->params;

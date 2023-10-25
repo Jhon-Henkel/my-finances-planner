@@ -15,7 +15,7 @@ class CreditCardMovementDTO
     ) {
     }
 
-    public function getId(): ?int
+    public function getId(): null|int
     {
         return $this->id;
     }
