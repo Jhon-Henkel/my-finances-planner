@@ -5,19 +5,19 @@ namespace App\DTO\Log;
 readonly class AccessLogDTO
 {
     public function __construct(
-        private ?int $id,
+        private null|int $id,
         private int $userId,
         private string $userIp,
-        private ?string $accountGroup,
+        private null|string $accountGroup,
         private string $userAgent,
         private int $logged,
-        private ?string $comments,
+        private null|string $comments,
         private string|int $tenantId,
         private mixed $created_at = null
     ) {
     }
 
-    public function getId(): ?string
+    public function getId(): null|string
     {
         return $this->id;
     }
@@ -27,7 +27,7 @@ readonly class AccessLogDTO
         return $this->userId;
     }
 
-    public function getAccountGroup(): ?string
+    public function getAccountGroup(): null|string
     {
         return $this->accountGroup;
     }
@@ -47,7 +47,7 @@ readonly class AccessLogDTO
         return $this->logged;
     }
 
-    public function getComments(): ?string
+    public function getComments(): null|string
     {
         return $this->comments;
     }

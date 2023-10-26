@@ -17,22 +17,22 @@ class MonthlyClosingDTO
     ) {
     }
 
-    public function getId(): ?int
+    public function getId(): null|int
     {
         return $this->id;
     }
 
-    public function getPredictedEarnings(): ?float
+    public function getPredictedEarnings(): null|float
     {
         return $this->predictedEarnings;
     }
 
-    public function getPredictedExpenses(): ?float
+    public function getPredictedExpenses(): null|float
     {
         return $this->predictedExpenses;
     }
 
-    public function getRealEarnings(): ?float
+    public function getRealEarnings(): null|float
     {
         return $this->realEarnings;
     }
@@ -42,7 +42,7 @@ class MonthlyClosingDTO
         $this->realEarnings = $realEarnings;
     }
 
-    public function getRealExpenses(): ?float
+    public function getRealExpenses(): null|float
     {
         return $this->realExpenses;
     }
@@ -52,7 +52,7 @@ class MonthlyClosingDTO
         $this->realExpenses = $realExpenses;
     }
 
-    public function getBalance(): ?float
+    public function getBalance(): null|float
     {
         return $this->balance;
     }
@@ -72,7 +72,7 @@ class MonthlyClosingDTO
         return $this->updatedAt;
     }
 
-    public function getTenantId(): ?int
+    public function getTenantId(): null|int
     {
         return $this->tenantId;
     }

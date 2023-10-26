@@ -13,129 +13,81 @@ class MovementDTO
     private mixed $createdAt;
     private mixed $updatedAt;
 
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int
+    public function getId(): null|int
     {
         return $this->id;
     }
 
-    /**
-     * @param int|null $id
-     */
-    public function setId(?int $id): void
+    public function setId(null|int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
     public function getWalletId(): int
     {
         return $this->walletId;
     }
 
-    /**
-     * @param int $walletId
-     */
     public function setWalletId(int $walletId): void
     {
         $this->walletId = $walletId;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getWalletName(): ?string
+    public function getWalletName(): null|string
     {
         return $this->walletName;
     }
 
-    /**
-     * @param string|null $walletName
-     */
-    public function setWalletName(?string $walletName): void
+    public function setWalletName(null|string $walletName): void
     {
         $this->walletName = $walletName;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDescription(): ?string
+    public function getDescription(): null|string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     */
-    public function setDescription(?string $description): void
+    public function setDescription(null|string $description): void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return int
-     */
     public function getType(): int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     */
     public function setType(int $type): void
     {
         $this->type = $type;
     }
 
-    /**
-     * @return float|int
-     */
     public function getAmount(): float|int
     {
         return $this->amount;
     }
 
-    /**
-     * @param float|int $amount
-     */
     public function setAmount(float|int $amount): void
     {
         $this->amount = abs($amount);
     }
 
-    /**
-     * @return mixed
-     */
     public function getCreatedAt(): mixed
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param mixed $createdAt
-     */
     public function setCreatedAt(mixed $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUpdatedAt(): mixed
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param mixed $updatedAt
-     */
     public function setUpdatedAt(mixed $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
