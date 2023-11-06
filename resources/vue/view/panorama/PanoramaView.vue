@@ -9,10 +9,6 @@
                     <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
                     Novo Gasto Futuro
                 </router-link>
-                <router-link class="btn btn-success rounded-2 ms-2 top-button" to="/panorama/todas-despesas-e-ganhos">
-                    <font-awesome-icon :icon="iconEnum.movement()" class="me-2"/>
-                    Ver todos Ganhos/Gastos
-                </router-link>
             </div>
             <divider/>
             <div class="card glass success balance-card">
@@ -66,6 +62,13 @@
                                                     spent.name
                                                 )"
                                             />
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center border-table-top">
+                                        <td colspan="10" class="no-hover">
+                                            <router-link class="a-default" to="/panorama/todas-despesas-e-ganhos">
+                                                Ver todos
+                                            </router-link>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -478,6 +481,12 @@ export default {
     .border-table {
         border-top: 2px solid $table-line-divider-color;
         border-bottom: 2px solid $table-line-divider-color;
+    }
+    .border-table-top {
+        border-top: 2px solid $table-line-divider-color;
+    }
+    .no-hover:hover {
+        background-color: transparent !important;
     }
     @media (max-width: 1000px) {
         .nav {
