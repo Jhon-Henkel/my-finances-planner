@@ -36,8 +36,8 @@
                                     </tr>
                                     <tr v-for="spent in futureSpending" :key="spent.id">
                                         <td>
-                                            <span class="badge rounded-2" 
-                                                    :class="getBadgeTypeForForecastDate(spent)" 
+                                            <span class="badge rounded-2"
+                                                    :class="getBadgeTypeForForecastDate(spent)"
                                                     :title="getTitleForForecastDate(spent)">
                                                 {{ spent.nextInstallmentDay }}
                                             </span>
@@ -226,7 +226,6 @@ import MfpMessage from '../../components/MessageAlert.vue'
 import PayReceive from '../../components/PayReceiveComponent.vue'
 import AlertIcon from '../../components/AlertIcon.vue'
 import messageTools from '../../../js/tools/messageTools'
-import calendarTools from '../../../js/tools/calendarTools'
 
 export default {
     name: 'PanoramaView',
@@ -414,7 +413,7 @@ export default {
             return StringTools.formatFloatValueToBrString(value)
         },
         getBadgeTypeForForecastDate(installment) {
-            const today = calendarTools.getToday().getDate()
+            const today = CalendarTools.getToday().getDate()
             const nextInstallmentDay = parseInt(installment.nextInstallmentDay)
             if ((nextInstallmentDay < today) && (installment.firstInstallment > 0)) {
                 return 'bg-danger'
@@ -424,7 +423,7 @@ export default {
             return 'bg-success'
         },
         getTitleForForecastDate(installment) {
-            const today = calendarTools.getToday().getDate()
+            const today = CalendarTools.getToday().getDate()
             const nextInstallmentDay = parseInt(installment.nextInstallmentDay)
             if ((nextInstallmentDay < today) && (installment.firstInstallment > 0)) {
                 return 'Atrasado'
