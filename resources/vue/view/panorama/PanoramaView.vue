@@ -178,7 +178,7 @@
                                             <td class="text-start">Sobras</td>
                                             <td>
                                                 {{ formatValueToBr(totalRemaining.firstInstallment + totalWalletsValue) }}
-                                                <alert-icon v-if="totalRemaining.firstInstallment < 0"/>
+                                                <alert-icon v-if="(totalRemaining.firstInstallment + totalWalletsValue) < 0"/>
                                             </td>
                                             <td>
                                                 {{ formatValueToBr(totalRemaining.secondInstallment) }}
