@@ -9,10 +9,6 @@
                     <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
                     Novo Gasto Futuro
                 </router-link>
-                <router-link class="btn btn-success rounded-2 ms-2 top-button" to="/panorama/todas-despesas-e-ganhos">
-                    <font-awesome-icon :icon="iconEnum.movement()" class="me-2"/>
-                    Ver todos Ganhos/Gastos
-                </router-link>
             </div>
             <divider/>
             <div class="card glass success balance-card">
@@ -39,7 +35,13 @@
                                         <td colspan="11">Nenhuma despesa cadastrada ainda!</td>
                                     </tr>
                                     <tr v-for="spent in futureSpending" :key="spent.id">
-                                        <td>{{ spent.nextInstallmentDay }}</td>
+                                        <td>
+                                            <span class="badge rounded-2"
+                                                    :class="getBadgeTypeForForecastDate(spent)"
+                                                    :title="getTitleForForecastDate(spent)">
+                                                {{ spent.nextInstallmentDay }}
+                                            </span>
+                                        </td>
                                         <td class="text-start">{{ spent.name }}</td>
                                         <td>{{ formatValueToBr(spent.firstInstallment) }}</td>
                                         <td>{{formatValueToBr(spent.secondInstallment) }}</td>
@@ -66,6 +68,13 @@
                                                     spent.name
                                                 )"
                                             />
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center border-table-top">
+                                        <td colspan="10" class="no-hover">
+                                            <router-link class="a-default" to="/panorama/todas-despesas-e-ganhos">
+                                                Ver todos
+                                            </router-link>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -150,11 +159,25 @@
                                             <td>{{ formatValueToBr(totalFutureGain.sixthInstallment) }}</td>
                                         </tr>
                                         <tr class="text-center text-nowrap">
-                                            <td><font-awesome-icon :icon="iconEnum.circleArrowRight()"
+                                            <td>
+                                                <font-awesome-icon :icon="iconEnum.wallet()" class="movement-gain-icon me-2"/>
+                                            </td>
+                                            <td class="text-start">
+                                                Carteira
+                                                <a href="/carteiras" class="a-default" target="_blank">
+                                                    <font-awesome-icon :icon="iconEnum.linkOut()" class="icon-out"/>
+                                                </a>
+                                            </td>
+                                            <td>{{ formatValueToBr(totalWalletsValue) }}</td>
+                                        </tr>
+                                        <tr class="text-center text-nowrap">
+                                            <td>
+                                                <font-awesome-icon :icon="iconEnum.circleArrowRight()"
                                                                    class="remaining-icon me-2"/>
                                             </td>
                                             <td class="text-start">Sobras</td>
-                                            <td>{{ formatValueToBr(totalRemaining.firstInstallment) }}
+                                            <td>
+                                                {{ formatValueToBr(totalRemaining.firstInstallment + totalWalletsValue) }}
                                                 <alert-icon v-if="totalRemaining.firstInstallment < 0"/>
                                             </td>
                                             <td>
@@ -180,53 +203,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row ms-1 mt-4">
-                <div class="card glass success balance-card">
-                    <div class="card-body text-center">
-                        <h4 class="card-title">
-                            <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
-                            Previsão considerando valor em carteira
-                        </h4>
-                        <hr>
-                        <div class="card-text balance-content">
-                            <div class="row">
-                                <div class="col-4">
-                                    <h6>
-                                        <font-awesome-icon :icon="iconEnum.wallet()" class="movement-gain-icon"/>
-                                        Valor em carteira
-                                    </h6>
-                                </div>
-                                <div class="col-4">
-                                    <select v-model="monthRemaining" class="form-select-sm text-center">
-                                        <option value="10" disabled>Selecione o mês</option>
-                                        <option v-for="(month, index) in months" :key="index" :value="index">
-                                            {{ CalendarTools.getMonthNameByNumber(month) }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <h6>
-                                        <font-awesome-icon :icon="iconEnum.invoice()"/>
-                                        Total
-                                    </h6>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-4 balance-value">
-                                    {{ formatValueToBr(totalWalletsValue) }}
-                                </div>
-                                <div class="col-4 select-balance-value">
-                                    {{ formatValueToBr(getValueForTotalSum()) }}
-                                </div>
-                                <div class="col-4 balance-value">
-                                    {{ formatValueToBr(totalWalletsValue + getValueForTotalSum()) }}
-                                    <alert-icon v-if="totalWalletsValue + getValueForTotalSum() < 0"/>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -435,6 +411,26 @@ export default {
         },
         formatValueToBr(value) {
             return StringTools.formatFloatValueToBrString(value)
+        },
+        getBadgeTypeForForecastDate(installment) {
+            const today = CalendarTools.getToday().getDate()
+            const nextInstallmentDay = parseInt(installment.nextInstallmentDay)
+            if ((nextInstallmentDay < today) && (installment.firstInstallment > 0)) {
+                return 'bg-danger'
+            } else if ((nextInstallmentDay > today) && (installment.firstInstallment > 0)) {
+                return 'bg-warning'
+            }
+            return 'bg-success'
+        },
+        getTitleForForecastDate(installment) {
+            const today = CalendarTools.getToday().getDate()
+            const nextInstallmentDay = parseInt(installment.nextInstallmentDay)
+            if ((nextInstallmentDay < today) && (installment.firstInstallment > 0)) {
+                return 'Atrasado'
+            } else if ((nextInstallmentDay > today) && (installment.firstInstallment > 0)) {
+                return 'Prestes a Vencer'
+            }
+            return 'Pago'
         }
     },
     async mounted() {
@@ -478,6 +474,12 @@ export default {
     .border-table {
         border-top: 2px solid $table-line-divider-color;
         border-bottom: 2px solid $table-line-divider-color;
+    }
+    .border-table-top {
+        border-top: 2px solid $table-line-divider-color;
+    }
+    .no-hover:hover {
+        background-color: transparent !important;
     }
     @media (max-width: 1000px) {
         .nav {
