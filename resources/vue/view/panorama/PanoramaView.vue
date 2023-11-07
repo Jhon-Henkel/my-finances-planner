@@ -44,7 +44,7 @@
                                         </td>
                                         <td class="text-start">{{ spent.name }}</td>
                                         <td>{{ formatValueToBr(spent.firstInstallment) }}</td>
-                                        <td>{{formatValueToBr(spent.secondInstallment) }}</td>
+                                        <td>{{ formatValueToBr(spent.secondInstallment) }}</td>
                                         <td>{{ formatValueToBr(spent.thirdInstallment) }}</td>
                                         <td>{{ formatValueToBr(spent.fourthInstallment) }}</td>
                                         <td>{{ formatValueToBr(spent.fifthInstallment) }}</td>
@@ -302,7 +302,6 @@ export default {
             },
             futureSpending: {},
             totalWalletsValue: 0,
-            monthRemaining: 10,
             paySpentValue: 0,
             paySpentId: 0,
             showPaySpent: false,
@@ -382,32 +381,15 @@ export default {
         showCheckButton(spent) {
             if (
                 !spent.firstInstallment &&
-                    !spent.secondInstallment &&
-                    !spent.thirdInstallment &&
-                    !spent.fourthInstallment &&
-                    !spent.fifthInstallment &&
-                    !spent.sixthInstallment
+                !spent.secondInstallment &&
+                !spent.thirdInstallment &&
+                !spent.fourthInstallment &&
+                !spent.fifthInstallment &&
+                !spent.sixthInstallment
             ) {
                 return false
             }
             return true
-        },
-        getValueForTotalSum() {
-            if (this.monthRemaining === 10) {
-                return 0
-            } else if (this.monthRemaining === 0) {
-                return this.totalRemaining.firstInstallment
-            } else if (this.monthRemaining === 1) {
-                return this.totalRemaining.secondInstallment
-            } else if (this.monthRemaining === 2) {
-                return this.totalRemaining.thirdInstallment
-            } else if (this.monthRemaining === 3) {
-                return this.totalRemaining.fourthInstallment
-            } else if (this.monthRemaining === 4) {
-                return this.totalRemaining.fifthInstallment
-            } else if (this.monthRemaining === 5) {
-                return this.totalRemaining.sixthInstallment
-            }
         },
         formatValueToBr(value) {
             return StringTools.formatFloatValueToBrString(value)
