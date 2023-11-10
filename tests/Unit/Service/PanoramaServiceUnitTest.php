@@ -17,7 +17,7 @@ class PanoramaServiceUnitTest extends Falcon9
     {
         $serviceMock = Mockery::mock(PanoramaService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('getTotalFutureExpenses')->times(2)->andReturn([]);
+        $serviceMock->shouldReceive('getTotalFutureExpenses')->once()->andReturn([]);
         $serviceMock->shouldReceive('getTotalFutureGains')->once()->andReturn(new InvoiceVO());
         $serviceMock->shouldReceive('getTotalCreditCardExpenses')->once()->andReturn(new InvoiceVO());
         $serviceMock->shouldReceive('getWalletInvoiceData')->once()->andReturn(10.50);

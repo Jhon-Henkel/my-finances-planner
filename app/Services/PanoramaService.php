@@ -11,12 +11,13 @@ class PanoramaService
 {
     public function getPanoramaData(): array
     {
-        $totalFutureExpenses = InvoiceFactory::generateInvoiceSumFromInvoicesArray($this->getTotalFutureExpenses());
+        $futureExpenses = $this->getTotalFutureExpenses();
+        $totalFutureExpenses = InvoiceFactory::generateInvoiceSumFromInvoicesArray($futureExpenses);
         $totalFutureGains = $this->getTotalFutureGains();
         $totalCreditCardExpenses = $this->getTotalCreditCardExpenses();
         return [
             'totalWalletValue' => $this->getWalletInvoiceData(),
-            'futureExpenses' => $this->getTotalFutureExpenses(),
+            'futureExpenses' => $futureExpenses,
             'totalFutureExpenses' => $totalFutureExpenses,
             'totalFutureGains' => $totalFutureGains,
             'totalCreditCardExpenses' => $totalCreditCardExpenses,
