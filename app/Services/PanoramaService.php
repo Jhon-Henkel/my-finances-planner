@@ -6,9 +6,17 @@ use App\DTO\InvoiceItemDTO;
 use App\Factory\InvoiceFactory;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\VO\InvoiceVO;
+use Exception;
 
 class PanoramaService
 {
+    public function __construct(
+        private readonly WalletService $walletService,
+        private readonly FutureSpentService $futureSpentService,
+        private readonly FutureGainService $futureGainService,
+        private readonly CreditCardTransactionService $creditCardTransactionService
+    ) {}
+
     public function getPanoramaData(): array
     {
         $futureExpenses = $this->getTotalFutureExpenses();
@@ -27,27 +35,26 @@ class PanoramaService
 
     protected function getWalletInvoiceData(): float
     {
-        $walletService = app(WalletService::class);
-        return $walletService->getTotalWalletValue();
+        return $this->walletService->getTotalWalletValue();
     }
 
-    protected function getTotalFutureExpenses()
+    /**
+     * @throws Exception
+     */
+    protected function getTotalFutureExpenses(): array
     {
-        $invoiceService = app(FutureSpentService::class);
-        return $invoiceService->getNextSixMonthsFutureSpent();
+        return $this->futureSpentService->getNextSixMonthsFutureSpent();
     }
 
     protected function getTotalFutureGains(): InvoiceVO
     {
-        $gainService = app(FutureGainService::class);
-        $gains = $gainService->getNextSixMonthsFutureGain();
+        $gains = $this->futureGainService->getNextSixMonthsFutureGain();
         return InvoiceFactory::generateInvoiceSumFromInvoicesArray($gains);
     }
 
     protected function getTotalCreditCardExpenses(): InvoiceVO
     {
-        $creditCardTransactionService = app(CreditCardTransactionService::class);
-        $invoices = $creditCardTransactionService->getAllCardsInvoices();
+        $invoices = $this->creditCardTransactionService->getAllCardsInvoices();
         return InvoiceFactory::generateInvoiceSumFromInvoicesArray($invoices);
     }
 
