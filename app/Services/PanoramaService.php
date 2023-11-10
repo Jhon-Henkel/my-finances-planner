@@ -15,8 +15,12 @@ class PanoramaService
         private readonly FutureSpentService $futureSpentService,
         private readonly FutureGainService $futureGainService,
         private readonly CreditCardTransactionService $creditCardTransactionService
-    ) {}
+    ) {
+    }
 
+    /**
+     * @throws Exception
+     */
     public function getPanoramaData(): array
     {
         $futureExpenses = $this->getTotalFutureExpenses();
@@ -46,6 +50,9 @@ class PanoramaService
         return $this->futureSpentService->getNextSixMonthsFutureSpent();
     }
 
+    /**
+     * @throws Exception
+     */
     protected function getTotalFutureGains(): InvoiceVO
     {
         $gains = $this->futureGainService->getNextSixMonthsFutureGain();

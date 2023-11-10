@@ -16,6 +16,12 @@ abstract class BasicRepository implements BasicRepositoryContract
         return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
     }
 
+    public function findAllToArray()
+    {
+        $itens = $this->getModel()::orderBy(BasicFieldsEnum::ID, 'desc')->get();
+        return $itens->toArray();
+    }
+
     public function findById(int $id)
     {
         $item = $this->getModel()->find($id);

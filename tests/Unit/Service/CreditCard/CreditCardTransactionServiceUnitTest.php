@@ -138,4 +138,35 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
 
         $this->assertTrue($payed);
     }
+
+    public function testGetAllCardsInvoices()
+    {
+        $transactionOne = [
+            'id' => 1,
+            'credit_card_id' => 1,
+            'name' => 'Test 1',
+            'value' => 10.22,
+            'installments' => 10,
+            'next_installment' => '2022-10-10'
+        ];
+
+        $creditCardTransactionRepositoryMock = Mockery::mock(CreditCardTransactionRepository::class)->makePartial();
+        $creditCardTransactionRepositoryMock->shouldReceive('findAllToArray')->once()->andReturn([1 => $transactionOne]);
+
+        $args = [
+            $creditCardTransactionRepositoryMock,
+            Mockery::mock(CreditCardMovementService::class)->makePartial(),
+            Mockery::mock(CreditCardService::class)->makePartial(),
+            Mockery::mock(MovementService::class)->makePartial()
+        ];
+
+        $serviceMock = Mockery::mock(CreditCardTransactionService::class, $args)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+
+        $invoices = $serviceMock->getAllCardsInvoices();
+
+        $this->assertIsArray($invoices);
+        $this->assertCount(1, $invoices);
+        $this->assertInstanceOf(InvoiceVO::class, $invoices[0]);
+    }
 }

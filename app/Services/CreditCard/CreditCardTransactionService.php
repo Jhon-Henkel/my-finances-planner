@@ -142,10 +142,10 @@ class CreditCardTransactionService extends BasicService
 
     public function getAllCardsInvoices(): array
     {
-        $creditCards = app(CreditCardService::class)->getRepository()->findAll();
+        $transactions = $this->getRepository()->findAllToArray();
         $transactionsCards = [];
-        foreach ($creditCards as $creditCard) {
-            $transactionsCards[] = $this->getRepository()->getExpenses($creditCard->getId());
+        foreach ($transactions as $transaction) {
+            $transactionsCards[$transaction['credit_card_id']][] = $transaction;
         }
         $invoices = [];
         foreach ($transactionsCards as $transactionCard) {
