@@ -4,7 +4,8 @@
         "single_blank_line_at_eof": false,
         "visibility_required": false,
         "single_trait_insert_per_statement": false,
-        "no_multiple_statements_per_line": false
+        "no_multiple_statements_per_line": false,
+        "unary_operator_spaces": false
     },
     "exclude": [
         "database/migrations"
