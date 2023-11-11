@@ -36,8 +36,7 @@
                                     </tr>
                                     <tr v-for="spent in futureSpending" :key="spent.id">
                                         <td v-tooltip="getTitleForForecastDate(spent)">
-                                            <span class="badge rounded-2"
-                                                    :class="getBadgeTypeForForecastDate(spent)">
+                                            <span class="badge rounded-2" :class="getBadgeTypeForForecastDate(spent)">
                                                 {{ spent.nextInstallmentDay }}
                                             </span>
                                         </td>
