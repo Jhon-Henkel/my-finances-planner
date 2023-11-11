@@ -245,6 +245,9 @@ export default {
         .me-2 {
             margin-right: 0 !important;
         }
+        .me-3 {
+            margin-right: 0 !important;
+        }
         .top-button {
             margin-top: 10px;
             border-radius: 8px !important;

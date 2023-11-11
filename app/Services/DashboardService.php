@@ -8,6 +8,15 @@ use App\Services\Movement\MovementService;
 
 class DashboardService
 {
+    public function __construct(
+        protected WalletService $walletService,
+        protected MovementService $movementService,
+        protected FutureSpentService $futureSpentService,
+        protected FutureGainService $futureGainService,
+        protected CreditCardTransactionService $creditCardTransactionService
+    ) {
+    }
+
     public function getDashboardData(): array
     {
         return [
@@ -21,16 +30,15 @@ class DashboardService
 
     protected function getWalletBalance(): float
     {
-        return app(WalletService::class)->getTotalWalletValue();
+        return $this->walletService->getTotalWalletValue();
     }
 
     protected function getMovementsData(): array
     {
-        $movementService = app(MovementService::class);
-        $lastMonth = $movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_LAST_MONTH);
-        $thisMonth = $movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_MONTH);
-        $thisYear = $movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_YEAR);
-        $lastMovements = $movementService->getLastMovements(8);
+        $lastMonth = $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_LAST_MONTH);
+        $thisMonth = $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_MONTH);
+        $thisYear = $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_YEAR);
+        $lastMovements = $this->movementService->getLastMovements(8);
         return [
             'lastMonthSpent' => isset($lastMonth[0]) ? $lastMonth[0]['total'] : 0,
             'thisMonthSpent' => isset($thisMonth[0]) ? $thisMonth[0]['total'] : 0,
@@ -39,34 +47,31 @@ class DashboardService
             'thisMonthGain' => isset($thisMonth[1]) ? $thisMonth[1]['total'] : 0,
             'thisYearGain' => isset($thisYear[1]) ? $thisYear[1]['total'] : 0,
             'lastMovements' => $lastMovements,
-            'dataForGraph' => $movementService->generateDataForGraph()
+            'dataForGraph' => $this->movementService->generateDataForGraph()
         ];
     }
 
     protected function getFutureSpentData(): array
     {
-        $futureSpentService = app(FutureSpentService::class);
         return [
-            'thisMonth' => $futureSpentService->getThisMonthFutureSpentSum(),
-            'thisYear' => $futureSpentService->getThisYearFutureSpentSum(),
+            'thisMonth' => $this->futureSpentService->getThisMonthFutureSpentSum(),
+            'thisYear' => $this->futureSpentService->getThisYearFutureSpentSum(),
         ];
     }
 
     protected function getFutureGainData(): array
     {
-        $futureSpentService = app(FutureGainService::class);
         return [
-            'thisMonth' => $futureSpentService->getThisMonthFutureGainSum(),
-            'thisYear' => $futureSpentService->getThisYearFutureGainSum(),
+            'thisMonth' => $this->futureGainService->getThisMonthFutureGainSum(),
+            'thisYear' => $this->futureGainService->getThisYearFutureGainSum(),
         ];
     }
 
     protected function getCreditCardsData(): array
     {
-        $creditCardTransactionService = app(CreditCardTransactionService::class);
         return [
-            'thisMonth' => $creditCardTransactionService->getThisMonthInvoiceSum(),
-            'thisYear' => $creditCardTransactionService->getThisYearInvoiceSum(),
+            'thisMonth' => $this->creditCardTransactionService->getThisMonthInvoiceSum(),
+            'thisYear' => $this->creditCardTransactionService->getThisYearInvoiceSum(),
         ];
     }
 }
