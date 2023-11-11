@@ -35,10 +35,9 @@
                                         <td colspan="11">Nenhuma despesa cadastrada ainda!</td>
                                     </tr>
                                     <tr v-for="spent in futureSpending" :key="spent.id">
-                                        <td>
+                                        <td v-tooltip="getTitleForForecastDate(spent)">
                                             <span class="badge rounded-2"
-                                                    :class="getBadgeTypeForForecastDate(spent)"
-                                                    :title="getTitleForForecastDate(spent)">
+                                                    :class="getBadgeTypeForForecastDate(spent)">
                                                 {{ spent.nextInstallmentDay }}
                                             </span>
                                         </td>
