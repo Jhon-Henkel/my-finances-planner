@@ -14,23 +14,15 @@ use Exception;
 
 class CreditCardTransactionService extends BasicService
 {
-    protected CreditCardTransactionRepository $repository;
     protected CreditCardResource $resource;
-    protected CreditCardMovementService $creditCardMovementService;
-    protected CreditCardService $creditCardService;
-    protected MovementService $movementService;
 
     public function __construct(
-        CreditCardTransactionRepository $repository,
-        CreditCardMovementService $creditCardMovementService,
-        CreditCardService $creditCardService,
-        MovementService $movementService
+        protected CreditCardTransactionRepository $repository,
+        protected CreditCardMovementService $creditCardMovementService,
+        protected CreditCardService $creditCardService,
+        protected MovementService $movementService
     ) {
-        $this->repository = $repository;
         $this->resource = new CreditCardResource();
-        $this->creditCardMovementService = $creditCardMovementService;
-        $this->creditCardService = $creditCardService;
-        $this->movementService = $movementService;
     }
 
     protected function getRepository(): CreditCardTransactionRepository
@@ -78,21 +70,39 @@ class CreditCardTransactionService extends BasicService
      */
     protected function getNextInstallmentOrder(array $invoices): null|string
     {
+        $firstInstallment = null;
+        $secondInstallment = null;
+        $thirdInstallment = null;
+        $fourthInstallment = null;
+        $fifthInstallment = null;
+        $sixthInstallment = null;
         foreach ($invoices as $invoice) {
             if ($invoice->firstInstallment) {
-                return 'firstInstallment';
+                $firstInstallment = true;
             } elseif ($invoice->secondInstallment) {
-                return 'secondInstallment';
+                $secondInstallment = true;
             } elseif ($invoice->thirdInstallment) {
-                return 'thirdInstallment';
+                $thirdInstallment = true;
             } elseif ($invoice->fourthInstallment) {
-                return 'fourthInstallment';
+                $fourthInstallment = true;
             } elseif ($invoice->fifthInstallment) {
-                return 'fifthInstallment';
+                $fifthInstallment = true;
             } elseif ($invoice->sixthInstallment) {
-                return 'sixthInstallment';
+                $sixthInstallment = true;
             }
-            return null;
+        }
+        if ($firstInstallment) {
+            return 'firstInstallment';
+        } elseif ($secondInstallment) {
+            return 'secondInstallment';
+        } elseif ($thirdInstallment) {
+            return 'thirdInstallment';
+        } elseif ($fourthInstallment) {
+            return 'fourthInstallment';
+        } elseif ($fifthInstallment) {
+            return 'fifthInstallment';
+        } elseif ($sixthInstallment) {
+            return 'sixthInstallment';
         }
         return null;
     }
@@ -157,32 +167,50 @@ class CreditCardTransactionService extends BasicService
         return $invoices;
     }
 
-    public function getNextInvoiceValueAndTotalValueByCardId(int $cardId): array
+    public function getAllNextInvoicesValuesAndTotalValues(): array
     {
-        $invoices = $this->getInvoices($cardId);
-        $nextInstallment = $this->getNextInstallmentOrder($invoices);
-        if (! $nextInstallment) {
-            return ['nextInvoiceValue' => 0, 'totalValue' => 0];
+        $invoicesGrouped = $this->getAllCardsInvoicesGroupedByCardId();
+        $invoicesValues = [];
+        foreach ($invoicesGrouped as $cardId => $invoices) {
+            $nextInstallment = $this->getNextInstallmentOrder($invoices);
+            if (! $nextInstallment) {
+                $invoicesValues[$cardId] = ['nextValue' => 0, 'totalValue' => 0, 'thisMonthInvoicePayed' => true];
+                continue;
+            }
+            $nextInvoiceValue = 0;
+            $totalValue = 0;
+            foreach ($invoices as $invoice) {
+                $numberInstallments = $invoice->remainingInstallments === 0 ? 1 : $invoice->remainingInstallments;
+                $totalValue += ($invoice->$nextInstallment * $numberInstallments);
+                $nextInvoiceValue += $invoice->$nextInstallment;
+            }
+            $thisMonthInvoicePayed = $this->isThisMonthInvoicePayed($nextInstallment);
+            $invoicesValues[$cardId] = [
+                'nextValue' => $nextInvoiceValue,
+                'totalValue' => $totalValue,
+                'thisMonthInvoicePayed' => $thisMonthInvoicePayed
+            ];
         }
-        $nextInvoiceValue = 0;
-        $totalValue = 0;
-        foreach ($invoices as $invoice) {
-            $numberInstallments = $invoice->remainingInstallments === 0 ? 1 : $invoice->remainingInstallments;
-            $totalValue += ($invoice->$nextInstallment * $numberInstallments);
-            $nextInvoiceValue += $invoice->$nextInstallment;
+        return $invoicesValues;
+    }
+
+    public function getAllCardsInvoicesGroupedByCardId(): array
+    {
+        $allInvoices = $this->getAllCardsInvoices();
+        $invoices = [];
+        foreach ($allInvoices as $invoice) {
+            $invoices[$invoice->countId][] = $invoice;
         }
-        return ['nextInvoiceValue' => $nextInvoiceValue, 'totalValue' => $totalValue];
+        return $invoices;
+    }
+
+    protected function isThisMonthInvoicePayed(null|string $nextInstallment): bool
+    {
+        return $nextInstallment !== 'firstInstallment';
     }
 
     public function countByCreditCardId(int $creditCardId): int
     {
         return $this->getRepository()->countByCreditCardId($creditCardId);
-    }
-
-    public function isThisMonthInvoicePaid(int $cardId): bool
-    {
-        $period = CalendarTools::getThisMonthPeriod();
-        $isThisMonthInvoicePaid = $this->getRepository()->countByPeriod($period, $cardId);
-        return $isThisMonthInvoicePaid === 0;
     }
 }
