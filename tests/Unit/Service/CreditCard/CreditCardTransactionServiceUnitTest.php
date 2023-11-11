@@ -24,31 +24,31 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
 
         $invoice = new InvoiceVO();
         $invoice->firstInstallment = 1;
-        $invoice->secondInstallment = 2;
-        $invoice->thirdInstallment = 3;
-        $invoice->fourthInstallment = 4;
-        $invoice->fifthInstallment = 5;
-        $invoice->sixthInstallment = 6;
 
         $this->assertEquals('firstInstallment', $serviceMock->getNextInstallmentOrder([$invoice]));
 
         $invoice->firstInstallment = null;
+        $invoice->secondInstallment = 2;
 
         $this->assertEquals('secondInstallment', $serviceMock->getNextInstallmentOrder([$invoice]));
 
         $invoice->secondInstallment = null;
+        $invoice->thirdInstallment = 3;
 
         $this->assertEquals('thirdInstallment', $serviceMock->getNextInstallmentOrder([$invoice]));
 
         $invoice->thirdInstallment = null;
+        $invoice->fourthInstallment = 4;
 
         $this->assertEquals('fourthInstallment', $serviceMock->getNextInstallmentOrder([$invoice]));
 
         $invoice->fourthInstallment = null;
+        $invoice->fifthInstallment = 5;
 
         $this->assertEquals('fifthInstallment', $serviceMock->getNextInstallmentOrder([$invoice]));
 
         $invoice->fifthInstallment = null;
+        $invoice->sixthInstallment = 6;
 
         $this->assertEquals('sixthInstallment', $serviceMock->getNextInstallmentOrder([$invoice]));
 
@@ -56,6 +56,40 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
 
         $this->assertEquals(null, $serviceMock->getNextInstallmentOrder([$invoice]));
         $this->assertEquals(null, $serviceMock->getNextInstallmentOrder([]));
+
+        $invoiceTwo = new InvoiceVO();
+        $invoiceTwo->firstInstallment = 1;
+
+        $this->assertEquals('firstInstallment', $serviceMock->getNextInstallmentOrder([$invoice, $invoiceTwo]));
+
+        $invoiceTwo->firstInstallment = null;
+        $invoiceTwo->secondInstallment = 2;
+
+        $this->assertEquals('secondInstallment', $serviceMock->getNextInstallmentOrder([$invoice, $invoiceTwo]));
+
+        $invoiceTwo->secondInstallment = null;
+        $invoiceTwo->thirdInstallment = 3;
+
+        $this->assertEquals('thirdInstallment', $serviceMock->getNextInstallmentOrder([$invoice, $invoiceTwo]));
+
+        $invoiceTwo->thirdInstallment = null;
+        $invoiceTwo->fourthInstallment = 4;
+
+        $this->assertEquals('fourthInstallment', $serviceMock->getNextInstallmentOrder([$invoice, $invoiceTwo]));
+
+        $invoiceTwo->fourthInstallment = null;
+        $invoiceTwo->fifthInstallment = 5;
+
+        $this->assertEquals('fifthInstallment', $serviceMock->getNextInstallmentOrder([$invoice, $invoiceTwo]));
+
+        $invoiceTwo->fifthInstallment = null;
+        $invoiceTwo->sixthInstallment = 6;
+
+        $this->assertEquals('sixthInstallment', $serviceMock->getNextInstallmentOrder([$invoice, $invoiceTwo]));
+
+        $invoiceTwo->sixthInstallment = null;
+
+        $this->assertEquals(null, $serviceMock->getNextInstallmentOrder([$invoice, $invoiceTwo]));
     }
 
     public function testGetNextPaymentDateByInstallment()
@@ -168,5 +202,87 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertIsArray($invoices);
         $this->assertCount(1, $invoices);
         $this->assertInstanceOf(InvoiceVO::class, $invoices[0]);
+    }
+
+    public function testIsThisMonthInvoicePayed()
+    {
+        $serviceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+
+        $this->assertFalse($serviceMock->isThisMonthInvoicePayed('firstInstallment'));
+        $this->assertTrue($serviceMock->isThisMonthInvoicePayed('secondInstallment'));
+        $this->assertTrue($serviceMock->isThisMonthInvoicePayed('thirdInstallment'));
+        $this->assertTrue($serviceMock->isThisMonthInvoicePayed('fourthInstallment'));
+        $this->assertTrue($serviceMock->isThisMonthInvoicePayed('fifthInstallment'));
+        $this->assertTrue($serviceMock->isThisMonthInvoicePayed('sixthInstallment'));
+        $this->assertTrue($serviceMock->isThisMonthInvoicePayed(null));
+    }
+
+    public function testGetAllCardsInvoicesGroupedByCardId()
+    {
+        $invoices = [
+            InvoiceVO::makeInvoice(
+                new InvoiceItemDTO(1, 123, 'Test 1', 'Ds Test 1', 10.22, '2022-10-10', 10),
+                [],
+                150.00
+            ),
+            InvoiceVO::makeInvoice(
+                new InvoiceItemDTO(2, 456, 'Test 2', 'Ds Test 2', 15.26, '2022-11-10', 5),
+                [],
+                190.00
+            ),
+        ];
+
+        $serviceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+        $serviceMock->shouldReceive('getAllCardsInvoices')->once()->andReturn($invoices);
+
+        $invoicesGrouped = $serviceMock->getAllCardsInvoicesGroupedByCardId();
+
+        $this->assertIsArray($invoicesGrouped);
+        $this->assertCount(2, $invoicesGrouped);
+        $this->assertArrayHasKey(123, $invoicesGrouped);
+        $this->assertArrayHasKey(456, $invoicesGrouped);
+        $this->assertIsArray($invoicesGrouped[123]);
+        $this->assertIsArray($invoicesGrouped[456]);
+    }
+
+    public function testGetAllNextInvoicesValuesAndTotalValues()
+    {
+        $invoices = [
+            InvoiceVO::makeInvoice(
+                new InvoiceItemDTO(1, 123, 'Test 1', 'Ds Test 1', 10.22, '2022-10-10', 10),
+                [],
+                150.00
+            ),
+            InvoiceVO::makeInvoice(
+                new InvoiceItemDTO(2, 456, 'Test 2', 'Ds Test 2', 10, '2022-11-10', 6),
+                [10, 10, 10, 10, 10, 10],
+                60
+            ),
+        ];
+
+        $serviceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+        $serviceMock->shouldReceive('getAllCardsInvoicesGroupedByCardId')->once()->passthru();
+        $serviceMock->shouldReceive('getAllCardsInvoices')->once()->andReturn($invoices);
+        $serviceMock->shouldReceive('getNextInstallmentOrder')->twice()->andReturn(null, 'firstInstallment');
+
+        $nextInvoices = $serviceMock->getAllNextInvoicesValuesAndTotalValues();
+
+        $expected = [
+            123 => [
+                'nextValue' => 0,
+                'totalValue' => 0,
+                'thisMonthInvoicePayed' => true
+            ],
+            456 => [
+                'nextValue' => 10.0,
+                'totalValue' => 60.0,
+                'thisMonthInvoicePayed' => false
+            ]
+        ];
+
+        $this->assertEquals($expected, $nextInvoices);
     }
 }
