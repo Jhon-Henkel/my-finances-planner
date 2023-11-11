@@ -21,23 +21,23 @@
                                         </td>
                                     </tr>
                                     <tr class="text-center border-table">
-                                        <td>Id</td>
                                         <td>Nome Carteira</td>
                                         <td>Descrição</td>
                                         <td>Valor</td>
                                         <td>Parcelas</td>
                                         <td>Primeiro Vencimento</td>
+                                        <td>Valor Total</td>
                                         <td>Ações</td>
                                     </tr>
                                 </thead>
                                 <tbody class="table-body-hover">
                                     <tr v-for="spent in spending" class="text-center">
-                                        <td>{{ spent.id }}</td>
                                         <td>{{ spent.walletName }}</td>
                                         <td>{{ spent.description }}</td>
                                         <td>{{ stringTools.formatFloatValueToBrString(spent.amount) }}</td>
                                         <td>{{ spent.installments === 0 ? 'Fixo' : spent.installments }}</td>
-                                        <td>{{ calendarTools.convertDateDbToBr(spent.forecast) }}</td>
+                                        <td>{{ calendarTools.convertDateDbToBr(spent.forecast, false) }}</td>
+                                        <td>{{ stringTools.formatFloatValueToBrString(spent.amount * spent.installments) }}</td>
                                         <td>
                                             <action-buttons
                                                 :delete-tooltip="'Deletar Despesa'"
@@ -65,23 +65,23 @@
                                         </td>
                                     </tr>
                                     <tr class="text-center border-table">
-                                        <td>Id</td>
                                         <td>Nome Carteira</td>
                                         <td>Descrição</td>
                                         <td>Valor</td>
                                         <td>Parcelas</td>
                                         <td>Primeiro Vencimento</td>
+                                        <td>Valor Total</td>
                                         <td>Ações</td>
                                     </tr>
                                 </thead>
                                 <tbody class="table-body-hover">
                                     <tr v-for="gain in gains" :key="gain.id" class="text-center">
-                                        <td>{{ gain.id }}</td>
                                         <td>{{ gain.walletName }}</td>
                                         <td>{{ gain.description }}</td>
                                         <td>{{ stringTools.formatFloatValueToBrString(gain.amount) }}</td>
                                         <td>{{ gain.installments === 0 ? 'Fixo' : gain.installments }}</td>
-                                        <td>{{ calendarTools.convertDateDbToBr(gain.forecast) }}</td>
+                                        <td>{{ calendarTools.convertDateDbToBr(gain.forecast, false) }}</td>
+                                        <td>{{ stringTools.formatFloatValueToBrString(gain.amount * gain.installments) }}</td>
                                         <td>
                                             <action-buttons
                                                 :delete-tooltip="'Deletar Ganho'"
