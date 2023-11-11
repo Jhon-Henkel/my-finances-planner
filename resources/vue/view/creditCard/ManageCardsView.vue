@@ -39,7 +39,7 @@
                                         <td>
                                             <span class="badge rounded-2"
                                                 :class="getBadgeTypeForForecastDate(card)"
-                                                :title="getTitleForForecastDate(card)">
+                                                v-tooltip="getTitleForForecastDate(card)">
                                                 {{ card.dueDate }}
                                             </span>
                                         </td>
@@ -148,13 +148,25 @@ export default {
     },
     methods: {
         getBadgeTypeForForecastDate(card) {
-            return card.isThinsMouthInvoicePayed ? 'text-bg-success' : 'text-bg-danger'
+            const today = calendarTools.getToday().getDate()
+            if (card.isThinsMouthInvoicePayed) {
+                return 'text-bg-success'
+            } else if (card.dueDate < today) {
+                return 'text-bg-danger'
+            } else if (card.dueDate > today) {
+                return 'text-bg-warning'
+            }
         },
         getTitleForForecastDate(card) {
+            const today = calendarTools.getToday().getDate()
             const month = calendarTools.getMonthNameByNumber(calendarTools.getThisMonth())
-            return card.isThinsMouthInvoicePayed
-                ? 'Fatura mês ' + month + ' paga'
-                : 'Fatura mês ' + month + ' não paga'
+            if (card.isThinsMouthInvoicePayed) {
+                return 'Fatura mês ' + month + ' paga'
+            } else if (card.dueDate < today) {
+                return 'Fatura mês ' + month + ' atrasada'
+            } else if (card.dueDate > today) {
+                return 'Fatura mês ' + month + ' a vencer'
+            }
         },
         async getCards() {
             this.loadingDone = false

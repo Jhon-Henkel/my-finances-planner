@@ -33,7 +33,9 @@
                                         <td colspan="11">Nenhum ganho cadastrado ainda!</td>
                                     </tr>
                                     <tr v-for="gain in futureGains" :key="gain.id" class="text-center">
-                                        <td>{{ gain.nextInstallmentDay }}</td>
+                                        <td>
+                                            <mfp-expires-date-badge :installment="gain"/>
+                                        </td>
                                         <td class="text-start">{{ gain.name }}</td>
                                         <td class="text-start">{{ gain.countName }}</td>
                                         <td>{{ StringTools.formatFloatValueToBrString(gain.firstInstallment) }}</td>
@@ -127,6 +129,7 @@ import MfpTitle from '../../components/TitleComponent.vue'
 import MfpMessage from '../../components/MessageAlert.vue'
 import PayReceive from '../../components/PayReceiveComponent.vue'
 import messageTools from '../../../js/tools/messageTools'
+import MfpExpiresDateBadge from '../../components/date/ExpiresDateBadge.vue'
 
 export default {
     name: 'FutureGainView',
@@ -142,6 +145,7 @@ export default {
         }
     },
     components: {
+        MfpExpiresDateBadge,
         PayReceive,
         MfpMessage,
         MfpTitle,

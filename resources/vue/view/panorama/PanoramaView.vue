@@ -36,11 +36,7 @@
                                     </tr>
                                     <tr v-for="spent in futureSpending" :key="spent.id">
                                         <td>
-                                            <span class="badge rounded-2"
-                                                    :class="getBadgeTypeForForecastDate(spent)"
-                                                    :title="getTitleForForecastDate(spent)">
-                                                {{ spent.nextInstallmentDay }}
-                                            </span>
+                                            <mfp-expires-date-badge :installment="spent"/>
                                         </td>
                                         <td class="text-start">{{ spent.name }}</td>
                                         <td>{{ formatValueToBr(spent.firstInstallment) }}</td>
@@ -226,6 +222,7 @@ import MfpMessage from '../../components/MessageAlert.vue'
 import PayReceive from '../../components/PayReceiveComponent.vue'
 import AlertIcon from '../../components/AlertIcon.vue'
 import messageTools from '../../../js/tools/messageTools'
+import MfpExpiresDateBadge from '../../components/date/ExpiresDateBadge.vue'
 
 export default {
     name: 'PanoramaView',
@@ -241,6 +238,7 @@ export default {
         }
     },
     components: {
+        MfpExpiresDateBadge,
         AlertIcon,
         PayReceive,
         MfpMessage,
@@ -327,7 +325,7 @@ export default {
         },
         async deleteSpent(id, spentName) {
             if (confirm('Tem certeza que realmente quer deletar a despesa ' + spentName + '?')) {
-                await ApiRouter.futureSpent.delete(id).then(response => {
+                await ApiRouter.futureSpent.delete(id).then(() => {
                     this.messageData = messageTools.successMessage('Despesa deletada com sucesso!')
                     this.updateFutureSpendingList()
                 }).catch(() => {
@@ -369,7 +367,7 @@ export default {
                     value: event.value,
                     partial: event.partial
                 }
-                await ApiRouter.futureSpent.pay(this.paySpentId, object).then(response => {
+                await ApiRouter.futureSpent.pay(this.paySpentId, object).then(() => {
                     this.messageData = messageTools.successMessage('Despesa paga com sucesso!')
                     this.updateFutureSpendingList()
                     this.showPaySpent = false
@@ -393,26 +391,6 @@ export default {
         },
         formatValueToBr(value) {
             return StringTools.formatFloatValueToBrString(value)
-        },
-        getBadgeTypeForForecastDate(installment) {
-            const today = CalendarTools.getToday().getDate()
-            const nextInstallmentDay = parseInt(installment.nextInstallmentDay)
-            if ((nextInstallmentDay < today) && (installment.firstInstallment > 0)) {
-                return 'bg-danger'
-            } else if ((nextInstallmentDay > today) && (installment.firstInstallment > 0)) {
-                return 'bg-warning'
-            }
-            return 'bg-success'
-        },
-        getTitleForForecastDate(installment) {
-            const today = CalendarTools.getToday().getDate()
-            const nextInstallmentDay = parseInt(installment.nextInstallmentDay)
-            if ((nextInstallmentDay < today) && (installment.firstInstallment > 0)) {
-                return 'Atrasado'
-            } else if ((nextInstallmentDay > today) && (installment.firstInstallment > 0)) {
-                return 'Prestes a Vencer'
-            }
-            return 'Em dia'
         }
     },
     async mounted() {
