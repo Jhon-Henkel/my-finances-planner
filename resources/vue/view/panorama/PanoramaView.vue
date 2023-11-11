@@ -73,7 +73,7 @@
                                     <tr class="text-center border-table-top">
                                         <td colspan="10" class="no-hover">
                                             <router-link class="a-default" to="/panorama/todas-despesas-e-ganhos">
-                                                Ver todos
+                                                Gerenciar Registros
                                             </router-link>
                                         </td>
                                     </tr>
@@ -412,7 +412,7 @@ export default {
             } else if ((nextInstallmentDay > today) && (installment.firstInstallment > 0)) {
                 return 'Prestes a Vencer'
             }
-            return 'Pago'
+            return 'Em dia'
         }
     },
     async mounted() {
