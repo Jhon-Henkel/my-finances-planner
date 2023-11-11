@@ -33,9 +33,16 @@ class DashboardServiceUnitTest extends Falcon9
     {
         $walletServiceMock = Mockery::mock(WalletService::class);
         $walletServiceMock->shouldReceive('getTotalWalletValue')->once()->andReturn(10.50);
-        $this->app->instance(WalletService::class, $walletServiceMock);
 
-        $mock = Mockery::mock(DashboardService::class);
+        $args = [
+            $walletServiceMock,
+            Mockery::mock(MovementService::class),
+            Mockery::mock(FutureSpentService::class),
+            Mockery::mock(FutureGainService::class),
+            Mockery::mock(CreditCardTransactionService::class)
+        ];
+
+        $mock = Mockery::mock(DashboardService::class, $args);
         $mock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $mock->getWalletBalance();
@@ -48,9 +55,16 @@ class DashboardServiceUnitTest extends Falcon9
         $creditCardTransactionServiceMock = Mockery::mock(CreditCardTransactionService::class);
         $creditCardTransactionServiceMock->shouldReceive('getThisMonthInvoiceSum')->once()->andReturn(12);
         $creditCardTransactionServiceMock->shouldReceive('getThisYearInvoiceSum')->once()->andReturn(10);
-        $this->app->instance(CreditCardTransactionService::class, $creditCardTransactionServiceMock);
 
-        $mock = Mockery::mock(DashboardService::class);
+        $args = [
+            Mockery::mock(WalletService::class),
+            Mockery::mock(MovementService::class),
+            Mockery::mock(FutureSpentService::class),
+            Mockery::mock(FutureGainService::class),
+            $creditCardTransactionServiceMock
+        ];
+
+        $mock = Mockery::mock(DashboardService::class, $args);
         $mock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $mock->getCreditCardsData();
@@ -65,9 +79,16 @@ class DashboardServiceUnitTest extends Falcon9
         $futureGainService = Mockery::mock(FutureGainService::class);
         $futureGainService->shouldReceive('getThisMonthFutureGainSum')->once()->andReturn(12);
         $futureGainService->shouldReceive('getThisYearFutureGainSum')->once()->andReturn(10);
-        $this->app->instance(FutureGainService::class, $futureGainService);
 
-        $mock = Mockery::mock(DashboardService::class);
+        $args = [
+            Mockery::mock(WalletService::class),
+            Mockery::mock(MovementService::class),
+            Mockery::mock(FutureSpentService::class),
+            $futureGainService,
+            Mockery::mock(CreditCardTransactionService::class)
+        ];
+
+        $mock = Mockery::mock(DashboardService::class, $args);
         $mock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $mock->getFutureGainData();
@@ -82,9 +103,16 @@ class DashboardServiceUnitTest extends Falcon9
         $futureSpentService = Mockery::mock(FutureSpentService::class);
         $futureSpentService->shouldReceive('getThisMonthFutureSpentSum')->once()->andReturn(12);
         $futureSpentService->shouldReceive('getThisYearFutureSpentSum')->once()->andReturn(10);
-        $this->app->instance(FutureSpentService::class, $futureSpentService);
 
-        $mock = Mockery::mock(DashboardService::class);
+        $args = [
+            Mockery::mock(WalletService::class),
+            Mockery::mock(MovementService::class),
+            $futureSpentService,
+            Mockery::mock(FutureGainService::class),
+            Mockery::mock(CreditCardTransactionService::class)
+        ];
+
+        $mock = Mockery::mock(DashboardService::class, $args);
         $mock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $mock->getFutureSpentData();
@@ -101,9 +129,16 @@ class DashboardServiceUnitTest extends Falcon9
         $movementService->shouldReceive('getMonthSumMovementsByOptionFilter')->times(3)->andReturn($item);
         $movementService->shouldReceive('getLastMovements')->once()->andReturn([]);
         $movementService->shouldReceive('generateDataForGraph')->once()->andReturn([]);
-        $this->app->instance(MovementService::class, $movementService);
 
-        $mock = Mockery::mock(DashboardService::class);
+        $args = [
+            Mockery::mock(WalletService::class),
+            $movementService,
+            Mockery::mock(FutureSpentService::class),
+            Mockery::mock(FutureGainService::class),
+            Mockery::mock(CreditCardTransactionService::class)
+        ];
+
+        $mock = Mockery::mock(DashboardService::class, $args);
         $mock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $mock->getMovementsData();
