@@ -9,11 +9,9 @@ use App\Services\BasicService;
 
 class CreditCardService extends BasicService
 {
-    protected CreditCardRepository $repository;
-
-    public function __construct(CreditCardRepository $repository)
-    {
-        $this->repository = $repository;
+    public function __construct(
+        protected CreditCardRepository $repository,
+    ) {
     }
 
     protected function getRepository(): CreditCardRepository
@@ -29,12 +27,12 @@ class CreditCardService extends BasicService
         $creditCardTransactionService = app(CreditCardTransactionService::class);
         $items = parent::findAll();
         $itemsWithNextInstallmentValue = [];
+        $invoices = $creditCardTransactionService->getAllNextInvoicesValuesAndTotalValues();
         foreach ($items as $item) {
-            $invoice = $creditCardTransactionService->getNextInvoiceValueAndTotalValueByCardId($item->getId());
-            $item->setTotalValueSpending($invoice['totalValue']);
-            $item->setNextInvoiceValue($invoice['nextInvoiceValue']);
-            $isThisMonthInvoicePaid = $creditCardTransactionService->isThisMonthInvoicePaid($item->getId());
-            $item->setIsThinsMouthInvoicePayed($isThisMonthInvoicePaid);
+            $id = $item->getId();
+            $item->setTotalValueSpending(isset($invoices[$id]) ? $invoices[$id]['totalValue'] : 0);
+            $item->setNextInvoiceValue(isset($invoices[$id]) ? $invoices[$id]['nextValue'] : 0);
+            $item->setIsThinsMouthInvoicePayed(isset($invoices[$id]) ? $invoices[$id]['thisMonthInvoicePayed'] : true);
             $itemsWithNextInstallmentValue[] = $item;
         }
         return $itemsWithNextInstallmentValue;
