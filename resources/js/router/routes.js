@@ -10,15 +10,15 @@ export default async function routesControl(to, from, next) {
                 if (isAuthenticated && isLogged) {
                     next()
                 } else {
-                    next({ name: 'login' })
+                    next({ name: 'login', query: { redirect: to.name } })
                 }
             } else {
-                next({ name: 'login' })
+                next({ name: 'login', query: { redirect: to.name } })
             }
         } else {
             next()
         }
     } catch (error) {
-        next({ name: 'login' })
+        next({ name: 'login', query: { redirect: to.name } })
     }
 }

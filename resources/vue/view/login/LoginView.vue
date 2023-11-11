@@ -101,6 +101,11 @@ export default {
                 if (response.status === HttpStatusCode.Ok) {
                     auth.setToken(response.data.token)
                     auth.setUser(response.data.user)
+                    const redirect = this.$route.query.redirect
+                    if (redirect) {
+                        Router.push({ name: redirect })
+                        return
+                    }
                     Router.push({ name: 'dashboard' })
                 } else {
                     this.messageData = messageTools.errorMessage('Algo deu errado ao efetuar seu login!')
@@ -124,7 +129,6 @@ export default {
             }
             this.loadingDone = 1
             await apiRouter.userActions.logout()
-            await Router.push({ name: 'login' })
         }
     },
     async mounted() {
