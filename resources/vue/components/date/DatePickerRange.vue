@@ -96,8 +96,8 @@ export default {
         dateRangeChangedEmit() {
             if (this.date !== this.lastDateChanged) {
                 this.lastDateChanged = this.date
-                const dateStart = new Date(this.date[0]).toISOString()
-                const dateEnd = new Date(this.date[1]).toISOString()
+                const dateStart = new Date(this.date[0]).toLocaleDateString().split('/').reverse().join('-')
+                const dateEnd = new Date(this.date[1]).toLocaleDateString().split('/').reverse().join('-')
                 this.$emit('dateRangeChanged', [dateStart, dateEnd])
             }
         }
