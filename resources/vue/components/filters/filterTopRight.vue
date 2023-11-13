@@ -10,8 +10,11 @@
         </li>
         <li class="mt-2" v-if="useTypeMovementFilter">
             <span>Tipo de gasto</span>
-            <select class="form-select" @change="filterTypeSelected = $event">
-                <option v-for="item in filterTypeList" :key="item.id" :value="item.id">
+            <select class="form-select" v-model="filterTypeSelected">
+                <option v-for="item in filterTypeList"
+                        :key="item.id"
+                        :value="item.id"
+                        @change="filterTypeSelected = $event.value">
                     {{ item.label }}
                 </option>
             </select>
