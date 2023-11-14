@@ -102,7 +102,7 @@ const iconEnum = {
         return ['fas', 'building-columns']
     },
     plus() {
-        return ['fas', 'plus']
+        return ['fas', 'circle-plus']
     }
 }
 export default iconEnum

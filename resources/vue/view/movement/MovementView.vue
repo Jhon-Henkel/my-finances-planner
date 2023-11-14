@@ -6,7 +6,7 @@
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Movimentações"/>
                 <filter-top-right @filter-quest="getMovementIndexFiltered($event)"/>
-                <mfp-drop-down-button />
+                <mfp-drop-down-button dropdownTitle="Novo" :dropdownIcon="iconEnum.plus()" :buttonsArray="buttons"/>
             </div>
             <divider/>
             <div class="card glass success balance-card">
@@ -170,9 +170,19 @@ export default {
             totalGain: 0,
             balance: 0,
             lastFilter: null,
-            newGainSpentLink: '/movimentacoes/cadastrar',
-            newTransferLink: '/movimentacoes/transferir',
-            messageData: {}
+            messageData: {},
+            buttons: [
+                {
+                    title: 'Novo Gasto/Ganho',
+                    icon: iconEnum.movement(),
+                    redirectTo: '/movimentacoes/cadastrar'
+                },
+                {
+                    title: 'Nova Transferência',
+                    icon: iconEnum.buildingColumns(),
+                    redirectTo: '/movimentacoes/transferir'
+                }
+            ]
         }
     },
     methods: {

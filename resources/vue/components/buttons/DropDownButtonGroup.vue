@@ -1,65 +1,72 @@
 <template>
     <div class="btn-group">
-        <button class="btn btn-success rounded-2 dropdown-toggle top-button"
+        <button class="btn btn-success dropdown-toggle top-button margin-mobile"
                 type="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false">
-            <font-awesome-icon :icon="iconEnum.plus()" class="ms-2 me-2"/>
-            Novo
+            <font-awesome-icon :icon="dropdownIcon" class="me-2 icon"/>
+            {{ dropdownTitle }}
         </button>
         <ul class="dropdown-menu">
-            <li>
-
-            </li>
-            <li>
-                <router-link-button title="Novo Gasto/Ganho"
-                                    :icon="iconEnum.movement()"
-                                    redirect-to="#"
-                                    customClass="dropdown-item" />
-            </li>
-            <li>
-                <router-link-button title="Nova Transferência"
-                                    :icon="iconEnum.buildingColumns()"
-                                    redirect-to="#"
-                                    customClass="dropdown-item" />
+            <li v-for="(button, index) in buttonsArray" :key="index">
+                <div class="text-center">
+                    <router-link-button :title="button.title"
+                                        :icon="button.icon"
+                                        :redirect-to="button.redirectTo"
+                                        customClass="dropdown-item" />
+                </div>
             </li>
         </ul>
     </div>
 </template>
 
 <script>
-    import iconEnum from '~js/enums/iconEnum'
-    import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
+import iconEnum from '~js/enums/iconEnum'
+import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
 
-    export default {
-        name: 'MfpDropDownButton',
-        computed: {
-            iconEnum() {
-                return iconEnum
-            }
+export default {
+    name: 'MfpDropDownButton',
+    computed: {
+        iconEnum() {
+            return iconEnum
+        }
+    },
+    components: {
+        RouterLinkButton
+    },
+    props: {
+        dropdownTitle: {
+            type: String,
+            required: true
         },
-        components: {
-            RouterLinkButton
+        dropdownIcon: {
+            type: Array,
+            required: true
         },
-        data() {
-            return {
-                buttonsData: [
-                    {
-                        title: 'Novo Gasto/Ganho',
-                        icon: iconEnum.movement(),
-                        redirectTo: '#'
-                    },
-                    {
-                        title: 'Nova Transferência',
-                        icon: iconEnum.buildingColumns(),
-                        redirectTo: '#'
-                    }
-                ]
-            }
+        buttonsArray: {
+            type: Array,
+            required: true
         }
     }
+}
 </script>
 
 <style scoped>
-
+    @media (max-width: 1000px) {
+        .icon {
+            display: none;
+        }
+        .margin-mobile {
+            margin-top: 10px !important;
+        }
+        .dropdown-menu {
+            width: 100%;
+            padding: 10px;
+            margin-left: 1%;
+            margin-right: 1%;
+        }
+    }
+    .btn {
+        top: 0%;
+    }
 </style>
