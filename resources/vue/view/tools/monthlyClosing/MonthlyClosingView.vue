@@ -4,7 +4,9 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Relatório fechamento de mês" />
-                <filter-top-right :useTypeMovementFilter="false" @filter-quest="getMonthlyClosingsIndexFiltered($event)"/>
+                <filter-top-right :useTypeMovementFilter="false"
+                                  :rangeDate="CalendarTools.getThisYearPeriod()"
+                                  @filter-quest="getMonthlyClosingsIndexFiltered($event)" />
                 <back-button to="/ferramentas" class="top-button"/>
             </div>
             <divider/>

@@ -6,7 +6,7 @@
     <ul class="dropdown-menu">
         <li class="mt-2" v-if="useDatePickerRangeFilter">
             <span>Rage de data</span>
-            <mfp-date-picker-range v-model="date" @date-range-changed="date = $event" />
+            <mfp-date-picker-range v-model="date" :rangeDate="rangeDate" @date-range-changed="date = $event" />
         </li>
         <li class="mt-2" v-if="useTypeMovementFilter">
             <span>Tipo de gasto</span>
@@ -75,6 +75,10 @@ export default {
         useRadioGroupCardExpenses: {
             type: Boolean,
             default: false
+        },
+        rangeDate: {
+            type: Array,
+            required: false
         }
     },
     emits: [
