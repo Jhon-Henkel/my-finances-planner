@@ -126,7 +126,7 @@ export default {
     },
     watch: {
         isOpened() {
-            window.document.body.style.paddingLeft = this.isOpened && this.isPaddingLeft ? '300px' : '78px'
+            window.document.body.style.paddingLeft = this.isOpened && this.isPaddingLeft ? '230px' : '0px'
             this.salutation = userAuthStore().user?.salutation
         },
         '$route'() {
