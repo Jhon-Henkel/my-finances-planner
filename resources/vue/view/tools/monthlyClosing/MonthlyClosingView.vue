@@ -1,4 +1,4 @@
-<template>
+(<template>
     <div class="base-container">
         <loading-component v-show="loadingDone === false" />
         <div v-show="loadingDone">
@@ -134,8 +134,8 @@ export default {
         }
     },
     async mounted() {
-        let thisYearPeriod = CalendarTools.getThisYearPeriod()
-        let quest = `?dateStart=${thisYearPeriod[0]}&dateEnd=${thisYearPeriod[0]}`
+        const thisYearPeriod = CalendarTools.getThisYearPeriod()
+        const quest = `?dateStart=${thisYearPeriod[0]}&dateEnd=${thisYearPeriod[0]}`
         await this.getMonthlyClosingsIndexFiltered(quest)
     }
 }
