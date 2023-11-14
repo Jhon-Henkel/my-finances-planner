@@ -137,4 +137,8 @@ describe('Test iconEnum file', () => {
     it('buildingColumns', function () {
         expect(IconEnum.buildingColumns()).toStrictEqual(['fas', 'building-columns'])
     })
+
+    it('plus', function () {
+        expect(IconEnum.plus()).toStrictEqual(['fas', 'circle-plus'])
+    })
 })
