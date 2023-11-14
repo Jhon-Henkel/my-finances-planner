@@ -6,14 +6,7 @@
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Movimentações"/>
                 <filter-top-right @filter-quest="getMovementIndexFiltered($event)"/>
-                <router-link-button title="Novo Gasto/Ganho"
-                                    :icon="iconEnum.movement()"
-                                    :redirect-to="newGainSpentLink"
-                                    class="top-button me-3"/>
-                <router-link-button title="Nova Transferência"
-                                    :icon="iconEnum.buildingColumns()"
-                                    :redirect-to="newTransferLink"
-                                    class="top-button"/>
+                <mfp-drop-down-button />
             </div>
             <divider/>
             <div class="card glass success balance-card">
@@ -129,6 +122,7 @@
 import LoadingComponent from '~vue-component/LoadingComponent.vue'
 import iconEnum from '~js/enums/iconEnum.js'
 import ActionButtons from '~vue-component/ActionButtons.vue'
+import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
 import MovementEnum from '~js/enums/movementEnum.js'
 import apiRouter from '~js/router/apiRouter.js'
 import calendarTools from '~js/tools/calendarTools.js'
@@ -139,7 +133,6 @@ import MfpMessage from '~vue-component/MessageAlert.vue'
 import StringTools from '~js/tools/stringTools.js'
 import AlertIcon from '~vue-component/AlertIcon.vue'
 import FilterTopRight from '~vue-component/filters/filterTopRight.vue'
-import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
 import messageTools from '~js/tools/messageTools.js'
 
 export default {
@@ -159,14 +152,14 @@ export default {
         }
     },
     components: {
-        RouterLinkButton,
         FilterTopRight,
         AlertIcon,
         MfpMessage,
         MfpTitle,
         Divider,
         ActionButtons,
-        LoadingComponent
+        LoadingComponent,
+        MfpDropDownButton
     },
     data() {
         return {
@@ -282,6 +275,12 @@ export default {
         .resume-value {
             white-space: nowrap;
             overflow: hidden;
+        }
+        .dropdown-menu {
+            width: 98%;
+            padding: 10px;
+            margin-left: 1%;
+            margin-right: 1%;
         }
     }
 </style>

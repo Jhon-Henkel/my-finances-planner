@@ -1,5 +1,5 @@
 <template>
-    <router-link class="btn btn-success rounded-2" :to="redirectTo">
+    <router-link :class="customClass" :to="redirectTo">
         <font-awesome-icon :icon="icon" class="me-2"/>
         {{ title }}
     </router-link>
@@ -20,6 +20,10 @@ export default {
         icon: {
             type: Array,
             required: true
+        },
+        customClass: {
+            type: String,
+            default: 'btn btn-success rounded-2'
         }
     }
 }
