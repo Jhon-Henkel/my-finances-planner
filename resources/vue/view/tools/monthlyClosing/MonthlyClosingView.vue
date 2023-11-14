@@ -134,6 +134,8 @@ export default {
         }
     },
     async mounted() {
+        let thisYearPeriod = CalendarTools.getThisYearPeriod()
+        let quest = `?dateStart=${thisYearPeriod[0]}&dateEnd=${thisYearPeriod[0]}`
         await this.getMonthlyClosingsIndexFiltered()
     }
 }
