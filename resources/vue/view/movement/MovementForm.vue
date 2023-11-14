@@ -179,7 +179,7 @@ export default {
         }
         await this.getWallets()
         this.loadingDone = true
-        this.types = MovementEnum.getTypeList()
+        this.types = MovementEnum.getTypeListForForm()
     }
 }
 </script>

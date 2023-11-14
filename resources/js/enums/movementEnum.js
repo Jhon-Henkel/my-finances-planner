@@ -44,6 +44,12 @@ const MovementEnum = {
             { id: TRANSFER, label: this.getLabelForType(TRANSFER) }
         ]
     },
+    getTypeListForForm: function() {
+        return [
+            { id: SPENT, label: this.getLabelForType(SPENT) },
+            { id: GAIN, label: this.getLabelForType(GAIN) }
+        ]
+    },
     type: {
         spent: () => SPENT,
         gain: () => GAIN,

@@ -33,6 +33,14 @@ describe('Test movementEnum file', () => {
         ])
     })
 
+    it('getTypeListForForm', function () {
+        const typeListForForm = MovementEnum.getTypeListForForm()
+        expect(typeListForForm).toEqual([
+            { id: 5, label: 'Despesa' },
+            { id: 6, label: 'Receita' }
+        ])
+    })
+
     it('getLabelForType', function () {
         expect(MovementEnum.getLabelForType(5)).toEqual('Despesa')
         expect(MovementEnum.getLabelForType(6)).toEqual('Receita')
