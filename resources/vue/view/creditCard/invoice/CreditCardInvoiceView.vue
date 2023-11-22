@@ -21,6 +21,7 @@
                             <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
                                 <thead class="text-center">
                                     <tr>
+                                        <th><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
                                         <th scope="col">Descrição</th>
                                         <th scope="col" v-for="(month, index) in months" :key="index">
                                             {{ CalendarTools.getMonthNameByNumber(month) }}
@@ -34,6 +35,7 @@
                                         <td colspan="9">Nenhuma despesa cadastrada ainda!</td>
                                     </tr>
                                     <tr v-for="expense in invoices" :key="expense.id">
+                                        <td>{{ expense.nextInstallmentDay }}</td>
                                         <td>{{ expense.name }}</td>
                                         <td>{{ formatValueToBr(expense.firstInstallment) }}</td>
                                         <td>{{ formatValueToBr(expense.secondInstallment) }}</td>
