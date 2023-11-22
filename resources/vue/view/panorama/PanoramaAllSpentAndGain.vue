@@ -47,7 +47,7 @@
                                         </td>
                                     </tr>
                                     <tr class="border-table-top">
-                                        <td colspan="4">Total</td>
+                                        <td colspan="4">Total (Se fixo, considera uma parcela)</td>
                                         <td colspan="3">{{ stringTools.formatFloatValueToBrString(totalSpent) }}</td>
                                     </tr>
                                 </tbody>
@@ -95,7 +95,7 @@
                                         </td>
                                     </tr>
                                     <tr class="border-table-top">
-                                        <td colspan="4">Total</td>
+                                        <td colspan="4">Total (Se fixo, considera uma parcela)</td>
                                         <td colspan="3">{{ stringTools.formatFloatValueToBrString(totalGain) }}</td>
                                     </tr>
                                 </tbody>
@@ -122,7 +122,7 @@
                                     <td>Valor</td>
                                     <td>Parcelas</td>
                                     <td>Próximo Vencimento</td>
-                                    <td>Valor Total</td>
+                                    <td>Valor Total (Se fixo, considera uma parcela)</td>
                                     <td>Ações</td>
                                 </tr>
                                 </thead>
@@ -212,7 +212,7 @@ export default {
             await ApiRouter.futureSpent.index().then(response => {
                 this.spending = response
                 this.spending.forEach(spent => {
-                    let installments = spent.installments === 0 ? 1 : spent.installments
+                    const installments = spent.installments === 0 ? 1 : spent.installments
                     this.totalSpent += spent.amount * installments
                 })
             }).catch(error => {
@@ -224,7 +224,7 @@ export default {
             await ApiRouter.futureGain.index().then(response => {
                 this.gains = response
                 this.gains.forEach(gain => {
-                    let installments = gain.installments === 0 ? 1 : gain.installments
+                    const installments = gain.installments === 0 ? 1 : gain.installments
                     this.totalGain += gain.amount * installments
                 })
             }).catch(error => {
@@ -241,7 +241,7 @@ export default {
                             creditCardTransaction.creditCardId = creditCard.name
                         }
                     })
-                    let installments = creditCardTransaction.installments === 0 ? 1 : creditCardTransaction.installments
+                    const installments = creditCardTransaction.installments === 0 ? 1 : creditCardTransaction.installments
                     this.totalCreditCardExpense += creditCardTransaction.value * installments
                 })
             }).catch(error => {
