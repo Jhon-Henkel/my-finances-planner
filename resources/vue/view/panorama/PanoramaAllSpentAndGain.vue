@@ -212,7 +212,8 @@ export default {
             await ApiRouter.futureSpent.index().then(response => {
                 this.spending = response
                 this.spending.forEach(spent => {
-                    this.totalSpent += spent.amount * spent.installments
+                    let installments = spent.installments === 0 ? 1 : spent.installments
+                    this.totalSpent += spent.amount * installments
                 })
             }).catch(error => {
                 this.messageData = messageTools.errorMessage(error.response.data.message)
@@ -223,7 +224,8 @@ export default {
             await ApiRouter.futureGain.index().then(response => {
                 this.gains = response
                 this.gains.forEach(gain => {
-                    this.totalGain += gain.amount * gain.installments
+                    let installments = gain.installments === 0 ? 1 : gain.installments
+                    this.totalGain += gain.amount * installments
                 })
             }).catch(error => {
                 this.messageData = messageTools.errorMessage(error.response.data.message)
@@ -239,7 +241,8 @@ export default {
                             creditCardTransaction.creditCardId = creditCard.name
                         }
                     })
-                    this.totalCreditCardExpense += creditCardTransaction.value * creditCardTransaction.installments
+                    let installments = creditCardTransaction.installments === 0 ? 1 : creditCardTransaction.installments
+                    this.totalCreditCardExpense += creditCardTransaction.value * installments
                 })
             }).catch(error => {
                 this.messageData = messageTools.errorMessage(error.response.data.message)
