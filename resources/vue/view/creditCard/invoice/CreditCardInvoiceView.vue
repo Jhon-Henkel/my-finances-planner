@@ -55,7 +55,7 @@
                                         </td>
                                     </tr>
                                     <tr class="border-table">
-                                        <td>Total</td>
+                                        <td colspan="2">Total</td>
                                         <td>{{ formatValueToBr(totalPerMonth.firstMonth) }}</td>
                                         <td>{{ formatValueToBr(totalPerMonth.secondMonth) }}</td>
                                         <td>{{ formatValueToBr(totalPerMonth.thirdMonth) }}</td>
@@ -63,7 +63,7 @@
                                         <td>{{ formatValueToBr(totalPerMonth.fifthMonth) }}</td>
                                         <td>{{ formatValueToBr(totalPerMonth.sixthMonth) }}</td>
                                         <td>{{ formatValueToBr(totalPerMonth.totalRemaining) }}</td>
-                                        <td>-</td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -122,7 +122,7 @@
                                     <td>Valor</td>
                                     <td>Parcelas</td>
                                     <td>Próximo Vencimento</td>
-                                    <td>Valor Total (Se fixo, considera uma parcela)</td>
+                                    <td>Valor Total</td>
                                     <td>Ações</td>
                                 </tr>
                                 </thead>
@@ -143,7 +143,7 @@
                                     </td>
                                 </tr>
                                 <tr class="border-table-top">
-                                    <td colspan="4">Total</td>
+                                    <td colspan="4">Total (Se fixo, considera uma parcela)</td>
                                     <td colspan="3">{{ stringTools.formatFloatValueToBrString(totalCreditCardExpense) }}</td>
                                 </tr>
                                 </tbody>
