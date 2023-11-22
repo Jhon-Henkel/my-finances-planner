@@ -1,8 +1,8 @@
 <template>
     <div class="base-container">
         <mfp-message :message-data="messageData"/>
-        <loading-component v-show="loadingDone < 2"/>
-        <div v-show="loadingDone >= 2">
+        <loading-component v-show="loadingDone < 4"/>
+        <div v-show="loadingDone >= 4">
             <div class="nav justify-content-end">
                 <mfp-title title="Gerenciar despesas e ganhos" class="title"/>
                 <back-button to="/panorama" class="top-button"/>
@@ -25,7 +25,7 @@
                                         <td>Descrição</td>
                                         <td>Valor</td>
                                         <td>Parcelas</td>
-                                        <td>Primeiro Vencimento</td>
+                                        <td>Próximo Vencimento</td>
                                         <td>Valor Total</td>
                                         <td>Ações</td>
                                     </tr>
@@ -45,6 +45,10 @@
                                                 :edit-to="'/panorama/' + spent.id + '/atualizar-despesa?referer=' + referer"
                                                 @delete-clicked="deleteSpent(spent.id, spent.description)" />
                                         </td>
+                                    </tr>
+                                    <tr class="border-table-top">
+                                        <td colspan="4">Total</td>
+                                        <td colspan="3">{{ stringTools.formatFloatValueToBrString(totalSpent) }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -69,7 +73,7 @@
                                         <td>Descrição</td>
                                         <td>Valor</td>
                                         <td>Parcelas</td>
-                                        <td>Primeiro Vencimento</td>
+                                        <td>Próximo Vencimento</td>
                                         <td>Valor Total</td>
                                         <td>Ações</td>
                                     </tr>
@@ -90,6 +94,58 @@
                                                 @delete-clicked="deleteGain(gain.id, gain.description)" />
                                         </td>
                                     </tr>
+                                    <tr class="border-table-top">
+                                        <td colspan="4">Total</td>
+                                        <td colspan="3">{{ stringTools.formatFloatValueToBrString(totalGain) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card glass success balance-card mt-4">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        <div class="table-responsive-lg">
+                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
+                                <thead class="text-center">
+                                <tr class="text-center">
+                                    <td colspan="11" class="border-table">
+                                        <font-awesome-icon :icon="iconEnum.creditCard()" class="spent-icon me-2"/>
+                                        Gastos Cartão de Crédito
+                                    </td>
+                                </tr>
+                                <tr class="text-center border-table">
+                                    <td>Nome Cartão</td>
+                                    <td>Descrição</td>
+                                    <td>Valor</td>
+                                    <td>Parcelas</td>
+                                    <td>Próximo Vencimento</td>
+                                    <td>Valor Total</td>
+                                    <td>Ações</td>
+                                </tr>
+                                </thead>
+                                <tbody class="table-body-hover">
+                                <tr v-for="creditCardSpent in creditCardTransactions" :key="creditCardSpent.id" class="text-center">
+                                    <td>{{ creditCardSpent.creditCardId }}</td>
+                                    <td>{{ creditCardSpent.name }}</td>
+                                    <td>{{ stringTools.formatFloatValueToBrString(creditCardSpent.value) }}</td>
+                                    <td>{{ creditCardSpent.installments === 0 ? 'Fixo' : creditCardSpent.installments }}</td>
+                                    <td>{{ calendarTools.convertDateDbToBr(creditCardSpent.nextInstallment, false) }}</td>
+                                    <td>{{ stringTools.formatFloatValueToBrString(creditCardSpent.value * creditCardSpent.installments) }}</td>
+                                    <td>
+                                        <action-buttons
+                                            delete-tooltip="Deletar Despesa Cartão"
+                                            tooltip-edit="Editar Despesa Cartão"
+                                            :edit-to="'/gerenciar-cartoes/despesa/' + creditCardSpent.id + '/atualizar'"
+                                            @delete-clicked="deleteCreditCardExpense(creditCardSpent.id, creditCardSpent.description)" />
+                                    </td>
+                                </tr>
+                                <tr class="border-table-top">
+                                    <td colspan="4">Total</td>
+                                    <td colspan="3">{{ stringTools.formatFloatValueToBrString(totalCreditCardExpense) }}</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -143,13 +199,21 @@ export default {
             gains: {},
             spending: {},
             referer: 'panorama/todas-despesas-e-ganhos',
-            messageData: {}
+            messageData: {},
+            creditCardTransactions: {},
+            creditCards: {},
+            totalSpent: 0,
+            totalGain: 0,
+            totalCreditCardExpense: 0
         }
     },
     methods: {
         async getAllSpending() {
             await ApiRouter.futureSpent.index().then(response => {
                 this.spending = response
+                this.spending.forEach(spent => {
+                    this.totalSpent += spent.amount * spent.installments
+                })
             }).catch(error => {
                 this.messageData = messageTools.errorMessage(error.response.data.message)
             })
@@ -158,6 +222,33 @@ export default {
         async getAllGains() {
             await ApiRouter.futureGain.index().then(response => {
                 this.gains = response
+                this.gains.forEach(gain => {
+                    this.totalGain += gain.amount * gain.installments
+                })
+            }).catch(error => {
+                this.messageData = messageTools.errorMessage(error.response.data.message)
+            })
+            this.loadingDone = this.loadingDone + 1
+        },
+        async getAllCreditCardSpending() {
+            await ApiRouter.expense.index().then(response => {
+                this.creditCardTransactions = response
+                this.creditCardTransactions.forEach(creditCardTransaction => {
+                    this.creditCards.forEach(creditCard => {
+                        if (creditCardTransaction.creditCardId === creditCard.id) {
+                            creditCardTransaction.creditCardId = creditCard.name
+                        }
+                    })
+                    this.totalCreditCardExpense += creditCardTransaction.value * creditCardTransaction.installments
+                })
+            }).catch(error => {
+                this.messageData = messageTools.errorMessage(error.response.data.message)
+            })
+            this.loadingDone = this.loadingDone + 1
+        },
+        async getAllCreditCards() {
+            await ApiRouter.cards.index().then(response => {
+                this.creditCards = response
             }).catch(error => {
                 this.messageData = messageTools.errorMessage(error.response.data.message)
             })
@@ -165,7 +256,7 @@ export default {
         },
         async deleteSpent(id, spentName) {
             if (confirm('Tem certeza que realmente quer deletar a despesa ' + spentName + '?')) {
-                await ApiRouter.futureSpent.delete(id).then(response => {
+                await ApiRouter.futureSpent.delete(id).then(() => {
                     this.messageData = messageTools.successMessage('Despesa deletada com sucesso!')
                     this.getAllSpending()
                 }).catch(() => {
@@ -175,16 +266,29 @@ export default {
         },
         async deleteGain(id, gainName) {
             if (confirm('Tem certeza que realmente quer deletar o ganho ' + gainName + '?')) {
-                await ApiRouter.futureGain.delete(id).then(response => {
+                await ApiRouter.futureGain.delete(id).then(() => {
                     this.messageData = messageTools.successMessage('Ganho deletado com sucesso!')
                     this.getAllGains()
                 }).catch(() => {
                     this.messageData = messageTools.errorMessage('Não foi possível deletar o ganho!')
                 })
             }
+        },
+        async deleteCreditCardExpense(id, creditCardExpenseName) {
+            if (confirm('Tem certeza que realmente quer deletar o ganho ' + creditCardExpenseName + '?')) {
+                await ApiRouter.expense.delete(id).then(() => {
+                    this.messageData = messageTools.successMessage('Despesa cartão deletada com sucesso!')
+                    this.getAllCreditCardSpending()
+                }).catch(() => {
+                    this.messageData = messageTools.errorMessage('Não foi possível deletar o despesa cartão!')
+                })
+            }
         }
     },
     mounted() {
+        this.getAllCreditCards().then(() => {
+            this.getAllCreditCardSpending()
+        })
         this.getAllSpending()
         this.getAllGains()
     }
@@ -202,6 +306,9 @@ export default {
     }
     .border-table {
         border-bottom: 2px solid $table-line-divider-color;
+    }
+    .border-table-top {
+        border-top: 2px solid $table-line-divider-color;
     }
     @media (max-width: 1000px) {
         .title {
