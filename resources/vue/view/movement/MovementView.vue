@@ -5,6 +5,7 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Movimentações"/>
+                <mfp-search-bar @search-for="filterResultsSearch($event)"/>
                 <filter-top-right @filter-quest="getMovementIndexFiltered($event)"/>
                 <mfp-drop-down-button dropdownTitle="Novo" :dropdownIcon="iconEnum.plus()" :buttonsArray="buttons"/>
             </div>
@@ -134,6 +135,7 @@ import StringTools from '~js/tools/stringTools.js'
 import AlertIcon from '~vue-component/AlertIcon.vue'
 import FilterTopRight from '~vue-component/filters/filterTopRight.vue'
 import messageTools from '~js/tools/messageTools.js'
+import MfpSearchBar from '~vue-component/search/SearchBar.vue'
 
 export default {
     name: 'MovementView',
@@ -152,6 +154,7 @@ export default {
         }
     },
     components: {
+        MfpSearchBar,
         FilterTopRight,
         AlertIcon,
         MfpMessage,
@@ -165,6 +168,7 @@ export default {
         return {
             loadingDone: false,
             movements: {},
+            originalMovements: {},
             filterList: {},
             totalSpent: 0,
             totalGain: 0,
@@ -205,11 +209,23 @@ export default {
         async getMovementIndexFiltered(quest) {
             this.loadingDone = false
             this.movements = await apiRouter.movement.indexFiltered(quest)
+            this.originalMovements = this.movements
+            this.populateMoneyValues()
+            this.loadingDone = true
+        },
+        populateMoneyValues() {
             const sum = numberTools.getSumAmountPerMovementType(this.movements)
             this.totalSpent = sum.totalSpent
             this.totalGain = sum.totalGain
             this.balance = sum.totalGain - sum.totalSpent
-            this.loadingDone = true
+        },
+        filterResultsSearch(search) {
+            let movements = this.originalMovements
+            movements = movements.filter(
+                movement => movement.description.toLowerCase().includes(search.toLowerCase())
+            )
+            this.movements = movements
+            this.populateMoneyValues()
         }
     },
     async mounted() {
