@@ -7,7 +7,7 @@
                 <mfp-title class="title" title="Movimentações"/>
                 <mfp-search-bar @search-for="filterResultsSearch($event)"/>
                 <filter-top-right @filter-quest="getMovementIndexFiltered($event)"/>
-                <mfp-drop-down-button dropdownTitle="Novo" :dropdownIcon="iconEnum.plus()" :buttonsArray="buttons"/>
+                <mfp-drop-down-button :buttonsArray="buttons"/>
             </div>
             <divider/>
             <div class="card glass success balance-card">

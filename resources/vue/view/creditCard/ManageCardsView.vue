@@ -5,14 +5,7 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Cartões"/>
-                <router-link class="btn btn-success rounded-2 top-button" to="/gerenciar-cartoes/cadastrar">
-                    <font-awesome-icon :icon="iconEnum.creditCard()" class="me-2"/>
-                    Novo Cartão
-                </router-link>
-                <router-link class="btn btn-success rounded-2 ms-2 top-button" to="/gerenciar-cartoes/despesa/cadastrar">
-                    <font-awesome-icon :icon="iconEnum.expense()" class="me-2"/>
-                    Nova despesa
-                </router-link>
+                <mfp-drop-down-button :buttons-array="buttons"/>
             </div>
             <divider/>
             <div class="card glass success balance-card">
@@ -96,18 +89,19 @@
 </template>
 
 <script>
-import LoadingComponent from '../../components/LoadingComponent.vue'
-import iconEnum from '../../../js/enums/iconEnum'
-import apiRouter from '../../../js/router/apiRouter'
-import stringTools from '../../../js/tools/stringTools'
-import calendarTools from '../../../js/tools/calendarTools'
-import ActionButtons from '../../components/ActionButtons.vue'
-import Divider from '../../components/DividerComponent.vue'
-import MfpTitle from '../../components/TitleComponent.vue'
-import MfpMessage from '../../components/MessageAlert.vue'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import iconEnum from '~js/enums/iconEnum'
+import apiRouter from '~js/router/apiRouter'
+import stringTools from '~js/tools/stringTools'
+import calendarTools from '~js/tools/calendarTools'
+import ActionButtons from '~vue-component/ActionButtons.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import MfpMessage from '~vue-component/MessageAlert.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { HttpStatusCode } from 'axios'
-import messageTools from '../../../js/tools/messageTools'
+import messageTools from '~js/tools/messageTools'
+import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
 
 export default {
     name: 'ManageCardsView',
@@ -123,6 +117,7 @@ export default {
         }
     },
     components: {
+        MfpDropDownButton,
         FontAwesomeIcon,
         MfpMessage,
         MfpTitle,
@@ -143,7 +138,19 @@ export default {
             wallets: {},
             walletId: 0,
             cardId: 0,
-            messageData: {}
+            messageData: {},
+            buttons: [
+                {
+                    title: 'Novo Cartão',
+                    icon: iconEnum.creditCard(),
+                    redirectTo: '/gerenciar-cartoes/cadastrar'
+                },
+                {
+                    title: 'Nova despesa',
+                    icon: iconEnum.expense(),
+                    redirectTo: '/gerenciar-cartoes/despesa/cadastrar'
+                }
+            ]
         }
     },
     methods: {
@@ -224,13 +231,6 @@ export default {
     @media (max-width: 1000px) {
         .nav {
             flex-direction: column;
-        }
-        .top-button {
-            margin-top: 10px;
-            border-radius: 8px !important;
-        }
-        .ms-2 {
-            margin-left: 0 !important;
         }
         .input-group {
             flex-direction: column;

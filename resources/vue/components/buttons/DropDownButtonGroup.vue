@@ -37,11 +37,13 @@ export default {
     props: {
         dropdownTitle: {
             type: String,
-            required: true
+            required: false,
+            default: 'Novo'
         },
         dropdownIcon: {
             type: Array,
-            required: true
+            required: false,
+            default: iconEnum.plus
         },
         buttonsArray: {
             type: Array,
