@@ -17,7 +17,7 @@ export default {
 
 <style scoped>
     .title {
-        margin: auto 0 auto 0;
+        margin: auto auto auto 0;
     }
     @media (max-width: 1000px) {
         .title {
