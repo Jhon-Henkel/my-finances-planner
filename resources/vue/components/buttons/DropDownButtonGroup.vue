@@ -9,7 +9,7 @@
         </button>
         <ul class="dropdown-menu">
             <li v-for="(button, index) in buttonsArray" :key="index">
-                <div class="text-center">
+                <div :class="alignItensCenter ? 'text-center' : ''">
                     <router-link-button :title="button.title"
                                         :icon="button.icon"
                                         :redirect-to="button.redirectTo"
@@ -48,6 +48,11 @@ export default {
         buttonsArray: {
             type: Array,
             required: true
+        },
+        alignItensCenter: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     }
 }
