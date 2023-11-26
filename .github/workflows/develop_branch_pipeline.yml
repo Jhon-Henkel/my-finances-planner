@@ -31,8 +31,8 @@ jobs:
 
       - name: Test SSH
         run: |
-          echo "${{ secrets.SSH_CERT }}" > cert.pem && \
-            chmod 400 cert.pem && && \
+          echo "${{ secrets.SSH_CERT }}" > cert.pem \
+            chmod 400 cert.pem \
             ssh -i cert.pem -o StrictHostKeyChecking=no ${{ secrets.FTP_ADDRESS }} "echo 'SSH OK'"
 
       - name: 📄 Making .env file
