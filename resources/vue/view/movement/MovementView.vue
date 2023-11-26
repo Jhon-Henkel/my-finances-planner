@@ -4,7 +4,7 @@
         <loading-component v-show="loadingDone === false" />
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
-                <mfp-title title="Movimentações"/>
+                <mfp-title class="title" title="Movimentações"/>
                 <mfp-search-bar @search-for="filterResultsSearch($event)"/>
                 <filter-top-right @filter-quest="getMovementIndexFiltered($event)"/>
                 <mfp-drop-down-button dropdownTitle="Novo" :dropdownIcon="iconEnum.plus()" :buttonsArray="buttons"/>
@@ -256,6 +256,9 @@ export default {
     .card-text-resume {
         font-size: 1.5rem;
     }
+    .title {
+        margin: auto 0 auto 0;
+    }
 
     @media (max-width: 1000px) {
         .nav {
@@ -307,6 +310,9 @@ export default {
             padding: 10px;
             margin-left: 1%;
             margin-right: 1%;
+        }
+        .title {
+            margin: auto auto 20px;
         }
     }
 </style>
