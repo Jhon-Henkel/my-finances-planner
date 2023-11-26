@@ -5,6 +5,7 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="salutation + ', é bom ter você aqui...'" class="title"/>
+                <mfp-drop-down-button :buttons-array="buttons" :align-itens-center="false" class="drop-button"/>
             </div>
             <divider/>
             <div class="row ms-2" style="display: inline-flex; width: 100%">
@@ -94,21 +95,22 @@
 </template>
 
 <script>
-import MfpTitle from '../../components/TitleComponent.vue'
-import Divider from '../../components/DividerComponent.vue'
-import LoadingComponent from '../../components/LoadingComponent.vue'
-import ApiRouter from '../../../js/router/apiRouter'
-import MfpMessage from '../../components/MessageAlert.vue'
-import StringTools from '../../../js/tools/stringTools'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import ApiRouter from '~js/router/apiRouter'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import StringTools from '~js/tools/stringTools'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import iconEnum from '../../../js/enums/iconEnum'
-import calendarTools from '../../../js/tools/calendarTools'
-import movementEnum from '../../../js/enums/movementEnum'
-import AlertIcon from '../../components/AlertIcon.vue'
-import BarChart from '../../components/graphics/BarChart.vue'
-import dashboardChartParams from '../../../js/chartParams/dashboardChartParams'
+import iconEnum from '~js/enums/iconEnum'
+import calendarTools from '~js/tools/calendarTools'
+import movementEnum from '~js/enums/movementEnum'
+import AlertIcon from '~vue-component/AlertIcon.vue'
+import BarChart from '~vue-component/graphics/BarChart.vue'
+import dashboardChartParams from '~js/chartParams/dashboardChartParams'
 import { userAuthStore } from '../../store/auth'
-import messageTools from '../../../js/tools/messageTools'
+import messageTools from '~js/tools/messageTools'
+import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
 
 const auth = userAuthStore()
 
@@ -123,6 +125,7 @@ export default {
         }
     },
     components: {
+        MfpDropDownButton,
         BarChart,
         AlertIcon,
         FontAwesomeIcon,
@@ -195,7 +198,34 @@ export default {
                 thisYear: 0
             },
             lastMovements: [],
-            messageData: {}
+            messageData: {},
+            buttons: [
+                {
+                    title: 'Nova movimentação',
+                    icon: iconEnum.movement(),
+                    redirectTo: '/movimentacoes/cadastrar'
+                },
+                {
+                    title: 'Nova transferência',
+                    icon: iconEnum.buildingColumns(),
+                    redirectTo: '/movimentacoes/transferir'
+                },
+                {
+                    title: 'Nova despesa cartão',
+                    icon: iconEnum.creditCard(),
+                    redirectTo: '/gerenciar-cartoes/despesa/cadastrar'
+                },
+                {
+                    title: 'Novo gasto futuro',
+                    icon: iconEnum.paying(),
+                    redirectTo: '/panorama/cadastrar-despesa'
+                },
+                {
+                    title: 'Nova ganho futuro',
+                    icon: iconEnum.sackDollar(),
+                    redirectTo: '/ganhos-futuros/cadastrar'
+                }
+            ]
         }
     },
     methods: {
@@ -322,6 +352,9 @@ export default {
             font-size: 1.5rem;
             margin-left: 50px;
             margin-bottom: 5px;
+        }
+        .drop-button {
+            width: 100%;
         }
     }
 </style>
