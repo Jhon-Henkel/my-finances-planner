@@ -29,12 +29,15 @@ jobs:
       - name: 🔥 Configuring checkout V3
         uses: actions/checkout@v3
 
-      - name: Test SSH
-        run: |
-          echo "${{ secrets.SSH_CERT }}" > cert.pem && \
-            chmod 400 cert.pem && \
-            ssh -i cert.pem -o StrictHostKeyChecking=no ${{ secrets.FTP_ADDRESS }} && \
-            cat projects/my-finances-planner-demo/README.md
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.FTP_ADDRESS }}
+          username: ${{ secrets.FTP_USERNAME }}
+          key: ${{ secrets.SSH_CERT }}
+          script: |
+            cd projects/my-finances-planner-demo
+            cat README.md
 
       - name: 📄 Making .env file
         run: |
