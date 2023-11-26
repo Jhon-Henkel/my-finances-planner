@@ -286,9 +286,11 @@ class MovementServiceUnitTest extends Falcon9
         $this->assertCount(2, $result['gainData']);
         $this->assertEquals(50, $result['gainData'][0]);
         $this->assertEquals(60, $result['gainData'][1]);
+        $this->assertEquals(30, $result['balanceData'][0]);
         $this->assertCount(2, $result['spentData']);
         $this->assertEquals(20, $result['spentData'][0]);
         $this->assertEquals(30, $result['spentData'][1]);
+        $this->assertEquals(30, $result['balanceData'][1]);
     }
 
     public function testGetTypeForMovementUpdate()
