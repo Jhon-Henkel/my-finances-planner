@@ -103,6 +103,9 @@ const iconEnum = {
     },
     plus() {
         return ['fas', 'circle-plus']
+    },
+    search() {
+        return ['fas', 'search']
     }
 }
 export default iconEnum

@@ -141,4 +141,8 @@ describe('Test iconEnum file', () => {
     it('plus', function () {
         expect(IconEnum.plus()).toStrictEqual(['fas', 'circle-plus'])
     })
+
+    it('search', function () {
+        expect(IconEnum.search()).toStrictEqual(['fas', 'search'])
+    })
 })
