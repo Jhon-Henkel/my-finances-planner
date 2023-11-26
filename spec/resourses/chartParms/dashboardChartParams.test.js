@@ -33,7 +33,7 @@ describe('Test dashboardChartParams file', () => {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Movimentações por mês (últimos 12 meses)'
+                    text: 'Movimentações por mês (Últimos 12 meses)'
                 },
                 legend: {
                     display: true,
@@ -74,6 +74,11 @@ describe('Test dashboardChartParams file', () => {
         let expectedData = {
             labels: [],
             datasets: [
+                {
+                    label: 'Balanço',
+                    backgroundColor: '#e0c857',
+                    data: [0,0,0,0,0,0,0,0,0,0,0,0]
+                },
                 {
                     label: 'Gastos',
                     backgroundColor: '#f87979',

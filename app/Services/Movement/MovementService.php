@@ -10,6 +10,7 @@ use App\DTO\Movement\MovementSumValuesDTO;
 use App\Enums\DateEnum;
 use App\Enums\MovementEnum;
 use App\Exceptions\MovementException;
+use App\Factory\DataGraphFactory;
 use App\Repositories\Movement\MovementRepository;
 use App\Resources\Movement\MovementResource;
 use App\Services\BasicService;
@@ -213,24 +214,12 @@ class MovementService extends BasicService
     public function generateDataForGraph(): array
     {
         $movements = $this->getRepository()->getLastTwelveMonthsSumGroupByTypeAndMonth();
-        $labels = [];
-        $gainData = [];
-        $spentData = [];
+        $dataGraph = new DataGraphFactory();
         foreach ($movements as $movement) {
-            if (! in_array(DateEnum::getMonthNameByNumber($movement['month']), $labels)) {
-                $labels[] = DateEnum::getMonthNameByNumber($movement['month']);
-            }
-            if ($movement['type'] == MovementEnum::GAIN) {
-                $gainData[] = (float)$movement['total'];
-            } elseif ($movement['type'] == MovementEnum::SPENT) {
-                $spentData[] = (float)$movement['total'];
-            }
+            $dataGraph->addLabel(DateEnum::getMonthNameByNumber($movement['month']));
+            $dataGraph->addValue($movement['type'], $movement['total']);
         }
-        return [
-            'labels' => $labels,
-            'gainData' => $gainData,
-            'spentData' => $spentData,
-        ];
+        return $dataGraph->getAllDataArray();
     }
 
     public function countByWalletId(int $walletId): int

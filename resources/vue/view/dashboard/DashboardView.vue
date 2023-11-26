@@ -155,7 +155,8 @@ export default {
                     dataForGraph: {
                         labels: [],
                         spentData: [],
-                        gainData: []
+                        gainData: [],
+                        balanceData: []
                     }
                 },
                 futureSpent: {
@@ -245,6 +246,11 @@ export default {
                 labels: this.data.movements.dataForGraph.labels,
                 datasets: [
                     {
+                        label: 'Balanço',
+                        backgroundColor: '#e0c857',
+                        data: this.data.movements.dataForGraph.balanceData
+                    },
+                    {
                         label: 'Ganhos',
                         backgroundColor: '#1ead98',
                         data: this.data.movements.dataForGraph.gainData
@@ -258,7 +264,7 @@ export default {
             }
             this.loadingDone = true
         }).catch(error => {
-            this.$messageData = messageTools.errorMessage(error.response.data.message)
+            this.messageData = messageTools.errorMessage(error.response.data.message)
         })
     }
 }
