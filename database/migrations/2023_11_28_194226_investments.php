@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('investments', function (Blueprint $table) {
+        Schema::create('investment', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('credit_card_id')->unsigned()->nullable()->default(null);
             $table->string('description', '255')->nullable(false);
@@ -27,6 +27,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('investments');
+        Schema::dropIfExists('investment');
     }
 };
