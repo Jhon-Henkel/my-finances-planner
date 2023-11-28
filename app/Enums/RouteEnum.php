@@ -50,6 +50,11 @@ class RouteEnum
     const API_PANORAMA_INDEX = 'apiPanoramaIndex';
     const API_FINANCIAL_HEALTH_INDEX_FILTERED = 'apiFinancialHealthIndex';
     const API_MONTHLY_CLOSING_INDEX_FILTERED = 'apiMonthlyClosingIndexFiltered';
+    const API_INVESTMENT_INDEX = 'apiInvestmentIndex';
+    const API_INVESTMENT_SHOW = 'apiInvestmentShow';
+    const API_INVESTMENT_INSERT = 'apiInvestmentInsert';
+    const API_INVESTMENT_UPDATE = 'apiInvestmentUpdate';
+    const API_INVESTMENT_DELETE = 'apiInvestmentDelete';
     const WEB_LOGOUT = 'logout';
     const WEB_MAKE_LOGIN = 'makeLogin';
     const WEB_VERIFY_TOKEN = 'verifyToken';
