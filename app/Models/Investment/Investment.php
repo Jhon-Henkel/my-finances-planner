@@ -3,13 +3,16 @@
 namespace App\Models\Investment;
 
 use App\Enums\DateEnum;
+use App\Models\Trait\Tenantable;
 use Illuminate\Database\Eloquent\Model;
 
 class Investment extends Model
 {
+    use Tenantable;
+
     protected $table = 'investment';
     protected $fillable = [
-        'id', 
+        'id',
         'credit_card_id',
         'description',
         'type',
