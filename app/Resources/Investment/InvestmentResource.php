@@ -18,7 +18,7 @@ class InvestmentResource extends BasicResource
             $item['amount'],
             $item['liquidity'],
             $item['profitability'],
-            $item['created_at']?? null,
+            $item['created_at'] ?? null,
             $item['updated_at'] ?? null
         );
     }

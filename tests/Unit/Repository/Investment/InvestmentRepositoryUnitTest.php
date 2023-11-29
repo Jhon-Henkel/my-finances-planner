@@ -14,7 +14,7 @@ class InvestmentRepositoryUnitTest extends Falcon9
     {
         $resourceMock = Mockery::mock(InvestmentResource::class)->makePartial();
 
-        $mock = Mockery::mock(InvestmentRepository::class, [new Investment, $resourceMock])->makePartial();
+        $mock = Mockery::mock(InvestmentRepository::class, [new Investment(), $resourceMock])->makePartial();
         $mock->shouldAllowMockingProtectedMethods();
 
         $this->assertInstanceOf(Investment::class, $mock->getModel());
@@ -24,7 +24,7 @@ class InvestmentRepositoryUnitTest extends Falcon9
     {
         $modelMock = Mockery::mock(Investment::class)->makePartial();
 
-        $mock = Mockery::mock(InvestmentRepository::class, [$modelMock, new InvestmentResource])->makePartial();
+        $mock = Mockery::mock(InvestmentRepository::class, [$modelMock, new InvestmentResource()])->makePartial();
         $mock->shouldAllowMockingProtectedMethods();
 
         $this->assertInstanceOf(InvestmentResource::class, $mock->getResource());
