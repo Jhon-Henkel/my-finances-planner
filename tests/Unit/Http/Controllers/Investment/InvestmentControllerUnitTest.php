@@ -17,7 +17,7 @@ class InvestmentControllerUnitTest extends Falcon9
 
         $this->assertEquals(
             [
-                'credit_card_id' => 'int|exists:App\Models\CreditCard,id',
+                'credit_card_id' => 'nullable|int|exists:App\Models\CreditCard,id',
                 'description' => 'required|max:255|string',
                 'type' => 'required|numeric',
                 'amount' => 'required|decimal:0,2',
@@ -35,7 +35,7 @@ class InvestmentControllerUnitTest extends Falcon9
 
         $this->assertEquals(
             [
-                'credit_card_id' => 'int|exists:App\Models\CreditCard,id',
+                'credit_card_id' => 'nullable|int|exists:App\Models\CreditCard,id',
                 'description' => 'required|max:255|string',
                 'type' => 'required|numeric',
                 'amount' => 'required|decimal:0,2',
