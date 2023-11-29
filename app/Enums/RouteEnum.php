@@ -60,4 +60,5 @@ class RouteEnum
     const WEB_VERIFY_TOKEN = 'verifyToken';
     const WEB_SEND_TEST_EMAIL = 'sendTestEmail';
     const WEB_ACTIVE_USER = 'activeUser';
+    const DEVELOP_GET_TOKENS = 'developGetTokens';
 }
