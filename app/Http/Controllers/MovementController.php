@@ -89,7 +89,7 @@ class MovementController extends BasicController
             $this->getService()->insertWithWalletUpdateType($transferReceived, MovementEnum::GAIN);
             return response()->json(null, ResponseAlias::HTTP_CREATED);
         } catch (QueryException $exception) {
-            return $this->returnErrorDatabaseConnect();
+            return $this->returnErrorDatabaseConnect($exception);
         }
     }
 
@@ -99,7 +99,7 @@ class MovementController extends BasicController
             $this->getService()->deleteTransferById($id);
             return response()->json(null, ResponseAlias::HTTP_OK);
         } catch (QueryException $exception) {
-            return $this->returnErrorDatabaseConnect();
+            return $this->returnErrorDatabaseConnect($exception);
         }
     }
 }

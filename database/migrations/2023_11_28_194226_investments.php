@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('type')->nullable(false);
             $table->decimal('amount', 60,2)->nullable(false);
             $table->integer('liquidity')->nullable(false);
-            $table->decimal('profitability', 3,2)->nullable(false);
+            $table->decimal('profitability', 5,2)->nullable(false);
             $table->unsignedBigInteger('tenant_id')->nullable()->index();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
