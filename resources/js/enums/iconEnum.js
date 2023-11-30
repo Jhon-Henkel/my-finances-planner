@@ -59,6 +59,9 @@ const iconEnum = {
     movement() {
         return ['fas', 'money-bill-transfer']
     },
+    billTrendUp() {
+        return ['fas', 'money-bill-trend-up']
+    },
     filterMoney() {
         return ['fas', 'filter-circle-dollar']
     },
