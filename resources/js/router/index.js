@@ -293,6 +293,22 @@ const routes = [
                     auth: true
                 }
             },
+            {
+                path: 'cadastrar',
+                name: 'registerInvestments',
+                component: () => import('../../vue/view/investment/InvestmentForm.vue'),
+                meta: {
+                    auth: true
+                }
+            },
+            {
+                path: ':id/atualizar',
+                name: 'updateInvestments',
+                component: () => import('../../vue/view/investment/InvestmentForm.vue'),
+                meta: {
+                    auth: true
+                }
+            }
         ]
     },
     {
