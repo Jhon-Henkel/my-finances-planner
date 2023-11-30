@@ -69,4 +69,14 @@ class UserController extends BasicController
         $this->getService()->activeUser($user->getId());
         return view('activeUserSuccess');
     }
+
+    /** @codeCoverageIgnore */
+    public function developGetTokens(): JsonResponse
+    {
+        if (! RequestTools::isApplicationInDevelopMode()) {
+            $message = 'Aplicação não está em modo desenvolvedor!';
+            return response()->json($message, ResponseAlias::HTTP_BAD_REQUEST);
+        }
+        return response()->json($this->getService()->developGetTokens(), ResponseAlias::HTTP_OK);
+    }
 }

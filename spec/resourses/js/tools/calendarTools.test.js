@@ -141,8 +141,8 @@ describe('testing calendarTools file', () => {
         })
 
         let period = calendarTools.getThisMonthPeriod()
-        expect(period[0].toISOString()).contain('2023-10-01')
-        expect(period[1].toISOString()).contain('2023-10-31')
+        expect(period[0]).toBe('10/1/2023')
+        expect(period[1]).toBe('10/31/2023')
     })
 
     it('getLastMonthPeriod test', async () => {
@@ -151,8 +151,8 @@ describe('testing calendarTools file', () => {
         })
 
         let period = calendarTools.getLastMonthPeriod()
-        expect(period[0].toISOString()).contain('2023-09-01')
-        expect(period[1].toISOString()).contain('2023-09-30')
+        expect(period[0]).toBe('9/1/2023')
+        expect(period[1]).toBe('9/30/2023')
     })
 
     it('getThisYearPeriod test', async () => {
@@ -161,8 +161,8 @@ describe('testing calendarTools file', () => {
         })
 
         let period = calendarTools.getThisYearPeriod()
-        expect(period[0].toISOString()).contain('2023-01-01')
-        expect(period[1].toISOString()).contain('2023-12-31')
+        expect(period[0]).toBe('1/1/2023')
+        expect(period[1]).toBe('12/31/2023')
     })
 
     it('getLastYearPeriod test', async () => {
@@ -171,7 +171,17 @@ describe('testing calendarTools file', () => {
         })
 
         let period = calendarTools.getLastYearPeriod()
-        expect(period[0].toISOString()).contain('2022-01-01')
-        expect(period[1].toISOString()).contain('2022-12-31')
+        expect(period[0]).toBe('1/1/2022')
+        expect(period[1]).toBe('12/31/2022')
+    })
+
+    it('getLastOneYearPeriod test', async () => {
+        vitest.spyOn(calendarTools, 'getToday').mockImplementation(() => {
+            return new Date('2023-10-16')
+        })
+
+        let period = calendarTools.getLastOneYearPeriod()
+        expect(period[0]).toBe('10/16/2022')
+        expect(period[1]).toBe('10/16/2023')
     })
 })

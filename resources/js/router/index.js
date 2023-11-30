@@ -283,6 +283,35 @@ const routes = [
         ]
     },
     {
+        path: '/investimentos',
+        children: [
+            {
+                path: '',
+                name: 'investments',
+                component: () => import('../../vue/view/investment/InvestmentView.vue'),
+                meta: {
+                    auth: true
+                }
+            },
+            {
+                path: 'cadastrar',
+                name: 'registerInvestments',
+                component: () => import('../../vue/view/investment/InvestmentForm.vue'),
+                meta: {
+                    auth: true
+                }
+            },
+            {
+                path: ':id/atualizar',
+                name: 'updateInvestments',
+                component: () => import('../../vue/view/investment/InvestmentForm.vue'),
+                meta: {
+                    auth: true
+                }
+            }
+        ]
+    },
+    {
         path: '/configuracoes',
         name: 'configurations',
         component: () => import('../../vue/view/configurations/ConfigurationsView.vue'),

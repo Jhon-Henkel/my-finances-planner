@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FinancialHealthController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
+use App\Http\Controllers\Investment\InvestmentController;
 use App\Http\Controllers\MonthlyClosingController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\PanoramaController;
@@ -90,5 +91,12 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router) {
     });
     $router->prefix('monthly-closing')->group(function () use ($router) {
         $router->get('/filter', [MonthlyClosingController::class, 'indexFiltered'])->name(RouteEnum::API_MONTHLY_CLOSING_INDEX_FILTERED);
+    });
+    $router->prefix('investment')->group(function () use ($router) {
+        $router->get('', [InvestmentController::class, 'index'])->name(RouteEnum::API_INVESTMENT_INDEX);
+        $router->get('/{id}', [InvestmentController::class, 'show'])->name(RouteEnum::API_INVESTMENT_SHOW);
+        $router->post('', [InvestmentController::class, 'insert'])->name(RouteEnum::API_INVESTMENT_INSERT);
+        $router->put('/{id}', [InvestmentController::class, 'update'])->name(RouteEnum::API_INVESTMENT_UPDATE);
+        $router->delete('/{id}', [InvestmentController::class, 'delete'])->name(RouteEnum::API_INVESTMENT_DELETE);
     });
 });

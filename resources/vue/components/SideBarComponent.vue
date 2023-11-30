@@ -47,6 +47,7 @@ export default {
             isUsedVueRouter: false,
             isPaddingLeft: true,
             salutation: '',
+            // Icons: https://github.com/atisawd/boxicons/tree/master/svg
             menuItens: [
                 {
                     title: 'Dashboard',
@@ -67,6 +68,11 @@ export default {
                     title: 'Ganhos Futuros',
                     icon: 'bx bxs-dollar-circle me-2',
                     to: '/ganhos-futuros'
+                },
+                {
+                    title: 'Investimentos',
+                    icon: 'bx bxs-chart me-2',
+                    to: '/investimentos'
                 },
                 {
                     title: 'Carteiras',

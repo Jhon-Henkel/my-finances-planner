@@ -5,6 +5,9 @@ namespace App\Services;
 use App\DTO\UserDTO;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Services\Auth\AuthService;
+use App\Tools\AppTools;
+use App\Tools\Auth\JwtTools;
 
 class UserService extends BasicService
 {
@@ -55,5 +58,14 @@ class UserService extends BasicService
     public function activeUser(int $id): bool
     {
         return $this->getRepository()->activeUser($id);
+    }
+
+    /** @codeCoverageIgnore */
+    public function developGetTokens(): array
+    {
+        return [
+            'MFP-TOKEN' => AppTools::getEnvValue('PUSHER_APP_KEY'),
+            'X-MFP-USER-TOKEN' => JwtTools::createJWT(app(AuthService::class)->findUserForAuth('demo@demo.dev'))
+        ];
     }
 }

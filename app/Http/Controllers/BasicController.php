@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Throwable;
 
 abstract class BasicController extends Controller implements BasicControllerContract
 {
@@ -27,7 +28,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
             $itens = $this->getResource()->arrayDtoToVoItens($find);
             return response()->json($itens, ResponseAlias::HTTP_OK);
         } catch (QueryException $exception) {
-            return $this->returnErrorDatabaseConnect();
+            return $this->returnErrorDatabaseConnect($exception);
         }
     }
 
@@ -39,7 +40,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
                 ? response()->json($this->getResource()->dtoToVo($find), ResponseAlias::HTTP_OK)
                 : response()->json('Registro não encontrado!', ResponseAlias::HTTP_NOT_FOUND);
         } catch (QueryException $exception) {
-            return $this->returnErrorDatabaseConnect();
+            return $this->returnErrorDatabaseConnect($exception);
         }
     }
 
@@ -56,7 +57,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
                 ? response()->json($this->getResource()->dtoToVo($insert), ResponseAlias::HTTP_CREATED)
                 : response()->json('Erro ao inserir item.', ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
         } catch (QueryException $exception) {
-            return $this->returnErrorDatabaseConnect();
+            return $this->returnErrorDatabaseConnect($exception);
         }
     }
 
@@ -73,7 +74,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
             $updated = $this->getService()->update($id, $item);
             return response()->json($this->getResource()->dtoToVo($updated), ResponseAlias::HTTP_OK);
         } catch (QueryException $exception) {
-            return $this->returnErrorDatabaseConnect();
+            return $this->returnErrorDatabaseConnect($exception);
         }
     }
 
@@ -83,7 +84,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
             $this->getService()->deleteById($id);
             return response(null, ResponseAlias::HTTP_OK);
         } catch (QueryException $exception) {
-            return $this->returnErrorDatabaseConnect();
+            return $this->returnErrorDatabaseConnect($exception);
         }
     }
 
@@ -93,10 +94,10 @@ abstract class BasicController extends Controller implements BasicControllerCont
         return $this->getResource()->arrayDtoToVoItens($itens);
     }
 
-    protected function returnErrorDatabaseConnect(): JsonResponse
+    protected function returnErrorDatabaseConnect(Throwable $e): JsonResponse
     {
+        ErrorReport::report(new DatabaseException($e->getMessage()));
         $message = 'Erro ao se conectar com o banco de dados!';
-        ErrorReport::report(new DatabaseException($message));
         return ResponseError::responseError($message, ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
