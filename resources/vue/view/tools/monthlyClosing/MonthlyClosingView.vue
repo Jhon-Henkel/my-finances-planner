@@ -5,7 +5,7 @@
             <div class="nav mt-2 justify-content-end">
                 <mfp-title title="Relatório fechamento de mês" />
                 <filter-top-right :useTypeMovementFilter="false"
-                                  :rangeDate="CalendarTools.getThisYearPeriod()"
+                                  :rangeDate="CalendarTools.getLastOneYearPeriod()"
                                   @filter-quest="getMonthlyClosingsIndexFiltered($event)" />
                 <back-button to="/ferramentas" class="top-button"/>
             </div>
@@ -134,8 +134,8 @@ export default {
         }
     },
     async mounted() {
-        const thisYearPeriod = CalendarTools.getThisYearPeriod()
-        const quest = `?dateStart=${thisYearPeriod[0]}&dateEnd=${thisYearPeriod[0]}`
+        const lastOneYearPeriod = CalendarTools.getLastOneYearPeriod()
+        const quest = `?dateStart=${lastOneYearPeriod[0]}&dateEnd=${lastOneYearPeriod[0]}`
         await this.getMonthlyClosingsIndexFiltered(quest)
     }
 }

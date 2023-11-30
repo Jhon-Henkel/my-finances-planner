@@ -60,6 +60,10 @@ export default {
                 {
                     label: 'Ano Anterior',
                     value: calendarTools.getLastYearPeriod()
+                },
+                {
+                    label: 'Último um ano',
+                    value: calendarTools.getLastOneYearPeriod()
                 }
             ])
         }
