@@ -23,7 +23,7 @@ import LoadingComponent from '~vue-component/LoadingComponent.vue'
 import MfpTitle from '~vue-component/TitleComponent.vue'
 import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
 import Divider from '~vue-component/DividerComponent.vue'
-import IconEnum from "~js/enums/iconEnum";
+import IconEnum from '~js/enums/iconEnum'
 
 export default {
     name: 'InvestmentView',

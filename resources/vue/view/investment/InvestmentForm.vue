@@ -100,23 +100,22 @@
 </template>
 
 <script>
-import MfpMessage from "~vue-component/MessageAlert.vue";
-import LoadingComponent from "~vue-component/LoadingComponent.vue";
-import MfpTitle from "~vue-component/TitleComponent.vue";
-import Divider from "~vue-component/DividerComponent.vue";
-import BottomButtons from "~vue-component/BottomButtons.vue";
-import InputMoney from "~vue-component/inputMoneyComponent.vue";
-import InvestmentEnum from "~js/enums/investmentEnum";
-import apiRouter from "~js/router/apiRouter";
-import IconEnum from "~js/enums/iconEnum";
-import messageTools from "~js/tools/messageTools";
-import investmentEnum from "~js/enums/investmentEnum";
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import BottomButtons from '~vue-component/BottomButtons.vue'
+import InputMoney from '~vue-component/inputMoneyComponent.vue'
+import InvestmentEnum from '~js/enums/investmentEnum'
+import apiRouter from '~js/router/apiRouter'
+import IconEnum from '~js/enums/iconEnum'
+import messageTools from '~js/tools/messageTools'
 
 export default {
     name: 'InvestmentForm',
     computed: {
         investmentEnum() {
-            return investmentEnum
+            return InvestmentEnum
         },
         IconEnum() {
             return IconEnum
@@ -148,7 +147,7 @@ export default {
     methods: {
         async updateOrInsertInvestment() {
             this.validateInvestment()
-            if (! this.isValid) {
+            if (!this.isValid) {
                 return
             }
             if (this.$route.params.id) {
@@ -159,20 +158,20 @@ export default {
         },
         validateInvestment() {
             let field = null
-            if (! this.investment.description) {
+            if (!this.investment.description) {
                 field = 'descrição'
-            } else if (! this.investment.type) {
+            } else if (!this.investment.type) {
                 field = 'tipo'
             } else if (
-                ! this.investment.creditCardId
-                && this.investment.type === investmentEnum.type.cdbCreditLimit()
+                !this.investment.creditCardId &&
+                this.investment.type === InvestmentEnum.type.cdbCreditLimit()
             ) {
                 field = 'cartão de crédito'
-            } else if (! this.investment.amount) {
+            } else if (!this.investment.amount) {
                 field = 'valor'
-            } else if (! this.investment.liquidity) {
+            } else if (!this.investment.liquidity) {
                 field = 'liquidez'
-            } else if (! this.investment.profitability) {
+            } else if (!this.investment.profitability) {
                 field = 'rentabilidade'
             }
             if (field) {
