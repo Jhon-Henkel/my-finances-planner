@@ -145,4 +145,8 @@ describe('Test iconEnum file', () => {
     it('search', function () {
         expect(IconEnum.search()).toStrictEqual(['fas', 'search'])
     })
+
+    it('bill trend up', function () {
+        expect(IconEnum.billTrendUp()).toStrictEqual(['fas', 'money-bill-trend-up'])
+    })
 })
