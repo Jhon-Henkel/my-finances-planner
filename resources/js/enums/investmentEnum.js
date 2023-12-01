@@ -14,6 +14,16 @@ const InvestmentEnum = {
     type: {
         cdb: () => CDB_ID,
         cdbCreditLimit: () => CDB_CREDIT_LIMIT_ID
+    },
+    getLabel: (id) => {
+        switch (id) {
+        case CDB_ID:
+            return CDB_LABEL
+        case CDB_CREDIT_LIMIT_ID:
+            return CDB_CREDIT_LIMIT_LABEL
+        default:
+            return 'Desconhecido'
+        }
     }
 }
 

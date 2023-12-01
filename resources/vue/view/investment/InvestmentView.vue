@@ -28,11 +28,11 @@
                                             <td colspan="11">Nenhum investimento cadastrado ainda!</td>
                                         </tr>
                                         <tr v-for="investment in investments" :key="investment.id">
-                                            <td>{{investment.description}}</td>
-                                            <td>{{investment.type}}</td>
-                                            <td>{{investment.amount}}</td>
-                                            <td>{{investment.liquidity}}</td>
-                                            <td>{{investment.profitability}}</td>
+                                            <td>{{ investment.description }}</td>
+                                            <td>{{ investmentEnum.getLabel(investment.type) }}</td>
+                                            <td>{{ investment.amount }}</td>
+                                            <td>{{ investment.liquidity }}</td>
+                                            <td>{{ investment.profitability }}</td>
                                             <td>
                                                 <action-buttons delete-tooltip="Deletar"
                                                                 tooltip-edit="Editar"
@@ -62,9 +62,15 @@ import apiRouter from '~js/router/apiRouter'
 import messageEnum from '~js/enums/messageEnum'
 import ActionButtons from '~vue-component/ActionButtons.vue'
 import messageTools from '~js/tools/messageTools'
+import investmentEnum from '~js/enums/investmentEnum'
 
 export default {
     name: 'InvestmentView',
+    computed: {
+        investmentEnum() {
+            return investmentEnum
+        }
+    },
     components: {
         ActionButtons,
         Divider,

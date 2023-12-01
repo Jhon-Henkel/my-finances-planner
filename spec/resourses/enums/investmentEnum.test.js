@@ -16,4 +16,10 @@ describe('Test investmentEnum file', () => {
     it('type.cdbCreditLimit', function () {
         expect(InvestmentEnum.type.cdbCreditLimit()).toBe(2)
     })
+
+    it('getLabel', function () {
+        expect(InvestmentEnum.getLabel(1)).toBe('CDB')
+        expect(InvestmentEnum.getLabel(2)).toBe('CDB com Limite de Crédito')
+        expect(InvestmentEnum.getLabel(99999)).toBe('Desconhecido')
+    })
 })
