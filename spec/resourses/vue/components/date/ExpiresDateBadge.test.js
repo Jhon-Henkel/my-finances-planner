@@ -63,4 +63,24 @@ describe("Testing ExpiresDateBadge component", () => {
         })
         expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-warning">20</span>')
     })
+
+    it ("Render DatepickerRange Warning today", async () => {
+        vitest.spyOn(calendarTools, 'getToday').mockImplementation(() => {
+            return new Date('2023-10-16')
+        })
+        const wrapper = shallowMount(MfpExpiresDateBadge, {
+            propsData: {
+                installment: {
+                    nextInstallmentDay: '16',
+                    firstInstallment: 1
+                }
+            },
+            global: {
+                directives: {
+                    tooltip: true
+                }
+            }
+        })
+        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-warning">16</span>')
+    })
 })

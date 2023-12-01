@@ -23,7 +23,7 @@ export default {
             const nextInstallmentDay = parseInt(installment.nextInstallmentDay)
             if ((nextInstallmentDay < today) && (installment.firstInstallment > 0)) {
                 return 'bg-danger'
-            } else if ((nextInstallmentDay > today) && (installment.firstInstallment > 0)) {
+            } else if ((nextInstallmentDay >= today) && (installment.firstInstallment > 0)) {
                 return 'bg-warning'
             }
             return 'bg-success'
