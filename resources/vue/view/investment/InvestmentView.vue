@@ -113,3 +113,11 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+@media (max-width: 1000px) {
+    .nav {
+        flex-direction: column;
+    }
+}
+</style>
