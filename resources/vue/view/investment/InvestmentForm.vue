@@ -133,7 +133,7 @@ export default {
         return {
             messageData: {},
             loadingDone: false,
-            title: 'Cadastrar Investimento',
+            title: 'Cadastrar CDB',
             isValid: false,
             investment: {
                 profitability: '',
@@ -208,7 +208,7 @@ export default {
     },
     async mounted() {
         if (this.$route.params.id) {
-            this.title = 'Atualizar Investimento'
+            this.title = 'Atualizar CDB'
             this.investment = await apiRouter.investments.show(this.$route.params.id)
         }
         this.creditCards = await apiRouter.cards.index()

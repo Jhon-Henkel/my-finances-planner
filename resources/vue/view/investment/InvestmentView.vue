@@ -36,7 +36,7 @@
                                             <td>
                                                 <action-buttons delete-tooltip="Deletar"
                                                                 tooltip-edit="Editar"
-                                                                :edit-to="'investimentos/' + investment.id + '/atualizar'"
+                                                                :edit-to="'investimentos/cdb/' + investment.id + '/atualizar'"
                                                                 @delete-clicked="deleteInvestment(investment.id, investment.description)" />
                                             </td>
                                         </tr>
@@ -85,9 +85,9 @@ export default {
             loadingDone: true,
             buttons: [
                 {
-                    title: 'Novo Investimento',
+                    title: 'Novo CDB',
                     icon: IconEnum.billTrendUp(),
-                    redirectTo: '/investimentos/cadastrar'
+                    redirectTo: '/investimentos/cdb/cadastrar'
                 }
             ],
             investments: []

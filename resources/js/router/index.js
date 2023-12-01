@@ -294,7 +294,7 @@ const routes = [
                 }
             },
             {
-                path: 'cadastrar',
+                path: 'cdb/cadastrar',
                 name: 'registerInvestments',
                 component: () => import('../../vue/view/investment/InvestmentForm.vue'),
                 meta: {
@@ -302,7 +302,7 @@ const routes = [
                 }
             },
             {
-                path: ':id/atualizar',
+                path: 'cdb/:id/atualizar',
                 name: 'updateInvestments',
                 component: () => import('../../vue/view/investment/InvestmentForm.vue'),
                 meta: {
