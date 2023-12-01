@@ -125,36 +125,36 @@ const calendarTools = {
     getThisMonthPeriod() {
         const date = this.getToday()
         return [
-            startOfMonth(date).toLocaleDateString('en-US').split('T')[0],
-            endOfMonth(date).toLocaleDateString('en-US').split('T')[0]
+            startOfMonth(date).toLocaleDateString('sv-SE').split('T')[0],
+            endOfMonth(date).toLocaleDateString('sv-SE').split('T')[0]
         ]
     },
     getLastMonthPeriod() {
         const date = this.getToday()
         return [
-            startOfMonth(subMonths(date, 1)).toLocaleDateString('en-US').split('T')[0],
-            endOfMonth(subMonths(date, 1)).toLocaleDateString('en-US').split('T')[0]
+            startOfMonth(subMonths(date, 1)).toLocaleDateString('sv-SE').split('T')[0],
+            endOfMonth(subMonths(date, 1)).toLocaleDateString('sv-SE').split('T')[0]
         ]
     },
     getThisYearPeriod() {
         const date = this.getToday()
         return [
-            startOfYear(date).toLocaleDateString('en-US').split('T')[0],
-            endOfYear(date).toLocaleDateString('en-US').split('T')[0]
+            startOfYear(date).toLocaleDateString('sv-SE').split('T')[0],
+            endOfYear(date).toLocaleDateString('sv-SE').split('T')[0]
         ]
     },
     getLastYearPeriod() {
         const date = this.getToday()
         return [
-            startOfYear(subYears(date, 1)).toLocaleDateString('en-US').split('T')[0],
-            endOfYear(subYears(date, 1)).toLocaleDateString('en-US').split('T')[0]
+            startOfYear(subYears(date, 1)).toLocaleDateString('sv-SE').split('T')[0],
+            endOfYear(subYears(date, 1)).toLocaleDateString('sv-SE').split('T')[0]
         ]
     },
     getLastOneYearPeriod() {
         const date = this.getToday()
         return [
-            subYears(date, 1).toLocaleDateString('en-US').split('T')[0],
-            date.toLocaleDateString('en-US').split('T')[0]
+            subYears(date, 1).toLocaleDateString('sv-SE').split('T')[0],
+            date.toLocaleDateString('sv-SE').split('T')[0]
         ]
     }
 }

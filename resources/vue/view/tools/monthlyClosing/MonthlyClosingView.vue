@@ -135,7 +135,7 @@ export default {
     },
     async mounted() {
         const lastOneYearPeriod = CalendarTools.getLastOneYearPeriod()
-        const quest = `?dateStart=${lastOneYearPeriod[0]}&dateEnd=${lastOneYearPeriod[0]}`
+        const quest = `?dateStart=${lastOneYearPeriod[0]}&dateEnd=${lastOneYearPeriod[1]}&type=0`
         await this.getMonthlyClosingsIndexFiltered(quest)
     }
 }
