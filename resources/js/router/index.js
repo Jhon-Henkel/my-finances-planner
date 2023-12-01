@@ -294,17 +294,25 @@ const routes = [
                 }
             },
             {
+                path: 'cdb',
+                name: 'investmentCdb',
+                component: () => import('../../vue/view/investment/cdb/InvestmentCdbView.vue'),
+                meta: {
+                    auth: true
+                }
+            },
+            {
                 path: 'cdb/cadastrar',
-                name: 'registerInvestments',
-                component: () => import('../../vue/view/investment/InvestmentForm.vue'),
+                name: 'registerInvestmentCdb',
+                component: () => import('../../vue/view/investment/cdb/InvestmentCdbForm.vue'),
                 meta: {
                     auth: true
                 }
             },
             {
                 path: 'cdb/:id/atualizar',
-                name: 'updateInvestments',
-                component: () => import('../../vue/view/investment/InvestmentForm.vue'),
+                name: 'updateInvestmentCdb',
+                component: () => import('../../vue/view/investment/cdb/InvestmentCdbForm.vue'),
                 meta: {
                     auth: true
                 }
