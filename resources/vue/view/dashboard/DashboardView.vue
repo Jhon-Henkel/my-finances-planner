@@ -224,6 +224,11 @@ export default {
                     title: 'Nova ganho futuro',
                     icon: iconEnum.sackDollar(),
                     redirectTo: '/ganhos-futuros/cadastrar'
+                },
+                {
+                    title: 'Novo CDB',
+                    icon: iconEnum.billTrendUp(),
+                    redirectTo: '/investimentos/cdb/cadastrar'
                 }
             ]
         }
