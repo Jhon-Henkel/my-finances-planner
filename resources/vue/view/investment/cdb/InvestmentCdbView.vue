@@ -4,7 +4,7 @@
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
-                <mfp-title title="Investimentos"/>
+                <mfp-title title="Gerenciamento CDB"/>
                 <mfp-drop-down-button :buttons-array="buttons" />
             </div>
             <divider/>
@@ -19,7 +19,7 @@
                                             <th scope="col">Tipo</th>
                                             <th scope="col">Valor</th>
                                             <th scope="col">Liquidez</th>
-                                            <th scope="col">Rentabilidade</th>
+                                            <th scope="col">Rentabilidade (% do CDI)</th>
                                             <th scope="col">Ações</th>
                                         </tr>
                                     </thead>
@@ -30,9 +30,9 @@
                                         <tr v-for="investment in investments" :key="investment.id">
                                             <td>{{ investment.description }}</td>
                                             <td>{{ investmentEnum.getLabel(investment.type) }}</td>
-                                            <td>{{ investment.amount }}</td>
-                                            <td>{{ investment.liquidity }}</td>
-                                            <td>{{ investment.profitability }}</td>
+                                            <td>{{ StringTools.formatFloatValueToBrString(investment.amount) }}</td>
+                                            <td>D+{{ investment.liquidity }}</td>
+                                            <td>{{ investment.profitability }} %</td>
                                             <td>
                                                 <action-buttons delete-tooltip="Deletar"
                                                                 tooltip-edit="Editar"
@@ -63,10 +63,14 @@ import messageEnum from '~js/enums/messageEnum'
 import ActionButtons from '~vue-component/ActionButtons.vue'
 import messageTools from '~js/tools/messageTools'
 import investmentEnum from '~js/enums/investmentEnum'
+import StringTools from '~js/tools/stringTools'
 
 export default {
     name: 'InvestmentCdbView',
     computed: {
+        StringTools() {
+            return StringTools
+        },
         investmentEnum() {
             return investmentEnum
         }
@@ -119,11 +123,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-@media (max-width: 1000px) {
-    .nav {
-        flex-direction: column;
-    }
-}
-</style>
