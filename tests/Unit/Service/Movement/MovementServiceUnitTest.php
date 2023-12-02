@@ -487,4 +487,38 @@ class MovementServiceUnitTest extends Falcon9
         $result = $service->getMonthSumMovementsByOptionFilter(1);
         $this->assertEquals(50, $result[0]);
     }
+
+    public function testMakeMovementSumValuesDTO()
+    {
+        $movementOne = new MovementDTO();
+        $movementOne->setAmount(10);
+        $movementOne->setType(MovementEnum::SPENT);
+
+        $movementTwo = new MovementDTO();
+        $movementTwo->setAmount(20);
+        $movementTwo->setType(MovementEnum::SPENT);
+
+        $movementThree = new MovementDTO();
+        $movementThree->setAmount(30);
+        $movementThree->setType(MovementEnum::GAIN);
+
+        $movementFour = new MovementDTO();
+        $movementFour->setAmount(40);
+        $movementFour->setType(MovementEnum::GAIN);
+
+        $movementFive = new MovementDTO();
+        $movementFive->setAmount(40);
+        $movementFive->setType(MovementEnum::TRANSFER);
+
+        $movements = [$movementOne, $movementTwo, $movementThree, $movementFour, $movementFive];
+
+        $service = Mockery::mock(MovementService::class)->makePartial();
+        $service->shouldAllowMockingProtectedMethods();
+        $result = $service->makeMovementSumValuesDTO($movements);
+
+        $this->assertInstanceOf(MovementSumValuesDTO::class, $result);
+        $this->assertEquals(30, $result->getExpenses());
+        $this->assertEquals(70, $result->getEarnings());
+        $this->assertEquals(40, $result->getBalance());
+    }
 }

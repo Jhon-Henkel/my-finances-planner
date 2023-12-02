@@ -4,20 +4,23 @@ namespace App\DTO\Movement;
 
 class MovementSumValuesDTO
 {
-    private float $earnings;
-    private float $expenses;
-    private float $balance;
+    private float $earnings = 0;
+    private float $expenses = 0;
+    private float $balance = 0;
 
-    public function __construct(float $earnings, float $expenses, float $balance)
+    public function addEarnings(float $earning): void
     {
-        $this->earnings = $earnings;
-        $this->expenses = $expenses;
-        $this->balance = $balance;
+        $this->earnings += $earning;
     }
 
     public function getEarnings(): float
     {
         return $this->earnings;
+    }
+
+    public function addExpenses(float $expense): void
+    {
+        $this->expenses += $expense;
     }
 
     public function getExpenses(): float
@@ -27,6 +30,6 @@ class MovementSumValuesDTO
 
     public function getBalance(): float
     {
-        return $this->balance;
+        return round($this->earnings - $this->expenses, 2);
     }
 }

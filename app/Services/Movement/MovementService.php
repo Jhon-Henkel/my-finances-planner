@@ -235,16 +235,14 @@ class MovementService extends BasicService
 
     protected function makeMovementSumValuesDTO(array $movements): MovementSumValuesDTO
     {
-        $gain = 0;
-        $spent = 0;
+        $movementSum = new MovementSumValuesDTO();
         foreach ($movements as $movement) {
             if ($movement->getType() == MovementEnum::GAIN) {
-                $gain += $movement->getAmount();
+                $movementSum->addEarnings($movement->getAmount());
             } elseif ($movement->getType() == MovementEnum::SPENT) {
-                $spent += $movement->getAmount();
+                $movementSum->addExpenses($movement->getAmount());
             }
         }
-        $balance = round($gain - $spent, 2);
-        return new MovementSumValuesDTO($gain, $spent, $balance);
+        return $movementSum;
     }
 }
