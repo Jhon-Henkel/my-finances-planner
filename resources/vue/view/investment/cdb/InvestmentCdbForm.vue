@@ -92,7 +92,7 @@
                 </div>
             </form>
             <divider/>
-            <bottom-buttons redirect-to="/investimentos"
+            <bottom-buttons redirect-to="/investimentos/cdb"
                             :button-success-text="title"
                             @btn-clicked="updateOrInsertInvestment"/>
         </div>
@@ -112,7 +112,7 @@ import IconEnum from '~js/enums/iconEnum'
 import messageTools from '~js/tools/messageTools'
 
 export default {
-    name: 'InvestmentForm',
+    name: 'InvestmentCdbForm',
     computed: {
         investmentEnum() {
             return InvestmentEnum

@@ -69,4 +69,18 @@ class InvestmentControllerUnitTest extends Falcon9
 
         $this->assertInstanceOf(InvestmentResource::class, $resource);
     }
+
+    public function testMakeDataGraph()
+    {
+        $serviceMock = $this->mock(InvestmentService::class)->makePartial();
+        $resourceMock = $this->mock(InvestmentResource::class)->makePartial();
+        $controllerMock = Mockery::mock(InvestmentController::class, [$serviceMock, $resourceMock])->makePartial();
+        $controllerMock->shouldAllowMockingProtectedMethods();
+
+        $serviceMock->shouldReceive('makeDataGraph')->once()->andReturn([]);
+
+        $response = $controllerMock->makeDataGraph();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
 }

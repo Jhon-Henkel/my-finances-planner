@@ -211,6 +211,10 @@ const apiRouter = {
         },
         delete: async function(id) {
             return await requestTools.request.delete('/api/investment/' + id)
+        },
+        dataGraph: async function() {
+            const request = await requestTools.request.get('/api/investment/data-graph')
+            return request.data
         }
     }
 }

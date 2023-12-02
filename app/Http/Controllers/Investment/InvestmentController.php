@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Investment;
 use App\Http\Controllers\BasicController;
 use App\Resources\Investment\InvestmentResource;
 use App\Services\Investment\InvestmentService;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class InvestmentController extends BasicController
 {
@@ -46,5 +48,11 @@ class InvestmentController extends BasicController
     protected function getResource(): InvestmentResource
     {
         return $this->resource;
+    }
+
+    public function makeDataGraph(): JsonResponse
+    {
+        $data = $this->getService()->makeDataGraph();
+        return response()->json($data, ResponseAlias::HTTP_OK);
     }
 }

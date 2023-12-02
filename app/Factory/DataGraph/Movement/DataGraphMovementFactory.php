@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Factory;
+namespace App\Factory\DataGraph\Movement;
 
 use App\Enums\MovementEnum;
 use App\Exceptions\CountGainAndExpenseDataGraphException;
+use App\Factory\DataGraph\DataGraphInterface;
 
-class DataGraphFactory
+class DataGraphMovementFactory implements DataGraphInterface
 {
     private array $gainData = [];
     private array $spentData = [];

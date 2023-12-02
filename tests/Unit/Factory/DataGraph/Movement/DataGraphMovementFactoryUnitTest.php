@@ -1,12 +1,12 @@
 <?php
 
-namespace Factory;
+namespace Factory\DataGraph\Movement;
 
 use App\Exceptions\CountGainAndExpenseDataGraphException;
-use App\Factory\DataGraphFactory;
+use App\Factory\DataGraph\Movement\DataGraphMovementFactory;
 use Tests\Falcon9;
 
-class DataGraphFactoryUnitTest extends Falcon9
+class DataGraphMovementFactoryUnitTest extends Falcon9
 {
     /**
      * Parâmetros de teste:
@@ -14,7 +14,7 @@ class DataGraphFactoryUnitTest extends Falcon9
      */
     public function testFactoryTestOne()
     {
-        $factory = new DataGraphFactory();
+        $factory = new DataGraphMovementFactory();
 
         $factory->addLabel('Janeiro');
         $factory->addLabel('Fevereiro');
@@ -43,7 +43,7 @@ class DataGraphFactoryUnitTest extends Falcon9
      */
     public function testFactoryTestTwo()
     {
-        $factory = new DataGraphFactory();
+        $factory = new DataGraphMovementFactory();
 
         $factory->addLabel('Janeiro');
         $factory->addLabel('Fevereiro');
