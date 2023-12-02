@@ -68,11 +68,6 @@ export default {
                     title: 'Novo CDB',
                     icon: IconEnum.billTrendUp(),
                     redirectTo: '/investimentos/cdb/cadastrar'
-                },
-                {
-                    title: 'Novo Aporte',
-                    icon: IconEnum.filterMoney(),
-                    redirectTo: '/investimentos/cdb/cadastrar'
                 }
             ],
             buttonsManageData: [
