@@ -122,7 +122,7 @@ table tr:first-child th {
         transition-duration: 0ms;
         transition: none;
     }
-    .nav {
+    .nav-item {
         flex-direction: column;
     }
 }
