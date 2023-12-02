@@ -74,7 +74,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label" for="investment-profitability">
-                                Rentabilidade
+                                Rentabilidade (% do CDI)
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">
@@ -182,15 +182,16 @@ export default {
             this.isValid = true
         },
         async updateInvestment() {
-            await apiRouter.investments.update(this.populateInvestment(), this.investment.id).then((response) => {
+            await apiRouter.investments.update(this.populateInvestment(), this.investment.id).then(() => {
                 this.messageData = messageTools.successMessage('Investimento atualizado com sucesso')
             }).catch((error) => {
                 this.messageData = messageTools.errorMessage(error)
             })
         },
         async insertInvestment() {
-            await apiRouter.investments.insert(this.populateInvestment()).then((response) => {
+            await apiRouter.investments.insert(this.populateInvestment()).then(() => {
                 this.messageData = messageTools.successMessage('Investimento cadastrado com sucesso')
+                this.investment = {}
             }).catch((error) => {
                 this.messageData = messageTools.errorMessage(error)
             })
