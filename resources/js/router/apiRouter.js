@@ -215,6 +215,9 @@ const apiRouter = {
         dataGraph: async function() {
             const request = await requestTools.request.get('/api/investment/data-graph')
             return request.data
+        },
+        rescueApport: async function(data) {
+            return await requestTools.request.post('/api/investment/rescue-apport', data)
         }
     }
 }

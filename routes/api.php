@@ -96,6 +96,7 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router) {
         $router->get('data-graph', [InvestmentController::class, 'makeDataGraph'])->name(RouteEnum::API_INVESTMENT_CDB_DATA_GRAPH);
         $router->get('', [InvestmentController::class, 'index'])->name(RouteEnum::API_INVESTMENT_INDEX);
         $router->get('/{id}', [InvestmentController::class, 'show'])->name(RouteEnum::API_INVESTMENT_SHOW);
+        $router->post('/rescue-apport', [InvestmentController::class, 'rescueApportInvestment'])->name(RouteEnum::API_INVESTMENT_RESCUE_APPORT);
         $router->post('', [InvestmentController::class, 'insert'])->name(RouteEnum::API_INVESTMENT_INSERT);
         $router->put('/{id}', [InvestmentController::class, 'update'])->name(RouteEnum::API_INVESTMENT_UPDATE);
         $router->delete('/{id}', [InvestmentController::class, 'delete'])->name(RouteEnum::API_INVESTMENT_DELETE);

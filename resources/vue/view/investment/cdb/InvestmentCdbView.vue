@@ -131,6 +131,7 @@ export default {
             }
         },
         async rescueApportInvestment(data) {
+            console.log(data)
             console.log('Desenvolver endpoint para resgatar ou aportar investimento')
             // mandar objeto para endpoint
             // recarregar dados

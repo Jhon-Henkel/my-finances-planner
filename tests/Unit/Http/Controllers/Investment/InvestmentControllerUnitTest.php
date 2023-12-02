@@ -83,4 +83,20 @@ class InvestmentControllerUnitTest extends Falcon9
 
         $this->assertEquals(200, $response->getStatusCode());
     }
+
+    public function testRulesRescueApport()
+    {
+        $controllerMock = $this->mock(InvestmentController::class)->makePartial();
+        $controllerMock->shouldAllowMockingProtectedMethods();
+
+        $this->assertEquals(
+            [
+                'walletId' => 'required|int|exists:App\Models\WalletModel,id',
+                'investmentId' => 'required|int|exists:App\Models\Investment\Investment,id',
+                'value' => 'required|decimal:0,2',
+                'rescue' => 'required|boolean'
+            ],
+            $controllerMock->rulesRescueApport()
+        );
+    }
 }
