@@ -233,6 +233,9 @@ class MovementService extends BasicService
         return $this->makeMovementSumValuesDTO($movements);
     }
 
+    /**
+     * @param MovementDTO[] $movements
+     */
     protected function makeMovementSumValuesDTO(array $movements): MovementSumValuesDTO
     {
         $movementSum = new MovementSumValuesDTO();
