@@ -3,7 +3,7 @@
         <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
-            <div class="nav mt-2 justify-content-end">
+            <div class="nav nav-item mt-2 justify-content-end">
                 <mfp-title title="Gerenciamento CDB"/>
                 <mfp-drop-down-button :buttons-array="buttons" />
             </div>
@@ -17,7 +17,7 @@
                                         <tr>
                                             <th scope="col">Investimento</th>
                                             <th scope="col">Tipo</th>
-                                            <th scope="col">Valor</th>
+                                            <th scope="col">Aporte Inicial</th>
                                             <th scope="col">Liquidez</th>
                                             <th scope="col">Rentabilidade (% do CDI)</th>
                                             <th scope="col">Ações</th>
@@ -47,6 +47,9 @@
                     </div>
                 </div>
             <divider/>
+            <div class="nav nav-item justify-content-center">
+                <back-button to="/investimentos" />
+            </div>
         </div>
     </div>
 </template>
@@ -64,6 +67,7 @@ import ActionButtons from '~vue-component/ActionButtons.vue'
 import messageTools from '~js/tools/messageTools'
 import investmentEnum from '~js/enums/investmentEnum'
 import StringTools from '~js/tools/stringTools'
+import BackButton from '~vue-component/buttons/BackButton.vue'
 
 export default {
     name: 'InvestmentCdbView',
@@ -76,6 +80,7 @@ export default {
         }
     },
     components: {
+        BackButton,
         ActionButtons,
         Divider,
         MfpDropDownButton,

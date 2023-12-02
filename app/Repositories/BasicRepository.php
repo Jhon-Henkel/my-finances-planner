@@ -61,6 +61,12 @@ abstract class BasicRepository implements BasicRepositoryContract
         return $this->getResource()->arrayToDtoItens($itens);
     }
 
+    public function findAllInTypes(array $types): array
+    {
+        $itens = $this->getModel()->whereIn(BasicFieldsEnum::TYPE, $types)->get()->toArray();
+        return $this->getResource()->arrayToDtoItens($itens);
+    }
+
     public function findByPeriod(DatePeriodDTO $period): array
     {
         $itens = $this->getModel()->select()

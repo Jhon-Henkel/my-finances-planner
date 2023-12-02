@@ -3,12 +3,23 @@
         <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
-            <div class="nav mt-2 justify-content-end">
+            <div class="nav nav-item mt-2 justify-content-end">
                 <mfp-title title="Investimentos"/>
-                <mfp-drop-down-button :buttons-array="buttons" />
+                <mfp-drop-down-button :buttons-array="buttonsNewData" :align-itens-center="false" class="me-2"/>
+                <mfp-drop-down-button :buttons-array="buttonsManageData"
+                                      dropdownTitle="Gerenciar"
+                                      :dropdownIcon="iconEnum.buildingColumns()" />
             </div>
             <divider/>
-                <h1>Desenvolvendo</h1>
+            <div class="row ms-2" style="display: inline-flex; width: 100%">
+                <div class="col-4">
+                    <div class="card glass">
+                        <div class="card-body text-center">
+                            <bar-chart :graph-options="graphOptions" :chart-data="chartData" />
+                        </div>
+                    </div>
+                </div>
+            </div>
             <divider/>
         </div>
     </div>
@@ -21,18 +32,24 @@ import MfpTitle from '~vue-component/TitleComponent.vue'
 import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
 import Divider from '~vue-component/DividerComponent.vue'
 import IconEnum from '~js/enums/iconEnum'
-import ActionButtons from '~vue-component/ActionButtons.vue'
 import investmentEnum from '~js/enums/investmentEnum'
+import apiRouter from '~js/router/apiRouter'
+import messageTools from '~js/tools/messageTools'
+import BarChart from '~vue-component/graphics/BarChart.vue'
+import investmentChartParams from '~js/chartParams/investmentChartParams'
 
 export default {
     name: 'InvestmentView',
     computed: {
+        iconEnum() {
+            return IconEnum
+        },
         investmentEnum() {
             return investmentEnum
         }
     },
     components: {
-        ActionButtons,
+        BarChart,
         Divider,
         MfpDropDownButton,
         MfpTitle,
@@ -43,20 +60,63 @@ export default {
         return {
             messageData: {},
             loadingDone: true,
-            buttons: [
+            investments: [],
+            graphOptions: investmentChartParams.options,
+            chartData: investmentChartParams.data,
+            buttonsNewData: [
                 {
                     title: 'Novo CDB',
                     icon: IconEnum.billTrendUp(),
                     redirectTo: '/investimentos/cdb/cadastrar'
+                },
+                {
+                    title: 'Novo Aporte',
+                    icon: IconEnum.filterMoney(),
+                    redirectTo: '/investimentos/cdb/cadastrar'
                 }
             ],
+            buttonsManageData: [
+                {
+                    title: 'Gerenciar CDB',
+                    icon: IconEnum.billTrendUp(),
+                    redirectTo: '/investimentos/cdb'
+                }
+            ]
         }
     },
     methods: {
-
+        async getInvestmentsDataGraph() {
+            await apiRouter.investments.dataGraph().then(response => {
+                this.investments = response
+                this.populateDataGraph()
+            }).catch(error => {
+                this.messageData = messageTools.errorMessage(error.response.data.message)
+            })
+            this.loadingDone = true
+        },
+        populateDataGraph() {
+            this.chartData = {
+                labels: [this.investments.cdb.label],
+                datasets: [
+                    {
+                        label: [this.investments.cdb.label],
+                        backgroundColor: '#1ead98',
+                        data: [this.investments.cdb.value]
+                    }
+                ]
+            }
+        }
     },
     mounted() {
-
+        this.investments = this.getInvestmentsDataGraph()
     }
 }
 </script>
+
+<style scoped>
+    @media (max-width: 1000px) {
+        .me-2 {
+            margin-right: 0 !important;
+        }
+    }
+</style>
