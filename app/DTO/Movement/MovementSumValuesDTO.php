@@ -6,7 +6,6 @@ class MovementSumValuesDTO
 {
     private float $earnings = 0;
     private float $expenses = 0;
-    private float $balance = 0;
 
     public function addEarnings(float $earning): void
     {
