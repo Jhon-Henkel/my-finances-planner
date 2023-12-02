@@ -18,7 +18,7 @@
                                     <tr>
                                         <th scope="col">Investimento</th>
                                         <th scope="col">Tipo</th>
-                                        <th scope="col">Aporte Inicial</th>
+                                        <th scope="col">Valor investido</th>
                                         <th scope="col">Liquidez</th>
                                         <th scope="col">Rentabilidade (% do CDI)</th>
                                         <th scope="col">Ações</th>
@@ -38,7 +38,10 @@
                                             <action-buttons delete-tooltip="Deletar"
                                                             tooltip-edit="Editar"
                                                             :edit-to="'investimentos/cdb/' + investment.id + '/atualizar'"
-                                                            @delete-clicked="deleteInvestment(investment.id, investment.description)" />
+                                                            @delete-clicked="deleteInvestment(investment.id, investment.description)"
+                                                            :checkButton="true"
+                                                            checkTooltip="Resgatar / Aportar Investimento"
+                                                            @check-clicked="manageApportRescueInvestment(investment)"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -47,6 +50,13 @@
                     </div>
                 </div>
             </div>
+            <pay-receive :show-pay-receive="showRescueOrApportInvestment"
+                         :value="0"
+                         :check-tooltip="'Aporte/Resgatar'"
+                         :wallet-id="0"
+                         @hide-pay-receive="showRescueOrApportInvestment = false"
+                         partialLabel="Resgatar"
+                         @pay="rescueApportInvestment($event)" />
             <divider/>
         </div>
     </div>
@@ -56,7 +66,6 @@
 import MfpMessage from '~vue-component/MessageAlert.vue'
 import LoadingComponent from '~vue-component/LoadingComponent.vue'
 import MfpTitle from '~vue-component/TitleComponent.vue'
-import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
 import Divider from '~vue-component/DividerComponent.vue'
 import IconEnum from '~js/enums/iconEnum'
 import apiRouter from '~js/router/apiRouter'
@@ -67,6 +76,7 @@ import investmentEnum from '~js/enums/investmentEnum'
 import StringTools from '~js/tools/stringTools'
 import BackButton from '~vue-component/buttons/BackButton.vue'
 import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
+import PayReceive from '~vue-component/PayReceiveComponent.vue'
 
 export default {
     name: 'InvestmentCdbView',
@@ -82,11 +92,11 @@ export default {
         }
     },
     components: {
+        PayReceive,
         RouterLinkButton,
         BackButton,
         ActionButtons,
         Divider,
-        MfpDropDownButton,
         MfpTitle,
         LoadingComponent,
         MfpMessage
@@ -95,7 +105,9 @@ export default {
         return {
             messageData: {},
             loadingDone: true,
-            investments: []
+            investments: [],
+            investmentToApportOrRescue: {},
+            showRescueOrApportInvestment: false
         }
     },
     methods: {
@@ -117,6 +129,15 @@ export default {
                     this.messageData = messageTools.errorMessage('Não foi possível deletar a despesa!')
                 })
             }
+        },
+        async rescueApportInvestment(data) {
+            console.log('Desenvolver endpoint para resgatar ou aportar investimento')
+            // mandar objeto para endpoint
+            // recarregar dados
+        },
+        manageApportRescueInvestment(investment) {
+            this.showRescueOrApportInvestment = !this.showRescueOrApportInvestment
+            this.investmentToApportOrRescue = investment
         }
     },
     mounted() {
