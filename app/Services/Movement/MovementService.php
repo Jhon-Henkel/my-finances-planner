@@ -237,9 +237,9 @@ class MovementService extends BasicService
     {
         $movementSum = new MovementSumValuesDTO();
         foreach ($movements as $movement) {
-            if ($movement->getType() == MovementEnum::GAIN) {
+            if ($movement->isGain()) {
                 $movementSum->addEarnings($movement->getAmount());
-            } elseif ($movement->getType() == MovementEnum::SPENT) {
+            } elseif ($movement->isSpent()) {
                 $movementSum->addExpenses($movement->getAmount());
             }
         }
