@@ -1,5 +1,5 @@
 <template>
-    <mfp-message ref="message"/>
+    <mfp-message :message-data="messageData"/>
     <div class="row mt-4 was-validated pay-receive" v-show="showPayReceive">
         <div class="col-4 money">
             <input-money :value="value"
@@ -38,10 +38,10 @@
 
 <script>
 import InputMoney from './inputMoneyComponent.vue'
-import iconEnum from '../../js/enums/iconEnum'
-import ApiRouter from '../../js/router/apiRouter'
+import iconEnum from '~js/enums/iconEnum'
+import ApiRouter from '~js/router/apiRouter'
 import MfpMessage from './MessageAlert.vue'
-import MessageEnum from '../../js/enums/messageEnum'
+import messageTools from '~js/tools/messageTools'
 
 export default {
     name: 'pay-receive',
@@ -58,7 +58,8 @@ export default {
         return {
             partial: false,
             wallets: {},
-            internalWalletId: 0
+            internalWalletId: 0,
+            messageData: {}
         }
     },
     emits: [
@@ -98,19 +99,12 @@ export default {
                 })
                 this.partial = false
             } else {
-                this.showMessage(
-                    MessageEnum.alertTypeInfo(),
-                    'Um valor maior que zero e uma carteira deve ser selecionados',
-                    'Informação'
-                )
+                this.messageData = messageTools.infoMessage('Um valor maior que zero e uma carteira deve ser selecionados')
             }
         },
         hidePay() {
             this.partial = false
             this.$emit('hide-pay-receive')
-        },
-        showMessage(type, message, header) {
-            this.$refs.message.showAlert(type, message, header)
         }
     },
     async mounted() {
