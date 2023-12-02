@@ -93,6 +93,7 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router) {
         $router->get('/filter', [MonthlyClosingController::class, 'indexFiltered'])->name(RouteEnum::API_MONTHLY_CLOSING_INDEX_FILTERED);
     });
     $router->prefix('investment')->group(function () use ($router) {
+        $router->get('data-graph', [InvestmentController::class, 'makeDataGraph'])->name(RouteEnum::API_INVESTMENT_CDB_DATA_GRAPH);
         $router->get('', [InvestmentController::class, 'index'])->name(RouteEnum::API_INVESTMENT_INDEX);
         $router->get('/{id}', [InvestmentController::class, 'show'])->name(RouteEnum::API_INVESTMENT_SHOW);
         $router->post('', [InvestmentController::class, 'insert'])->name(RouteEnum::API_INVESTMENT_INSERT);

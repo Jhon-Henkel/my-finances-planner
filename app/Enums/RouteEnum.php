@@ -55,6 +55,7 @@ class RouteEnum
     const API_INVESTMENT_INSERT = 'apiInvestmentInsert';
     const API_INVESTMENT_UPDATE = 'apiInvestmentUpdate';
     const API_INVESTMENT_DELETE = 'apiInvestmentDelete';
+    const API_INVESTMENT_CDB_DATA_GRAPH = 'apiInvestmentCdbDataGraph';
     const WEB_LOGOUT = 'logout';
     const WEB_MAKE_LOGIN = 'makeLogin';
     const WEB_VERIFY_TOKEN = 'verifyToken';
