@@ -111,6 +111,7 @@ import dashboardChartParams from '~js/chartParams/dashboardChartParams'
 import { userAuthStore } from '../../store/auth'
 import messageTools from '~js/tools/messageTools'
 import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
+import iconTools from "../../../js/tools/iconTools";
 
 const auth = userAuthStore()
 
@@ -245,32 +246,12 @@ export default {
             this.data.movements.lastMovements.forEach(movement => {
                 this.lastMovements.push({
                     date: calendarTools.convertDateDbToBr(movement.createdAt).slice(0, 5),
-                    type: this.getIconForType(movement.type),
+                    type: iconTools.getIconForMovementType(movement.type),
                     description: movement.walletName,
                     value: StringTools.formatFloatValueToBrString(movement.amount),
-                    class: this.getCssClassForIconType(movement.type)
+                    class: iconTools.getCssForMovementType(movement.type)
                 })
             })
-        },
-        getIconForType(type) {
-            switch (type) {
-            case movementEnum.type.gain():
-                return iconEnum.circleArrowUp()
-            case movementEnum.type.spent():
-                return iconEnum.circleArrowDown()
-            case movementEnum.type.transfer():
-                return iconEnum.circleArrowRight()
-            }
-        },
-        getCssClassForIconType(type) {
-            switch (type) {
-            case movementEnum.type.gain():
-                return 'gain-icon'
-            case movementEnum.type.spent():
-                return 'spent-icon'
-            case movementEnum.type.transfer():
-                return 'transfer-icon'
-            }
         }
     },
     async mounted() {
@@ -323,14 +304,17 @@ export default {
     .warning {
         box-shadow: 0 0 1em $danger-icon-color;
     }
-    .spent-icon {
+    .movement-spent-icon {
         color: $danger-icon-color;
     }
-    .gain-icon {
+    .movement-gain-icon {
         color: $success-icon-color;
     }
-    .transfer-icon {
+    .movement-transfer-icon {
         color: $info-icon-color;
+    }
+    .movement-investment-icon {
+        color: $alert-icon-color;
     }
     @media (max-width: 1000px) {
         .card {
