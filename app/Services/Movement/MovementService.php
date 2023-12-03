@@ -60,7 +60,7 @@ class MovementService extends BasicService
         if (! $type) {
             return MovementEnum::ALL;
         }
-        if (! in_array($type, [MovementEnum::TRANSFER, MovementEnum::GAIN, MovementEnum::SPENT])) {
+        if (! in_array($type, MovementEnum::getTypesValidForFilter())) {
             return MovementEnum::ALL;
         }
         return $type;

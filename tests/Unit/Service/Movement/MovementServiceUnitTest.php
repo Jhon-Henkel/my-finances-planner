@@ -476,6 +476,7 @@ class MovementServiceUnitTest extends Falcon9
         $this->assertEquals(MovementEnum::TRANSFER, $serviceMocke->validateType(MovementEnum::TRANSFER));
         $this->assertEquals(MovementEnum::GAIN, $serviceMocke->validateType(MovementEnum::GAIN));
         $this->assertEquals(MovementEnum::SPENT, $serviceMocke->validateType(MovementEnum::SPENT));
+        $this->assertEquals(MovementEnum::INVESTMENT_CDB, $serviceMocke->validateType(MovementEnum::INVESTMENT_CDB));
     }
 
     public function testGetMonthSumMovementsByOptionFilter()

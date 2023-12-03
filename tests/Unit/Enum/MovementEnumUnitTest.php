@@ -18,4 +18,16 @@ class MovementEnumUnitTest extends Falcon9
         $this->assertEquals(7, MovementEnum::TRANSFER);
         $this->assertEquals(8, MovementEnum::INVESTMENT_CDB);
     }
+
+    public function testGetTypesValidForFilter()
+    {
+        $expected = [
+            MovementEnum::TRANSFER,
+            MovementEnum::GAIN,
+            MovementEnum::SPENT,
+            MovementEnum::INVESTMENT_CDB
+        ];
+
+        $this->assertEquals($expected, MovementEnum::getTypesValidForFilter());
+    }
 }
