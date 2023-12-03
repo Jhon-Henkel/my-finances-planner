@@ -24,7 +24,7 @@ export default {
             if ((nextInstallmentDay < today) && (installment.firstInstallment > 0)) {
                 return 'bg-danger'
             } else if ((nextInstallmentDay >= today) && (installment.firstInstallment > 0)) {
-                return 'bg-warning'
+                return 'bg-warning text-bg-warning'
             }
             return 'bg-success'
         },

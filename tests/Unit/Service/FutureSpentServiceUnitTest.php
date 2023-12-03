@@ -8,6 +8,7 @@ use App\Enums\BasicFieldsEnum;
 use App\Repositories\FutureSpentRepository;
 use App\Services\FutureSpentService;
 use App\Services\Movement\MovementService;
+use App\Services\Tools\MarketPlannerService;
 use App\VO\InvoiceVO;
 use Mockery;
 use Tests\Falcon9;
@@ -29,7 +30,10 @@ class FutureSpentServiceUnitTest extends Falcon9
         $mock->shouldReceive('findByPeriod')->once()->andReturn([$item]);
         $this->app->instance(FutureSpentRepository::class, $mock);
 
-        $service = new FutureSpentService($mock);
+        $mockMarketPlanner = Mockery::mock(MarketPlannerService::class)->makePartial();
+        $mockMarketPlanner->shouldReceive('useMarketPlanner')->once()->andReturnFalse();
+
+        $service = new FutureSpentService($mock, $mockMarketPlanner);
         $result = $service->getNextSixMonthsFutureSpent();
 
         $this->assertIsArray($result);
@@ -60,7 +64,9 @@ class FutureSpentServiceUnitTest extends Falcon9
         $mock->shouldReceive('findByPeriod')->once()->andReturn([$item1, $item2]);
         $this->app->instance(FutureSpentRepository::class, $mock);
 
-        $service = new FutureSpentService($mock);
+        $mockMarketPlanner = Mockery::mock(MarketPlannerService::class)->makePartial();
+
+        $service = new FutureSpentService($mock, $mockMarketPlanner);
         $result = $service->getThisYearFutureSpentSum();
 
         $this->assertEquals(13.50, $result);
@@ -90,7 +96,9 @@ class FutureSpentServiceUnitTest extends Falcon9
         $mock->shouldReceive('findByPeriod')->once()->andReturn([$item1, $item2]);
         $this->app->instance(FutureSpentRepository::class, $mock);
 
-        $service = new FutureSpentService($mock);
+        $mockMarketPlanner = Mockery::mock(MarketPlannerService::class)->makePartial();
+
+        $service = new FutureSpentService($mock, $mockMarketPlanner);
         $result = $service->getThisMonthFutureSpentSum();
 
         $this->assertEquals(2.50, $result);
@@ -183,7 +191,9 @@ class FutureSpentServiceUnitTest extends Falcon9
         $repositoryMock->shouldReceive('update')->never();
         $this->app->instance(FutureSpentRepository::class, $repositoryMock);
 
-        $serviceMock = Mockery::mock(FutureSpentService::class, [$repositoryMock]);
+        $mockMarketPlanner = Mockery::mock(MarketPlannerService::class)->makePartial();
+
+        $serviceMock = Mockery::mock(FutureSpentService::class, [$repositoryMock, $mockMarketPlanner]);
         $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $serviceMock->updateRemainingInstallments($spent);
@@ -207,7 +217,9 @@ class FutureSpentServiceUnitTest extends Falcon9
         })->andReturnTrue();
         $this->app->instance(FutureSpentRepository::class, $repositoryMock);
 
-        $serviceMock = Mockery::mock(FutureSpentService::class, [$repositoryMock]);
+        $mockMarketPlanner = Mockery::mock(MarketPlannerService::class)->makePartial();
+
+        $serviceMock = Mockery::mock(FutureSpentService::class, [$repositoryMock, $mockMarketPlanner]);
         $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $serviceMock->updateRemainingInstallments($spent);
@@ -231,7 +243,9 @@ class FutureSpentServiceUnitTest extends Falcon9
         })->andReturn(true);
         $this->app->instance(FutureSpentRepository::class, $repositoryMock);
 
-        $serviceMock = Mockery::mock(FutureSpentService::class, [$repositoryMock]);
+        $mockMarketPlanner = Mockery::mock(MarketPlannerService::class)->makePartial();
+
+        $serviceMock = Mockery::mock(FutureSpentService::class, [$repositoryMock, $mockMarketPlanner]);
         $serviceMock->shouldAllowMockingProtectedMethods()->makePartial();
 
         $result = $serviceMock->updateRemainingInstallments($spent);
@@ -358,5 +372,31 @@ class FutureSpentServiceUnitTest extends Falcon9
         $this->assertEquals('Restante test', $result->getDescription());
         $this->assertEquals(1, $result->getInstallments());
         $this->assertEquals('2020-01-01', $result->getForecast());
+    }
+
+    public function testGetNextSixMonthsFutureSpentWithMarketPlanner()
+    {
+        $item = new FutureSpentDTO();
+        $item->setAmount(1);
+        $item->setId(1);
+        $item->setWalletId(1);
+        $item->setDescription('description');
+        $item->setWalletName('walletName');
+        $item->setForecast('2020-01-01');
+        $item->setInstallments(1);
+
+        $mock = Mockery::mock(FutureSpentRepository::class);
+        $mock->shouldReceive('findByPeriod')->once()->andReturn([$item]);
+        $this->app->instance(FutureSpentRepository::class, $mock);
+
+        $mockMarketPlanner = Mockery::mock(MarketPlannerService::class)->makePartial();
+        $mockMarketPlanner->shouldReceive('useMarketPlanner')->once()->andReturnTrue();
+        $mockMarketPlanner->shouldReceive('getMarketPlannerInvoice')->once()->andReturn(new InvoiceVO());
+
+        $service = new FutureSpentService($mock, $mockMarketPlanner);
+        $result = $service->getNextSixMonthsFutureSpent();
+
+        $this->assertIsArray($result);
+        $this->assertInstanceOf(InvoiceVO::class, $result[0]);
     }
 }

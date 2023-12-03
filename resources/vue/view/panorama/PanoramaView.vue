@@ -51,11 +51,12 @@
                                         </td>
                                         <td class="text-center">
                                             <action-buttons
-                                                :delete-tooltip="'Deletar Despesa'"
-                                                :tooltip-edit="'Editar Despesa'"
+                                                v-if="mustShowActionButtons(spent)"
+                                                delete-tooltip="Deletar Despesa"
+                                                tooltip-edit="Editar Despesa"
                                                 :edit-to="'/panorama/' + spent.id + '/atualizar-despesa'"
                                                 :check-button="showCheckButton(spent)"
-                                                :check-tooltip="'Marcar próxima como pago'"
+                                                check-tooltip="Marcar próxima como pago"
                                                 @delete-clicked="deleteSpent(spent.id, spent.name)"
                                                 @check-clicked="showPaySpentForm(
                                                     spent.id,
@@ -64,6 +65,9 @@
                                                     spent.name
                                                 )"
                                             />
+                                            <span class="badge text-bg-warning" v-tooltip="'Apenas informativo'" v-else>
+                                                Informativo
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr class="text-center border-table-top">
@@ -391,6 +395,12 @@ export default {
         },
         formatValueToBr(value) {
             return StringTools.formatFloatValueToBrString(value)
+        },
+        mustShowActionButtons(spent) {
+            if (spent.name === 'Mercado') {
+                return false
+            }
+            return true
         }
     },
     async mounted() {

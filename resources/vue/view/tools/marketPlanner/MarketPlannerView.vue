@@ -12,7 +12,7 @@
                 <strong>Atenção!</strong>
             </div>
             <ul>
-                <li>Assim que você salvar um valor no campo "", iremos gerar um planejamento para você.</li>
+                <li>Assim que você salvar um valor maior que 0 no campo abaixo, iremos gerar um planejamento para você.</li>
                 <li>Em panorama irá aparecer um registro com esse planejamento.</li>
                 <li>No mês atual irá levar em consideração as movimentações já feitas com o nome "Mercado".</li>
                 <li>Portanto, sempre que gastar algo no mercado salve a movimentação com a descrição "Mercado".</li>

@@ -124,4 +124,9 @@ class MovementDTO
     {
         return $this->getDescription() == 'Aporte de investimento' && $this->isInvestmentType();
     }
+
+    public function isMarketSpent(): bool
+    {
+        return strtolower($this->getDescription()) == 'mercado' && $this->isSpent();
+    }
 }

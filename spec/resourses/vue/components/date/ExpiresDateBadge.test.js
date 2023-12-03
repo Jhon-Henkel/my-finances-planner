@@ -61,7 +61,7 @@ describe("Testing ExpiresDateBadge component", () => {
                 }
             }
         })
-        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-warning">20</span>')
+        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-warning text-bg-warning">20</span>')
     })
 
     it ("Render DatepickerRange Warning today", async () => {
@@ -81,6 +81,6 @@ describe("Testing ExpiresDateBadge component", () => {
                 }
             }
         })
-        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-warning">16</span>')
+        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-warning text-bg-warning">16</span>')
     })
 })

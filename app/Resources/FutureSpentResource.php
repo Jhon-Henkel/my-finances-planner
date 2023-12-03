@@ -51,7 +51,7 @@ class FutureSpentResource extends BasicResource
         return new FutureSpentVO($item);
     }
 
-    public function futureGainToInvoiceDTO(FutureSpentDTO $item): InvoiceItemDTO
+    public function futureSpentToInvoiceDTO(FutureSpentDTO $item): InvoiceItemDTO
     {
         return new InvoiceItemDTO(
             $item->getId(),
