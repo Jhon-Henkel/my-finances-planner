@@ -72,6 +72,7 @@
         "seed:future-spent": "php artisan db:seed --class=FutureSpentSeeder",
         "seed:movements": "php artisan db:seed --class=MovementsSeeder",
         "seed:monthly-closing": "php artisan db:seed --class=MonthlyClosingSeeder",
+        "seed:investment": "php artisan db:seed --class=InvestmentSeeder",
         "seed:all-data": "php artisan db:seed",
         "analyze:phpstan": "./vendor/bin/phpstan analyse --memory-limit=512M app tests",
         "analyze:pint": "./vendor/bin/pint --test --config ./config/pint.json",

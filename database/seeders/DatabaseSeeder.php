@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
                 FutureSpentSeeder::class,
                 MovementsSeeder::class,
                 MonthlyClosingSeeder::class,
+                InvestmentSeeder::class
             ]
         );
     }
