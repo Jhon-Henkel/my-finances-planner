@@ -11,11 +11,18 @@
                                       :dropdownIcon="iconEnum.buildingColumns()" />
             </div>
             <divider/>
-            <div class="row ms-2" style="display: inline-flex; width: 100%">
+            <div class="row ms-2 chart">
                 <div class="col-4">
                     <div class="card glass">
                         <div class="card-body text-center">
                             <bar-chart :graph-options="graphOptions" :chart-data="chartData" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="card glass">
+                        <div class="card-body text-center">
+
                         </div>
                     </div>
                 </div>
@@ -82,14 +89,15 @@ export default {
     methods: {
         async getInvestmentsDataGraph() {
             await apiRouter.investments.dataGraph().then(response => {
+                console.log(response)
                 this.investments = response
-                this.populateDataGraph()
+                this.populateDataGraphInvestmentsPerType()
             }).catch(error => {
                 this.messageData = messageTools.errorMessage(error.response.data.message)
             })
             this.loadingDone = true
         },
-        populateDataGraph() {
+        populateDataGraphInvestmentsPerType() {
             this.chartData = {
                 labels: [this.investments.cdb.label],
                 datasets: [
@@ -109,6 +117,10 @@ export default {
 </script>
 
 <style scoped>
+    .chart {
+        display: inline-flex;
+        width: 100%;
+    }
     @media (max-width: 1000px) {
         .me-2 {
             margin-right: 0 !important;

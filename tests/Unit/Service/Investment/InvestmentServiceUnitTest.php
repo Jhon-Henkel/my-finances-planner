@@ -3,6 +3,7 @@
 namespace Service\Investment;
 
 use App\DTO\Investment\InvestmentDTO;
+use App\DTO\Movement\MovementDTO;
 use App\DTO\WalletDTO;
 use App\Enums\MovementEnum;
 use App\Repositories\Investment\InvestmentRepository;
@@ -57,12 +58,14 @@ class InvestmentServiceUnitTest extends Falcon9
 
         $mock = Mockery::mock(InvestmentService::class, $mocks)->makePartial();
         $mock->shouldAllowMockingProtectedMethods();
+        $mock->shouldReceive('contributedAndRescuedGraphData')->once()->andReturn([]);
 
         $this->assertEquals([
             'cdb' => [
                 'label' => 'CDB',
                 'value' => 6000,
             ],
+            'contributedAndRescued' => [],
         ], $mock->makeDataGraph());
     }
 
@@ -230,5 +233,84 @@ class InvestmentServiceUnitTest extends Falcon9
 
         $data = $mock->validateValueToRescueOrApport(1000, 500, 400, true);
         $this->assertTrue($data);
+    }
+
+    public function testContributedAndRescuedGraphData()
+    {
+        $movementOne = new MovementDTO();
+        $movementOne->setCreatedAt('2021-01-01');
+        $movementOne->setAmount(100);
+        $movementOne->setType(MovementEnum::INVESTMENT_CDB);
+        $movementOne->setDescription('Resgate de investimento');
+
+        $movementTwo = new MovementDTO();
+        $movementTwo->setCreatedAt('2021-01-01');
+        $movementTwo->setAmount(200);
+        $movementTwo->setType(MovementEnum::INVESTMENT_CDB);
+        $movementTwo->setDescription('Aporte de investimento');
+
+        $movementThree = new MovementDTO();
+        $movementThree->setCreatedAt('2021-02-01');
+        $movementThree->setAmount(300);
+        $movementThree->setType(MovementEnum::INVESTMENT_CDB);
+        $movementThree->setDescription('Resgate de investimento');
+
+        $movementFour = new MovementDTO();
+        $movementFour->setCreatedAt('2021-02-01');
+        $movementFour->setAmount(400);
+        $movementFour->setType(MovementEnum::INVESTMENT_CDB);
+        $movementFour->setDescription('Aporte de investimento');
+
+        $movementFive = new MovementDTO();
+        $movementFive->setCreatedAt('2021-03-01');
+        $movementFive->setAmount(500);
+        $movementFive->setType(MovementEnum::INVESTMENT_CDB);
+        $movementFive->setDescription('Resgate de investimento');
+
+        $movementSix = new MovementDTO();
+        $movementSix->setCreatedAt('2021-03-01');
+        $movementSix->setAmount(600);
+        $movementSix->setType(MovementEnum::INVESTMENT_CDB);
+        $movementSix->setDescription('Aporte de investimento');
+
+        $movementSeven = new MovementDTO();
+        $movementSeven->setCreatedAt('2021-03-01');
+        $movementSeven->setAmount(500);
+        $movementSeven->setType(MovementEnum::INVESTMENT_CDB);
+        $movementSeven->setDescription('Resgate de investimento');
+
+        $movementEight = new MovementDTO();
+        $movementEight->setCreatedAt('2021-03-01');
+        $movementEight->setAmount(600);
+        $movementEight->setType(MovementEnum::INVESTMENT_CDB);
+        $movementEight->setDescription('Aporte de investimento');
+
+        $movements = [
+            $movementOne,
+            $movementTwo,
+            $movementThree,
+            $movementFour,
+            $movementFive,
+            $movementSix,
+            $movementSeven,
+            $movementEight,
+        ];
+
+        $repositoryMock = Mockery::mock(InvestmentRepository::class)->makePartial();
+        $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
+        $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
+        $movementServiceMock->shouldReceive('findAllByType')->andReturn($movements);
+        $mocks = [$repositoryMock, $walletServiceMock,$movementServiceMock];
+
+        $mock = Mockery::mock(InvestmentService::class, $mocks)->makePartial();
+        $mock->shouldAllowMockingProtectedMethods();
+
+        $data = $mock->contributedAndRescuedGraphData();
+
+        $this->assertEquals([
+            'rescued' => [100, 300, 1000],
+            'contributed' => [200, 400, 1200],
+            'labels' => ['2021-01', '2021-02', '2021-03']
+        ], $data);
     }
 }
