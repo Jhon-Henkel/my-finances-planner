@@ -131,10 +131,28 @@ export default {
             }
         },
         async rescueApportInvestment(data) {
-            console.log(data)
-            console.log('Desenvolver endpoint para resgatar ou aportar investimento')
-            // mandar objeto para endpoint
-            // recarregar dados
+            this.loadingDone = false
+            const item = this.populateApportRescuePostData(data)
+            await apiRouter.investments.rescueApport(item).then(() => {
+                if (item.rescue) {
+                    this.messageData = messageTools.successMessage('Investimento resgatado com sucesso!')
+                } else {
+                    this.messageData = messageTools.successMessage('Investimento aportado com sucesso!')
+                }
+                this.getInvestments()
+                this.showRescueOrApportInvestment = false
+            }).catch(error => {
+                this.messageData = messageTools.errorMessage(error.response.data.message)
+            })
+            this.loadingDone = true
+        },
+        populateApportRescuePostData(data) {
+            return {
+                walletId: data.walletId,
+                value: data.value,
+                rescue: data.partial,
+                investmentId: this.investmentToApportOrRescue.id
+            }
         },
         manageApportRescueInvestment(investment) {
             this.showRescueOrApportInvestment = !this.showRescueOrApportInvestment
