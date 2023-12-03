@@ -16,6 +16,7 @@ class UserResource extends BasicResource
         $user->setEmail($item[BasicFieldsEnum::EMAIL]);
         $user->setPassword($item[BasicFieldsEnum::PASSWORD] ?? null);
         $user->setSalary($item[BasicFieldsEnum::SALARY]);
+        $user->setMarketPlannerValue($item['market_planner_value'] ?? $item['marketPlannerValue']);
         $user->setStatus($item[BasicFieldsEnum::STATUS] ?? null);
         $user->setEmailVerifiedAt($item[BasicFieldsEnum::EMAIL_VERIFIED_AT] ?? null);
         $user->setVerifyHash($item[BasicFieldsEnum::VERIFY_HASH_BD] ?? '');
@@ -37,6 +38,7 @@ class UserResource extends BasicResource
             BasicFieldsEnum::EMAIL => $item->getEmail(),
             BasicFieldsEnum::PASSWORD => $item->getPassword(),
             BasicFieldsEnum::SALARY => $item->getSalary(),
+            'market_planner_value' => $item->getMarketPlannerValue(),
             BasicFieldsEnum::STATUS => $item->getStatus(),
             BasicFieldsEnum::VERIFY_HASH_BD => $item->getVerifyHash(),
             BasicFieldsEnum::WRONG_LOGIN_ATTEMPTS_DB => (int)$item->getWrongLoginAttempts(),

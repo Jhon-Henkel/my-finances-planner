@@ -23,7 +23,8 @@ class User extends Authenticatable
         'account_group',
         'salary',
         'password',
-        'wrong_login_attempts'
+        'wrong_login_attempts',
+        'market_planner_value'
     ];
     protected $hidden = [
         'remember_token',

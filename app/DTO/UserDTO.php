@@ -11,6 +11,7 @@ class UserDTO
     private string $unique_id;
     private null|int $status;
     private float $salary;
+    private float $marketPlannerValue;
     private string $verifyHash = '';
     private mixed $created_at;
     private mixed $updated_at;
@@ -85,6 +86,16 @@ class UserDTO
     public function setSalary(float $salary): void
     {
         $this->salary = $salary;
+    }
+
+    public function getMarketPlannerValue(): float
+    {
+        return $this->marketPlannerValue;
+    }
+
+    public function setMarketPlannerValue(float $marketPlannerValue): void
+    {
+        $this->marketPlannerValue = $marketPlannerValue;
     }
 
     public function getVerifyHash(): string
