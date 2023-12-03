@@ -109,4 +109,19 @@ class MovementDTO
     {
         return $this->getType() == MovementEnum::TRANSFER;
     }
+
+    public function isInvestmentType(): bool
+    {
+        return $this->getType() == MovementEnum::INVESTMENT_CDB;
+    }
+
+    public function isRescuedInvestmentType(): bool
+    {
+        return $this->getDescription() == 'Resgate de investimento' && $this->isInvestmentType();
+    }
+
+    public function isApportInvestmentType(): bool
+    {
+        return $this->getDescription() == 'Aporte de investimento' && $this->isInvestmentType();
+    }
 }

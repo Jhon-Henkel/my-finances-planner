@@ -8,6 +8,7 @@ use App\Enums\InvestmentEnum;
 use App\Enums\MovementEnum;
 use App\Exceptions\ValueException;
 use App\Factory\DataGraph\Investment\DataGraphInvestmentFactory;
+use App\Factory\DataGraph\Investment\InvestmentsRescuedAndContributedFactory;
 use App\Repositories\Investment\InvestmentRepository;
 use App\Services\BasicService;
 use App\Services\Movement\MovementService;
@@ -35,7 +36,20 @@ class InvestmentService extends BasicService
         foreach ($databaseData as $data) {
             $factory->addValue($data->getAmount());
         }
-        return ['cdb' => $factory->getAllDataArray()];
+        return [
+            'cdb' => $factory->getAllDataArray(),
+            'contributedAndRescued' => $this->contributedAndRescuedGraphData()
+        ];
+    }
+
+    protected function contributedAndRescuedGraphData(): array
+    {
+        $investmentFactory = new InvestmentsRescuedAndContributedFactory();
+        $movements = $this->movementService->findAllByType(MovementEnum::INVESTMENT_CDB);
+        foreach ($movements as $movement) {
+            $investmentFactory->addInvestmentToData($movement);
+        }
+        return $investmentFactory->getAllDataArray();
     }
 
     public function rescueApportInvestment(array $data): void

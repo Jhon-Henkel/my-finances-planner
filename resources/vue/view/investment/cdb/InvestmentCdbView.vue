@@ -5,10 +5,19 @@
         <div v-show="loadingDone">
             <div class="nav nav-item mt-2 justify-content-end">
                 <mfp-title title="Gerenciamento CDB"/>
-                <back-button to="/investimentos" class="me-2"/>
-                <router-link-button title="Novo" :icon="iconEnum.billTrendUp()" redirect-to="/investimentos/cdb/cadastrar"/>
+                <back-button to="/investimentos" class="me-2 mobile-margin-top"/>
+                <router-link-button title="Novo"
+                                    :icon="iconEnum.billTrendUp()"
+                                    redirect-to="/investimentos/cdb/cadastrar"
+                                    class="mobile-margin-top"/>
             </div>
             <divider/>
+            <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                <font-awesome-icon icon="exclamation-triangle" class="me-2"/>
+                <strong>Atenção!</strong>
+                <br>
+                Rendimentos não são atualizados automaticamente.
+            </div>
             <div class="card glass success balance-card">
                 <div class="card-body text-center">
                     <div class="card-text">
@@ -43,6 +52,11 @@
                                                             checkTooltip="Resgatar / Aportar Investimento"
                                                             @check-clicked="manageApportRescueInvestment(investment)"/>
                                         </td>
+                                    </tr>
+                                    <tr class="text-center border-table">
+                                        <td colspan="3">Total</td>
+                                        <td>{{ getTotalValueInvestment() }}</td>
+                                        <td colspan="2"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -157,6 +171,13 @@ export default {
         manageApportRescueInvestment(investment) {
             this.showRescueOrApportInvestment = !this.showRescueOrApportInvestment
             this.investmentToApportOrRescue = investment
+        },
+        getTotalValueInvestment() {
+            let total = 0
+            this.investments.forEach(investment => {
+                total += investment.amount
+            })
+            return StringTools.formatFloatValueToBrString(total)
         }
     },
     mounted() {
@@ -166,9 +187,15 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 1000px) {
-    .me-2 {
-        margin-right: 0 !important;
+    .border-table {
+        border-top: 2px solid #096452;
     }
-}
+    @media (max-width: 1000px) {
+        .me-2 {
+            margin-right: 0 !important;
+        }
+        .mobile-margin-top {
+            margin-top: 10px !important;
+        }
+    }
 </style>

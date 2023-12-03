@@ -4,11 +4,12 @@ namespace App\Models\Investment;
 
 use App\Enums\DateEnum;
 use App\Models\Trait\Tenantable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Investment extends Model
 {
-    use Tenantable;
+    use Tenantable, HasFactory;
 
     protected $table = 'investment';
     protected $fillable = [
