@@ -60,7 +60,7 @@ class MovementService extends BasicService
         if (! $type) {
             return MovementEnum::ALL;
         }
-        if (! in_array($type, [MovementEnum::TRANSFER, MovementEnum::GAIN, MovementEnum::SPENT])) {
+        if (! in_array($type, MovementEnum::getTypesValidForFilter())) {
             return MovementEnum::ALL;
         }
         return $type;
@@ -233,18 +233,30 @@ class MovementService extends BasicService
         return $this->makeMovementSumValuesDTO($movements);
     }
 
+    /**
+     * @param MovementDTO[] $movements
+     */
     protected function makeMovementSumValuesDTO(array $movements): MovementSumValuesDTO
     {
-        $gain = 0;
-        $spent = 0;
+        $movementSum = new MovementSumValuesDTO();
         foreach ($movements as $movement) {
-            if ($movement->getType() == MovementEnum::GAIN) {
-                $gain += $movement->getAmount();
-            } elseif ($movement->getType() == MovementEnum::SPENT) {
-                $spent += $movement->getAmount();
+            if ($movement->isGain()) {
+                $movementSum->addEarnings($movement->getAmount());
+            } elseif ($movement->isSpent()) {
+                $movementSum->addExpenses($movement->getAmount());
             }
         }
-        $balance = round($gain - $spent, 2);
-        return new MovementSumValuesDTO($gain, $spent, $balance);
+        return $movementSum;
+    }
+
+    public function launchMovementForInvestment(float $amount, int $type, int $walletId, bool $rescue): void
+    {
+        $description = $rescue ? 'Resgate de investimento' : 'Aporte de investimento';
+        $movement = new MovementDTO();
+        $movement->setWalletId($walletId);
+        $movement->setDescription($description);
+        $movement->setType($type);
+        $movement->setAmount($amount);
+        $this->getRepository()->insert($movement);
     }
 }

@@ -476,6 +476,7 @@ class MovementServiceUnitTest extends Falcon9
         $this->assertEquals(MovementEnum::TRANSFER, $serviceMocke->validateType(MovementEnum::TRANSFER));
         $this->assertEquals(MovementEnum::GAIN, $serviceMocke->validateType(MovementEnum::GAIN));
         $this->assertEquals(MovementEnum::SPENT, $serviceMocke->validateType(MovementEnum::SPENT));
+        $this->assertEquals(MovementEnum::INVESTMENT_CDB, $serviceMocke->validateType(MovementEnum::INVESTMENT_CDB));
     }
 
     public function testGetMonthSumMovementsByOptionFilter()
@@ -486,5 +487,81 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService($mock);
         $result = $service->getMonthSumMovementsByOptionFilter(1);
         $this->assertEquals(50, $result[0]);
+    }
+
+    public function testMakeMovementSumValuesDTO()
+    {
+        $movementOne = new MovementDTO();
+        $movementOne->setAmount(10);
+        $movementOne->setType(MovementEnum::SPENT);
+
+        $movementTwo = new MovementDTO();
+        $movementTwo->setAmount(20);
+        $movementTwo->setType(MovementEnum::SPENT);
+
+        $movementThree = new MovementDTO();
+        $movementThree->setAmount(30);
+        $movementThree->setType(MovementEnum::GAIN);
+
+        $movementFour = new MovementDTO();
+        $movementFour->setAmount(40);
+        $movementFour->setType(MovementEnum::GAIN);
+
+        $movementFive = new MovementDTO();
+        $movementFive->setAmount(40);
+        $movementFive->setType(MovementEnum::TRANSFER);
+
+        $movements = [$movementOne, $movementTwo, $movementThree, $movementFour, $movementFive];
+
+        $service = Mockery::mock(MovementService::class)->makePartial();
+        $service->shouldAllowMockingProtectedMethods();
+        $result = $service->makeMovementSumValuesDTO($movements);
+
+        $this->assertInstanceOf(MovementSumValuesDTO::class, $result);
+        $this->assertEquals(30, $result->getExpenses());
+        $this->assertEquals(70, $result->getEarnings());
+        $this->assertEquals(40, $result->getBalance());
+    }
+
+    /**
+     * Parâmetros do teste:
+     * - Resgate de investimento
+     */
+    public function testLaunchMovementForInvestmentTestOne()
+    {
+        $repositoryMock = Mockery::mock(MovementRepository::class)->makePartial();
+        $repositoryMock->shouldReceive('insert')->once()->andReturnUsing(
+            function ($movement) {
+                Falcon9::assertEquals(10, $movement->getAmount());
+                Falcon9::assertEquals(1, $movement->getWalletId());
+                Falcon9::assertEquals(MovementEnum::INVESTMENT_CDB, $movement->getType());
+                Falcon9::assertEquals('Resgate de investimento', $movement->getDescription());
+                return true;
+            }
+        );
+
+        $service = new MovementService($repositoryMock);
+        $service->launchMovementForInvestment(10, MovementEnum::INVESTMENT_CDB, 1, true);
+    }
+
+    /**
+     * Parâmetros do teste:
+     * - Aporte de investimento
+     */
+    public function testLaunchMovementForInvestmentTestTwo()
+    {
+        $repositoryMock = Mockery::mock(MovementRepository::class)->makePartial();
+        $repositoryMock->shouldReceive('insert')->once()->andReturnUsing(
+            function ($movement) {
+                Falcon9::assertEquals(10, $movement->getAmount());
+                Falcon9::assertEquals(1, $movement->getWalletId());
+                Falcon9::assertEquals(MovementEnum::INVESTMENT_CDB, $movement->getType());
+                Falcon9::assertEquals('Aporte de investimento', $movement->getDescription());
+                return true;
+            }
+        );
+
+        $service = new MovementService($repositoryMock);
+        $service->launchMovementForInvestment(10, MovementEnum::INVESTMENT_CDB, 1, false);
     }
 }

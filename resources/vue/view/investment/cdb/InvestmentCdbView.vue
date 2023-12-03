@@ -5,51 +5,59 @@
         <div v-show="loadingDone">
             <div class="nav nav-item mt-2 justify-content-end">
                 <mfp-title title="Gerenciamento CDB"/>
-                <mfp-drop-down-button :buttons-array="buttons" />
+                <back-button to="/investimentos" class="me-2"/>
+                <router-link-button title="Novo" :icon="iconEnum.billTrendUp()" redirect-to="/investimentos/cdb/cadastrar"/>
             </div>
             <divider/>
-                <div class="card glass success balance-card">
-                    <div class="card-body text-center">
-                        <div class="card-text">
-                            <div class="table-responsive-lg">
-                                <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
-                                    <thead class="text-center">
-                                        <tr>
-                                            <th scope="col">Investimento</th>
-                                            <th scope="col">Tipo</th>
-                                            <th scope="col">Aporte Inicial</th>
-                                            <th scope="col">Liquidez</th>
-                                            <th scope="col">Rentabilidade (% do CDI)</th>
-                                            <th scope="col">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="text-center table-body-hover">
-                                        <tr v-show="investments.length === 0">
-                                            <td colspan="11">Nenhum investimento cadastrado ainda!</td>
-                                        </tr>
-                                        <tr v-for="investment in investments" :key="investment.id">
-                                            <td>{{ investment.description }}</td>
-                                            <td>{{ investmentEnum.getLabel(investment.type) }}</td>
-                                            <td>{{ StringTools.formatFloatValueToBrString(investment.amount) }}</td>
-                                            <td>D+{{ investment.liquidity }}</td>
-                                            <td>{{ investment.profitability }} %</td>
-                                            <td>
-                                                <action-buttons delete-tooltip="Deletar"
-                                                                tooltip-edit="Editar"
-                                                                :edit-to="'investimentos/cdb/' + investment.id + '/atualizar'"
-                                                                @delete-clicked="deleteInvestment(investment.id, investment.description)" />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+            <div class="card glass success balance-card">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        <div class="table-responsive-lg">
+                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th scope="col">Investimento</th>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Valor investido</th>
+                                        <th scope="col">Liquidez</th>
+                                        <th scope="col">Rentabilidade (% do CDI)</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center table-body-hover">
+                                    <tr v-show="investments.length === 0">
+                                        <td colspan="11">Nenhum investimento cadastrado ainda!</td>
+                                    </tr>
+                                    <tr v-for="investment in investments" :key="investment.id">
+                                        <td>{{ investment.description }}</td>
+                                        <td>{{ investmentEnum.getLabel(investment.type) }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(investment.amount) }}</td>
+                                        <td>D+{{ investment.liquidity }}</td>
+                                        <td>{{ investment.profitability }} %</td>
+                                        <td>
+                                            <action-buttons delete-tooltip="Deletar"
+                                                            tooltip-edit="Editar"
+                                                            :edit-to="'investimentos/cdb/' + investment.id + '/atualizar'"
+                                                            @delete-clicked="deleteInvestment(investment.id, investment.description)"
+                                                            :checkButton="true"
+                                                            checkTooltip="Resgatar / Aportar Investimento"
+                                                            @check-clicked="manageApportRescueInvestment(investment)"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            <divider/>
-            <div class="nav nav-item justify-content-center">
-                <back-button to="/investimentos" />
             </div>
+            <pay-receive :show-pay-receive="showRescueOrApportInvestment"
+                         :value="0"
+                         :check-tooltip="'Aporte/Resgatar'"
+                         :wallet-id="0"
+                         @hide-pay-receive="showRescueOrApportInvestment = false"
+                         partialLabel="Resgatar"
+                         @pay="rescueApportInvestment($event)" />
+            <divider/>
         </div>
     </div>
 </template>
@@ -58,7 +66,6 @@
 import MfpMessage from '~vue-component/MessageAlert.vue'
 import LoadingComponent from '~vue-component/LoadingComponent.vue'
 import MfpTitle from '~vue-component/TitleComponent.vue'
-import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
 import Divider from '~vue-component/DividerComponent.vue'
 import IconEnum from '~js/enums/iconEnum'
 import apiRouter from '~js/router/apiRouter'
@@ -68,10 +75,15 @@ import messageTools from '~js/tools/messageTools'
 import investmentEnum from '~js/enums/investmentEnum'
 import StringTools from '~js/tools/stringTools'
 import BackButton from '~vue-component/buttons/BackButton.vue'
+import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
+import PayReceive from '~vue-component/PayReceiveComponent.vue'
 
 export default {
     name: 'InvestmentCdbView',
     computed: {
+        iconEnum() {
+            return IconEnum
+        },
         StringTools() {
             return StringTools
         },
@@ -80,10 +92,11 @@ export default {
         }
     },
     components: {
+        PayReceive,
+        RouterLinkButton,
         BackButton,
         ActionButtons,
         Divider,
-        MfpDropDownButton,
         MfpTitle,
         LoadingComponent,
         MfpMessage
@@ -92,14 +105,9 @@ export default {
         return {
             messageData: {},
             loadingDone: true,
-            buttons: [
-                {
-                    title: 'Novo CDB',
-                    icon: IconEnum.billTrendUp(),
-                    redirectTo: '/investimentos/cdb/cadastrar'
-                }
-            ],
-            investments: []
+            investments: [],
+            investmentToApportOrRescue: {},
+            showRescueOrApportInvestment: false
         }
     },
     methods: {
@@ -121,6 +129,34 @@ export default {
                     this.messageData = messageTools.errorMessage('Não foi possível deletar a despesa!')
                 })
             }
+        },
+        async rescueApportInvestment(data) {
+            this.loadingDone = false
+            const item = this.populateApportRescuePostData(data)
+            await apiRouter.investments.rescueApport(item).then(() => {
+                if (item.rescue) {
+                    this.messageData = messageTools.successMessage('Investimento resgatado com sucesso!')
+                } else {
+                    this.messageData = messageTools.successMessage('Investimento aportado com sucesso!')
+                }
+                this.getInvestments()
+                this.showRescueOrApportInvestment = false
+            }).catch(error => {
+                this.messageData = messageTools.errorMessage(error.response.data.message)
+            })
+            this.loadingDone = true
+        },
+        populateApportRescuePostData(data) {
+            return {
+                walletId: data.walletId,
+                value: data.value,
+                rescue: data.partial,
+                investmentId: this.investmentToApportOrRescue.id
+            }
+        },
+        manageApportRescueInvestment(investment) {
+            this.showRescueOrApportInvestment = !this.showRescueOrApportInvestment
+            this.investmentToApportOrRescue = investment
         }
     },
     mounted() {
@@ -128,3 +164,11 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+@media (max-width: 1000px) {
+    .me-2 {
+        margin-right: 0 !important;
+    }
+}
+</style>

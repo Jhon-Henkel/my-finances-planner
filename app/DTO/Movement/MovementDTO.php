@@ -2,6 +2,8 @@
 
 namespace App\DTO\Movement;
 
+use App\Enums\MovementEnum;
+
 class MovementDTO
 {
     private null|int $id;
@@ -91,5 +93,20 @@ class MovementDTO
     public function setUpdatedAt(mixed $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function isGain(): bool
+    {
+        return $this->getType() == MovementEnum::GAIN;
+    }
+
+    public function isSpent(): bool
+    {
+        return $this->getType() == MovementEnum::SPENT;
+    }
+
+    public function isTransfer(): bool
+    {
+        return $this->getType() == MovementEnum::TRANSFER;
     }
 }

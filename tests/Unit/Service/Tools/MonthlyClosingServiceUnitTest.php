@@ -86,7 +86,7 @@ class MonthlyClosingServiceUnitTest extends Falcon9
             Falcon9::assertEquals(200, $lastClosing->getPredictedExpenses());
         });
 
-        $sumValues = new MovementSumValuesDTO(100, 200, 100);
+        $sumValues = new MovementSumValuesDTO();
         $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
         $movementServiceMock->shouldReceive('getSumValuesForPeriod')->once()->andReturn($sumValues);
         $this->app->instance(MovementService::class, $movementServiceMock);

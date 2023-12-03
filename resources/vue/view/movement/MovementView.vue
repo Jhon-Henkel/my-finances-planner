@@ -31,15 +31,8 @@
                                     </tr>
                                     <tr v-for="movement in movements" :key="movement.id">
                                         <td>
-                                            <font-awesome-icon v-if="movement.type === MovementEnum.type.transfer()"
-                                                            :icon="iconEnum.circleArrowRight()"
-                                                            class="movement-transfer-icon"/>
-                                            <font-awesome-icon v-else-if="movement.type === MovementEnum.type.spent()"
-                                                            :icon="iconEnum.circleArrowDown()"
-                                                            class="movement-spent-icon"/>
-                                            <font-awesome-icon v-else-if="movement.type === MovementEnum.type.gain()"
-                                                            :icon="iconEnum.circleArrowUp()"
-                                                            class="movement-gain-icon"/>
+                                            <font-awesome-icon :icon="iconTools.getIconForMovementType(movement.type)"
+                                                               :class="iconTools.getCssForMovementType(movement.type)"/>
                                         </td>
                                         <td class="text-start">{{ movement.description }}</td>
                                         <td class="text-start">{{ movement.walletName }}</td>
@@ -121,25 +114,29 @@
 
 <script>
 import LoadingComponent from '~vue-component/LoadingComponent.vue'
-import iconEnum from '~js/enums/iconEnum.js'
+import iconEnum from '~js/enums/iconEnum'
 import ActionButtons from '~vue-component/ActionButtons.vue'
 import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
-import MovementEnum from '~js/enums/movementEnum.js'
-import apiRouter from '~js/router/apiRouter.js'
-import calendarTools from '~js/tools/calendarTools.js'
-import numberTools from '~js/tools/numberTools.js'
+import MovementEnum from '~js/enums/movementEnum'
+import apiRouter from '~js/router/apiRouter'
+import calendarTools from '~js/tools/calendarTools'
+import numberTools from '~js/tools/numberTools'
 import Divider from '~vue-component/DividerComponent.vue'
 import MfpTitle from '~vue-component/TitleComponent.vue'
 import MfpMessage from '~vue-component/MessageAlert.vue'
-import StringTools from '~js/tools/stringTools.js'
+import StringTools from '~js/tools/stringTools'
 import AlertIcon from '~vue-component/AlertIcon.vue'
 import FilterTopRight from '~vue-component/filters/filterTopRight.vue'
-import messageTools from '~js/tools/messageTools.js'
+import messageTools from '~js/tools/messageTools'
 import MfpSearchBar from '~vue-component/search/SearchBar.vue'
+import iconTools from '~js/tools/iconTools'
 
 export default {
     name: 'MovementView',
     computed: {
+        iconTools() {
+            return iconTools
+        },
         StringTools() {
             return StringTools
         },
@@ -246,6 +243,9 @@ export default {
     }
     .movement-gain-icon {
         color: $success-icon-color;
+    }
+    .movement-investment-icon {
+        color: $alert-icon-color;
     }
     .card-resume {
         width: 24rem;

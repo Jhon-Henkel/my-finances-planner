@@ -29,7 +29,8 @@ describe('Test movementEnum file', () => {
             { id: 0, label: 'Todos' },
             { id: 5, label: 'Despesa' },
             { id: 6, label: 'Receita' },
-            { id: 7, label: 'Transferência' }
+            { id: 7, label: 'Transferência' },
+            { id: 8, label: 'Investimento CDB' }
         ])
     })
 
@@ -45,7 +46,8 @@ describe('Test movementEnum file', () => {
         expect(MovementEnum.getLabelForType(5)).toEqual('Despesa')
         expect(MovementEnum.getLabelForType(6)).toEqual('Receita')
         expect(MovementEnum.getLabelForType(7)).toEqual('Transferência')
-        expect(MovementEnum.getLabelForType(8)).toEqual('Desconhecido')
+        expect(MovementEnum.getLabelForType(8)).toEqual('Investimento CDB')
+        expect(MovementEnum.getLabelForType(9999)).toEqual('Desconhecido')
         expect(MovementEnum.getLabelForType(0)).toEqual('Todos')
     })
 
@@ -63,5 +65,9 @@ describe('Test movementEnum file', () => {
 
     it('type.all', function () {
         expect(MovementEnum.type.all()).toEqual(0)
+    })
+
+    it('type.investmentCDB', function () {
+        expect(MovementEnum.type.investmentCDB()).toEqual(8)
     })
 })

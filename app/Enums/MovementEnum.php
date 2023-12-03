@@ -11,4 +11,15 @@ class MovementEnum
     const SPENT = 5;
     const GAIN = 6;
     const TRANSFER = 7;
+    const INVESTMENT_CDB = 8;
+
+    public static function getTypesValidForFilter(): array
+    {
+        return [
+            MovementEnum::TRANSFER,
+            MovementEnum::GAIN,
+            MovementEnum::SPENT,
+            MovementEnum::INVESTMENT_CDB
+        ];
+    }
 }

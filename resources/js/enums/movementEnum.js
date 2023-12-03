@@ -7,6 +7,7 @@ const THIS_YEAR_LABEL = 'Este Ano'
 const SPENT = 5
 const GAIN = 6
 const TRANSFER = 7
+const INVESTMENT_CDB = 8
 const ALL = 0
 
 const MovementEnum = {
@@ -32,6 +33,8 @@ const MovementEnum = {
             return 'Transferência'
         case ALL:
             return 'Todos'
+        case INVESTMENT_CDB:
+            return 'Investimento CDB'
         default:
             return 'Desconhecido'
         }
@@ -41,7 +44,8 @@ const MovementEnum = {
             { id: ALL, label: this.getLabelForType(ALL) },
             { id: SPENT, label: this.getLabelForType(SPENT) },
             { id: GAIN, label: this.getLabelForType(GAIN) },
-            { id: TRANSFER, label: this.getLabelForType(TRANSFER) }
+            { id: TRANSFER, label: this.getLabelForType(TRANSFER) },
+            { id: INVESTMENT_CDB, label: this.getLabelForType(INVESTMENT_CDB) }
         ]
     },
     getTypeListForForm: function() {
@@ -54,6 +58,7 @@ const MovementEnum = {
         spent: () => SPENT,
         gain: () => GAIN,
         transfer: () => TRANSFER,
+        investmentCDB: () => INVESTMENT_CDB,
         all: () => ALL
     }
 }
