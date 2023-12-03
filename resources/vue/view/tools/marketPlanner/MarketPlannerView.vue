@@ -1,5 +1,6 @@
 <template>
     <div class="base-container">
+        <mfp-message :message-data="messageData"/>
         <div class="nav mt-2 justify-content-end">
             <mfp-title title="Planejamento para mercado"/>
             <back-button to="/ferramentas"/>
@@ -31,10 +32,17 @@ import BackButton from '~vue-component/buttons/BackButton.vue'
 import MfpTitle from '~vue-component/TitleComponent.vue'
 import InputMoney from '~vue-component/inputMoneyComponent.vue'
 import BottomButtons from '~vue-component/BottomButtons.vue'
+import { userAuthStore } from '../../../store/auth'
+import apiRouter from '~js/router/apiRouter'
+import messageTools from '~js/tools/messageTools'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+
+const auth = userAuthStore()
 
 export default {
     name: 'MarketPlannerView',
     components: {
+        MfpMessage,
         BottomButtons,
         InputMoney,
         Divider,
@@ -44,14 +52,20 @@ export default {
     data() {
         return {
             marketValuePlanner: 0,
+            messageData: {}
         }
     },
     methods: {
-        save() {
-            console.log('Desenvolver Salvar dados')
+        async save() {
+            const user = auth.user
+            user.marketPlannerValue = this.marketValuePlanner
+            auth.setUser(user)
+            await apiRouter.user.update(user.id, user).then(() => {
+                this.messageData = messageTools.successMessage('Valor planejado salvo com sucesso!')
+            })
         },
         getValuePlanner() {
-            console.log('Desenvolver pegar configuração do planejamento')
+            this.marketValuePlanner = auth.user?.marketPlannerValue
         }
     },
     mounted() {

@@ -38,7 +38,7 @@ class UserController extends BasicController
             'email' => 'required|string',
             'password' => 'string',
             'salary' => 'required|numeric',
-            'marketPlannerValue' => 'required|numeric',
+            'marketPlannerValue' => 'numeric',
         ];
     }
 
