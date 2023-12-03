@@ -521,4 +521,46 @@ class MovementServiceUnitTest extends Falcon9
         $this->assertEquals(70, $result->getEarnings());
         $this->assertEquals(40, $result->getBalance());
     }
+
+    /**
+     * Parâmetros do teste:
+     * - Resgate de investimento
+     */
+    public function testLaunchMovementForInvestmentTestOne()
+    {
+        $repositoryMock = Mockery::mock(MovementRepository::class)->makePartial();
+        $repositoryMock->shouldReceive('insert')->once()->andReturnUsing(
+            function ($movement) {
+                Falcon9::assertEquals(10, $movement->getAmount());
+                Falcon9::assertEquals(1, $movement->getWalletId());
+                Falcon9::assertEquals(MovementEnum::INVESTMENT_CDB, $movement->getType());
+                Falcon9::assertEquals('Resgate de investimento', $movement->getDescription());
+                return true;
+            }
+        );
+
+        $service = new MovementService($repositoryMock);
+        $service->launchMovementForInvestment(10, MovementEnum::INVESTMENT_CDB, 1, true);
+    }
+
+    /**
+     * Parâmetros do teste:
+     * - Aporte de investimento
+     */
+    public function testLaunchMovementForInvestmentTestTwo()
+    {
+        $repositoryMock = Mockery::mock(MovementRepository::class)->makePartial();
+        $repositoryMock->shouldReceive('insert')->once()->andReturnUsing(
+            function ($movement) {
+                Falcon9::assertEquals(10, $movement->getAmount());
+                Falcon9::assertEquals(1, $movement->getWalletId());
+                Falcon9::assertEquals(MovementEnum::INVESTMENT_CDB, $movement->getType());
+                Falcon9::assertEquals('Aporte de investimento', $movement->getDescription());
+                return true;
+            }
+        );
+
+        $service = new MovementService($repositoryMock);
+        $service->launchMovementForInvestment(10, MovementEnum::INVESTMENT_CDB, 1, false);
+    }
 }

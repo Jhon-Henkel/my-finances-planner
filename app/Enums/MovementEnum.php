@@ -11,4 +11,5 @@ class MovementEnum
     const SPENT = 5;
     const GAIN = 6;
     const TRANSFER = 7;
+    const INVESTMENT_CDB = 8;
 }

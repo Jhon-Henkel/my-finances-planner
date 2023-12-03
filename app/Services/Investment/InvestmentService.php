@@ -5,17 +5,20 @@ namespace App\Services\Investment;
 use App\DTO\Investment\InvestmentDTO;
 use App\DTO\WalletDTO;
 use App\Enums\InvestmentEnum;
+use App\Enums\MovementEnum;
 use App\Exceptions\ValueException;
 use App\Factory\DataGraph\Investment\DataGraphInvestmentFactory;
 use App\Repositories\Investment\InvestmentRepository;
 use App\Services\BasicService;
+use App\Services\Movement\MovementService;
 use App\Services\WalletService;
 
 class InvestmentService extends BasicService
 {
     public function __construct(
         readonly private InvestmentRepository $repository,
-        readonly private WalletService $walletService
+        readonly private WalletService $walletService,
+        readonly private MovementService $movementService
     ) {
     }
 
@@ -67,16 +70,22 @@ class InvestmentService extends BasicService
     protected function rescueInvestment(float $value, WalletDTO $wallet, InvestmentDTO $investment): void
     {
         $wallet->setAmount($wallet->getAmount() + $value);
+        $wallet->setMovementAlreadyDone(true);
         $investment->setAmount($investment->getAmount() - $value);
         $this->walletService->update($wallet->getId(), $wallet);
         $this->update($investment->getId(), $investment);
+        $type = MovementEnum::INVESTMENT_CDB;
+        $this->movementService->launchMovementForInvestment($value, $type, $wallet->getId(), true);
     }
 
     protected function apportInvestment(float $value, WalletDTO $wallet, InvestmentDTO $investment): void
     {
         $wallet->setAmount($wallet->getAmount() - $value);
+        $wallet->setMovementAlreadyDone(true);
         $investment->setAmount($investment->getAmount() + $value);
         $this->walletService->update($wallet->getId(), $wallet);
         $this->update($investment->getId(), $investment);
+        $type = MovementEnum::INVESTMENT_CDB;
+        $this->movementService->launchMovementForInvestment($value, $type, $wallet->getId(), false);
     }
 }

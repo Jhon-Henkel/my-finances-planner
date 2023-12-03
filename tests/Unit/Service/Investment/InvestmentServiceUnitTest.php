@@ -4,8 +4,10 @@ namespace Service\Investment;
 
 use App\DTO\Investment\InvestmentDTO;
 use App\DTO\WalletDTO;
+use App\Enums\MovementEnum;
 use App\Repositories\Investment\InvestmentRepository;
 use App\Services\Investment\InvestmentService;
+use App\Services\Movement\MovementService;
 use App\Services\WalletService;
 use Mockery;
 use Tests\Falcon9;
@@ -31,8 +33,10 @@ class InvestmentServiceUnitTest extends Falcon9
     {
         $repositoryMock = Mockery::mock(InvestmentRepository::class)->makePartial();
         $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
+        $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
+        $mocks = [$repositoryMock, $walletServiceMock,$movementServiceMock];
 
-        $mock = Mockery::mock(InvestmentService::class, [$repositoryMock, $walletServiceMock])->makePartial();
+        $mock = Mockery::mock(InvestmentService::class, $mocks)->makePartial();
         $mock->shouldAllowMockingProtectedMethods();
 
         $this->assertInstanceOf(InvestmentRepository::class, $mock->getRepository());
@@ -48,8 +52,10 @@ class InvestmentServiceUnitTest extends Falcon9
         ]);
 
         $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
+        $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
+        $mocks = [$repositoryMock, $walletServiceMock,$movementServiceMock];
 
-        $mock = Mockery::mock(InvestmentService::class, [$repositoryMock, $walletServiceMock])->makePartial();
+        $mock = Mockery::mock(InvestmentService::class, $mocks)->makePartial();
         $mock->shouldAllowMockingProtectedMethods();
 
         $this->assertEquals([
@@ -84,7 +90,18 @@ class InvestmentServiceUnitTest extends Falcon9
             }
         );
 
-        $mock = Mockery::mock(InvestmentService::class, [$repositoryMock, $walletServiceMock])->makePartial();
+        $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
+        $movementServiceMock->shouldReceive('launchMovementForInvestment')->andReturnUsing(
+            function ($value, $type, $walletId, $rescue) {
+                $this->assertEquals(100, $value);
+                $this->assertEquals(1, $walletId);
+                $this->assertEquals(MovementEnum::INVESTMENT_CDB, $type);
+                $this->assertTrue($rescue);
+            }
+        );
+        $mocks = [$repositoryMock, $walletServiceMock, $movementServiceMock];
+
+        $mock = Mockery::mock(InvestmentService::class, $mocks)->makePartial();
         $mock->shouldAllowMockingProtectedMethods();
 
         $mock->shouldReceive('update')->andReturnUsing(
@@ -128,7 +145,18 @@ class InvestmentServiceUnitTest extends Falcon9
             }
         );
 
-        $mock = Mockery::mock(InvestmentService::class, [$repositoryMock, $walletServiceMock])->makePartial();
+        $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
+        $movementServiceMock->shouldReceive('launchMovementForInvestment')->andReturnUsing(
+            function ($value, $type, $walletId, $rescue) {
+                $this->assertEquals(100, $value);
+                $this->assertEquals(1, $walletId);
+                $this->assertEquals(MovementEnum::INVESTMENT_CDB, $type);
+                $this->assertFalse($rescue);
+            }
+        );
+        $mocks = [$repositoryMock, $walletServiceMock, $movementServiceMock];
+
+        $mock = Mockery::mock(InvestmentService::class, $mocks)->makePartial();
         $mock->shouldAllowMockingProtectedMethods();
 
         $mock->shouldReceive('update')->andReturnUsing(
