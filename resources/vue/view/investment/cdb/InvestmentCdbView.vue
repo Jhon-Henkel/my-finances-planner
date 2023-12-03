@@ -9,6 +9,12 @@
                 <router-link-button title="Novo" :icon="iconEnum.billTrendUp()" redirect-to="/investimentos/cdb/cadastrar"/>
             </div>
             <divider/>
+            <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                <font-awesome-icon icon="exclamation-triangle" class="me-2"/>
+                <strong>Atenção!</strong>
+                <br>
+                Rendimentos não são atualizados automaticamente.
+            </div>
             <div class="card glass success balance-card">
                 <div class="card-body text-center">
                     <div class="card-text">
