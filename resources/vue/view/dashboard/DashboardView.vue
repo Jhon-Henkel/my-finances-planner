@@ -104,14 +104,13 @@ import StringTools from '~js/tools/stringTools'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import iconEnum from '~js/enums/iconEnum'
 import calendarTools from '~js/tools/calendarTools'
-import movementEnum from '~js/enums/movementEnum'
 import AlertIcon from '~vue-component/AlertIcon.vue'
 import BarChart from '~vue-component/graphics/BarChart.vue'
 import dashboardChartParams from '~js/chartParams/dashboardChartParams'
 import { userAuthStore } from '../../store/auth'
 import messageTools from '~js/tools/messageTools'
 import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
-import iconTools from "../../../js/tools/iconTools";
+import iconTools from '~js/tools/iconTools'
 
 const auth = userAuthStore()
 
