@@ -25,6 +25,7 @@ class UserResourceUnitTest extends Falcon9
             'password' => '123456',
             'status' => 1,
             'salary' => 1000.00,
+            'marketPlannerValue' => 1000.00,
             'verify_hash' => '123456',
             'wrong_login_attempts' => 10,
             'created_at' => '2021-01-01 00:00:00',
@@ -40,6 +41,7 @@ class UserResourceUnitTest extends Falcon9
         $this->assertEquals('123456', $dto->getPassword());
         $this->assertEquals(1, $dto->getStatus());
         $this->assertEquals(1000.00, $dto->getSalary());
+        $this->assertEquals(1000.00, $dto->getMarketPlannerValue());
         $this->assertEquals('123456', $dto->getVerifyHash());
         $this->assertEquals(10, $dto->getWrongLoginAttempts());
         $this->assertEquals('2021-01-01 00:00:00', $dto->getCreatedAt());
@@ -56,6 +58,7 @@ class UserResourceUnitTest extends Falcon9
         $dto->setPassword('123456');
         $dto->setStatus(1);
         $dto->setSalary(1000.00);
+        $dto->setMarketPlannerValue(1000.00);
         $dto->setCreatedAt('2021-01-01 00:00:00');
         $dto->setUpdatedAt('2021-01-01 00:00:00');
         $dto->setEmailVerifiedAt('2021-01-01 00:00:00');
@@ -68,6 +71,7 @@ class UserResourceUnitTest extends Falcon9
         $this->assertEquals('123456', $item['password']);
         $this->assertEquals(1, $item['status']);
         $this->assertEquals(1000.00, $item['salary']);
+        $this->assertEquals(1000.00, $item['market_planner_value']);
         $this->assertEquals('2021-01-01 00:00:00', $item['created_at']);
         $this->assertEquals('2021-01-01 00:00:00', $item['updated_at']);
         $this->assertEquals('2021-01-01 00:00:00', $item['email_verified_at']);
@@ -80,6 +84,7 @@ class UserResourceUnitTest extends Falcon9
         $dto->setEmail('test@test.com');
         $dto->setStatus(1);
         $dto->setSalary(1000.00);
+        $dto->setMarketPlannerValue(1000.00);
 
         $vo = $this->resource->dtoToVo($dto);
 
@@ -87,5 +92,6 @@ class UserResourceUnitTest extends Falcon9
         $this->assertEquals('test@test.com', $vo->email);
         $this->assertEquals(1, $vo->status);
         $this->assertEquals(1000.00, $vo->salary);
+        $this->assertEquals(1000.00, $vo->marketPlannerValue);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\Date\DatePeriodDTO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
@@ -13,6 +14,11 @@ abstract class BasicService implements BasicServiceContract
     public function findAll()
     {
         return $this->getRepository()->findAll();
+    }
+
+    public function findOne()
+    {
+        return $this->getRepository()->findOne();
     }
 
     public function findById(int $id)
@@ -33,6 +39,11 @@ abstract class BasicService implements BasicServiceContract
     public function deleteById(int $id)
     {
         return $this->getRepository()->deleteById($id);
+    }
+
+    public function findByPeriodByDatePeriod(DatePeriodDTO $period): array
+    {
+        return $this->getRepository()->findByPeriod($period);
     }
 
     public function isInvalidRequest(Request $request, array $rules): MessageBag|bool

@@ -106,7 +106,7 @@ class FutureSpentResourceUnitTest extends Falcon9
             'installments' => 1,
         ];
         $dto = $this->resource->arrayToDto($item);
-        $invoiceDTO = $this->resource->futureGainToInvoiceDTO($dto);
+        $invoiceDTO = $this->resource->futureSpentToInvoiceDTO($dto);
 
         $this->assertEquals($item['id'], $invoiceDTO->getId());
         $this->assertEquals($item['wallet_id'], $invoiceDTO->getCountId());

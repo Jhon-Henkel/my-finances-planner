@@ -9,6 +9,7 @@ use App\Factory\InvoiceFactory;
 use App\Repositories\FutureSpentRepository;
 use App\Resources\FutureSpentResource;
 use App\Services\Movement\MovementService;
+use App\Services\Tools\MarketPlannerService;
 use App\Tools\Calendar\CalendarTools;
 use Exception;
 
@@ -17,8 +18,10 @@ class FutureSpentService extends BasicService
     protected FutureSpentRepository $repository;
     protected FutureSpentResource $resource;
 
-    public function __construct(FutureSpentRepository $repository)
-    {
+    public function __construct(
+        FutureSpentRepository $repository,
+        readonly private MarketPlannerService $marketPlannerService
+    ) {
         $this->repository = $repository;
         $this->resource = app(FutureSpentResource::class);
     }
@@ -36,16 +39,19 @@ class FutureSpentService extends BasicService
         $month = CalendarTools::getThisMonth();
         $year = CalendarTools::getThisYear();
         $period = CalendarTools::getIntervalMonthPeriodByMonthAndYear($month, $year, 6);
-        $gains = $this->getRepository()->findByPeriod($period);
-        $gainsPackage = [];
-        foreach ($gains as $gain) {
-            $futureGainDTO = $this->resource->futureGainToInvoiceDTO($gain);
-            if (! $futureGainDTO) {
+        $spending = $this->getRepository()->findByPeriod($period);
+        $spentPackage = [];
+        foreach ($spending as $spent) {
+            $invoice = $this->resource->futureSpentToInvoiceDTO($spent);
+            if (! $invoice) {
                 continue;
             }
-            $gainsPackage[] = InvoiceFactory::factoryInvoice($futureGainDTO, CalendarTools::getThisMonth());
+            $spentPackage[] = InvoiceFactory::factoryInvoice($invoice, CalendarTools::getThisMonth());
         }
-        return $gainsPackage;
+        if ($this->marketPlannerService->useMarketPlanner()) {
+            $spentPackage[] = $this->marketPlannerService->getMarketPlannerInvoice();
+        }
+        return $spentPackage;
     }
 
     /**

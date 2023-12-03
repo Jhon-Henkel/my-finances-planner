@@ -10,6 +10,7 @@ class UserVO
     public string $email;
     public int $status;
     public float $salary;
+    public float $marketPlannerValue;
 
     public static function make(UserDTO $user): self
     {
@@ -18,6 +19,7 @@ class UserVO
         $vo->email = $user->getEmail();
         $vo->status = $user->getStatus();
         $vo->salary = $user->getSalary();
+        $vo->marketPlannerValue = $user->getMarketPlannerValue();
         return $vo;
     }
 }

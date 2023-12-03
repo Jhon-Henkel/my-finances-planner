@@ -279,6 +279,14 @@ const routes = [
                 meta: {
                     auth: true
                 }
+            },
+            {
+                path: 'planejamento-mercado',
+                name: 'marketPlanner',
+                component: () => import('../../vue/view/tools/marketPlanner/MarketPlannerView.vue'),
+                meta: {
+                    auth: true
+                }
             }
         ]
     },

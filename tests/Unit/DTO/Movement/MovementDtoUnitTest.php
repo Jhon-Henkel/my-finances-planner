@@ -3,6 +3,7 @@
 namespace Tests\Unit\DTO\Movement;
 
 use App\DTO\Movement\MovementDTO;
+use App\Enums\MovementEnum;
 use Tests\Falcon9;
 
 class MovementDtoUnitTest extends Falcon9
@@ -83,5 +84,29 @@ class MovementDtoUnitTest extends Falcon9
         $dto->setType(3);
         $dto->setDescription('Aporte de investimento');
         $this->assertFalse($dto->isApportInvestmentType());
+    }
+
+    public function testIsMarketSpent()
+    {
+        $dto = new MovementDTO();
+        $dto->setType(MovementEnum::SPENT);
+        $dto->setDescription('Mercado');
+        $this->assertTrue($dto->isMarketSpent());
+
+        $dto->setType(MovementEnum::SPENT);
+        $dto->setDescription('mercado');
+        $this->assertTrue($dto->isMarketSpent());
+
+        $dto->setType(MovementEnum::GAIN);
+        $dto->setDescription('Venda de ações');
+        $this->assertFalse($dto->isMarketSpent());
+
+        $dto->setType(MovementEnum::SPENT);
+        $dto->setDescription('Compra de ações');
+        $this->assertFalse($dto->isMarketSpent());
+
+        $dto->setType(MovementEnum::GAIN);
+        $dto->setDescription('Mercado');
+        $this->assertFalse($dto->isMarketSpent());
     }
 }
