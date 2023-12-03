@@ -5,8 +5,11 @@
         <div v-show="loadingDone">
             <div class="nav nav-item mt-2 justify-content-end">
                 <mfp-title title="Gerenciamento CDB"/>
-                <back-button to="/investimentos" class="me-2"/>
-                <router-link-button title="Novo" :icon="iconEnum.billTrendUp()" redirect-to="/investimentos/cdb/cadastrar"/>
+                <back-button to="/investimentos" class="me-2 mobile-margin-top"/>
+                <router-link-button title="Novo"
+                                    :icon="iconEnum.billTrendUp()"
+                                    redirect-to="/investimentos/cdb/cadastrar"
+                                    class="mobile-margin-top"/>
             </div>
             <divider/>
             <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
@@ -190,6 +193,9 @@ export default {
     @media (max-width: 1000px) {
         .me-2 {
             margin-right: 0 !important;
+        }
+        .mobile-margin-top {
+            margin-top: 10px !important;
         }
     }
 </style>
