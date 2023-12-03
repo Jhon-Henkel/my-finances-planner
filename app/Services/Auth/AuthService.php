@@ -95,6 +95,7 @@ class AuthService
                 'id' => $user->id,
                 'salutation' => CalendarTools::salutation($user->name, date('H')),
                 'salary' => $user->salary,
+                'marketPlannerValue' => $user->market_planner_value,
             ]
         ];
     }

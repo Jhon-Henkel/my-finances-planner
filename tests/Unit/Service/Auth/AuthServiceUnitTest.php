@@ -144,6 +144,7 @@ class AuthServiceUnitTest extends Falcon9
         $user->name = 'Joãozinho';
         $user->id = 1;
         $user->salary = 1300;
+        $user->market_planner_value = 10;
 
         $service = Mockery::mock(AuthService::class)->makePartial();
         $service->shouldAllowMockingProtectedMethods();
@@ -157,6 +158,7 @@ class AuthServiceUnitTest extends Falcon9
         $this->assertEquals('Joãozinho', $data['user']['name']);
         $this->assertEquals(1, $data['user']['id']);
         $this->assertEquals(1300, $data['user']['salary']);
+        $this->assertEquals(10, $data['user']['marketPlannerValue']);
         $this->assertStringContainsString('Joãozinho', $data['user']['salutation']);
     }
 
