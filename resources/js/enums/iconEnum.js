@@ -109,6 +109,9 @@ const iconEnum = {
     },
     search() {
         return ['fas', 'search']
+    },
+    piggyBank() {
+        return ['fas', 'piggy-bank']
     }
 }
 export default iconEnum
