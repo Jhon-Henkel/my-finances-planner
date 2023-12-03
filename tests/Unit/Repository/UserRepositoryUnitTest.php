@@ -57,6 +57,7 @@ class UserRepositoryUnitTest extends Falcon9
         $user->setStatus(1);
         $user->setEmailVerifiedAt('2021-01-01 00:00:00');
         $user->setSalary(1000);
+        $user->setMarketPlannerValue(1000);
         $user->setEmail('test@test.com');
         $user->setPassword('123456');
         $user->setCreatedAt('2021-01-01 00:00:00');
