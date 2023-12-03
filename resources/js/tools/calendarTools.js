@@ -1,5 +1,6 @@
 import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths, subYears } from 'date-fns'
 
+const SIX_HOURS_IN_MS = 21600000
 const THREE_HOURS_IN_MS = 10800000
 const TEN_SECONDS_TIME_IN_MS = 10000
 const FIVE_SECONDS_TIME_IN_MS = 5000
@@ -44,6 +45,9 @@ const calendarTools = {
     },
     threeHoursInMs() {
         return THREE_HOURS_IN_MS
+    },
+    sixHoursInMs() {
+        return SIX_HOURS_IN_MS
     },
     getNextThreeMonthsWithYear() {
         const months = []
