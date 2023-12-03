@@ -44,6 +44,11 @@
                                                             @check-clicked="manageApportRescueInvestment(investment)"/>
                                         </td>
                                     </tr>
+                                    <tr class="text-center border-table">
+                                        <td colspan="3">Total</td>
+                                        <td>{{ getTotalValueInvestment() }}</td>
+                                        <td colspan="2"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -157,6 +162,13 @@ export default {
         manageApportRescueInvestment(investment) {
             this.showRescueOrApportInvestment = !this.showRescueOrApportInvestment
             this.investmentToApportOrRescue = investment
+        },
+        getTotalValueInvestment() {
+            let total = 0
+            this.investments.forEach(investment => {
+                total += investment.amount
+            })
+            return StringTools.formatFloatValueToBrString(total)
         }
     },
     mounted() {
@@ -166,9 +178,12 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 1000px) {
-    .me-2 {
-        margin-right: 0 !important;
+    .border-table {
+        border-top: 2px solid #096452;
     }
-}
+    @media (max-width: 1000px) {
+        .me-2 {
+            margin-right: 0 !important;
+        }
+    }
 </style>
