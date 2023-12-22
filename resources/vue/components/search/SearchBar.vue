@@ -3,7 +3,7 @@
         <span class="input-group-text" id="inputGroup-sizing-default">
             <font-awesome-icon :icon="iconEnum.search()" />
         </span>
-        <input type="text" class="form-control" v-model="search" placeholder="Buscar por descrição">
+        <input type="text" class="form-control" v-model="search" :placeholder="placeholder">
     </div>
 </template>
 
@@ -20,6 +20,13 @@ export default {
     data() {
         return {
             search: ''
+        }
+    },
+    props: {
+        placeholder: {
+            type: String,
+            required: false,
+            default: 'Buscar'
         }
     },
     emits: [

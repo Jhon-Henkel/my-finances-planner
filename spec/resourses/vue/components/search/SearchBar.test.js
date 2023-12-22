@@ -15,7 +15,7 @@ describe('Testing the SearchBar', () => {
         expect(wrapperHtml).toContain('class="input-group search-bar">')
         expect(wrapperHtml).toContain('class="input-group-text"')
         expect(wrapperHtml).toContain('id="inputGroup-sizing-default"><font-awesome-icon')
-        expect(wrapperHtml).toContain('type="text" class="form-control" placeholder="Buscar por descrição"></div>')
+        expect(wrapperHtml).toContain('type="text" class="form-control" placeholder="Buscar"></div>')
 
         await wrapper.find('input.form-control').setValue('teste')
         expect(wrapper.emitted('searchFor').length).toBe(1)
