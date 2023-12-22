@@ -160,4 +160,32 @@ class MarketPlannerServiceUnitTest extends Falcon9
         $this->assertEquals(InvoiceEnum::FIXED_INSTALLMENTS, $invoice->getInstallments());
         $this->assertNull($invoice->getCountName());
     }
+
+    /**
+     * Parâmetros do teste:
+     * - Valor positivo
+     */
+    public function testGetFirstInstallmentMarketTestOne()
+    {
+        $marketPlannerMock = Mockery::mock(MarketPlannerService::class)->makePartial();
+        $marketPlannerMock->shouldAllowMockingProtectedMethods();
+        $marketPlannerMock->shouldReceive('getThisMonthMarketSpentValue')->once()->andReturn(50);
+        $marketPlannerMock->shouldReceive('getMarketPlannerValue')->once()->andReturn(100);
+
+        $this->assertEquals(50, $marketPlannerMock->getFirstInstallmentMarket());
+    }
+
+    /**
+     * Parâmetros do teste:
+     * - Valor negativo
+     */
+    public function testGetFirstInstallmentMarketTwo()
+    {
+        $marketPlannerMock = Mockery::mock(MarketPlannerService::class)->makePartial();
+        $marketPlannerMock->shouldAllowMockingProtectedMethods();
+        $marketPlannerMock->shouldReceive('getThisMonthMarketSpentValue')->once()->andReturn(150);
+        $marketPlannerMock->shouldReceive('getMarketPlannerValue')->once()->andReturn(100);
+
+        $this->assertEquals(0, $marketPlannerMock->getFirstInstallmentMarket());
+    }
 }

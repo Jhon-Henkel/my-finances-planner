@@ -69,6 +69,17 @@ class MarketPlannerService
 
     public function getFirstInstallmentMarket(): float
     {
-        return round($this->marketPlannerValue - $this->thisMonthMarketSpentValue, 2);
+        $firstMonthValue = round($this->getMarketPlannerValue() - $this->getThisMonthMarketSpentValue(), 2);
+        return max($firstMonthValue, 0);
+    }
+
+    protected function getMarketPlannerValue(): float
+    {
+        return $this->marketPlannerValue;
+    }
+
+    protected function getThisMonthMarketSpentValue(): float
+    {
+        return $this->thisMonthMarketSpentValue;
     }
 }
