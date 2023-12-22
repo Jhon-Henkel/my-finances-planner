@@ -5,7 +5,7 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title class="title" title="Movimentações"/>
-                <mfp-search-bar @search-for="filterResultsSearch($event)"/>
+                <mfp-search-bar @search-for="filterResultsSearch($event)" placeholder="Buscar por descrição ou carteira" />
                 <filter-top-right @filter-quest="getMovementIndexFiltered($event)"/>
                 <mfp-drop-down-button :buttonsArray="buttons"/>
             </div>
@@ -219,7 +219,9 @@ export default {
         filterResultsSearch(search) {
             let movements = this.originalMovements
             movements = movements.filter(
-                movement => movement.description.toLowerCase().includes(search.toLowerCase())
+                movement =>
+                    movement.walletName.toLowerCase().includes(search.toLowerCase()) ||
+                    movement.description.toLowerCase().includes(search.toLowerCase())
             )
             this.movements = movements
             this.populateMoneyValues()
