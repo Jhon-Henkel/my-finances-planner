@@ -46,7 +46,7 @@
                                         <td>
                                             <action-buttons delete-tooltip="Deletar"
                                                             tooltip-edit="Editar"
-                                                            :edit-to="'investimentos/cdb/' + investment.id + '/atualizar'"
+                                                            :edit-to="'cdb/' + investment.id + '/atualizar'"
                                                             @delete-clicked="deleteInvestment(investment.id, investment.description)"
                                                             :checkButton="true"
                                                             checkTooltip="Resgatar / Aportar Investimento"
