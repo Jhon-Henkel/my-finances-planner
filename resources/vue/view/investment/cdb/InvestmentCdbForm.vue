@@ -41,7 +41,7 @@
                             <label class="form-label" for="investment-credit-card">
                                 Cartão de crédito
                             </label>
-                            <select class="form-select" v-model="investment.creditCardId" id="investment-credit-card" required>
+                            <select class="form-select" v-model="investment.credit_card_id" id="investment-credit-card" required>
                                 <option v-for="creditCard in creditCards" :key="creditCard.id" :value="creditCard.id">
                                     {{ creditCard.name }}
                                 </option>
@@ -138,10 +138,10 @@ export default {
             investment: {
                 profitability: '',
                 liquidity: '',
-                creditCardId: null
+                credit_card_id: null
             },
             types: InvestmentEnum.getFilterList(),
-            creditCards: []
+            creditCards: {}
         }
     },
     methods: {
@@ -163,7 +163,7 @@ export default {
             } else if (!this.investment.type) {
                 field = 'tipo'
             } else if (
-                !this.investment.creditCardId &&
+                !this.investment.credit_card_id &&
                 this.investment.type === InvestmentEnum.type.cdbCreditLimit()
             ) {
                 field = 'cartão de crédito'
@@ -200,7 +200,7 @@ export default {
             return {
                 description: this.investment.description,
                 type: this.investment.type,
-                creditCardId: this.investment.creditCardId,
+                credit_card_id: this.investment.credit_card_id,
                 amount: this.investment.amount,
                 liquidity: this.investment.liquidity,
                 profitability: this.investment.profitability
@@ -211,6 +211,7 @@ export default {
         if (this.$route.params.id) {
             this.title = 'Atualizar CDB'
             this.investment = await apiRouter.investments.show(this.$route.params.id)
+            this.investment.credit_card_id = this.investment.creditCardId || null
         }
         this.creditCards = await apiRouter.cards.index()
         this.loadingDone = true
