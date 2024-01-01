@@ -13,6 +13,8 @@ class DataGraphMovementFactory implements DataGraphInterface
     private array $balanceData = [];
     private array $labels = [];
 
+    private const SAME_SIZE = 0;
+
     public function addLabel(string $label): void
     {
         if (! in_array($label, $this->labels)) {
@@ -53,8 +55,24 @@ class DataGraphMovementFactory implements DataGraphInterface
 
     protected function validateHaveSameSize(): void
     {
-        if (count($this->gainData) != count($this->spentData)) {
+        $diffSize = $this->countDiff();
+        if ($diffSize < self::SAME_SIZE) {
+            for ($index = 0; $index < abs($diffSize); $index++) {
+                $this->gainData[] = 0;
+            }
+        } elseif ($diffSize > self::SAME_SIZE) {
+            for ($index = 0; $index < abs($diffSize); $index++) {
+                $this->spentData[] = 0;
+            }
+        }
+        $diffSize = $this->countDiff();
+        if ($diffSize != self::SAME_SIZE) {
             throw new CountGainAndExpenseDataGraphException();
         }
+    }
+
+    protected function countDiff(): int
+    {
+        return count($this->gainData) - count($this->spentData);
     }
 }

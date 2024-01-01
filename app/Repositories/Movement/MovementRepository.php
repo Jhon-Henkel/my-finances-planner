@@ -91,9 +91,10 @@ class MovementRepository extends BasicRepository
 
     public function getLastTwelveMonthsSumGroupByTypeAndMonth(): array
     {
-        return $this->model::selectRaw('sum(amount) as total, type, month(created_at) as month')
-            ->where('created_at', '>=', (CalendarTools::getThisYear() - 1))
-            ->groupBy('month')
+        return $this->model::selectRaw(
+            'sum(amount) as total, type, month(created_at) as month, year(created_at) as year'
+        )->where('created_at', '>=', (CalendarTools::getThisYear() - 1))
+            ->groupBy('year', 'month')
             ->groupBy('type')
             ->get()
             ->toArray();
