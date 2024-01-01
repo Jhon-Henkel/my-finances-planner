@@ -29,5 +29,5 @@ package-lock.json
 composer.phar
 /public/build
 coverage
-tests/frontend/coverage
+spec/coverage
 .env.bkp

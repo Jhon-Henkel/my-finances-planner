@@ -77,7 +77,7 @@ jobs:
         run: LARAVEL_BYPASS_ENV_CHECK=1 npm run test:coverage
 
       - name: 📄 Moving coverage to workspace folder
-        run: mv ./tests/frontend/coverage/clover.xml ./clover.xml
+        run: mv ./spec/coverage/clover.xml ./clover.xml
 
       - name: 🏷 Making coverage badge
         uses: timkrase/phpunit-coverage-badge@v1.2.1
