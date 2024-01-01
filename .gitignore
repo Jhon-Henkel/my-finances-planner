@@ -17,7 +17,7 @@ yarn-error.log
 /.idea
 /.vscode
 .docker
-tests/coverage
+tests/backend/coverage
 .phpunit.cache/
 node_modules
 public_html
@@ -29,5 +29,5 @@ package-lock.json
 composer.phar
 /public/build
 coverage
-spec/coverage
+tests/frontend/coverage
 .env.bkp
