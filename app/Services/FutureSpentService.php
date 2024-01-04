@@ -150,6 +150,9 @@ class FutureSpentService extends BasicService
         foreach ($spending as $spent) {
             $total += $spent->getAmount();
         }
+        if ($this->marketPlannerService->useMarketPlanner()) {
+            $total += $this->marketPlannerService->getMarketPlannerInvoice()->firstInstallment;
+        }
         return $total;
     }
 }

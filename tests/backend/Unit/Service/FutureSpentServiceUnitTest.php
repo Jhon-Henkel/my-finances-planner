@@ -94,14 +94,18 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $mock = Mockery::mock(FutureSpentRepository::class);
         $mock->shouldReceive('findByPeriod')->once()->andReturn([$item1, $item2]);
-        $this->app->instance(FutureSpentRepository::class, $mock);
+
+        $marketInvoice = new InvoiceVO();
+        $marketInvoice->firstInstallment = 1.00;
 
         $mockMarketPlanner = Mockery::mock(MarketPlannerService::class)->makePartial();
+        $mockMarketPlanner->shouldReceive('useMarketPlanner')->once()->andReturnTrue();
+        $mockMarketPlanner->shouldReceive('getMarketPlannerInvoice')->once()->andReturn($marketInvoice);
 
         $service = new FutureSpentService($mock, $mockMarketPlanner);
         $result = $service->getThisMonthFutureSpentSum();
 
-        $this->assertEquals(2.50, $result);
+        $this->assertEquals(3.50, $result);
     }
 
     public function testPaySpentWithPartialSpent()
