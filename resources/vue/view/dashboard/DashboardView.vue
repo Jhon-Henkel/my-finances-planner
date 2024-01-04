@@ -47,16 +47,16 @@
                             </div>
                             <div class="row">
                                 <div class="col-4 last-month-balance">
-                                    {{ StringTools.formatFloatValueToBrString(balance.lastMonth) }}
-                                    <alert-icon v-if="balance.lastMonth < 0"/>
+                                    {{ StringTools.formatFloatValueToBrString(data.balances.lastMonth) }}
+                                    <alert-icon v-if="data.balances.lastMonth < 0"/>
                                 </div>
                                 <div class="col-4">
-                                    {{ StringTools.formatFloatValueToBrString(balance.thisMonth) }}
-                                    <alert-icon v-if="balance.thisMonth < 0"/>
+                                    {{ StringTools.formatFloatValueToBrString(data.balances.thisMonth) }}
+                                    <alert-icon v-if="data.balances.thisMonth < 0"/>
                                 </div>
                                 <div class="col-4 this-year-balance">
-                                    {{ StringTools.formatFloatValueToBrString(balance.thisYear) }}
-                                    <alert-icon v-if="balance.thisYear < 0"/>
+                                    {{ StringTools.formatFloatValueToBrString(data.balances.thisYear) }}
+                                    <alert-icon v-if="data.balances.thisYear < 0"/>
                                 </div>
                             </div>
                         </div>
@@ -74,11 +74,13 @@
                             <hr>
                             <table class="table table-transparent">
                                 <tbody>
-                                    <tr v-for="movement in lastMovements">
-                                        <td><font-awesome-icon :icon="movement.type" :class="movement.class"/></td>
-                                        <td>{{ movement.date }}</td>
+                                    <tr v-for="movement in data.lastMovements">
+                                        <td>
+                                            <font-awesome-icon :icon="movement.typeIcon" :class="movement.cssClass"/>
+                                        </td>
+                                        <td>{{ CalendarTools.convertDateDbToBr(movement.date, false) }}</td>
                                         <td>{{ movement.description }}</td>
-                                        <td>{{ movement.value }}</td>
+                                        <td>{{ StringTools.formatFloatValueToBrString(movement.value) }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -103,20 +105,22 @@ import MfpMessage from '~vue-component/MessageAlert.vue'
 import StringTools from '~js/tools/stringTools'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import iconEnum from '~js/enums/iconEnum'
-import calendarTools from '~js/tools/calendarTools'
 import AlertIcon from '~vue-component/AlertIcon.vue'
 import BarChart from '~vue-component/graphics/BarChart.vue'
 import dashboardChartParams from '~js/chartParams/dashboardChartParams'
 import { userAuthStore } from '../../store/auth'
 import messageTools from '~js/tools/messageTools'
 import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
-import iconTools from '~js/tools/iconTools'
+import CalendarTools from '~js/tools/calendarTools'
 
 const auth = userAuthStore()
 
 export default {
     name: 'DashboardView',
     computed: {
+        CalendarTools() {
+            return CalendarTools
+        },
         iconEnum() {
             return iconEnum
         },
@@ -142,6 +146,12 @@ export default {
             chartData: dashboardChartParams.data,
             data: {
                 walletBalance: 0,
+                walletBalanceScClass: '',
+                balances: {
+                    thisMonth: 0,
+                    lastMonth: 0,
+                    thisYear: 0
+                },
                 movements: {
                     thisMonthSpent: 0,
                     thisMonthGain: 0,
@@ -152,7 +162,9 @@ export default {
                     lastMovements: [
                         {
                             createdAt: '',
-                            walletName: ''
+                            walletName: '',
+                            typeIcon: '',
+                            cssClass: ''
                         }
                     ],
                     dataForGraph: {
@@ -197,7 +209,6 @@ export default {
                 lastMonth: 0,
                 thisYear: 0
             },
-            lastMovements: [],
             messageData: {},
             buttons: [
                 {
@@ -236,21 +247,9 @@ export default {
     methods: {
         populateData() {
             this.cardData.wallet.value = this.data.walletBalance
-            this.cardData.wallet.type = this.data.walletBalance < 0 ? 'warning' : 'success'
-            this.cardData.futureSpent.value = this.data.futureSpent.thisMonth + this.data.creditCards.thisMonth
+            this.cardData.wallet.type = this.data.walletBalanceScClass
+            this.cardData.futureSpent.value = this.data.futureSpent.thisMonth
             this.cardData.futureGain.value = this.data.futureGain.thisMonth
-            this.balance.thisMonth = this.data.movements.thisMonthGain - this.data.movements.thisMonthSpent
-            this.balance.lastMonth = this.data.movements.lastMonthGain - this.data.movements.lastMonthSpent
-            this.balance.thisYear = this.data.movements.thisYearGain - this.data.movements.thisYearSpent
-            this.data.movements.lastMovements.forEach(movement => {
-                this.lastMovements.push({
-                    date: calendarTools.convertDateDbToBr(movement.createdAt).slice(0, 5),
-                    type: iconTools.getIconForMovementType(movement.type),
-                    description: movement.walletName,
-                    value: StringTools.formatFloatValueToBrString(movement.amount),
-                    class: iconTools.getCssForMovementType(movement.type)
-                })
-            })
         }
     },
     async mounted() {

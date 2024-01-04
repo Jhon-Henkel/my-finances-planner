@@ -278,7 +278,7 @@ class MovementServiceUnitTest extends Falcon9
         $this->app->instance(MovementRepository::class, $mock);
 
         $service = new MovementService($mock);
-        $result = $service->generateDataForGraph();
+        $result = $service->generateDataForGraph()->getAllDataArray();
 
         $this->assertCount(2, $result['labels']);
         $this->assertEquals('Janeiro', $result['labels'][0]);

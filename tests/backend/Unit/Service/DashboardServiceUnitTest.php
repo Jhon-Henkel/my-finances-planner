@@ -2,12 +2,18 @@
 
 namespace Tests\backend\Unit\Service;
 
+use App\Enums\MovementEnum;
+use App\Factory\Dashboard\DashboardBalancesDataFactory;
+use App\Factory\Dashboard\DashboardFutureMovementDataFactory;
+use App\Factory\Dashboard\DashboardMovementDataFactory;
+use App\Factory\DataGraph\Movement\DataGraphMovementFactory;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\DashboardService;
 use App\Services\FutureGainService;
 use App\Services\FutureSpentService;
 use App\Services\Movement\MovementService;
 use App\Services\WalletService;
+use App\VO\Movement\MovementVO;
 use Mockery;
 use Tests\backend\Falcon9;
 
@@ -15,39 +21,130 @@ class DashboardServiceUnitTest extends Falcon9
 {
     public function testGetDashboardData()
     {
-        $mock = Mockery::mock(DashboardService::class);
-        $mock->shouldAllowMockingProtectedMethods()->makePartial();
-        $mock->shouldReceive('getWalletBalance')->once()->andReturn(10.50);
-        $mock->shouldReceive('getMovementsData')->once()->andReturn([]);
-        $mock->shouldReceive('getFutureSpentData')->once()->andReturn([]);
-        $mock->shouldReceive('getFutureGainData')->once()->andReturn([]);
-        $mock->shouldReceive('getCreditCardsData')->once()->andReturn([]);
-        $this->app->instance(DashboardService::class, $mock);
-
-        $result = $mock->getDashboardData();
-
-        $this->assertIsArray($result);
-    }
-
-    public function testGetWalletBalance()
-    {
         $walletServiceMock = Mockery::mock(WalletService::class);
         $walletServiceMock->shouldReceive('getTotalWalletValue')->once()->andReturn(10.50);
 
-        $args = [
+        $mock = Mockery::mock(DashboardService::class, [
             $walletServiceMock,
             Mockery::mock(MovementService::class),
             Mockery::mock(FutureSpentService::class),
             Mockery::mock(FutureGainService::class),
             Mockery::mock(CreditCardTransactionService::class)
+        ]);
+
+        $movementVoOne = new MovementVO();
+        $movementVoOne->id = 1;
+        $movementVoOne->amount = 10;
+        $movementVoOne->type = MovementEnum::GAIN;
+        $movementVoOne->description = 'Teste';
+        $movementVoOne->createdAt = '2021-01-01';
+        $movementVoOne->updatedAt = '2021-01-02';
+        $movementVoOne->walletId = 1;
+        $movementVoOne->walletName = 'Teste';
+
+        $movementVoTwo = new MovementVO();
+        $movementVoTwo->id = 2;
+        $movementVoTwo->amount = 60;
+        $movementVoTwo->type = MovementEnum::SPENT;
+        $movementVoTwo->description = 'Teste';
+        $movementVoTwo->createdAt = '2021-01-01';
+        $movementVoTwo->updatedAt = '2021-01-02';
+        $movementVoTwo->walletId = 1;
+        $movementVoTwo->walletName = 'Teste';
+
+        $mock->shouldAllowMockingProtectedMethods()->makePartial();
+        $mock->shouldReceive('getMovementsData')->once()->andReturn(
+            new DashboardMovementDataFactory(
+                new DataGraphMovementFactory(),
+                [['type' => MovementEnum::GAIN, 'total' => 20]],
+                [['type' => MovementEnum::GAIN, 'total' => 150]],
+                [['type' => MovementEnum::SPENT, 'total' => 50]],
+                [$movementVoOne, $movementVoTwo]
+            )
+        );
+        $mock->shouldReceive('getFutureSpentData')->once()->andReturn(
+            new DashboardFutureMovementDataFactory(10, 20)
+        );
+        $mock->shouldReceive('getFutureGainData')->once()->andReturn(
+            new DashboardFutureMovementDataFactory(30, 40)
+        );
+        $mock->shouldReceive('getCreditCardsData')->once()->andReturn(
+            new DashboardFutureMovementDataFactory(50, 60)
+        );
+        $mock->shouldReceive('getBalancesData')->once()->andReturn(
+            new DashboardBalancesDataFactory(
+                14,
+                15,
+                16,
+                17,
+                18,
+                19
+            )
+        );
+
+        $result = $mock->getDashboardData();
+
+        $expected =  [
+            "walletBalance" => 10.5,
+            "walletBalanceScClass" => "success",
+            "movements" => [
+                "dataForGraph" => [
+                    "labels" => [],
+                    "gainData" => [],
+                    "spentData" => [],
+                    "balanceData" => [],
+                ],
+                "lastMonthSpent" => 0.0,
+                "thisMonthSpent" => 0.0,
+                "thisYearSpent" => 50.0,
+                "lastMonthGain" => 20.0,
+                "thisMonthGain" => 150.0,
+                "thisYearGain" => 0.0,
+                "lastMovements" => [
+                    $movementVoOne,
+                    $movementVoTwo
+                ],
+            ],
+            "futureSpent" => 60.0,
+            "futureGain" => [
+                "thisMonth" => 30.0,
+                "thisYear" => 40.0
+            ],
+            "creditCards" => [
+                "thisMonth" => 50.0,
+                "thisYear" => 60.0
+            ],
+            "balances" => [
+                "lastMonth" => -1.0,
+                "thisMonth" => -1.0,
+                "thisYear" => -1.0
+            ],
+            "lastMovements" => [
+                [
+                    "date" => "2021-01-01",
+                    "typeIcon" =>  [
+                        0 => "fas",
+                        1 => "circle-arrow-up"
+                    ],
+                    "description" => "Teste",
+                    "value" => 10,
+                    "cssClass" => "movement-gain-icon"
+                ],
+                [
+                    "date" => "2021-01-01",
+                    "typeIcon" => [
+                        0 => "fas",
+                        1 => "circle-arrow-down"
+                    ],
+                    "description" => "Teste",
+                    "value" => 60,
+                    "cssClass" => "movement-spent-icon"
+                ],
+            ],
         ];
 
-        $mock = Mockery::mock(DashboardService::class, $args);
-        $mock->shouldAllowMockingProtectedMethods()->makePartial();
-
-        $result = $mock->getWalletBalance();
-
-        $this->assertIsFloat($result);
+        $this->assertIsArray($result);
+        $this->assertEquals($expected, $result);
     }
 
     public function testGetCreditCardsData()
@@ -67,7 +164,7 @@ class DashboardServiceUnitTest extends Falcon9
         $mock = Mockery::mock(DashboardService::class, $args);
         $mock->shouldAllowMockingProtectedMethods()->makePartial();
 
-        $result = $mock->getCreditCardsData();
+        $result = $mock->getCreditCardsData()->toArray();
 
         $this->assertIsArray($result);
         $this->assertEquals(12, $result['thisMonth']);
@@ -91,7 +188,7 @@ class DashboardServiceUnitTest extends Falcon9
         $mock = Mockery::mock(DashboardService::class, $args);
         $mock->shouldAllowMockingProtectedMethods()->makePartial();
 
-        $result = $mock->getFutureGainData();
+        $result = $mock->getFutureGainData()->toArray();
 
         $this->assertIsArray($result);
         $this->assertEquals(12, $result['thisMonth']);
@@ -115,7 +212,7 @@ class DashboardServiceUnitTest extends Falcon9
         $mock = Mockery::mock(DashboardService::class, $args);
         $mock->shouldAllowMockingProtectedMethods()->makePartial();
 
-        $result = $mock->getFutureSpentData();
+        $result = $mock->getFutureSpentData()->toArray();
 
         $this->assertIsArray($result);
         $this->assertEquals(12, $result['thisMonth']);
@@ -124,11 +221,31 @@ class DashboardServiceUnitTest extends Falcon9
 
     public function testGetMovementsData()
     {
-        $item = [0 => ['total' => 12], 1 => ['total' => 10]];
+        $movementVoOne = new MovementVO();
+        $movementVoOne->id = 1;
+        $movementVoOne->amount = 10;
+        $movementVoOne->type = MovementEnum::GAIN;
+        $movementVoOne->description = 'Teste';
+        $movementVoOne->createdAt = '2021-01-01';
+        $movementVoOne->updatedAt = '2021-01-02';
+        $movementVoOne->walletId = 1;
+        $movementVoOne->walletName = 'Teste';
+
+        $movementVoTwo = new MovementVO();
+        $movementVoTwo->id = 2;
+        $movementVoTwo->amount = 60;
+        $movementVoTwo->type = MovementEnum::SPENT;
+        $movementVoTwo->description = 'Teste';
+        $movementVoTwo->createdAt = '2021-01-01';
+        $movementVoTwo->updatedAt = '2021-01-02';
+        $movementVoTwo->walletId = 1;
+        $movementVoTwo->walletName = 'Teste';
+
+        $item = [0 => ['type' => 5, 'total' => 12], 1 => ['type' => 6, 'total' => 10]];
         $movementService = Mockery::mock(MovementService::class);
         $movementService->shouldReceive('getMonthSumMovementsByOptionFilter')->times(3)->andReturn($item);
-        $movementService->shouldReceive('getLastMovements')->once()->andReturn([]);
-        $movementService->shouldReceive('generateDataForGraph')->once()->andReturn([]);
+        $movementService->shouldReceive('getLastMovements')->once()->andReturn([$movementVoOne, $movementVoTwo]);
+        $movementService->shouldReceive('generateDataForGraph')->once()->andReturn(new DataGraphMovementFactory());
 
         $args = [
             Mockery::mock(WalletService::class),
@@ -138,10 +255,10 @@ class DashboardServiceUnitTest extends Falcon9
             Mockery::mock(CreditCardTransactionService::class)
         ];
 
-        $mock = Mockery::mock(DashboardService::class, $args);
-        $mock->shouldAllowMockingProtectedMethods()->makePartial();
+        $mock = Mockery::mock(DashboardService::class, $args)->makePartial();
+        $mock->shouldAllowMockingProtectedMethods();
 
-        $result = $mock->getMovementsData();
+        $result = $mock->getMovementsData()->toArray();
 
         $this->assertIsArray($result);
         $this->assertEquals(12, $result['lastMonthSpent']);
@@ -150,8 +267,31 @@ class DashboardServiceUnitTest extends Falcon9
         $this->assertEquals(10, $result['lastMonthGain']);
         $this->assertEquals(10, $result['thisMonthGain']);
         $this->assertEquals(10, $result['thisYearGain']);
-        $this->assertEquals([], $result['lastMovements']);
-        $this->assertEquals([], $result['dataForGraph']);
+        $this->assertEquals([$movementVoOne, $movementVoTwo], $result['lastMovements']);
+        $this->assertEquals(['labels' => [], 'gainData' => [], 'spentData' => [], 'balanceData' => []], $result['dataForGraph']);
+    }
 
+    public function testGetBalancesData()
+    {
+        $data = new DashboardMovementDataFactory(
+            new DataGraphMovementFactory(),
+            [['type' => MovementEnum::GAIN, 'total' => 20]],
+            [['type' => MovementEnum::GAIN, 'total' => 150]],
+            [['type' => MovementEnum::SPENT, 'total' => 50]],
+            [new MovementVO(), new MovementVO()]
+        );
+
+        $mock = Mockery::mock(DashboardService::class, [
+            Mockery::mock(WalletService::class),
+            Mockery::mock(MovementService::class),
+            Mockery::mock(FutureSpentService::class),
+            Mockery::mock(FutureGainService::class),
+            Mockery::mock(CreditCardTransactionService::class)
+        ])->makePartial();
+        $mock->shouldAllowMockingProtectedMethods();
+
+        $result = $mock->getBalancesData($data);
+
+        $this->assertInstanceOf(DashboardBalancesDataFactory::class, $result);
     }
 }
