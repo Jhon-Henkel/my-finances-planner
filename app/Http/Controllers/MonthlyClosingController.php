@@ -60,7 +60,7 @@ class MonthlyClosingController extends BasicController
             return ResponseError::responseError('Usuário não encontrado', Response::HTTP_BAD_REQUEST);
         }
         $results = $this->getService()->findByFilter($filterOption, $user->data->tenant_id);
-        $items['data'] = $this->getResource()->arrayDtoToVoItens($results['data']);
+        $items['data'] = array_reverse($this->getResource()->arrayDtoToVoItens($results['data']));
         $items['chartData'] = $results['chartData'];
         return response()->json($items, Response::HTTP_OK);
     }
