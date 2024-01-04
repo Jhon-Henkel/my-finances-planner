@@ -3,6 +3,12 @@
 namespace App\Services;
 
 use App\Enums\MovementEnum;
+use App\Factory\Dashboard\DashboardBalancesDataFactory;
+use App\Factory\Dashboard\DashboardDataFactory;
+use App\Factory\Dashboard\DashboardFutureMovementDataFactory;
+use App\Factory\Dashboard\DashboardMovementDataFactory;
+use App\Factory\Dashboard\LastMovements\DashboardLastMovementFactory;
+use App\Factory\Dashboard\LastMovements\DashboardLastMovementsFactory;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\Movement\MovementService;
 
@@ -19,59 +25,75 @@ class DashboardService
 
     public function getDashboardData(): array
     {
-        return [
-            'walletBalance' => $this->getWalletBalance(),
-            'movements' => $this->getMovementsData(),
-            'futureSpent' => $this->getFutureSpentData(),
-            'futureGain' => $this->getFutureGainData(),
-            'creditCards' => $this->getCreditCardsData(),
-        ];
+        $movementData = $this->getMovementsData();
+        $data = new DashboardDataFactory(
+            $this->walletService->getTotalWalletValue(),
+            $movementData,
+            $this->getFutureSpentData(),
+            $this->getFutureGainData(),
+            $this->getCreditCardsData(),
+            $this->getBalancesData($movementData),
+            $this->getLastMovementsData($movementData)
+        );
+        return $data->toArray();
     }
 
-    protected function getWalletBalance(): float
+    protected function getMovementsData(): DashboardMovementDataFactory
     {
-        return $this->walletService->getTotalWalletValue();
+        return new DashboardMovementDataFactory(
+            $this->movementService->generateDataForGraph(),
+            $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_LAST_MONTH),
+            $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_MONTH),
+            $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_YEAR),
+            $this->movementService->getLastMovements(8)
+        );
     }
 
-    protected function getMovementsData(): array
+    protected function getFutureSpentData(): DashboardFutureMovementDataFactory
     {
-        $lastMonth = $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_LAST_MONTH);
-        $thisMonth = $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_MONTH);
-        $thisYear = $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_YEAR);
-        $lastMovements = $this->movementService->getLastMovements(8);
-        return [
-            'lastMonthSpent' => isset($lastMonth[0]) ? $lastMonth[0]['total'] : 0,
-            'thisMonthSpent' => isset($thisMonth[0]) ? $thisMonth[0]['total'] : 0,
-            'thisYearSpent' => isset($thisYear[0]) ? $thisYear[0]['total'] : 0,
-            'lastMonthGain' => isset($lastMonth[1]) ? $lastMonth[1]['total'] : 0,
-            'thisMonthGain' => isset($thisMonth[1]) ? $thisMonth[1]['total'] : 0,
-            'thisYearGain' => isset($thisYear[1]) ? $thisYear[1]['total'] : 0,
-            'lastMovements' => $lastMovements,
-            'dataForGraph' => $this->movementService->generateDataForGraph()
-        ];
+        return new DashboardFutureMovementDataFactory(
+            $this->futureSpentService->getThisMonthFutureSpentSum(),
+            $this->futureSpentService->getThisYearFutureSpentSum()
+        );
     }
 
-    protected function getFutureSpentData(): array
+    protected function getFutureGainData(): DashboardFutureMovementDataFactory
     {
-        return [
-            'thisMonth' => $this->futureSpentService->getThisMonthFutureSpentSum(),
-            'thisYear' => $this->futureSpentService->getThisYearFutureSpentSum(),
-        ];
+        return new DashboardFutureMovementDataFactory(
+            $this->futureGainService->getThisMonthFutureGainSum(),
+            $this->futureGainService->getThisYearFutureGainSum()
+        );
     }
 
-    protected function getFutureGainData(): array
+    protected function getCreditCardsData(): DashboardFutureMovementDataFactory
     {
-        return [
-            'thisMonth' => $this->futureGainService->getThisMonthFutureGainSum(),
-            'thisYear' => $this->futureGainService->getThisYearFutureGainSum(),
-        ];
+        return new DashboardFutureMovementDataFactory(
+            $this->creditCardTransactionService->getThisMonthInvoiceSum(),
+            $this->creditCardTransactionService->getThisYearInvoiceSum()
+        );
     }
 
-    protected function getCreditCardsData(): array
+    protected function getBalancesData(DashboardMovementDataFactory $movementsData): DashboardBalancesDataFactory
     {
-        return [
-            'thisMonth' => $this->creditCardTransactionService->getThisMonthInvoiceSum(),
-            'thisYear' => $this->creditCardTransactionService->getThisYearInvoiceSum(),
-        ];
+        $MovementsDataArray = $movementsData->toArray();
+        return new DashboardBalancesDataFactory(
+            $MovementsDataArray['lastMonthGain'],
+            $MovementsDataArray['lastMonthSpent'],
+            $MovementsDataArray['thisMonthGain'],
+            $MovementsDataArray['thisMonthSpent'],
+            $MovementsDataArray['thisYearGain'],
+            $MovementsDataArray['thisYearSpent']
+        );
+    }
+
+    protected function getLastMovementsData(DashboardMovementDataFactory $lastMovements): DashboardLastMovementsFactory
+    {
+        $lastMovements = $lastMovements->toArray()['lastMovements'];
+        $movementsData = new DashboardLastMovementsFactory();
+        foreach ($lastMovements as $lastMovement) {
+            $movementData = new DashboardLastMovementFactory($lastMovement);
+            $movementsData->addLastMovement($movementData);
+        }
+        return $movementsData;
     }
 }

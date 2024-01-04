@@ -2,6 +2,8 @@
 
 namespace App\DTO\Movement;
 
+use App\Tools\NumberTools;
+
 class MovementSumValuesDTO
 {
     private float $earnings = 0;
@@ -29,6 +31,6 @@ class MovementSumValuesDTO
 
     public function getBalance(): float
     {
-        return round($this->earnings - $this->expenses, 2);
+        return NumberTools::makeBalance($this->earnings, $this->expenses);
     }
 }

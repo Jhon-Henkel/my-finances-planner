@@ -16,6 +16,7 @@ use App\Resources\Movement\MovementResource;
 use App\Services\BasicService;
 use App\Services\WalletService;
 use App\Tools\Calendar\CalendarTools;
+use App\VO\Movement\MovementVO;
 
 class MovementService extends BasicService
 {
@@ -203,7 +204,7 @@ class MovementService extends BasicService
     }
 
     /**
-     * @return MovementDTO[]
+     * @return MovementVO[]
      */
     public function getLastMovements(int $limit): array
     {
@@ -211,7 +212,7 @@ class MovementService extends BasicService
         return $this->resource->arrayDtoToVoItens($items);
     }
 
-    public function generateDataForGraph(): array
+    public function generateDataForGraph(): DataGraphMovementFactory
     {
         $movements = $this->getRepository()->getLastTwelveMonthsSumGroupByTypeAndMonth();
         $dataGraph = new DataGraphMovementFactory();
@@ -219,7 +220,7 @@ class MovementService extends BasicService
             $dataGraph->addLabel(DateEnum::getMonthNameByNumber($movement['month']));
             $dataGraph->addValue($movement['type'], $movement['total']);
         }
-        return $dataGraph->getAllDataArray();
+        return $dataGraph;
     }
 
     public function countByWalletId(int $walletId): int
