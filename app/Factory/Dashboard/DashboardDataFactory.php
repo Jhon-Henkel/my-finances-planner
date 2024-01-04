@@ -40,7 +40,6 @@ class DashboardDataFactory implements DashboardFactoryInterface
         $futureSpent = $this->futureSpent;
         $creditCards = $this->creditCards;
         $thisMonthSpent = $futureSpent['thisMonth'] + $creditCards['thisMonth'];
-
         return NumberTools::roundFloatAmount($thisMonthSpent);
     }
 

@@ -12,9 +12,11 @@ use App\Resources\Tools\MonthlyClosingResource;
 use App\Services\FutureGainService;
 use App\Services\FutureSpentService;
 use App\Services\Movement\MovementService;
+use App\Services\Tools\MarketPlannerService;
 use App\Services\Tools\MonthlyClosingService;
 use App\Tools\Calendar\CalendarToolsReal;
 use App\VO\Chart\ChartDataVO;
+use App\VO\InvoiceVO;
 use Mockery;
 use Tests\backend\Falcon9;
 
@@ -107,13 +109,21 @@ class MonthlyClosingServiceUnitTest extends Falcon9
         $futureSpentServiceMock->shouldReceive('getThisMonthFutureSpentSum')->once()->andReturn(200);
         $this->app->instance(FutureSpentService::class, $futureSpentServiceMock);
 
+        $marketInvoice = new InvoiceVO();
+        $marketInvoice->firstInstallment = 1.00;
+
+        $mockMarketPlanner = Mockery::mock(MarketPlannerService::class)->makePartial();
+        $mockMarketPlanner->shouldReceive('useMarketPlanner')->once()->andReturnTrue();
+        $mockMarketPlanner->shouldReceive('getMarketPlannerInvoice')->once()->andReturn($marketInvoice);
+        $this->app->instance(MarketPlannerService::class, $mockMarketPlanner);
+
         $monthlyClosingServiceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
         $monthlyClosingServiceMock->shouldAllowMockingProtectedMethods();
         $monthlyClosing = $monthlyClosingServiceMock->createMonthlyClosing(1);
 
         $this->assertInstanceOf(MonthlyClosingDTO::class, $monthlyClosing);
         $this->assertEquals(100, $monthlyClosing->getPredictedEarnings());
-        $this->assertEquals(200, $monthlyClosing->getPredictedExpenses());
+        $this->assertEquals(201, $monthlyClosing->getPredictedExpenses());
     }
 
     public function testGenerateMailMonthlyClosingDone()

@@ -248,7 +248,7 @@ export default {
         populateData() {
             this.cardData.wallet.value = this.data.walletBalance
             this.cardData.wallet.type = this.data.walletBalanceScClass
-            this.cardData.futureSpent.value = this.data.futureSpent.thisMonth
+            this.cardData.futureSpent.value = this.data.futureSpent
             this.cardData.futureGain.value = this.data.futureGain.thisMonth
         }
     },

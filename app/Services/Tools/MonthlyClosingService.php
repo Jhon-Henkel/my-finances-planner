@@ -13,6 +13,7 @@ use App\Services\Movement\MovementService;
 use App\Tools\Calendar\CalendarTools;
 use App\VO\Chart\ChartDataVO;
 use App\VO\Chart\DatasetsVO;
+use App\Tools\NumberTools;
 
 class MonthlyClosingService extends BasicService
 {
@@ -86,10 +87,15 @@ class MonthlyClosingService extends BasicService
     {
         $predicatedEarnings = app(FutureGainService::class)->getThisMonthFutureGainSum($tenantId);
         $predicatedExpenses = app(FutureSpentService::class)->getThisMonthFutureSpentSum($tenantId);
+        $marketPlannerService = app(MarketPlannerService::class);
+        $marketPlannerValue = 0;
+        if ($marketPlannerService->useMarketPlanner()) {
+            $marketPlannerValue = $marketPlannerService->getMarketPlannerInvoice()->firstInstallment;
+        }
         return new MonthlyClosingDTO(
             id: null,
             predictedEarnings: $predicatedEarnings,
-            predictedExpenses: $predicatedExpenses,
+            predictedExpenses: NumberTools::roundFloatAmount($predicatedExpenses + $marketPlannerValue),
             tenantId: $tenantId
         );
     }
