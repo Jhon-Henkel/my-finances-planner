@@ -1,9 +1,11 @@
 <template>
-    <font-awesome-icon :icon="iconEnum.triangleExclamation()" :title="title" :class="classIcon" />
+    <span  v-tooltip="title" >
+        <font-awesome-icon :icon="iconEnum.triangleExclamation()" :class="classIcon" />
+    </span>
 </template>
 
 <script>
-import iconEnum from '../../js/enums/iconEnum'
+import iconEnum from '~js/enums/iconEnum'
 
 export default {
     name: 'AlertIcon',

@@ -11,11 +11,13 @@ describe('Testing the AlertIcon', () => {
             },
             global: {
                 stubs: {
-                    'font-awesome-icon': '<i></i>',
+                    'font-awesome-icon': '<i></i>'
+                },
+                directives: {
+                    tooltip: true
                 }
             }
         })
-        expect(wrapper.html()).toContain('title="Atenção, valor negativo!"')
         expect(wrapper.html()).toContain('class="icon-alert"')
     })
 })
