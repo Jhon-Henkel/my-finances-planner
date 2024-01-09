@@ -29,7 +29,7 @@ const dashboardChartParams = {
         plugins: {
             title: {
                 display: true,
-                text: 'Movimentações por mês (Últimos 12 meses)'
+                text: 'Movimentações por mês (Últimos 6 meses)'
             },
             legend: {
                 display: true,

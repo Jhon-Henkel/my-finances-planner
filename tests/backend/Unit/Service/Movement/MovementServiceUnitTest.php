@@ -274,7 +274,7 @@ class MovementServiceUnitTest extends Falcon9
         ];
 
         $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('getLastTwelveMonthsSumGroupByTypeAndMonth')->once()->andReturn($item);
+        $mock->shouldReceive('getLastSixMonthsSumGroupByTypeAndMonth')->once()->andReturn($item);
         $this->app->instance(MovementRepository::class, $mock);
 
         $service = new MovementService($mock);
