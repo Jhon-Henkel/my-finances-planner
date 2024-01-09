@@ -5,7 +5,6 @@ namespace Tests\backend\Unit\Tools;
 use App\DTO\Date\DatePeriodDTO;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\Calendar\CalendarToolsReal;
-use DateTime;
 use Exception;
 use Mockery;
 use Tests\backend\Falcon9;
