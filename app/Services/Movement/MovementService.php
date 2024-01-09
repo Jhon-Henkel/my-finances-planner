@@ -214,7 +214,7 @@ class MovementService extends BasicService
 
     public function generateDataForGraph(): DataGraphMovementFactory
     {
-        $movements = $this->getRepository()->getLastSixMonthsSumGroupByTypeAndMonth();
+        $movements = $this->getRepository()->getLastMonthsSumGroupByTypeAndMonth(4);
         $dataGraph = new DataGraphMovementFactory();
         foreach ($movements as $movement) {
             $dataGraph->addLabel(DateEnum::getMonthNameByNumber($movement['month']));
