@@ -90,18 +90,6 @@ class MovementRepository extends BasicRepository
         return $this->resource->arrayToDtoItens($itens->toArray());
     }
 
-    // todo: remover esse método
-    public function getLastTwelveMonthsSumGroupByTypeAndMonth(): array
-    {
-        return $this->model::selectRaw(
-            'sum(amount) as total, type, month(created_at) as month, year(created_at) as year'
-        )->where('created_at', '>=', (CalendarTools::getThisYear() - 1))
-            ->groupBy('year', 'month')
-            ->groupBy('type')
-            ->get()
-            ->toArray();
-    }
-
     public function getLastSixMonthsSumGroupByTypeAndMonth(): array
     {
         $dateNow = CalendarTools::getDateNow()->format(DateEnum::DEFAULT_DB_DATE_FORMAT);
