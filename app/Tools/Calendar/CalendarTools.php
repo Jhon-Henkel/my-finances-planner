@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static DatePeriodDTO getMonthPeriodFromDate(string $date)
  * @method static DatePeriodDTO mountDatePeriodFromIsoDateRange(array $rangeDate)
  * @method static DatePeriodDTO makeDateRangeByDefaultFilterParams(array $dates)
+ * @method static string subMonthInDate(string $date, int $months, string $format = DateEnum::DEFAULT_DB_DATE_FORMAT)
  *
  * @see CalendarToolsReal
  */

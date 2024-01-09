@@ -5,6 +5,7 @@ namespace Tests\backend\Unit\Tools;
 use App\DTO\Date\DatePeriodDTO;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\Calendar\CalendarToolsReal;
+use DateTime;
 use Exception;
 use Mockery;
 use Tests\backend\Falcon9;
@@ -293,6 +294,37 @@ class CalendarToolsUnitTest extends Falcon9
         ];
     }
 
+    /**
+     * @dataProvider dataProviderTestSubMonthInDate
+     * @param string $date
+     * @param int $period
+     * @param string $expected
+     * @return void
+     * @throws Exception
+     */
+    public function testSubMonthInDate(string $date, int $period, string $expected)
+    {
+        $date = CalendarTools::subMonthInDate($date, $period);
+        $this->assertEquals($expected, $date);
+    }
+
+    public static function dataProviderTestSubMonthInDate(): array
+    {
+        return [
+            'OneMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 1, 'expected' => '2021-12-01 00:00:00'],
+            'TwoMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 2, 'expected' => '2021-11-01 00:00:00'],
+            'ThreeMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 3, 'expected' => '2021-10-01 00:00:00'],
+            'FourMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 4, 'expected' => '2021-09-01 00:00:00'],
+            'FiveMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 5, 'expected' => '2021-08-01 00:00:00'],
+            'SixMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 6, 'expected' => '2021-07-01 00:00:00'],
+            'SevenMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 7, 'expected' => '2021-06-01 00:00:00'],
+            'EightMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 8, 'expected' => '2021-05-01 00:00:00'],
+            'NineMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 9, 'expected' => '2021-04-01 00:00:00'],
+            'TenMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 10, 'expected' => '2021-03-01 00:00:00'],
+            'ElevenMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 11, 'expected' => '2021-02-01 00:00:00'],
+            'TwelveMonthAdd' => ['date' => '2022-01-01 00:00:00', 'period' => 12, 'expected' => '2021-01-01 00:00:00'],
+        ];
+    }
 
     /**
      * @dataProvider dataProviderTestGetIntervalMonthPeriodByMonthAndYear

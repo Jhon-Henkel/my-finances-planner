@@ -148,6 +148,15 @@ class CalendarToolsReal
     /**
      * @throws Exception
      */
+    public function subMonthInDate(string $date, int $months, string $format = DateEnum::DEFAULT_DB_DATE_FORMAT): string
+    {
+        $date = new DateTime($date);
+        return $date->sub(new DateInterval('P'. $months . 'M'))->format($format);
+    }
+
+    /**
+     * @throws Exception
+     */
     public function getIntervalMonthPeriodByMonthAndYear(int $month, int $year, int $interval): DatePeriodDTO
     {
         $dateStart = $this->mountStringDateTime($year, $month, 1, '00:00:00');
