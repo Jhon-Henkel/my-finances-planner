@@ -87,6 +87,7 @@
                          :value="paySpentValue"
                          :check-tooltip="'Pagar Despesa'"
                          :wallet-id="paySpentWalletId"
+                         :validate-wallet-value="true"
                          @hide-pay-receive="showPaySpent = false"
                          @pay="paySpent($event)"/>
             <div class="row ms-1 mt-4">
