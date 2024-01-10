@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ConstraintException;
-use App\Http\Response\ResponseError;
 use App\Resources\WalletResource;
 use App\Services\WalletService;
 use App\VO\WalletVO;
@@ -55,11 +53,7 @@ class WalletController extends BasicController
 
     public function delete(int $id): Response|JsonResponse
     {
-        try {
-            $this->getService()->deleteById($id);
-            return response(null, ResponseAlias::HTTP_OK);
-        } catch (ConstraintException $exception) {
-            return ResponseError::responseError($exception->getMessage(), Response::HTTP_BAD_REQUEST);
-        }
+        $this->getService()->deleteById($id);
+        return response(null, ResponseAlias::HTTP_OK);
     }
 }

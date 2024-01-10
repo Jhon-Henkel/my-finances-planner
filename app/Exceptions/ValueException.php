@@ -2,8 +2,8 @@
 
 namespace App\Exceptions;
 
-use RuntimeException;
+use App\Exceptions\ResponseExceptions\BadRequestException;
 
-class ValueException extends RuntimeException
+class ValueException extends BadRequestException
 {
 }

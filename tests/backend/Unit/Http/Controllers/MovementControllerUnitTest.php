@@ -7,8 +7,6 @@ use App\Enums\MovementEnum;
 use App\Http\Controllers\MovementController;
 use App\Resources\Movement\MovementResource;
 use App\Services\Movement\MovementService;
-use Exception;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Mockery;
@@ -116,40 +114,6 @@ class MovementControllerUnitTest extends Falcon9
         $response = $controllerMock->deleteTransfer(1);
 
         $this->assertEquals(200, $response->getStatusCode());
-    }
-
-    public function testDeleteTransferQueryException()
-    {
-        $serviceMock = Mockery::mock(MovementService::class);
-        $serviceMock->shouldReceive('deleteTransferById')->once()->andThrowExceptions(
-            [new QueryException('test', "SELECT ....", [], new Exception())]
-        );
-
-        $controllerMock = Mockery::mock(MovementController::class, [$serviceMock])->makePartial();
-        $controllerMock->shouldAllowMockingProtectedMethods();
-
-        $response = $controllerMock->deleteTransfer(1);
-
-        $this->assertEquals(500, $response->getStatusCode());
-        $this->assertEquals('Erro ao se conectar com o banco de dados!', $response->getData()->message);
-    }
-
-    public function testInsertTransferQueryException()
-    {
-        $serviceMock = Mockery::mock(MovementService::class);
-        $serviceMock->shouldReceive('isInvalidRequest')->once()->andReturnFalse();
-        $serviceMock->shouldReceive('insertWithWalletUpdateType')->once()->andThrowExceptions(
-            [new QueryException('test', "SELECT ....", [], new Exception())]
-        );
-
-        $controllerMock = Mockery::mock(MovementController::class, [$serviceMock])->makePartial();
-        $controllerMock->shouldAllowMockingProtectedMethods();
-        $controllerMock->shouldReceive('rulesInsertTransfer')->once()->andReturn([]);
-
-        $response = $controllerMock->insertTransfer($this->getTransferRequest());
-
-        $this->assertEquals(500, $response->getStatusCode());
-        $this->assertEquals('Erro ao se conectar com o banco de dados!', $response->getData()->message);
     }
 
     public function testInsertTransferWithInvalidRequest()
