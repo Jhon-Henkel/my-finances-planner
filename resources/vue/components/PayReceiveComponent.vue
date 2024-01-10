@@ -30,13 +30,13 @@
                     @click="pay"
                     v-tooltip="checkTooltip"
                     disabled
-                    v-show="showAlertWalletDontHaveFound">
+                    v-show="showAlertWalletDontHaveFound && validateWalletValue">
                 <font-awesome-icon :icon="iconEnum.check()"/>
             </button>
             <button class="btn btn-success rounded-2 me-2"
                     @click="pay"
                     v-tooltip="checkTooltip"
-                    v-if="! showAlertWalletDontHaveFound && validateWalletValue">
+                    v-if="! (showAlertWalletDontHaveFound && validateWalletValue) || ! validateWalletValue">
                 <font-awesome-icon :icon="iconEnum.check()"/>
             </button>
             <button class="btn btn-danger rounded-2" @click="hidePay" v-tooltip="'Cancelar'">
@@ -135,6 +135,24 @@ export default {
             let message = 'Falta ' + StringTools.formatFloatValueToBrString(this.missingWalletValue)
             message += ' para poder utilizar essa carteira como pagamento para essa conta.'
             return message
+        },
+        validateWalletMessage() {
+            if (! this.validateWalletValue) {
+                return
+            }
+            if (this.internalWalletId > 0) {
+                for (let index = 0; index < this.wallets.length; index++) {
+                    if (this.wallets[index].id === this.internalWalletId) {
+                        const missingValue = this.value - this.wallets[index].amount
+                        if (missingValue > 0) {
+                            this.showAlertWalletDontHaveFound = true
+                            this.missingWalletValue = missingValue
+                            return
+                        }
+                    }
+                }
+            }
+            this.showAlertWalletDontHaveFound = false
         }
     },
     async mounted() {
@@ -150,19 +168,12 @@ export default {
         },
         internalWalletId: {
             handler() {
-                if (this.internalWalletId > 0) {
-                    for (let index = 0; index < this.wallets.length; index++) {
-                        if (this.wallets[index].id === this.internalWalletId) {
-                            const missingValue = this.value - this.wallets[index].amount
-                            if (missingValue > 0) {
-                                this.showAlertWalletDontHaveFound = true
-                                this.missingWalletValue = missingValue
-                                return
-                            }
-                        }
-                    }
-                }
-                this.showAlertWalletDontHaveFound = false
+                this.validateWalletMessage()
+            }
+        },
+        value: {
+            handler() {
+                this.validateWalletMessage()
             }
         }
     }
