@@ -137,7 +137,7 @@ export default {
             return message
         },
         validateWalletMessage() {
-            if (! this.validateWalletValue) {
+            if (!this.validateWalletValue) {
                 return
             }
             if (this.internalWalletId > 0) {
