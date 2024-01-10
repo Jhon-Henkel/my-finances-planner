@@ -30,7 +30,7 @@
                     @click="pay"
                     v-tooltip="checkTooltip"
                     disabled
-                    v-show="showAlertWalletDontHaveFound && validateWalletValue">
+                    v-show="showAlertWalletDontHaveFound">
                 <font-awesome-icon :icon="iconEnum.check()"/>
             </button>
             <button class="btn btn-success rounded-2 me-2"
