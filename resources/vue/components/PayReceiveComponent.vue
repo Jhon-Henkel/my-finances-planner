@@ -26,12 +26,25 @@
             </div>
         </div>
         <div class="col-1 button-group" style="margin-top: -25px">
-            <button class="btn btn-success rounded-2 me-2" @click="pay" v-tooltip="checkTooltip">
+            <button class="btn btn-success rounded-2 me-2"
+                    @click="pay"
+                    v-tooltip="checkTooltip"
+                    disabled
+                    v-show="showAlertWalletDontHaveFound && validateWalletValue">
+                <font-awesome-icon :icon="iconEnum.check()"/>
+            </button>
+            <button class="btn btn-success rounded-2 me-2"
+                    @click="pay"
+                    v-tooltip="checkTooltip"
+                    v-if="! showAlertWalletDontHaveFound && validateWalletValue">
                 <font-awesome-icon :icon="iconEnum.check()"/>
             </button>
             <button class="btn btn-danger rounded-2" @click="hidePay" v-tooltip="'Cancelar'">
                 <font-awesome-icon :icon="iconEnum.xMark()"/>
             </button>
+        </div>
+        <div class="mt-4" v-show="showAlertWalletDontHaveFound && validateWalletValue">
+            <mfp-alert-message message-type="alert-danger" :message-text="getMessageMissingWalletValue()" />
         </div>
     </div>
 </template>
@@ -42,15 +55,21 @@ import iconEnum from '~js/enums/iconEnum'
 import ApiRouter from '~js/router/apiRouter'
 import MfpMessage from './MessageAlert.vue'
 import messageTools from '~js/tools/messageTools'
+import MfpAlertMessage from './alerts/AlertMessage.vue'
+import StringTools from '~js/tools/stringTools'
 
 export default {
     name: 'pay-receive',
     computed: {
+        StringTools() {
+            return StringTools
+        },
         iconEnum() {
             return iconEnum
         }
     },
     components: {
+        MfpAlertMessage,
         MfpMessage,
         InputMoney
     },
@@ -59,7 +78,9 @@ export default {
             partial: false,
             wallets: {},
             internalWalletId: 0,
-            messageData: {}
+            showAlertWalletDontHaveFound: false,
+            messageData: {},
+            missingWalletValue: 0
         }
     },
     emits: [
@@ -87,6 +108,10 @@ export default {
         partialLabel: {
             type: String,
             default: 'Pagamento parcial'
+        },
+        validateWalletValue: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
@@ -105,6 +130,11 @@ export default {
         hidePay() {
             this.partial = false
             this.$emit('hide-pay-receive')
+        },
+        getMessageMissingWalletValue() {
+            let message = 'Falta ' + StringTools.formatFloatValueToBrString(this.missingWalletValue)
+            message += ' para poder utilizar essa carteira como pagamento para essa conta.'
+            return message
         }
     },
     async mounted() {
@@ -116,6 +146,23 @@ export default {
         walletId: {
             handler() {
                 this.internalWalletId = this.walletId
+            }
+        },
+        internalWalletId: {
+            handler() {
+                if (this.internalWalletId > 0) {
+                    for (let index = 0; index < this.wallets.length; index++) {
+                        if (this.wallets[index].id === this.internalWalletId) {
+                            const missingValue = this.value - this.wallets[index].amount
+                            if (missingValue > 0) {
+                                this.showAlertWalletDontHaveFound = true
+                                this.missingWalletValue = missingValue
+                                return
+                            }
+                        }
+                    }
+                }
+                this.showAlertWalletDontHaveFound = false
             }
         }
     }
