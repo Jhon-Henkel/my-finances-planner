@@ -2,9 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\ResponseExceptions\BadRequestException;
+use App\Http\Response\ResponseError;
 use App\Tools\ErrorReport;
 use App\Tools\Request\RequestTools;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -24,7 +28,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
-        //
+        BadRequestException::class,
     ];
 
     /**
@@ -43,6 +47,16 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        $this->reportable(function (BadRequestException $exception) {
+            return ResponseError::responseError($exception->getMessage(), ResponseAlias::HTTP_BAD_REQUEST);
+        })->stop();
+
+        $this->reportable(function (QueryException $exception) {
+            ErrorReport::report(new DatabaseException($exception->getMessage()));
+            $message = 'Erro ao se conectar com o banco de dados!';
+            return ResponseError::responseError($message, ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+        })->stop();
+
         $this->reportable(function (Throwable $exception) {
             ErrorReport::report($exception);
         });

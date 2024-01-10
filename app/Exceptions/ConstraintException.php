@@ -2,12 +2,8 @@
 
 namespace App\Exceptions;
 
-use RuntimeException;
+use App\Exceptions\ResponseExceptions\BadRequestException;
 
-class ConstraintException extends RuntimeException
+class ConstraintException extends BadRequestException
 {
-    public function __construct(string $message)
-    {
-        parent::__construct($message);
-    }
 }

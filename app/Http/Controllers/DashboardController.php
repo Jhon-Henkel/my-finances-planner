@@ -8,11 +8,8 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DashboardController
 {
-    protected DashboardService $service;
-
-    public function __construct(DashboardService $service)
+    public function __construct(protected DashboardService $service)
     {
-        $this->service = $service;
     }
 
     public function index(): JsonResponse

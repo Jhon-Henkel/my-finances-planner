@@ -8,7 +8,6 @@ use App\Resources\Movement\MovementResource;
 use App\Services\Movement\MovementService;
 use App\Tools\Request\RequestTools;
 use App\VO\Movement\MovementVO;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
@@ -77,29 +76,21 @@ class MovementController extends BasicController
 
     public function insertTransfer(Request $request): JsonResponse
     {
-        try {
-            $invalid = $this->getService()->isInvalidRequest($request, $this->rulesInsertTransfer());
-            if ($invalid instanceof MessageBag) {
-                return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
-            }
-            $data = $request->json()->all();
-            $transferSpent = $this->getResource()->makeTransferSpentMovement($data);
-            $this->getService()->insertWithWalletUpdateType($transferSpent, MovementEnum::SPENT);
-            $transferReceived = $this->getResource()->makeTransferGainMovement($data);
-            $this->getService()->insertWithWalletUpdateType($transferReceived, MovementEnum::GAIN);
-            return response()->json(null, ResponseAlias::HTTP_CREATED);
-        } catch (QueryException $exception) {
-            return $this->returnErrorDatabaseConnect($exception);
+        $invalid = $this->getService()->isInvalidRequest($request, $this->rulesInsertTransfer());
+        if ($invalid instanceof MessageBag) {
+            return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
         }
+        $data = $request->json()->all();
+        $transferSpent = $this->getResource()->makeTransferSpentMovement($data);
+        $this->getService()->insertWithWalletUpdateType($transferSpent, MovementEnum::SPENT);
+        $transferReceived = $this->getResource()->makeTransferGainMovement($data);
+        $this->getService()->insertWithWalletUpdateType($transferReceived, MovementEnum::GAIN);
+        return response()->json(null, ResponseAlias::HTTP_CREATED);
     }
 
     public function deleteTransfer(int $id): JsonResponse
     {
-        try {
-            $this->getService()->deleteTransferById($id);
-            return response()->json(null, ResponseAlias::HTTP_OK);
-        } catch (QueryException $exception) {
-            return $this->returnErrorDatabaseConnect($exception);
-        }
+        $this->getService()->deleteTransferById($id);
+        return response()->json(null, ResponseAlias::HTTP_OK);
     }
 }

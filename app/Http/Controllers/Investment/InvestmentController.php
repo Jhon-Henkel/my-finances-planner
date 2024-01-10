@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Investment;
 
-use App\Exceptions\ValueException;
 use App\Http\Controllers\BasicController;
 use App\Http\Response\ResponseError;
 use App\Resources\Investment\InvestmentResource;
@@ -72,15 +71,11 @@ class InvestmentController extends BasicController
 
     public function rescueApportInvestment(Request $request): JsonResponse
     {
-        try {
-            $invalid = $this->getService()->isInvalidRequest($request, $this->rulesRescueApport());
-            if ($invalid instanceof MessageBag) {
-                return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
-            }
-            $this->getService()->rescueApportInvestment($request->all());
-            return response()->json(null, ResponseAlias::HTTP_OK);
-        } catch (ValueException $e) {
-            return ResponseError::responseError($e->getMessage(), ResponseAlias::HTTP_BAD_REQUEST);
+        $invalid = $this->getService()->isInvalidRequest($request, $this->rulesRescueApport());
+        if ($invalid instanceof MessageBag) {
+            return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
         }
+        $this->getService()->rescueApportInvestment($request->all());
+        return response()->json(null, ResponseAlias::HTTP_OK);
     }
 }
