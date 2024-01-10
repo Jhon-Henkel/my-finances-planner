@@ -47,15 +47,15 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (BadRequestException $exception) {
+        $this->renderable(function (BadRequestException $exception) {
             return ResponseError::responseError($exception->getMessage(), ResponseAlias::HTTP_BAD_REQUEST);
-        })->stop();
+        });
 
-        $this->reportable(function (QueryException $exception) {
+        $this->renderable(function (QueryException $exception) {
             ErrorReport::report(new DatabaseException($exception->getMessage()));
             $message = 'Erro ao se conectar com o banco de dados!';
             return ResponseError::responseError($message, ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
-        })->stop();
+        });
 
         $this->reportable(function (Throwable $exception) {
             ErrorReport::report($exception);
