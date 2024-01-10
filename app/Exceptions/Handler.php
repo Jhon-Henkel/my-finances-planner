@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\ResponseExceptions\BadRequestException;
 use App\Http\Response\ResponseError;
 use App\Tools\ErrorReport;
 use App\Tools\Request\RequestTools;
@@ -27,8 +28,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
-        ValueException::class,
-        ConstraintException::class,
+        BadRequestException::class,
     ];
 
     /**
@@ -47,11 +47,7 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (ValueException $exception) {
-            return ResponseError::responseError($exception->getMessage(), ResponseAlias::HTTP_BAD_REQUEST);
-        })->stop();
-
-        $this->reportable(function (ConstraintException $exception) {
+        $this->reportable(function (BadRequestException $exception) {
             return ResponseError::responseError($exception->getMessage(), ResponseAlias::HTTP_BAD_REQUEST);
         })->stop();
 
