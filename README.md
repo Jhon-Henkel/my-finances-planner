@@ -5,6 +5,7 @@
 <p align="center">
     <a href="https://github.com/Jhon-Henkel/my-finances-planner/actions?query=branch%3Amain++"><img src="https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/main_branch_pipeline.yml/badge.svg" alt="pipeline badge"></a>
     <a href="https://my-finances-planner-demo.cronitorstatus.com/"><img src="https://cronitor.io/badges/7TNGwI/production/Kx5Z8Ty_r1i5MPDI_w5JPm66d7Y.svg" alt="cronitor badge"></a>
+    <a href="https://github.com/Jhon-Henkel/my-finances-planner/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Jhon-Henkel/my-finances-planner"></a>
 </p>
 
 <p align="center">
