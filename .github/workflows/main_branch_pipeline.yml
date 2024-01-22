@@ -162,3 +162,38 @@ jobs:
         uses: honeybadger-io/github-notify-deploy-action@v1
         with:
           api_key: ${{ secrets.DEMO_HONEYBADGER_KEY }}
+
+  beta-server-deploy:
+    runs-on: ubuntu-latest
+
+    container:
+      image: jhowrf/php-image:latest
+
+    steps:
+      - name: 🔥 Configuring checkout V3
+        uses: actions/checkout@v3
+
+      - name: 🛠️ Installing Node dependencies
+        run: npm install
+
+      - name: 📄 Making .env
+        run: |
+          echo "${{ secrets.ENV_MFP_BETA }}" > .env
+
+      - name: 📦 Building application
+        run: npm run build
+
+      - name: 📂 Upload files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_ADDRESS }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./public/build/
+          server-dir: ./projects/my-finances-planner-beta/public/build/
+          dangerous-clean-slate: true
+
+      - name: 👍 Notifying deploy to Honeybadger
+        uses: honeybadger-io/github-notify-deploy-action@v1
+        with:
+          api_key: ${{ secrets.BETA_HONEYBADGER_KEY }}
