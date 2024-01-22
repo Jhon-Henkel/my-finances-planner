@@ -41,6 +41,11 @@ class RequestToolsReal
         return env('APP_DEMO_MODE', false);
     }
 
+    public function isApplicationInBetaMode(): bool
+    {
+        return env('APP_BETA_MODE', false);
+    }
+
     public function isApplicationInDevelopMode(): bool
     {
         return env('APP_ENV') != 'production';

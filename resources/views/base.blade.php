@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="/public/favicon.png" type="image/x-icon"/>
 </head>
 <body>
-    @if(RequestTools::isApplicationInDemoMode() && !RequestTools::isApplicationInDevelopMode())
+    @if(RequestTools::isApplicationInDemoMode() && ! RequestTools::isApplicationInDevelopMode())
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-TFXE4NPB8W"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
@@ -20,6 +20,16 @@
             }
             gtag('js', new Date());
             gtag('config', 'G-TFXE4NPB8W');
+        </script>
+    @elseif(RequestTools::isApplicationInBetaMode())
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XTZ8R45NX1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'G-XTZ8R45NX1');
         </script>
     @endif
     <div class="container" id="app"></div>
