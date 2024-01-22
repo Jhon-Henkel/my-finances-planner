@@ -190,7 +190,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./public/build/
-          server-dir: ./projects/my-finances-planner-demo/public/build/
+          server-dir: ./projects/my-finances-planner-beta/public/build/
           dangerous-clean-slate: true
 
       - name: 👍 Notifying deploy to Honeybadger
