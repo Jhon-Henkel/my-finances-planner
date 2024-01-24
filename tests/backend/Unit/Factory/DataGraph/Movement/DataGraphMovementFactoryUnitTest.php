@@ -1,19 +1,17 @@
 <?php
 
-namespace Factory\DataGraph\Movement;
+namespace Tests\backend\Unit\Factory\DataGraph\Movement;
 
 use App\Enums\MovementEnum;
 use App\Exceptions\CountGainAndExpenseDataGraphException;
 use App\Factory\DataGraph\Movement\DataGraphMovementFactory;
 use Mockery;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\backend\Falcon9;
 
 class DataGraphMovementFactoryUnitTest extends Falcon9
 {
-    /**
-     * Parâmetros de teste:
-     * - Quantidade de ganhos maior que gastos
-     */
+    #[TestDox('Quantidade de ganhos maior que gastos')]
     public function testFactoryTestOne()
     {
         $factory = new DataGraphMovementFactory();
@@ -44,10 +42,7 @@ class DataGraphMovementFactoryUnitTest extends Falcon9
         $this->assertEquals($expected, $factory->getAllDataArray());
     }
 
-    /**
-     * Parâmetros de teste:
-     * - Quantidade de ganhos e gastos iguais
-     */
+    #[TestDox('Quantidade de ganhos e gastos iguais')]
     public function testFactoryTestTwo()
     {
         $factory = new DataGraphMovementFactory();
@@ -77,10 +72,7 @@ class DataGraphMovementFactoryUnitTest extends Falcon9
         $this->assertEquals($expected, $factory->getAllDataArray());
     }
 
-    /**
-     * Parâmetros de teste:
-     * - Quantidade de gastos maior que ganhos
-     */
+    #[TestDox('Quantidade de gastos maior que ganhos')]
     public function testFactoryTestThree()
     {
         $factory = new DataGraphMovementFactory();
@@ -111,10 +103,7 @@ class DataGraphMovementFactoryUnitTest extends Falcon9
         $this->assertEquals($expected, $factory->getAllDataArray());
     }
 
-    /**
-     * Parâmetros de teste:
-     * - Quantidade de gastos e ganhos diferentes mesmo após normalização
-     */
+    #[TestDox('Quantidade de gastos e ganhos diferentes mesmo após normalização')]
     public function testFactoryTestFour()
     {
         $factory = Mockery::mock(DataGraphMovementFactory::class)->makePartial();

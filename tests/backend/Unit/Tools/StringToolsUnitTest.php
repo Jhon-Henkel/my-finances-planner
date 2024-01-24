@@ -3,6 +3,7 @@
 namespace Tests\backend\Unit\Tools;
 
 use App\Tools\StringTools;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\backend\Falcon9;
 
 class StringToolsUnitTest extends Falcon9
@@ -16,12 +17,7 @@ class StringToolsUnitTest extends Falcon9
         $this->assertEquals('R$ 50,99', $valueTwo);
     }
 
-    /**
-     * @dataProvider dataProviderTestCrudMoneyToFloat
-     * @param string $input
-     * @param float $output
-     * @return void
-     */
+    #[DataProvider('dataProviderTestCrudMoneyToFloat')]
     public function testCrudMoneyToFloat(string $input, float $output): void
     {
         $value = StringTools::crudMoneyToFloat($input);
@@ -41,12 +37,7 @@ class StringToolsUnitTest extends Falcon9
         ];
     }
 
-    /**
-     * @dataProvider dataProviderTestRemoveMonthNameFromString
-     * @param string $input
-     * @param string $output
-     * @return void
-     */
+    #[DataProvider('dataProviderTestRemoveMonthNameFromString')]
     public function testRemoveMonthNameFromString(string $input, string $output): void
     {
         $value = StringTools::removeMonthNameFromString($input);
@@ -182,9 +173,7 @@ class StringToolsUnitTest extends Falcon9
         ];
     }
 
-    /**
-     * @dataProvider dataProviderTestRemoveExtraSpacesFromString
-     */
+    #[DataProvider('dataProviderTestRemoveExtraSpacesFromString')]
     public function testRemoveExtraSpacesFromString(string $input, string $output): void
     {
         $this->assertEquals($output, $output);

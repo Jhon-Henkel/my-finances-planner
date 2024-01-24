@@ -8,13 +8,13 @@ use App\Services\CreditCard\CreditCardMovementService;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\FinancialHealthService;
 use Mockery;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\backend\Falcon9;
 
 class FinancialHealthServiceUnitTest extends Falcon9
 {
-    /**
-     * @dataProvider dataProviderForTestGetCategoryTitleByDescription
-     */
+    #[DataProvider('dataProviderForTestGetCategoryTitleByDescription')]
     public function testGetCategoryTitleByDescription(string $input, string $output)
     {
         $serviceMock = Mockery::mock(FinancialHealthService::class)->makePartial();
@@ -38,10 +38,7 @@ class FinancialHealthServiceUnitTest extends Falcon9
         ];
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Agrupando despesas cartão
-     */
+    #[TestDox('Testando Agrupando despesas cartão')]
     public function testCategorizeMovementsTestOne()
     {
         $movementOne = new MovementDTO();
@@ -88,10 +85,7 @@ class FinancialHealthServiceUnitTest extends Falcon9
         $this->assertEquals(700, $result[MovementEnum::GAIN]['Salário']);
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Não agrupando despesas cartão
-     */
+    #[TestDox('Testando Não agrupando despesas cartão')]
     public function testCategorizeMovementsTestTwo()
     {
         $movementOne = new MovementDTO();
@@ -184,10 +178,7 @@ class FinancialHealthServiceUnitTest extends Falcon9
         );
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Agrupando despesas cartão
-     */
+    #[TestDox('Testando Agrupando despesas cartão')]
     public function testFindByFilterTestOne()
     {
         $creditCardMovementServiceMock = Mockery::mock(CreditCardMovementService::class)->makePartial();
@@ -202,10 +193,7 @@ class FinancialHealthServiceUnitTest extends Falcon9
         $this->assertEquals([], $serviceMock->findByFilter([]));
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Nãoo agrupando despesas cartão
-     */
+    #[TestDox('Testando Não agrupando despesas cartão')]
     public function testFindByFilterTestTwo()
     {
         $creditCardMovementServiceMock = Mockery::mock(CreditCardMovementService::class)->makePartial();

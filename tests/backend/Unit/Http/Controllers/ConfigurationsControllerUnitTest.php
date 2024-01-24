@@ -12,7 +12,7 @@ class ConfigurationsControllerUnitTest extends Falcon9
 {
     public function testRulesInsert()
     {
-        $controllerMock = $this->mock(ConfigurationsController::class)->makePartial();
+        $controllerMock = Mockery::mock(ConfigurationsController::class)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsert();
@@ -23,7 +23,7 @@ class ConfigurationsControllerUnitTest extends Falcon9
 
     public function testUpdateRules()
     {
-        $controllerMock = $this->mock(ConfigurationsController::class)->makePartial();
+        $controllerMock = Mockery::mock(ConfigurationsController::class)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -35,7 +35,7 @@ class ConfigurationsControllerUnitTest extends Falcon9
 
     public function testGetService()
     {
-        $serviceMock = $this->mock(ConfigurationService::class)->makePartial();
+        $serviceMock = Mockery::mock(ConfigurationService::class)->makePartial();
         $controllerMock = Mockery::mock(ConfigurationsController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
@@ -46,7 +46,7 @@ class ConfigurationsControllerUnitTest extends Falcon9
 
     public function testGetResource()
     {
-        $serviceMock = $this->mock(ConfigurationService::class)->makePartial();
+        $serviceMock = Mockery::mock(ConfigurationService::class)->makePartial();
         $controllerMock = Mockery::mock(ConfigurationsController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 

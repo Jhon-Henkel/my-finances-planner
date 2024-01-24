@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Controllers\Investment;
+namespace Tests\backend\Unit\Http\Controllers\Investment;
 
 use App\Http\Controllers\Investment\InvestmentController;
 use App\Resources\Investment\InvestmentResource;
@@ -12,7 +12,7 @@ class InvestmentControllerUnitTest extends Falcon9
 {
     public function testRulesInsert()
     {
-        $controllerMock = $this->mock(InvestmentController::class)->makePartial();
+        $controllerMock = Mockery::mock(InvestmentController::class)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $this->assertEquals(
@@ -30,7 +30,7 @@ class InvestmentControllerUnitTest extends Falcon9
 
     public function testUpdateRules()
     {
-        $controllerMock = $this->mock(InvestmentController::class)->makePartial();
+        $controllerMock = Mockery::mock(InvestmentController::class)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $this->assertEquals(
@@ -48,8 +48,8 @@ class InvestmentControllerUnitTest extends Falcon9
 
     public function testGetService()
     {
-        $serviceMock = $this->mock(InvestmentService::class)->makePartial();
-        $resourceMock = $this->mock(InvestmentResource::class)->makePartial();
+        $serviceMock = Mockery::mock(InvestmentService::class)->makePartial();
+        $resourceMock = Mockery::mock(InvestmentResource::class)->makePartial();
         $controllerMock = Mockery::mock(InvestmentController::class, [$serviceMock, $resourceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
@@ -60,8 +60,8 @@ class InvestmentControllerUnitTest extends Falcon9
 
     public function testGetResource()
     {
-        $serviceMock = $this->mock(InvestmentService::class)->makePartial();
-        $resourceMock = $this->mock(InvestmentResource::class)->makePartial();
+        $serviceMock = Mockery::mock(InvestmentService::class)->makePartial();
+        $resourceMock = Mockery::mock(InvestmentResource::class)->makePartial();
         $controllerMock = Mockery::mock(InvestmentController::class, [$serviceMock, $resourceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
@@ -72,8 +72,8 @@ class InvestmentControllerUnitTest extends Falcon9
 
     public function testMakeDataGraph()
     {
-        $serviceMock = $this->mock(InvestmentService::class)->makePartial();
-        $resourceMock = $this->mock(InvestmentResource::class)->makePartial();
+        $serviceMock = Mockery::mock(InvestmentService::class)->makePartial();
+        $resourceMock = Mockery::mock(InvestmentResource::class)->makePartial();
         $controllerMock = Mockery::mock(InvestmentController::class, [$serviceMock, $resourceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
@@ -86,7 +86,7 @@ class InvestmentControllerUnitTest extends Falcon9
 
     public function testRulesRescueApport()
     {
-        $controllerMock = $this->mock(InvestmentController::class)->makePartial();
+        $controllerMock = Mockery::mock(InvestmentController::class)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $this->assertEquals(

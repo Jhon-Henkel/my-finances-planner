@@ -42,7 +42,7 @@ class CreditCardTransactionControllerUnitTest extends Falcon9
 
     public function testRulesUpdate()
     {
-        $serviceMock = $this->mock(CreditCardTransactionService::class)->makePartial();
+        $serviceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
         $controllerMock = Mockery::mock(CreditCardTransactionController::class, [$serviceMock])->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 

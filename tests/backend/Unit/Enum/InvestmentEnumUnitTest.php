@@ -1,6 +1,6 @@
 <?php
 
-namespace Enum;
+namespace Tests\backend\Unit\Enum;
 
 use App\Enums\InvestmentEnum;
 use Tests\backend\Falcon9;

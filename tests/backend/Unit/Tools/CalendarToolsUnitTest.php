@@ -5,8 +5,9 @@ namespace Tests\backend\Unit\Tools;
 use App\DTO\Date\DatePeriodDTO;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\Calendar\CalendarToolsReal;
-use Exception;
 use Mockery;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\backend\Falcon9;
 
 class CalendarToolsUnitTest extends Falcon9
@@ -90,13 +91,7 @@ class CalendarToolsUnitTest extends Falcon9
         $this->assertEquals($mont, CalendarTools::getThisYear());
     }
 
-    /**
-     * @dataProvider dataProviderTestGetMonthFromDate
-     * @param string $date
-     * @param string $expected
-     * @return void
-     * @throws Exception
-     */
+    #[DataProvider("dataProviderTestGetMonthFromDate")]
     public function testGetMonthFromDate(string $date, string $expected)
     {
         $this->assertEquals($expected, CalendarTools::getMonthFromStringDate($date));
@@ -120,10 +115,7 @@ class CalendarToolsUnitTest extends Falcon9
         ];
     }
 
-    /**
-     * @dataProvider dataProviderTestGetDayFromData
-     * @return void
-     */
+    #[DataProvider("dataProviderTestGetDayFromData")]
     public function testGetDayFromData(string $date, string $expected)
     {
         $this->assertEquals($expected, CalendarTools::getDayFromStringDate($date));
@@ -166,14 +158,7 @@ class CalendarToolsUnitTest extends Falcon9
         ];
     }
 
-    /**
-     * @dataProvider dataProviderTestGetThisMonthPeriod
-     * @param $expectedDateStart
-     * @param $expectedDateEnd
-     * @param $month
-     * @param $year
-     * @return void
-     */
+    #[DataProvider("dataProviderTestGetThisMonthPeriod")]
     public function testGetThisMonthPeriod($expectedDateStart, $expectedDateEnd, $month, $year)
     {
         $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
@@ -223,14 +208,7 @@ class CalendarToolsUnitTest extends Falcon9
         $this->assertEquals("2022-12-31 23:59:59", $date->getEndDate());
     }
 
-    /**
-     * @dataProvider dataProviderTestGetLastMonthPeriod
-     * @param $expectedDateStart
-     * @param $expectedDateEnd
-     * @param $month
-     * @param $year
-     * @return void
-     */
+    #[DataProvider("dataProviderTestGetLastMonthPeriod")]
     public function testGetLastMonthPeriod($expectedDateStart, $expectedDateEnd, $month, $year)
     {
         $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
@@ -261,14 +239,7 @@ class CalendarToolsUnitTest extends Falcon9
         ];
     }
 
-    /**
-     * @dataProvider dataProviderTestAddOneMonthInDate
-     * @param string $date
-     * @param int $period
-     * @param string $expected
-     * @return void
-     * @throws Exception
-     */
+    #[DataProvider("dataProviderTestAddOneMonthInDate")]
     public function testAddOneMonthInDate(string $date, int $period, string $expected)
     {
         $date = CalendarTools::addMonthInDate($date, $period);
@@ -293,14 +264,7 @@ class CalendarToolsUnitTest extends Falcon9
         ];
     }
 
-    /**
-     * @dataProvider dataProviderTestSubMonthInDate
-     * @param string $date
-     * @param int $period
-     * @param string $expected
-     * @return void
-     * @throws Exception
-     */
+    #[DataProvider("dataProviderTestSubMonthInDate")]
     public function testSubMonthInDate(string $date, int $period, string $expected)
     {
         $date = CalendarTools::subMonthInDate($date, $period);
@@ -325,16 +289,7 @@ class CalendarToolsUnitTest extends Falcon9
         ];
     }
 
-    /**
-     * @dataProvider dataProviderTestGetIntervalMonthPeriodByMonthAndYear
-     * @param int $month
-     * @param int $year
-     * @param int $period
-     * @param string $dateStartExpected
-     * @param string $dateEndExpected
-     * @return void
-     * @throws Exception
-     */
+    #[DataProvider("dataProviderTestGetIntervalMonthPeriodByMonthAndYear")]
     public function testGetIntervalMonthPeriodByMonthAndYear(int $month, int $year, int $period, string $dateStartExpected, string $dateEndExpected)
     {
         $interval = CalendarTools::getIntervalMonthPeriodByMonthAndYear($month, $year, $period);
@@ -391,10 +346,7 @@ class CalendarToolsUnitTest extends Falcon9
         $this->assertEquals('2022-01-31 23:59:59', $period->getEndDate());
     }
 
-    /**
-     * Parâmetros do teste
-     *  - Sem as posições necessárias no array
-     */
+    #[TestDox('Testando Sem as posições necessárias no array')]
     public function testMakeDateRangeByDefaultFilterParamsTestOne()
     {
         $datePeriod = new DatePeriodDTO('2018-01-01', '2018-01-31');
@@ -407,10 +359,7 @@ class CalendarToolsUnitTest extends Falcon9
         $this->assertEquals($datePeriod, $calendarMock->makeDateRangeByDefaultFilterParams([]));
     }
 
-    /**
-     * Parâmetros do teste
-     *  - Sem as posições necessárias no array
-     */
+    #[TestDox('Testando Sem as posições necessárias no array')]
     public function testMakeDateRangeByDefaultFilterParamsTestTwo()
     {
         $datePeriod = new DatePeriodDTO('2018-01-01', '2018-01-31');
@@ -421,5 +370,15 @@ class CalendarToolsUnitTest extends Falcon9
         $this->app->instance(CalendarToolsReal::class, $calendarMock);
 
         $this->assertEquals($datePeriod, $calendarMock->makeDateRangeByDefaultFilterParams(['dateStart' => '', 'dateEnd' => '']));
+    }
+
+    public function testGetLastFiveYearPeriod()
+    {
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisYear')->andReturn(2022);
+
+        $date = $calendarMock->getLastFiveYearPeriod();
+        $this->assertEquals("2017-01-01 00:00:00", $date->getStartDate());
+        $this->assertEquals("2022-12-31 23:59:59", $date->getEndDate());
     }
 }
