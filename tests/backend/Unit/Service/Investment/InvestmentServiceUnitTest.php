@@ -1,6 +1,6 @@
 <?php
 
-namespace Service\Investment;
+namespace Tests\backend\Unit\Service\Investment;
 
 use App\DTO\Investment\InvestmentDTO;
 use App\DTO\Movement\MovementDTO;
@@ -11,6 +11,7 @@ use App\Services\Investment\InvestmentService;
 use App\Services\Movement\MovementService;
 use App\Services\WalletService;
 use Mockery;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\backend\Falcon9;
 
 class InvestmentServiceUnitTest extends Falcon9
@@ -69,10 +70,7 @@ class InvestmentServiceUnitTest extends Falcon9
         ], $mock->makeDataGraph());
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Resgate de investimento
-     */
+    #[TestDox('Testando Resgate de investimento')]
     public function testRescueApportInvestmentTestOne()
     {
         $repositoryMock = Mockery::mock(InvestmentRepository::class)->makePartial();
@@ -124,10 +122,7 @@ class InvestmentServiceUnitTest extends Falcon9
         $this->assertTrue(true);
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Aporte de investimento
-     */
+    #[TestDox('Testando Aporte de investimento')]
     public function testRescueApportInvestmentApportInvestment()
     {
         $repositoryMock = Mockery::mock(InvestmentRepository::class)->makePartial();
@@ -179,11 +174,7 @@ class InvestmentServiceUnitTest extends Falcon9
         $this->assertTrue(true);
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Resgate de investimento
-     * - Valor resgate maior que o valor do investimento
-     */
+    #[TestDox('Testando Resgate de investimento com valor resgate maior que o valor do investimento')]
     public function testValidateValueToRescueOrApportTestOne()
     {
         $mock = Mockery::mock(InvestmentService::class)->makePartial();
@@ -193,11 +184,7 @@ class InvestmentServiceUnitTest extends Falcon9
         $mock->validateValueToRescueOrApport(1000, 500, 600, true);
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Aporte de investimento
-     * - Valor aportado maior que o valor disponível na carteira
-     */
+    #[TestDox('Testando Aporte de investimento com valor aportado maior que o valor disponível na carteira')]
     public function testValidateValueToRescueOrApportTestTwo()
     {
         $mock = Mockery::mock(InvestmentService::class)->makePartial();
@@ -207,11 +194,7 @@ class InvestmentServiceUnitTest extends Falcon9
         $mock->validateValueToRescueOrApport(500, 1000, 600, false);
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Aporte de investimento
-     * - Valor aportado menor que o valor disponível na carteira
-     */
+    #[TestDox('Testando Aporte de investimento com valor aportado menor que o valor disponível na carteira')]
     public function testValidateValueToRescueOrApportTestThree()
     {
         $mock = Mockery::mock(InvestmentService::class)->makePartial();
@@ -221,11 +204,7 @@ class InvestmentServiceUnitTest extends Falcon9
         $this->assertTrue($data);
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Resgate de investimento
-     * - Valor resgate menor que o valor do investimento
-     */
+    #[TestDox('Testando Resgate de investimento com valor resgate menor que o valor do investimento')]
     public function testValidateValueToRescueOrApportTestFour()
     {
         $mock = Mockery::mock(InvestmentService::class)->makePartial();

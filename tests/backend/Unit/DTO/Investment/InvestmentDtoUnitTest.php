@@ -1,6 +1,6 @@
 <?php
 
-namespace DTO\Investment;
+namespace Tests\backend\Unit\DTO\Investment;
 
 use App\DTO\Investment\InvestmentDTO;
 use Tests\backend\Falcon9;

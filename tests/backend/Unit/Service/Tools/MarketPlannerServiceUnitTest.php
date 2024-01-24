@@ -1,6 +1,6 @@
 <?php
 
-namespace Service\Tools;
+namespace Tests\backend\Unit\Service\Tools;
 
 use App\DTO\Date\DatePeriodDTO;
 use App\DTO\InvoiceItemDTO;
@@ -14,6 +14,7 @@ use App\Services\UserService;
 use App\Tools\Calendar\CalendarToolsReal;
 use App\VO\InvoiceVO;
 use Mockery;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\backend\Falcon9;
 
 class MarketPlannerServiceUnitTest extends Falcon9
@@ -25,10 +26,7 @@ class MarketPlannerServiceUnitTest extends Falcon9
         return $userDto;
     }
 
-    /**
-     * Parâmetros do teste:
-     * - O usuário tem valor no planejador de mercado
-     */
+    #[TestDox('O usuário tem valor no planejador de mercado')]
     public function testUseMarketPlannerTestOne()
     {
         $mockUserService = Mockery::mock(UserService::class)->makePartial();
@@ -43,10 +41,7 @@ class MarketPlannerServiceUnitTest extends Falcon9
         $this->assertTrue($marketPlannerMock->useMarketPlanner());
     }
 
-    /**
-     * Parâmetros do teste:
-     * - O usuário não tem valor no planejador de mercado
-     */
+    #[TestDox('O usuário não tem valor no planejador de mercado')]
     public function testUseMarketPlannerTestTwo()
     {
         $mockUserService = Mockery::mock(UserService::class)->makePartial();
@@ -161,10 +156,7 @@ class MarketPlannerServiceUnitTest extends Falcon9
         $this->assertNull($invoice->getCountName());
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Valor positivo
-     */
+    #[TestDox('Testando com valor positivo')]
     public function testGetFirstInstallmentMarketTestOne()
     {
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class)->makePartial();
@@ -175,10 +167,7 @@ class MarketPlannerServiceUnitTest extends Falcon9
         $this->assertEquals(50, $marketPlannerMock->getFirstInstallmentMarket());
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Valor negativo
-     */
+    #[TestDox('Testando com valor negativo')]
     public function testGetFirstInstallmentMarketTwo()
     {
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class)->makePartial();

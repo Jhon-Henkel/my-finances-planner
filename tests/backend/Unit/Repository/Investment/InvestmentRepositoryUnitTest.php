@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository\Investment;
+namespace Tests\backend\Unit\Repository\Investment;
 
 use App\Models\Investment\Investment;
 use App\Repositories\Investment\InvestmentRepository;

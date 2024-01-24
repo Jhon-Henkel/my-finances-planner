@@ -1,6 +1,6 @@
 <?php
 
-namespace Resource\Investment;
+namespace Tests\backend\Unit\Resource\Investment;
 
 use App\DTO\Investment\InvestmentDTO;
 use App\Resources\Investment\InvestmentResource;

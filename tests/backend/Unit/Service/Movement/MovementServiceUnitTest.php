@@ -15,6 +15,7 @@ use App\Services\WalletService;
 use App\Tools\Calendar\CalendarToolsReal;
 use App\VO\Movement\MovementVO;
 use Mockery;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\backend\Falcon9;
 
 class MovementServiceUnitTest extends Falcon9
@@ -523,10 +524,7 @@ class MovementServiceUnitTest extends Falcon9
         $this->assertEquals(40, $result->getBalance());
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Resgate de investimento
-     */
+    #[TestDox('Testando Resgate de investimento')]
     public function testLaunchMovementForInvestmentTestOne()
     {
         $repositoryMock = Mockery::mock(MovementRepository::class)->makePartial();
@@ -544,10 +542,7 @@ class MovementServiceUnitTest extends Falcon9
         $service->launchMovementForInvestment(10, MovementEnum::INVESTMENT_CDB, 1, true);
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Aporte de investimento
-     */
+    #[TestDox('Testando Aporte de investimento')]
     public function testLaunchMovementForInvestmentTestTwo()
     {
         $repositoryMock = Mockery::mock(MovementRepository::class)->makePartial();

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
 use Mockery;
+use PHPUnit\Framework\Attributes\TestDox;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\backend\Falcon9;
 
@@ -25,10 +26,7 @@ class AuthControllerUnitTest extends Falcon9
         return $request;
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Sem usuário registrado na base
-     */
+    #[TestDox('Testando sem usuário registrado na base')]
     public function testAuthTestOne()
     {
         $authUserServiceMock = Mockery::mock(AuthService::class)->makePartial();
@@ -41,11 +39,7 @@ class AuthControllerUnitTest extends Falcon9
         $this->assertEquals(401, $response->getStatusCode());
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Usuário registrado na base
-     * - Usuário inativo
-     */
+    #[TestDox('Testando com usuário registrado na base, usuário inativo')]
     public function testAuthTestTwo()
     {
         $authUserServiceMock = Mockery::mock(AuthService::class)->makePartial();
@@ -60,12 +54,7 @@ class AuthControllerUnitTest extends Falcon9
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Usuário registrado na base
-     * - Usuário ativo
-     * - Senha incorreta
-     */
+    #[TestDox('Testando com usuário registrado na base, usuário ativo, senha incorreta')]
     public function testAuthTestThree()
     {
         $authUserServiceMock = Mockery::mock(AuthService::class)->makePartial();
@@ -80,12 +69,7 @@ class AuthControllerUnitTest extends Falcon9
         $this->assertEquals(401, $response->getStatusCode());
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Usuário registrado na base
-     * - Usuário ativo
-     * - Senha correta
-     */
+    #[TestDox('Testando com usuário registrado na base, usuário ativo, senha correta')]
     public function testAuthTestFour()
     {
         $authUserServiceMock = Mockery::mock(AuthService::class)->makePartial();
@@ -101,13 +85,7 @@ class AuthControllerUnitTest extends Falcon9
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    /**
-     * Parâmetros do teste:
-     * - Usuário registrado na base
-     * - Usuário ativo
-     * - Senha correta
-     * - Erro inesperado ao realizar login
-     */
+    #[TestDox('Testando com usuário registrado na base, usuário ativo, senha correta, erro inesperado ao realizar login')]
     public function testAuthTestFive()
     {
         $authUserServiceMock = Mockery::mock(AuthService::class)->makePartial();

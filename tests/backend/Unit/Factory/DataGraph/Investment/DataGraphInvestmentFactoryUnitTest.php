@@ -1,6 +1,6 @@
 <?php
 
-namespace Factory\DataGraph\Investment;
+namespace Tests\backend\Unit\Factory\DataGraph\Investment;
 
 use App\Factory\DataGraph\Investment\DataGraphInvestmentFactory;
 use Tests\backend\Falcon9;
