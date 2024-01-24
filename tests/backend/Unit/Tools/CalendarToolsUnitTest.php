@@ -5,7 +5,6 @@ namespace Tests\backend\Unit\Tools;
 use App\DTO\Date\DatePeriodDTO;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\Calendar\CalendarToolsReal;
-use Exception;
 use Mockery;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
