@@ -109,4 +109,14 @@ class MovementDtoUnitTest extends Falcon9
         $dto->setDescription('Mercado');
         $this->assertFalse($dto->isMarketSpent());
     }
+
+    public function testIsTransfer()
+    {
+        $dto = new MovementDTO();
+        $dto->setType(MovementEnum::TRANSFER);
+        $this->assertTrue($dto->isTransfer());
+
+        $dto->setType(MovementEnum::SPENT);
+        $this->assertFalse($dto->isTransfer());
+    }
 }

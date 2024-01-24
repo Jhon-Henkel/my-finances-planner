@@ -36,11 +36,13 @@ class RequestToolsReal
         return $_GET[$key] ?? null;
     }
 
+    /** @codeCoverageIgnore  */
     public function isApplicationInDemoMode(): bool
     {
         return env('APP_DEMO_MODE', false);
     }
 
+    /** @codeCoverageIgnore  */
     public function isApplicationInBetaMode(): bool
     {
         return env('APP_BETA_MODE', false);

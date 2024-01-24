@@ -372,4 +372,14 @@ class CalendarToolsUnitTest extends Falcon9
 
         $this->assertEquals($datePeriod, $calendarMock->makeDateRangeByDefaultFilterParams(['dateStart' => '', 'dateEnd' => '']));
     }
+
+    public function testGetLastFiveYearPeriod()
+    {
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisYear')->andReturn(2022);
+
+        $date = $calendarMock->getLastFiveYearPeriod();
+        $this->assertEquals("2017-01-01 00:00:00", $date->getStartDate());
+        $this->assertEquals("2022-12-31 23:59:59", $date->getEndDate());
+    }
 }

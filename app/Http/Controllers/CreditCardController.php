@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Resources\CreditCard\CreditCardResource;
 use App\Services\CreditCard\CreditCardService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class CreditCardController extends BasicController
 {
@@ -47,11 +44,5 @@ class CreditCardController extends BasicController
     protected function getResource(): CreditCardResource
     {
         return $this->resource;
-    }
-
-    public function delete(int $id): Response|JsonResponse
-    {
-        $this->getService()->deleteById($id);
-        return response(null, ResponseAlias::HTTP_OK);
     }
 }

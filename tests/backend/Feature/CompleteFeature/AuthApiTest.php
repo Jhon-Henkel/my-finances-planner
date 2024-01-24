@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\backend\Feature;
+namespace Tests\backend\Feature\CompleteFeature;
 
 use App\Enums\ConfigEnum;
 use App\Models\User;
