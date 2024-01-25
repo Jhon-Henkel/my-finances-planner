@@ -4,9 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-/**
- * @codeCoverageIgnore
- */
+/** @codeCoverageIgnore */
 class StartDevelopProject extends Command
 {
     protected $signature = 'start:develop-project';

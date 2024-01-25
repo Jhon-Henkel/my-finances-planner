@@ -34,18 +34,13 @@ class MovementService extends BasicService
         return $this->repository;
     }
 
-    /**
-     * @param int $type
-     * @return MovementDTO[]
-     */
+    /** @return MovementDTO[] */
     public function findAllByType(int $type): array
     {
         return $this->repository->findAllByType($type);
     }
 
-    /**
-     * @return MovementDTO[]
-     */
+    /** @return MovementDTO[] */
     public function findByFilter(array $filterOption): array
     {
         $type = MovementEnum::ALL;
@@ -203,9 +198,7 @@ class MovementService extends BasicService
         return true;
     }
 
-    /**
-     * @return MovementVO[]
-     */
+    /** @return MovementVO[] */
     public function getLastMovements(int $limit): array
     {
         $items = $this->repository->getLastMovements($limit);
@@ -234,9 +227,7 @@ class MovementService extends BasicService
         return $this->makeMovementSumValuesDTO($movements);
     }
 
-    /**
-     * @param MovementDTO[] $movements
-     */
+    /** @param MovementDTO[] $movements */
     protected function makeMovementSumValuesDTO(array $movements): MovementSumValuesDTO
     {
         $movementSum = new MovementSumValuesDTO();

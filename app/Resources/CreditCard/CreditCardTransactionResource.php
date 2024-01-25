@@ -25,10 +25,7 @@ class CreditCardTransactionResource extends BasicResource
         return $dto;
     }
 
-    /**
-     * @param CreditCardTransactionDTO $item
-     * @return array
-     */
+    /** @param CreditCardTransactionDTO $item */
     public function dtoToArray($item): array
     {
         return [
@@ -40,10 +37,7 @@ class CreditCardTransactionResource extends BasicResource
         ];
     }
 
-    /**
-     * @param CreditCardTransactionDTO $item
-     * @return CreditCardTransactionVO
-     */
+    /** @param CreditCardTransactionDTO $item */
     public function dtoToVo($item): CreditCardTransactionVO
     {
         return CreditCardTransactionVO::makeCreditCardTransactionVO(

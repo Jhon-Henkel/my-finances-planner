@@ -52,9 +52,6 @@ class FutureSpentController extends BasicController
         return $this->resource;
     }
 
-    /**
-     * @throws Exception
-     */
     public function paySpent(int $id, Request $request): JsonResponse
     {
         $spent = $this->getService()->findById($id);

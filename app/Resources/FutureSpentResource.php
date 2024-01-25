@@ -24,10 +24,7 @@ class FutureSpentResource extends BasicResource
         return $dto;
     }
 
-    /**
-     * @param FutureSpentDTO $item
-     * @return array
-     */
+    /** @param FutureSpentDTO $item */
     public function dtoToArray($item): array
     {
         return [
@@ -42,10 +39,7 @@ class FutureSpentResource extends BasicResource
         ];
     }
 
-    /**
-     * @param FutureSpentDTO $item
-     * @return FutureSpentVO
-     */
+    /** @param FutureSpentDTO $item */
     public function dtoToVo($item): FutureSpentVO
     {
         return new FutureSpentVO($item);

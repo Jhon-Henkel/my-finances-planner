@@ -47,9 +47,7 @@ class CalendarToolsReal
         return new DateTime();
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function getMonthFromStringDate(string $date): string
     {
         $date = new DateTime($date);
@@ -57,18 +55,14 @@ class CalendarToolsReal
         return str_pad($month, 2, '0', STR_PAD_LEFT);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function getYearFromStringDate(string $date): string
     {
         $date = new DateTime($date);
         return $date->format(DateEnum::ONLY_COMPLETE_YEAR);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function getDayFromStringDate(string $date): string
     {
         $date = new DateTime($date);
@@ -136,27 +130,21 @@ class CalendarToolsReal
         return $year . '-' . $month . '-' . $day . ' ' . $time;
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function addMonthInDate(string $date, int $months, string $format = DateEnum::DEFAULT_DB_DATE_FORMAT): string
     {
         $date = new DateTime($date);
         return $date->add(new DateInterval('P'. $months . 'M'))->format($format);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function subMonthInDate(string $date, int $months, string $format = DateEnum::DEFAULT_DB_DATE_FORMAT): string
     {
         $date = new DateTime($date);
         return $date->sub(new DateInterval('P'. $months . 'M'))->format($format);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function getIntervalMonthPeriodByMonthAndYear(int $month, int $year, int $interval): DatePeriodDTO
     {
         $dateStart = $this->mountStringDateTime($year, $month, 1, '00:00:00');
@@ -164,9 +152,7 @@ class CalendarToolsReal
         return new DatePeriodDTO($dateStart, $dateEnd);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function getMonthLabelWithYear(string $date): string
     {
         $date = new DateTime($date);
@@ -175,9 +161,7 @@ class CalendarToolsReal
         return $month . '/' . $year;
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function getMonthPeriodFromDate(string $date): DatePeriodDTO
     {
         $month = $this->getMonthFromStringDate($date);
@@ -188,6 +172,7 @@ class CalendarToolsReal
         return new DatePeriodDTO($startDate, $endDate);
     }
 
+    /** @throws Exception */
     public function mountDatePeriodFromIsoDateRange(array $rangeDate): DatePeriodDTO
     {
         $dateStart = new DateTime($rangeDate['dateStart']);

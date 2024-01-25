@@ -32,9 +32,7 @@ class MovementRepository extends BasicRepository
         return $this->resource;
     }
 
-    /**
-     * @return MovementDTO[]
-     */
+    /** @return MovementDTO[] */
     public function findByPeriod(DatePeriodDTO $period, ?int $tenantId = null): array
     {
         $items = $this->getModel()
@@ -51,9 +49,7 @@ class MovementRepository extends BasicRepository
         return $this->getResource()->arrayToDtoItens($items->toArray());
     }
 
-    /**
-     * @return MovementDTO[]
-     */
+    /** @return MovementDTO[] */
     public function findByPeriodAndType(DatePeriodDTO $period, int $type): array
     {
         $items = $this->getModel()

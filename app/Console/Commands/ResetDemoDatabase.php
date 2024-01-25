@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Http\Controllers\CronController;
 use Illuminate\Console\Command;
 
+/** @codeCoverageIgnore */
 class ResetDemoDatabase extends Command
 {
     protected $signature = 'reset:demo-database';

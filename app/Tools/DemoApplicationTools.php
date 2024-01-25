@@ -6,9 +6,7 @@ use App\Tools\Request\RequestTools;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\DB;
 
-/**
- * @codeCoverageIgnore
- */
+/** @codeCoverageIgnore */
 class DemoApplicationTools
 {
     public static function truncateDatabaseDemoTables(): bool

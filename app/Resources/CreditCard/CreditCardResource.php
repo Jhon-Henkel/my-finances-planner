@@ -36,10 +36,7 @@ class CreditCardResource extends BasicResource
         ];
     }
 
-    /**
-     * @param CreditCardDTO $item
-     * @return CreditCardVO
-     */
+    /** @param CreditCardDTO $item */
     public function dtoToVo($item): CreditCardVO
     {
         return CreditCardVO::makeCreditCardVO(

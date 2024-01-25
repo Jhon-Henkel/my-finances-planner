@@ -7,11 +7,7 @@ use Throwable;
 
 class ErrorReport
 {
-    /**
-     * @codeCoverageIgnore
-     * @param Throwable $exception
-     * @return void
-     */
+    /** @codeCoverageIgnore */
     public static function report(Throwable $exception): void
     {
         if (RequestTools::isApplicationInDevelopMode()) {

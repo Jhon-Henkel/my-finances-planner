@@ -23,6 +23,6 @@ $router->prefix('/')->group(function ($router) {
         });
     };
     $router->get('{any}', function () {
-        return view(ViewEnum::VIEW_BASE);
+        return view('base');
     })->where('any', '.*');
 });

@@ -33,20 +33,13 @@ class FinancialHealthService
         return $this->addDataForGraph($movementsCategorized);
     }
 
-    /**
-     * @param int $filterOption
-     * @return MovementDTO[]
-     */
+    /** @return MovementDTO[] */
     protected function getMovementsByPeriod(array $filterOption): array
     {
         $movementService = app(MovementService::class);
         return $movementService->findByFilter($filterOption);
     }
 
-    /**
-     * @param MovementDTO[] $movements
-     * @return array
-     */
     protected function categorizeMovements(array $movements, bool $dontGroupCards): array
     {
         $data = [];

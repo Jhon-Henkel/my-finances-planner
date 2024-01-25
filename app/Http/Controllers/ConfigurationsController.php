@@ -41,9 +41,6 @@ class ConfigurationsController extends BasicController
         return $this->resource;
     }
 
-    /**
-     * @throws Exception
-     */
     public function showByName(string $name): JsonResponse
     {
         $config = strtolower($name);

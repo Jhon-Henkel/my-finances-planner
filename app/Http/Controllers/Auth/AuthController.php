@@ -57,26 +57,20 @@ class AuthController extends Controller
         return response()->json(null, ResponseAlias::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
+    /** @codeCoverageIgnore */
     protected function validateJWT(): bool
     {
         $authorization = $_SERVER['HTTP_AUTHORIZATION'];
         return (bool)JwtTools::validateJWT($authorization);
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
+    /** @codeCoverageIgnore */
     protected function login(User $user): void
     {
         Auth::login($user);
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
+    /** @codeCoverageIgnore */
     public function logout(): JsonResponse
     {
         Auth::logout();
@@ -84,9 +78,7 @@ class AuthController extends Controller
         return response()->json([BasicFieldsEnum::MESSAGE => 'Logout realizado com sucesso']);
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
+    /** @codeCoverageIgnore */
     protected function checkAuth(): bool
     {
         return Auth::check();

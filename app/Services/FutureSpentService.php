@@ -11,7 +11,6 @@ use App\Resources\FutureSpentResource;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\MarketPlannerService;
 use App\Tools\Calendar\CalendarTools;
-use Exception;
 
 class FutureSpentService extends BasicService
 {
@@ -31,9 +30,6 @@ class FutureSpentService extends BasicService
         return $this->repository;
     }
 
-    /**
-     * @throws Exception
-     */
     public function getNextSixMonthsFutureSpent(): array
     {
         $month = CalendarTools::getThisMonth();
@@ -54,9 +50,6 @@ class FutureSpentService extends BasicService
         return $spentPackage;
     }
 
-    /**
-     * @throws Exception
-     */
     public function paySpent(FutureSpentDTO $spent, array $options): bool
     {
         $isEqualsValue = $options[BasicFieldsEnum::VALUE] === $spent->getAmount();

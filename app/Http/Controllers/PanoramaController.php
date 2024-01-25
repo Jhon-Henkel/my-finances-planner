@@ -16,9 +16,6 @@ class PanoramaController
         $this->service = $service;
     }
 
-    /**
-     * @throws Exception
-     */
     public function getPanoramaData(): JsonResponse
     {
         $data = $this->service->getPanoramaData();

@@ -50,10 +50,4 @@ class WalletController extends BasicController
     {
         return $this->resource;
     }
-
-    public function delete(int $id): Response|JsonResponse
-    {
-        $this->getService()->deleteById($id);
-        return response(null, ResponseAlias::HTTP_OK);
-    }
 }

@@ -24,10 +24,7 @@ class FutureGainResource extends BasicResource
         return $dto;
     }
 
-    /**
-     * @param FutureGainDTO $item
-     * @return array
-     */
+    /** @param FutureGainDTO $item */
     public function dtoToArray($item): array
     {
         return [
@@ -42,10 +39,7 @@ class FutureGainResource extends BasicResource
         ];
     }
 
-    /**
-     * @param FutureGainDTO $item
-     * @return FutureGainVO
-     */
+    /** @param FutureGainDTO $item */
     public function dtoToVo($item): FutureGainVO
     {
         return new FutureGainVO($item);

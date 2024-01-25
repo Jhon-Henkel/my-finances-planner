@@ -7,28 +7,12 @@ use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Console\Command;
 
-/**
- * @codeCoverageIgnore
- */
+/** @codeCoverageIgnore */
 class GenerateDemoUser extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'create:user';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Generate demo user to access project.';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
         $user = User::create([

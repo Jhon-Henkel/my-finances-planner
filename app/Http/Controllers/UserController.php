@@ -23,9 +23,6 @@ class UserController extends BasicController
         $this->resource = app(UserResource::class);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function rulesInsert(): array
     {
         throw new NotImplementedException('Not implemented');

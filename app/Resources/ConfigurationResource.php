@@ -28,10 +28,7 @@ class ConfigurationResource extends BasicResource
         );
     }
 
-    /**
-     * @param ConfigurationDTO $item
-     * @return ConfigurationsVO
-     */
+    /** @var ConfigurationDTO $item */
     public function dtoToVo($item): ConfigurationsVO
     {
         return ConfigurationsVO::make($item);

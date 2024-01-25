@@ -18,9 +18,6 @@ class PanoramaService
     ) {
     }
 
-    /**
-     * @throws Exception
-     */
     public function getPanoramaData(): array
     {
         $futureExpenses = $this->getTotalFutureExpenses();
@@ -42,17 +39,11 @@ class PanoramaService
         return $this->walletService->getTotalWalletValue();
     }
 
-    /**
-     * @throws Exception
-     */
     protected function getTotalFutureExpenses(): array
     {
         return $this->futureSpentService->getNextSixMonthsFutureSpent();
     }
 
-    /**
-     * @throws Exception
-     */
     protected function getTotalFutureGains(): InvoiceVO
     {
         $gains = $this->futureGainService->getNextSixMonthsFutureGain();

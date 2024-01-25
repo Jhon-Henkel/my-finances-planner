@@ -28,9 +28,6 @@ class FutureGainService extends BasicService
         return $this->repository;
     }
 
-    /**
-     * @throws Exception
-     */
     public function getNextSixMonthsFutureGain(): array
     {
         $year = CalendarTools::getThisYear();

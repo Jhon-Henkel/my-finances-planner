@@ -13,18 +13,12 @@ class Kernel extends ConsoleKernel
         Commands\GenerateDemoUser::class,
     ];
 
-    /**
-     * @codeCoverageIgnore
-     * Define the application's command schedule.
-     */
+    /** @codeCoverageIgnore */
     protected function schedule(Schedule $schedule): void
     {
         $schedule->exec('php ' . base_path('artisan') . ' reset:demodatabase');
     }
 
-    /**
-     * Register the commands for the application.
-     */
     protected function commands(): void
     {
         $this->load(__DIR__ . '/Commands');

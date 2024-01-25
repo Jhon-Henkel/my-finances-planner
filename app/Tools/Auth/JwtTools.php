@@ -4,6 +4,7 @@ namespace App\Tools\Auth;
 
 use App\Enums\DateEnum;
 use App\Models\User;
+use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -25,7 +26,7 @@ class JwtTools
             $token = str_replace('Bearer ', '', $authorization);
             $key = new Key(env('APP_KEY'), 'HS256');
             return JWT::decode($token, $key);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }

@@ -26,10 +26,7 @@ class UserResource extends BasicResource
         return $user;
     }
 
-    /**
-     * @param UserDTO $item
-     * @return array
-     */
+    /** @param UserDTO $item */
     public function dtoToArray($item): array
     {
         return [
@@ -48,10 +45,7 @@ class UserResource extends BasicResource
         ];
     }
 
-    /**
-     * @param UserDTO $item
-     * @return UserVO
-     */
+    /** @param UserDTO $item */
     public function dtoToVo($item): UserVO
     {
         return UserVO::make($item);

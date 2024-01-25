@@ -30,9 +30,6 @@ class CreditCardTransactionService extends BasicService
         return $this->repository;
     }
 
-    /**
-     * @throws Exception
-     */
     public function payInvoice(int $cardId, int $walletId): bool
     {
         $invoices = $this->getInvoices($cardId);
@@ -64,10 +61,7 @@ class CreditCardTransactionService extends BasicService
         return $this->movementService->launchMovementForCreditCardInvoicePay($walletId, $totalValue, $card->getName());
     }
 
-    /**
-     * @param InvoiceVO[] $invoices
-     * @return null|string
-     */
+    /** @param InvoiceVO[] $invoices */
     protected function getNextInstallmentOrder(array $invoices): null|string
     {
         $firstInstallment = null;
@@ -113,10 +107,7 @@ class CreditCardTransactionService extends BasicService
         return CalendarTools::addMonthInDate($nextInstallment, 1, $format);
     }
 
-    /**
-     * @param int $cardId
-     * @return InvoiceVO[]
-     */
+    /** @return InvoiceVO[] */
     public function getInvoices(int $cardId): array
     {
         $transactions = $this->getRepository()->getExpenses($cardId);

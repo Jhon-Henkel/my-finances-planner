@@ -40,9 +40,7 @@ class MarketPlannerService
         return $invoice;
     }
 
-    /**
-     * @param array<MovementDTO> $movements
-     */
+    /** @param MovementDTO[] $movements */
     protected function makeThisMonthMarketSpentValue(array $movements): void
     {
         foreach ($movements as $movement) {
