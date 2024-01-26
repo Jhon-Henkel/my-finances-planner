@@ -44,9 +44,7 @@ class CreditCardMovementService extends BasicService
         $this->insert($movement);
     }
 
-    /**
-     * @return MovementDTO[]
-     */
+    /** @return MovementDTO[] */
     public function findByPeriod(array $filterOption): array
     {
         $dateRange = CalendarTools::makeDateRangeByDefaultFilterParams($filterOption);

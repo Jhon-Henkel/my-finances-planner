@@ -18,9 +18,7 @@ class MailService
         ));
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
+    /** @codeCoverageIgnore */
     public function sendEmail(MailMessageDTO $mail): void
     {
         Mail::send($mail->getTempleteFile(), $mail->getParams(), function ($message) use ($mail) {

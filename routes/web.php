@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\RouteEnum;
-use App\Enums\ViewEnum;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\UserController;
@@ -23,6 +22,6 @@ $router->prefix('/')->group(function ($router) {
         });
     };
     $router->get('{any}', function () {
-        return view(ViewEnum::VIEW_BASE);
+        return view('base');
     })->where('any', '.*');
 });

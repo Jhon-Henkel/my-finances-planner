@@ -3,14 +3,12 @@
 namespace App\Services;
 
 use App\DTO\FutureGainDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Enums\InvoiceEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\FutureGainRepository;
 use App\Resources\FutureGainResource;
 use App\Services\Movement\MovementService;
 use App\Tools\Calendar\CalendarTools;
-use Exception;
 
 class FutureGainService extends BasicService
 {
@@ -28,9 +26,6 @@ class FutureGainService extends BasicService
         return $this->repository;
     }
 
-    /**
-     * @throws Exception
-     */
     public function getNextSixMonthsFutureGain(): array
     {
         $year = CalendarTools::getThisYear();
@@ -47,9 +42,9 @@ class FutureGainService extends BasicService
 
     public function receive(FutureGainDTO $gain, array $options): bool
     {
-        $isEqualsValue = $options[BasicFieldsEnum::VALUE] === $gain->getAmount();
-        $isEqualsWallet = $options[BasicFieldsEnum::WALLET_ID_JSON] === $gain->getWalletId();
-        if (! $options[BasicFieldsEnum::PARTIAL] && $isEqualsValue && $isEqualsWallet) {
+        $isEqualsValue = $options['value'] === $gain->getAmount();
+        $isEqualsWallet = $options['walletId'] === $gain->getWalletId();
+        if (! $options['partial'] && $isEqualsValue && $isEqualsWallet) {
             return $this->receiveFullGain($gain);
         }
         return $this->receiveWithOptions($gain, $options);
@@ -81,11 +76,11 @@ class FutureGainService extends BasicService
 
     protected function receiveWithOptions(FutureGainDTO $gain, array $options): bool
     {
-        $isEqualsValue = $options[BasicFieldsEnum::VALUE] === $gain->getAmount();
-        $isEqualsWallet = $options[BasicFieldsEnum::WALLET_ID_JSON] === $gain->getWalletId();
-        $value = $isEqualsValue ? $gain->getAmount() : $options[BasicFieldsEnum::VALUE];
-        $walletId = $isEqualsWallet ? $gain->getWalletId() : $options[BasicFieldsEnum::WALLET_ID_JSON];
-        if ($options[BasicFieldsEnum::PARTIAL] && $options[BasicFieldsEnum::VALUE] < $gain->getAmount()) {
+        $isEqualsValue = $options['value'] === $gain->getAmount();
+        $isEqualsWallet = $options['walletId'] === $gain->getWalletId();
+        $value = $isEqualsValue ? $gain->getAmount() : $options['value'];
+        $walletId = $isEqualsWallet ? $gain->getWalletId() : $options['walletId'];
+        if ($options['partial'] && $options['value'] < $gain->getAmount()) {
             $newSpent = $this->makeGainForParcialReceive($gain, $gain->getAmount() - $value);
             $this->insert($newSpent);
         }
@@ -94,7 +89,7 @@ class FutureGainService extends BasicService
         $movement->setAmount($value);
         $movement->setWalletId($walletId);
         $description = $movement->getDescription();
-        if ($options[BasicFieldsEnum::PARTIAL]) {
+        if ($options['partial']) {
             $description = 'Recebimento parcial ' . strtolower($gain->getDescription());
         }
         $movement->setDescription($description);

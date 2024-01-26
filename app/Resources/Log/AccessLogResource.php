@@ -23,10 +23,7 @@ class AccessLogResource extends BasicResource
         );
     }
 
-    /**
-     * @param AccessLogDTO $item
-     * @return array
-     */
+    /** @param AccessLogDTO $item */
     public function dtoToArray($item): array
     {
         return [
@@ -42,10 +39,7 @@ class AccessLogResource extends BasicResource
         ];
     }
 
-    /**
-     * @param AccessLogDTO $item
-     * @return AccessLogVO
-     */
+    /** @param AccessLogDTO $item */
     public function dtoToVo($item): AccessLogVO
     {
         return new AccessLogVO($item);

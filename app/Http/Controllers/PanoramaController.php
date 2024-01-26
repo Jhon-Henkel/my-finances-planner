@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Services\PanoramaService;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -16,9 +15,6 @@ class PanoramaController
         $this->service = $service;
     }
 
-    /**
-     * @throws Exception
-     */
     public function getPanoramaData(): JsonResponse
     {
         $data = $this->service->getPanoramaData();

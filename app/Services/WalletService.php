@@ -22,10 +22,7 @@ class WalletService extends BasicService
         return $this->repository;
     }
 
-    /**
-     * @param int $type
-     * @return WalletDTO[]
-     */
+    /** @return WalletDTO[] */
     public function findAllByType(int $type): array
     {
         return $this->repository->findAllByType($type);

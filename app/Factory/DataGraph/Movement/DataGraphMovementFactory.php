@@ -42,9 +42,7 @@ class DataGraphMovementFactory implements DataGraphInterface
         ];
     }
 
-    /**
-     * @throws CountGainAndExpenseDataGraphException
-     */
+    /** @throws CountGainAndExpenseDataGraphException */
     protected function makeBalanceData(): void
     {
         $this->validateHaveSameSize();

@@ -52,6 +52,7 @@ class InvestmentService extends BasicService
         return $investmentFactory->getAllDataArray();
     }
 
+    /** @throws ValueException */
     public function rescueApportInvestment(array $data): void
     {
         $wallet = $this->walletService->findById($data['walletId']);
@@ -66,6 +67,7 @@ class InvestmentService extends BasicService
         $this->apportInvestment($value, $wallet, $investment);
     }
 
+    /** @throws ValueException */
     protected function validateValueToRescueOrApport(
         float $walletAmount,
         float $investmentAmount,

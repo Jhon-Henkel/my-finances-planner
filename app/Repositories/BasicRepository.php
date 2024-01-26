@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\DTO\Date\DatePeriodDTO;
-use App\Enums\BasicFieldsEnum;
 
 abstract class BasicRepository implements BasicRepositoryContract
 {
@@ -12,19 +11,19 @@ abstract class BasicRepository implements BasicRepositoryContract
 
     public function findAll(): array
     {
-        $itens = $this->getModel()::orderBy(BasicFieldsEnum::ID, 'desc')->get();
+        $itens = $this->getModel()::orderBy('id', 'desc')->get();
         return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
     }
 
     public function findOne()
     {
-        $item = $this->getModel()::orderBy(BasicFieldsEnum::ID, 'desc')->first();
+        $item = $this->getModel()::orderBy('id', 'desc')->first();
         return $item ? $this->getResource()->arrayToDto($item->toArray()) : null;
     }
 
     public function findAllToArray()
     {
-        $itens = $this->getModel()::orderBy(BasicFieldsEnum::ID, 'desc')->get();
+        $itens = $this->getModel()::orderBy('id', 'desc')->get();
         return $itens->toArray();
     }
 
@@ -44,7 +43,7 @@ abstract class BasicRepository implements BasicRepositoryContract
     public function update(int $id, $item)
     {
         $array = $this->getResource()->dtoToArray($item);
-        $this->getModel()->where(BasicFieldsEnum::ID, $id)->update($array);
+        $this->getModel()->where('id', $id)->update($array);
         return $this->findById($id);
     }
 
@@ -57,19 +56,19 @@ abstract class BasicRepository implements BasicRepositoryContract
 
     public function findByName(string $name): mixed
     {
-        $item = $this->getModel()->where(BasicFieldsEnum::NAME, $name)->get();
+        $item = $this->getModel()->where('name', $name)->get();
         return $item ? $this->getResource()->arrayToDtoItens($item->toArray()) : null;
     }
 
     public function findAllByType(int $type): array
     {
-        $itens = $this->getModel()->where(BasicFieldsEnum::TYPE, $type)->get()->toArray();
+        $itens = $this->getModel()->where('type', $type)->get()->toArray();
         return $this->getResource()->arrayToDtoItens($itens);
     }
 
     public function findAllInTypes(array $types): array
     {
-        $itens = $this->getModel()->whereIn(BasicFieldsEnum::TYPE, $types)->get()->toArray();
+        $itens = $this->getModel()->whereIn('type', $types)->get()->toArray();
         return $this->getResource()->arrayToDtoItens($itens);
     }
 
@@ -78,7 +77,7 @@ abstract class BasicRepository implements BasicRepositoryContract
         $itens = $this->getModel()->select()
             ->where('created_at', '>=', $period->getStartDate())
             ->where('created_at', '<=', $period->getEndDate())
-            ->orderBy(BasicFieldsEnum::ID, 'desc')
+            ->orderBy('id', 'desc')
             ->get();
         return $this->getResource()->arrayToDtoItens($itens->toArray());
     }

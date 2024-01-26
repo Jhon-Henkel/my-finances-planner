@@ -3,7 +3,6 @@
 namespace App\Resources\Movement;
 
 use App\DTO\Movement\MovementDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Enums\MovementEnum;
 use App\Resources\BasicResource;
 use App\VO\Movement\MovementVO;
@@ -17,14 +16,14 @@ class MovementResource extends BasicResource
     public function arrayToDto(array $item): MovementDTO
     {
         $dto = new MovementDTO();
-        $dto->setId($item[BasicFieldsEnum::ID] ?? null);
-        $dto->setWalletId($item[BasicFieldsEnum::WALLET_ID_JSON] ?? $item[BasicFieldsEnum::WALLET_ID_DB]);
-        $dto->setWalletName($item[BasicFieldsEnum::NAME] ?? null);
-        $dto->setDescription($item[BasicFieldsEnum::DESCRIPTION]);
-        $dto->setType($item[BasicFieldsEnum::TYPE]);
-        $dto->setAmount($item[BasicFieldsEnum::AMOUNT]);
-        $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
-        $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
+        $dto->setId($item['id'] ?? null);
+        $dto->setWalletId($item['walletId'] ?? $item['wallet_id']);
+        $dto->setWalletName($item['name'] ?? null);
+        $dto->setDescription($item['description']);
+        $dto->setType($item['type']);
+        $dto->setAmount($item['amount']);
+        $dto->setCreatedAt($item['created_at'] ?? null);
+        $dto->setUpdatedAt($item['updated_at'] ?? null);
         return $dto;
     }
 
@@ -32,10 +31,10 @@ class MovementResource extends BasicResource
     public function dtoToArray($item): array
     {
         return array(
-            BasicFieldsEnum::WALLET_ID_DB => $item->getWalletId(),
-            BasicFieldsEnum::DESCRIPTION => $item->getDescription(),
-            BasicFieldsEnum::TYPE => $item->getType(),
-            BasicFieldsEnum::AMOUNT => $item->getAmount()
+            'wallet_id' => $item->getWalletId(),
+            'description' => $item->getDescription(),
+            'type' => $item->getType(),
+            'amount' => $item->getAmount()
         );
     }
 
@@ -68,8 +67,8 @@ class MovementResource extends BasicResource
     public function makeTransferSpentMovement(array $data): MovementDTO
     {
         $transferSpent = new MovementDTO();
-        $transferSpent->setAmount($data[BasicFieldsEnum::AMOUNT]);
-        $transferSpent->setWalletId($data[BasicFieldsEnum::ORIGIN_ID_JSON]);
+        $transferSpent->setAmount($data['amount']);
+        $transferSpent->setWalletId($data['originId']);
         $transferSpent->setType(MovementEnum::TRANSFER);
         $description = 'Saída transferência';
         $transferSpent->setDescription($description);
@@ -79,8 +78,8 @@ class MovementResource extends BasicResource
     public function makeTransferGainMovement(array $data): MovementDTO
     {
         $transferSpent = new MovementDTO();
-        $transferSpent->setAmount($data[BasicFieldsEnum::AMOUNT]);
-        $transferSpent->setWalletId($data[BasicFieldsEnum::DESTINATION_ID_JSON]);
+        $transferSpent->setAmount($data['amount']);
+        $transferSpent->setWalletId($data['destinationId']);
         $transferSpent->setType(MovementEnum::TRANSFER);
         $description = 'Entrada transferência';
         $transferSpent->setDescription($description);

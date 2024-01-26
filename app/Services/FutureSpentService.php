@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\DTO\FutureSpentDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Enums\InvoiceEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\FutureSpentRepository;
@@ -11,7 +10,6 @@ use App\Resources\FutureSpentResource;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\MarketPlannerService;
 use App\Tools\Calendar\CalendarTools;
-use Exception;
 
 class FutureSpentService extends BasicService
 {
@@ -31,9 +29,6 @@ class FutureSpentService extends BasicService
         return $this->repository;
     }
 
-    /**
-     * @throws Exception
-     */
     public function getNextSixMonthsFutureSpent(): array
     {
         $month = CalendarTools::getThisMonth();
@@ -54,14 +49,11 @@ class FutureSpentService extends BasicService
         return $spentPackage;
     }
 
-    /**
-     * @throws Exception
-     */
     public function paySpent(FutureSpentDTO $spent, array $options): bool
     {
-        $isEqualsValue = $options[BasicFieldsEnum::VALUE] === $spent->getAmount();
-        $isEqualsWallet = $options[BasicFieldsEnum::WALLET_ID_JSON] === $spent->getWalletId();
-        if (! $options[BasicFieldsEnum::PARTIAL] && $isEqualsValue && $isEqualsWallet) {
+        $isEqualsValue = $options['value'] === $spent->getAmount();
+        $isEqualsWallet = $options['walletId'] === $spent->getWalletId();
+        if (! $options['partial'] && $isEqualsValue && $isEqualsWallet) {
             return $this->payFullSpent($spent);
         }
         return $this->payWithOptions($spent, $options);
@@ -93,11 +85,11 @@ class FutureSpentService extends BasicService
 
     protected function payWithOptions(FutureSpentDTO $spent, array $options): bool
     {
-        $isEqualsValue = $options[BasicFieldsEnum::VALUE] === $spent->getAmount();
-        $isEqualsWallet = $options[BasicFieldsEnum::WALLET_ID_JSON] === $spent->getWalletId();
-        $value = $isEqualsValue ? $spent->getAmount() : $options[BasicFieldsEnum::VALUE];
-        $walletId = $isEqualsWallet ? $spent->getWalletId() : $options[BasicFieldsEnum::WALLET_ID_JSON];
-        if ($options[BasicFieldsEnum::PARTIAL] && $options[BasicFieldsEnum::VALUE] < $spent->getAmount()) {
+        $isEqualsValue = $options['value'] === $spent->getAmount();
+        $isEqualsWallet = $options['walletId'] === $spent->getWalletId();
+        $value = $isEqualsValue ? $spent->getAmount() : $options['value'];
+        $walletId = $isEqualsWallet ? $spent->getWalletId() : $options['walletId'];
+        if ($options['partial'] && $options['value'] < $spent->getAmount()) {
             $newSpent = $this->makeSpentForParcialPay($spent, $spent->getAmount() - $value);
             $this->insert($newSpent);
         }
@@ -106,7 +98,7 @@ class FutureSpentService extends BasicService
         $movement->setAmount($value);
         $movement->setWalletId($walletId);
         $description = $movement->getDescription();
-        if ($options[BasicFieldsEnum::PARTIAL]) {
+        if ($options['partial']) {
             $description = 'Pagamento parcial ' . strtolower($spent->getDescription());
         }
         $movement->setDescription($description);

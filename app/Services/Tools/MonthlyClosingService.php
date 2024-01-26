@@ -36,9 +36,7 @@ class MonthlyClosingService extends BasicService
         return $this->addChartData($data);
     }
 
-    /**
-     * @param MonthlyClosingDTO[] $data
-     */
+    /** @param MonthlyClosingDTO[] $data */
     protected function addChartData(array $data): array
     {
         $labels = [];

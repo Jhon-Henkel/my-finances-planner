@@ -6,19 +6,14 @@ use App\Http\Kernel;
 
 class AppTools
 {
-    /**
-     * @codeCoverageIgnore
-     * @return void
-     */
+    /** @codeCoverageIgnore */
     public static function startLaravelApp(): void
     {
         $app = require_once __DIR__ . '/../../bootstrap/app.php';
         $app->make(Kernel::class)->bootstrap();
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
+    /** @codeCoverageIgnore */
     public static function getEnvValue(string $key): string
     {
         return env($key);

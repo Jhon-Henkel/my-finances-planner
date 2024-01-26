@@ -4,7 +4,6 @@ namespace App\Resources\CreditCard;
 
 use App\DTO\CreditCard\CreditCardDTO;
 use App\DTO\InvoiceItemDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Resources\BasicResource;
 use App\VO\CreditCard\CreditCardVO;
 
@@ -13,33 +12,30 @@ class CreditCardResource extends BasicResource
     public function arrayToDto(array $item): CreditCardDTO
     {
         $dto = new CreditCardDTO();
-        $dto->setId($item[BasicFieldsEnum::ID] ?? null);
-        $dto->setName($item[BasicFieldsEnum::NAME]);
-        $dto->setLimit($item[BasicFieldsEnum::LIMIT]);
-        $dto->setDueDate($item[BasicFieldsEnum::DUE_DATE_DB] ?? $item[BasicFieldsEnum::DUE_DATE_JSON]);
-        $dto->setClosingDay($item[BasicFieldsEnum::CLOSING_DAY_DB] ?? $item[BasicFieldsEnum::CLOSING_DAY_JSON]);
+        $dto->setId($item['id'] ?? null);
+        $dto->setName($item['name']);
+        $dto->setLimit($item['limit']);
+        $dto->setDueDate($item['due_date'] ?? $item['dueDate']);
+        $dto->setClosingDay($item['closing_day'] ?? $item['closingDay']);
         $dto->setNextInvoiceValue(null);
         $dto->setTotalValueSpending(null);
         $dto->setIsThinsMouthInvoicePayed(null);
-        $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
-        $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
+        $dto->setCreatedAt($item['created_at'] ?? null);
+        $dto->setUpdatedAt($item['updated_at'] ?? null);
         return $dto;
     }
 
     public function dtoToArray($item): array
     {
         return [
-            BasicFieldsEnum::NAME => $item->getName(),
-            BasicFieldsEnum::LIMIT => $item->getLimit(),
-            BasicFieldsEnum::DUE_DATE_DB => $item->getDueDate(),
-            BasicFieldsEnum::CLOSING_DAY_DB => $item->getClosingDay(),
+            'name' => $item->getName(),
+            'limit' => $item->getLimit(),
+            'due_date' => $item->getDueDate(),
+            'closing_day' => $item->getClosingDay(),
         ];
     }
 
-    /**
-     * @param CreditCardDTO $item
-     * @return CreditCardVO
-     */
+    /** @param CreditCardDTO $item */
     public function dtoToVo($item): CreditCardVO
     {
         return CreditCardVO::makeCreditCardVO(
@@ -59,13 +55,13 @@ class CreditCardResource extends BasicResource
     public function transactionToInvoiceDTO(array $item): InvoiceItemDTO
     {
         return new InvoiceItemDTO(
-            $item[BasicFieldsEnum::ID],
-            $item[BasicFieldsEnum::CREDIT_CARD_ID_DB],
+            $item['id'],
+            $item['credit_card_id'],
             null,
-            $item[BasicFieldsEnum::NAME],
-            $item[BasicFieldsEnum::VALUE],
-            $item[BasicFieldsEnum::NEXT_INSTALLMENT_DB],
-            $item[BasicFieldsEnum::INSTALLMENTS]
+            $item['name'],
+            $item['value'],
+            $item['next_installment'],
+            $item['installments']
         );
     }
 }

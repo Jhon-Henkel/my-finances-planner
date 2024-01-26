@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\BasicFieldsEnum;
 use App\Http\Response\ResponseError;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -54,7 +53,7 @@ abstract class BasicController extends Controller implements BasicControllerCont
             return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
         }
         $requestItem = $request->json()->all();
-        $requestItem[BasicFieldsEnum::ID] = $id;
+        $requestItem['id'] = $id;
         $item = $this->getResource()->arrayToDto($requestItem);
         $updated = $this->getService()->update($id, $item);
         return response()->json($this->getResource()->dtoToVo($updated), ResponseAlias::HTTP_OK);

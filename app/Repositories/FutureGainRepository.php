@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\DTO\Date\DatePeriodDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Models\FutureGain;
 use App\Resources\FutureGainResource;
 
@@ -39,7 +38,7 @@ class FutureGainRepository extends BasicRepository
             $items->where('future_gain.tenant_id', '=', $tenantId);
         }
         $items->join('wallets', 'future_gain.wallet_id', '=', 'wallets.id')
-            ->orderBy(BasicFieldsEnum::ID, 'desc');
+            ->orderBy('id', 'desc');
         $items = $items->get();
         return $items ? $this->getResource()->arrayToDtoItens($items->toArray()) : [];
     }
@@ -49,7 +48,7 @@ class FutureGainRepository extends BasicRepository
         $itens = $this->getModel()
             ->select('future_gain.*', 'wallets.name')
             ->join('wallets', 'future_gain.wallet_id', '=', 'wallets.id')
-            ->orderBy(BasicFieldsEnum::ID, 'desc')
+            ->orderBy('id', 'desc')
             ->get();
         return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
     }

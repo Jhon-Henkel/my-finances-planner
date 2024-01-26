@@ -4,7 +4,6 @@ namespace App\Repositories\Tools;
 
 use App\DTO\Date\DatePeriodDTO;
 use App\DTO\Tools\MonthlyClosingDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Models\MonthlyClosing;
 use App\Repositories\BasicRepository;
 use App\Resources\Tools\MonthlyClosingResource;
@@ -48,7 +47,7 @@ class MonthlyClosingRepository extends BasicRepository
             ->where('created_at', '>=', $period->getStartDate())
             ->where('created_at', '<=', $period->getEndDate())
             ->where('tenant_id', $tenantId)
-            ->orderBy(BasicFieldsEnum::ID, 'desc')
+            ->orderBy('id', 'desc')
             ->get();
         return $this->resource->arrayToDtoItens($itens->toArray());
     }

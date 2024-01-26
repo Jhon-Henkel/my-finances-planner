@@ -26,9 +26,7 @@ class CronService
         $this->notifyCronJob(self::CRONJOB_FAIL_STATUS, $message, $taskName);
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
+    /** @codeCoverageIgnore */
     protected function notifyCronJob(string $state, string $message, string $taskName): void
     {
         if (RequestTools::isApplicationInDevelopMode()) {

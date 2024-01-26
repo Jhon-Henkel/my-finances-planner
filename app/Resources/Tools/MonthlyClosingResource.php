@@ -23,10 +23,7 @@ class MonthlyClosingResource extends BasicResource
         );
     }
 
-    /**
-     * @param MonthlyClosingDTO $item
-     * @return array
-     */
+    /** @param MonthlyClosingDTO $item */
     public function dtoToArray($item): array
     {
         return [
@@ -42,10 +39,7 @@ class MonthlyClosingResource extends BasicResource
         ];
     }
 
-    /**
-     * @param MonthlyClosingDTO $item
-     * @return MonthlyClosingVO
-     */
+    /** @param MonthlyClosingDTO $item */
     public function dtoToVo($item): MonthlyClosingVO
     {
         return new MonthlyClosingVO(

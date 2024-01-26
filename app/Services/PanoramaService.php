@@ -6,7 +6,6 @@ use App\DTO\InvoiceItemDTO;
 use App\Factory\InvoiceFactory;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\VO\InvoiceVO;
-use Exception;
 
 class PanoramaService
 {
@@ -18,9 +17,6 @@ class PanoramaService
     ) {
     }
 
-    /**
-     * @throws Exception
-     */
     public function getPanoramaData(): array
     {
         $futureExpenses = $this->getTotalFutureExpenses();
@@ -42,17 +38,11 @@ class PanoramaService
         return $this->walletService->getTotalWalletValue();
     }
 
-    /**
-     * @throws Exception
-     */
     protected function getTotalFutureExpenses(): array
     {
         return $this->futureSpentService->getNextSixMonthsFutureSpent();
     }
 
-    /**
-     * @throws Exception
-     */
     protected function getTotalFutureGains(): InvoiceVO
     {
         $gains = $this->futureGainService->getNextSixMonthsFutureGain();

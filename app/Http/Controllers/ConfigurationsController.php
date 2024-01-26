@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Resources\ConfigurationResource;
 use App\Services\ConfigurationService;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -41,9 +40,6 @@ class ConfigurationsController extends BasicController
         return $this->resource;
     }
 
-    /**
-     * @throws Exception
-     */
     public function showByName(string $name): JsonResponse
     {
         $config = strtolower($name);

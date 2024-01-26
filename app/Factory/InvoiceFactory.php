@@ -9,11 +9,6 @@ use App\VO\InvoiceVO;
 
 class InvoiceFactory
 {
-    /**
-     * @param InvoiceItemDTO $expense
-     * @param int $thisMonth
-     * @return InvoiceVO
-     */
     public static function factoryInvoice(InvoiceItemDTO $expense, int $thisMonth): InvoiceVO
     {
         $installment = self::getInstallmentBaseArray();
@@ -70,10 +65,7 @@ class InvoiceFactory
         return ($remaining - $key) + 1 == $installments;
     }
 
-    /**
-     * @param InvoiceVO[] $invoices
-     * @return InvoiceVO
-     */
+    /** @param InvoiceVO[] $invoices */
     public static function generateInvoiceSumFromInvoicesArray(array $invoices): InvoiceVO
     {
         $sum = [];

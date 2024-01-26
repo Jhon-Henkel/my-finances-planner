@@ -4,7 +4,6 @@ namespace Tests\backend\Unit\Service;
 
 use App\DTO\FutureSpentDTO;
 use App\DTO\Movement\MovementDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Repositories\FutureSpentRepository;
 use App\Services\FutureSpentService;
 use App\Services\Movement\MovementService;
@@ -120,9 +119,9 @@ class FutureSpentServiceUnitTest extends Falcon9
         $serviceMock->shouldReceive('payWithOptions')->once()->andReturnTrue();
 
         $options = [
-            BasicFieldsEnum::PARTIAL => true,
-            BasicFieldsEnum::WALLET_ID_JSON => 1,
-            BasicFieldsEnum::VALUE => 1.50,
+            'partial' => true,
+            'walletId' => 1,
+            'value' => 1.50,
         ];
 
         $result = $serviceMock->paySpent($spent, $options);
@@ -142,9 +141,9 @@ class FutureSpentServiceUnitTest extends Falcon9
         $serviceMock->shouldReceive('payWithOptions')->never();
 
         $options = [
-            BasicFieldsEnum::PARTIAL => false,
-            BasicFieldsEnum::WALLET_ID_JSON => 1,
-            BasicFieldsEnum::VALUE => 1.50,
+            'partial' => false,
+            'walletId' => 1,
+            'value' => 1.50,
         ];
 
         $result = $serviceMock->paySpent($spent, $options);
@@ -265,9 +264,9 @@ class FutureSpentServiceUnitTest extends Falcon9
         $spent->setDescription('test');
 
         $options = [
-            BasicFieldsEnum::PARTIAL => true,
-            BasicFieldsEnum::WALLET_ID_JSON => 2,
-            BasicFieldsEnum::VALUE => 1,
+            'partial' => true,
+            'walletId' => 2,
+            'value' => 1,
         ];
 
         $movement = new MovementDTO();
@@ -300,9 +299,9 @@ class FutureSpentServiceUnitTest extends Falcon9
         $spent->setDescription('test');
 
         $options = [
-            BasicFieldsEnum::PARTIAL => false,
-            BasicFieldsEnum::WALLET_ID_JSON => 2,
-            BasicFieldsEnum::VALUE => 1,
+            'partial' => false,
+            'walletId' => 2,
+            'value' => 1,
         ];
 
         $movement = new MovementDTO();
@@ -332,9 +331,9 @@ class FutureSpentServiceUnitTest extends Falcon9
         $spent->setDescription('test');
 
         $options = [
-            BasicFieldsEnum::PARTIAL => false,
-            BasicFieldsEnum::WALLET_ID_JSON => 2,
-            BasicFieldsEnum::VALUE => 1,
+            'partial' => false,
+            'walletId' => 2,
+            'value' => 1,
         ];
 
         $movement = new MovementDTO();

@@ -19,9 +19,7 @@ class CreditCardService extends BasicService
         return $this->repository;
     }
 
-    /**
-     * @return CreditCardDTO[]
-     */
+    /** @return CreditCardDTO[] */
     public function findAll(): array
     {
         $creditCardTransactionService = app(CreditCardTransactionService::class);

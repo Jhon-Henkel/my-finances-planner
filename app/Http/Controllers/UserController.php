@@ -6,7 +6,6 @@ use App\Exceptions\NotImplementedException;
 use App\Resources\UserResource;
 use App\Services\UserService;
 use App\Tools\Request\RequestTools;
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,9 +22,6 @@ class UserController extends BasicController
         $this->resource = app(UserResource::class);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function rulesInsert(): array
     {
         throw new NotImplementedException('Not implemented');
