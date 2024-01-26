@@ -2,7 +2,7 @@
 
 namespace App\Factory\Dashboard;
 
-class DashboardFutureMovementDataFactory implements DashboardFactoryInterface
+class IDashboardFutureMovementDataFactory implements IDashboardFactory
 {
     private float $thisMonth;
     private float $thisYear;

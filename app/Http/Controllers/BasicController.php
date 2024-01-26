@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
-abstract class BasicController extends Controller implements BasicControllerContract
+abstract class BasicController extends Controller
 {
     abstract protected function rulesInsert(): array;
     abstract protected function rulesUpdate(): array;

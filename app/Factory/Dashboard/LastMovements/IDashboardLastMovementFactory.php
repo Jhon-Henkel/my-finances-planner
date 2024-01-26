@@ -3,10 +3,10 @@
 namespace App\Factory\Dashboard\LastMovements;
 
 use App\Enums\MovementEnum;
-use App\Factory\Dashboard\DashboardFactoryInterface;
+use App\Factory\Dashboard\IDashboardFactory;
 use App\VO\Movement\MovementVO;
 
-readonly class DashboardLastMovementFactory implements DashboardFactoryInterface
+readonly class IDashboardLastMovementFactory implements IDashboardFactory
 {
     public function __construct(private MovementVO $movementInput)
     {

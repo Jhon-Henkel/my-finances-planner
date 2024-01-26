@@ -2,7 +2,7 @@
 
 namespace App\Resources;
 
-abstract class BasicResource implements BasicResourceContract
+abstract class BasicResource
 {
     abstract public function arrayToDto(array $item);
     abstract public function dtoToArray($item): array;

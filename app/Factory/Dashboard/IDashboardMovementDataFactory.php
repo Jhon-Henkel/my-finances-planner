@@ -6,7 +6,7 @@ use App\Enums\MovementEnum;
 use App\Factory\DataGraph\Movement\DataGraphMovementFactory;
 use App\VO\Movement\MovementVO;
 
-class DashboardMovementDataFactory implements DashboardFactoryInterface
+class IDashboardMovementDataFactory implements IDashboardFactory
 {
     private float $lastMonthSpent;
     private float $thisMonthSpent;
