@@ -4,7 +4,7 @@ namespace App\Factory\Dashboard;
 
 use App\Tools\NumberTools;
 
-class DashboardBalancesDataFactory implements DashboardFactoryInterface
+class IDashboardBalancesDataFactory implements IDashboardFactory
 {
     private float $lastMonth;
     private float $thisMonth;

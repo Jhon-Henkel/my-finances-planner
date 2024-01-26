@@ -2,13 +2,13 @@
 
 namespace App\Factory\Dashboard\LastMovements;
 
-use App\Factory\Dashboard\DashboardFactoryInterface;
+use App\Factory\Dashboard\IDashboardFactory;
 
-class DashboardLastMovementsFactory implements DashboardFactoryInterface
+class IDashboardLastMovementsFactory implements IDashboardFactory
 {
     private array $lastMovements = [];
 
-    public function addLastMovement(DashboardLastMovementFactory $lastMovement): void
+    public function addLastMovement(IDashboardLastMovementFactory $lastMovement): void
     {
         $this->lastMovements[] = $lastMovement->toArray();
     }

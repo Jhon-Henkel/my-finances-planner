@@ -2,10 +2,10 @@
 
 namespace App\Factory\Dashboard;
 
-use App\Factory\Dashboard\LastMovements\DashboardLastMovementsFactory;
+use App\Factory\Dashboard\LastMovements\IDashboardLastMovementsFactory;
 use App\Tools\NumberTools;
 
-class DashboardDataFactory implements DashboardFactoryInterface
+class IDashboardDataFactory implements IDashboardFactory
 {
     private float $walletBalance;
     private string $walletBalanceScClass;
@@ -17,13 +17,13 @@ class DashboardDataFactory implements DashboardFactoryInterface
     private array $lastMovements;
 
     public function __construct(
-        float $walletBalance,
-        DashboardMovementDataFactory $movements,
-        DashboardFutureMovementDataFactory $futureSpent,
-        DashboardFutureMovementDataFactory $futureGain,
-        DashboardFutureMovementDataFactory $creditCards,
-        DashboardBalancesDataFactory $balances,
-        DashboardLastMovementsFactory $lastMovements
+        float                               $walletBalance,
+        IDashboardMovementDataFactory       $movements,
+        IDashboardFutureMovementDataFactory $futureSpent,
+        IDashboardFutureMovementDataFactory $futureGain,
+        IDashboardFutureMovementDataFactory $creditCards,
+        IDashboardBalancesDataFactory       $balances,
+        IDashboardLastMovementsFactory      $lastMovements
     ) {
         $this->walletBalance = $walletBalance;
         $this->walletBalanceScClass = $walletBalance < 0 ? 'warning' : 'success';

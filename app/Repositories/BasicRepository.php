@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\DTO\Date\DatePeriodDTO;
 
-abstract class BasicRepository implements BasicRepositoryContract
+abstract class BasicRepository
 {
     abstract protected function getModel();
     abstract protected function getResource();

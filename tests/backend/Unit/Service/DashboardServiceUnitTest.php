@@ -3,9 +3,9 @@
 namespace Tests\backend\Unit\Service;
 
 use App\Enums\MovementEnum;
-use App\Factory\Dashboard\DashboardBalancesDataFactory;
-use App\Factory\Dashboard\DashboardFutureMovementDataFactory;
-use App\Factory\Dashboard\DashboardMovementDataFactory;
+use App\Factory\Dashboard\IDashboardBalancesDataFactory;
+use App\Factory\Dashboard\IDashboardFutureMovementDataFactory;
+use App\Factory\Dashboard\IDashboardMovementDataFactory;
 use App\Factory\DataGraph\Movement\DataGraphMovementFactory;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\DashboardService;
@@ -54,7 +54,7 @@ class DashboardServiceUnitTest extends Falcon9
 
         $mock->shouldAllowMockingProtectedMethods()->makePartial();
         $mock->shouldReceive('getMovementsData')->once()->andReturn(
-            new DashboardMovementDataFactory(
+            new IDashboardMovementDataFactory(
                 new DataGraphMovementFactory(),
                 [['type' => MovementEnum::GAIN, 'total' => 20]],
                 [['type' => MovementEnum::GAIN, 'total' => 150]],
@@ -63,16 +63,16 @@ class DashboardServiceUnitTest extends Falcon9
             )
         );
         $mock->shouldReceive('getFutureSpentData')->once()->andReturn(
-            new DashboardFutureMovementDataFactory(10, 20)
+            new IDashboardFutureMovementDataFactory(10, 20)
         );
         $mock->shouldReceive('getFutureGainData')->once()->andReturn(
-            new DashboardFutureMovementDataFactory(30, 40)
+            new IDashboardFutureMovementDataFactory(30, 40)
         );
         $mock->shouldReceive('getCreditCardsData')->once()->andReturn(
-            new DashboardFutureMovementDataFactory(50, 60)
+            new IDashboardFutureMovementDataFactory(50, 60)
         );
         $mock->shouldReceive('getBalancesData')->once()->andReturn(
-            new DashboardBalancesDataFactory(
+            new IDashboardBalancesDataFactory(
                 14,
                 15,
                 16,
@@ -273,7 +273,7 @@ class DashboardServiceUnitTest extends Falcon9
 
     public function testGetBalancesData()
     {
-        $data = new DashboardMovementDataFactory(
+        $data = new IDashboardMovementDataFactory(
             new DataGraphMovementFactory(),
             [['type' => MovementEnum::GAIN, 'total' => 20]],
             [['type' => MovementEnum::GAIN, 'total' => 150]],
@@ -292,6 +292,6 @@ class DashboardServiceUnitTest extends Falcon9
 
         $result = $mock->getBalancesData($data);
 
-        $this->assertInstanceOf(DashboardBalancesDataFactory::class, $result);
+        $this->assertInstanceOf(IDashboardBalancesDataFactory::class, $result);
     }
 }

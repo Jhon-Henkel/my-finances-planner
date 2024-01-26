@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use App\Enums\MovementEnum;
-use App\Factory\Dashboard\DashboardBalancesDataFactory;
-use App\Factory\Dashboard\DashboardDataFactory;
-use App\Factory\Dashboard\DashboardFutureMovementDataFactory;
-use App\Factory\Dashboard\DashboardMovementDataFactory;
-use App\Factory\Dashboard\LastMovements\DashboardLastMovementFactory;
-use App\Factory\Dashboard\LastMovements\DashboardLastMovementsFactory;
+use App\Factory\Dashboard\IDashboardBalancesDataFactory;
+use App\Factory\Dashboard\IDashboardDataFactory;
+use App\Factory\Dashboard\IDashboardFutureMovementDataFactory;
+use App\Factory\Dashboard\IDashboardMovementDataFactory;
+use App\Factory\Dashboard\LastMovements\IDashboardLastMovementFactory;
+use App\Factory\Dashboard\LastMovements\IDashboardLastMovementsFactory;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\Movement\MovementService;
 
@@ -26,7 +26,7 @@ class DashboardService
     public function getDashboardData(): array
     {
         $movementData = $this->getMovementsData();
-        $data = new DashboardDataFactory(
+        $data = new IDashboardDataFactory(
             $this->walletService->getTotalWalletValue(),
             $movementData,
             $this->getFutureSpentData(),
@@ -38,9 +38,9 @@ class DashboardService
         return $data->toArray();
     }
 
-    protected function getMovementsData(): DashboardMovementDataFactory
+    protected function getMovementsData(): IDashboardMovementDataFactory
     {
-        return new DashboardMovementDataFactory(
+        return new IDashboardMovementDataFactory(
             $this->movementService->generateDataForGraph(),
             $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_LAST_MONTH),
             $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_MONTH),
@@ -49,34 +49,34 @@ class DashboardService
         );
     }
 
-    protected function getFutureSpentData(): DashboardFutureMovementDataFactory
+    protected function getFutureSpentData(): IDashboardFutureMovementDataFactory
     {
-        return new DashboardFutureMovementDataFactory(
+        return new IDashboardFutureMovementDataFactory(
             $this->futureSpentService->getThisMonthFutureSpentSum(),
             $this->futureSpentService->getThisYearFutureSpentSum()
         );
     }
 
-    protected function getFutureGainData(): DashboardFutureMovementDataFactory
+    protected function getFutureGainData(): IDashboardFutureMovementDataFactory
     {
-        return new DashboardFutureMovementDataFactory(
+        return new IDashboardFutureMovementDataFactory(
             $this->futureGainService->getThisMonthFutureGainSum(),
             $this->futureGainService->getThisYearFutureGainSum()
         );
     }
 
-    protected function getCreditCardsData(): DashboardFutureMovementDataFactory
+    protected function getCreditCardsData(): IDashboardFutureMovementDataFactory
     {
-        return new DashboardFutureMovementDataFactory(
+        return new IDashboardFutureMovementDataFactory(
             $this->creditCardTransactionService->getThisMonthInvoiceSum(),
             $this->creditCardTransactionService->getThisYearInvoiceSum()
         );
     }
 
-    protected function getBalancesData(DashboardMovementDataFactory $movementsData): DashboardBalancesDataFactory
+    protected function getBalancesData(IDashboardMovementDataFactory $movementsData): IDashboardBalancesDataFactory
     {
         $MovementsDataArray = $movementsData->toArray();
-        return new DashboardBalancesDataFactory(
+        return new IDashboardBalancesDataFactory(
             $MovementsDataArray['lastMonthGain'],
             $MovementsDataArray['lastMonthSpent'],
             $MovementsDataArray['thisMonthGain'],
@@ -86,12 +86,12 @@ class DashboardService
         );
     }
 
-    protected function getLastMovementsData(DashboardMovementDataFactory $lastMovements): DashboardLastMovementsFactory
+    protected function getLastMovementsData(IDashboardMovementDataFactory $lastMovements): IDashboardLastMovementsFactory
     {
         $lastMovements = $lastMovements->toArray()['lastMovements'];
-        $movementsData = new DashboardLastMovementsFactory();
+        $movementsData = new IDashboardLastMovementsFactory();
         foreach ($lastMovements as $lastMovement) {
-            $movementData = new DashboardLastMovementFactory($lastMovement);
+            $movementData = new IDashboardLastMovementFactory($lastMovement);
             $movementsData->addLastMovement($movementData);
         }
         return $movementsData;

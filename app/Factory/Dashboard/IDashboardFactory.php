@@ -2,7 +2,7 @@
 
 namespace App\Factory\Dashboard;
 
-interface DashboardFactoryInterface
+interface IDashboardFactory
 {
     public function toArray(): array;
 }

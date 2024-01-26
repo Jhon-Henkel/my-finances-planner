@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 
-abstract class BasicService implements BasicServiceContract
+abstract class BasicService
 {
     abstract protected function getRepository();
 
