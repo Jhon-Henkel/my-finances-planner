@@ -31,7 +31,7 @@ class AuthService
         if (! $user) {
             return self::INVALID_LOGIN_OR_PASSWORD_CODE;
         }
-        if ($user->status === StatusEnum::StatusInactive->value) {
+        if ($user->status === StatusEnum::Inactive->value) {
             return self::INACTIVE_USER_CODE;
         }
         if ($user->wrong_login_attempts > config('max_wrong_login_attempts')) {
@@ -55,11 +55,11 @@ class AuthService
         if (RequestTools::isApplicationInDemoMode()) {
             return;
         }
-        if ($user->status == StatusEnum::StatusInactive->value) {
+        if ($user->status == StatusEnum::Inactive->value) {
             return;
         }
         $user->verify_hash = md5(uniqid($user->email) . time());
-        $user->status = StatusEnum::StatusInactive->value;
+        $user->status = StatusEnum::Inactive->value;
         $user->save();
     }
 

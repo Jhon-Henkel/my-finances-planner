@@ -19,7 +19,7 @@ class GenerateDemoUser extends Command
             'name' => 'Demo User',
             'email' => 'demo@demo.dev',
             'password' => bcrypt('1234'),
-            'status' => StatusEnum::StatusActive->value,
+            'status' => StatusEnum::Active->value,
             'salary' => 1000,
             'wrong_login_attempts' => 0,
         ]);

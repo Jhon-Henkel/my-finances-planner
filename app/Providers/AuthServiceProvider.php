@@ -33,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
             $mfpApiToken = $request->header(ConfigEnum::MfpTokenKey->value) ?? '';
             $isValidToken = password_verify($mfpApiToken, $mfpApiTokenEncrypted);
             $userDB = User::query()->where('email', $user->data->email)->first()->toArray();
-            if ($isValidToken && $userDB['status'] === StatusEnum::StatusActive->value) {
+            if ($isValidToken && $userDB['status'] === StatusEnum::Active->value) {
                 return new User((array)$user->data);
             }
             return null;

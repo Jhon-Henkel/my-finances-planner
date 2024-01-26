@@ -29,7 +29,7 @@ abstract class Falcon9Feature extends BaseTestCase
             $user = DB::select($query);
         }
         $this->user = new User((array)$user[0]);
-        User::query()->where('email', $this->user->email)->update(['status' => StatusEnum::StatusActive->value]);
+        User::query()->where('email', $this->user->email)->update(['status' => StatusEnum::Active->value]);
         $this->apiHeaders = $this->makeHeaders();
     }
 

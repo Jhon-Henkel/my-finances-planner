@@ -48,7 +48,7 @@ class AuthApiTest extends Falcon9Feature
 
     public function testWithInactiveUser()
     {
-        User::query()->where('email', $this->user->email)->update(['status' => StatusEnum::StatusInactive->value]);
+        User::query()->where('email', $this->user->email)->update(['status' => StatusEnum::Inactive->value]);
 
         $headers = $this->apiHeaders;
 
