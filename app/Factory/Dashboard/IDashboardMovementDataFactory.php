@@ -66,9 +66,9 @@ class IDashboardMovementDataFactory implements IDashboardFactory
         $gain = 0;
         $spent = 0;
         foreach ($movementData as $movement) {
-            if ($movement['type'] == MovementEnum::GAIN) {
+            if ($movement['type'] == MovementEnum::Gain->value) {
                 $gain += $movement['total'];
-            } elseif ($movement['type'] == MovementEnum::SPENT) {
+            } elseif ($movement['type'] == MovementEnum::Spent->value) {
                 $spent += $movement['total'];
             }
         }

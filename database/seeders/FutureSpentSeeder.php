@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\DateEnum;
+use App\Enums\DateFormatEnum;
 use App\Models\FutureSpent;
 use App\Models\User;
 use App\Models\WalletModel;
@@ -16,7 +16,7 @@ class FutureSpentSeeder extends Seeder
     {
         $walletIds = $this->getWalletIds();
         $descriptions = $this->getDescriptions();
-        $now = CalendarTools::getDateNow()->format(DateEnum::DEFAULT_DB_DATE_FORMAT);
+        $now = CalendarTools::getDateNow()->format(DateFormatEnum::DefaultDbDateFormat->value);
         for ($index = 0; $index < count($descriptions); $index++) {
             $forecast = CalendarTools::addMonthInDate($now, rand(1, 4));
             FutureSpent::factory()->create(

@@ -2,24 +2,24 @@
 
 namespace App\Enums;
 
-class MovementEnum
+enum MovementEnum: int
 {
-    const ALL = 0;
-    const FILTER_BY_THIS_MONTH = 2;
-    const FILTER_BY_LAST_MONTH = 3;
-    const FILTER_BY_THIS_YEAR = 4;
-    const SPENT = 5;
-    const GAIN = 6;
-    const TRANSFER = 7;
-    const INVESTMENT_CDB = 8;
+    case All = 0;
+    case FilterByThisMonth = 2;
+    case FilterByLastMonth = 3;
+    case FilterByThisYear = 4;
+    case Spent = 5;
+    case Gain = 6;
+    case Transfer = 7;
+    case InvestmentCdb = 8;
 
     public static function getTypesValidForFilter(): array
     {
         return [
-            MovementEnum::TRANSFER,
-            MovementEnum::GAIN,
-            MovementEnum::SPENT,
-            MovementEnum::INVESTMENT_CDB
+            MovementEnum::Transfer->value,
+            MovementEnum::Gain->value,
+            MovementEnum::Spent->value,
+            MovementEnum::InvestmentCdb->value,
         ];
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Enums\ConfigEnum;
-use App\Enums\DateEnum;
+use App\Enums\TimeNumberEnum;
 use App\Repositories\ConfigurationRepository;
 use Illuminate\Support\Facades\Cache;
 
@@ -35,10 +35,10 @@ class ConfigurationService extends BasicService
 
     public function getMfpToken()
     {
-        $token = Cache::get(ConfigEnum::MFP_TOKEN);
+        $token = Cache::get(ConfigEnum::MfpTokenKey->value);
         if (! $token) {
             $token = env('PUSHER_APP_KEY');
-            Cache::put(ConfigEnum::MFP_TOKEN, $token, DateEnum::TWO_HOUR_IN_SECONDS);
+            Cache::put(ConfigEnum::MfpTokenKey->value, $token, TimeNumberEnum::TwoHourInSeconds->value);
         }
         return $token;
     }

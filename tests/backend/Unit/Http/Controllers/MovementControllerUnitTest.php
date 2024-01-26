@@ -137,12 +137,12 @@ class MovementControllerUnitTest extends Falcon9
         $serviceMock->shouldReceive('isInvalidRequest')->once()->andReturnFalse();
         $serviceMock->shouldReceive('insertWithWalletUpdateType')->times(2)->andReturnUsing(
             function ($transfer, $type) {
-                Falcon9::assertEquals(MovementEnum::SPENT, $type);
+                Falcon9::assertEquals(MovementEnum::Spent->value, $type);
                 $this->assertInstanceOf(MovementDTO::class, $transfer);
                 return true;
             },
             function ($transfer, $type) {
-                Falcon9::assertEquals(MovementEnum::GAIN, $type);
+                Falcon9::assertEquals(MovementEnum::Gain->value, $type);
                 $this->assertInstanceOf(MovementDTO::class, $transfer);
             }
         );

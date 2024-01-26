@@ -45,7 +45,7 @@ class InvestmentService extends BasicService
     protected function contributedAndRescuedGraphData(): array
     {
         $investmentFactory = new InvestmentsRescuedAndContributedFactory();
-        $movements = $this->movementService->findAllByType(MovementEnum::INVESTMENT_CDB);
+        $movements = $this->movementService->findAllByType(MovementEnum::InvestmentCdb->value);
         foreach ($movements as $movement) {
             $investmentFactory->addInvestmentToData($movement);
         }
@@ -90,7 +90,7 @@ class InvestmentService extends BasicService
         $investment->setAmount($investment->getAmount() - $value);
         $this->walletService->update($wallet->getId(), $wallet);
         $this->update($investment->getId(), $investment);
-        $type = MovementEnum::INVESTMENT_CDB;
+        $type = MovementEnum::InvestmentCdb->value;
         $this->movementService->launchMovementForInvestment($value, $type, $wallet->getId(), true);
     }
 
@@ -101,7 +101,7 @@ class InvestmentService extends BasicService
         $investment->setAmount($investment->getAmount() + $value);
         $this->walletService->update($wallet->getId(), $wallet);
         $this->update($investment->getId(), $investment);
-        $type = MovementEnum::INVESTMENT_CDB;
+        $type = MovementEnum::InvestmentCdb->value;
         $this->movementService->launchMovementForInvestment($value, $type, $wallet->getId(), false);
     }
 }

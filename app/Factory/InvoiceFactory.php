@@ -3,8 +3,8 @@
 namespace App\Factory;
 
 use App\DTO\InvoiceItemDTO;
-use App\Enums\DateEnum;
-use App\Enums\InvoiceEnum;
+use App\Enums\CalendarMonthsNumberEnum;
+use App\Enums\InvoiceInstallmentsEnum;
 use App\VO\InvoiceVO;
 
 class InvoiceFactory
@@ -46,16 +46,17 @@ class InvoiceFactory
 
     protected static function normalizeInstallments(int $installments): int
     {
-        return $installments == InvoiceEnum::FIXED_INSTALLMENTS
-            ? InvoiceEnum::MAX_INSTALLMENTS
+        return $installments == InvoiceInstallmentsEnum::FixedInstallments->value
+            ? InvoiceInstallmentsEnum::MaxInstallments->value
             : $installments;
     }
 
     protected static function calculateMonthForInstallment(int $month, int $sum): int
     {
         $nextMonth = $month + $sum;
-        if ($nextMonth > DateEnum::DECEMBER_MONTH_NUMBER) {
-            $nextMonth = $nextMonth - DateEnum::DECEMBER_MONTH_NUMBER;
+        $december = CalendarMonthsNumberEnum::December->value;
+        if ($nextMonth > $december) {
+            $nextMonth = $nextMonth - $december;
         }
         return $nextMonth;
     }

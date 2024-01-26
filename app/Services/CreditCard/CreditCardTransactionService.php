@@ -2,7 +2,7 @@
 
 namespace App\Services\CreditCard;
 
-use App\Enums\DateEnum;
+use App\Enums\DateFormatEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\CreditCard\CreditCardTransactionRepository;
 use App\Resources\CreditCard\CreditCardResource;
@@ -102,7 +102,7 @@ class CreditCardTransactionService extends BasicService
 
     protected function getNextPaymentDateByInstallment(string $nextInstallment): string
     {
-        $format = DateEnum::USA_DATE_FORMAT_WITHOUT_TIME;
+        $format = DateFormatEnum::UsaDateFormatWithoutTime->value;
         return CalendarTools::addMonthInDate($nextInstallment, 1, $format);
     }
 

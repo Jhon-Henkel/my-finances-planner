@@ -24,9 +24,9 @@ class DataGraphMovementFactory implements DataGraphInterface
 
     public function addValue(int $type, float $value): void
     {
-        if ($type == MovementEnum::GAIN) {
+        if ($type == MovementEnum::Gain->value) {
             $this->gainData[] = $value;
-        } elseif ($type == MovementEnum::SPENT) {
+        } elseif ($type == MovementEnum::Spent->value) {
             $this->spentData[] = $value;
         }
     }

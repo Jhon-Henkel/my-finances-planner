@@ -26,10 +26,10 @@ readonly class IDashboardLastMovementFactory implements IDashboardFactory
     protected function getIconForMovementType(): array
     {
         return match ($this->movementInput->type) {
-            MovementEnum::TRANSFER => ['fas', 'building-columns'],
-            MovementEnum::SPENT => ['fas', 'circle-arrow-down'],
-            MovementEnum::GAIN => ['fas', 'circle-arrow-up'],
-            MovementEnum::INVESTMENT_CDB => ['fas', 'piggy-bank'],
+            MovementEnum::Transfer->value => ['fas', 'building-columns'],
+            MovementEnum::Spent->value => ['fas', 'circle-arrow-down'],
+            MovementEnum::Gain->value => ['fas', 'circle-arrow-up'],
+            MovementEnum::InvestmentCdb->value => ['fas', 'piggy-bank'],
             default => [],
         };
     }
@@ -37,10 +37,10 @@ readonly class IDashboardLastMovementFactory implements IDashboardFactory
     protected function getCssClassForMovementType(): string
     {
         return match ($this->movementInput->type) {
-            MovementEnum::TRANSFER => 'movement-transfer-icon',
-            MovementEnum::SPENT => 'movement-spent-icon',
-            MovementEnum::GAIN => 'movement-gain-icon',
-            MovementEnum::INVESTMENT_CDB => 'movement-investment-icon',
+            MovementEnum::Transfer->value => 'movement-transfer-icon',
+            MovementEnum::Spent->value => 'movement-spent-icon',
+            MovementEnum::Gain->value => 'movement-gain-icon',
+            MovementEnum::InvestmentCdb->value => 'movement-investment-icon',
             default => '',
         };
     }

@@ -35,7 +35,7 @@ class DashboardServiceUnitTest extends Falcon9
         $movementVoOne = new MovementVO();
         $movementVoOne->id = 1;
         $movementVoOne->amount = 10;
-        $movementVoOne->type = MovementEnum::GAIN;
+        $movementVoOne->type = MovementEnum::Gain->value;
         $movementVoOne->description = 'Teste';
         $movementVoOne->createdAt = '2021-01-01';
         $movementVoOne->updatedAt = '2021-01-02';
@@ -45,7 +45,7 @@ class DashboardServiceUnitTest extends Falcon9
         $movementVoTwo = new MovementVO();
         $movementVoTwo->id = 2;
         $movementVoTwo->amount = 60;
-        $movementVoTwo->type = MovementEnum::SPENT;
+        $movementVoTwo->type = MovementEnum::Spent->value;
         $movementVoTwo->description = 'Teste';
         $movementVoTwo->createdAt = '2021-01-01';
         $movementVoTwo->updatedAt = '2021-01-02';
@@ -56,9 +56,9 @@ class DashboardServiceUnitTest extends Falcon9
         $mock->shouldReceive('getMovementsData')->once()->andReturn(
             new IDashboardMovementDataFactory(
                 new DataGraphMovementFactory(),
-                [['type' => MovementEnum::GAIN, 'total' => 20]],
-                [['type' => MovementEnum::GAIN, 'total' => 150]],
-                [['type' => MovementEnum::SPENT, 'total' => 50]],
+                [['type' => MovementEnum::Gain->value, 'total' => 20]],
+                [['type' => MovementEnum::Gain->value, 'total' => 150]],
+                [['type' => MovementEnum::Spent->value, 'total' => 50]],
                 [$movementVoOne, $movementVoTwo]
             )
         );
@@ -224,7 +224,7 @@ class DashboardServiceUnitTest extends Falcon9
         $movementVoOne = new MovementVO();
         $movementVoOne->id = 1;
         $movementVoOne->amount = 10;
-        $movementVoOne->type = MovementEnum::GAIN;
+        $movementVoOne->type = MovementEnum::Gain->value;
         $movementVoOne->description = 'Teste';
         $movementVoOne->createdAt = '2021-01-01';
         $movementVoOne->updatedAt = '2021-01-02';
@@ -234,7 +234,7 @@ class DashboardServiceUnitTest extends Falcon9
         $movementVoTwo = new MovementVO();
         $movementVoTwo->id = 2;
         $movementVoTwo->amount = 60;
-        $movementVoTwo->type = MovementEnum::SPENT;
+        $movementVoTwo->type = MovementEnum::Spent->value;
         $movementVoTwo->description = 'Teste';
         $movementVoTwo->createdAt = '2021-01-01';
         $movementVoTwo->updatedAt = '2021-01-02';
@@ -275,9 +275,9 @@ class DashboardServiceUnitTest extends Falcon9
     {
         $data = new IDashboardMovementDataFactory(
             new DataGraphMovementFactory(),
-            [['type' => MovementEnum::GAIN, 'total' => 20]],
-            [['type' => MovementEnum::GAIN, 'total' => 150]],
-            [['type' => MovementEnum::SPENT, 'total' => 50]],
+            [['type' => MovementEnum::Gain->value, 'total' => 20]],
+            [['type' => MovementEnum::Gain->value, 'total' => 150]],
+            [['type' => MovementEnum::Spent->value, 'total' => 50]],
             [new MovementVO(), new MovementVO()]
         );
 

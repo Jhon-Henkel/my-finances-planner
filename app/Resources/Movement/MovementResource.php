@@ -55,7 +55,7 @@ class MovementResource extends BasicResource
 
     public function populateMovementForWalletUpdate(float $value, int $walletId): MovementDTO
     {
-        $type = $value > 0 ? MovementEnum::GAIN : MovementEnum::SPENT;
+        $type = $value > 0 ? MovementEnum::Gain->value : MovementEnum::Spent->value;
         $movement = new MovementDTO();
         $movement->setDescription('Atualização de carteira');
         $movement->setWalletId($walletId);
@@ -69,7 +69,7 @@ class MovementResource extends BasicResource
         $transferSpent = new MovementDTO();
         $transferSpent->setAmount($data['amount']);
         $transferSpent->setWalletId($data['originId']);
-        $transferSpent->setType(MovementEnum::TRANSFER);
+        $transferSpent->setType(MovementEnum::Transfer->value);
         $description = 'Saída transferência';
         $transferSpent->setDescription($description);
         return $transferSpent;
@@ -80,7 +80,7 @@ class MovementResource extends BasicResource
         $transferSpent = new MovementDTO();
         $transferSpent->setAmount($data['amount']);
         $transferSpent->setWalletId($data['destinationId']);
-        $transferSpent->setType(MovementEnum::TRANSFER);
+        $transferSpent->setType(MovementEnum::Transfer->value);
         $description = 'Entrada transferência';
         $transferSpent->setDescription($description);
         return $transferSpent;

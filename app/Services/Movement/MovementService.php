@@ -7,7 +7,7 @@ use App\DTO\FutureGainDTO;
 use App\DTO\FutureSpentDTO;
 use App\DTO\Movement\MovementDTO;
 use App\DTO\Movement\MovementSumValuesDTO;
-use App\Enums\DateEnum;
+use App\Enums\CalendarMonthsNumberEnum;
 use App\Enums\MovementEnum;
 use App\Exceptions\MovementException;
 use App\Factory\DataGraph\Movement\DataGraphMovementFactory;
@@ -43,7 +43,7 @@ class MovementService extends BasicService
     /** @return MovementDTO[] */
     public function findByFilter(array $filterOption): array
     {
-        $type = MovementEnum::ALL;
+        $type = MovementEnum::All->value;
         if (isset($filterOption['type'])) {
             $type = $this->validateType($filterOption['type']);
         }
@@ -54,10 +54,10 @@ class MovementService extends BasicService
     protected function validateType(null|int $type): int
     {
         if (! $type) {
-            return MovementEnum::ALL;
+            return MovementEnum::All->value;
         }
         if (! in_array($type, MovementEnum::getTypesValidForFilter())) {
-            return MovementEnum::ALL;
+            return MovementEnum::All->value;
         }
         return $type;
     }
@@ -65,8 +65,8 @@ class MovementService extends BasicService
     protected function getFilter(int $option): DatePeriodDTO
     {
         return match ($option) {
-            MovementEnum::FILTER_BY_LAST_MONTH => CalendarTools::getLastMonthPeriod(),
-            MovementEnum::FILTER_BY_THIS_YEAR => CalendarTools::getThisYearPeriod(),
+            MovementEnum::FilterByLastMonth->value => CalendarTools::getLastMonthPeriod(),
+            MovementEnum::FilterByThisYear->value => CalendarTools::getThisYearPeriod(),
             default => CalendarTools::getThisMonthPeriod(),
         };
     }
@@ -76,7 +76,7 @@ class MovementService extends BasicService
         $movement = new MovementDTO();
         $movement->setWalletId($gain->getWalletId());
         $movement->setDescription('Recebimento ' . $gain->getDescription());
-        $movement->setType(MovementEnum::GAIN);
+        $movement->setType(MovementEnum::Gain->value);
         $movement->setAmount($gain->getAmount());
         return $movement;
     }
@@ -86,7 +86,7 @@ class MovementService extends BasicService
         $movement = new MovementDTO();
         $movement->setWalletId($spent->getWalletId());
         $movement->setDescription('Pagamento ' . $spent->getDescription());
-        $movement->setType(MovementEnum::SPENT);
+        $movement->setType(MovementEnum::Spent->value);
         $movement->setAmount($spent->getAmount());
         return $movement;
     }
@@ -98,7 +98,7 @@ class MovementService extends BasicService
             return false;
         }
         $walletService = app(WalletService::class);
-        $type = $movement->getType() == MovementEnum::GAIN ? MovementEnum::SPENT : MovementEnum::GAIN;
+        $type = $movement->getType() == MovementEnum::Gain->value ? MovementEnum::Spent->value : MovementEnum::Gain->value;
         $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), $type, true);
         return parent::deleteById($id);
     }
@@ -106,14 +106,14 @@ class MovementService extends BasicService
     public function deleteTransferById(int $id)
     {
         $movement = $this->findById($id);
-        if (! $movement || $movement->getType() != MovementEnum::TRANSFER) {
+        if (! $movement || $movement->getType() != MovementEnum::Transfer->value) {
             return false;
         }
         $walletService = app(WalletService::class);
         if (str_contains($movement->getDescription(), 'Saída')) {
-            $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::GAIN, true);
+            $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::Gain->value, true);
         } elseif (str_contains($movement->getDescription(), 'Entrada')) {
-            $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::SPENT, true);
+            $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::Spent->value, true);
         }
         return $this->parentDeleteById($id);
     }
@@ -148,7 +148,7 @@ class MovementService extends BasicService
         $walletService = app(WalletService::class);
         if ($movement->getAmount() != $item->getAmount()) {
             $type = $this->getTypeForMovementUpdate($movement, $item);
-            if ($type == MovementEnum::GAIN) {
+            if ($type == MovementEnum::Gain->value) {
                 $value = round($item->getAmount() - $movement->getAmount(), 2);
             } else {
                 $value = round($movement->getAmount() - $item->getAmount(), 2);
@@ -162,14 +162,14 @@ class MovementService extends BasicService
 
     protected function getTypeForMovementUpdate(MovementDTO $movement, MovementDTO $item): int
     {
-        if ($movement->getType() == MovementEnum::GAIN && $movement->getAmount() > $item->getAmount()) {
-            return MovementEnum::SPENT;
-        } elseif ($movement->getType() == MovementEnum::GAIN && $movement->getAmount() < $item->getAmount()) {
-            return MovementEnum::GAIN;
-        } elseif ($movement->getType() == MovementEnum::SPENT && $movement->getAmount() > $item->getAmount()) {
-            return MovementEnum::GAIN;
-        } elseif ($movement->getType() == MovementEnum::SPENT && $movement->getAmount() < $item->getAmount()) {
-            return MovementEnum::SPENT;
+        if ($movement->getType() == MovementEnum::Gain->value && $movement->getAmount() > $item->getAmount()) {
+            return MovementEnum::Spent->value;
+        } elseif ($movement->getType() == MovementEnum::Gain->value && $movement->getAmount() < $item->getAmount()) {
+            return MovementEnum::Gain->value;
+        } elseif ($movement->getType() == MovementEnum::Spent->value && $movement->getAmount() > $item->getAmount()) {
+            return MovementEnum::Gain->value;
+        } elseif ($movement->getType() == MovementEnum::Spent->value && $movement->getAmount() < $item->getAmount()) {
+            return MovementEnum::Spent->value;
         }
         throw new MovementException('Tipo de movimento não identificado!');
     }
@@ -192,7 +192,7 @@ class MovementService extends BasicService
         $movement = new MovementDTO();
         $movement->setWalletId($walletId);
         $movement->setDescription('Fatura cartão ' . $cardName);
-        $movement->setType(MovementEnum::SPENT);
+        $movement->setType(MovementEnum::Spent->value);
         $movement->setAmount($totalValue);
         $this->insert($movement);
         return true;
@@ -210,7 +210,7 @@ class MovementService extends BasicService
         $movements = $this->getRepository()->getLastMonthsSumGroupByTypeAndMonth(4);
         $dataGraph = new DataGraphMovementFactory();
         foreach ($movements as $movement) {
-            $dataGraph->addLabel(DateEnum::getMonthNameByNumber($movement['month']));
+            $dataGraph->addLabel(CalendarMonthsNumberEnum::getMonthName($movement['month']));
             $dataGraph->addValue($movement['type'], $movement['total']);
         }
         return $dataGraph;

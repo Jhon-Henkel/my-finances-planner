@@ -42,9 +42,9 @@ class DashboardService
     {
         return new IDashboardMovementDataFactory(
             $this->movementService->generateDataForGraph(),
-            $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_LAST_MONTH),
-            $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_MONTH),
-            $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FILTER_BY_THIS_YEAR),
+            $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FilterByLastMonth->value),
+            $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FilterByThisMonth->value),
+            $this->movementService->getMonthSumMovementsByOptionFilter(MovementEnum::FilterByThisYear->value),
             $this->movementService->getLastMovements(8)
         );
     }

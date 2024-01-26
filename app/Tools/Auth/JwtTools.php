@@ -2,7 +2,7 @@
 
 namespace App\Tools\Auth;
 
-use App\Enums\DateEnum;
+use App\Enums\TimeNumberEnum;
 use App\Models\User;
 use Exception;
 use Firebase\JWT\JWT;
@@ -13,7 +13,7 @@ class JwtTools
     public static function createJWT(User $data): string
     {
         $payload = array(
-            'exp' => time() + DateEnum::TREE_HOUR_IN_SECONDS,
+            'exp' => time() + TimeNumberEnum::TreeHourInSeconds->value,
             'iat' => time(),
             'data' => $data
         );

@@ -19,86 +19,100 @@ use Illuminate\Support\Facades\Route;
 /** @var Route $router */
 $router->prefix('/')->middleware('auth.api:api')->group(function ($router) {
     $router->prefix('dashboard')->group(function () use ($router) {
-        $router->get('', [DashboardController::class, 'index'])->name(RouteEnum::API_DASHBOARD_INDEX);
+        $router->get('', [DashboardController::class, 'index'])->name(RouteEnum::ApiDashboardIndex->value);
     });
+
     $router->prefix('wallet')->group(function () use ($router) {
-        $router->get('', [WalletController::class, 'index'])->name(RouteEnum::API_WALLET_INDEX);
-        $router->get('/{id}', [WalletController::class, 'show'])->name(RouteEnum::API_WALLET_SHOW);
-        $router->post('', [WalletController::class, 'insert'])->name(RouteEnum::API_WALLET_INSERT);
-        $router->put('/{id}', [WalletController::class, 'update'])->name(RouteEnum::API_WALLET_UPDATE);
-        $router->delete('/{id}', [WalletController::class, 'delete'])->name(RouteEnum::API_WALLET_DELETE);
+        $router->get('', [WalletController::class, 'index'])->name(RouteEnum::ApiWalletIndex->value);
+        $router->get('/{id}', [WalletController::class, 'show'])->name(RouteEnum::ApiWalletShow->value);
+        $router->post('', [WalletController::class, 'insert'])->name(RouteEnum::ApiWalletInsert->value);
+        $router->put('/{id}', [WalletController::class, 'update'])->name(RouteEnum::ApiWalletUpdate->value);
+        $router->delete('/{id}', [WalletController::class, 'delete'])->name(RouteEnum::ApiWalletDelete->value);
     });
+
     $router->prefix('movement')->group(function () use ($router) {
         $router->prefix('transfer')->group(function () use ($router) {
-            $router->post('', [MovementController::class, 'insertTransfer'])->name(RouteEnum::API_MOVEMENT_INSERT_TRANSFER);
-            $router->delete('/{id}', [MovementController::class, 'deleteTransfer'])->name(RouteEnum::API_MOVEMENT_DELETE_TRANSFER);
+            $router->post('', [MovementController::class, 'insertTransfer'])->name(RouteEnum::ApiMovementInsertTransfer->value);
+            $router->delete('/{id}', [MovementController::class, 'deleteTransfer'])->name(RouteEnum::ApiMovementDeleteTransfer->value);
         });
-        $router->get('', [MovementController::class, 'index'])->name(RouteEnum::API_MOVEMENT_INDEX);
-        $router->get('/filter', [MovementController::class, 'indexFiltered'])->name(RouteEnum::API_MOVEMENT_INDEX_FILTERED);
-        $router->get('/{id}', [MovementController::class, 'show'])->name(RouteEnum::API_MOVEMENT_SHOW);
-        $router->post('', [MovementController::class, 'insert'])->name(RouteEnum::API_MOVEMENT_INSERT);
-        $router->put('/{id}', [MovementController::class, 'update'])->name(RouteEnum::API_MOVEMENT_UPDATE);
-        $router->delete('/{id}', [MovementController::class, 'delete'])->name(RouteEnum::API_MOVEMENT_DELETE);
+
+        $router->get('', [MovementController::class, 'index'])->name(RouteEnum::ApiMovementIndex->value);
+        $router->get('/filter', [MovementController::class, 'indexFiltered'])->name(RouteEnum::ApiMovementIndexFiltered->value);
+        $router->get('/{id}', [MovementController::class, 'show'])->name(RouteEnum::ApiMovementShow->value);
+        $router->post('', [MovementController::class, 'insert'])->name(RouteEnum::ApiMovementInsert->value);
+        $router->put('/{id}', [MovementController::class, 'update'])->name(RouteEnum::ApiMovementUpdate->value);
+        $router->delete('/{id}', [MovementController::class, 'delete'])->name(RouteEnum::ApiMovementDelete->value);
     });
+
     $router->prefix('credit-card')->group(function () use ($router) {
         $router->prefix('transaction')->group(function () use ($router) {
-            $router->get('', [CreditCardTransactionController::class, 'index'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_INDEX);
-            $router->get('/{id}', [CreditCardTransactionController::class, 'show'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_SHOW);
-            $router->post('', [CreditCardTransactionController::class, 'insert'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_INSERT);
-            $router->put('/{id}', [CreditCardTransactionController::class, 'update'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_UPDATE);
-            $router->delete('/{id}', [CreditCardTransactionController::class, 'delete'])->name(RouteEnum::API_CREDIT_CARD_TRANSACTION_DELETE);
+            $router->get('', [CreditCardTransactionController::class, 'index'])->name(RouteEnum::ApiCreditCardTransactionIndex->value);
+            $router->get('/{id}', [CreditCardTransactionController::class, 'show'])->name(RouteEnum::ApiCreditCardTransactionShow->value);
+            $router->post('', [CreditCardTransactionController::class, 'insert'])->name(RouteEnum::ApiCreditCardTransactionInsert->value);
+            $router->put('/{id}', [CreditCardTransactionController::class, 'update'])->name(RouteEnum::ApiCreditCardTransactionUpdate->value);
+            $router->delete('/{id}', [CreditCardTransactionController::class, 'delete'])->name(RouteEnum::ApiCreditCardTransactionDelete->value);
         });
+
         $router->prefix('{id}/invoices')->group(function () use ($router) {
-            $router->get('', [CreditCardTransactionController::class, 'invoices'])->name(RouteEnum::API_CREDIT_CARD_INVOICES);
-            $router->put('/{walletId}', [CreditCardTransactionController::class, 'payInvoice'])->name(RouteEnum::API_CREDIT_CARD_PAY_INVOICE);
+            $router->get('', [CreditCardTransactionController::class, 'invoices'])->name(RouteEnum::ApiCreditCardInvoices->value);
+            $router->put('/{walletId}', [CreditCardTransactionController::class, 'payInvoice'])->name(RouteEnum::ApiCreditCardPayInvoice->value);
         });
-        $router->get('', [CreditCardController::class, 'index'])->name(RouteEnum::API_CREDIT_CARD_INDEX);
-        $router->get('/{id}', [CreditCardController::class, 'show'])->name(RouteEnum::API_CREDIT_CARD_SHOW);
-        $router->post('', [CreditCardController::class, 'insert'])->name(RouteEnum::API_CREDIT_CARD_INSERT);
-        $router->put('/{id}', [CreditCardController::class, 'update'])->name(RouteEnum::API_CREDIT_CARD_UPDATE);
-        $router->delete('/{id}', [CreditCardController::class, 'delete'])->name(RouteEnum::API_CREDIT_CARD_DELETE);
+
+        $router->get('', [CreditCardController::class, 'index'])->name(RouteEnum::ApiCreditCardIndex->value);
+        $router->get('/{id}', [CreditCardController::class, 'show'])->name(RouteEnum::ApiCreditCardShow->value);
+        $router->post('', [CreditCardController::class, 'insert'])->name(RouteEnum::ApiCreditCardInsert->value);
+        $router->put('/{id}', [CreditCardController::class, 'update'])->name(RouteEnum::ApiCreditCardUpdate->value);
+        $router->delete('/{id}', [CreditCardController::class, 'delete'])->name(RouteEnum::ApiCreditCardDelete->value);
     });
+
     $router->prefix('future-gain')->group(function () use ($router) {
-        $router->get('', [FutureGainController::class, 'index'])->name(RouteEnum::API_FUTURE_GAIN_INDEX);
-        $router->get('next-six-months', [FutureGainController::class, 'nextSixMonths'])->name(RouteEnum::API_FUTURE_GAIN_NEXT_SIX_MONTHS);
-        $router->get('/{id}', [FutureGainController::class, 'show'])->name(RouteEnum::API_FUTURE_GAIN_SHOW);
-        $router->post('/{id}/receive', [FutureGainController::class, 'receive'])->name(RouteEnum::API_FUTURE_GAIN_RECEIVE);
-        $router->post('', [FutureGainController::class, 'insert'])->name(RouteEnum::API_FUTURE_GAIN_INSERT);
-        $router->put('/{id}', [FutureGainController::class, 'update'])->name(RouteEnum::API_FUTURE_GAIN_UPDATE);
-        $router->delete('/{id}', [FutureGainController::class, 'delete'])->name(RouteEnum::API_FUTURE_GAIN_DELETE);
+        $router->get('', [FutureGainController::class, 'index'])->name(RouteEnum::ApiFutureGainIndex->value);
+        $router->get('next-six-months', [FutureGainController::class, 'nextSixMonths'])->name(RouteEnum::ApiFutureGainNextSixMonths->value);
+        $router->get('/{id}', [FutureGainController::class, 'show'])->name(RouteEnum::ApiFutureGainShow->value);
+        $router->post('/{id}/receive', [FutureGainController::class, 'receive'])->name(RouteEnum::ApiFutureGainReceive->value);
+        $router->post('', [FutureGainController::class, 'insert'])->name(RouteEnum::ApiFutureGainInsert->value);
+        $router->put('/{id}', [FutureGainController::class, 'update'])->name(RouteEnum::ApiFutureGainUpdate->value);
+        $router->delete('/{id}', [FutureGainController::class, 'delete'])->name(RouteEnum::ApiFutureGainDelete->value);
     });
+
     $router->prefix('future-spent')->group(function () use ($router) {
-        $router->get('', [FutureSpentController::class, 'index'])->name(RouteEnum::API_FUTURE_SPENT_INDEX);
-        $router->get('/{id}', [FutureSpentController::class, 'show'])->name(RouteEnum::API_FUTURE_SPENT_SHOW);
-        $router->post('', [FutureSpentController::class, 'insert'])->name(RouteEnum::API_FUTURE_SPENT_INSERT);
-        $router->post('/{id}/pay', [FutureSpentController::class, 'paySpent'])->name(RouteEnum::API_FUTURE_SPENT_PAY);
-        $router->put('/{id}', [FutureSpentController::class, 'update'])->name(RouteEnum::API_FUTURE_SPENT_UPDATE);
-        $router->delete('/{id}', [FutureSpentController::class, 'delete'])->name(RouteEnum::API_FUTURE_SPENT_DELETE);
+        $router->get('', [FutureSpentController::class, 'index'])->name(RouteEnum::ApiFutureSpentIndex->value);
+        $router->get('/{id}', [FutureSpentController::class, 'show'])->name(RouteEnum::ApiFutureSpentShow->value);
+        $router->post('', [FutureSpentController::class, 'insert'])->name(RouteEnum::ApiFutureSpentInsert->value);
+        $router->post('/{id}/pay', [FutureSpentController::class, 'paySpent'])->name(RouteEnum::ApiFutureSpentPay->value);
+        $router->put('/{id}', [FutureSpentController::class, 'update'])->name(RouteEnum::ApiFutureSpentUpdate->value);
+        $router->delete('/{id}', [FutureSpentController::class, 'delete'])->name(RouteEnum::ApiFutureSpentDelete->value);
     });
+
     $router->prefix('configurations')->group(function () use ($router) {
-        $router->get('/{configName}', [ConfigurationsController::class, 'showByName'])->name(RouteEnum::API_CONFIGURATION_GET);
-        $router->put('/{configName}', [ConfigurationsController::class, 'updateByName'])->name(RouteEnum::API_CONFIGURATION_UPDATE);
+        $router->get('/{configName}', [ConfigurationsController::class, 'showByName'])->name(RouteEnum::ApiConfigurationGet->value);
+        $router->put('/{configName}', [ConfigurationsController::class, 'updateByName'])->name(RouteEnum::ApiConfigurationUpdate->value);
     });
+
     $router->prefix('user')->group(function () use ($router) {
-        $router->get('/{id}', [UserController::class, 'show'])->name(RouteEnum::API_USER_SHOW);
-        $router->put('/{id}', [UserController::class, 'update'])->name(RouteEnum::API_USER_UPDATE);
+        $router->get('/{id}', [UserController::class, 'show'])->name(RouteEnum::ApiUserShow->value);
+        $router->put('/{id}', [UserController::class, 'update'])->name(RouteEnum::ApiUserUpdate->value);
     });
+
     $router->prefix('panorama')->group(function () use ($router) {
-        $router->get('', [PanoramaController::class, 'getPanoramaData'])->name(RouteEnum::API_PANORAMA_INDEX);
+        $router->get('', [PanoramaController::class, 'getPanoramaData'])->name(RouteEnum::ApiPanoramaIndex->value);
     });
+
     $router->prefix('financial-health')->group(function () use ($router) {
-        $router->get('/filter', [FinancialHealthController::class, 'indexFiltered'])->name(RouteEnum::API_FINANCIAL_HEALTH_INDEX_FILTERED);
+        $router->get('/filter', [FinancialHealthController::class, 'indexFiltered'])->name(RouteEnum::ApiFinancialHealthIndexFiltered->value);
     });
+
     $router->prefix('monthly-closing')->group(function () use ($router) {
-        $router->get('/filter', [MonthlyClosingController::class, 'indexFiltered'])->name(RouteEnum::API_MONTHLY_CLOSING_INDEX_FILTERED);
+        $router->get('/filter', [MonthlyClosingController::class, 'indexFiltered'])->name(RouteEnum::ApiMonthlyClosingIndexFiltered->value);
     });
+
     $router->prefix('investment')->group(function () use ($router) {
-        $router->get('data-graph', [InvestmentController::class, 'makeDataGraph'])->name(RouteEnum::API_INVESTMENT_CDB_DATA_GRAPH);
-        $router->get('', [InvestmentController::class, 'index'])->name(RouteEnum::API_INVESTMENT_INDEX);
-        $router->get('/{id}', [InvestmentController::class, 'show'])->name(RouteEnum::API_INVESTMENT_SHOW);
-        $router->post('/rescue-apport', [InvestmentController::class, 'rescueApportInvestment'])->name(RouteEnum::API_INVESTMENT_RESCUE_APPORT);
-        $router->post('', [InvestmentController::class, 'insert'])->name(RouteEnum::API_INVESTMENT_INSERT);
-        $router->put('/{id}', [InvestmentController::class, 'update'])->name(RouteEnum::API_INVESTMENT_UPDATE);
-        $router->delete('/{id}', [InvestmentController::class, 'delete'])->name(RouteEnum::API_INVESTMENT_DELETE);
+        $router->get('data-graph', [InvestmentController::class, 'makeDataGraph'])->name(RouteEnum::ApiInvestmentCdbDataGraph->value);
+        $router->get('', [InvestmentController::class, 'index'])->name(RouteEnum::ApiInvestmentIndex->value);
+        $router->get('/{id}', [InvestmentController::class, 'show'])->name(RouteEnum::ApiInvestmentShow->value);
+        $router->post('/rescue-apport', [InvestmentController::class, 'rescueApportInvestment'])->name(RouteEnum::ApiInvestmentRescueApport->value);
+        $router->post('', [InvestmentController::class, 'insert'])->name(RouteEnum::ApiInvestmentInsert->value);
+        $router->put('/{id}', [InvestmentController::class, 'update'])->name(RouteEnum::ApiInvestmentUpdate->value);
+        $router->delete('/{id}', [InvestmentController::class, 'delete'])->name(RouteEnum::ApiInvestmentDelete->value);
     });
 });

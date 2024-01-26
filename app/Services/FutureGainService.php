@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\DTO\FutureGainDTO;
-use App\Enums\InvoiceEnum;
+use App\Enums\InvoiceInstallmentsEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\FutureGainRepository;
 use App\Resources\FutureGainResource;
@@ -67,7 +67,7 @@ class FutureGainService extends BasicService
             return $this->getRepository()->deleteById($gain->getId());
         }
         if ($remainingInstallments < 0) {
-            $remainingInstallments = InvoiceEnum::FIXED_INSTALLMENTS;
+            $remainingInstallments = InvoiceInstallmentsEnum::FixedInstallments->value;
         }
         $gain->setInstallments($remainingInstallments);
         $gain->setForecast(CalendarTools::addMonthInDate($gain->getForecast(), 1));

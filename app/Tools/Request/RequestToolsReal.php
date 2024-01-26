@@ -9,7 +9,7 @@ class RequestToolsReal
 {
     public function getUserDataInRequest(): object|bool
     {
-        $token = $this->getInputServer(ConfigEnum::X_MFP_USER_TOKEN) ?? '';
+        $token = $this->getInputServer(ConfigEnum::XMfpUserTokenKey->value) ?? '';
         return JwtTools::validateJWT($token);
     }
 

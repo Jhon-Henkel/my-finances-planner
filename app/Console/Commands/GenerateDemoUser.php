@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\ConfigEnum;
+use App\Enums\StatusEnum;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -19,7 +19,7 @@ class GenerateDemoUser extends Command
             'name' => 'Demo User',
             'email' => 'demo@demo.dev',
             'password' => bcrypt('1234'),
-            'status' => ConfigEnum::STATUS_ACTIVE,
+            'status' => StatusEnum::Active->value,
             'salary' => 1000,
             'wrong_login_attempts' => 0,
         ]);

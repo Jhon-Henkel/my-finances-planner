@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\DateEnum;
+use App\Enums\DateFormatEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,8 +21,8 @@ class MonthlyClosing extends Model
         'tenant_id'
     ];
     protected $casts = [
-        'created_at' => DateEnum::MODEL_DEFAULT_DATE_FORMAT,
-        'updated_at' => DateEnum::MODEL_DEFAULT_DATE_FORMAT
+        'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
+        'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value
     ];
     protected $hidden = [];
     public $timestamps = false;
