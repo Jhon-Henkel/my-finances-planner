@@ -35,7 +35,7 @@ class MovementFeatureTest extends Falcon9Feature
         $movementInsert = $this->postJson('/api/movement', [
             'wallet_id' => $wallet->id,
             'amount' => 10,
-            'type' => MovementEnum::SPENT,
+            'type' => MovementEnum::Spent->value,
             'walletId' => $wallet->id,
             'description' => 'Teste de movimentação'
         ], $this->makeHeaders());
@@ -49,7 +49,7 @@ class MovementFeatureTest extends Falcon9Feature
         $this->putJson('/api/movement/' . $movementInsert->id, [
             'wallet_id' => $wallet->id,
             'amount' => 20,
-            'type' => MovementEnum::SPENT,
+            'type' => MovementEnum::Spent->value,
             'walletId' => $wallet->id,
             'description' => 'Teste de movimentação'
         ], $this->makeHeaders());
@@ -72,7 +72,7 @@ class MovementFeatureTest extends Falcon9Feature
         $movementInsert = $this->postJson('/api/movement', [
             'wallet_id' => $wallet->id,
             'amount' => 10,
-            'type' => MovementEnum::GAIN,
+            'type' => MovementEnum::Gain,
             'walletId' => $wallet->id,
             'description' => 'Teste de movimentação'
         ], $this->makeHeaders());
@@ -86,7 +86,7 @@ class MovementFeatureTest extends Falcon9Feature
         $this->putJson('/api/movement/' . $movementInsert->id, [
             'wallet_id' => $wallet->id,
             'amount' => 20,
-            'type' => MovementEnum::GAIN,
+            'type' => MovementEnum::Gain,
             'walletId' => $wallet->id,
             'description' => 'Teste de movimentação'
         ], $this->makeHeaders());

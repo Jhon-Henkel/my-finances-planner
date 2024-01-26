@@ -413,7 +413,7 @@ class MovementServiceUnitTest extends Falcon9
     {
         $movement = new MovementDTO();
         $movement->setAmount(10);
-        $movement->setType(MovementEnum::TRANSFER);
+        $movement->setType(MovementEnum::Transfer->value);
         $movement->setWalletId(1);
         $movement->setDescription('Entrada de transferência');
 
@@ -422,7 +422,7 @@ class MovementServiceUnitTest extends Falcon9
             function ($value, $walletId, $type, $movementAlreadyDone) {
                 Falcon9::assertEquals(10, $value);
                 Falcon9::assertEquals(1, $walletId);
-                Falcon9::assertEquals(MovementEnum::SPENT, $type);
+                Falcon9::assertEquals(MovementEnum::Spent->value, $type);
                 Falcon9::assertTrue($movementAlreadyDone);
                 return true;
             }
@@ -441,7 +441,7 @@ class MovementServiceUnitTest extends Falcon9
     {
         $movement = new MovementDTO();
         $movement->setAmount(10);
-        $movement->setType(MovementEnum::TRANSFER);
+        $movement->setType(MovementEnum::Transfer->value);
         $movement->setWalletId(1);
         $movement->setDescription('Saída de transferência');
 
@@ -450,7 +450,7 @@ class MovementServiceUnitTest extends Falcon9
             function ($value, $walletId, $type, $movementAlreadyDone) {
                 Falcon9::assertEquals(10, $value);
                 Falcon9::assertEquals(1, $walletId);
-                Falcon9::assertEquals(MovementEnum::GAIN, $type);
+                Falcon9::assertEquals(MovementEnum::Gain->value, $type);
                 Falcon9::assertTrue($movementAlreadyDone);
                 return true;
             }
@@ -472,12 +472,12 @@ class MovementServiceUnitTest extends Falcon9
         $serviceMocke = Mockery::mock(MovementService::class, [$mockRepository])->makePartial();
         $serviceMocke->shouldAllowMockingProtectedMethods();
 
-        $this->assertEquals(MovementEnum::ALL, $serviceMocke->validateType(null));
-        $this->assertEquals(MovementEnum::ALL, $serviceMocke->validateType(100));
-        $this->assertEquals(MovementEnum::TRANSFER, $serviceMocke->validateType(MovementEnum::TRANSFER));
-        $this->assertEquals(MovementEnum::GAIN, $serviceMocke->validateType(MovementEnum::GAIN));
-        $this->assertEquals(MovementEnum::SPENT, $serviceMocke->validateType(MovementEnum::SPENT));
-        $this->assertEquals(MovementEnum::INVESTMENT_CDB, $serviceMocke->validateType(MovementEnum::INVESTMENT_CDB));
+        $this->assertEquals(MovementEnum::All->value, $serviceMocke->validateType(null));
+        $this->assertEquals(MovementEnum::All->value, $serviceMocke->validateType(100));
+        $this->assertEquals(MovementEnum::Transfer->value, $serviceMocke->validateType(MovementEnum::Transfer->value));
+        $this->assertEquals(MovementEnum::Gain->value, $serviceMocke->validateType(MovementEnum::Gain->value));
+        $this->assertEquals(MovementEnum::Spent->value, $serviceMocke->validateType(MovementEnum::Spent->value));
+        $this->assertEquals(MovementEnum::InvestmentCdb->value, $serviceMocke->validateType(MovementEnum::InvestmentCdb->value));
     }
 
     public function testGetMonthSumMovementsByOptionFilter()
@@ -494,23 +494,23 @@ class MovementServiceUnitTest extends Falcon9
     {
         $movementOne = new MovementDTO();
         $movementOne->setAmount(10);
-        $movementOne->setType(MovementEnum::SPENT);
+        $movementOne->setType(MovementEnum::Spent->value);
 
         $movementTwo = new MovementDTO();
         $movementTwo->setAmount(20);
-        $movementTwo->setType(MovementEnum::SPENT);
+        $movementTwo->setType(MovementEnum::Spent->value);
 
         $movementThree = new MovementDTO();
         $movementThree->setAmount(30);
-        $movementThree->setType(MovementEnum::GAIN);
+        $movementThree->setType(MovementEnum::Gain->value);
 
         $movementFour = new MovementDTO();
         $movementFour->setAmount(40);
-        $movementFour->setType(MovementEnum::GAIN);
+        $movementFour->setType(MovementEnum::Gain->value);
 
         $movementFive = new MovementDTO();
         $movementFive->setAmount(40);
-        $movementFive->setType(MovementEnum::TRANSFER);
+        $movementFive->setType(MovementEnum::Transfer->value);
 
         $movements = [$movementOne, $movementTwo, $movementThree, $movementFour, $movementFive];
 
@@ -532,14 +532,14 @@ class MovementServiceUnitTest extends Falcon9
             function ($movement) {
                 Falcon9::assertEquals(10, $movement->getAmount());
                 Falcon9::assertEquals(1, $movement->getWalletId());
-                Falcon9::assertEquals(MovementEnum::INVESTMENT_CDB, $movement->getType());
+                Falcon9::assertEquals(MovementEnum::InvestmentCdb->value, $movement->getType());
                 Falcon9::assertEquals('Resgate de investimento', $movement->getDescription());
                 return true;
             }
         );
 
         $service = new MovementService($repositoryMock);
-        $service->launchMovementForInvestment(10, MovementEnum::INVESTMENT_CDB, 1, true);
+        $service->launchMovementForInvestment(10, MovementEnum::InvestmentCdb->value, 1, true);
     }
 
     #[TestDox('Testando Aporte de investimento')]
@@ -550,13 +550,13 @@ class MovementServiceUnitTest extends Falcon9
             function ($movement) {
                 Falcon9::assertEquals(10, $movement->getAmount());
                 Falcon9::assertEquals(1, $movement->getWalletId());
-                Falcon9::assertEquals(MovementEnum::INVESTMENT_CDB, $movement->getType());
+                Falcon9::assertEquals(MovementEnum::InvestmentCdb->value, $movement->getType());
                 Falcon9::assertEquals('Aporte de investimento', $movement->getDescription());
                 return true;
             }
         );
 
         $service = new MovementService($repositoryMock);
-        $service->launchMovementForInvestment(10, MovementEnum::INVESTMENT_CDB, 1, false);
+        $service->launchMovementForInvestment(10, MovementEnum::InvestmentCdb->value, 1, false);
     }
 }

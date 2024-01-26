@@ -96,7 +96,7 @@ class InvestmentServiceUnitTest extends Falcon9
             function ($value, $type, $walletId, $rescue) {
                 $this->assertEquals(100, $value);
                 $this->assertEquals(1, $walletId);
-                $this->assertEquals(MovementEnum::INVESTMENT_CDB, $type);
+                $this->assertEquals(MovementEnum::InvestmentCdb->value, $type);
                 $this->assertTrue($rescue);
             }
         );
@@ -148,7 +148,7 @@ class InvestmentServiceUnitTest extends Falcon9
             function ($value, $type, $walletId, $rescue) {
                 $this->assertEquals(100, $value);
                 $this->assertEquals(1, $walletId);
-                $this->assertEquals(MovementEnum::INVESTMENT_CDB, $type);
+                $this->assertEquals(MovementEnum::InvestmentCdb->value, $type);
                 $this->assertFalse($rescue);
             }
         );
@@ -219,49 +219,49 @@ class InvestmentServiceUnitTest extends Falcon9
         $movementOne = new MovementDTO();
         $movementOne->setCreatedAt('2021-01-01');
         $movementOne->setAmount(100);
-        $movementOne->setType(MovementEnum::INVESTMENT_CDB);
+        $movementOne->setType(MovementEnum::InvestmentCdb->value);
         $movementOne->setDescription('Resgate de investimento');
 
         $movementTwo = new MovementDTO();
         $movementTwo->setCreatedAt('2021-01-01');
         $movementTwo->setAmount(200);
-        $movementTwo->setType(MovementEnum::INVESTMENT_CDB);
+        $movementTwo->setType(MovementEnum::InvestmentCdb->value);
         $movementTwo->setDescription('Aporte de investimento');
 
         $movementThree = new MovementDTO();
         $movementThree->setCreatedAt('2021-02-01');
         $movementThree->setAmount(300);
-        $movementThree->setType(MovementEnum::INVESTMENT_CDB);
+        $movementThree->setType(MovementEnum::InvestmentCdb->value);
         $movementThree->setDescription('Resgate de investimento');
 
         $movementFour = new MovementDTO();
         $movementFour->setCreatedAt('2021-02-01');
         $movementFour->setAmount(400);
-        $movementFour->setType(MovementEnum::INVESTMENT_CDB);
+        $movementFour->setType(MovementEnum::InvestmentCdb->value);
         $movementFour->setDescription('Aporte de investimento');
 
         $movementFive = new MovementDTO();
         $movementFive->setCreatedAt('2021-03-01');
         $movementFive->setAmount(500);
-        $movementFive->setType(MovementEnum::INVESTMENT_CDB);
+        $movementFive->setType(MovementEnum::InvestmentCdb->value);
         $movementFive->setDescription('Resgate de investimento');
 
         $movementSix = new MovementDTO();
         $movementSix->setCreatedAt('2021-03-01');
         $movementSix->setAmount(600);
-        $movementSix->setType(MovementEnum::INVESTMENT_CDB);
+        $movementSix->setType(MovementEnum::InvestmentCdb->value);
         $movementSix->setDescription('Aporte de investimento');
 
         $movementSeven = new MovementDTO();
         $movementSeven->setCreatedAt('2021-03-01');
         $movementSeven->setAmount(500);
-        $movementSeven->setType(MovementEnum::INVESTMENT_CDB);
+        $movementSeven->setType(MovementEnum::InvestmentCdb->value);
         $movementSeven->setDescription('Resgate de investimento');
 
         $movementEight = new MovementDTO();
         $movementEight->setCreatedAt('2021-03-01');
         $movementEight->setAmount(600);
-        $movementEight->setType(MovementEnum::INVESTMENT_CDB);
+        $movementEight->setType(MovementEnum::InvestmentCdb->value);
         $movementEight->setDescription('Aporte de investimento');
 
         $movements = [

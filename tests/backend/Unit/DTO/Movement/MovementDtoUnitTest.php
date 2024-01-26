@@ -89,23 +89,23 @@ class MovementDtoUnitTest extends Falcon9
     public function testIsMarketSpent()
     {
         $dto = new MovementDTO();
-        $dto->setType(MovementEnum::SPENT);
+        $dto->setType(MovementEnum::Spent->value);
         $dto->setDescription('Mercado');
         $this->assertTrue($dto->isMarketSpent());
 
-        $dto->setType(MovementEnum::SPENT);
+        $dto->setType(MovementEnum::Spent->value);
         $dto->setDescription('mercado');
         $this->assertTrue($dto->isMarketSpent());
 
-        $dto->setType(MovementEnum::GAIN);
+        $dto->setType(MovementEnum::Gain->value);
         $dto->setDescription('Venda de ações');
         $this->assertFalse($dto->isMarketSpent());
 
-        $dto->setType(MovementEnum::SPENT);
+        $dto->setType(MovementEnum::Spent->value);
         $dto->setDescription('Compra de ações');
         $this->assertFalse($dto->isMarketSpent());
 
-        $dto->setType(MovementEnum::GAIN);
+        $dto->setType(MovementEnum::Gain->value);
         $dto->setDescription('Mercado');
         $this->assertFalse($dto->isMarketSpent());
     }
@@ -113,10 +113,10 @@ class MovementDtoUnitTest extends Falcon9
     public function testIsTransfer()
     {
         $dto = new MovementDTO();
-        $dto->setType(MovementEnum::TRANSFER);
+        $dto->setType(MovementEnum::Transfer->value);
         $this->assertTrue($dto->isTransfer());
 
-        $dto->setType(MovementEnum::SPENT);
+        $dto->setType(MovementEnum::Spent->value);
         $this->assertFalse($dto->isTransfer());
     }
 }

@@ -21,16 +21,16 @@ class DataGraphMovementFactoryUnitTest extends Falcon9
         $factory->addLabel('Março');
         $factory->addLabel('Abril');
 
-        $factory->addValue(MovementEnum::SPENT, 100);
-        $factory->addValue(MovementEnum::SPENT, 200);
-        $factory->addValue(MovementEnum::SPENT, 300);
-        $factory->addValue(MovementEnum::SPENT, 400);
+        $factory->addValue(MovementEnum::Spent->value, 100);
+        $factory->addValue(MovementEnum::Spent->value, 200);
+        $factory->addValue(MovementEnum::Spent->value, 300);
+        $factory->addValue(MovementEnum::Spent->value, 400);
 
-        $factory->addValue(MovementEnum::GAIN, 50);
-        $factory->addValue(MovementEnum::GAIN, 300);
-        $factory->addValue(MovementEnum::GAIN, 20);
-        $factory->addValue(MovementEnum::GAIN, 40);
-        $factory->addValue(MovementEnum::GAIN, 500);
+        $factory->addValue(MovementEnum::Gain->value, 50);
+        $factory->addValue(MovementEnum::Gain->value, 300);
+        $factory->addValue(MovementEnum::Gain->value, 20);
+        $factory->addValue(MovementEnum::Gain->value, 40);
+        $factory->addValue(MovementEnum::Gain->value, 500);
 
         $expected = [
             'labels' => ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
@@ -52,15 +52,15 @@ class DataGraphMovementFactoryUnitTest extends Falcon9
         $factory->addLabel('Março');
         $factory->addLabel('Abril');
 
-        $factory->addValue(MovementEnum::SPENT, 100);
-        $factory->addValue(MovementEnum::SPENT, 200);
-        $factory->addValue(MovementEnum::SPENT, 300);
-        $factory->addValue(MovementEnum::SPENT, 400);
+        $factory->addValue(MovementEnum::Spent->value, 100);
+        $factory->addValue(MovementEnum::Spent->value, 200);
+        $factory->addValue(MovementEnum::Spent->value, 300);
+        $factory->addValue(MovementEnum::Spent->value, 400);
 
-        $factory->addValue(MovementEnum::GAIN, 50);
-        $factory->addValue(MovementEnum::GAIN, 300);
-        $factory->addValue(MovementEnum::GAIN, 20);
-        $factory->addValue(MovementEnum::GAIN, 40);
+        $factory->addValue(MovementEnum::Gain->value, 50);
+        $factory->addValue(MovementEnum::Gain->value, 300);
+        $factory->addValue(MovementEnum::Gain->value, 20);
+        $factory->addValue(MovementEnum::Gain->value, 40);
 
         $expected = [
             'labels' => ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
@@ -82,16 +82,16 @@ class DataGraphMovementFactoryUnitTest extends Falcon9
         $factory->addLabel('Março');
         $factory->addLabel('Abril');
 
-        $factory->addValue(MovementEnum::SPENT, 100);
-        $factory->addValue(MovementEnum::SPENT, 200);
-        $factory->addValue(MovementEnum::SPENT, 300);
-        $factory->addValue(MovementEnum::SPENT, 400);
-        $factory->addValue(MovementEnum::SPENT, 500);
+        $factory->addValue(MovementEnum::Spent->value, 100);
+        $factory->addValue(MovementEnum::Spent->value, 200);
+        $factory->addValue(MovementEnum::Spent->value, 300);
+        $factory->addValue(MovementEnum::Spent->value, 400);
+        $factory->addValue(MovementEnum::Spent->value, 500);
 
-        $factory->addValue(MovementEnum::GAIN, 50);
-        $factory->addValue(MovementEnum::GAIN, 300);
-        $factory->addValue(MovementEnum::GAIN, 20);
-        $factory->addValue(MovementEnum::GAIN, 40);
+        $factory->addValue(MovementEnum::Gain->value, 50);
+        $factory->addValue(MovementEnum::Gain->value, 300);
+        $factory->addValue(MovementEnum::Gain->value, 20);
+        $factory->addValue(MovementEnum::Gain->value, 40);
 
         $expected = [
             'labels' => ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
@@ -115,16 +115,16 @@ class DataGraphMovementFactoryUnitTest extends Falcon9
         $factory->addLabel('Março');
         $factory->addLabel('Abril');
 
-        $factory->addValue(MovementEnum::SPENT, 100);
-        $factory->addValue(MovementEnum::SPENT, 200);
-        $factory->addValue(MovementEnum::SPENT, 300);
-        $factory->addValue(MovementEnum::SPENT, 400);
-        $factory->addValue(MovementEnum::SPENT, 500);
+        $factory->addValue(MovementEnum::Spent->value, 100);
+        $factory->addValue(MovementEnum::Spent->value, 200);
+        $factory->addValue(MovementEnum::Spent->value, 300);
+        $factory->addValue(MovementEnum::Spent->value, 400);
+        $factory->addValue(MovementEnum::Spent->value, 500);
 
-        $factory->addValue(MovementEnum::GAIN, 50);
-        $factory->addValue(MovementEnum::GAIN, 300);
-        $factory->addValue(MovementEnum::GAIN, 20);
-        $factory->addValue(MovementEnum::GAIN, 40);
+        $factory->addValue(MovementEnum::Gain->value, 50);
+        $factory->addValue(MovementEnum::Gain->value, 300);
+        $factory->addValue(MovementEnum::Gain->value, 20);
+        $factory->addValue(MovementEnum::Gain->value, 40);
 
         $this->expectException(CountGainAndExpenseDataGraphException::class);
         $this->expectExceptionMessage('Contagem de total de ganhos e total de gastos divergente.');

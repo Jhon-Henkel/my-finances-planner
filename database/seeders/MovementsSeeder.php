@@ -69,19 +69,19 @@ class MovementsSeeder extends Seeder
     protected function makeTypes(): array
     {
         $types = [
-            MovementEnum::GAIN,
-            MovementEnum::GAIN,
-            MovementEnum::GAIN,
-            MovementEnum::GAIN,
-            MovementEnum::SPENT,
-            MovementEnum::SPENT,
-            MovementEnum::SPENT,
-            MovementEnum::SPENT,
-            MovementEnum::SPENT,
-            MovementEnum::SPENT,
-            MovementEnum::SPENT,
-            MovementEnum::SPENT,
-            MovementEnum::SPENT
+            MovementEnum::Gain->value,
+            MovementEnum::Gain->value,
+            MovementEnum::Gain->value,
+            MovementEnum::Gain->value,
+            MovementEnum::Spent->value,
+            MovementEnum::Spent->value,
+            MovementEnum::Spent->value,
+            MovementEnum::Spent->value,
+            MovementEnum::Spent->value,
+            MovementEnum::Spent->value,
+            MovementEnum::Spent->value,
+            MovementEnum::Spent->value,
+            MovementEnum::Spent->value
         ];
         return array_merge($types, $types, $types);
     }

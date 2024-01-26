@@ -97,17 +97,17 @@ class MarketPlannerServiceUnitTest extends Falcon9
     {
         $movementOne = new MovementDTO();
         $movementOne->setAmount(10);
-        $movementOne->setType(MovementEnum::SPENT);
+        $movementOne->setType(MovementEnum::Spent->value);
         $movementOne->setDescription('Mercado');
 
         $movementTwo = new MovementDTO();
         $movementTwo->setAmount(40);
-        $movementTwo->setType(MovementEnum::SPENT);
+        $movementTwo->setType(MovementEnum::Spent->value);
         $movementTwo->setDescription('Mercado');
 
         $movementThree = new MovementDTO();
         $movementThree->setAmount(50);
-        $movementThree->setType(MovementEnum::GAIN);
+        $movementThree->setType(MovementEnum::Gain->value);
         $movementThree->setDescription('Mercado');
 
         $movements = [$movementOne, $movementTwo, $movementThree];

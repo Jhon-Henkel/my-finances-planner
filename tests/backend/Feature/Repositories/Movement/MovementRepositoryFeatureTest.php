@@ -40,15 +40,15 @@ class MovementRepositoryFeatureTest extends Falcon9Feature
     public function testFindByPeriodAndType()
     {
         $repository = $this->app->make(MovementRepository::class);
-        $movements = $repository->findByPeriodAndType(CalendarTools::getThisYearPeriod(), MovementEnum::ALL);
+        $movements = $repository->findByPeriodAndType(CalendarTools::getThisYearPeriod(), MovementEnum::All->value);
 
         $this->assertCount(13, $movements);
 
-        $movements = $repository->findByPeriodAndType(CalendarTools::getThisYearPeriod(), MovementEnum::GAIN);
+        $movements = $repository->findByPeriodAndType(CalendarTools::getThisYearPeriod(), MovementEnum::Gain->value);
 
         $this->assertCount(4, $movements);
 
-        $movements = $repository->findByPeriodAndType(CalendarTools::getThisYearPeriod(), MovementEnum::SPENT);
+        $movements = $repository->findByPeriodAndType(CalendarTools::getThisYearPeriod(), MovementEnum::Spent->value);
 
         $this->assertCount(9, $movements);
     }

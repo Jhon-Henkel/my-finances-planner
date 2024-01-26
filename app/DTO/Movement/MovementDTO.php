@@ -97,22 +97,22 @@ class MovementDTO
 
     public function isGain(): bool
     {
-        return $this->getType() == MovementEnum::GAIN;
+        return $this->getType() == MovementEnum::Gain->value;
     }
 
     public function isSpent(): bool
     {
-        return $this->getType() == MovementEnum::SPENT;
+        return $this->getType() == MovementEnum::Spent->value;
     }
 
     public function isTransfer(): bool
     {
-        return $this->getType() == MovementEnum::TRANSFER;
+        return $this->getType() == MovementEnum::Transfer->value;
     }
 
     public function isInvestmentType(): bool
     {
-        return $this->getType() == MovementEnum::INVESTMENT_CDB;
+        return $this->getType() == MovementEnum::InvestmentCdb->value;
     }
 
     public function isRescuedInvestmentType(): bool

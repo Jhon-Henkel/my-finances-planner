@@ -32,9 +32,9 @@ class WalletService extends BasicService
     {
         $wallet = $this->findById($walletId);
         $amount = $wallet->getAmount();
-        if ($type == MovementEnum::GAIN) {
+        if ($type == MovementEnum::Gain->value) {
             $amount += $value;
-        } elseif ($type == MovementEnum::SPENT) {
+        } elseif ($type == MovementEnum::Spent->value) {
             $amount -= $value;
         }
         $wallet->setAmount($amount);

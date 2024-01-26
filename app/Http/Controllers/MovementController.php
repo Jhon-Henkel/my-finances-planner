@@ -82,9 +82,9 @@ class MovementController extends BasicController
         }
         $data = $request->json()->all();
         $transferSpent = $this->getResource()->makeTransferSpentMovement($data);
-        $this->getService()->insertWithWalletUpdateType($transferSpent, MovementEnum::SPENT);
+        $this->getService()->insertWithWalletUpdateType($transferSpent, MovementEnum::Spent->value);
         $transferReceived = $this->getResource()->makeTransferGainMovement($data);
-        $this->getService()->insertWithWalletUpdateType($transferReceived, MovementEnum::GAIN);
+        $this->getService()->insertWithWalletUpdateType($transferReceived, MovementEnum::Gain->value);
         return response()->json(null, ResponseAlias::HTTP_CREATED);
     }
 

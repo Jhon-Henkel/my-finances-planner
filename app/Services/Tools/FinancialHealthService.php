@@ -84,23 +84,23 @@ class FinancialHealthService
     {
         $spending = ['label' => [], 'data' => [], 'color' => [], 'total' => 0];
         $gains = ['label' => [], 'data' => [], 'color' => [], 'total' => 0];
-        if (isset($movements[MovementEnum::GAIN])) {
-            foreach ($movements[MovementEnum::GAIN] as $title => $amount) {
+        if (isset($movements[MovementEnum::Gain->value])) {
+            foreach ($movements[MovementEnum::Gain->value] as $title => $amount) {
                 $gains['label'][] = $title;
                 $gains['data'][] = $amount;
                 $gains['color'][] = StringTools::generateRandomHexColor();
                 $gains['total'] += $amount;
             }
         }
-        if (isset($movements[MovementEnum::SPENT])) {
-            foreach ($movements[MovementEnum::SPENT] as $title => $amount) {
+        if (isset($movements[MovementEnum::Spent->value])) {
+            foreach ($movements[MovementEnum::Spent->value] as $title => $amount) {
                 $spending['label'][] = $title;
                 $spending['data'][] = $amount;
                 $spending['color'][] = StringTools::generateRandomHexColor();
                 $spending['total'] += $amount;
             }
         }
-        $movements['dataForGraph'] = [MovementEnum::SPENT => $spending, MovementEnum::GAIN => $gains];
+        $movements['dataForGraph'] = [MovementEnum::Spent->value => $spending, MovementEnum::Gain->value => $gains];
         return $movements;
     }
 }
