@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Feature\CompleteFeature;
 
-use App\Enums\ConfigEnum;
+use App\Enums\StatusEnum;
 use App\Models\User;
 use Tests\backend\Falcon9Feature;
 
@@ -48,7 +48,7 @@ class AuthApiTest extends Falcon9Feature
 
     public function testWithInactiveUser()
     {
-        User::query()->where('email', $this->user->email)->update(['status' => ConfigEnum::STATUS_INACTIVE]);
+        User::query()->where('email', $this->user->email)->update(['status' => StatusEnum::StatusInactive->value]);
 
         $headers = $this->apiHeaders;
 

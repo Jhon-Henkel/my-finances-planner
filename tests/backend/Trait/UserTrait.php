@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Trait;
 
-use App\Enums\ConfigEnum;
+use App\Enums\StatusEnum;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Tools\Auth\JwtTools;
@@ -21,7 +21,7 @@ trait UserTrait
             'name' => 'Demo User 2',
             'email' => 'demo2@demo.dev',
             'password' => bcrypt('1234'),
-            'status' => ConfigEnum::STATUS_ACTIVE,
+            'status' => StatusEnum::StatusActive->value,
             'salary' => 5000,
             'wrong_login_attempts' => 0,
         ]);

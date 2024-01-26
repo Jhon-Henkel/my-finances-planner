@@ -4,7 +4,6 @@ namespace App\Services\Auth;
 
 use App\DTO\Log\AccessLogDTO;
 use App\DTO\Mail\MailMessageDTO;
-use App\Enums\ConfigEnum;
 use App\Models\User;
 use App\Services\Log\AccessLogService;
 use App\Services\Mail\MailService;
@@ -34,7 +33,7 @@ class AuthService
         if ($user->status === ConfigEnum::STATUS_INACTIVE) {
             return self::INACTIVE_USER_CODE;
         }
-        if ($user->wrong_login_attempts > ConfigEnum::MAX_WRONG_LOGIN_ATTEMPTS) {
+        if ($user->wrong_login_attempts > config('max_wrong_login_attempts')) {
             $this->inactiveUser($user);
             $this->sendEmailInactiveUser($user);
             return self::INACTIVE_USER_CODE;
