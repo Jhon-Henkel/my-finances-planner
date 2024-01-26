@@ -4,7 +4,7 @@ namespace App\Factory;
 
 use App\DTO\InvoiceItemDTO;
 use App\Enums\CalendarMonthsNumberEnum;
-use App\Enums\InvoiceEnum;
+use App\Enums\InvoiceInstallmentsEnum;
 use App\VO\InvoiceVO;
 
 class InvoiceFactory
@@ -46,8 +46,8 @@ class InvoiceFactory
 
     protected static function normalizeInstallments(int $installments): int
     {
-        return $installments == InvoiceEnum::FIXED_INSTALLMENTS
-            ? InvoiceEnum::MAX_INSTALLMENTS
+        return $installments == InvoiceInstallmentsEnum::FixedInstallments->value
+            ? InvoiceInstallmentsEnum::MaxInstallments->value
             : $installments;
     }
 

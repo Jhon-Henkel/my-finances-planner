@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\DTO\FutureSpentDTO;
-use App\Enums\InvoiceEnum;
+use App\Enums\InvoiceInstallmentsEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\FutureSpentRepository;
 use App\Resources\FutureSpentResource;
@@ -76,7 +76,7 @@ class FutureSpentService extends BasicService
             return $this->getRepository()->deleteById($spent->getId());
         }
         if ($remainingInstallments < 0) {
-            $remainingInstallments = InvoiceEnum::FIXED_INSTALLMENTS;
+            $remainingInstallments = InvoiceInstallmentsEnum::FixedInstallments->value;
         }
         $spent->setInstallments($remainingInstallments);
         $spent->setForecast(CalendarTools::addMonthInDate($spent->getForecast(), 1));

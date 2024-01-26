@@ -2,16 +2,16 @@
 
 namespace App\Enums;
 
-enum InvestmentEnum
+enum InvestmentEnum: int
 {
-    const CDB_ID = 1;
-    const CDB_CREDIT_LIMIT_ID = 2;
+    case Cdb = 1;
+    case CdbCreditLimit = 2;
 
     public static function getAllCdbIdTypes(): array
     {
         return [
-            self::CDB_ID,
-            self::CDB_CREDIT_LIMIT_ID
+            self::Cdb->value,
+            self::CdbCreditLimit->value
         ];
     }
 }

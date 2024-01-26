@@ -6,7 +6,7 @@ use App\DTO\Date\DatePeriodDTO;
 use App\DTO\InvoiceItemDTO;
 use App\DTO\Movement\MovementDTO;
 use App\DTO\UserDTO;
-use App\Enums\InvoiceEnum;
+use App\Enums\InvoiceInstallmentsEnum;
 use App\Enums\MovementEnum;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\MarketPlannerService;
@@ -65,7 +65,7 @@ class MarketPlannerServiceUnitTest extends Falcon9
             'Mercado',
             10,
             '2021-01-01',
-            InvoiceEnum::FIXED_INSTALLMENTS
+            InvoiceInstallmentsEnum::FixedInstallments->value
         );
 
         $mockUserService = Mockery::mock(UserService::class)->makePartial();
@@ -152,7 +152,7 @@ class MarketPlannerServiceUnitTest extends Falcon9
         $this->assertEquals('2021-12-31', $invoice->getNextInstallment());
         $this->assertEquals(0, $invoice->getId());
         $this->assertEquals(0, $invoice->getCountId());
-        $this->assertEquals(InvoiceEnum::FIXED_INSTALLMENTS, $invoice->getInstallments());
+        $this->assertEquals(InvoiceInstallmentsEnum::FixedInstallments->value, $invoice->getInstallments());
         $this->assertNull($invoice->getCountName());
     }
 

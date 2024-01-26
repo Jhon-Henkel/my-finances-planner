@@ -4,7 +4,7 @@ namespace App\Services\Tools;
 
 use App\DTO\InvoiceItemDTO;
 use App\DTO\Movement\MovementDTO;
-use App\Enums\InvoiceEnum;
+use App\Enums\InvoiceInstallmentsEnum;
 use App\Factory\InvoiceFactory;
 use App\Services\Movement\MovementService;
 use App\Services\UserService;
@@ -61,7 +61,7 @@ class MarketPlannerService
             'Mercado',
             $this->marketPlannerValue,
             $thisMonth->getEndDate(),
-            InvoiceEnum::FIXED_INSTALLMENTS
+            InvoiceInstallmentsEnum::FixedInstallments->value
         );
     }
 
