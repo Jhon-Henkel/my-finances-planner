@@ -4,6 +4,7 @@ namespace App\Services\Auth;
 
 use App\DTO\Log\AccessLogDTO;
 use App\DTO\Mail\MailMessageDTO;
+use App\Enums\StatusEnum;
 use App\Models\User;
 use App\Services\Log\AccessLogService;
 use App\Services\Mail\MailService;
@@ -30,7 +31,7 @@ class AuthService
         if (! $user) {
             return self::INVALID_LOGIN_OR_PASSWORD_CODE;
         }
-        if ($user->status === ConfigEnum::STATUS_INACTIVE) {
+        if ($user->status === StatusEnum::StatusInactive->value) {
             return self::INACTIVE_USER_CODE;
         }
         if ($user->wrong_login_attempts > config('max_wrong_login_attempts')) {
@@ -54,11 +55,11 @@ class AuthService
         if (RequestTools::isApplicationInDemoMode()) {
             return;
         }
-        if ($user->status == ConfigEnum::STATUS_INACTIVE) {
+        if ($user->status == StatusEnum::StatusInactive->value) {
             return;
         }
         $user->verify_hash = md5(uniqid($user->email) . time());
-        $user->status = ConfigEnum::STATUS_INACTIVE;
+        $user->status = StatusEnum::StatusInactive->value;
         $user->save();
     }
 

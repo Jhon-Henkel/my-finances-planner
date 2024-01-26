@@ -7,7 +7,7 @@ use App\DTO\FutureGainDTO;
 use App\DTO\FutureSpentDTO;
 use App\DTO\Movement\MovementDTO;
 use App\DTO\Movement\MovementSumValuesDTO;
-use App\Enums\DateEnum;
+use App\Enums\CalendarMonthsNumberEnum;
 use App\Enums\MovementEnum;
 use App\Exceptions\MovementException;
 use App\Factory\DataGraph\Movement\DataGraphMovementFactory;
@@ -210,7 +210,7 @@ class MovementService extends BasicService
         $movements = $this->getRepository()->getLastMonthsSumGroupByTypeAndMonth(4);
         $dataGraph = new DataGraphMovementFactory();
         foreach ($movements as $movement) {
-            $dataGraph->addLabel(DateEnum::getMonthNameByNumber($movement['month']));
+            $dataGraph->addLabel(CalendarMonthsNumberEnum::getMonthName($movement['month']));
             $dataGraph->addValue($movement['type'], $movement['total']);
         }
         return $dataGraph;

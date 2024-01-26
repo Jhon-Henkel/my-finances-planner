@@ -3,7 +3,8 @@
 namespace App\Tools\Calendar;
 
 use App\DTO\Date\DatePeriodDTO;
-use App\Enums\DateEnum;
+use App\Enums\CalendarMonthsNumberEnum;
+use App\Enums\DateFormatEnum;
 use DateInterval;
 use DateTime;
 use Exception;
@@ -27,19 +28,19 @@ class CalendarToolsReal
     public function stringUsToBrDate(string $date): string
     {
         $date = new DateTime($date);
-        return $date->format(DateEnum::DEFAULT_BR_DATE_FORMAT);
+        return $date->format(DateFormatEnum::DefaultBrDateFormat->value);
     }
 
     public function getThisMonth(): string
     {
         $date = $this->getDateNow();
-        return $date->format(DateEnum::ONLY_MONTH);
+        return $date->format(DateFormatEnum::OnlyMonth->value);
     }
 
     public function getThisYear(): string
     {
         $date = $this->getDateNow();
-        return $date->format(DateEnum::ONLY_COMPLETE_YEAR);
+        return $date->format(DateFormatEnum::OnlyCompleteYear->value);
     }
 
     public function getDateNow(): DateTime
@@ -51,7 +52,7 @@ class CalendarToolsReal
     public function getMonthFromStringDate(string $date): string
     {
         $date = new DateTime($date);
-        $month = $date->format(DateEnum::ONLY_MONTH);
+        $month = $date->format(DateFormatEnum::OnlyMonth->value);
         return str_pad($month, 2, '0', STR_PAD_LEFT);
     }
 
@@ -59,14 +60,14 @@ class CalendarToolsReal
     public function getYearFromStringDate(string $date): string
     {
         $date = new DateTime($date);
-        return $date->format(DateEnum::ONLY_COMPLETE_YEAR);
+        return $date->format(DateFormatEnum::OnlyCompleteYear->value);
     }
 
     /** @throws Exception */
     public function getDayFromStringDate(string $date): string
     {
         $date = new DateTime($date);
-        return $date->format(DateEnum::ONLY_DAY);
+        return $date->format(DateFormatEnum::OnlyDay->value);
     }
 
     public function getThisMonthPeriod(): DatePeriodDTO
@@ -83,8 +84,8 @@ class CalendarToolsReal
     {
         $thisMonth = (int)$this->getThisMonth();
         $thisYear = (int)$this->getThisYear();
-        if ($thisMonth == DateEnum::JANUARY_MONTH_NUMBER) {
-            $lastMonth = DateEnum::DECEMBER_MONTH_NUMBER;
+        if ($thisMonth == CalendarMonthsNumberEnum::January->value) {
+            $lastMonth = CalendarMonthsNumberEnum::December->value;
             $year = $thisYear - 1;
         } else {
             $lastMonth = $thisMonth - 1;
@@ -103,8 +104,8 @@ class CalendarToolsReal
 
     public function getYearPeriod(int $year): DatePeriodDTO
     {
-        $startDate = $this->mountStringDateTime($year, DateEnum::JANUARY_MONTH_NUMBER, 1, '00:00:00');
-        $endDate = $this->mountStringDateTime($year, DateEnum::DECEMBER_MONTH_NUMBER, 31, '23:59:59');
+        $startDate = $this->mountStringDateTime($year, CalendarMonthsNumberEnum::January->value, 1, '00:00:00');
+        $endDate = $this->mountStringDateTime($year, CalendarMonthsNumberEnum::December->value, 31, '23:59:59');
         return new DatePeriodDTO($startDate, $endDate);
     }
 
@@ -112,8 +113,8 @@ class CalendarToolsReal
     {
         $year = (int)$this->getThisYear();
         $lastYear = $year - 5;
-        $startDate = $this->mountStringDateTime($lastYear, DateEnum::JANUARY_MONTH_NUMBER, 1, '00:00:00');
-        $endDate = $this->mountStringDateTime($year, DateEnum::DECEMBER_MONTH_NUMBER, 31, '23:59:59');
+        $startDate = $this->mountStringDateTime($lastYear, CalendarMonthsNumberEnum::January->value, 1, '00:00:00');
+        $endDate = $this->mountStringDateTime($year, CalendarMonthsNumberEnum::December->value, 31, '23:59:59');
         return new DatePeriodDTO($startDate, $endDate);
     }
 
@@ -131,14 +132,14 @@ class CalendarToolsReal
     }
 
     /** @throws Exception */
-    public function addMonthInDate(string $date, int $months, string $format = DateEnum::DEFAULT_DB_DATE_FORMAT): string
+    public function addMonthInDate(string $date, int $months, string $format = DateFormatEnum::DefaultDbDateFormat->value): string
     {
         $date = new DateTime($date);
         return $date->add(new DateInterval('P'. $months . 'M'))->format($format);
     }
 
     /** @throws Exception */
-    public function subMonthInDate(string $date, int $months, string $format = DateEnum::DEFAULT_DB_DATE_FORMAT): string
+    public function subMonthInDate(string $date, int $months, string $format = DateFormatEnum::DefaultDbDateFormat->value): string
     {
         $date = new DateTime($date);
         return $date->sub(new DateInterval('P'. $months . 'M'))->format($format);
@@ -156,8 +157,8 @@ class CalendarToolsReal
     public function getMonthLabelWithYear(string $date): string
     {
         $date = new DateTime($date);
-        $month = $date->format(DateEnum::ONLY_MONTH);
-        $year = $date->format(DateEnum::ONLY_COMPLETE_YEAR);
+        $month = $date->format(DateFormatEnum::OnlyMonth->value);
+        $year = $date->format(DateFormatEnum::OnlyCompleteYear->value);
         return $month . '/' . $year;
     }
 
@@ -178,8 +179,8 @@ class CalendarToolsReal
         $dateStart = new DateTime($rangeDate['dateStart']);
         $dateEnd = new DateTime($rangeDate['dateEnd']);
         return new DatePeriodDTO(
-            $dateStart->format(DateEnum::USA_DATE_FORMAT_WITHOUT_TIME) . ' 00:00:00',
-            $dateEnd->format(DateEnum::USA_DATE_FORMAT_WITHOUT_TIME) . ' 23:59:59'
+            $dateStart->format(DateFormatEnum::UsaDateFormatWithoutTime->value) . ' 00:00:00',
+            $dateEnd->format(DateFormatEnum::UsaDateFormatWithoutTime->value) . ' 23:59:59'
         );
     }
 

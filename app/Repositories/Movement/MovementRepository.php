@@ -4,7 +4,7 @@ namespace App\Repositories\Movement;
 
 use App\DTO\Date\DatePeriodDTO;
 use App\DTO\Movement\MovementDTO;
-use App\Enums\DateEnum;
+use App\Enums\DateFormatEnum;
 use App\Models\MovementModel;
 use App\Repositories\BasicRepository;
 use App\Resources\Movement\MovementResource;
@@ -87,7 +87,7 @@ class MovementRepository extends BasicRepository
 
     public function getLastMonthsSumGroupByTypeAndMonth(int $months): array
     {
-        $dateNow = CalendarTools::getDateNow()->format(DateEnum::DEFAULT_DB_DATE_FORMAT);
+        $dateNow = CalendarTools::getDateNow()->format(DateFormatEnum::DefaultDbDateFormat->value);
         $dateStart = CalendarTools::subMonthInDate($dateNow, $months);
         return $this->model::selectRaw(
             'sum(amount) as total, type, month(created_at) as month, year(created_at) as year'

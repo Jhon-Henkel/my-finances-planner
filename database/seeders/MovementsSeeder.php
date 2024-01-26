@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Enums\DateEnum;
+use App\Enums\CalendarMonthsNumberEnum;
+use App\Enums\DateFormatEnum;
 use App\Enums\MovementEnum;
 use App\Models\MovementModel;
 use App\Models\User;
@@ -93,22 +94,22 @@ class MovementsSeeder extends Seeder
 
     protected function getCreatedAtDates(): array
     {
-        $now = CalendarTools::getDateNow()->format(DateEnum::DEFAULT_DB_DATE_FORMAT);
+        $now = CalendarTools::getDateNow()->format(DateFormatEnum::DefaultDbDateFormat->value);
         $today = (int)CalendarTools::getDayFromStringDate($now);
         $firstMonth = CalendarTools::getThisMonth();
         $firstYear = CalendarTools::getThisYear();
         $firstDate = $firstYear . '-' . $firstMonth . '-';
         $secondMonth = (int)$firstMonth - 1;
         $secondYear = $firstYear;
-        if ($secondMonth < DateEnum::JANUARY_MONTH_NUMBER) {
-            $secondMonth = DateEnum::DECEMBER_MONTH_NUMBER;
+        if ($secondMonth < CalendarMonthsNumberEnum::January->value) {
+            $secondMonth = CalendarMonthsNumberEnum::December->value;
             $secondYear--;
         }
         $secondDate = $secondYear . '-' . $secondMonth . '-';
         $thirdMonth = (int)$secondMonth - 1;
         $thirdYear = $secondYear;
-        if ($thirdMonth < DateEnum::JANUARY_MONTH_NUMBER) {
-            $thirdMonth = DateEnum::DECEMBER_MONTH_NUMBER + $thirdMonth;
+        if ($thirdMonth < CalendarMonthsNumberEnum::January->value) {
+            $thirdMonth = CalendarMonthsNumberEnum::December->value + $thirdMonth;
             $thirdYear--;
         }
         $thirdDate = $thirdYear . '-' . $thirdMonth . '-';
