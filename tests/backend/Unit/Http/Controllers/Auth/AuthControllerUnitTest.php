@@ -2,7 +2,6 @@
 
 namespace Tests\backend\Unit\Http\Controllers\Auth;
 
-use App\Enums\BasicFieldsEnum;
 use App\Http\Controllers\Auth\AuthController;
 use App\Models\User;
 use App\Services\Auth\AuthService;
@@ -17,8 +16,8 @@ class AuthControllerUnitTest extends Falcon9
     protected function getAuthRequest(): Request
     {
         $data = new ParameterBag();
-        $data->set(BasicFieldsEnum::EMAIL, $this->faker->email);
-        $data->set(BasicFieldsEnum::PASSWORD, $this->faker->password);
+        $data->set('email', $this->faker->email);
+        $data->set('password', $this->faker->password);
         $request = new Request();
         $request->setJson($data);
         $request->headers->set('content-type', 'application/json');

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\DTO\Date\DatePeriodDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Models\FutureSpent;
 use App\Resources\FutureSpentResource;
 
@@ -39,7 +38,7 @@ class FutureSpentRepository extends BasicRepository
             $items->where('future_spent.tenant_id', '=', $tenantId);
         }
         $items->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
-            ->orderBy(BasicFieldsEnum::ID, 'desc');
+            ->orderBy('id', 'desc');
         $items = $items->get();
         return $items ? $this->getResource()->arrayToDtoItens($items->toArray()) : array();
     }
@@ -49,7 +48,7 @@ class FutureSpentRepository extends BasicRepository
         $itens = $this->getModel()
             ->select('future_spent.*', 'wallets.name')
             ->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
-            ->orderBy(BasicFieldsEnum::ID, 'desc')
+            ->orderBy('id', 'desc')
             ->get();
         return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
     }

@@ -3,7 +3,6 @@
 namespace Tests\backend\Unit\Resource\CreditCard;
 
 use App\DTO\CreditCard\CreditCardDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Resources\CreditCard\CreditCardResource;
 use Tests\backend\Falcon9;
 
@@ -20,23 +19,23 @@ class CreditCardResourceUnitTest extends Falcon9
     public function testArrayToDto()
     {
         $item = [];
-        $item[BasicFieldsEnum::ID] = 1;
-        $item[BasicFieldsEnum::NAME] = 'Test';
-        $item[BasicFieldsEnum::LIMIT] = 1000;
-        $item[BasicFieldsEnum::DUE_DATE_DB] = 16;
-        $item[BasicFieldsEnum::CLOSING_DAY_DB] = 1;
-        $item[BasicFieldsEnum::CREATED_AT] = '2021-01-01';
-        $item[BasicFieldsEnum::UPDATED_AT] = '2021-01-01';
+        $item['id'] = 1;
+        $item['name'] = 'Test';
+        $item['limit'] = 1000;
+        $item['due_date'] = 16;
+        $item['closing_day'] = 1;
+        $item['created_at'] = '2021-01-01';
+        $item['updated_at'] = '2021-01-01';
 
         $dto = $this->resource->arrayToDto($item);
 
-        $this->assertEquals($item[BasicFieldsEnum::ID], $dto->getId());
-        $this->assertEquals($item[BasicFieldsEnum::NAME], $dto->getName());
-        $this->assertEquals($item[BasicFieldsEnum::LIMIT], $dto->getLimit());
-        $this->assertEquals($item[BasicFieldsEnum::DUE_DATE_DB], $dto->getDueDate());
-        $this->assertEquals($item[BasicFieldsEnum::CLOSING_DAY_DB], $dto->getClosingDay());
-        $this->assertEquals($item[BasicFieldsEnum::CREATED_AT], $dto->getCreatedAt());
-        $this->assertEquals($item[BasicFieldsEnum::UPDATED_AT], $dto->getUpdatedAt());
+        $this->assertEquals($item['id'], $dto->getId());
+        $this->assertEquals($item['name'], $dto->getName());
+        $this->assertEquals($item['limit'], $dto->getLimit());
+        $this->assertEquals($item['due_date'], $dto->getDueDate());
+        $this->assertEquals($item['closing_day'], $dto->getClosingDay());
+        $this->assertEquals($item['created_at'], $dto->getCreatedAt());
+        $this->assertEquals($item['updated_at'], $dto->getUpdatedAt());
     }
 
     public function testDtoToArray()
@@ -49,10 +48,10 @@ class CreditCardResourceUnitTest extends Falcon9
 
         $array = $this->resource->dtoToArray($dto);
 
-        $this->assertEquals($dto->getName(), $array[BasicFieldsEnum::NAME]);
-        $this->assertEquals($dto->getLimit(), $array[BasicFieldsEnum::LIMIT]);
-        $this->assertEquals($dto->getDueDate(), $array[BasicFieldsEnum::DUE_DATE_DB]);
-        $this->assertEquals($dto->getClosingDay(), $array[BasicFieldsEnum::CLOSING_DAY_DB]);
+        $this->assertEquals($dto->getName(), $array['name']);
+        $this->assertEquals($dto->getLimit(), $array['limit']);
+        $this->assertEquals($dto->getDueDate(), $array['due_date']);
+        $this->assertEquals($dto->getClosingDay(), $array['closing_day']);
     }
 
     public function testDtoToVo()
@@ -84,21 +83,21 @@ class CreditCardResourceUnitTest extends Falcon9
     public function testTransactionToInvoiceDTO()
     {
         $item = [];
-        $item[BasicFieldsEnum::ID] = 1;
-        $item[BasicFieldsEnum::CREDIT_CARD_ID_DB] = 1;
-        $item[BasicFieldsEnum::NAME] = 'Test';
-        $item[BasicFieldsEnum::VALUE] = 1000;
-        $item[BasicFieldsEnum::NEXT_INSTALLMENT_DB] = '2021-11';
-        $item[BasicFieldsEnum::INSTALLMENTS] = 1;
+        $item['id'] = 1;
+        $item['credit_card_id'] = 1;
+        $item['name'] = 'Test';
+        $item['value'] = 1000;
+        $item['next_installment'] = '2021-11';
+        $item['installments'] = 1;
 
         $dto = $this->resource->transactionToInvoiceDTO($item);
 
-        $this->assertEquals($item[BasicFieldsEnum::ID], $dto->getId());
-        $this->assertEquals($item[BasicFieldsEnum::CREDIT_CARD_ID_DB], $dto->getCountId());
-        $this->assertEquals($item[BasicFieldsEnum::NAME], $dto->getDescription());
-        $this->assertEquals($item[BasicFieldsEnum::VALUE], $dto->getValue());
-        $this->assertEquals($item[BasicFieldsEnum::NEXT_INSTALLMENT_DB], $dto->getNextInstallment());
+        $this->assertEquals($item['id'], $dto->getId());
+        $this->assertEquals($item['credit_card_id'], $dto->getCountId());
+        $this->assertEquals($item['name'], $dto->getDescription());
+        $this->assertEquals($item['value'], $dto->getValue());
+        $this->assertEquals($item['next_installment'], $dto->getNextInstallment());
         $this->assertEquals(11, $dto->getNextInstallmentMonth());
-        $this->assertEquals($item[BasicFieldsEnum::INSTALLMENTS], $dto->getInstallments());
+        $this->assertEquals($item['installments'], $dto->getInstallments());
     }
 }

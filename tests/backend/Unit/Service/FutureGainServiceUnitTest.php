@@ -4,7 +4,6 @@ namespace Tests\backend\Unit\Service;
 
 use App\DTO\FutureGainDTO;
 use App\DTO\Movement\MovementDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Repositories\FutureGainRepository;
 use App\Services\FutureGainService;
 use App\Services\Movement\MovementService;
@@ -108,9 +107,9 @@ class FutureGainServiceUnitTest extends Falcon9
         $serviceMock->shouldReceive('receiveWithOptions')->once()->andReturnTrue();
 
         $options = [
-            BasicFieldsEnum::PARTIAL => true,
-            BasicFieldsEnum::WALLET_ID_JSON => 1,
-            BasicFieldsEnum::VALUE => 1.50,
+            'partial' => true,
+            'walletId' => 1,
+            'value' => 1.50,
         ];
 
         $result = $serviceMock->receive($gain, $options);
@@ -130,9 +129,9 @@ class FutureGainServiceUnitTest extends Falcon9
         $serviceMock->shouldReceive('receiveWithOptions')->never();
 
         $options = [
-            BasicFieldsEnum::PARTIAL => false,
-            BasicFieldsEnum::WALLET_ID_JSON => 1,
-            BasicFieldsEnum::VALUE => 1.50,
+            'partial' => false,
+            'walletId' => 1,
+            'value' => 1.50,
         ];
 
         $result = $serviceMock->receive($gain, $options);
@@ -247,9 +246,9 @@ class FutureGainServiceUnitTest extends Falcon9
         $gain->setDescription('test');
 
         $options = [
-            BasicFieldsEnum::PARTIAL => true,
-            BasicFieldsEnum::WALLET_ID_JSON => 2,
-            BasicFieldsEnum::VALUE => 1,
+            'partial' => true,
+            'walletId' => 2,
+            'value' => 1,
         ];
 
         $movement = new MovementDTO();
@@ -282,9 +281,9 @@ class FutureGainServiceUnitTest extends Falcon9
         $gain->setDescription('test');
 
         $options = [
-            BasicFieldsEnum::PARTIAL => false,
-            BasicFieldsEnum::WALLET_ID_JSON => 2,
-            BasicFieldsEnum::VALUE => 1,
+            'partial' => false,
+            'walletId' => 2,
+            'value' => 1,
         ];
 
         $movement = new MovementDTO();
@@ -314,9 +313,9 @@ class FutureGainServiceUnitTest extends Falcon9
         $gain->setDescription('test');
 
         $options = [
-            BasicFieldsEnum::PARTIAL => false,
-            BasicFieldsEnum::WALLET_ID_JSON => 2,
-            BasicFieldsEnum::VALUE => 1,
+            'partial' => false,
+            'walletId' => 2,
+            'value' => 1,
         ];
 
         $movement = new MovementDTO();

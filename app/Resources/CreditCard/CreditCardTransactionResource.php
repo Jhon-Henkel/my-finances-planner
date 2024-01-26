@@ -3,7 +3,6 @@
 namespace App\Resources\CreditCard;
 
 use App\DTO\CreditCard\CreditCardTransactionDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Resources\BasicResource;
 use App\VO\CreditCard\CreditCardTransactionVO;
 
@@ -11,17 +10,17 @@ class CreditCardTransactionResource extends BasicResource
 {
     public function arrayToDto(array $item): CreditCardTransactionDTO
     {
-        $creditCardId = $item[BasicFieldsEnum::CREDIT_CARD_ID_DB] ?? $item[BasicFieldsEnum::CREDIT_CARD_ID_JSON];
-        $nextInstallment = $item[BasicFieldsEnum::NEXT_INSTALLMENT_DB] ?? $item[BasicFieldsEnum::NEXT_INSTALLMENT_JSON];
+        $creditCardId = $item['credit_card_id'] ?? $item['creditCardId'];
+        $nextInstallment = $item['next_installment'] ?? $item['nextInstallment'];
         $dto = new CreditCardTransactionDTO();
-        $dto->setId($item[BasicFieldsEnum::ID] ?? null);
-        $dto->setName($item[BasicFieldsEnum::NAME]);
-        $dto->setValue($item[BasicFieldsEnum::VALUE]);
-        $dto->setInstallments($item[BasicFieldsEnum::INSTALLMENTS]);
+        $dto->setId($item['id'] ?? null);
+        $dto->setName($item['name']);
+        $dto->setValue($item['value']);
+        $dto->setInstallments($item['installments']);
         $dto->setCreditCardId($creditCardId);
         $dto->setNextInstallment($nextInstallment);
-        $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
-        $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
+        $dto->setCreatedAt($item['created_at'] ?? null);
+        $dto->setUpdatedAt($item['updated_at'] ?? null);
         return $dto;
     }
 
@@ -29,11 +28,11 @@ class CreditCardTransactionResource extends BasicResource
     public function dtoToArray($item): array
     {
         return [
-            BasicFieldsEnum::NAME => $item->getName(),
-            BasicFieldsEnum::VALUE => $item->getValue(),
-            BasicFieldsEnum::INSTALLMENTS => $item->getInstallments(),
-            BasicFieldsEnum::CREDIT_CARD_ID_DB => $item->getCreditCardId(),
-            BasicFieldsEnum::NEXT_INSTALLMENT_DB => $item->getNextInstallment(),
+            'name' => $item->getName(),
+            'value' => $item->getValue(),
+            'installments' => $item->getInstallments(),
+            'credit_card_id' => $item->getCreditCardId(),
+            'next_installment' => $item->getNextInstallment(),
         ];
     }
 

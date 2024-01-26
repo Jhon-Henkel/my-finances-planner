@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\RouteEnum;
-use App\Enums\ViewEnum;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\UserController;

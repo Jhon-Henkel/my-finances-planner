@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\DTO\UserDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Models\User;
 use App\Resources\UserResource;
 
@@ -31,13 +30,13 @@ class UserRepository extends BasicRepository
     public function update(int $id, $item)
     {
         $array = $this->getResource()->dtoToArray($item);
-        $this->getModel()->where(BasicFieldsEnum::ID, $id)->update($array);
+        $this->getModel()->where('id', $id)->update($array);
         return $item;
     }
 
     public function findByEmail(string $email): null|User
     {
-        return $this->getModel()->where(BasicFieldsEnum::EMAIL, $email)->first();
+        return $this->getModel()->where('email', $email)->first();
     }
 
     public function findByVerifyHash(string $verifyHash): null|UserDTO
@@ -51,7 +50,7 @@ class UserRepository extends BasicRepository
 
     public function activeUser(int $id): bool
     {
-        return $this->getModel()->where(BasicFieldsEnum::ID, $id)
+        return $this->getModel()->where('id', $id)
             ->update(['status' => 1, 'verify_hash' => '', 'email_verified_at' => now(), 'wrong_login_attempts' => 0]);
     }
 }

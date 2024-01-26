@@ -3,7 +3,6 @@
 namespace App\Resources;
 
 use App\DTO\ConfigurationDTO;
-use App\Enums\BasicFieldsEnum;
 use App\VO\ConfigurationsVO;
 
 class ConfigurationResource extends BasicResource
@@ -11,11 +10,11 @@ class ConfigurationResource extends BasicResource
     public function arrayToDto(array $item): ConfigurationDTO
     {
         $dto = new ConfigurationDTO();
-        $dto->setId($item[BasicFieldsEnum::ID] ?? null);
-        $dto->setName($item[BasicFieldsEnum::NAME]);
-        $dto->setValue($item[BasicFieldsEnum::VALUE]);
-        $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
-        $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
+        $dto->setId($item['id'] ?? null);
+        $dto->setName($item['name']);
+        $dto->setValue($item['value']);
+        $dto->setCreatedAt($item['created_at'] ?? null);
+        $dto->setUpdatedAt($item['updated_at'] ?? null);
         return $dto;
     }
 
@@ -23,8 +22,8 @@ class ConfigurationResource extends BasicResource
     public function dtoToArray($item): array
     {
         return array(
-            BasicFieldsEnum::NAME => $item->getName(),
-            BasicFieldsEnum::VALUE => $item->getValue(),
+            'name' => $item->getName(),
+            'value' => $item->getValue(),
         );
     }
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Resources\FutureSpentResource;
 use App\Services\FutureSpentService;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;

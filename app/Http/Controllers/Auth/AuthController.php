@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\BasicFieldsEnum;
 use App\Exceptions\UserException;
 use App\Http\Controllers\Controller;
 use App\Http\Response\ResponseError;
@@ -22,12 +21,12 @@ class AuthController extends Controller
     {
         $data = $request->all();
         $authService = app(AuthService::class);
-        $user = $authService->findUserForAuth($data[BasicFieldsEnum::EMAIL]);
+        $user = $authService->findUserForAuth($data['email']);
         if (! $user) {
             $message = 'Usuário ou senha incorreto!';
             return ResponseError::responseError($message, ResponseAlias::HTTP_UNAUTHORIZED);
         }
-        $loginCode = $authService->validateLogin($user, $data[BasicFieldsEnum::PASSWORD]);
+        $loginCode = $authService->validateLogin($user, $data['password']);
         if ($loginCode === AuthService::OK_CODE) {
             $this->login($user);
             $authService->saveAccessLog($user, 1, 'Logado com sucesso');
@@ -75,7 +74,7 @@ class AuthController extends Controller
     {
         Auth::logout();
         Cache::clear();
-        return response()->json([BasicFieldsEnum::MESSAGE => 'Logout realizado com sucesso']);
+        return response()->json(['message' => 'Logout realizado com sucesso']);
     }
 
     /** @codeCoverageIgnore */

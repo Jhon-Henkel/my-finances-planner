@@ -4,7 +4,6 @@ namespace App\Resources;
 
 use App\DTO\FutureGainDTO;
 use App\DTO\InvoiceItemDTO;
-use App\Enums\BasicFieldsEnum;
 use App\VO\FutureGainVO;
 
 class FutureGainResource extends BasicResource
@@ -12,15 +11,15 @@ class FutureGainResource extends BasicResource
     public function arrayToDto(array $item): FutureGainDTO
     {
         $dto = new FutureGainDTO();
-        $dto->setId($item[BasicFieldsEnum::ID] ?? null);
-        $dto->setWalletId($item[BasicFieldsEnum::WALLET_ID_DB] ?? $item[BasicFieldsEnum::WALLET_ID_JSON]);
-        $dto->setWalletName($item[BasicFieldsEnum::NAME] ?? null);
-        $dto->setDescription($item[BasicFieldsEnum::DESCRIPTION]);
-        $dto->setForecast($item[BasicFieldsEnum::FORECAST]);
-        $dto->setAmount($item[BasicFieldsEnum::AMOUNT]);
-        $dto->setInstallments($item[BasicFieldsEnum::INSTALLMENTS]);
-        $dto->setCreatedAt($item[BasicFieldsEnum::CREATED_AT] ?? null);
-        $dto->setUpdatedAt($item[BasicFieldsEnum::UPDATED_AT] ?? null);
+        $dto->setId($item['id'] ?? null);
+        $dto->setWalletId($item['wallet_id'] ?? $item['walletId']);
+        $dto->setWalletName($item['name'] ?? null);
+        $dto->setDescription($item['description']);
+        $dto->setForecast($item['forecast']);
+        $dto->setAmount($item['amount']);
+        $dto->setInstallments($item['installments']);
+        $dto->setCreatedAt($item['created_at'] ?? null);
+        $dto->setUpdatedAt($item['updated_at'] ?? null);
         return $dto;
     }
 
@@ -28,14 +27,14 @@ class FutureGainResource extends BasicResource
     public function dtoToArray($item): array
     {
         return [
-            BasicFieldsEnum::ID => $item->getId(),
-            BasicFieldsEnum::WALLET_ID_DB => $item->getWalletId(),
-            BasicFieldsEnum::DESCRIPTION => $item->getDescription(),
-            BasicFieldsEnum::FORECAST => $item->getForecast(),
-            BasicFieldsEnum::AMOUNT => $item->getAmount(),
-            BasicFieldsEnum::INSTALLMENTS => $item->getInstallments(),
-            BasicFieldsEnum::CREATED_AT => $item->getCreatedAt(),
-            BasicFieldsEnum::UPDATED_AT => $item->getUpdatedAt(),
+            'id' => $item->getId(),
+            'wallet_id' => $item->getWalletId(),
+            'description' => $item->getDescription(),
+            'forecast' => $item->getForecast(),
+            'amount' => $item->getAmount(),
+            'installments' => $item->getInstallments(),
+            'created_at' => $item->getCreatedAt(),
+            'updated_at' => $item->getUpdatedAt(),
         ];
     }
 

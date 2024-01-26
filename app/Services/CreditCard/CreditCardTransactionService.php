@@ -10,7 +10,6 @@ use App\Services\BasicService;
 use App\Services\Movement\MovementService;
 use App\Tools\Calendar\CalendarTools;
 use App\VO\InvoiceVO;
-use Exception;
 
 class CreditCardTransactionService extends BasicService
 {

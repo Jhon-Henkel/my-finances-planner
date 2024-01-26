@@ -4,7 +4,6 @@ namespace App\Repositories\Movement;
 
 use App\DTO\Date\DatePeriodDTO;
 use App\DTO\Movement\MovementDTO;
-use App\Enums\BasicFieldsEnum;
 use App\Enums\DateEnum;
 use App\Models\MovementModel;
 use App\Repositories\BasicRepository;
@@ -44,7 +43,7 @@ class MovementRepository extends BasicRepository
             $items->where('movements.tenant_id', '=', $tenantId);
         }
         $items->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
-            ->orderBy(BasicFieldsEnum::ID, 'desc');
+            ->orderBy('id', 'desc');
         $items = $items->get();
         return $this->getResource()->arrayToDtoItens($items->toArray());
     }
@@ -61,7 +60,7 @@ class MovementRepository extends BasicRepository
             $items->where('movements.type', '=', $type);
         }
         $items->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
-            ->orderBy(BasicFieldsEnum::ID, 'desc');
+            ->orderBy('id', 'desc');
         $items = $items->get();
         return $this->getResource()->arrayToDtoItens($items->toArray());
     }
@@ -80,7 +79,7 @@ class MovementRepository extends BasicRepository
     {
         $itens = $this->model::select('movements.*', 'wallets.name')
             ->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
-            ->orderBy(BasicFieldsEnum::ID, 'desc')
+            ->orderBy('id', 'desc')
             ->limit($limit)
             ->get();
         return $this->resource->arrayToDtoItens($itens->toArray());

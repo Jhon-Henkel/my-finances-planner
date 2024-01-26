@@ -6,7 +6,6 @@ use App\DTO\InvoiceItemDTO;
 use App\Factory\InvoiceFactory;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\VO\InvoiceVO;
-use Exception;
 
 class PanoramaService
 {
