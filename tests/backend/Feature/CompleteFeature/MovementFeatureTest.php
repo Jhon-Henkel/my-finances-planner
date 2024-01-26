@@ -3,7 +3,7 @@
 namespace Tests\backend\Feature\CompleteFeature;
 
 use App\Enums\MovementEnum;
-use App\Enums\WalletEnum;
+use App\Enums\WalletTypeEnum;
 use Illuminate\Support\Facades\DB;
 use Tests\backend\Falcon9Feature;
 
@@ -27,7 +27,7 @@ class MovementFeatureTest extends Falcon9Feature
     {
         $wallet = $this->postJson('/api/wallet', [
             'name' => 'wallet_feature_test',
-            'type' => WalletEnum::OTHER_TYPE,
+            'type' => WalletTypeEnum::Other->value,
             'amount' => 150
         ], $this->makeHeaders());
         $wallet = $wallet->getOriginalContent();
@@ -64,7 +64,7 @@ class MovementFeatureTest extends Falcon9Feature
     {
         $wallet = $this->postJson('/api/wallet', [
             'name' => 'wallet_feature_test',
-            'type' => WalletEnum::OTHER_TYPE,
+            'type' => WalletTypeEnum::Other->value,
             'amount' => 150
         ], $this->makeHeaders());
         $wallet = $wallet->getOriginalContent();
@@ -72,7 +72,7 @@ class MovementFeatureTest extends Falcon9Feature
         $movementInsert = $this->postJson('/api/movement', [
             'wallet_id' => $wallet->id,
             'amount' => 10,
-            'type' => MovementEnum::Gain,
+            'type' => MovementEnum::Gain->value,
             'walletId' => $wallet->id,
             'description' => 'Teste de movimentação'
         ], $this->makeHeaders());
