@@ -11,13 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MonthlyClosingController extends BasicController
 {
-    protected MonthlyClosingService $service;
-    protected MonthlyClosingResource $resource;
-
-    public function __construct(MonthlyClosingService $service)
-    {
-        $this->service = $service;
-        $this->resource = app(MonthlyClosingResource::class);
+    public function __construct(
+        private readonly MonthlyClosingService $service,
+        private readonly MonthlyClosingResource $resource
+    ) {
     }
 
     protected function rulesInsert(): array
