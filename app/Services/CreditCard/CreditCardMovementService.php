@@ -13,13 +13,10 @@ use App\Tools\Calendar\CalendarTools;
 
 class CreditCardMovementService extends BasicService
 {
-    protected CreditCardMovementRepository $repository;
-    protected CreditCardMovementResource $resource;
-
-    public function __construct(CreditCardMovementRepository $repository, CreditCardMovementResource $resource)
-    {
-        $this->repository = $repository;
-        $this->resource = $resource;
+    public function __construct(
+        private readonly CreditCardMovementRepository $repository,
+        private readonly CreditCardMovementResource $resource
+    ) {
     }
 
     protected function getRepository(): CreditCardMovementRepository
