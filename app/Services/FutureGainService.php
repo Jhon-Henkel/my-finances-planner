@@ -12,13 +12,11 @@ use App\Tools\Calendar\CalendarTools;
 
 class FutureGainService extends BasicService
 {
-    protected FutureGainRepository $repository;
-    protected FutureGainResource $resource;
-
-    public function __construct(FutureGainRepository $repository)
-    {
-        $this->repository = $repository;
-        $this->resource = app(FutureGainResource::class);
+    public function __construct(
+        private readonly FutureGainRepository $repository,
+        private readonly FutureGainResource $resource,
+        private readonly MovementService $movementService
+    ) {
     }
 
     protected function getRepository(): FutureGainRepository
@@ -52,9 +50,8 @@ class FutureGainService extends BasicService
 
     protected function receiveFullGain(FutureGainDTO $gain): bool
     {
-        $movementService = app(MovementService::class);
-        $movement = $movementService->populateByFutureGain($gain);
-        if (! $movementService->insert($movement)) {
+        $movement = $this->movementService->populateByFutureGain($gain);
+        if (! $this->movementService->insert($movement)) {
             return false;
         }
         return $this->updateRemainingInstallments($gain);
@@ -84,8 +81,7 @@ class FutureGainService extends BasicService
             $newSpent = $this->makeGainForParcialReceive($gain, $gain->getAmount() - $value);
             $this->insert($newSpent);
         }
-        $movementService = app(MovementService::class);
-        $movement = $movementService->populateByFutureGain($gain);
+        $movement = $this->movementService->populateByFutureGain($gain);
         $movement->setAmount($value);
         $movement->setWalletId($walletId);
         $description = $movement->getDescription();
@@ -93,7 +89,7 @@ class FutureGainService extends BasicService
             $description = 'Recebimento parcial ' . strtolower($gain->getDescription());
         }
         $movement->setDescription($description);
-        if (! $movementService->insert($movement)) {
+        if (! $this->movementService->insert($movement)) {
             return false;
         }
         return $this->updateRemainingInstallments($gain);
