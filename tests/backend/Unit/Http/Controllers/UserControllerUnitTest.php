@@ -14,7 +14,9 @@ class UserControllerUnitTest extends TestCase
     public function testRulesUpdate()
     {
         $serviceMock = Mockery::mock(UserService::class);
-        $controllerMock = Mockery::mock(UserController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new UserResource()];
+
+        $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -33,7 +35,9 @@ class UserControllerUnitTest extends TestCase
     public function testRulesInsert()
     {
         $serviceMock = Mockery::mock(UserService::class);
-        $controllerMock = Mockery::mock(UserController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new UserResource()];
+
+        $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $this->expectException(NotImplementedException::class);
@@ -45,7 +49,9 @@ class UserControllerUnitTest extends TestCase
     public function testGetService()
     {
         $serviceMock = Mockery::mock(UserService::class);
-        $controllerMock = Mockery::mock(UserController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new UserResource()];
+
+        $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
@@ -56,7 +62,9 @@ class UserControllerUnitTest extends TestCase
     public function testGetResource()
     {
         $serviceMock = Mockery::mock(UserService::class);
-        $controllerMock = Mockery::mock(UserController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new UserResource()];
+
+        $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();
