@@ -8,13 +8,10 @@ use App\Resources\Log\AccessLogResource;
 
 class AccessLogRepository extends BasicRepository
 {
-    protected AccessLogModel $model;
-    protected AccessLogResource $resource;
-
-    public function __construct(AccessLogModel $model)
-    {
-        $this->model = $model;
-        $this->resource = app(AccessLogResource::class);
+    public function __construct(
+        private readonly AccessLogModel $model,
+        private readonly AccessLogResource $resource
+    ) {
     }
 
     protected function getModel(): AccessLogModel

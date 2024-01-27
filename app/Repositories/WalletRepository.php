@@ -7,13 +7,10 @@ use App\Resources\WalletResource;
 
 class WalletRepository extends BasicRepository
 {
-    protected WalletModel $model;
-    protected WalletResource $resource;
-
-    public function __construct(WalletModel $model)
-    {
-        $this->model = $model;
-        $this->resource = app(WalletResource::class);
+    public function __construct(
+        private readonly WalletModel $model,
+        private readonly WalletResource $resource
+    ) {
     }
 
     protected function getModel(): WalletModel

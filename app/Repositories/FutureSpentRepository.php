@@ -8,13 +8,10 @@ use App\Resources\FutureSpentResource;
 
 class FutureSpentRepository extends BasicRepository
 {
-    protected FutureSpent $model;
-    protected FutureSpentResource $resource;
-
-    public function __construct(FutureSpent $model)
-    {
-        $this->model = $model;
-        $this->resource = app(FutureSpentResource::class);
+    public function __construct(
+        private readonly FutureSpent $model,
+        private readonly FutureSpentResource $resource
+    ) {
     }
 
     protected function getModel(): FutureSpent
@@ -46,6 +43,7 @@ class FutureSpentRepository extends BasicRepository
     public function findAll(): array
     {
         $itens = $this->getModel()
+            ->query()
             ->select('future_spent.*', 'wallets.name')
             ->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
             ->orderBy('id', 'desc')

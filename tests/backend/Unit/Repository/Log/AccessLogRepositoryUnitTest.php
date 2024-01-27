@@ -13,7 +13,9 @@ class AccessLogRepositoryUnitTest extends Falcon9
     public function testGetModel()
     {
         $mockModel = Mockery::mock(AccessLogModel::class);
-        $mockRepository = Mockery::mock(AccessLogRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new AccessLogResource()];
+
+        $mockRepository = Mockery::mock(AccessLogRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $this->assertInstanceOf(AccessLogModel::class, $mockRepository->getModel());
@@ -22,7 +24,9 @@ class AccessLogRepositoryUnitTest extends Falcon9
     public function testGetResource()
     {
         $mockModel = Mockery::mock(AccessLogModel::class);
-        $mockRepository = Mockery::mock(AccessLogRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new AccessLogResource()];
+
+        $mockRepository = Mockery::mock(AccessLogRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $result = $mockRepository->getResource();

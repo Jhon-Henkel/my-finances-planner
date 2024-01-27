@@ -10,13 +10,10 @@ use App\Resources\Tools\MonthlyClosingResource;
 
 class MonthlyClosingRepository extends BasicRepository
 {
-    protected MonthlyClosing $model;
-    protected MonthlyClosingResource $resource;
-
-    public function __construct(MonthlyClosing $model, MonthlyClosingResource $resource)
-    {
-        $this->model = $model;
-        $this->resource = $resource;
+    public function __construct(
+        private readonly MonthlyClosing $model,
+        private readonly MonthlyClosingResource $resource
+    ) {
     }
 
     protected function getModel(): MonthlyClosing

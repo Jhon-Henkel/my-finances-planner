@@ -14,7 +14,9 @@ class UserRepositoryUnitTest extends Falcon9
     public function testGetModel()
     {
         $mockModel = Mockery::mock(User::class);
-        $mockRepository = Mockery::mock(UserRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new UserResource()];
+
+        $mockRepository = Mockery::mock(UserRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $this->assertInstanceOf(User::class, $mockRepository->getModel());
@@ -23,7 +25,9 @@ class UserRepositoryUnitTest extends Falcon9
     public function testGetResource()
     {
         $mockModel = Mockery::mock(User::class);
-        $mockRepository = Mockery::mock(UserRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new UserResource()];
+
+        $mockRepository = Mockery::mock(UserRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $result = $mockRepository->getResource();
@@ -35,7 +39,9 @@ class UserRepositoryUnitTest extends Falcon9
     {
         $mockModel = Mockery::mock(User::class);
         $mockModel->shouldReceive('where->first')->once()->andReturn(new User());
-        $mockRepository = Mockery::mock(UserRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new UserResource()];
+
+        $mockRepository = Mockery::mock(UserRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $result = $mockRepository->findByEmail('test@test.com');
@@ -48,7 +54,9 @@ class UserRepositoryUnitTest extends Falcon9
         $mockModel = Mockery::mock(User::class);
         $mockModel->shouldReceive('where')->once()->andReturn(new User());
         $mockModel->shouldReceive('update')->andReturn(true);
-        $mockRepository = Mockery::mock(UserRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new UserResource()];
+
+        $mockRepository = Mockery::mock(UserRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $user = new UserDTO();
@@ -76,7 +84,9 @@ class UserRepositoryUnitTest extends Falcon9
         $resourceMock = Mockery::mock(UserResource::class);
         $resourceMock->shouldReceive('arrayToDto')->once()->andReturn(new UserDTO());
 
-        $mockRepository = Mockery::mock(UserRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, $resourceMock];
+
+        $mockRepository = Mockery::mock(UserRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
         $mockRepository->shouldReceive('getResource')->once()->andReturn($resourceMock);
 
@@ -89,7 +99,9 @@ class UserRepositoryUnitTest extends Falcon9
     {
         $mockModel = Mockery::mock(User::class);
         $mockModel->shouldReceive('where->update')->once()->andReturn(true);
-        $mockRepository = Mockery::mock(UserRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new UserResource()];
+
+        $mockRepository = Mockery::mock(UserRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $result = $mockRepository->activeUser(1);
