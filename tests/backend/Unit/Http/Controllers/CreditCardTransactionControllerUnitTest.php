@@ -43,7 +43,8 @@ class CreditCardTransactionControllerUnitTest extends Falcon9
     public function testRulesUpdate()
     {
         $serviceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
-        $controllerMock = Mockery::mock(CreditCardTransactionController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new CreditCardTransactionResource()];
+        $controllerMock = Mockery::mock(CreditCardTransactionController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -63,8 +64,9 @@ class CreditCardTransactionControllerUnitTest extends Falcon9
 
     public function testRulesInsert()
     {
-        $serviceMock = $this->mock(CreditCardTransactionService::class)->makePartial();
-        $controllerMock = Mockery::mock(CreditCardTransactionController::class, [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
+        $mocks = [$serviceMock, new CreditCardTransactionResource()];
+        $controllerMock = Mockery::mock(CreditCardTransactionController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsert();
@@ -84,8 +86,9 @@ class CreditCardTransactionControllerUnitTest extends Falcon9
 
     public function testGetResource()
     {
-        $serviceMock = $this->mock(CreditCardTransactionService::class)->makePartial();
-        $controllerMock = Mockery::mock(CreditCardTransactionController::class, [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
+        $mocks = [$serviceMock, new CreditCardTransactionResource()];
+        $controllerMock = Mockery::mock(CreditCardTransactionController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();

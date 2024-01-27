@@ -9,13 +9,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class CreditCardTransactionController extends BasicController
 {
-    protected CreditCardTransactionService $service;
-    protected CreditCardTransactionResource $resource;
-
-    public function __construct(CreditCardTransactionService $service)
-    {
-        $this->service = $service;
-        $this->resource = app(CreditCardTransactionResource::class);
+    public function __construct(
+        private readonly CreditCardTransactionService $service,
+        private readonly CreditCardTransactionResource $resource
+    ) {
     }
 
     protected function rulesInsert(): array
