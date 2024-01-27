@@ -12,7 +12,9 @@ class CreditCardRepositoryUnitTest extends Falcon9
     public function testGetModel()
     {
         $mockModel = \Mockery::mock(CreditCard::class);
-        $mockRepository = \Mockery::mock(CreditCardRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new CreditCardResource()];
+
+        $mockRepository = \Mockery::mock(CreditCardRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $this->assertInstanceOf(CreditCard::class, $mockRepository->getModel());
@@ -21,7 +23,9 @@ class CreditCardRepositoryUnitTest extends Falcon9
     public function testGetResource()
     {
         $mockModel = \Mockery::mock(CreditCard::class);
-        $mockRepository = \Mockery::mock(CreditCardRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new CreditCardResource()];
+
+        $mockRepository = \Mockery::mock(CreditCardRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $result = $mockRepository->getResource();
