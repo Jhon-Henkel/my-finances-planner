@@ -135,9 +135,13 @@ class FinancialHealthServiceUnitTest extends Falcon9
     {
         $movementMock = Mockery::mock(MovementService::class)->makePartial();
         $movementMock->shouldReceive('findByFilter')->once()->andReturn([]);
-        $this->app->instance(MovementService::class, $movementMock);
 
-        $serviceMock = Mockery::mock(FinancialHealthService::class)->makePartial();
+        $mocks = [
+            Mockery::mock(CreditCardMovementService::class),
+            $movementMock
+        ];
+
+        $serviceMock = Mockery::mock(FinancialHealthService::class, $mocks)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $result = $serviceMock->getMovementsByPeriod([]);
 
@@ -184,7 +188,12 @@ class FinancialHealthServiceUnitTest extends Falcon9
         $creditCardMovementServiceMock = Mockery::mock(CreditCardMovementService::class)->makePartial();
         $creditCardMovementServiceMock->shouldReceive('findByPeriod')->never();
 
-        $serviceMock = Mockery::mock(FinancialHealthService::class, [$creditCardMovementServiceMock])->makePartial();
+        $mocks = [
+            $creditCardMovementServiceMock,
+            Mockery::mock(MovementService::class),
+        ];
+
+        $serviceMock = Mockery::mock(FinancialHealthService::class, $mocks)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('getMovementsByPeriod')->once()->andReturn([]);
         $serviceMock->shouldReceive('categorizeMovements')->once()->andReturn([]);
@@ -199,7 +208,12 @@ class FinancialHealthServiceUnitTest extends Falcon9
         $creditCardMovementServiceMock = Mockery::mock(CreditCardMovementService::class)->makePartial();
         $creditCardMovementServiceMock->shouldReceive('findByPeriod')->once()->andReturn([]);
 
-        $serviceMock = Mockery::mock(FinancialHealthService::class, [$creditCardMovementServiceMock])->makePartial();
+        $mocks = [
+            $creditCardMovementServiceMock,
+            Mockery::mock(MovementService::class),
+        ];
+
+        $serviceMock = Mockery::mock(FinancialHealthService::class, $mocks)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('getMovementsByPeriod')->once()->andReturn([]);
         $serviceMock->shouldReceive('categorizeMovements')->once()->andReturn([]);
