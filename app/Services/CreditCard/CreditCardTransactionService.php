@@ -2,6 +2,7 @@
 
 namespace App\Services\CreditCard;
 
+use App\DTO\CreditCard\CreditCardDTO;
 use App\Enums\DateFormatEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\CreditCard\CreditCardTransactionRepository;
@@ -16,10 +17,9 @@ class CreditCardTransactionService extends BasicService
     protected CreditCardResource $resource;
 
     public function __construct(
-        protected CreditCardTransactionRepository $repository,
-        protected CreditCardMovementService $creditCardMovementService,
-        protected CreditCardService $creditCardService,
-        protected MovementService $movementService
+        private readonly CreditCardTransactionRepository $repository,
+        private readonly CreditCardMovementService $creditCardMovementService,
+        private readonly MovementService $movementService
     ) {
         $this->resource = new CreditCardResource();
     }
@@ -29,9 +29,9 @@ class CreditCardTransactionService extends BasicService
         return $this->repository;
     }
 
-    public function payInvoice(int $cardId, int $walletId): bool
+    public function payInvoice(CreditCardDTO $card, int $walletId): bool
     {
-        $invoices = $this->getInvoices($cardId);
+        $invoices = $this->getInvoices($card->getId());
         $totalValue = 0;
         $launchMovementAndUpdateWallet = false;
         $installment = $this->getNextInstallmentOrder($invoices);
@@ -42,7 +42,7 @@ class CreditCardTransactionService extends BasicService
             $launchMovementAndUpdateWallet = true;
             $totalValue += $invoice->$installment;
             $transaction = $this->findById($invoice->id);
-            $this->creditCardMovementService->insertMovementByTransaction($transaction, $cardId);
+            $this->creditCardMovementService->insertMovementByTransaction($transaction, $card->getId());
             $remainingInstallments = $transaction->getInstallments() - 1;
             if ($remainingInstallments === 0) {
                 $this->deleteById($transaction->getId());
@@ -56,7 +56,6 @@ class CreditCardTransactionService extends BasicService
         if (! $launchMovementAndUpdateWallet) {
             return false;
         }
-        $card = $this->creditCardService->findById($cardId);
         return $this->movementService->launchMovementForCreditCardInvoicePay($walletId, $totalValue, $card->getName());
     }
 

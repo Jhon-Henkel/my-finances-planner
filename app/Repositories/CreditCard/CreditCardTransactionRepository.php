@@ -9,13 +9,10 @@ use App\Resources\CreditCard\CreditCardTransactionResource;
 
 class CreditCardTransactionRepository extends BasicRepository
 {
-    protected CreditCardTransaction $model;
-    protected CreditCardTransactionResource $resource;
-
-    public function __construct(CreditCardTransaction $model)
-    {
-        $this->model = $model;
-        $this->resource = app(CreditCardTransactionResource::class);
+    public function __construct(
+        private readonly CreditCardTransaction $model,
+        private readonly CreditCardTransactionResource $resource
+    ) {
     }
 
     protected function getModel(): CreditCardTransaction
@@ -35,12 +32,13 @@ class CreditCardTransactionRepository extends BasicRepository
 
     public function findByPeriod(DatePeriodDTO $period): array
     {
-        $itens = $this->getModel()->select('*')
+        $itens = $this->getModel()
+            ->select('*')
             ->where('next_installment', '>=', $period->getStartDate())
             ->where('next_installment', '<=', $period->getEndDate())
             ->orderBy('id', 'desc')
             ->get();
-        return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
+        return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : [];
     }
 
     public function countByCreditCardId(int $creditCardId): int

@@ -18,13 +18,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
  */
 class MovementController extends BasicController
 {
-    protected MovementService $service;
-    protected MovementResource $resource;
-
-    public function __construct(MovementService $service)
-    {
-        $this->service = $service;
-        $this->resource = app(MovementResource::class);
+    public function __construct(
+        private readonly MovementService $service,
+        private readonly MovementResource $resource
+    ) {
     }
 
     protected function rulesInsert(): array

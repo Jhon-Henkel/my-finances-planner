@@ -24,9 +24,14 @@ class AuthServiceUnitTest extends Falcon9
     {
         $serviceMock = Mockery::mock(UserService::class)->makePartial();
         $serviceMock->shouldReceive('findUserByEmail')->once()->andReturn(new User());
-        $this->app->instance(UserService::class, $serviceMock);
 
-        $service = Mockery::mock(AuthService::class)->makePartial();
+        $mocks = [
+            $serviceMock,
+            Mockery::mock(MailService::class)->makePartial(),
+            Mockery::mock(AccessLogService::class)->makePartial()
+        ];
+
+        $service = Mockery::mock(AuthService::class, $mocks)->makePartial();
         $service->shouldAllowMockingProtectedMethods();
 
         $this->assertInstanceOf(User::class, $service->findUserForAuth('email'));
@@ -110,9 +115,14 @@ class AuthServiceUnitTest extends Falcon9
 
         $mailService = Mockery::mock(MailService::class)->makePartial();
         $mailService->shouldReceive('sendEmail')->once()->andReturn(true);
-        $this->app->instance(MailService::class, $mailService);
 
-        $service = Mockery::mock(AuthService::class)->makePartial();
+        $mocks = [
+            Mockery::mock(UserService::class)->makePartial(),
+            $mailService,
+            Mockery::mock(AccessLogService::class)->makePartial()
+        ];
+
+        $service = Mockery::mock(AuthService::class, $mocks)->makePartial();
         $service->shouldAllowMockingProtectedMethods();
         $service->shouldReceive('generateDataForEmailInactiveUser')->once()->andReturn($messageDTO);
         $service->sendEmailInactiveUser(new User());
@@ -175,16 +185,20 @@ class AuthServiceUnitTest extends Falcon9
         $user->password = bcrypt('password');
         $user->tenant_id = 1;
 
-        $service = Mockery::mock(AuthService::class)->makePartial();
-        $service->shouldAllowMockingProtectedMethods();
-
-        $accessLogMock = Mockery::mock(AccessLogService::class)->makePartial();
-        $accessLogMock->shouldReceive('saveAccessLog')->once()->andReturn(true);
-        $this->app->instance(AccessLogService::class, $accessLogMock);
-
         $_SERVER['REMOTE_ADDR'] = '192.168.1.1';
         $_SERVER['HTTP_USER_AGENT'] = 'user_agent';
 
+        $accessLogMock = Mockery::mock(AccessLogService::class)->makePartial();
+        $accessLogMock->shouldReceive('saveAccessLog')->once()->andReturn(true);
+
+        $mocks = [
+            Mockery::mock(UserService::class)->makePartial(),
+            Mockery::mock(MailService::class)->makePartial(),
+            $accessLogMock
+        ];
+
+        $service = Mockery::mock(AuthService::class, $mocks)->makePartial();
+        $service->shouldAllowMockingProtectedMethods();
         $service->saveAccessLog($user, 1, 'message');
 
         $this->assertTrue(true);

@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Resources\CreditCard\CreditCardTransactionResource;
+use App\Services\CreditCard\CreditCardService;
 use App\Services\CreditCard\CreditCardTransactionService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class CreditCardTransactionController extends BasicController
 {
-    protected CreditCardTransactionService $service;
-    protected CreditCardTransactionResource $resource;
-
-    public function __construct(CreditCardTransactionService $service)
-    {
-        $this->service = $service;
-        $this->resource = app(CreditCardTransactionResource::class);
+    public function __construct(
+        private readonly CreditCardTransactionService $service,
+        private readonly CreditCardTransactionResource $resource,
+        private readonly CreditCardService $creditCardService
+    ) {
     }
 
     protected function rulesInsert(): array
@@ -58,7 +57,11 @@ class CreditCardTransactionController extends BasicController
 
     public function payInvoice(int $cardId, int $walletId): JsonResponse
     {
-        $expense = $this->getService()->payInvoice($cardId, $walletId);
+        $card = $this->creditCardService->findById($cardId);
+        if (! $card) {
+            return response()->json(null, ResponseAlias::HTTP_NOT_FOUND);
+        }
+        $expense = $this->getService()->payInvoice($card, $walletId);
         if ($expense) {
             return response()->json(null, ResponseAlias::HTTP_OK);
         }

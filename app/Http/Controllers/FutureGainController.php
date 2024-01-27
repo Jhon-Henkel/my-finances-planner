@@ -10,13 +10,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class FutureGainController extends BasicController
 {
-    protected FutureGainService $service;
-    protected FutureGainResource $resource;
-
-    public function __construct(FutureGainService $service)
-    {
-        $this->service = $service;
-        $this->resource = app(FutureGainResource::class);
+    public function __construct(
+        private readonly FutureGainService $service,
+        private readonly FutureGainResource $resource
+    ) {
     }
 
     protected function rulesInsert(): array
@@ -46,7 +43,7 @@ class FutureGainController extends BasicController
         return $this->service;
     }
 
-    protected function getResource(): mixed
+    protected function getResource(): FutureGainResource
     {
         return $this->resource;
     }

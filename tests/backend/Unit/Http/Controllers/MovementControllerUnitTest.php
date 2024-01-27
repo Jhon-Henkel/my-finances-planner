@@ -29,7 +29,9 @@ class MovementControllerUnitTest extends Falcon9
     public function testInsertRules()
     {
         $serviceMock = Mockery::mock(MovementService::class);
-        $controllerMock = Mockery::mock(MovementController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new MovementResource()];
+
+        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsert();
@@ -48,7 +50,9 @@ class MovementControllerUnitTest extends Falcon9
     public function testInsertTransferRules()
     {
         $serviceMock = Mockery::mock(MovementService::class);
-        $controllerMock = Mockery::mock(MovementController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new MovementResource()];
+
+        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsertTransfer();
@@ -65,7 +69,9 @@ class MovementControllerUnitTest extends Falcon9
     public function testUpdateRules()
     {
         $serviceMock = Mockery::mock(MovementService::class);
-        $controllerMock = Mockery::mock(MovementController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new MovementResource()];
+
+        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -84,7 +90,9 @@ class MovementControllerUnitTest extends Falcon9
     public function testGetService()
     {
         $serviceMock = Mockery::mock(MovementService::class);
-        $controllerMock = Mockery::mock(MovementController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new MovementResource()];
+
+        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
@@ -95,7 +103,9 @@ class MovementControllerUnitTest extends Falcon9
     public function testGetResource()
     {
         $serviceMock = Mockery::mock(MovementService::class);
-        $controllerMock = Mockery::mock(MovementController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new MovementResource()];
+
+        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();
@@ -107,8 +117,9 @@ class MovementControllerUnitTest extends Falcon9
     {
         $serviceMock = Mockery::mock(MovementService::class);
         $serviceMock->shouldReceive('deleteTransferById')->once()->andReturn(true);
+        $mocks = [$serviceMock, new MovementResource()];
 
-        $controllerMock = Mockery::mock(MovementController::class, [$serviceMock])->makePartial();
+        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $response = $controllerMock->deleteTransfer(1);
@@ -121,8 +132,9 @@ class MovementControllerUnitTest extends Falcon9
         $serviceMock = Mockery::mock(MovementService::class);
         $serviceMock->shouldReceive('isInvalidRequest')->once()->andReturn(new MessageBag(['test']));
         $serviceMock->shouldReceive('insertWithWalletUpdateType')->never();
+        $mocks = [$serviceMock, new MovementResource()];
 
-        $controllerMock = Mockery::mock(MovementController::class, [$serviceMock])->makePartial();
+        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
         $controllerMock->shouldReceive('rulesInsertTransfer')->once()->andReturn([]);
 
@@ -146,8 +158,9 @@ class MovementControllerUnitTest extends Falcon9
                 $this->assertInstanceOf(MovementDTO::class, $transfer);
             }
         );
+        $mocks = [$serviceMock, new MovementResource()];
 
-        $controllerMock = Mockery::mock(MovementController::class, [$serviceMock])->makePartial();
+        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
         $controllerMock->shouldReceive('rulesInsertTransfer')->once()->andReturn([]);
 

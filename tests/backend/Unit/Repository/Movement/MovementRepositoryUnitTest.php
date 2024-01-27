@@ -12,7 +12,9 @@ class MovementRepositoryUnitTest extends Falcon9
     public function testGetModel()
     {
         $mockModel = \Mockery::mock(MovementModel::class);
-        $mockRepository = \Mockery::mock(MovementRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new MovementResource()];
+
+        $mockRepository = \Mockery::mock(MovementRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $this->assertInstanceOf(MovementModel::class, $mockRepository->getModel());
@@ -21,7 +23,9 @@ class MovementRepositoryUnitTest extends Falcon9
     public function testGetResource()
     {
         $mockModel = \Mockery::mock(MovementModel::class);
-        $mockRepository = \Mockery::mock(MovementRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new MovementResource()];
+
+        $mockRepository = \Mockery::mock(MovementRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $result = $mockRepository->getResource();

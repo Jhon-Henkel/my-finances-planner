@@ -8,13 +8,10 @@ use App\Resources\UserResource;
 
 class UserRepository extends BasicRepository
 {
-    protected User $model;
-    protected UserResource $resource;
-
-    public function __construct(User $model)
-    {
-        $this->model = $model;
-        $this->resource = app(UserResource::class);
+    public function __construct(
+        private readonly User $model,
+        private readonly UserResource $resource
+    ) {
     }
 
     protected function getModel(): User
@@ -50,7 +47,8 @@ class UserRepository extends BasicRepository
 
     public function activeUser(int $id): bool
     {
-        return $this->getModel()->where('id', $id)
+        return $this->getModel()
+            ->where('id', $id)
             ->update(['status' => 1, 'verify_hash' => '', 'email_verified_at' => now(), 'wrong_login_attempts' => 0]);
     }
 }

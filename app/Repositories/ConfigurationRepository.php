@@ -7,13 +7,10 @@ use App\Resources\ConfigurationResource;
 
 class ConfigurationRepository extends BasicRepository
 {
-    protected Configurations $model;
-    protected ConfigurationResource $resource;
-
-    public function __construct(Configurations $model)
-    {
-        $this->model = $model;
-        $this->resource = app(ConfigurationResource::class);
+    public function __construct(
+        private readonly Configurations $model,
+        private readonly ConfigurationResource $resource
+    ) {
     }
 
     protected function getModel(): Configurations
@@ -21,7 +18,7 @@ class ConfigurationRepository extends BasicRepository
         return $this->model;
     }
 
-    protected function getResource()
+    protected function getResource(): ConfigurationResource
     {
         return $this->resource;
     }

@@ -13,15 +13,12 @@ use App\Tools\Calendar\CalendarTools;
 
 class FutureSpentService extends BasicService
 {
-    protected FutureSpentRepository $repository;
-    protected FutureSpentResource $resource;
-
     public function __construct(
-        FutureSpentRepository $repository,
-        readonly private MarketPlannerService $marketPlannerService
+        private readonly FutureSpentRepository $repository,
+        private readonly MarketPlannerService $marketPlannerService,
+        private readonly FutureSpentResource $resource,
+        private readonly MovementService $movementService
     ) {
-        $this->repository = $repository;
-        $this->resource = app(FutureSpentResource::class);
     }
 
     protected function getRepository(): FutureSpentRepository
@@ -61,9 +58,8 @@ class FutureSpentService extends BasicService
 
     protected function payFullSpent(FutureSpentDTO $spent): bool
     {
-        $movementService = app(MovementService::class);
-        $movement = $movementService->populateByFutureSpent($spent);
-        if (! $movementService->insert($movement)) {
+        $movement = $this->movementService->populateByFutureSpent($spent);
+        if (! $this->movementService->insert($movement)) {
             return false;
         }
         return $this->updateRemainingInstallments($spent);
@@ -93,8 +89,7 @@ class FutureSpentService extends BasicService
             $newSpent = $this->makeSpentForParcialPay($spent, $spent->getAmount() - $value);
             $this->insert($newSpent);
         }
-        $movementService = app(MovementService::class);
-        $movement = $movementService->populateByFutureSpent($spent);
+        $movement = $this->movementService->populateByFutureSpent($spent);
         $movement->setAmount($value);
         $movement->setWalletId($walletId);
         $description = $movement->getDescription();
@@ -102,7 +97,7 @@ class FutureSpentService extends BasicService
             $description = 'Pagamento parcial ' . strtolower($spent->getDescription());
         }
         $movement->setDescription($description);
-        if (! $movementService->insert($movement)) {
+        if (! $this->movementService->insert($movement)) {
             return false;
         }
         return $this->updateRemainingInstallments($spent);

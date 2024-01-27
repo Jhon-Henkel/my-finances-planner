@@ -17,8 +17,6 @@ class PanoramaControllerUnitTest extends Falcon9
 
         $serviceMock->shouldReceive('getPanoramaData')->once()->andReturn(['foo']);
 
-        $result = $controllerMock->getPanoramaData();
-
-        $this->assertInstanceOf('Illuminate\Http\JsonResponse', $result);
+        $this->assertInstanceOf('Illuminate\Http\JsonResponse', $controllerMock->getPanoramaData());
     }
 }

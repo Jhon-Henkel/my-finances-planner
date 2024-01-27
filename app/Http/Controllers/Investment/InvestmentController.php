@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Investment;
 
+use App\Exceptions\ValueException;
 use App\Http\Controllers\BasicController;
 use App\Http\Response\ResponseError;
 use App\Resources\Investment\InvestmentResource;
@@ -69,6 +70,7 @@ class InvestmentController extends BasicController
         return response()->json($data, ResponseAlias::HTTP_OK);
     }
 
+    /** @throws ValueException */
     public function rescueApportInvestment(Request $request): JsonResponse
     {
         $invalid = $this->getService()->isInvalidRequest($request, $this->rulesRescueApport());

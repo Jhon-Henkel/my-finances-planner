@@ -8,13 +8,10 @@ use App\Resources\CreditCard\CreditCardResource;
 
 class CreditCardRepository extends BasicRepository
 {
-    protected CreditCard $model;
-    protected CreditCardResource $resource;
-
-    public function __construct(CreditCard $model)
-    {
-        $this->model = $model;
-        $this->resource = app(CreditCardResource::class);
+    public function __construct(
+        private readonly CreditCard $model,
+        private readonly CreditCardResource $resource
+    ) {
     }
 
     protected function getModel(): CreditCard
@@ -22,7 +19,7 @@ class CreditCardRepository extends BasicRepository
         return $this->model;
     }
 
-    protected function getResource()
+    protected function getResource(): CreditCardResource
     {
         return $this->resource;
     }

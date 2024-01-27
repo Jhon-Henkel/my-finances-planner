@@ -11,11 +11,10 @@ use App\Tools\StringTools;
 
 class FinancialHealthService
 {
-    private CreditCardMovementService $creditCardMovementService;
-
-    public function __construct(CreditCardMovementService $creditCardMovementService)
-    {
-        $this->creditCardMovementService = $creditCardMovementService;
+    public function __construct(
+        private readonly CreditCardMovementService $creditCardMovementService,
+        private readonly MovementService $movementService,
+    ) {
     }
 
     public function findByFilter(array $filterOption): array
@@ -36,8 +35,7 @@ class FinancialHealthService
     /** @return MovementDTO[] */
     protected function getMovementsByPeriod(array $filterOption): array
     {
-        $movementService = app(MovementService::class);
-        return $movementService->findByFilter($filterOption);
+        return $this->movementService->findByFilter($filterOption);
     }
 
     protected function categorizeMovements(array $movements, bool $dontGroupCards): array

@@ -20,10 +20,16 @@ class AuthService
     public const INACTIVE_USER_CODE = 2;
     public const OK_CODE = 3;
 
+    public function __construct(
+        private readonly UserService $userService,
+        private readonly MailService $mailService,
+        private readonly AccessLogService $accessLogService
+    ) {
+    }
+
     public function findUserForAuth(string $email): null|User
     {
-        $userService = app(UserService::class);
-        return $userService->findUserByEmail($email);
+        return $this->userService->findUserByEmail($email);
     }
 
     public function validateLogin(?User $user, string $password): int
@@ -66,7 +72,7 @@ class AuthService
     protected function sendEmailInactiveUser(User $user): void
     {
         $email = $this->generateDataForEmailInactiveUser($user);
-        app(MailService::class)->sendEmail($email);
+        $this->mailService->sendEmail($email);
     }
 
     protected function generateDataForEmailInactiveUser(User $user): MailMessageDTO
@@ -113,7 +119,6 @@ class AuthService
             $comments,
             $user->tenant_id,
         );
-        $accessLogService = app(AccessLogService::class);
-        $accessLogService->saveAccessLog($log);
+        $this->accessLogService->saveAccessLog($log);
     }
 }

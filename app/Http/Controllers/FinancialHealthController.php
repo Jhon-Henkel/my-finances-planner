@@ -10,11 +10,8 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class FinancialHealthController
 {
-    protected FinancialHealthService $service;
-
-    public function __construct(FinancialHealthService $service)
+    public function __construct(private readonly FinancialHealthService $service)
     {
-        $this->service = $service;
     }
 
     public function getService(): FinancialHealthService

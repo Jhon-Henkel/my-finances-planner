@@ -8,13 +8,10 @@ use App\Resources\CreditCard\CreditCardMovementResource;
 
 class CreditCardMovementRepository extends BasicRepository
 {
-    protected CreditCardMovement $model;
-    protected CreditCardMovementResource $resource;
-
-    public function __construct(CreditCardMovement $model, CreditCardMovementResource $resource)
-    {
-        $this->model = $model;
-        $this->resource = $resource;
+    public function __construct(
+        private readonly CreditCardMovement $model,
+        private readonly CreditCardMovementResource $resource
+    ) {
     }
 
     protected function getModel(): CreditCardMovement

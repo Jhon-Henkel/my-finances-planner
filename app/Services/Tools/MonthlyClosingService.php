@@ -17,11 +17,13 @@ use App\Tools\NumberTools;
 
 class MonthlyClosingService extends BasicService
 {
-    private MonthlyClosingRepository $repository;
-
-    public function __construct(MonthlyClosingRepository $repository)
-    {
-        $this->repository = $repository;
+    public function __construct(
+        private readonly MonthlyClosingRepository $repository,
+        private readonly MovementService $movementService,
+        private readonly FutureGainService $futureGainService,
+        private readonly FutureSpentService $futureSpentService,
+        private readonly MarketPlannerService $marketPlannerService
+    ) {
     }
 
     protected function getRepository(): MonthlyClosingRepository
@@ -73,8 +75,7 @@ class MonthlyClosingService extends BasicService
     protected function updateLastMonthlyClosing(MonthlyClosingDTO $lastClosing, int $tenantId): void
     {
         $period = CalendarTools::getMonthPeriodFromDate($lastClosing->getCreatedAt());
-        $movementService = app(MovementService::class);
-        $sumValues = $movementService->getSumValuesForPeriod($period, $tenantId);
+        $sumValues = $this->movementService->getSumValuesForPeriod($period, $tenantId);
         $lastClosing->setRealEarning($sumValues->getEarnings());
         $lastClosing->setRealExpenses($sumValues->getExpenses());
         $lastClosing->setBalance();
@@ -83,12 +84,11 @@ class MonthlyClosingService extends BasicService
 
     protected function createMonthlyClosing(int $tenantId): MonthlyClosingDTO
     {
-        $predicatedEarnings = app(FutureGainService::class)->getThisMonthFutureGainSum($tenantId);
-        $predicatedExpenses = app(FutureSpentService::class)->getThisMonthFutureSpentSum($tenantId);
-        $marketPlannerService = app(MarketPlannerService::class);
+        $predicatedEarnings = $this->futureGainService->getThisMonthFutureGainSum($tenantId);
+        $predicatedExpenses = $this->futureSpentService->getThisMonthFutureSpentSum($tenantId);
         $marketPlannerValue = 0;
-        if ($marketPlannerService->useMarketPlanner()) {
-            $marketPlannerValue = $marketPlannerService->getMarketPlannerInvoice()->firstInstallment;
+        if ($this->marketPlannerService->useMarketPlanner()) {
+            $marketPlannerValue = $this->marketPlannerService->getMarketPlannerInvoice()->firstInstallment;
         }
         return new MonthlyClosingDTO(
             id: null,

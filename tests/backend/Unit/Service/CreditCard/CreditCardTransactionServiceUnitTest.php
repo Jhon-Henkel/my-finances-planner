@@ -7,7 +7,6 @@ use App\DTO\CreditCard\CreditCardTransactionDTO;
 use App\DTO\InvoiceItemDTO;
 use App\Repositories\CreditCard\CreditCardTransactionRepository;
 use App\Services\CreditCard\CreditCardMovementService;
-use App\Services\CreditCard\CreditCardService;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\Movement\MovementService;
 use App\Tools\Calendar\CalendarToolsReal;
@@ -111,19 +110,12 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
         $movementServiceMock->shouldReceive('launchMovementForCreditCardInvoicePay')->once()->andReturnTrue();
 
-        $card = new CreditCardDTO();
-        $card->setName('Card Test');
-
-        $creditCardServiceMock = Mockery::mock(CreditCardService::class)->makePartial();
-        $creditCardServiceMock->shouldReceive('findById')->once()->andReturn($card);
-
         $creditCardMovementServiceMock = Mockery::mock(CreditCardMovementService::class)->makePartial();
         $creditCardMovementServiceMock->shouldReceive('insertMovementByTransaction')->times(3)->andReturnTrue();
 
         $arrayMocks = [
             $creditCardTransactionRepositoryMock,
             $creditCardMovementServiceMock,
-            $creditCardServiceMock,
             $movementServiceMock
         ];
 
@@ -168,7 +160,11 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $serviceMock->shouldReceive('getNextPaymentDateByInstallment')->twice()->andReturn('2022-10-10');
         $serviceMock->shouldReceive('update')->twice()->andReturnTrue();
 
-        $payed = $serviceMock->payInvoice(1, 1);
+        $card = new CreditCardDTO();
+        $card->setId(1);
+        $card->setName('Card Test');
+
+        $payed = $serviceMock->payInvoice($card, 1);
 
         $this->assertTrue($payed);
     }
@@ -190,7 +186,6 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $args = [
             $creditCardTransactionRepositoryMock,
             Mockery::mock(CreditCardMovementService::class)->makePartial(),
-            Mockery::mock(CreditCardService::class)->makePartial(),
             Mockery::mock(MovementService::class)->makePartial()
         ];
 

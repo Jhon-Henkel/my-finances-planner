@@ -12,7 +12,9 @@ class FutureGainRepositoryUnitTest extends Falcon9
     public function testGetModel()
     {
         $mockModel = \Mockery::mock(FutureGain::class);
-        $mockRepository = \Mockery::mock(FutureGainRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new FutureGainResource()];
+
+        $mockRepository = \Mockery::mock(FutureGainRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $this->assertInstanceOf(FutureGain::class, $mockRepository->getModel());
@@ -21,7 +23,9 @@ class FutureGainRepositoryUnitTest extends Falcon9
     public function testGetResource()
     {
         $mockModel = \Mockery::mock(FutureGain::class);
-        $mockRepository = \Mockery::mock(FutureGainRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new FutureGainResource()];
+
+        $mockRepository = \Mockery::mock(FutureGainRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $result = $mockRepository->getResource();

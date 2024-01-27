@@ -13,13 +13,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UserController extends BasicController
 {
-    protected UserService $service;
-    protected UserResource $resource;
-
-    public function __construct(UserService $service)
-    {
-        $this->service = $service;
-        $this->resource = app(UserResource::class);
+    public function __construct(
+        private readonly UserService $service,
+        private readonly UserResource $resource
+    ) {
     }
 
     protected function rulesInsert(): array

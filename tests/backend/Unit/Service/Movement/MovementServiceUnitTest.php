@@ -10,6 +10,7 @@ use App\DTO\Movement\MovementSumValuesDTO;
 use App\Enums\MovementEnum;
 use App\Exceptions\MovementException;
 use App\Repositories\Movement\MovementRepository;
+use App\Resources\Movement\MovementResource;
 use App\Services\Movement\MovementService;
 use App\Services\WalletService;
 use App\Tools\Calendar\CalendarToolsReal;
@@ -22,10 +23,12 @@ class MovementServiceUnitTest extends Falcon9
 {
     public function testFindAllByType(): void
     {
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('findAllByType')->once()->andReturn([]);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('findAllByType')->once()->andReturn([]);
 
-        $service = new MovementService($mock);
+        $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
+
+        $service = new MovementService($repositoryMock, new MovementResource(), $walletServiceMock);
         $result = $service->findAllByType(1);
 
         $this->assertIsArray($result);
@@ -33,10 +36,12 @@ class MovementServiceUnitTest extends Falcon9
 
     public function testFindByFilter(): void
     {
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('findByPeriodAndType')->once()->andReturn([]);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('findByPeriodAndType')->once()->andReturn([]);
 
-        $service = new MovementService($mock);
+        $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
+
+        $service = new MovementService($repositoryMock, new MovementResource(), $walletServiceMock);
         $result = $service->findByFilter([]);
 
         $this->assertIsArray($result);
@@ -44,18 +49,24 @@ class MovementServiceUnitTest extends Falcon9
 
     public function testFindByFilterWithFilter(): void
     {
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('findByPeriodAndType')->once()->andReturn([]);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('findByPeriodAndType')->once()->andReturn([]);
 
         $dates = new DatePeriodDTO('2018-01-01', '2018-01-31');
         $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
         $calendarMock->shouldReceive('getThisMonthPeriod')->once()->andReturn($dates);
         $this->app->instance(CalendarToolsReal::class, $calendarMock);
 
-        $serviceMocke = Mockery::mock(MovementService::class, [$mock])->makePartial();
-        $serviceMocke->shouldAllowMockingProtectedMethods();
-        $serviceMocke->shouldReceive('validateType')->once()->andReturn(0);
-        $result = $serviceMocke->findByFilter(['type' => 1]);
+        $mocks = [
+            $repositoryMock,
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        ];
+
+        $serviceMock = Mockery::mock(MovementService::class, $mocks)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+        $serviceMock->shouldReceive('validateType')->once()->andReturn(0);
+        $result = $serviceMock->findByFilter(['type' => 1]);
 
         $this->assertIsArray($result);
     }
@@ -68,7 +79,12 @@ class MovementServiceUnitTest extends Falcon9
         $item->setWalletId(1);
         $item->setDescription('description');
 
-        $service = new MovementService(Mockery::mock(MovementRepository::class));
+        $service = new MovementService(
+            Mockery::mock(MovementRepository::class),
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        );
+
         $result = $service->populateByFutureGain($item);
 
         $this->assertInstanceOf(MovementDTO::class, $result);
@@ -86,7 +102,12 @@ class MovementServiceUnitTest extends Falcon9
         $item->setWalletId(1);
         $item->setDescription('description');
 
-        $service = new MovementService(Mockery::mock(MovementRepository::class));
+        $service = new MovementService(
+            Mockery::mock(MovementRepository::class),
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        );
+
         $result = $service->populateByFutureSpent($item);
 
         $this->assertInstanceOf(MovementDTO::class, $result);
@@ -105,15 +126,19 @@ class MovementServiceUnitTest extends Falcon9
         $item->setType(5);
         $item->setDescription('description');
 
-        $mockWalletService = Mockery::mock(WalletService::class);
+        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
         $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
-        $this->app->instance(WalletService::class, $mockWalletService);
 
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('deleteById')->once()->andReturn(true);
-        $mock->shouldReceive('findById')->once()->andReturn($item);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('deleteById')->once()->andReturn(true);
+        $repositoryMock->shouldReceive('findById')->once()->andReturn($item);
 
-        $service = new MovementService($mock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            $mockWalletService
+        );
+
         $result = $service->deleteById(1);
 
         $this->assertTrue($result);
@@ -121,11 +146,16 @@ class MovementServiceUnitTest extends Falcon9
 
     public function testDeleteByIdWithFalseReturn()
     {
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('deleteById')->never()->andReturn(true);
-        $mock->shouldReceive('findById')->once()->andReturn(false);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('deleteById')->never()->andReturn(true);
+        $repositoryMock->shouldReceive('findById')->once()->andReturn(false);
 
-        $service = new MovementService($mock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        );
+
         $result = $service->deleteById(1);
 
         $this->assertFalse($result);
@@ -140,14 +170,18 @@ class MovementServiceUnitTest extends Falcon9
         $item->setType(5);
         $item->setDescription('description');
 
-        $mockWalletService = Mockery::mock(WalletService::class);
+        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
         $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
-        $this->app->instance(WalletService::class, $mockWalletService);
 
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('insert')->once()->andReturn(true);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('insert')->once()->andReturn(true);
 
-        $service = new MovementService($mock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            $mockWalletService
+        );
+
         $result = $service->insert($item);
 
         $this->assertTrue($result);
@@ -162,15 +196,18 @@ class MovementServiceUnitTest extends Falcon9
         $item->setType(5);
         $item->setDescription('description');
 
-        $mockWalletService = Mockery::mock(WalletService::class);
+        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
         $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
-        $this->app->instance(WalletService::class, $mockWalletService);
 
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('findById')->once()->andReturn($item);
-        $mock->shouldReceive('update')->once()->andReturn(true);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('findById')->once()->andReturn($item);
+        $repositoryMock->shouldReceive('update')->once()->andReturn(true);
 
-        $service = new MovementService($mock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            $mockWalletService
+        );
 
         $item2 = new MovementDTO();
         $item2->setAmount(11);
@@ -193,15 +230,18 @@ class MovementServiceUnitTest extends Falcon9
         $item->setType(6);
         $item->setDescription('description');
 
-        $mockWalletService = Mockery::mock(WalletService::class);
+        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
         $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
-        $this->app->instance(WalletService::class, $mockWalletService);
 
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('findById')->once()->andReturn($item);
-        $mock->shouldReceive('update')->once()->andReturn(true);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('findById')->once()->andReturn($item);
+        $repositoryMock->shouldReceive('update')->once()->andReturn(true);
 
-        $service = new MovementService($mock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            $mockWalletService
+        );
 
         $item2 = new MovementDTO();
         $item2->setAmount(11);
@@ -217,11 +257,15 @@ class MovementServiceUnitTest extends Falcon9
 
     public function testLaunchMovementForWalletUpdate()
     {
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('insert')->once()->andReturn(true);
-        $this->app->instance(MovementRepository::class, $mock);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('insert')->once()->andReturn(true);
 
-        $service = new MovementService($mock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        );
+
         $result = $service->launchMovementForWalletUpdate(1, 2);
 
         $this->assertTrue($result);
@@ -239,11 +283,15 @@ class MovementServiceUnitTest extends Falcon9
         $item->setCreatedAt('2018-01-01 00:00:00');
         $item->setUpdatedAt('2018-01-01 00:00:00');
 
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('getLastMovements')->once()->andReturn([$item]);
-        $this->app->instance(MovementRepository::class, $mock);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('getLastMovements')->once()->andReturn([$item]);
 
-        $service = new MovementService($mock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        );
+
         $result = $service->getLastMovements(1);
 
         $this->assertInstanceOf(MovementVO::class, $result[0]);
@@ -274,11 +322,15 @@ class MovementServiceUnitTest extends Falcon9
             ]
         ];
 
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('getLastMonthsSumGroupByTypeAndMonth')->once()->andReturn($item);
-        $this->app->instance(MovementRepository::class, $mock);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('getLastMonthsSumGroupByTypeAndMonth')->once()->andReturn($item);
 
-        $service = new MovementService($mock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        );
+
         $result = $service->generateDataForGraph()->getAllDataArray();
 
         $this->assertCount(2, $result['labels']);
@@ -357,9 +409,13 @@ class MovementServiceUnitTest extends Falcon9
         $data = [$movementTwo, $movementOne];
         $repositoryMock = Mockery::mock(MovementRepository::class)->makePartial();
         $repositoryMock->shouldReceive('findByPeriod')->once()->andReturn($data);
-        $this->app->instance(MovementRepository::class, $repositoryMock);
 
-        $service = new MovementService($repositoryMock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        );
+
         $return = $service->getSumValuesForPeriod(new DatePeriodDTO('2018-01-01', '2018-01-31'));
 
         $this->assertInstanceOf(MovementSumValuesDTO::class, $return);
@@ -377,9 +433,14 @@ class MovementServiceUnitTest extends Falcon9
 
         $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
         $walletServiceMock->shouldReceive('updateWalletValue')->once()->andReturn(true);
-        $this->app->instance(WalletService::class, $walletServiceMock);
 
-        $serviceMock = Mockery::mock(MovementService::class)->makePartial();
+        $mocks = [
+            Mockery::mock(MovementRepository::class),
+            new MovementResource(),
+            $walletServiceMock
+        ];
+
+        $serviceMock = Mockery::mock(MovementService::class, $mocks)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('parentInert')->once()->andReturn($movement);
 
@@ -427,9 +488,14 @@ class MovementServiceUnitTest extends Falcon9
                 return true;
             }
         );
-        $this->app->instance(WalletService::class, $walletServiceMock);
 
-        $serviceMock = Mockery::mock(MovementService::class)->makePartial();
+        $mocks = [
+            Mockery::mock(MovementRepository::class),
+            new MovementResource(),
+            $walletServiceMock
+        ];
+
+        $serviceMock = Mockery::mock(MovementService::class, $mocks)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('findById')->once()->andReturn($movement);
         $serviceMock->shouldReceive('parentDeleteById')->once()->andReturnTrue();
@@ -455,9 +521,14 @@ class MovementServiceUnitTest extends Falcon9
                 return true;
             }
         );
-        $this->app->instance(WalletService::class, $walletServiceMock);
 
-        $serviceMock = Mockery::mock(MovementService::class)->makePartial();
+        $mocks = [
+            Mockery::mock(MovementRepository::class),
+            new MovementResource(),
+            $walletServiceMock
+        ];
+
+        $serviceMock = Mockery::mock(MovementService::class, $mocks)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('findById')->once()->andReturn($movement);
         $serviceMock->shouldReceive('parentDeleteById')->once()->andReturnTrue();
@@ -467,25 +538,34 @@ class MovementServiceUnitTest extends Falcon9
 
     public function testValidateType()
     {
-        $mockRepository = Mockery::mock(MovementRepository::class);
+        $mocks = [
+            Mockery::mock(MovementRepository::class),
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        ];
 
-        $serviceMocke = Mockery::mock(MovementService::class, [$mockRepository])->makePartial();
-        $serviceMocke->shouldAllowMockingProtectedMethods();
+        $serviceMock = Mockery::mock(MovementService::class, $mocks)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
 
-        $this->assertEquals(MovementEnum::All->value, $serviceMocke->validateType(null));
-        $this->assertEquals(MovementEnum::All->value, $serviceMocke->validateType(100));
-        $this->assertEquals(MovementEnum::Transfer->value, $serviceMocke->validateType(MovementEnum::Transfer->value));
-        $this->assertEquals(MovementEnum::Gain->value, $serviceMocke->validateType(MovementEnum::Gain->value));
-        $this->assertEquals(MovementEnum::Spent->value, $serviceMocke->validateType(MovementEnum::Spent->value));
-        $this->assertEquals(MovementEnum::InvestmentCdb->value, $serviceMocke->validateType(MovementEnum::InvestmentCdb->value));
+        $this->assertEquals(MovementEnum::All->value, $serviceMock->validateType(null));
+        $this->assertEquals(MovementEnum::All->value, $serviceMock->validateType(100));
+        $this->assertEquals(MovementEnum::Transfer->value, $serviceMock->validateType(MovementEnum::Transfer->value));
+        $this->assertEquals(MovementEnum::Gain->value, $serviceMock->validateType(MovementEnum::Gain->value));
+        $this->assertEquals(MovementEnum::Spent->value, $serviceMock->validateType(MovementEnum::Spent->value));
+        $this->assertEquals(MovementEnum::InvestmentCdb->value, $serviceMock->validateType(MovementEnum::InvestmentCdb->value));
     }
 
     public function testGetMonthSumMovementsByOptionFilter()
     {
-        $mock = Mockery::mock(MovementRepository::class);
-        $mock->shouldReceive('getSumMovementsByPeriod')->once()->andReturn([50]);
-        $this->app->instance(MovementRepository::class, $mock);
-        $service = new MovementService($mock);
+        $repositoryMock = Mockery::mock(MovementRepository::class);
+        $repositoryMock->shouldReceive('getSumMovementsByPeriod')->once()->andReturn([50]);
+
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        );
+
         $result = $service->getMonthSumMovementsByOptionFilter(1);
         $this->assertEquals(50, $result[0]);
     }
@@ -538,7 +618,11 @@ class MovementServiceUnitTest extends Falcon9
             }
         );
 
-        $service = new MovementService($repositoryMock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        );
         $service->launchMovementForInvestment(10, MovementEnum::InvestmentCdb->value, 1, true);
     }
 
@@ -556,7 +640,11 @@ class MovementServiceUnitTest extends Falcon9
             }
         );
 
-        $service = new MovementService($repositoryMock);
+        $service = new MovementService(
+            $repositoryMock,
+            new MovementResource(),
+            Mockery::mock(WalletService::class)->makePartial()
+        );
         $service->launchMovementForInvestment(10, MovementEnum::InvestmentCdb->value, 1, false);
     }
 }

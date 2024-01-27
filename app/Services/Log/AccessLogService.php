@@ -8,11 +8,9 @@ use App\Services\BasicService;
 
 class AccessLogService extends BasicService
 {
-    protected AccessLogRepository $repository;
-
-    public function __construct(AccessLogRepository $repository)
-    {
-        $this->repository = $repository;
+    public function __construct(
+        private readonly AccessLogRepository $repository
+    ) {
     }
 
     protected function getRepository(): AccessLogRepository

@@ -30,8 +30,10 @@ class CreditCardControllerUnitTest extends Falcon9
 
     public function testUpdateRules()
     {
-        $serviceMock = Mockery::mock(CreditCardService::class)->makePartial();
-        $controllerMock = Mockery::mock(CreditCardController::class, [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(CreditCardService::class, )->makePartial();
+
+        $mocks = [$serviceMock, new CreditCardResource()];
+        $controllerMock = Mockery::mock(CreditCardController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -49,8 +51,10 @@ class CreditCardControllerUnitTest extends Falcon9
 
     public function testGetResource()
     {
-        $serviceMock = Mockery::mock(CreditCardService::class)->makePartial();
-        $controllerMock = Mockery::mock(CreditCardController::class, [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(CreditCardService::class, )->makePartial();
+
+        $mocks = [$serviceMock, new CreditCardResource()];
+        $controllerMock = Mockery::mock(CreditCardController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();
@@ -60,8 +64,10 @@ class CreditCardControllerUnitTest extends Falcon9
 
     public function testGetService()
     {
-        $serviceMock = Mockery::mock(CreditCardService::class)->makePartial();
-        $controllerMock = Mockery::mock(CreditCardController::class, [$serviceMock])->makePartial();
+        $serviceMock = Mockery::mock(CreditCardService::class, )->makePartial();
+
+        $mocks = [$serviceMock, new CreditCardResource()];
+        $controllerMock = Mockery::mock(CreditCardController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();

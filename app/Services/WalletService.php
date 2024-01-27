@@ -10,16 +10,29 @@ use App\Services\Movement\MovementService;
 
 class WalletService extends BasicService
 {
-    protected WalletRepository $repository;
+    private MovementService $movementService;
 
-    public function __construct(WalletRepository $repository)
-    {
-        $this->repository = $repository;
+    public function __construct(
+        private readonly WalletRepository $repository
+    ) {
     }
 
     protected function getRepository(): WalletRepository
     {
         return $this->repository;
+    }
+
+    public function setMovementService(MovementService $movementService): void
+    {
+        $this->movementService = $movementService;
+    }
+
+    public function getMovementService(): MovementService
+    {
+        if (! isset($this->movementService)) {
+            $this->setMovementService(app(MovementService::class));
+        }
+        return $this->movementService;
     }
 
     /** @return WalletDTO[] */
@@ -47,8 +60,7 @@ class WalletService extends BasicService
         $wallet = $this->findById($id);
         if (! $item->getMovementAlreadyDone() && $wallet->getAmount() != $item->getAmount()) {
             $difference = $item->getAmount() - $wallet->getAmount();
-            $movementService = app(MovementService::class);
-            $movementService->launchMovementForWalletUpdate($difference, $wallet->getId());
+            $this->getMovementService()->launchMovementForWalletUpdate($difference, $wallet->getId());
         }
         return parent::update($id, $item);
     }
@@ -63,10 +75,10 @@ class WalletService extends BasicService
         return $total;
     }
 
+    /** @throws ConstraintException */
     public function deleteById(int $id)
     {
-        $movementService = app(MovementService::class);
-        if ($movementService->countByWalletId($id) > 0) {
+        if ($this->getMovementService()->countByWalletId($id) > 0) {
             throw new ConstraintException('Não é possível excluir uma carteira que possui movimentações!');
         }
         return parent::deleteById($id);

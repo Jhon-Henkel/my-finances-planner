@@ -30,9 +30,8 @@ class AuthControllerUnitTest extends Falcon9
     {
         $authUserServiceMock = Mockery::mock(AuthService::class)->makePartial();
         $authUserServiceMock->shouldReceive('findUserForAuth')->once()->andReturn(null);
-        $this->app->instance(AuthService::class, $authUserServiceMock);
 
-        $authControllerMock = Mockery::mock(AuthController::class)->makePartial();
+        $authControllerMock = Mockery::mock(AuthController::class, [$authUserServiceMock])->makePartial();
         $response = $authControllerMock->auth($this->getAuthRequest());
 
         $this->assertEquals(401, $response->getStatusCode());
@@ -45,9 +44,8 @@ class AuthControllerUnitTest extends Falcon9
         $authUserServiceMock->shouldReceive('findUserForAuth')->once()->andReturn(new User());
         $authUserServiceMock->shouldReceive('validateLogin')->once()->andReturn(AuthService::INACTIVE_USER_CODE);
         $authUserServiceMock->shouldReceive('saveAccessLog')->once()->andReturn(true);
-        $this->app->instance(AuthService::class, $authUserServiceMock);
 
-        $authControllerMock = Mockery::mock(AuthController::class)->makePartial();
+        $authControllerMock = Mockery::mock(AuthController::class, [$authUserServiceMock])->makePartial();
         $response = $authControllerMock->auth($this->getAuthRequest());
 
         $this->assertEquals(403, $response->getStatusCode());
@@ -60,9 +58,8 @@ class AuthControllerUnitTest extends Falcon9
         $authUserServiceMock->shouldReceive('findUserForAuth')->once()->andReturn(new User());
         $authUserServiceMock->shouldReceive('validateLogin')->once()->andReturn(AuthService::INVALID_LOGIN_OR_PASSWORD_CODE);
         $authUserServiceMock->shouldReceive('saveAccessLog')->once()->andReturn(true);
-        $this->app->instance(AuthService::class, $authUserServiceMock);
 
-        $authControllerMock = Mockery::mock(AuthController::class)->makePartial();
+        $authControllerMock = Mockery::mock(AuthController::class, [$authUserServiceMock])->makePartial();
         $response = $authControllerMock->auth($this->getAuthRequest());
 
         $this->assertEquals(401, $response->getStatusCode());
@@ -76,9 +73,8 @@ class AuthControllerUnitTest extends Falcon9
         $authUserServiceMock->shouldReceive('validateLogin')->once()->andReturn(AuthService::OK_CODE);
         $authUserServiceMock->shouldReceive('saveAccessLog')->once()->andReturn(true);
         $authUserServiceMock->shouldReceive('makeAuthUserResponseData')->once()->andReturn([]);
-        $this->app->instance(AuthService::class, $authUserServiceMock);
 
-        $authControllerMock = Mockery::mock(AuthController::class)->makePartial();
+        $authControllerMock = Mockery::mock(AuthController::class, [$authUserServiceMock])->makePartial();
         $response = $authControllerMock->auth($this->getAuthRequest());
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -91,9 +87,8 @@ class AuthControllerUnitTest extends Falcon9
         $authUserServiceMock->shouldReceive('findUserForAuth')->once()->andReturn(new User());
         $authUserServiceMock->shouldReceive('validateLogin')->once()->andReturn(0);
         $authUserServiceMock->shouldReceive('saveAccessLog')->once()->andReturn(true);
-        $this->app->instance(AuthService::class, $authUserServiceMock);
 
-        $authControllerMock = Mockery::mock(AuthController::class)->makePartial();
+        $authControllerMock = Mockery::mock(AuthController::class, [$authUserServiceMock])->makePartial();
         $response = $authControllerMock->auth($this->getAuthRequest());
 
         $this->assertEquals(500, $response->getStatusCode());

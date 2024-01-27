@@ -53,7 +53,9 @@ class MonthlyClosingControllerUnitTest extends Falcon9
     public function testGetService()
     {
         $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
-        $controllerMock = Mockery::mock(MonthlyClosingController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new MonthlyClosingResource()];
+
+        $controllerMock = Mockery::mock(MonthlyClosingController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
@@ -64,7 +66,9 @@ class MonthlyClosingControllerUnitTest extends Falcon9
     public function testGetResource()
     {
         $serviceMock = Mockery::mock(MonthlyClosingService::class)->makePartial();
-        $controllerMock = Mockery::mock(MonthlyClosingController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new MonthlyClosingResource()];
+
+        $controllerMock = Mockery::mock(MonthlyClosingController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();

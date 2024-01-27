@@ -8,13 +8,10 @@ use App\Resources\FutureGainResource;
 
 class FutureGainRepository extends BasicRepository
 {
-    protected FutureGain $model;
-    protected FutureGainResource $resource;
-
-    public function __construct(FutureGain $model)
-    {
-        $this->model = $model;
-        $this->resource = app(FutureGainResource::class);
+    public function __construct(
+        private readonly FutureGain $model,
+        private readonly FutureGainResource $resource
+    ) {
     }
 
     protected function getModel(): FutureGain
@@ -22,7 +19,7 @@ class FutureGainRepository extends BasicRepository
         return $this->model;
     }
 
-    protected function getResource(): mixed
+    protected function getResource(): FutureGainResource
     {
         return $this->resource;
     }
@@ -46,10 +43,11 @@ class FutureGainRepository extends BasicRepository
     public function findAll(): array
     {
         $itens = $this->getModel()
+            ->query()
             ->select('future_gain.*', 'wallets.name')
             ->join('wallets', 'future_gain.wallet_id', '=', 'wallets.id')
             ->orderBy('id', 'desc')
             ->get();
-        return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
+        return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : [];
     }
 }

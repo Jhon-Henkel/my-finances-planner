@@ -13,7 +13,9 @@ class WalletControllerUnitTest extends TestCase
     public function testRulesUpdate()
     {
         $serviceMock = Mockery::mock(WalletService::class);
-        $controllerMock = Mockery::mock(WalletController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new WalletResource()];
+
+        $controllerMock = Mockery::mock(WalletController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -29,7 +31,9 @@ class WalletControllerUnitTest extends TestCase
     public function testInsertRules()
     {
         $serviceMock = Mockery::mock(WalletService::class);
-        $controllerMock = Mockery::mock(WalletController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new WalletResource()];
+
+        $controllerMock = Mockery::mock(WalletController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsert();
@@ -45,7 +49,9 @@ class WalletControllerUnitTest extends TestCase
     public function testGetService()
     {
         $serviceMock = Mockery::mock(WalletService::class);
-        $controllerMock = Mockery::mock(WalletController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new WalletResource()];
+
+        $controllerMock = Mockery::mock(WalletController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
@@ -56,7 +62,9 @@ class WalletControllerUnitTest extends TestCase
     public function testGetResource()
     {
         $serviceMock = Mockery::mock(WalletService::class);
-        $controllerMock = Mockery::mock(WalletController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new WalletResource()];
+
+        $controllerMock = Mockery::mock(WalletController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();

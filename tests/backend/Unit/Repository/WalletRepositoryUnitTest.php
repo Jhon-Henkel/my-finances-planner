@@ -12,7 +12,9 @@ class WalletRepositoryUnitTest extends Falcon9
     public function testGetModel()
     {
         $mockModel = \Mockery::mock(WalletModel::class);
-        $mockRepository = \Mockery::mock(WalletRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new WalletResource()];
+
+        $mockRepository = \Mockery::mock(WalletRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $this->assertInstanceOf(WalletModel::class, $mockRepository->getModel());
@@ -21,7 +23,9 @@ class WalletRepositoryUnitTest extends Falcon9
     public function testGetResource()
     {
         $mockModel = \Mockery::mock(WalletModel::class);
-        $mockRepository = \Mockery::mock(WalletRepository::class, [$mockModel])->makePartial();
+        $mocks = [$mockModel, new WalletResource()];
+
+        $mockRepository = \Mockery::mock(WalletRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
         $result = $mockRepository->getResource();

@@ -12,13 +12,10 @@ use App\Tools\Calendar\CalendarTools;
 
 class MovementRepository extends BasicRepository
 {
-    protected MovementModel $model;
-    protected MovementResource $resource;
-
-    public function __construct(MovementModel $model)
-    {
-        $this->model = $model;
-        $this->resource = app(MovementResource::class);
+    public function __construct(
+        private readonly MovementModel $model,
+        private readonly MovementResource $resource
+    ) {
     }
 
     protected function getModel(): MovementModel

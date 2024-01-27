@@ -16,17 +16,17 @@ use App\Resources\Movement\MovementResource;
 use App\Services\BasicService;
 use App\Services\WalletService;
 use App\Tools\Calendar\CalendarTools;
+use App\Tools\NumberTools;
 use App\VO\Movement\MovementVO;
 
 class MovementService extends BasicService
 {
-    protected MovementRepository $repository;
-    protected MovementResource $resource;
-
-    public function __construct(MovementRepository $repository)
-    {
-        $this->repository = $repository;
-        $this->resource = app(MovementResource::class);
+    public function __construct(
+        private readonly MovementRepository $repository,
+        private readonly MovementResource $resource,
+        private readonly WalletService $walletService,
+    ) {
+        $walletService->setMovementService($this);
     }
 
     protected function getRepository(): MovementRepository
@@ -97,9 +97,8 @@ class MovementService extends BasicService
         if (! $movement) {
             return false;
         }
-        $walletService = app(WalletService::class);
         $type = $movement->getType() == MovementEnum::Gain->value ? MovementEnum::Spent->value : MovementEnum::Gain->value;
-        $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), $type, true);
+        $this->walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), $type, true);
         return parent::deleteById($id);
     }
 
@@ -109,11 +108,10 @@ class MovementService extends BasicService
         if (! $movement || $movement->getType() != MovementEnum::Transfer->value) {
             return false;
         }
-        $walletService = app(WalletService::class);
         if (str_contains($movement->getDescription(), 'Saída')) {
-            $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::Gain->value, true);
+            $this->walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::Gain->value, true);
         } elseif (str_contains($movement->getDescription(), 'Entrada')) {
-            $walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::Spent->value, true);
+            $this->walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::Spent->value, true);
         }
         return $this->parentDeleteById($id);
     }
@@ -125,15 +123,13 @@ class MovementService extends BasicService
 
     public function insert($item)
     {
-        $walletService = app(WalletService::class);
-        $walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $item->getType(), true);
+        $this->walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $item->getType(), true);
         return parent::insert($item);
     }
 
     public function insertWithWalletUpdateType(MovementDTO $item, int $walletUpdateType)
     {
-        $walletService = app(WalletService::class);
-        $walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $walletUpdateType, true);
+        $this->walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $walletUpdateType, true);
         return $this->parentInert($item);
     }
 
@@ -145,17 +141,16 @@ class MovementService extends BasicService
     public function update(int $id, $item)
     {
         $movement = $this->findById($id);
-        $walletService = app(WalletService::class);
         if ($movement->getAmount() != $item->getAmount()) {
             $type = $this->getTypeForMovementUpdate($movement, $item);
             if ($type == MovementEnum::Gain->value) {
-                $value = round($item->getAmount() - $movement->getAmount(), 2);
+                $value = NumberTools::roundFloatAmount($item->getAmount() - $movement->getAmount());
             } else {
-                $value = round($movement->getAmount() - $item->getAmount(), 2);
+                $value = NumberTools::roundFloatAmount($movement->getAmount() - $item->getAmount());
             }
-            $walletService->updateWalletValue(abs($value), $movement->getWalletId(), $type, true);
+            $this->walletService->updateWalletValue(abs($value), $movement->getWalletId(), $type, true);
         } elseif ($movement->getType() != $item->getType()) {
-            $walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $item->getType(), true);
+            $this->walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $item->getType(), true);
         }
         return parent::update($id, $item);
     }
