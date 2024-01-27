@@ -12,7 +12,10 @@ class ConfigurationsControllerUnitTest extends Falcon9
 {
     public function testRulesInsert()
     {
-        $controllerMock = Mockery::mock(ConfigurationsController::class)->makePartial();
+        $serviceMock = Mockery::mock(ConfigurationService::class)->makePartial();
+
+        $mocks = [$serviceMock, new ConfigurationResource()];
+        $controllerMock = Mockery::mock(ConfigurationsController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsert();
@@ -23,7 +26,10 @@ class ConfigurationsControllerUnitTest extends Falcon9
 
     public function testUpdateRules()
     {
-        $controllerMock = Mockery::mock(ConfigurationsController::class)->makePartial();
+        $serviceMock = Mockery::mock(ConfigurationService::class)->makePartial();
+
+        $mocks = [$serviceMock, new ConfigurationResource()];
+        $controllerMock = Mockery::mock(ConfigurationsController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -36,7 +42,9 @@ class ConfigurationsControllerUnitTest extends Falcon9
     public function testGetService()
     {
         $serviceMock = Mockery::mock(ConfigurationService::class)->makePartial();
-        $controllerMock = Mockery::mock(ConfigurationsController::class, [$serviceMock])->makePartial();
+
+        $mocks = [$serviceMock, new ConfigurationResource()];
+        $controllerMock = Mockery::mock(ConfigurationsController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
@@ -47,7 +55,9 @@ class ConfigurationsControllerUnitTest extends Falcon9
     public function testGetResource()
     {
         $serviceMock = Mockery::mock(ConfigurationService::class)->makePartial();
-        $controllerMock = Mockery::mock(ConfigurationsController::class, [$serviceMock])->makePartial();
+
+        $mocks = [$serviceMock, new ConfigurationResource()];
+        $controllerMock = Mockery::mock(ConfigurationsController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();

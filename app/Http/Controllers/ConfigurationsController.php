@@ -9,13 +9,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ConfigurationsController extends BasicController
 {
-    protected ConfigurationService $service;
-    protected ConfigurationResource $resource;
-
-    public function __construct(ConfigurationService $service)
-    {
-        $this->service = $service;
-        $this->resource = app(ConfigurationResource::class);
+    public function __construct(
+        private readonly ConfigurationService $service,
+        private readonly ConfigurationResource $resource
+    ) {
     }
 
     protected function rulesInsert(): array
