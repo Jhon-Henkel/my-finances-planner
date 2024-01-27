@@ -26,7 +26,7 @@ class MovementServiceUnitTest extends Falcon9
         $repositoryMock = Mockery::mock(MovementRepository::class);
         $repositoryMock->shouldReceive('findAllByType')->once()->andReturn([]);
 
-        $walletServiceMock = Mockery::mock(WalletService::class);
+        $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
 
         $service = new MovementService($repositoryMock, new MovementResource(), $walletServiceMock);
         $result = $service->findAllByType(1);
@@ -39,7 +39,7 @@ class MovementServiceUnitTest extends Falcon9
         $repositoryMock = Mockery::mock(MovementRepository::class);
         $repositoryMock->shouldReceive('findByPeriodAndType')->once()->andReturn([]);
 
-        $walletServiceMock = Mockery::mock(WalletService::class);
+        $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
 
         $service = new MovementService($repositoryMock, new MovementResource(), $walletServiceMock);
         $result = $service->findByFilter([]);
@@ -60,7 +60,7 @@ class MovementServiceUnitTest extends Falcon9
         $mocks = [
             $repositoryMock,
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         ];
 
         $serviceMock = Mockery::mock(MovementService::class, $mocks)->makePartial();
@@ -82,7 +82,7 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService(
             Mockery::mock(MovementRepository::class),
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         );
 
         $result = $service->populateByFutureGain($item);
@@ -105,7 +105,7 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService(
             Mockery::mock(MovementRepository::class),
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         );
 
         $result = $service->populateByFutureSpent($item);
@@ -126,7 +126,7 @@ class MovementServiceUnitTest extends Falcon9
         $item->setType(5);
         $item->setDescription('description');
 
-        $mockWalletService = Mockery::mock(WalletService::class);
+        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
         $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
 
         $repositoryMock = Mockery::mock(MovementRepository::class);
@@ -153,7 +153,7 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService(
             $repositoryMock,
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         );
 
         $result = $service->deleteById(1);
@@ -170,7 +170,7 @@ class MovementServiceUnitTest extends Falcon9
         $item->setType(5);
         $item->setDescription('description');
 
-        $mockWalletService = Mockery::mock(WalletService::class);
+        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
         $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
 
         $repositoryMock = Mockery::mock(MovementRepository::class);
@@ -196,7 +196,7 @@ class MovementServiceUnitTest extends Falcon9
         $item->setType(5);
         $item->setDescription('description');
 
-        $mockWalletService = Mockery::mock(WalletService::class);
+        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
         $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
 
         $repositoryMock = Mockery::mock(MovementRepository::class);
@@ -230,7 +230,7 @@ class MovementServiceUnitTest extends Falcon9
         $item->setType(6);
         $item->setDescription('description');
 
-        $mockWalletService = Mockery::mock(WalletService::class);
+        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
         $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
 
         $repositoryMock = Mockery::mock(MovementRepository::class);
@@ -263,7 +263,7 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService(
             $repositoryMock,
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         );
 
         $result = $service->launchMovementForWalletUpdate(1, 2);
@@ -289,7 +289,7 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService(
             $repositoryMock,
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         );
 
         $result = $service->getLastMovements(1);
@@ -328,7 +328,7 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService(
             $repositoryMock,
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         );
 
         $result = $service->generateDataForGraph()->getAllDataArray();
@@ -413,7 +413,7 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService(
             $repositoryMock,
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         );
 
         $return = $service->getSumValuesForPeriod(new DatePeriodDTO('2018-01-01', '2018-01-31'));
@@ -541,7 +541,7 @@ class MovementServiceUnitTest extends Falcon9
         $mocks = [
             Mockery::mock(MovementRepository::class),
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         ];
 
         $serviceMock = Mockery::mock(MovementService::class, $mocks)->makePartial();
@@ -563,7 +563,7 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService(
             $repositoryMock,
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         );
 
         $result = $service->getMonthSumMovementsByOptionFilter(1);
@@ -621,7 +621,7 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService(
             $repositoryMock,
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         );
         $service->launchMovementForInvestment(10, MovementEnum::InvestmentCdb->value, 1, true);
     }
@@ -643,7 +643,7 @@ class MovementServiceUnitTest extends Falcon9
         $service = new MovementService(
             $repositoryMock,
             new MovementResource(),
-            Mockery::mock(WalletService::class)
+            Mockery::mock(WalletService::class)->makePartial()
         );
         $service->launchMovementForInvestment(10, MovementEnum::InvestmentCdb->value, 1, false);
     }

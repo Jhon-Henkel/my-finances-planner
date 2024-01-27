@@ -11,11 +11,9 @@ use App\Tools\Auth\JwtTools;
 
 class UserService extends BasicService
 {
-    protected UserRepository $repository;
-
-    public function __construct(UserRepository $repository)
-    {
-        $this->repository = $repository;
+    public function __construct(
+        private readonly UserRepository $repository
+    ) {
     }
 
     protected function getRepository(): UserRepository
@@ -68,7 +66,9 @@ class UserService extends BasicService
     {
         return [
             'MFP-TOKEN' => AppTools::getEnvValue('PUSHER_APP_KEY'),
-            'X-MFP-USER-TOKEN' => JwtTools::createJWT(app(AuthService::class)->findUserForAuth('demo@demo.dev'))
+            'X-MFP-USER-TOKEN' => JwtTools::createJWT(
+                app(AuthService::class)->findUserForAuth('demo@demo.dev')
+            )
         ];
     }
 }
