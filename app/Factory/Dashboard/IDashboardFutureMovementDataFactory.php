@@ -2,15 +2,12 @@
 
 namespace App\Factory\Dashboard;
 
-class IDashboardFutureMovementDataFactory implements IDashboardFactory
+readonly class IDashboardFutureMovementDataFactory implements IDashboardFactory
 {
-    private float $thisMonth;
-    private float $thisYear;
-
-    public function __construct(float $thisMonth, float $thisYear)
-    {
-        $this->thisMonth = $thisMonth;
-        $this->thisYear = $thisYear;
+    public function __construct(
+        private float $thisMonth,
+        private float $thisYear
+    ) {
     }
 
     public function toArray(): array
