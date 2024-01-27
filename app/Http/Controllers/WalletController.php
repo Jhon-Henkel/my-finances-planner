@@ -11,13 +11,10 @@ use App\VO\WalletVO;
  */
 class WalletController extends BasicController
 {
-    protected WalletService $service;
-    protected WalletResource $resource;
-
-    public function __construct(WalletService $service)
-    {
-        $this->service = $service;
-        $this->resource = app(WalletResource::class);
+    public function __construct(
+        private readonly WalletService $service,
+        private readonly WalletResource $resource
+    ) {
     }
 
     protected function rulesInsert(): array
