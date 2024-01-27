@@ -7,13 +7,10 @@ use App\Services\CreditCard\CreditCardService;
 
 class CreditCardController extends BasicController
 {
-    protected CreditCardService $service;
-    protected CreditCardResource $resource;
-
-    public function __construct(CreditCardService $service)
-    {
-        $this->service = $service;
-        $this->resource = app(CreditCardResource::class);
+    public function __construct(
+        private readonly CreditCardService $service,
+        private readonly CreditCardResource $resource
+    ) {
     }
 
     protected function rulesInsert(): array
