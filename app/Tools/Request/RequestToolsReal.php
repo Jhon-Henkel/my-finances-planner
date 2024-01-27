@@ -48,16 +48,19 @@ class RequestToolsReal
         return env('APP_BETA_MODE', false);
     }
 
+    /** @codeCoverageIgnore */
     public function isApplicationInDevelopMode(): bool
     {
         return env('APP_ENV') != 'production';
     }
 
+    /** @codeCoverageIgnore */
     public function getUserIp(): string|null
     {
         return $_SERVER['REMOTE_ADDR'] ?? null;
     }
 
+    /** @codeCoverageIgnore */
     public function getUserAgent(): string|null
     {
         return $_SERVER['HTTP_USER_AGENT'] ?? null;

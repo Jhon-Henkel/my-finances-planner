@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Tools\Request\RequestTools;
+use App\Services\Mail\MailService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class MailController extends Controller
 {
+    public function __construct(private readonly MailService $service)
+    {
+    }
+
     public function sendTestEmail(): JsonResponse
     {
-        if (! RequestTools::isApplicationInDevelopMode()) {
+        if (! $this->service->isAppInDevMode()) {
             return response()->json(['message' => 'Dont in develop mode!'], Response::HTTP_BAD_REQUEST);
         }
-        app('App\Services\Mail\MailService')->sendTestEmail();
+        $this->service->sendTestEmail();
         return response()->json(['message' => 'E-mail send success!']);
     }
 }

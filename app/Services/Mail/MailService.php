@@ -3,6 +3,7 @@
 namespace App\Services\Mail;
 
 use App\DTO\Mail\MailMessageDTO;
+use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Mail;
 
 class MailService
@@ -26,5 +27,11 @@ class MailService
             $message->subject($mail->getSubject());
             $message->from($mail->getSender(), $mail->getSenderName());
         });
+    }
+
+    /** @codeCoverageIgnore */
+    public function isAppInDevMode(): bool
+    {
+        return RequestTools::isApplicationInDevelopMode();
     }
 }
