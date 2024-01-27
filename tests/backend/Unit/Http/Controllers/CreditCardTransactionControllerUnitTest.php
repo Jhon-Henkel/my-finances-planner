@@ -2,8 +2,10 @@
 
 namespace Tests\backend\Unit\Http\Controllers;
 
+use App\DTO\CreditCard\CreditCardDTO;
 use App\Http\Controllers\CreditCardTransactionController;
 use App\Resources\CreditCard\CreditCardTransactionResource;
+use App\Services\CreditCard\CreditCardService;
 use App\Services\CreditCard\CreditCardTransactionService;
 use Mockery;
 use Tests\backend\Falcon9;
@@ -25,7 +27,17 @@ class CreditCardTransactionControllerUnitTest extends Falcon9
         $serviceMock = $this->mock(CreditCardTransactionService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('payInvoice')->once()->andReturnTrue();
-        $controller = $this->app->make(CreditCardTransactionController::class, [$serviceMock]);
+
+        $creditCardServiceMock = $this->mock(CreditCardService::class)->makePartial();
+        $creditCardServiceMock->shouldReceive('findById')->once()->andReturn(new CreditCardDTO());
+
+        $mocks = [
+            $serviceMock,
+            new CreditCardTransactionResource(),
+            $creditCardServiceMock
+        ];
+
+        $controller = $this->app->make(CreditCardTransactionController::class, $mocks);
 
         $this->assertInstanceOf('Illuminate\Http\JsonResponse', $controller->payInvoice(1, 2));
     }
@@ -35,15 +47,29 @@ class CreditCardTransactionControllerUnitTest extends Falcon9
         $serviceMock = $this->mock(CreditCardTransactionService::class)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('payInvoice')->once()->andReturnFalse();
-        $controller = $this->app->make(CreditCardTransactionController::class, [$serviceMock]);
+
+        $creditCardServiceMock = $this->mock(CreditCardService::class)->makePartial();
+        $creditCardServiceMock->shouldReceive('findById')->once()->andReturn(new CreditCardDTO());
+
+        $mocks = [
+            $serviceMock,
+            new CreditCardTransactionResource(),
+            $creditCardServiceMock
+        ];
+
+        $controller = $this->app->make(CreditCardTransactionController::class, $mocks);
 
         $this->assertInstanceOf('Illuminate\Http\JsonResponse', $controller->payInvoice(1, 2));
     }
 
     public function testRulesUpdate()
     {
-        $serviceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
-        $mocks = [$serviceMock, new CreditCardTransactionResource()];
+        $mocks = [
+            Mockery::mock(CreditCardTransactionService::class)->makePartial(),
+            new CreditCardTransactionResource(),
+            Mockery::mock(CreditCardService::class)
+        ];
+
         $controllerMock = Mockery::mock(CreditCardTransactionController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
@@ -64,8 +90,12 @@ class CreditCardTransactionControllerUnitTest extends Falcon9
 
     public function testRulesInsert()
     {
-        $serviceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
-        $mocks = [$serviceMock, new CreditCardTransactionResource()];
+        $mocks = [
+            Mockery::mock(CreditCardTransactionService::class)->makePartial(),
+            new CreditCardTransactionResource(),
+            Mockery::mock(CreditCardService::class)
+        ];
+
         $controllerMock = Mockery::mock(CreditCardTransactionController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
@@ -86,8 +116,12 @@ class CreditCardTransactionControllerUnitTest extends Falcon9
 
     public function testGetResource()
     {
-        $serviceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
-        $mocks = [$serviceMock, new CreditCardTransactionResource()];
+        $mocks = [
+            Mockery::mock(CreditCardTransactionService::class)->makePartial(),
+            new CreditCardTransactionResource(),
+            Mockery::mock(CreditCardService::class)
+        ];
+
         $controllerMock = Mockery::mock(CreditCardTransactionController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
