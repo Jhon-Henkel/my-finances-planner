@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\FutureMovement;
 
-use App\DTO\FutureSpentDTO;
-use App\Enums\InvoiceInstallmentsEnum;
+use App\DTO\FutureMovement\FutureSpentDTO;
+use App\DTO\FutureMovement\IFutureMovementDTO;
 use App\Factory\InvoiceFactory;
 use App\Repositories\FutureSpentRepository;
 use App\Resources\FutureSpentResource;
+use App\Services\BasicService;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\MarketPlannerService;
 use App\Tools\Calendar\CalendarTools;
 
 class FutureSpentService extends BasicService
 {
+    use FutureMovementTrait;
+
     public function __construct(
         private readonly FutureSpentRepository $repository,
         private readonly MarketPlannerService $marketPlannerService,
@@ -35,9 +38,6 @@ class FutureSpentService extends BasicService
         $spentPackage = [];
         foreach ($spending as $spent) {
             $invoice = $this->resource->futureSpentToInvoiceDTO($spent);
-            if (! $invoice) {
-                continue;
-            }
             $spentPackage[] = InvoiceFactory::factoryInvoice($invoice, CalendarTools::getThisMonth());
         }
         if ($this->marketPlannerService->useMarketPlanner()) {
@@ -65,20 +65,6 @@ class FutureSpentService extends BasicService
         return $this->updateRemainingInstallments($spent);
     }
 
-    protected function updateRemainingInstallments(FutureSpentDTO $spent): bool
-    {
-        $remainingInstallments = $spent->getInstallments() - 1;
-        if ($remainingInstallments === 0) {
-            return $this->getRepository()->deleteById($spent->getId());
-        }
-        if ($remainingInstallments < 0) {
-            $remainingInstallments = InvoiceInstallmentsEnum::FixedInstallments->value;
-        }
-        $spent->setInstallments($remainingInstallments);
-        $spent->setForecast(CalendarTools::addMonthInDate($spent->getForecast(), 1));
-        return (bool)$this->getRepository()->update($spent->getId(), $spent);
-    }
-
     protected function payWithOptions(FutureSpentDTO $spent, array $options): bool
     {
         $isEqualsValue = $options['value'] === $spent->getAmount();
@@ -103,19 +89,10 @@ class FutureSpentService extends BasicService
         return $this->updateRemainingInstallments($spent);
     }
 
-    protected function makeSpentForParcialPay(FutureSpentDTO $spent, float $value): FutureSpentDTO
+    protected function makeSpentForParcialPay(FutureSpentDTO $spent, float $value): IFutureMovementDTO
     {
-        $newSpent = new FutureSpentDTO();
-        $newSpent->setId(null);
-        $newSpent->setAmount($value);
-        $newSpent->setWalletId($spent->getWalletId());
-        $newSpent->setInstallments(1);
-        $newSpent->setForecast($spent->getForecast());
-        $message = str_replace('Restante ', '', strtolower($spent->getDescription()));
-        $newSpent->setDescription('Restante ' . $message);
-        $newSpent->setCreatedAt(null);
-        $newSpent->setUpdatedAt(null);
-        return $newSpent;
+        $description = str_replace('Restante ', '', strtolower($spent->getDescription()));
+        return $this->makeFutureMovementForParcialReceive($spent, $value, 'Restante ' . $description);
     }
 
     public function getThisYearFutureSpentSum(): float

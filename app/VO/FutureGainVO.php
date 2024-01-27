@@ -2,7 +2,7 @@
 
 namespace App\VO;
 
-use App\DTO\FutureGainDTO;
+use App\DTO\FutureMovement\FutureGainDTO;
 
 class FutureGainVO
 {

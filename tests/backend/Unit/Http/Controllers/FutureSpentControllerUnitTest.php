@@ -4,7 +4,7 @@ namespace Tests\backend\Unit\Http\Controllers;
 
 use App\Http\Controllers\FutureSpentController;
 use App\Resources\FutureSpentResource;
-use App\Services\FutureSpentService;
+use App\Services\FutureMovement\FutureSpentService;
 use Mockery;
 use Tests\backend\Falcon9;
 

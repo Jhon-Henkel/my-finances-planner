@@ -3,8 +3,8 @@
 namespace Tests\backend\Unit\Service\Movement;
 
 use App\DTO\Date\DatePeriodDTO;
-use App\DTO\FutureGainDTO;
-use App\DTO\FutureSpentDTO;
+use App\DTO\FutureMovement\FutureGainDTO;
+use App\DTO\FutureMovement\FutureSpentDTO;
 use App\DTO\Movement\MovementDTO;
 use App\DTO\Movement\MovementSumValuesDTO;
 use App\Enums\MovementEnum;

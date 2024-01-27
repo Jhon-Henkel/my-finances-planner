@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Unit\VO;
 
-use App\DTO\FutureSpentDTO;
+use App\DTO\FutureMovement\FutureSpentDTO;
 use App\VO\FutureSpentVO;
 use Tests\backend\Falcon9;
 

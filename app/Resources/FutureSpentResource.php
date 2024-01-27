@@ -2,7 +2,7 @@
 
 namespace App\Resources;
 
-use App\DTO\FutureSpentDTO;
+use App\DTO\FutureMovement\FutureSpentDTO;
 use App\DTO\InvoiceItemDTO;
 use App\VO\FutureSpentVO;
 

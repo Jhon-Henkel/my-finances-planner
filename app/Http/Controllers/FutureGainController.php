@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Resources\FutureGainResource;
-use App\Services\FutureGainService;
+use App\Services\FutureMovement\FutureGainService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;

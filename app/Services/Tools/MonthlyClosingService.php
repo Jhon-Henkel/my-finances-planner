@@ -7,13 +7,13 @@ use App\DTO\Tools\MonthlyClosingDTO;
 use App\Models\User;
 use App\Repositories\Tools\MonthlyClosingRepository;
 use App\Services\BasicService;
-use App\Services\FutureGainService;
-use App\Services\FutureSpentService;
+use App\Services\FutureMovement\FutureGainService;
+use App\Services\FutureMovement\FutureSpentService;
 use App\Services\Movement\MovementService;
 use App\Tools\Calendar\CalendarTools;
+use App\Tools\NumberTools;
 use App\VO\Chart\ChartDataVO;
 use App\VO\Chart\DatasetsVO;
-use App\Tools\NumberTools;
 
 class MonthlyClosingService extends BasicService
 {

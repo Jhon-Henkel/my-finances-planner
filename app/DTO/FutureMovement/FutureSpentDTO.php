@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\FutureMovement;
 
-class FutureSpentDTO
+class FutureSpentDTO implements IFutureMovementDTO
 {
     private null|int $id;
     private int $walletId;

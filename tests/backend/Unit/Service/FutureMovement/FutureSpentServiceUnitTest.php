@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\backend\Unit\Service;
+namespace Tests\backend\Unit\Service\FutureMovement;
 
-use App\DTO\FutureSpentDTO;
+use App\DTO\FutureMovement\FutureSpentDTO;
 use App\DTO\Movement\MovementDTO;
 use App\Repositories\FutureSpentRepository;
 use App\Resources\FutureSpentResource;
-use App\Services\FutureSpentService;
+use App\Services\FutureMovement\FutureSpentService;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\MarketPlannerService;
 use App\VO\InvoiceVO;

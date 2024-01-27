@@ -3,8 +3,8 @@
 namespace Tests\backend\Unit\Service;
 
 use App\Services\CreditCard\CreditCardTransactionService;
-use App\Services\FutureGainService;
-use App\Services\FutureSpentService;
+use App\Services\FutureMovement\FutureGainService;
+use App\Services\FutureMovement\FutureSpentService;
 use App\Services\PanoramaService;
 use App\Services\WalletService;
 use App\VO\InvoiceVO;
