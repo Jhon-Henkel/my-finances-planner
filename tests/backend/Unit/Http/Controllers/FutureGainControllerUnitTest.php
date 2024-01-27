@@ -4,7 +4,7 @@ namespace Tests\backend\Unit\Http\Controllers;
 
 use App\Http\Controllers\FutureGainController;
 use App\Resources\FutureGainResource;
-use App\Services\FutureGainService;
+use App\Services\FutureMovement\FutureGainService;
 use Mockery;
 use Tests\backend\Falcon9;
 

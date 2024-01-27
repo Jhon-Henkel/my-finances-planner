@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\FutureMovement;
 
-use App\DTO\FutureGainDTO;
-use App\Enums\InvoiceInstallmentsEnum;
+use App\DTO\FutureMovement\FutureGainDTO;
+use App\DTO\FutureMovement\IFutureMovementDTO;
 use App\Factory\InvoiceFactory;
 use App\Repositories\FutureGainRepository;
 use App\Resources\FutureGainResource;
+use App\Services\BasicService;
 use App\Services\Movement\MovementService;
 use App\Tools\Calendar\CalendarTools;
 
 class FutureGainService extends BasicService
 {
+    use FutureMovementTrait;
+
     public function __construct(
         private readonly FutureGainRepository $repository,
         private readonly FutureGainResource $resource,
@@ -57,20 +60,6 @@ class FutureGainService extends BasicService
         return $this->updateRemainingInstallments($gain);
     }
 
-    protected function updateRemainingInstallments(FutureGainDTO $gain): bool
-    {
-        $remainingInstallments = $gain->getInstallments() - 1;
-        if ($remainingInstallments === 0) {
-            return $this->getRepository()->deleteById($gain->getId());
-        }
-        if ($remainingInstallments < 0) {
-            $remainingInstallments = InvoiceInstallmentsEnum::FixedInstallments->value;
-        }
-        $gain->setInstallments($remainingInstallments);
-        $gain->setForecast(CalendarTools::addMonthInDate($gain->getForecast(), 1));
-        return (bool)$this->getRepository()->update($gain->getId(), $gain);
-    }
-
     protected function receiveWithOptions(FutureGainDTO $gain, array $options): bool
     {
         $isEqualsValue = $options['value'] === $gain->getAmount();
@@ -95,19 +84,10 @@ class FutureGainService extends BasicService
         return $this->updateRemainingInstallments($gain);
     }
 
-    protected function makeGainForParcialReceive(FutureGainDTO $spent, float $value): FutureGainDTO
+    protected function makeGainForParcialReceive(FutureGainDTO $gain, float $value): IFutureMovementDTO
     {
-        $newSpent = new FutureGainDTO();
-        $newSpent->setId(null);
-        $newSpent->setAmount($value);
-        $newSpent->setWalletId($spent->getWalletId());
-        $newSpent->setInstallments(1);
-        $newSpent->setForecast($spent->getForecast());
-        $description = str_replace('Restante ', '', strtolower($spent->getDescription()));
-        $newSpent->setDescription('Restante ' . $description);
-        $newSpent->setCreatedAt(null);
-        $newSpent->setUpdatedAt(null);
-        return $newSpent;
+        $description = str_replace('Restante ', '', strtolower($gain->getDescription()));
+        return $this->makeFutureMovementForParcialReceive($gain, $value, 'Restante ' . $description);
     }
 
     public function getThisYearFutureGainSum(): float

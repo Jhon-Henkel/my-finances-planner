@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Unit\VO;
 
-use App\DTO\FutureGainDTO;
+use App\DTO\FutureMovement\FutureGainDTO;
 use App\VO\FutureGainVO;
 use PHPUnit\Framework\TestCase;
 

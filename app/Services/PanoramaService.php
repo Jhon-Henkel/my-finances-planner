@@ -5,6 +5,8 @@ namespace App\Services;
 use App\DTO\InvoiceItemDTO;
 use App\Factory\InvoiceFactory;
 use App\Services\CreditCard\CreditCardTransactionService;
+use App\Services\FutureMovement\FutureGainService;
+use App\Services\FutureMovement\FutureSpentService;
 use App\VO\InvoiceVO;
 
 class PanoramaService

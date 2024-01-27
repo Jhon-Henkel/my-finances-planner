@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\backend\Unit\DTO;
+namespace Tests\backend\Unit\DTO\FutureMovements;
 
-use App\DTO\FutureSpentDTO;
+use App\DTO\FutureMovement\FutureGainDTO;
 use Tests\backend\Falcon9;
 
-class FutureSpentDtoUnitTest extends Falcon9
+class FutureGainDtoUnitTest extends Falcon9
 {
-    public function testFutureSpentDto()
+    public function testFutureGainDto()
     {
-        $item = new FutureSpentDTO();
+        $item = new FutureGainDTO();
         $item->setId(1);
         $item->setWalletId(1);
         $item->setDescription('description');

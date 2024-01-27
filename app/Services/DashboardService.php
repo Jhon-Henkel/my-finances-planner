@@ -10,6 +10,8 @@ use App\Factory\Dashboard\IDashboardMovementDataFactory;
 use App\Factory\Dashboard\LastMovements\IDashboardLastMovementFactory;
 use App\Factory\Dashboard\LastMovements\IDashboardLastMovementsFactory;
 use App\Services\CreditCard\CreditCardTransactionService;
+use App\Services\FutureMovement\FutureGainService;
+use App\Services\FutureMovement\FutureSpentService;
 use App\Services\Movement\MovementService;
 
 class DashboardService

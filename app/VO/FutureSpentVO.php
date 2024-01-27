@@ -2,7 +2,7 @@
 
 namespace App\VO;
 
-use App\DTO\FutureSpentDTO;
+use App\DTO\FutureMovement\FutureSpentDTO;
 
 class FutureSpentVO
 {

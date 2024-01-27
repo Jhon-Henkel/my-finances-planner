@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\backend\Unit\Service;
+namespace Tests\backend\Unit\Service\FutureMovement;
 
-use App\DTO\FutureGainDTO;
+use App\DTO\FutureMovement\FutureGainDTO;
 use App\DTO\Movement\MovementDTO;
 use App\Repositories\FutureGainRepository;
 use App\Resources\FutureGainResource;
-use App\Services\FutureGainService;
+use App\Services\FutureMovement\FutureGainService;
 use App\Services\Movement\MovementService;
 use App\VO\InvoiceVO;
 use Mockery;
