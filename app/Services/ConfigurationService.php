@@ -9,11 +9,9 @@ use Illuminate\Support\Facades\Cache;
 
 class ConfigurationService extends BasicService
 {
-    protected ConfigurationRepository $repository;
-
-    public function __construct(ConfigurationRepository $repository)
-    {
-        $this->repository = $repository;
+    public function __construct(
+        private readonly ConfigurationRepository $repository
+    ) {
     }
 
     protected function getRepository(): ConfigurationRepository
