@@ -16,9 +16,7 @@ class IDashboardMovementDataFactory implements IDashboardFactory
     private float $thisYearGain;
     private array $lastMovements;
 
-    /**
-     * @param  MovementVO[]  $lastMovements
-     */
+    /** @param  MovementVO[]  $lastMovements */
     public function __construct(
         private readonly DataGraphMovementFactory $dataForGraph,
         array $lastMonthData,
@@ -53,9 +51,7 @@ class IDashboardMovementDataFactory implements IDashboardFactory
         $this->thisYearGain = $data['gain'];
     }
 
-    /**
-     * @param  MovementVO[]  $lastMovements
-     */
+    /** @param  MovementVO[]  $lastMovements */
     protected function addLastMovements(array $lastMovements): void
     {
         $this->lastMovements = $lastMovements;
