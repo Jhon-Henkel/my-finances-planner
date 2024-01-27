@@ -25,7 +25,6 @@ class MovementService extends BasicService
         private readonly MovementRepository $repository,
         private readonly MovementResource $resource,
         private readonly WalletService $walletService,
-
     ) {
         $walletService->setMovementService($this);
     }
