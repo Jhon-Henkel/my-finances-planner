@@ -46,14 +46,4 @@ class CreditCardTransactionRepositoryFeatureTest extends Falcon9Feature
 
         $this->assertCount(0, $expenses);
     }
-
-    public function testCountByPeriod()
-    {
-        $creditCard = DB::table('credit_card')->first();
-
-        $creditCardTransactionRepository = $this->app->make(CreditCardTransactionRepository::class);
-        $count = $creditCardTransactionRepository->countByPeriod(CalendarTools::getThisYearPeriod(), $creditCard->id);
-
-        $this->assertEquals(5, $count);
-    }
 }

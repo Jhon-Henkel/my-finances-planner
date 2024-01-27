@@ -30,14 +30,4 @@ class ConfigurationService extends BasicService
         $config = $this->getRepository()->findByName($configName);
         return reset($config);
     }
-
-    public function getMfpToken()
-    {
-        $token = Cache::get(ConfigEnum::MfpTokenKey->value);
-        if (! $token) {
-            $token = env('PUSHER_APP_KEY');
-            Cache::put(ConfigEnum::MfpTokenKey->value, $token, TimeNumberEnum::TwoHourInSeconds->value);
-        }
-        return $token;
-    }
 }
