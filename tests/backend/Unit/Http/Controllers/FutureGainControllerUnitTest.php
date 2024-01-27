@@ -13,7 +13,8 @@ class FutureGainControllerUnitTest extends Falcon9
     public function testInsertRules()
     {
         $serviceMock = Mockery::mock(FutureGainService::class);
-        $controllerMock = Mockery::mock(FutureGainController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new FutureGainResource()];
+        $controllerMock = Mockery::mock(FutureGainController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsert();
@@ -34,7 +35,8 @@ class FutureGainControllerUnitTest extends Falcon9
     public function testUpdateRules()
     {
         $serviceMock = Mockery::mock(FutureGainService::class);
-        $controllerMock = Mockery::mock(FutureGainController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new FutureGainResource()];
+        $controllerMock = Mockery::mock(FutureGainController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -55,7 +57,8 @@ class FutureGainControllerUnitTest extends Falcon9
     public function testGetService()
     {
         $serviceMock = Mockery::mock(FutureGainService::class);
-        $controllerMock = Mockery::mock(FutureGainController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new FutureGainResource()];
+        $controllerMock = Mockery::mock(FutureGainController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
@@ -66,7 +69,8 @@ class FutureGainControllerUnitTest extends Falcon9
     public function testGetResource()
     {
         $serviceMock = Mockery::mock(FutureGainService::class);
-        $controllerMock = Mockery::mock(FutureGainController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new FutureGainResource()];
+        $controllerMock = Mockery::mock(FutureGainController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();
