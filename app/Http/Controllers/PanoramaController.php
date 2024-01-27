@@ -6,13 +6,10 @@ use App\Services\PanoramaService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
-class PanoramaController
+class PanoramaController extends Controller
 {
-    protected PanoramaService $service;
-
-    public function __construct(PanoramaService $service)
+    public function __construct(private readonly PanoramaService $service)
     {
-        $this->service = $service;
     }
 
     public function getPanoramaData(): JsonResponse
