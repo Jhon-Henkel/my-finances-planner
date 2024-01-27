@@ -13,7 +13,8 @@ class FutureSpentControllerUnitTest extends Falcon9
     public function testInsertRules()
     {
         $serviceMock = Mockery::mock(FutureSpentService::class);
-        $controllerMock = Mockery::mock(FutureSpentController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new FutureSpentResource()];
+        $controllerMock = Mockery::mock(FutureSpentController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesInsert();
@@ -34,7 +35,8 @@ class FutureSpentControllerUnitTest extends Falcon9
     public function testUpdateRules()
     {
         $serviceMock = Mockery::mock(FutureSpentService::class);
-        $controllerMock = Mockery::mock(FutureSpentController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new FutureSpentResource()];
+        $controllerMock = Mockery::mock(FutureSpentController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $rules = $controllerMock->rulesUpdate();
@@ -55,7 +57,8 @@ class FutureSpentControllerUnitTest extends Falcon9
     public function testGetService()
     {
         $serviceMock = Mockery::mock(FutureSpentService::class);
-        $controllerMock = Mockery::mock(FutureSpentController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new FutureSpentResource()];
+        $controllerMock = Mockery::mock(FutureSpentController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $service = $controllerMock->getService();
@@ -66,7 +69,8 @@ class FutureSpentControllerUnitTest extends Falcon9
     public function testGetResource()
     {
         $serviceMock = Mockery::mock(FutureSpentService::class);
-        $controllerMock = Mockery::mock(FutureSpentController::class, [$serviceMock])->makePartial();
+        $mocks = [$serviceMock, new FutureSpentResource()];
+        $controllerMock = Mockery::mock(FutureSpentController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
 
         $resource = $controllerMock->getResource();

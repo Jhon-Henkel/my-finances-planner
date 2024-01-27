@@ -10,13 +10,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class FutureSpentController extends BasicController
 {
-    protected FutureSpentService $service;
-    protected FutureSpentResource $resource;
-
-    public function __construct(FutureSpentService $service)
-    {
-        $this->service = $service;
-        $this->resource = app(FutureSpentResource::class);
+    public function __construct(
+        private readonly FutureSpentService $service,
+        private readonly FutureSpentResource $resource
+    ) {
     }
 
     protected function rulesInsert(): array
