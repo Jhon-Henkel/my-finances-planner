@@ -8,14 +8,11 @@ use App\Tools\Request\RequestTools;
 
 class CronController
 {
-    private CronService $service;
-
-    public function __construct()
+    public function __construct(private readonly CronService $service)
     {
-        $this->service = app(CronService::class);
     }
 
-    protected function getService()
+    protected function getService(): CronService
     {
         return $this->service;
     }
