@@ -1,5 +1,6 @@
 @php
     use App\Tools\Request\RequestTools;
+    use Symfony\Component\HttpFoundation\Response;
 @endphp
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -41,6 +42,12 @@
             gtag('config', 'G-XTZ8R45NX1');
         </script>
     @endif
+    @php
+        $manifestDir = __DIR__ . '/../../../public/build/manifest.json';
+        if (! file_exists($manifestDir) && ! RequestTools::isApplicationInDevelopMode()) {
+            abort(Response::HTTP_SERVICE_UNAVAILABLE);
+        }
+    @endphp
     <div class="container" id="app"></div>
     @vite('resources/js/app.js')
 </body>
