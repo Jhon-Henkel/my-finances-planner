@@ -14,10 +14,16 @@ class CreditCardTransactionControllerUnitTest extends Falcon9
 {
     public function testInvoices()
     {
-        $serviceMock = $this->mock(CreditCardTransactionService::class)->makePartial();
-        $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('getInvoices')->once()->andReturn(['foo']);
-        $controller = $this->app->make(CreditCardTransactionController::class, [$serviceMock]);
+        $creditCardService = $this->mock(CreditCardService::class)->makePartial();
+        $creditCardService->shouldReceive('findById')->once()->andReturn(new CreditCardDTO());
+
+        $creditCardTransactionServiceMock = $this->mock(CreditCardTransactionService::class)->makePartial();
+        $creditCardTransactionServiceMock->shouldAllowMockingProtectedMethods();
+        $creditCardTransactionServiceMock->shouldReceive('getInvoices')->once()->andReturn(['foo']);
+
+        $mocks = [$creditCardTransactionServiceMock, new CreditCardTransactionResource(), $creditCardService];
+
+        $controller = $this->app->make(CreditCardTransactionController::class, $mocks);
 
         $this->assertInstanceOf('Illuminate\Http\JsonResponse', $controller->invoices(1));
     }

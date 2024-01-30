@@ -51,7 +51,8 @@ class CreditCardTransactionController extends BasicController
 
     public function invoices(int $cardId): JsonResponse
     {
-        $expenses = $this->getService()->getInvoices($cardId);
+        $card = $this->creditCardService->findById($cardId);
+        $expenses = $this->getService()->getInvoices($card);
         return response()->json($expenses, ResponseAlias::HTTP_OK);
     }
 

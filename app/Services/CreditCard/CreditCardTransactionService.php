@@ -31,7 +31,7 @@ class CreditCardTransactionService extends BasicService
 
     public function payInvoice(CreditCardDTO $card, int $walletId): bool
     {
-        $invoices = $this->getInvoices($card->getId());
+        $invoices = $this->getInvoices($card);
         $totalValue = 0;
         $launchMovementAndUpdateWallet = false;
         $installment = $this->getNextInstallmentOrder($invoices);
@@ -106,15 +106,27 @@ class CreditCardTransactionService extends BasicService
     }
 
     /** @return InvoiceVO[] */
-    public function getInvoices(int $cardId): array
+    public function getInvoices(CreditCardDTO $card): array
     {
-        $transactions = $this->getRepository()->getExpenses($cardId);
-        $invoices = [];
+        $invoice = [];
+        $transactions = $this->getRepository()->getExpenses($card->getId());
+        $thisMonth = CalendarTools::getThisMonth();
         foreach ($transactions as $transaction) {
             $expenseDTO = $this->resource->transactionToInvoiceDTO($transaction);
-            $invoices[] = InvoiceFactory::factoryInvoice($expenseDTO, CalendarTools::getThisMonth());
+            $invoice[] = InvoiceFactory::factoryInvoice($expenseDTO, $thisMonth);
         }
-        return $invoices;
+        foreach ($invoice as $key => $invoiceItem) {
+            if ($card->getClosingDay() < $invoiceItem->nextInstallmentDay) {
+                $invoiceItem->sixthInstallment = $invoiceItem->fifthInstallment;
+                $invoiceItem->fifthInstallment = $invoiceItem->fourthInstallment;
+                $invoiceItem->fourthInstallment = $invoiceItem->thirdInstallment;
+                $invoiceItem->thirdInstallment = $invoiceItem->secondInstallment;
+                $invoiceItem->secondInstallment = $invoiceItem->firstInstallment;
+                $invoiceItem->firstInstallment = null;
+            }
+            $invoice[$key] = $invoiceItem;
+        }
+        return $invoice;
     }
 
     public function getThisYearInvoiceSum(): float

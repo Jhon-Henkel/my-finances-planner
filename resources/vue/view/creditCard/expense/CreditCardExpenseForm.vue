@@ -25,7 +25,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label" for="expense-first-installment">
-                                Primeira Parcela
+                                Próxima Parcela
                             </label>
                             <input type="date"
                                    class="form-control"

@@ -280,4 +280,124 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
 
         $this->assertEquals($expected, $nextInvoices);
     }
+
+    public function testGetInvoices()
+    {
+        $card = new CreditCardDTO();
+        $card->setId(1);
+        $card->setClosingDay(10);
+
+        $transactions = [
+            ['id' => 1, 'credit_card_id' => 1, 'name' => 'Test 1', 'value' => 12.22, 'next_installment' => '2024-02-08', 'installments' => 4],
+            ['id' => 2, 'credit_card_id' => 1, 'name' => 'Test 2', 'value' => 11.20, 'next_installment' => '2024-03-09', 'installments' => 9],
+            ['id' => 3, 'credit_card_id' => 1, 'name' => 'Test 3', 'value' => 56.55, 'next_installment' => '2024-02-11', 'installments' => 3],
+            ['id' => 4, 'credit_card_id' => 1, 'name' => 'Test 4', 'value' => 90.13, 'next_installment' => '2024-02-12', 'installments' => 1],
+            ['id' => 5, 'credit_card_id' => 1, 'name' => 'Test 5', 'value' => 21.21, 'next_installment' => '2024-04-21', 'installments' => 5],
+            ['id' => 6, 'credit_card_id' => 1, 'name' => 'Test 6', 'value' => 21.22, 'next_installment' => '2024-04-01', 'installments' => 2]
+        ];
+
+        $repositoryMock = Mockery::mock(CreditCardTransactionRepository::class)->makePartial();
+        $repositoryMock->shouldReceive('getExpenses')->once()->andReturn($transactions);
+
+        $calendarToolsMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarToolsMock->shouldReceive('getThisMonth')->once()->andReturn('02');
+        $this->app->instance(CalendarToolsReal::class, $calendarToolsMock);
+
+        $mocks = [
+            $repositoryMock,
+            Mockery::mock(CreditCardMovementService::class)->makePartial(),
+            Mockery::mock(MovementService::class)->makePartial()
+        ];
+
+        $serviceMock = Mockery::mock(CreditCardTransactionService::class, $mocks)->makePartial();
+        $serviceMock->shouldAllowMockingProtectedMethods();
+
+        /** @var InvoiceVO[] $invoices */
+        $invoices = $serviceMock->getInvoices($card);
+        $totalItensExpected = count($transactions);
+
+        $this->assertCount($totalItensExpected, $invoices);
+        for ($index = 0; $index < $totalItensExpected; $index++) {
+            $this->assertInstanceOf(InvoiceVO::class, $invoices[$index]);
+        }
+
+        $this->assertEquals(1, $invoices[0]->id);
+        $this->assertEquals(1, $invoices[0]->countId);
+        $this->assertEquals('Test 1', $invoices[0]->name);
+        $this->assertEquals(4, $invoices[0]->remainingInstallments);
+        $this->assertEquals(8, $invoices[0]->nextInstallmentDay);
+        $this->assertEquals(12.22 * 4, $invoices[0]->totalRemainingValue);
+        $this->assertEquals(12.22, $invoices[0]->firstInstallment);
+        $this->assertEquals(12.22, $invoices[0]->secondInstallment);
+        $this->assertEquals(12.22, $invoices[0]->thirdInstallment);
+        $this->assertEquals(12.22, $invoices[0]->fourthInstallment);
+        $this->assertEquals(null, $invoices[0]->fifthInstallment);
+        $this->assertEquals(null, $invoices[0]->sixthInstallment);
+
+
+        $this->assertEquals(2, $invoices[1]->id);
+        $this->assertEquals(1, $invoices[1]->countId);
+        $this->assertEquals('Test 2', $invoices[1]->name);
+        $this->assertEquals(9, $invoices[1]->remainingInstallments);
+        $this->assertEquals(9, $invoices[1]->nextInstallmentDay);
+        $this->assertEquals(11.20 * 9, $invoices[1]->totalRemainingValue);
+        $this->assertEquals(null, $invoices[1]->firstInstallment);
+        $this->assertEquals(11.20, $invoices[1]->secondInstallment);
+        $this->assertEquals(11.20, $invoices[1]->thirdInstallment);
+        $this->assertEquals(11.20, $invoices[1]->fourthInstallment);
+        $this->assertEquals(11.20, $invoices[1]->fifthInstallment);
+        $this->assertEquals(11.20, $invoices[1]->sixthInstallment);
+
+        $this->assertEquals(3, $invoices[2]->id);
+        $this->assertEquals(1, $invoices[2]->countId);
+        $this->assertEquals('Test 3', $invoices[2]->name);
+        $this->assertEquals(3, $invoices[2]->remainingInstallments);
+        $this->assertEquals(11, $invoices[2]->nextInstallmentDay);
+        $this->assertEquals(56.55 * 3, $invoices[2]->totalRemainingValue);
+        $this->assertEquals(null, $invoices[2]->firstInstallment);
+        $this->assertEquals(56.55, $invoices[2]->secondInstallment);
+        $this->assertEquals(56.55, $invoices[2]->thirdInstallment);
+        $this->assertEquals(56.55, $invoices[2]->fourthInstallment);
+        $this->assertEquals(null, $invoices[2]->fifthInstallment);
+        $this->assertEquals(null, $invoices[2]->sixthInstallment);
+
+        $this->assertEquals(4, $invoices[3]->id);
+        $this->assertEquals(1, $invoices[3]->countId);
+        $this->assertEquals('Test 4', $invoices[3]->name);
+        $this->assertEquals(1, $invoices[3]->remainingInstallments);
+        $this->assertEquals(12, $invoices[3]->nextInstallmentDay);
+        $this->assertEquals(90.13, $invoices[3]->totalRemainingValue);
+        $this->assertEquals(null, $invoices[3]->firstInstallment);
+        $this->assertEquals(90.13, $invoices[3]->secondInstallment);
+        $this->assertEquals(null, $invoices[3]->thirdInstallment);
+        $this->assertEquals(null, $invoices[3]->fourthInstallment);
+        $this->assertEquals(null, $invoices[3]->fifthInstallment);
+        $this->assertEquals(null, $invoices[3]->sixthInstallment);
+
+        $this->assertEquals(5, $invoices[4]->id);
+        $this->assertEquals(1, $invoices[4]->countId);
+        $this->assertEquals('Test 5', $invoices[4]->name);
+        $this->assertEquals(5, $invoices[4]->remainingInstallments);
+        $this->assertEquals(21, $invoices[4]->nextInstallmentDay);
+        $this->assertEquals(21.21 * 5, $invoices[4]->totalRemainingValue);
+        $this->assertEquals(null, $invoices[4]->firstInstallment);
+        $this->assertEquals(null, $invoices[4]->secondInstallment);
+        $this->assertEquals(null, $invoices[4]->thirdInstallment);
+        $this->assertEquals(21.21, $invoices[4]->fourthInstallment);
+        $this->assertEquals(21.21, $invoices[4]->fifthInstallment);
+        $this->assertEquals(21.21, $invoices[4]->sixthInstallment);
+
+        $this->assertEquals(6, $invoices[5]->id);
+        $this->assertEquals(1, $invoices[5]->countId);
+        $this->assertEquals('Test 6', $invoices[5]->name);
+        $this->assertEquals(2, $invoices[5]->remainingInstallments);
+        $this->assertEquals(1, $invoices[5]->nextInstallmentDay);
+        $this->assertEquals(21.22 * 2, $invoices[5]->totalRemainingValue);
+        $this->assertEquals(null, $invoices[5]->firstInstallment);
+        $this->assertEquals(null, $invoices[5]->secondInstallment);
+        $this->assertEquals(21.22, $invoices[5]->thirdInstallment);
+        $this->assertEquals(21.22, $invoices[5]->fourthInstallment);
+        $this->assertEquals(null, $invoices[5]->fifthInstallment);
+        $this->assertEquals(null, $invoices[5]->sixthInstallment);
+    }
 }
