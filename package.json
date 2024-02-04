@@ -25,6 +25,7 @@
         "happy-dom": "^10.5.1",
         "laravel-vite-plugin": "^0.7.2",
         "sass": "^1.70.0",
+        "unplugin-vue-components": "^0.26.0",
         "vite": "^4.0.0",
         "vite-plugin-pwa": "^0.17.5",
         "vitest": "^0.33.0"
@@ -38,6 +39,7 @@
         "@vuepic/vue-datepicker": "^7.2.0",
         "chart.js": "^4.2.1",
         "pinia": "^2.1.4",
+        "primevue": "^3.47.2",
         "vue": "^3.2.36",
         "vue-chartjs": "^5.2.0",
         "vue-loader": "^17.0.1",
