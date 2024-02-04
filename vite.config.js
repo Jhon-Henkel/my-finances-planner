@@ -3,8 +3,6 @@ import laravel from 'laravel-vite-plugin'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'node:path'
 import { VitePWA } from 'vite-plugin-pwa'
-import Components from 'unplugin-vue-components/vite';
-import { PrimeVueResolver } from 'unplugin-vue-components/resolvers';
 
 export default defineConfig({
     server: {
@@ -49,11 +47,6 @@ export default defineConfig({
             devOptions: {
                 enabled: true
             }
-        }),
-        Components({
-            resolvers: [
-                PrimeVueResolver()
-            ]
         })
     ],
     resolve: {
