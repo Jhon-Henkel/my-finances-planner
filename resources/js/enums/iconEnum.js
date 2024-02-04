@@ -12,7 +12,7 @@ const iconEnum = {
         return ['fas', 'circle-exclamation']
     },
     trashIcon() {
-        return ['far', 'trash-can']
+        return ['fas', 'trash-can']
     },
     editIcon() {
         return ['fas', 'pencil']
