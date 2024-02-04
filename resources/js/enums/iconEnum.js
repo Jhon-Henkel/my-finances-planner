@@ -98,6 +98,9 @@ const iconEnum = {
     calendarCheck() {
         return ['fa-solid', 'fa-calendar-check']
     },
+    calendarXMark() {
+        return ['fas', 'calendar-xmark']
+    },
     linkOut() {
         return ['fas', 'up-right-from-square']
     },
@@ -112,6 +115,9 @@ const iconEnum = {
     },
     piggyBank() {
         return ['fas', 'piggy-bank']
+    },
+    ellipsisVertical() {
+        return ['fas', 'ellipsis-vertical']
     }
 }
 export default iconEnum

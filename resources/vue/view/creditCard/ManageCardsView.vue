@@ -8,82 +8,125 @@
                 <mfp-drop-down-button :buttons-array="buttons"/>
             </div>
             <divider/>
-            <div class="card glass success balance-card">
-                <div class="card-body text-center">
-                    <div class="card-text">
-                        <div class="table-responsive-lg">
-                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
-                                <thead class="text-center">
-                                    <tr>
-                                        <th scope="col"><font-awesome-icon :icon="iconEnum.calendarCheck()"/></th>
-                                        <th scope="col">Cartão</th>
-                                        <th scope="col">Limite</th>
-                                        <th scope="col">Limite Restante</th>
-                                        <th scope="col">Fecha Dia</th>
-                                        <th scope="col">Valor Fatura</th>
-                                        <th scope="col">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-center table-body-hover">
-                                    <tr v-show="cards.length === 0">
-                                        <td colspan="7">Nenhum cartão cadastrado ainda!</td>
-                                    </tr>
-                                    <tr v-for="card in cards" :key="card.id">
-                                        <td>
-                                            <span class="badge rounded-2"
-                                                :class="getBadgeTypeForForecastDate(card)"
-                                                v-tooltip="getTitleForForecastDate(card)">
-                                                {{ card.dueDate }}
-                                            </span>
-                                        </td>
-                                        <td>{{ card.name }}</td>
-                                        <td>{{ stringTools.formatFloatValueToBrString(card.limit) }}</td>
-                                        <td>{{ stringTools.formatFloatValueToBrString(card.limit - card.totalValueSpending) }}</td>
-                                        <td>{{ card.closingDay }}</td>
-                                        <td>{{ stringTools.formatFloatValueToBrString(card.nextInvoiceValue) }}</td>
-                                        <td>
-                                            <action-buttons :delete-tooltip="'Deletar Cartão'"
-                                                            :tooltip-edit="'Editar Cartão'"
-                                                            :info-tooltip="'Consultar Faturas'"
-                                                            :info-to="'/gerenciar-cartoes/fatura-cartao/' + card.id"
-                                                            :show-info-button="true"
-                                                            :edit-to="'/gerenciar-cartoes/' + card.id + '/atualizar'"
-                                                            @delete-clicked="deleteCard(card.id, card.name)"/>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            <div class="glass card mb-4">
+                <div class="col-12 text-center mt-4 mb-4" v-if="cards.length === 0">
+                    Você não possui nenhum cartão cadastrado!
+                </div>
+                <div class="row mt-4 mb-4 ms-1 me-1" v-else v-for="card in cards" :key="card.id">
+                    <div class="col-11">
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>{{ card.name }}</strong>
+                            </div>
+                            <div class="col-3">
+                                <span class="badge rounded-2"
+                                      :class="getBadgeTypeForForecastDate(card)"
+                                      v-tooltip="getTitleForForecastDate(card)">
+                                    <font-awesome-icon :icon="iconEnum.calendarCheck()"/>
+                                    {{ card.dueDate }}
+                                </span>
+                            </div>
+                            <div class="col-3">
+                                <span v-tooltip="'Fecha Dia'">
+                                    <font-awesome-icon :icon="iconEnum.calendarXMark()" class="warning-text-color"/>
+                                    {{ card.closingDay }}
+                                </span>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12 mt-1">
+                                        <div class="progress" role="progressbar">
+                                            <div :class="'progress-bar ' + getClassProgressBar(card)"
+                                                 :style="'width: ' + calcPercentageSpent(card) + '%'" >
+                                                {{ calcPercentageSpent(card) }} %
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-12">
+                                Fatura <strong class="danger-text-color">{{ formatMoney(card.nextInvoiceValue) }}</strong>
+                                Limite <strong class="success-text-color">{{ formatMoney(card.limit) }}</strong>
+                                Resta <strong class="warning-text-color">{{ formatMoney(card.limit - card.totalValueSpending) }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1 d-flex justify-content-center align-items-center">
+                        <div class="dropdown-center">
+                            <button class="btn btn-outline-success"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    v-tooltip="'Opções'">
+                                <font-awesome-icon :icon="iconEnum.ellipsisVertical()"/>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <router-link
+                                        class="dropdown-item"
+                                        :to="'/gerenciar-cartoes/' + card.id + '/atualizar'"
+                                        v-tooltip="'Editar'">
+                                        <font-awesome-icon :icon="iconEnum.editIcon()" />
+                                        Editar
+                                    </router-link>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item"
+                                            @click="deleteCard(card.id, card.name)"
+                                            v-tooltip="'Apagar'">
+                                        <font-awesome-icon :icon="iconEnum.trashIcon()" />
+                                        Apagar
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item"
+                                            v-tooltip="'Pagar Fatura'"
+                                            @click="payInvoiceForm(card)">
+                                        <font-awesome-icon :icon="iconEnum.check()" />
+                                        Pagar fatura
+                                    </button>
+                                </li>
+                                <li>
+                                    <router-link class="dropdown-item"
+                                                 :to="'/gerenciar-cartoes/despesa/' + card.id + '/cadastrar'"
+                                                 v-tooltip="'Nova Despesa'">
+                                        <font-awesome-icon :icon="iconEnum.expense()" />
+                                        Nova despesa
+                                    </router-link>
+                                </li>
+                                <li>
+                                    <router-link class="dropdown-item"
+                                                 :to="'/gerenciar-cartoes/fatura-cartao/' + card.id"
+                                                 v-tooltip="'Ver Fatura'">
+                                        <font-awesome-icon :icon="iconEnum.invoice()" />
+                                        Ver fatura
+                                    </router-link>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <divider/>
-            <div>
-                <div class="input-group mb-3">
-                    <button class="btn btn-success show-pay-options"
-                            :class="showPayInvoice ? '' : 'rounded-2'"
-                            @click="showPayInvoice = !showPayInvoice">
-                        <font-awesome-icon :icon="iconEnum.paying()" class="me-2"/>
-                        Pagar próxima fatura
-                    </button>
-                    <select class="form-select" id="pay-invoice" v-model="cardId" v-show="showPayInvoice" required>
-                        <option value="0" disabled>Selecione o cartão</option>
-                        <option v-for="card in cards" :key="card.id" :value="card.id" @change="cardId = $event">
-                            {{ card.name }}
-                        </option>
-                    </select>
-                    <select class="form-select" id="pay-invoice" v-model="walletId" v-show="showPayInvoice" required>
-                        <option value="0" disabled>Selecione a carteira</option>
-                        <option v-for="wallet in wallets" :key="wallet.id" :value="wallet.id" @change="walletId = $event">
-                            {{ wallet.name }}
-                        </option>
-                    </select>
-                    <button class="btn btn-success pay-button" type="button" v-show="showPayInvoice" @click="payNextInvoice">
-                        <font-awesome-icon :icon="iconEnum.check()" class="me-2"/>
-                        Pagar
-                    </button>
-                </div>
+            <div class="input-group mb-3">
+                <select class="form-select card-select-to-pay" id="pay-invoice" v-model="cardId" v-show="showPayInvoice" disabled>
+                    <option v-for="card in cards" :key="card.id" :value="card.id">
+                        {{ card.name }}
+                    </option>
+                </select>
+                <select class="form-select" id="pay-invoice" v-model="walletId" v-show="showPayInvoice" required>
+                    <option value="0" disabled>Selecione a carteira</option>
+                    <option v-for="wallet in wallets" :key="wallet.id" :value="wallet.id" @change="walletId = $event">
+                        {{ wallet.name }}
+                    </option>
+                </select>
+                <button class="btn btn-success pay-button" type="button" v-show="showPayInvoice" @click="payNextInvoice">
+                    <font-awesome-icon :icon="iconEnum.check()" class="me-2"/>
+                    Pagar
+                </button>
             </div>
+            <divider/>
         </div>
     </div>
 </template>
@@ -94,7 +137,6 @@ import iconEnum from '~js/enums/iconEnum'
 import apiRouter from '~js/router/apiRouter'
 import stringTools from '~js/tools/stringTools'
 import calendarTools from '~js/tools/calendarTools'
-import ActionButtons from '~vue-component/ActionButtons.vue'
 import Divider from '~vue-component/DividerComponent.vue'
 import MfpTitle from '~vue-component/TitleComponent.vue'
 import MfpMessage from '~vue-component/MessageAlert.vue'
@@ -102,6 +144,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { HttpStatusCode } from 'axios'
 import messageTools from '~js/tools/messageTools'
 import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
+import numberTools from '~js/tools/numberTools'
 
 export default {
     name: 'ManageCardsView',
@@ -122,12 +165,11 @@ export default {
         MfpMessage,
         MfpTitle,
         Divider,
-        ActionButtons,
         LoadingComponent
     },
     data() {
         return {
-            cards: {},
+            cards: [],
             card: {
                 totalValueSpending: 0,
                 nextInvoiceValue: 0,
@@ -194,13 +236,39 @@ export default {
                 })
             }
         },
+        formatMoney(value) {
+            return stringTools.formatFloatValueToBrString(value)
+        },
+        calcPercentageSpent(card) {
+            return numberTools.getPercentageNumberWithoutPercentSymbol(card.totalValueSpending, card.limit)
+        },
+        payInvoiceForm(card) {
+            this.showPayInvoice = !this.showPayInvoice
+            this.cardId = card.id
+        },
+        getClassProgressBar(card) {
+            const percentage = this.calcPercentageSpent(card)
+            if (percentage < 80) {
+                return 'text-bg-success'
+            } else if (percentage >= 80 && percentage < 95) {
+                return 'text-bg-warning'
+            } else {
+                return 'text-bg-danger'
+            }
+        },
         async payNextInvoice() {
             if (this.cardId === 0) {
-                this.messageData = messageTools.warningMessage('Você deve selecionar um cartão!', 'Cartão não informado!')
+                this.messageData = messageTools.warningMessage(
+                    'Você deve selecionar um cartão!',
+                    'Cartão não informado!'
+                )
                 return
             }
             if (this.walletId === 0) {
-                this.messageData = messageTools.warningMessage('Você deve selecionar uma carteira!', 'Carteira não informada!')
+                this.messageData = messageTools.warningMessage(
+                    'Você deve selecionar uma carteira!',
+                    'Carteira não informada!'
+                )
                 return
             }
             if (confirm('Deseja realmente pagar a próxima fatura ?')) {
@@ -227,26 +295,39 @@ export default {
 }
 </script>
 
-<style scoped>
-    @media (max-width: 1000px) {
-        .nav {
-            flex-direction: column;
-        }
-        .input-group {
-            flex-direction: column;
-        }
-        .form-select {
-            margin-bottom: 10px;
-            width: 100% !important;
-            border-radius: 8px !important;
-        }
-        .pay-button,
-        .show-pay-options {
-            width: 100%;
-            border-radius: 8px !important;
-        }
-        .show-pay-options {
-            margin-bottom: 10px;
-        }
+<style scoped lang="scss">
+@import "../../../sass/variables";
+.warning-text-color {
+    color: $alert-icon-color;
+}
+.danger-text-color {
+    color: $danger-icon-color;
+}
+.success-text-color {
+    color: $success-icon-color;
+}
+.card-select-to-pay {
+    background-image: none;
+}
+@media (max-width: 1000px) {
+    .nav {
+        flex-direction: column;
     }
+    .input-group {
+        flex-direction: column;
+    }
+    .form-select {
+        margin-bottom: 10px;
+        width: 100% !important;
+        border-radius: 8px !important;
+    }
+    .pay-button,
+    .show-pay-options {
+        width: 100%;
+        border-radius: 8px !important;
+    }
+    .show-pay-options {
+        margin-bottom: 10px;
+    }
+}
 </style>

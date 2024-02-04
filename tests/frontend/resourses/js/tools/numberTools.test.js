@@ -17,6 +17,20 @@ describe('testing numberTools file', () => {
         expect(percentage).toBe('5.89 %')
     })
 
+    it('getPercentageNumberWithoutPercentSymbol', async () => {
+        let percentage = numberTools.getPercentageNumberWithoutPercentSymbol(10, 100)
+        expect(percentage).toBe('10.00')
+
+        percentage = numberTools.getPercentageNumberWithoutPercentSymbol(10, 200)
+        expect(percentage).toBe('5.00')
+
+        percentage = numberTools.getPercentageNumberWithoutPercentSymbol(5.55, 50)
+        expect(percentage).toBe('11.10')
+
+        percentage = numberTools.getPercentageNumberWithoutPercentSymbol(5.89, 100)
+        expect(percentage).toBe('5.89')
+    })
+
     it('getSumTotalAmount', async () => {
         let item = [
             {
