@@ -19,7 +19,7 @@ describe('Test iconEnum file', () => {
     })
 
     it('trashIcon', function () {
-        expect(IconEnum.trashIcon()).toStrictEqual(['far', 'trash-can'])
+        expect(IconEnum.trashIcon()).toStrictEqual(['fas', 'trash-can'])
     })
 
     it('editIcon', function () {
@@ -152,5 +152,13 @@ describe('Test iconEnum file', () => {
 
     it('piggy bank', function () {
         expect(IconEnum.piggyBank()).toStrictEqual(['fas', 'piggy-bank'])
+    })
+
+    it('calendar-xmark', function () {
+        expect(IconEnum.calendarXMark()).toStrictEqual(['fas', 'calendar-xmark'])
+    })
+
+    it('ellipsis-vertical', function () {
+        expect(IconEnum.ellipsisVertical()).toStrictEqual(['fas', 'ellipsis-vertical'])
     })
 })

@@ -58,6 +58,10 @@ class MarketPlannerServiceUnitTest extends Falcon9
 
     public function testGetMarketPlannerInvoice()
     {
+        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
+        $calendarMock->shouldReceive('getThisMonth')->andReturn(01);
+        $this->app->instance(CalendarToolsReal::class, $calendarMock);
+
         $invoice = new InvoiceItemDTO(
             0,
             0,
