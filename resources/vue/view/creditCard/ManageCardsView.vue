@@ -8,109 +8,117 @@
                 <mfp-drop-down-button :buttons-array="buttons"/>
             </div>
             <divider/>
-            <div class="glass card mb-4">
-                <div class="col-12 text-center mt-4 mb-4" v-if="cards.length === 0">
-                    Você não possui nenhum cartão cadastrado!
-                </div>
-                <div class="row mt-4 mb-4 ms-1 me-1" v-else v-for="card in cards" :key="card.id">
-                    <div class="col-11">
-                        <div class="row">
-                            <div class="col-6">
-                                <strong>{{ card.name }}</strong>
-                            </div>
-                            <div class="col-3">
-                                <span class="badge rounded-2"
-                                      :class="getBadgeTypeForForecastDate(card)"
-                                      v-tooltip="getTitleForForecastDate(card)">
-                                    <font-awesome-icon :icon="iconEnum.calendarCheck()"/>
-                                    {{ card.dueDate }}
-                                </span>
-                            </div>
-                            <div class="col-3">
-                                <span v-tooltip="'Fecha Dia'">
-                                    <font-awesome-icon :icon="iconEnum.calendarXMark()" class="warning-text-color"/>
-                                    {{ card.closingDay }}
-                                </span>
-                            </div>
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-12 mt-1">
-                                        <div class="progress" role="progressbar">
-                                            <div :class="'progress-bar ' + getClassProgressBar(card)"
-                                                 :style="'width: ' + calcPercentageSpent(card) + '%'" >
-                                                {{ calcPercentageSpent(card) }} %
+            <div class="glass card mb-2">
+                <div class="mb-4 mt-4">
+                    <div class="col-12 text-center" v-if="cards.length === 0">
+                        Você não possui nenhum cartão cadastrado!
+                    </div>
+                    <div class="row ms-1 me-1" v-else v-for="card in cards" :key="card.id">
+                        <div class="col-11">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>{{ card.name }}</strong>
+                                </div>
+                                <div class="col-3">
+                                    <span class="badge rounded-2"
+                                          :class="getBadgeTypeForForecastDate(card)"
+                                          v-tooltip="getTitleForForecastDate(card)">
+                                        <font-awesome-icon :icon="iconEnum.calendarCheck()"/>
+                                        {{ card.dueDate }}
+                                    </span>
+                                </div>
+                                <div class="col-3">
+                                    <span v-tooltip="'Fecha Dia'">
+                                        <font-awesome-icon :icon="iconEnum.calendarXMark()" class="warning-text-color"/>
+                                        {{ card.closingDay }}
+                                    </span>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12 mt-1">
+                                            <div class="progress" role="progressbar">
+                                                <div :class="'progress-bar ' + getClassProgressBar(card)"
+                                                     :style="'width: ' + calcPercentageSpent(card) + '%'" >
+                                                    {{ calcPercentageSpent(card) }} %
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mt-1">
-                            <div class="col-12">
-                                Fatura <strong class="danger-text-color">{{ formatMoney(card.nextInvoiceValue) }}</strong>
-                                Limite <strong class="success-text-color">{{ formatMoney(card.limit) }}</strong>
-                                Resta <strong class="warning-text-color">{{ formatMoney(card.limit - card.totalValueSpending) }}</strong>
+                            <div class="row mt-1">
+                                <div class="col-12 text-sm">
+                                    Fatura <strong class="danger-text-color">{{ formatMoney(card.nextInvoiceValue) }}</strong>
+                                    Limite <strong class="success-text-color">{{ formatMoney(card.limit) }}</strong>
+                                    Resta <strong class="warning-text-color">{{ formatMoney(card.limit - card.totalValueSpending) }}</strong>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-1 d-flex justify-content-center align-items-center">
-                        <div class="dropdown-center">
-                            <button class="btn btn-outline-success"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                    v-tooltip="'Opções'">
-                                <font-awesome-icon :icon="iconEnum.ellipsisVertical()"/>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <router-link
-                                        class="dropdown-item"
-                                        :to="'/gerenciar-cartoes/' + card.id + '/atualizar'"
-                                        v-tooltip="'Editar'">
-                                        <font-awesome-icon :icon="iconEnum.editIcon()" />
-                                        Editar
-                                    </router-link>
-                                </li>
-                                <li>
-                                    <button class="dropdown-item"
-                                            @click="deleteCard(card.id, card.name)"
-                                            v-tooltip="'Apagar'">
-                                        <font-awesome-icon :icon="iconEnum.trashIcon()" />
-                                        Apagar
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="dropdown-item"
-                                            v-tooltip="'Pagar Fatura'"
-                                            @click="payInvoiceForm(card)">
-                                        <font-awesome-icon :icon="iconEnum.check()" />
-                                        Pagar fatura
-                                    </button>
-                                </li>
-                                <li>
-                                    <router-link class="dropdown-item"
-                                                 :to="'/gerenciar-cartoes/despesa/' + card.id + '/cadastrar'"
-                                                 v-tooltip="'Nova Despesa'">
-                                        <font-awesome-icon :icon="iconEnum.expense()" />
-                                        Nova despesa
-                                    </router-link>
-                                </li>
-                                <li>
-                                    <router-link class="dropdown-item"
-                                                 :to="'/gerenciar-cartoes/fatura-cartao/' + card.id"
-                                                 v-tooltip="'Ver Fatura'">
-                                        <font-awesome-icon :icon="iconEnum.invoice()" />
-                                        Ver fatura
-                                    </router-link>
-                                </li>
-                            </ul>
+                        <div class="col-1 d-flex justify-content-center align-items-center">
+                            <div class="dropdown-center">
+                                <button class="btn btn-outline-success"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    <font-awesome-icon :icon="iconEnum.ellipsisVertical()"/>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <router-link
+                                            class="dropdown-item"
+                                            :to="'/gerenciar-cartoes/' + card.id + '/atualizar'"
+                                            v-tooltip="'Editar'">
+                                            <font-awesome-icon :icon="iconEnum.editIcon()" />
+                                            Editar
+                                        </router-link>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item"
+                                                @click="deleteCard(card.id, card.name)"
+                                                v-tooltip="'Apagar'">
+                                            <font-awesome-icon :icon="iconEnum.trashIcon()" />
+                                            Apagar
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item"
+                                                v-tooltip="'Pagar Fatura'"
+                                                @click="payInvoiceForm(card)">
+                                            <font-awesome-icon :icon="iconEnum.check()" />
+                                            Pagar fatura
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <router-link class="dropdown-item"
+                                                     :to="'/gerenciar-cartoes/despesa/' + card.id + '/cadastrar'"
+                                                     v-tooltip="'Nova Despesa'">
+                                            <font-awesome-icon :icon="iconEnum.expense()" />
+                                            Nova despesa
+                                        </router-link>
+                                    </li>
+                                    <li>
+                                        <router-link class="dropdown-item"
+                                                     :to="'/gerenciar-cartoes/fatura-cartao/' + card.id"
+                                                     v-tooltip="'Ver Fatura'">
+                                            <font-awesome-icon :icon="iconEnum.invoice()" />
+                                            Ver fatura
+                                        </router-link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr v-show="mustShowDividerInCard(card.id)">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="input-group mb-3">
-                <select class="form-select card-select-to-pay" id="pay-invoice" v-model="cardId" v-show="showPayInvoice" disabled>
+                <select class="form-select card-select-to-pay"
+                        id="pay-invoice"
+                        v-model="cardId"
+                        v-show="showPayInvoice"
+                        disabled>
                     <option v-for="card in cards" :key="card.id" :value="card.id">
                         {{ card.name }}
                     </option>
@@ -286,6 +294,9 @@ export default {
                     this.messageData = messageTools.errorMessage('Erro ao pagar fatura!')
                 })
             }
+        },
+        mustShowDividerInCard(cardId) {
+            return this.cards[this.cards.length - 1].id !== cardId
         }
     },
     async mounted() {
@@ -309,6 +320,9 @@ export default {
 .card-select-to-pay {
     background-image: none;
 }
+.text-sm {
+    font-size: 0.85rem;
+}
 @media (max-width: 1000px) {
     .nav {
         flex-direction: column;
@@ -328,6 +342,9 @@ export default {
     }
     .show-pay-options {
         margin-bottom: 10px;
+    }
+    .text-sm {
+        font-size: 0.6rem;
     }
 }
 </style>
