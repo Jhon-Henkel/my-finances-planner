@@ -34,7 +34,7 @@ class MovementRepositoryFeatureTest extends Falcon9Feature
         $repository = $this->app->make(MovementRepository::class);
         $movements = $repository->findByPeriod(CalendarTools::getThisYearPeriod(), $user[0]->tenant_id);
 
-        $this->assertCount(13, $movements);
+        $this->assertCount(26, $movements);
     }
 
     public function testFindByPeriodAndType()
@@ -42,15 +42,15 @@ class MovementRepositoryFeatureTest extends Falcon9Feature
         $repository = $this->app->make(MovementRepository::class);
         $movements = $repository->findByPeriodAndType(CalendarTools::getThisYearPeriod(), MovementEnum::All->value);
 
-        $this->assertCount(13, $movements);
+        $this->assertCount(26, $movements);
 
         $movements = $repository->findByPeriodAndType(CalendarTools::getThisYearPeriod(), MovementEnum::Gain->value);
 
-        $this->assertCount(4, $movements);
+        $this->assertCount(8, $movements);
 
         $movements = $repository->findByPeriodAndType(CalendarTools::getThisYearPeriod(), MovementEnum::Spent->value);
 
-        $this->assertCount(9, $movements);
+        $this->assertCount(18, $movements);
     }
 
     public function testGetSumMovementsByPeriod()
@@ -60,11 +60,11 @@ class MovementRepositoryFeatureTest extends Falcon9Feature
 
         $expected = [
             0 => [
-                "total" => "3200.45",
+                "total" => "6400.90",
                 "type" => 5
             ],
             1 => [
-                "total" => "5910.00",
+                "total" => "11820.00",
                 "type" => 6
             ]
         ];
