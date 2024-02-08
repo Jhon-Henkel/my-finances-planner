@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTO\InvoiceItemDTO;
 use App\Factory\InvoiceFactory;
+use App\Services\CreditCard\CreditCardService;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\FutureMovement\FutureGainService;
 use App\Services\FutureMovement\FutureSpentService;
@@ -15,7 +16,8 @@ class PanoramaService
         private readonly WalletService $walletService,
         private readonly FutureSpentService $futureSpentService,
         private readonly FutureGainService $futureGainService,
-        private readonly CreditCardTransactionService $creditCardTransactionService
+        private readonly CreditCardTransactionService $creditCardTransactionService,
+        private readonly CreditCardService $creditCardService
     ) {
     }
 
@@ -53,7 +55,8 @@ class PanoramaService
 
     protected function getTotalCreditCardExpenses(): InvoiceVO
     {
-        $invoices = $this->creditCardTransactionService->getAllCardsInvoices();
+        $cards = $this->creditCardService->findAll();
+        $invoices = $this->creditCardTransactionService->getAllCardsInvoices($cards);
         return InvoiceFactory::generateInvoiceSumFromInvoicesArray($invoices);
     }
 

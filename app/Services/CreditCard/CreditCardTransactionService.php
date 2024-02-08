@@ -160,26 +160,10 @@ class CreditCardTransactionService extends BasicService
         return $total;
     }
 
-    public function getAllCardsInvoices(): array
+    /** @param CreditCardDTO[] $cards */
+    public function getAllNextInvoicesValuesAndTotalValues(array $cards): array
     {
-        $transactions = $this->getRepository()->findAllToArray();
-        $transactionsCards = [];
-        foreach ($transactions as $transaction) {
-            $transactionsCards[$transaction['credit_card_id']][] = $transaction;
-        }
-        $invoices = [];
-        foreach ($transactionsCards as $transactionCard) {
-            foreach ($transactionCard as $transaction) {
-                $expenseDTO = $this->resource->transactionToInvoiceDTO($transaction);
-                $invoices[] = InvoiceFactory::factoryInvoice($expenseDTO, CalendarTools::getThisMonth());
-            }
-        }
-        return $invoices;
-    }
-
-    public function getAllNextInvoicesValuesAndTotalValues(): array
-    {
-        $invoicesGrouped = $this->getAllCardsInvoicesGroupedByCardId();
+        $invoicesGrouped = $this->getAllCardsInvoicesGroupedByCardId($cards);
         $invoicesValues = [];
         foreach ($invoicesGrouped as $cardId => $invoices) {
             $nextInstallment = $this->getNextInstallmentOrder($invoices);
@@ -204,12 +188,23 @@ class CreditCardTransactionService extends BasicService
         return $invoicesValues;
     }
 
-    public function getAllCardsInvoicesGroupedByCardId(): array
+    /** @param CreditCardDTO[] $cards */
+    public function getAllCardsInvoicesGroupedByCardId(array $cards): array
     {
-        $allInvoices = $this->getAllCardsInvoices();
+        $allInvoices = $this->getAllCardsInvoices($cards);
         $invoices = [];
         foreach ($allInvoices as $invoice) {
             $invoices[$invoice->countId][] = $invoice;
+        }
+        return $invoices;
+    }
+
+    /** @param CreditCardDTO[] $cards */
+    public function getAllCardsInvoices(array $cards): array
+    {
+        $invoices = [];
+        foreach ($cards as $card) {
+            $invoices = array_merge($invoices, $this->getInvoices($card));
         }
         return $invoices;
     }
