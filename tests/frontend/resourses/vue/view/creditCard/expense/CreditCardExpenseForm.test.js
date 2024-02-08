@@ -34,7 +34,7 @@ describe('Testing the expense card form render', () => {
         expect(wrapper.html()).toContain('></divider-stub>')
         expect(wrapper.html()).toContain('type="text" class="form-control" id="description-input" placeholder="" minlength="2" required="">')
         expect(wrapper.html()).toContain('for="description-input">Descrição</label></div>')
-        expect(wrapper.html()).toContain('type="number" class="form-control" id="purchase-input" placeholder="" min="1" max="31" required="">')
+        expect(wrapper.html()).toContain('type="number" class="form-control" id="purchase-input" placeholder="" min="1" max="31" maxlength="2" required="">')
         expect(wrapper.html()).toContain('customclassform="mt-2" showtitle="true" title="Valor Parcela" masked="false" precision="2" decimal="," thousands="." suffix="" usefloatinglabels="true" value="0">')
         expect(wrapper.html()).toContain('class="form-check-label" for="fix-expense"> Despesa fixa </label>')
         expect(wrapper.html()).toContain('type="checkbox" role="switch" id="fix-expense"></div>')
