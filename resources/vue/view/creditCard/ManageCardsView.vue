@@ -308,13 +308,16 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../sass/variables";
-.warning-text-color {
+.warning-text-color,
+.text-bg-warning {
     color: $alert-icon-color;
 }
-.danger-text-color {
+.danger-text-color,
+.text-bg-danger {
     color: $danger-icon-color;
 }
-.success-text-color {
+.success-text-color,
+.text-bg-success {
     color: $success-icon-color;
 }
 .card-select-to-pay {
