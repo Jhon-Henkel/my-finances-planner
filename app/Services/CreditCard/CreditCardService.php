@@ -25,7 +25,7 @@ class CreditCardService extends BasicService
     {
         $items = parent::findAll();
         $itemsWithNextInstallmentValue = [];
-        $invoices = $this->creditCardTransactionService->getAllNextInvoicesValuesAndTotalValues();
+        $invoices = $this->creditCardTransactionService->getAllNextInvoicesValuesAndTotalValues($items);
         foreach ($items as $item) {
             $id = $item->getId();
             $item->setTotalValueSpending(isset($invoices[$id]) ? $invoices[$id]['totalValue'] : 0);

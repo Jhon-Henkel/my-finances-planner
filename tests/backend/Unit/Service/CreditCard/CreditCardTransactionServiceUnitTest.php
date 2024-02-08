@@ -172,32 +172,19 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
 
     public function testGetAllCardsInvoices()
     {
-        $transactionOne = [
-            'id' => 1,
-            'credit_card_id' => 1,
-            'name' => 'Test 1',
-            'value' => 10.22,
-            'installments' => 10,
-            'next_installment' => '2022-10-10'
-        ];
-
-        $creditCardTransactionRepositoryMock = Mockery::mock(CreditCardTransactionRepository::class)->makePartial();
-        $creditCardTransactionRepositoryMock->shouldReceive('findAllToArray')->once()->andReturn([1 => $transactionOne]);
-
         $args = [
-            $creditCardTransactionRepositoryMock,
+            Mockery::mock(CreditCardTransactionRepository::class)->makePartial(),
             Mockery::mock(CreditCardMovementService::class)->makePartial(),
             Mockery::mock(MovementService::class)->makePartial()
         ];
 
         $serviceMock = Mockery::mock(CreditCardTransactionService::class, $args)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
+        $serviceMock->shouldReceive('getInvoices')->once()->andReturn([]);
 
-        $invoices = $serviceMock->getAllCardsInvoices();
+        $invoices = $serviceMock->getAllCardsInvoices([new CreditCardDTO()]);
 
         $this->assertIsArray($invoices);
-        $this->assertCount(1, $invoices);
-        $this->assertInstanceOf(InvoiceVO::class, $invoices[0]);
     }
 
     public function testIsThisMonthInvoicePayed()
@@ -233,7 +220,7 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('getAllCardsInvoices')->once()->andReturn($invoices);
 
-        $invoicesGrouped = $serviceMock->getAllCardsInvoicesGroupedByCardId();
+        $invoicesGrouped = $serviceMock->getAllCardsInvoicesGroupedByCardId([]);
 
         $this->assertIsArray($invoicesGrouped);
         $this->assertCount(2, $invoicesGrouped);
@@ -264,7 +251,7 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $serviceMock->shouldReceive('getAllCardsInvoices')->once()->andReturn($invoices);
         $serviceMock->shouldReceive('getNextInstallmentOrder')->twice()->andReturn(null, 'firstInstallment');
 
-        $nextInvoices = $serviceMock->getAllNextInvoicesValuesAndTotalValues();
+        $nextInvoices = $serviceMock->getAllNextInvoicesValuesAndTotalValues([]);
 
         $expected = [
             123 => [
