@@ -30,6 +30,7 @@
                                    v-model="expense.nextInstallment"
                                    min="1"
                                    max="31"
+                                   maxlength="2"
                                    required>
                             <label for="purchase-input">Dia da Compra</label>
                         </div>
@@ -209,12 +210,15 @@ export default {
             if (this.expense.fix === false) {
                 installmentsToPopulate = this.expense.installments
             }
+            const dateNextInstallment = new Date()
+            dateNextInstallment.setDate(this.expense.nextInstallment)
+            dateNextInstallment.toString().slice(0, 10)
             return {
                 name: this.expense.name,
                 installments: installmentsToPopulate,
                 value: this.expense.value,
                 creditCardId: this.expense.creditCardId,
-                nextInstallment: new Date().setDate(this.expense.nextInstallment).toString()
+                nextInstallment: dateNextInstallment
             }
         }
     },

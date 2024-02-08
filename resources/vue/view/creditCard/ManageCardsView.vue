@@ -317,6 +317,15 @@ export default {
 .success-text-color {
     color: $success-icon-color;
 }
+.text-bg-warning {
+    background-color: $alert-icon-color !important;
+}
+.text-bg-danger {
+    background-color: $danger-icon-color !important;
+}
+.text-bg-success {
+    background-color: $form-switch-color !important;
+}
 .card-select-to-pay {
     background-image: none;
 }
