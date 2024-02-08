@@ -1,7 +1,23 @@
 <template>
     <div class="row" :class="customClassRow">
         <div :class="customClassCol">
-            <div class="form-group" :class="customClassForm">
+            <div class="input-group mb-3" :class="customClassForm" v-if="useFloatingLabels">
+                <span class="input-group-text input-background-icon">
+                    <font-awesome-icon :icon="iconEnum.moneyBr()" />
+                </span>
+                <div class="form-floating">
+                    <input class="form-control v-money"
+                           id="input-money"
+                           placeholder=""
+                           v-money="{precision, decimal, thousands, prefix, suffix}"
+                           @change="change"
+                           :value="formattedValue"
+                           type="tel"
+                           required>
+                    <label for="input-money">{{ title }}</label>
+                </div>
+            </div>
+            <div class="form-group" :class="customClassForm" v-else>
                 <label class="form-label" for="input-money" v-show="showTitle">
                     {{ title }}
                 </label>
@@ -87,6 +103,10 @@ export default {
         suffix: {
             type: String,
             default: () => defaults.suffix
+        },
+        useFloatingLabels: {
+            type: Boolean,
+            default: false
         }
     },
     directives: {
@@ -118,3 +138,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.input-background-icon {
+    border: 0;
+    background-color: #cffff3;
+}
+</style>

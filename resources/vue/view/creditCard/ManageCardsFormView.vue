@@ -5,54 +5,52 @@
         <div v-show="loadingDone">
             <mfp-title :title="title" class="title"/>
             <divider/>
-            <form class="was-validated">
+            <form class="was-validated text-black">
                 <div class="row justify-content-center">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="card-name">
-                                Nome
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="text"
                                    class="form-control"
+                                   id="name-input"
+                                   placeholder=""
+                                   minlength="2"
                                    v-model="card.name"
-                                   id="card-name"
-                                   required
-                                   minlength="2">
+                                   required>
+                            <label for="name-input">Descrição</label>
                         </div>
                     </div>
                 </div>
-                <input-money :value="card.limit" :title="'Limite'" @input-money="card.limit = $event"/>
-                <div class="row justify-content-center">
+                <input-money :value="card.limit"
+                             title="Limite"
+                             @input-money="card.limit = $event"
+                             :use-floating-labels="true"/>
+                <div class="row justify-content-center mt-2">
                     <div class="col-4">
-                        <div class="form-group mt-2">
-                            <label class="form-label" for="card-closing-day">
-                                Fecha dia
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="number"
                                    class="form-control"
-                                   v-model="card.closingDay"
                                    id="card-closing-day"
-                                   required
+                                   placeholder=""
+                                   v-model="card.closingDay"
                                    min="1"
                                    max="31"
-                                   minlength="1">
+                                   required>
+                            <label for="card-closing-day">Dia Fechamento Fatura</label>
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-center">
+                <div class="row justify-content-center mt-2">
                     <div class="col-4">
-                        <div class="form-group mt-2">
-                            <label class="form-label" for="card-due-date">
-                                Vence Dia
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="number"
                                    class="form-control"
-                                   v-model="card.dueDate"
                                    id="card-due-date"
-                                   required
+                                   placeholder=""
+                                   v-model="card.dueDate"
                                    min="1"
                                    max="31"
-                                   minlength="1">
+                                   required>
+                            <label for="card-due-date">Dia Vencimento Fatura</label>
                         </div>
                     </div>
                 </div>
@@ -66,16 +64,16 @@
 </template>
 
 <script>
-import LoadingComponent from '../../components/LoadingComponent.vue'
-import iconEnum from '../../../js/enums/iconEnum'
-import apiRouter from '../../../js/router/apiRouter'
-import InputMoney from '../../components/inputMoneyComponent.vue'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import iconEnum from '~js/enums/iconEnum'
+import apiRouter from '~js/router/apiRouter'
+import InputMoney from '~vue-component/inputMoneyComponent.vue'
 import { HttpStatusCode } from 'axios'
-import BottomButtons from '../../components/BottomButtons.vue'
-import Divider from '../../components/DividerComponent.vue'
-import MfpTitle from '../../components/TitleComponent.vue'
-import MfpMessage from '../../components/MessageAlert.vue'
-import messageTools from '../../../js/tools/messageTools'
+import BottomButtons from '~vue-component/BottomButtons.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import messageTools from '~js/tools/messageTools'
 
 export default {
     name: 'ManageCardsFormView',
@@ -120,9 +118,9 @@ export default {
             } else if (!this.card.limit) {
                 field = 'limite'
             } else if (!this.card.dueDate) {
-                field = 'vence dia'
+                field = 'dia vencimento fatura'
             } else if (!this.card.closingDay) {
-                field = 'fecha dia'
+                field = 'dia fechamento fatura'
             }
             if (field) {
                 this.messageData = messageTools.invalidFieldMessage(field)
