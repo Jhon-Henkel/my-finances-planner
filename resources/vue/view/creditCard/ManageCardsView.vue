@@ -108,7 +108,7 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <hr v-show="mustShowDividerInCard(card.id)">
+                            <hr class="mfp-card-divider" v-show="mustShowDividerInCard(card.id)">
                         </div>
                     </div>
                 </div>

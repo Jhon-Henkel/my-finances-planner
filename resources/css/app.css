@@ -91,15 +91,16 @@ body {
 table tr:first-child th {
     border-bottom: 2px solid #096452;
 }
-
 .table-transparent tr td, .table-transparent tr th {
     background-color: transparent !important;
     color: #ffffff;
 }
-
 .table-body-hover tr:hover td, .table-body-hover tr:hover th {
     background-color: #096452 !important;
     color: #ffffff;
+}
+.mfp-card-divider {
+    color: #01f6c6 !important;
 }
 
 @media (max-width: 1000px) {

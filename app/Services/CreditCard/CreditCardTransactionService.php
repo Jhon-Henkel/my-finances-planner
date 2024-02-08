@@ -115,6 +115,26 @@ class CreditCardTransactionService extends BasicService
             $expenseDTO = $this->resource->transactionToInvoiceDTO($transaction);
             $invoice[] = InvoiceFactory::factoryInvoice($expenseDTO, $thisMonth);
         }
+        return $this->orderInvoiceItensByClosingDay($invoice, $card);
+    }
+
+    /**
+     * @param InvoiceVO[] $invoice
+     * @return InvoiceVO[]
+     */
+    protected function orderInvoiceItensByClosingDay(array $invoice, CreditCardDTO $card): array
+    {
+        foreach ($invoice as $key => $invoiceItem) {
+            if ($card->getClosingDay() < $invoiceItem->nextInstallmentDay) {
+                $invoiceItem->sixthInstallment = $invoiceItem->fifthInstallment;
+                $invoiceItem->fifthInstallment = $invoiceItem->fourthInstallment;
+                $invoiceItem->fourthInstallment = $invoiceItem->thirdInstallment;
+                $invoiceItem->thirdInstallment = $invoiceItem->secondInstallment;
+                $invoiceItem->secondInstallment = $invoiceItem->firstInstallment;
+                $invoiceItem->firstInstallment = null;
+            }
+            $invoice[$key] = $invoiceItem;
+        }
         return $invoice;
     }
 

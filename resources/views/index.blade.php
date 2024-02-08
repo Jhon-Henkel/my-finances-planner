@@ -21,6 +21,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
+    @vite('resources/js/app.js')
     @if(RequestTools::isApplicationInDemoMode() && ! RequestTools::isApplicationInDevelopMode())
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-TFXE4NPB8W"></script>
         <script>
@@ -49,6 +50,5 @@
         }
     @endphp
     <div class="container" id="app"></div>
-    @vite('resources/js/app.js')
 </body>
 </html>
