@@ -11,57 +11,88 @@
                 </router-link>
             </div>
             <divider/>
-            <div class="card glass success balance-card">
-                <div class="card-body text-center">
-                    <div class="card-text">
-                        <div class="table-responsive-lg">
-                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
-                                <thead class="text-center">
-                                    <tr class="text-center">
-                                        <th scope="col">Carteira</th>
-                                        <th scope="col">Tipo</th>
-                                        <th scope="col">Valor Atual</th>
-                                        <th scope="col">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-center table-body-hover">
-                                    <tr v-show="wallets.length === 0">
-                                        <td colspan="4">Nenhuma carteira cadastrada ainda!</td>
-                                    </tr>
-                                    <tr v-for="wallet in wallets" :key="wallet.id" class="text-center">
-                                        <td>{{ wallet.name }}</td>
-                                        <td>{{ walletEnum.getDescription(wallet.type) }}</td>
-                                        <td>
-                                            {{ stringTools.formatFloatValueToBrString(wallet.amount) }}
-                                            <alert-icon v-if="wallet.amount < 0" />
-                                        </td>
-                                        <td>
-                                            <action-buttons
-                                                :delete-tooltip="'Deletar Carteira'"
-                                                :tooltip-edit="'Editar Carteira'"
-                                                :edit-to="'/carteiras/' + wallet.id + '/atualizar'"
-                                                @delete-clicked="deleteWallet(wallet.id, wallet.name)" />
-                                        </td>
-                                    </tr>
-                                    <tr class="border-table">
-                                        <td colspan="2">Total</td>
-                                        <td colspan="2">{{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            <div class="card glass">
+                <div class="card-body">
+                    <div class="text-center" v-if="wallets.length === 0">
+                        <div class="col-12">
+                            <hr class="mfp-card-divider">
+                        </div>
+                        <span>Nenhuma carteira cadastrada ainda!</span>
+                        <div class="col-12">
+                            <hr class="mfp-card-divider">
+                        </div>
+                    </div>
+                    <div class="row ms-1 me-1" v-else v-for="wallet in wallets" :key="wallet.id">
+                        <div class="col-11">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>{{ wallet.name }}</strong>
+                                </div>
+                            </div>
+                            <div class="row text-sm">
+                                <div class="col-6">
+                                    <span>Tipo: {{ walletEnum.getDescription(wallet.type) }}</span>
+                                </div>
+                                <div class="col-6">
+                                    Valor:
+                                    <span>{{ stringTools.formatFloatValueToBrString(wallet.amount) }}</span>
+                                    <alert-icon v-if="wallet.amount < 0" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1 d-flex justify-content-center align-items-center">
+                            <div class="dropdown-center">
+                                <button class="btn btn-outline-success"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    <font-awesome-icon :icon="iconEnum.ellipsisVertical()"/>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <router-link
+                                            class="dropdown-item"
+                                            :to="'/carteiras/' + wallet.id + '/atualizar'"
+                                            v-tooltip="'Editar'">
+                                            <font-awesome-icon :icon="iconEnum.editIcon()" />
+                                            Editar
+                                        </router-link>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item"
+                                                @click="deleteWallet(wallet.id, wallet.name)"
+                                                v-tooltip="'Apagar'">
+                                            <font-awesome-icon :icon="iconEnum.trashIcon()" />
+                                            Apagar
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mfp-card-divider">
+                        </div>
+                    </div>
+                    <div class="row ms-1 me-1">
+                        <div class="col-12 text-center">
+                            <span>Total: {{ stringTools.formatFloatValueToBrString(sumTotalAmount) }}</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row ms-1 mt-4">
-                <div class="card glass success balance-card card-resume balance-card-resume">
-                    <div class="card-body text-center resume-card">
+            <div class="card glass mt-4">
+                <div class="row ms-1 me-1">
+                    <div class="card-body text-center">
                         <h4 class="card-title">
-                            <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
-                            Resumo
+                            <span>
+                                <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
+                                Resumo
+                            </span>
                         </h4>
-                        <hr>
-                        <div class="card-text resume-content card-text-resume">
+                        <div class="col-12">
+                            <hr class="mfp-card-divider">
+                        </div>
+                        <div class="resume-content">
                             <div class="row">
                                 <div class="col-2">
                                     <h6>Dinheiro</h6>
@@ -112,18 +143,17 @@
 </template>
 
 <script>
-import apiRouter from '../../../js/router/apiRouter'
-import walletEnum from '../../../js/enums/walletEnum'
-import stringTools from '../../../js/tools/stringTools'
-import numberTools from '../../../js/tools/numberTools'
-import iconEnum from '../../../js/enums/iconEnum'
-import LoadingComponent from '../../components/LoadingComponent.vue'
-import ActionButtons from '../../components/ActionButtons.vue'
-import Divider from '../../components/DividerComponent.vue'
-import MfpTitle from '../../components/TitleComponent.vue'
-import MfpMessage from '../../components/MessageAlert.vue'
-import AlertIcon from '../../components/AlertIcon.vue'
-import messageTools from '../../../js/tools/messageTools'
+import apiRouter from '~js/router/apiRouter'
+import walletEnum from '~js/enums/walletEnum'
+import stringTools from '~js/tools/stringTools'
+import numberTools from '~js/tools/numberTools'
+import iconEnum from '~js/enums/iconEnum'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import AlertIcon from '~vue-component/AlertIcon.vue'
+import messageTools from '~js/tools/messageTools'
 
 export default {
     name: 'WalletView',
@@ -132,7 +162,6 @@ export default {
         MfpMessage,
         MfpTitle,
         Divider,
-        ActionButtons,
         LoadingComponent
     },
     computed: {
@@ -148,7 +177,7 @@ export default {
     },
     data() {
         return {
-            wallets: {},
+            wallets: [],
             wallet: {
                 updatedAt: ''
             },
@@ -171,9 +200,9 @@ export default {
             this.wallets = await apiRouter.wallet.index()
             this.sumTotalAmount = numberTools.getSumTotalAmount(this.wallets)
             this.loadingDone = true
-            this.separeWallets()
+            this.separeWalletsPerTypes()
         },
-        separeWallets() {
+        separeWalletsPerTypes() {
             this.wallets.forEach(wallet => {
                 if (wallet.type === walletEnum.type.bankType) {
                     this.walletsPerType.bank += wallet.amount
@@ -208,24 +237,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../sass/_variables.scss";
-    .icon-alert {
-         color: $alert-icon-color;
-         font-size: 15px;
-         top: 50%;
-    }
-    .card-resume {
-        width: 24rem;
-    }
-    .balance-card-resume {
-        width: 80.5rem;
-    }
-    .card-text-resume {
-        font-size: 1.5rem;
-    }
-    .border-table {
-        border-top: 2px solid $table-line-divider-color;
-    }
     @media (max-width: 1000px) {
         .nav {
             flex-direction: column;
@@ -234,13 +245,11 @@ export default {
             margin-top: 10px;
             border-radius: 8px !important;
         }
-        .balance-card-resume {
-            width: 97%;
-        }
         .resume-content {
-            display: table-row;
             width: 100%;
             white-space: nowrap;
+            display: flex;
+            justify-content: center;
         }
         .resume-content .row {
             display: table-cell;
@@ -255,6 +264,10 @@ export default {
         .resume-value {
             white-space: nowrap;
             overflow: hidden;
+            margin-left: 0.5rem;
+        }
+        .text-sm {
+            font-size: 0.6rem;
         }
     }
 </style>
