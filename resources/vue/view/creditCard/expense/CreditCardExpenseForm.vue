@@ -25,7 +25,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label" for="expense-first-installment">
-                                Próxima Parcela
+                                Data da compra <br> (Formato: dia da compra, mês atual, ano atual)
                             </label>
                             <input type="date"
                                    class="form-control"
@@ -154,7 +154,7 @@ export default {
             if (!this.expense.name) {
                 field = 'descrição'
             } else if (!this.expense.nextInstallment) {
-                field = 'primeira parcela'
+                field = 'data da compra'
             } else if (!this.expense.value || this.expense.value <= 0) {
                 field = 'valor'
             } else if (this.expense.installments < 0 || this.expense.installments > 48) {
@@ -174,7 +174,7 @@ export default {
                 if (response.status === HttpStatusCode.Created) {
                     this.messageData = messageTools.successMessage('Despesa cadastrada com sucesso!')
                     this.expense = {}
-                    this.expense.nextInstallment = CalendarTools.addDaysInDate(new Date(), 30)
+                    this.expense.nextInstallment = CalendarTools.addDaysInDate(new Date(), 0)
                     this.expense.fix = false
                     if (this.$route.params.cardId) {
                         this.expense.creditCardId = this.$route.params.cardId
@@ -239,7 +239,7 @@ export default {
             this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.expense.creditCardId
         }
         if (!this.expense.nextInstallment) {
-            this.expense.nextInstallment = CalendarTools.addDaysInDate(new Date(), 30)
+            this.expense.nextInstallment = CalendarTools.addDaysInDate(new Date(), 0)
         }
     }
 }
