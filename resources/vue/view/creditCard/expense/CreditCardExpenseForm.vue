@@ -54,7 +54,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label" for="expense-installments">
-                                Quantidade de vezes
+                                Parcelas restantes
                             </label>
                             <input type="number"
                                    class="form-control"
@@ -158,7 +158,7 @@ export default {
             } else if (!this.expense.value || this.expense.value <= 0) {
                 field = 'valor'
             } else if (this.expense.installments < 0 || this.expense.installments > 48) {
-                field = 'quantidade de vezes'
+                field = 'parcelas restantes'
             } else if (!this.expense.creditCardId || this.expense.creditCardId <= 0) {
                 field = 'cartão de credito'
             }
