@@ -25,6 +25,6 @@ $router->prefix('/')->group(function ($router) {
     };
 
     $router->get('{any}', function () {
-        return view('base');
+        return view('index');
     })->where('any', '.*');
 });
