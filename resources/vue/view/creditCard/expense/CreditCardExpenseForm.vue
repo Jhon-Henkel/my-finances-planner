@@ -5,39 +5,42 @@
         <div v-show="loadingDone">
             <mfp-title :title="title" class="title"/>
             <divider/>
-            <form class="was-validated">
+            <form class="was-validated form-floating text-black">
                 <div class="row justify-content-center">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="expense-name">
-                                Descrição
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="text"
                                    class="form-control"
+                                   id="description-input"
+                                   placeholder=""
+                                   minlength="2"
                                    v-model="expense.name"
-                                   id="expense-name"
-                                   required
-                                   minlength="2">
+                                   required>
+                            <label for="description-input">Descrição</label>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-2">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="expense-first-installment">
-                                Data da compra <br> (Formato: dia da compra, mês atual, ano atual)
-                            </label>
-                            <input type="date"
+                        <div class="form-floating mb-3">
+                            <input type="number"
                                    class="form-control"
+                                   id="purchase-input"
+                                   placeholder=""
                                    v-model="expense.nextInstallment"
-                                   id="expense-first-installment"
+                                   min="1"
+                                   max="31"
                                    required>
+                            <label for="purchase-input">Dia da Compra</label>
                         </div>
                     </div>
                 </div>
-                <input-money :value="expense.value" title="Valor Parcela" @input-money="expense.value = $event"/>
+                <input-money :value="expense.value"
+                             title="Valor Parcela"
+                             @input-money="expense.value = $event"
+                             :use-floating-labels="true"/>
                 <div class="row justify-content-center mt-3">
-                    <div class="col-4">
+                    <div class="col-4 text-white">
                         <div class="form-check form-switch">
                             <label class="form-check-label" for="fix-expense">
                                 Despesa fixa
@@ -52,56 +55,51 @@
                 </div>
                 <div class="row justify-content-center mt-3" v-if="expense.fix === false">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="expense-installments">
-                                Parcelas restantes
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="number"
                                    class="form-control"
-                                   v-model="expense.installments"
                                    id="expense-installments"
-                                   required
+                                   placeholder=""
+                                   v-model="expense.installments"
                                    min="1"
-                                   max="48">
+                                   max="48"
+                                   required>
+                            <label for="expense-installments">Parcelas restantes</label>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center" :class="expense.fix ? 'mt-3' : 'mt-2'">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="expense-credit-card">
-                                Cartão de crédito
-                            </label>
-                            <select class="form-select" v-model="expense.creditCardId" id="expense-credit-card" required>
+                        <div class="form-floating">
+                            <select class="form-select" id="expense-credit-card" v-model="expense.creditCardId" required>
                                 <option value="0" disabled>Selecione um cartão</option>
                                 <option v-for="creditCard in creditCards" :key="creditCard.id" :value="creditCard.id">
                                     {{ creditCard.name }}
                                 </option>
                             </select>
+                            <label for="expense-credit-card">Cartão de crédito</label>
                         </div>
                     </div>
                 </div>
             </form>
             <divider/>
-            <bottom-buttons :redirect-to="redirect"
-                            :button-success-text="title"
-                            @btn-clicked="updateOrInsertExpense"/>
+            <bottom-buttons :redirect-to="redirect" :button-success-text="title" @btn-clicked="updateOrInsertExpense"/>
         </div>
     </div>
 </template>
 
 <script>
-import LoadingComponent from '../../../components/LoadingComponent.vue'
-import CalendarTools from '../../../../js/tools/calendarTools'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import CalendarTools from '~js/tools/calendarTools'
 import InputMoney from '../../../components/inputMoneyComponent.vue'
-import apiRouter from '../../../../js/router/apiRouter'
-import iconEnum from '../../../../js/enums/iconEnum'
+import apiRouter from '~js/router/apiRouter'
+import iconEnum from '~js/enums/iconEnum'
 import { HttpStatusCode } from 'axios'
-import BottomButtons from '../../../components/BottomButtons.vue'
-import Divider from '../../../components/DividerComponent.vue'
-import MfpTitle from '../../../components/TitleComponent.vue'
-import MfpMessage from '../../../components/MessageAlert.vue'
-import messageTools from '../../../../js/tools/messageTools'
+import BottomButtons from '~vue-component/BottomButtons.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import messageTools from '~js/tools/messageTools'
 
 const FIX_EXPENSE = 0
 
@@ -126,7 +124,9 @@ export default {
     data() {
         return {
             expense: {
-                creditCardId: 0
+                creditCardId: 0,
+                installments: 1,
+                nextInstallment: new Date().getDate()
             },
             title: '',
             loadingDone: false,
@@ -154,7 +154,7 @@ export default {
             if (!this.expense.name) {
                 field = 'descrição'
             } else if (!this.expense.nextInstallment) {
-                field = 'data da compra'
+                field = 'dia da compra'
             } else if (!this.expense.value || this.expense.value <= 0) {
                 field = 'valor'
             } else if (this.expense.installments < 0 || this.expense.installments > 48) {
@@ -201,6 +201,7 @@ export default {
         async getExpense(expenseId) {
             this.loadingDone = false
             this.expense = await apiRouter.expense.show(expenseId)
+            this.expense.nextInstallment = new Date(this.expense.nextInstallment).getDate()
             this.loadingDone = true
         },
         populateExpense() {
@@ -213,7 +214,7 @@ export default {
                 installments: installmentsToPopulate,
                 value: this.expense.value,
                 creditCardId: this.expense.creditCardId,
-                nextInstallment: this.expense.nextInstallment
+                nextInstallment: new Date().setDate(this.expense.nextInstallment).toString()
             }
         }
     },

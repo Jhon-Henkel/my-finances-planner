@@ -48,7 +48,7 @@ describe('Testing the PayReceiveComponent', () => {
         expect(wrapper.html()).toContain('class="row mt-4 was-validated pay-receive">')
         expect(wrapper.html()).toContain('class="col-4 money">')
         expect(wrapper.html()).toContain('<input-money')
-        expect(wrapper.html()).toContain('customclasscol="col-12" customclassrow="" customclassform="" showtitle="false" title="Valor" masked="false" precision="2" decimal="," thousands="." suffix="" value="100.5"></input-money')
+        expect(wrapper.html()).toContain('customclasscol="col-12" customclassrow="" customclassform="" showtitle="false" title="Valor" masked="false" precision="2" decimal="," thousands="." suffix="" usefloatinglabels="false" value="100.5"></input-money')
         expect(wrapper.html()).toContain('class="col-5 form-group">')
         expect(wrapper.html()).toContain('class="form-select" required="">')
         expect(wrapper.html()).toContain('disabled="" value="0">Selecione uma carteira</option>')
