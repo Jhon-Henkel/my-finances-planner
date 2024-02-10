@@ -30,6 +30,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static DatePeriodDTO mountDatePeriodFromIsoDateRange(array $rangeDate)
  * @method static DatePeriodDTO makeDateRangeByDefaultFilterParams(array $dates)
  * @method static string subMonthInDate(string $date, int $months, string $format = DateFormatEnum::DefaultDbDateFormat->value)
+ * @method static DateTime makeDateByCreditCardClosingDay(string|int $closingDay, string|int $dueDay)
+ * @method static DateTime mountDateTimeByDateString(string $date)
+ * @method static string getTodayDay()
  *
  * @see CalendarToolsReal
  */

@@ -191,4 +191,27 @@ class CalendarToolsReal
         }
         return CalendarTools::mountDatePeriodFromIsoDateRange($dates);
     }
+
+    /** @throws Exception */
+    public function makeDateByCreditCardClosingDay(string|int $closingDay, string|int $dueDay): DateTime
+    {
+        $month = $this->getThisMonth();
+        $year = $this->getThisYear();
+        $date =  new DateTime($this->mountStringDateTime($year, $month, $closingDay, '00:00:00'));
+        if ((int)$dueDay < (int)$closingDay) {
+            $date->add(new DateInterval('P1M'));
+        }
+        return $date;
+    }
+
+    public function getTodayDay(): string
+    {
+        return $this->getDateNow()->format(DateFormatEnum::OnlyDay->value);
+    }
+
+    /** @throws Exception */
+    public function mountDateTimeByDateString(string $date): DateTime
+    {
+        return new DateTime($date);
+    }
 }
