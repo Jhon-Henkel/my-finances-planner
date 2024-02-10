@@ -11,7 +11,6 @@ use App\Services\BasicService;
 use App\Services\Movement\MovementService;
 use App\Tools\Calendar\CalendarTools;
 use App\VO\InvoiceVO;
-use Illuminate\Support\Facades\Date;
 
 class CreditCardTransactionService extends BasicService
 {
