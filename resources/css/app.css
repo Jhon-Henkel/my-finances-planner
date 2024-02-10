@@ -130,4 +130,7 @@ table tr:first-child th {
     .nav-item {
         flex-direction: column;
     }
+    .text-sm {
+        font-size: 0.6rem;
+    }
 }

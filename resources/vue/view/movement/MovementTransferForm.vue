@@ -5,20 +5,18 @@
         <div v-show="loadingDone">
             <mfp-title :title="title" class="title"/>
             <divider/>
-            <input-money :value="transfer.amount" @input-money="transfer.amount = $event"/>
-            <form>
+            <form class="was-validated mt-4 text-black">
+                <input-money :value="transfer.amount" @input-money="transfer.amount = $event" :use-floating-labels="true"/>
                 <div class="row justify-content-center mt-3">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="origin">
-                                Carteira Origem
-                            </label>
-                            <select class="form-select" v-model="transfer.originId" id="origin" required>
+                        <div class="form-floating">
+                            <select class="form-select" id="origin" v-model="transfer.originId" required>
                                 <option value="0" disabled selected>Selecione uma carteira de origem</option>
                                 <option v-for="wallet in wallets" :key="wallet.id" :value="wallet.id">
                                     {{ wallet.name }}
                                 </option>
                             </select>
+                            <label for="origin">Carteira Origem</label>
                         </div>
                     </div>
                 </div>
@@ -29,18 +27,16 @@
                         <font-awesome-icon :icon="iconEnum.circleArrowDown()" class="transfer-icon"/>
                     </div>
                 </div>
-                <div class="row justify-content-center">
+                <div class="row justify-content-center mt-3">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="destination">
-                                Carteira Destino
-                            </label>
-                            <select class="form-select" v-model="transfer.destinationId" id="destination" required>
+                        <div class="form-floating">
+                            <select class="form-select" id="destination" v-model="transfer.destinationId" required>
                                 <option value="0" disabled selected>Selecione uma carteira de destino</option>
                                 <option v-for="wallet in wallets" :key="wallet.id" :value="wallet.id">
                                     {{ wallet.name }}
                                 </option>
                             </select>
+                            <label for="destination">Carteira Origem</label>
                         </div>
                     </div>
                 </div>
@@ -52,17 +48,17 @@
 </template>
 
 <script>
-import LoadingComponent from '../../components/LoadingComponent.vue'
-import Divider from '../../components/DividerComponent.vue'
-import MfpMessage from '../../components/MessageAlert.vue'
-import MfpTitle from '../../components/TitleComponent.vue'
-import BottomButtons from '../../components/BottomButtons.vue'
-import apiRouter from '../../../js/router/apiRouter'
-import InputMoney from '../../components/inputMoneyComponent.vue'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import BottomButtons from '~vue-component/BottomButtons.vue'
+import apiRouter from '~js/router/apiRouter'
+import InputMoney from '~vue-component/inputMoneyComponent.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import iconEnum from '../../../js/enums/iconEnum'
+import iconEnum from '~js/enums/iconEnum'
 import { HttpStatusCode } from 'axios'
-import messageTools from '../../../js/tools/messageTools'
+import messageTools from '~js/tools/messageTools'
 
 export default {
     name: 'MovementTransferForm',
