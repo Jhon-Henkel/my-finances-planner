@@ -26,7 +26,7 @@ jobs:
           --health-retries=5
 
     steps:
-      - name: 🔥 Configuring checkout V3
+      - name: 🔥 Configuring checkout
         uses: actions/checkout@v4
 
       - name: 📄 Making .env file
@@ -67,7 +67,7 @@ jobs:
       image: jhowrf/php-image:latest
 
     steps:
-      - name: 🔥 Configuring checkout V3
+      - name: 🔥 Configuring checkout
         uses: actions/checkout@v4
 
       - name: 🛠️ Installing Node dependencies
@@ -100,7 +100,7 @@ jobs:
       image: jhowrf/php-image:latest
 
     steps:
-      - name: 🔥 Configuring checkout V3
+      - name: 🔥 Configuring checkout
         uses: actions/checkout@v4
 
       - name: 🛠️ Installing Node dependencies
@@ -135,7 +135,7 @@ jobs:
       image: jhowrf/php-image:latest
 
     steps:
-      - name: 🔥 Configuring checkout V3
+      - name: 🔥 Configuring checkout
         uses: actions/checkout@v4
 
       - name: 🛠️ Installing Node dependencies
@@ -170,7 +170,7 @@ jobs:
       image: jhowrf/php-image:latest
 
     steps:
-      - name: 🔥 Configuring checkout V3
+      - name: 🔥 Configuring checkout
         uses: actions/checkout@v4
 
       - name: 🛠️ Installing Node dependencies
