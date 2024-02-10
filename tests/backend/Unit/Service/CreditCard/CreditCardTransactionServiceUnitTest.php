@@ -277,27 +277,30 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
          * |   nome    |   Fevereiro  |    Março    |    Abril    |    Maio    |    Junho    |    Julho    |
          * |-----------|--------------|-------------|-------------|------------|-------------|-------------|
          * |   Test 1  |     12.22    |    12.22    |    12.22    |    12.22   |      -      |      -      |
-         * |   Test 2  |       -      |    11.20    |    11.20    |    11.20   |    11.20    |    11.20    |
+         * |   Test 2  |     11.20    |    11.20    |    11.20    |    11.20   |    11.20    |    11.20    |
          * |   Test 3  |       -      |    56.55    |    56.55    |    56.55   |      -      |      -      |
          * |   Test 4  |       -      |    90.13    |      -      |      -     |      -      |      -      |
-         * |   Test 5  |       -      |      -      |      -      |    21.21   |    21.21    |    21.21    |
-         * |   Test 6  |       -      |      -      |    21.22    |    21.22   |      -      |      -      |
+         * |   Test 5  |       -      |    21.21    |    21.21    |    21.21   |    21.21    |    21.21    |
+         * |   Test 6  |     21.22    |    21.22    |      -      |      -     |      -      |      -      |
          * -------------------------------------------------------------------------------------------------
+         * Hoje 02/02 fecha 10/02
          */
         $transactions = [
             ['id' => 1, 'credit_card_id' => 1, 'name' => 'Test 1', 'value' => 12.22, 'next_installment' => '2024-02-08', 'installments' => 4],
-            ['id' => 2, 'credit_card_id' => 1, 'name' => 'Test 2', 'value' => 11.20, 'next_installment' => '2024-03-09', 'installments' => 9],
+            ['id' => 2, 'credit_card_id' => 1, 'name' => 'Test 2', 'value' => 11.20, 'next_installment' => '2024-02-09', 'installments' => 9],
             ['id' => 3, 'credit_card_id' => 1, 'name' => 'Test 3', 'value' => 56.55, 'next_installment' => '2024-02-11', 'installments' => 3],
             ['id' => 4, 'credit_card_id' => 1, 'name' => 'Test 4', 'value' => 90.13, 'next_installment' => '2024-02-12', 'installments' => 1],
-            ['id' => 5, 'credit_card_id' => 1, 'name' => 'Test 5', 'value' => 21.21, 'next_installment' => '2024-04-21', 'installments' => 5],
-            ['id' => 6, 'credit_card_id' => 1, 'name' => 'Test 6', 'value' => 21.22, 'next_installment' => '2024-04-01', 'installments' => 2],
+            ['id' => 5, 'credit_card_id' => 1, 'name' => 'Test 5', 'value' => 21.21, 'next_installment' => '2024-02-21', 'installments' => 5],
+            ['id' => 6, 'credit_card_id' => 1, 'name' => 'Test 6', 'value' => 21.22, 'next_installment' => '2024-02-01', 'installments' => 2],
         ];
 
         $repositoryMock = Mockery::mock(CreditCardTransactionRepository::class)->makePartial();
         $repositoryMock->shouldReceive('getExpenses')->once()->andReturn($transactions);
 
         $calendarToolsMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarToolsMock->shouldReceive('getThisMonth')->once()->andReturn('02');
+        $calendarToolsMock->shouldReceive('getThisYear')->andReturn('2024');
+        $calendarToolsMock->shouldReceive('getThisMonth')->andReturn('02');
+        $calendarToolsMock->shouldReceive('getTodayDay')->andReturn('02');
         $this->app->instance(CalendarToolsReal::class, $calendarToolsMock);
 
         $mocks = [
@@ -312,6 +315,7 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $card = new CreditCardDTO();
         $card->setId(1);
         $card->setClosingDay(10);
+        $card->setDueDate(11);
 
         /** @var InvoiceVO[] $invoices */
         $invoices = $serviceMock->getInvoices($card);
@@ -343,7 +347,7 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(9, $invoices[1]->nextInstallmentDay);
         $this->assertEquals(11.20 * 9, $invoices[1]->totalRemainingValue);
 
-        $this->assertEquals(null, $invoices[1]->firstInstallment);
+        $this->assertEquals(11.20, $invoices[1]->firstInstallment);
         $this->assertEquals(11.20, $invoices[1]->secondInstallment);
         $this->assertEquals(11.20, $invoices[1]->thirdInstallment);
         $this->assertEquals(11.20, $invoices[1]->fourthInstallment);
@@ -386,8 +390,8 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(21.21 * 5, $invoices[4]->totalRemainingValue);
 
         $this->assertEquals(null, $invoices[4]->firstInstallment);
-        $this->assertEquals(null, $invoices[4]->secondInstallment);
-        $this->assertEquals(null, $invoices[4]->thirdInstallment);
+        $this->assertEquals(21.21, $invoices[4]->secondInstallment);
+        $this->assertEquals(21.21, $invoices[4]->thirdInstallment);
         $this->assertEquals(21.21, $invoices[4]->fourthInstallment);
         $this->assertEquals(21.21, $invoices[4]->fifthInstallment);
         $this->assertEquals(21.21, $invoices[4]->sixthInstallment);
@@ -399,10 +403,10 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(1, $invoices[5]->nextInstallmentDay);
         $this->assertEquals(21.22 * 2, $invoices[5]->totalRemainingValue);
 
-        $this->assertEquals(null, $invoices[5]->firstInstallment);
-        $this->assertEquals(null, $invoices[5]->secondInstallment);
-        $this->assertEquals(21.22, $invoices[5]->thirdInstallment);
-        $this->assertEquals(21.22, $invoices[5]->fourthInstallment);
+        $this->assertEquals(21.22, $invoices[5]->firstInstallment);
+        $this->assertEquals(21.22, $invoices[5]->secondInstallment);
+        $this->assertEquals(null, $invoices[5]->thirdInstallment);
+        $this->assertEquals(null, $invoices[5]->fourthInstallment);
         $this->assertEquals(null, $invoices[5]->fifthInstallment);
         $this->assertEquals(null, $invoices[5]->sixthInstallment);
     }
@@ -414,28 +418,31 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
          * _________________________________________________________________________________________________
          * |   nome    |   Fevereiro  |    Março    |    Abril    |    Maio    |    Junho    |    Julho    |
          * |-----------|--------------|-------------|-------------|------------|-------------|-------------|
-         * |   Test 1  |       -      |    12.22    |    12.22    |    12.22   |    12.22    |      -      |
-         * |   Test 2  |       -      |      -      |    11.20    |    11.20   |    11.20    |    11.20    |
-         * |   Test 3  |       -      |    56.55    |    56.55    |    56.55   |      -      |      -      |
-         * |   Test 4  |       -      |    90.13    |      -      |      -     |      -      |      -      |
-         * |   Test 5  |       -      |      -      |      -      |    21.21   |    21.21    |    21.21    |
-         * |   Test 6  |       -      |      -      |    21.22    |    21.22   |      -      |      -      |
+         * |   Test 1  |      -       |    12.22    |    12.22    |    12.22    |    12.22   |      -      |
+         * |   Test 2  |      -       |    11.20    |    11.20    |    11.20    |    11.20   |    11.20    |
+         * |   Test 3  |      -       |    56.55    |    56.55    |    56.55    |      -     |      -      |
+         * |   Test 4  |      -       |    90.13    |      -      |      -      |      -     |      -      |
+         * |   Test 5  |      -       |    21.21    |    21.21    |    21.21    |    21.21   |    21.21    |
+         * |   Test 6  |      -       |    21.22    |    21.22    |      -      |      -     |      -      |
          * -------------------------------------------------------------------------------------------------
+         * Hoje 02/02 fecha 01/02
          */
         $transactions = [
             ['id' => 1, 'credit_card_id' => 1, 'name' => 'Test 1', 'value' => 12.22, 'next_installment' => '2024-02-08', 'installments' => 4],
-            ['id' => 2, 'credit_card_id' => 1, 'name' => 'Test 2', 'value' => 11.20, 'next_installment' => '2024-03-09', 'installments' => 9],
+            ['id' => 2, 'credit_card_id' => 1, 'name' => 'Test 2', 'value' => 11.20, 'next_installment' => '2024-02-09', 'installments' => 9],
             ['id' => 3, 'credit_card_id' => 1, 'name' => 'Test 3', 'value' => 56.55, 'next_installment' => '2024-02-11', 'installments' => 3],
             ['id' => 4, 'credit_card_id' => 1, 'name' => 'Test 4', 'value' => 90.13, 'next_installment' => '2024-02-12', 'installments' => 1],
-            ['id' => 5, 'credit_card_id' => 1, 'name' => 'Test 5', 'value' => 21.21, 'next_installment' => '2024-04-21', 'installments' => 5],
-            ['id' => 6, 'credit_card_id' => 1, 'name' => 'Test 6', 'value' => 21.22, 'next_installment' => '2024-04-01', 'installments' => 2],
+            ['id' => 5, 'credit_card_id' => 1, 'name' => 'Test 5', 'value' => 21.21, 'next_installment' => '2024-02-21', 'installments' => 5],
+            ['id' => 6, 'credit_card_id' => 1, 'name' => 'Test 6', 'value' => 21.22, 'next_installment' => '2024-02-01', 'installments' => 2],
         ];
 
         $repositoryMock = Mockery::mock(CreditCardTransactionRepository::class)->makePartial();
         $repositoryMock->shouldReceive('getExpenses')->once()->andReturn($transactions);
 
         $calendarToolsMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarToolsMock->shouldReceive('getThisMonth')->once()->andReturn('02');
+        $calendarToolsMock->shouldReceive('getThisYear')->andReturn('2024');
+        $calendarToolsMock->shouldReceive('getThisMonth')->andReturn('02');
+        $calendarToolsMock->shouldReceive('getTodayDay')->andReturn('02');
         $this->app->instance(CalendarToolsReal::class, $calendarToolsMock);
 
         $mocks = [
@@ -450,6 +457,7 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $card = new CreditCardDTO();
         $card->setId(1);
         $card->setClosingDay(1);
+        $card->setDueDate(11);
 
         /** @var InvoiceVO[] $invoices */
         $invoices = $serviceMock->getInvoices($card);
@@ -482,7 +490,7 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(11.20 * 9, $invoices[1]->totalRemainingValue);
 
         $this->assertEquals(null, $invoices[1]->firstInstallment);
-        $this->assertEquals(null, $invoices[1]->secondInstallment);
+        $this->assertEquals(11.20, $invoices[1]->secondInstallment);
         $this->assertEquals(11.20, $invoices[1]->thirdInstallment);
         $this->assertEquals(11.20, $invoices[1]->fourthInstallment);
         $this->assertEquals(11.20, $invoices[1]->fifthInstallment);
@@ -524,8 +532,8 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(21.21 * 5, $invoices[4]->totalRemainingValue);
 
         $this->assertEquals(null, $invoices[4]->firstInstallment);
-        $this->assertEquals(null, $invoices[4]->secondInstallment);
-        $this->assertEquals(null, $invoices[4]->thirdInstallment);
+        $this->assertEquals(21.21, $invoices[4]->secondInstallment);
+        $this->assertEquals(21.21, $invoices[4]->thirdInstallment);
         $this->assertEquals(21.21, $invoices[4]->fourthInstallment);
         $this->assertEquals(21.21, $invoices[4]->fifthInstallment);
         $this->assertEquals(21.21, $invoices[4]->sixthInstallment);
@@ -538,9 +546,9 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(21.22 * 2, $invoices[5]->totalRemainingValue);
 
         $this->assertEquals(null, $invoices[5]->firstInstallment);
-        $this->assertEquals(null, $invoices[5]->secondInstallment);
+        $this->assertEquals(21.22, $invoices[5]->secondInstallment);
         $this->assertEquals(21.22, $invoices[5]->thirdInstallment);
-        $this->assertEquals(21.22, $invoices[5]->fourthInstallment);
+        $this->assertEquals(null, $invoices[5]->fourthInstallment);
         $this->assertEquals(null, $invoices[5]->fifthInstallment);
         $this->assertEquals(null, $invoices[5]->sixthInstallment);
     }
@@ -552,28 +560,33 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
          * _________________________________________________________________________________________________
          * |   nome    |   Fevereiro  |    Março    |    Abril    |    Maio    |    Junho    |    Julho    |
          * |-----------|--------------|-------------|-------------|------------|-------------|-------------|
-         * |   Test 1  |     12.22    |    12.22    |    12.22   |    12.22    |      -      |       -     |
-         * |   Test 2  |       -      |    11.20    |    11.20   |    11.20    |    11.20    |       -     |
-         * |   Test 3  |     56.55    |    56.55    |    56.55   |      -      |      -      |       -     |
-         * |   Test 4  |     90.13    |      -      |      -     |      -      |      -      |       -     |
-         * |   Test 5  |       -      |      -      |    21.21   |    21.21    |    21.21    |       -     |
-         * |   Test 6  |       -      |       -     |    21.22    |    21.22   |      -      |      -      |
+         * |   Test 1  |       -      |    12.22    |    12.22    |    12.22   |    12.22    |      -      |
+         * |   Test 2  |       -      |    11.20    |    11.20    |    11.20   |    11.20    |    11.20    |
+         * |   Test 3  |       -      |    56.55    |    56.55    |    56.55   |      -      |      -      |
+         * |   Test 4  |       -      |    90.13    |      -      |      -     |      -      |      -      |
+         * |   Test 5  |       -      |    21.21    |    21.21    |    21.21   |    21.21    |    21.21    |
+         * |   Test 6  |       -      |    21.22    |    21.22    |      -     |      -      |      -      |
+         * |   Test 7  |       -      |    22.22    |    22.22    |      -     |      -      |      -      |
          * -------------------------------------------------------------------------------------------------
+         * Hoje 02/02 fecha último dia do mês
          */
         $transactions = [
             ['id' => 1, 'credit_card_id' => 1, 'name' => 'Test 1', 'value' => 12.22, 'next_installment' => '2024-02-08', 'installments' => 4],
-            ['id' => 2, 'credit_card_id' => 1, 'name' => 'Test 2', 'value' => 11.20, 'next_installment' => '2024-03-09', 'installments' => 9],
+            ['id' => 2, 'credit_card_id' => 1, 'name' => 'Test 2', 'value' => 11.20, 'next_installment' => '2024-02-09', 'installments' => 9],
             ['id' => 3, 'credit_card_id' => 1, 'name' => 'Test 3', 'value' => 56.55, 'next_installment' => '2024-02-11', 'installments' => 3],
             ['id' => 4, 'credit_card_id' => 1, 'name' => 'Test 4', 'value' => 90.13, 'next_installment' => '2024-02-12', 'installments' => 1],
-            ['id' => 5, 'credit_card_id' => 1, 'name' => 'Test 5', 'value' => 21.21, 'next_installment' => '2024-04-21', 'installments' => 5],
-            ['id' => 6, 'credit_card_id' => 1, 'name' => 'Test 6', 'value' => 21.22, 'next_installment' => '2024-04-01', 'installments' => 2],
+            ['id' => 5, 'credit_card_id' => 1, 'name' => 'Test 5', 'value' => 21.21, 'next_installment' => '2024-02-21', 'installments' => 5],
+            ['id' => 6, 'credit_card_id' => 1, 'name' => 'Test 6', 'value' => 21.22, 'next_installment' => '2024-02-01', 'installments' => 2],
+            ['id' => 7, 'credit_card_id' => 1, 'name' => 'Test 7', 'value' => 22.22, 'next_installment' => '2024-02-10', 'installments' => 2],
         ];
 
         $repositoryMock = Mockery::mock(CreditCardTransactionRepository::class)->makePartial();
         $repositoryMock->shouldReceive('getExpenses')->once()->andReturn($transactions);
 
         $calendarToolsMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarToolsMock->shouldReceive('getThisMonth')->once()->andReturn('02');
+        $calendarToolsMock->shouldReceive('getThisYear')->andReturn('2024');
+        $calendarToolsMock->shouldReceive('getThisMonth')->andReturn('02');
+        $calendarToolsMock->shouldReceive('getTodayDay')->andReturn('02');
         $this->app->instance(CalendarToolsReal::class, $calendarToolsMock);
 
         $mocks = [
@@ -588,6 +601,7 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $card = new CreditCardDTO();
         $card->setId(1);
         $card->setClosingDay(31);
+        $card->setDueDate(11);
 
         /** @var InvoiceVO[] $invoices */
         $invoices = $serviceMock->getInvoices($card);
@@ -605,11 +619,11 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(8, $invoices[0]->nextInstallmentDay);
         $this->assertEquals(12.22 * 4, $invoices[0]->totalRemainingValue);
 
-        $this->assertEquals(12.22, $invoices[0]->firstInstallment);
+        $this->assertEquals(null, $invoices[0]->firstInstallment);
         $this->assertEquals(12.22, $invoices[0]->secondInstallment);
         $this->assertEquals(12.22, $invoices[0]->thirdInstallment);
         $this->assertEquals(12.22, $invoices[0]->fourthInstallment);
-        $this->assertEquals(null, $invoices[0]->fifthInstallment);
+        $this->assertEquals(12.22, $invoices[0]->fifthInstallment);
         $this->assertEquals(null, $invoices[0]->sixthInstallment);
 
         $this->assertEquals(2, $invoices[1]->id);
@@ -633,10 +647,10 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(11, $invoices[2]->nextInstallmentDay);
         $this->assertEquals(56.55 * 3, $invoices[2]->totalRemainingValue);
 
-        $this->assertEquals(56.55, $invoices[2]->firstInstallment);
+        $this->assertEquals(null, $invoices[2]->firstInstallment);
         $this->assertEquals(56.55, $invoices[2]->secondInstallment);
         $this->assertEquals(56.55, $invoices[2]->thirdInstallment);
-        $this->assertEquals(null, $invoices[2]->fourthInstallment);
+        $this->assertEquals(56.55, $invoices[2]->fourthInstallment);
         $this->assertEquals(null, $invoices[2]->fifthInstallment);
         $this->assertEquals(null, $invoices[2]->sixthInstallment);
 
@@ -647,8 +661,8 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(12, $invoices[3]->nextInstallmentDay);
         $this->assertEquals(90.13, $invoices[3]->totalRemainingValue);
 
-        $this->assertEquals(90.13, $invoices[3]->firstInstallment);
-        $this->assertEquals(null, $invoices[3]->secondInstallment);
+        $this->assertEquals(null, $invoices[3]->firstInstallment);
+        $this->assertEquals(90.13, $invoices[3]->secondInstallment);
         $this->assertEquals(null, $invoices[3]->thirdInstallment);
         $this->assertEquals(null, $invoices[3]->fourthInstallment);
         $this->assertEquals(null, $invoices[3]->fifthInstallment);
@@ -662,7 +676,7 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(21.21 * 5, $invoices[4]->totalRemainingValue);
 
         $this->assertEquals(null, $invoices[4]->firstInstallment);
-        $this->assertEquals(null, $invoices[4]->secondInstallment);
+        $this->assertEquals(21.21, $invoices[4]->secondInstallment);
         $this->assertEquals(21.21, $invoices[4]->thirdInstallment);
         $this->assertEquals(21.21, $invoices[4]->fourthInstallment);
         $this->assertEquals(21.21, $invoices[4]->fifthInstallment);
@@ -676,10 +690,17 @@ class CreditCardTransactionServiceUnitTest extends Falcon9
         $this->assertEquals(21.22 * 2, $invoices[5]->totalRemainingValue);
 
         $this->assertEquals(null, $invoices[5]->firstInstallment);
-        $this->assertEquals(null, $invoices[5]->secondInstallment);
+        $this->assertEquals(21.22, $invoices[5]->secondInstallment);
         $this->assertEquals(21.22, $invoices[5]->thirdInstallment);
-        $this->assertEquals(21.22, $invoices[5]->fourthInstallment);
+        $this->assertEquals(null, $invoices[5]->fourthInstallment);
         $this->assertEquals(null, $invoices[5]->fifthInstallment);
         $this->assertEquals(null, $invoices[5]->sixthInstallment);
+
+        $this->assertEquals(null, $invoices[6]->firstInstallment);
+        $this->assertEquals(22.22, $invoices[6]->secondInstallment);
+        $this->assertEquals(22.22, $invoices[6]->thirdInstallment);
+        $this->assertEquals(null, $invoices[6]->fourthInstallment);
+        $this->assertEquals(null, $invoices[6]->fifthInstallment);
+        $this->assertEquals(null, $invoices[6]->sixthInstallment);
     }
 }

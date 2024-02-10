@@ -12,6 +12,7 @@ class InvoiceVO
     public null|string $countName;
     public int $remainingInstallments;
     public int|string $nextInstallmentDay;
+    public string $nextInstallmentDate;
     public ?float $firstInstallment;
     public ?float $secondInstallment;
     public ?float $thirdInstallment;
@@ -29,6 +30,7 @@ class InvoiceVO
         $invoice->countName = $item->getCountName();
         $invoice->remainingInstallments = $item->getInstallments();
         $invoice->nextInstallmentDay = substr($item->getNextInstallment(), 8, 2);
+        $invoice->nextInstallmentDate = $item->getNextInstallment();
         $invoice->firstInstallment = $installments[0] ?? 0;
         $invoice->secondInstallment = $installments[1] ?? 0;
         $invoice->thirdInstallment = $installments[2] ?? 0;

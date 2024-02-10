@@ -11,6 +11,7 @@ use App\Services\BasicService;
 use App\Services\Movement\MovementService;
 use App\Tools\Calendar\CalendarTools;
 use App\VO\InvoiceVO;
+use Illuminate\Support\Facades\Date;
 
 class CreditCardTransactionService extends BasicService
 {
@@ -124,8 +125,10 @@ class CreditCardTransactionService extends BasicService
      */
     protected function orderInvoiceItensByClosingDay(array $invoice, CreditCardDTO $card): array
     {
+        $closingDate = CalendarTools::makeDateByCreditCardClosingDay($card->getClosingDay(), $card->getDueDate());
         foreach ($invoice as $key => $invoiceItem) {
-            if ($card->getClosingDay() < $invoiceItem->nextInstallmentDay) {
+            $nextInstallmentDate = CalendarTools::mountDateTimeByDateString($invoiceItem->nextInstallmentDate);
+            if ($nextInstallmentDate >= $closingDate || $card->getClosingDay() > $card->getDueDate()) {
                 $invoiceItem->sixthInstallment = $invoiceItem->fifthInstallment;
                 $invoiceItem->fifthInstallment = $invoiceItem->fourthInstallment;
                 $invoiceItem->fourthInstallment = $invoiceItem->thirdInstallment;
