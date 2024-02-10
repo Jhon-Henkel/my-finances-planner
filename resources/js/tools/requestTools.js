@@ -63,6 +63,11 @@ const RequestTools = {
                 'X-MFP-USER-TOKEN': 'Bearer ' + RequestTools.storage.getStorageItem('mfp-token')
             }
         }
+    },
+    device: {
+        isMobile: function() {
+            return window.innerWidth <= 1000
+        }
     }
 }
 
