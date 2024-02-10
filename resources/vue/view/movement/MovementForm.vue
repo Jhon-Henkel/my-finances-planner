@@ -5,52 +5,50 @@
         <div v-show="loadingDone">
             <mfp-title :title="title" class="title"/>
             <divider/>
-            <form class="was-validated">
+            <form class="was-validated text-black mt-4">
                 <div class="row justify-content-center">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="movement-description">
-                                Descrição
-                            </label>
+                        <div class="form-floating">
                             <input type="text"
                                    class="form-control"
+                                   id="description-input"
+                                   placeholder=""
+                                   minlength="2"
                                    v-model="movement.description"
-                                   id="movement-description"
-                                   required
-                                   minlength="2">
+                                   required>
+                            <label for="description-input">Descrição</label>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3" v-show="! movement.id">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="movement-type">
-                                Tipo
-                            </label>
-                            <select class="form-select" v-model="movement.type" id="movement-type" required>
+                        <div class="form-floating">
+                            <select class="form-select" id="select-type" v-model="movement.type" required>
                                 <option v-for="type in types" :key="type.id" :value="type.id">
                                     {{ type.label }}
                                 </option>
                             </select>
+                            <label for="select-type">Tipo</label>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3" v-show="! movement.id">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="movement-wallet">
-                                Carteira
-                            </label>
-                            <select class="form-select" v-model="movement.walletId" id="movement-wallet" required>
-                                <option value="0" disabled selected>Selecione uma carteira</option>
+                        <div class="form-floating">
+                            <select class="form-select" id="select-wallet" v-model="movement.walletId" required>
+                                <option value="0" disabled>Selecione uma Carteira</option>
                                 <option v-for="wallet in wallets" :key="wallet.id" :value="wallet.id">
                                     {{ wallet.name }}
                                 </option>
                             </select>
+                            <label for="select-wallet">Carteira</label>
                         </div>
                     </div>
                 </div>
-                <input-money :value="movement.amount" @input-money="movement.amount = $event"/>
+                <input-money class="mt-2"
+                             :value="movement.amount"
+                             @input-money="movement.amount = $event"
+                             :use-floating-labels="true"/>
             </form>
             <divider/>
             <bottom-buttons redirect-to="/movimentacoes"
