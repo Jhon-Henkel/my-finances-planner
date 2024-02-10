@@ -16,16 +16,22 @@
                                 <div class="col-12">
                                     <span>Não há despesas para este mês</span>
                                 </div>
+                                <div class="col-12">
+                                    <hr class="mfp-card-divider">
+                                </div>
                             </div>
-                            <div class="row mt-1" v-else v-for="expense in invoices" :key="expense.id">
-                                <div class="col-5" v-if="expense[installment] > 0">
+                            <div class="row mt-1 d-flex justify-content-center align-items-center"
+                                 v-else v-for="expense in invoices" :key="expense.id">
+                                <div class="col-5 d-flex justify-content-center align-items-center"
+                                     v-if="mustShowItem(expense)">
                                     <span>{{ expense.name }}</span>
                                 </div>
-                                <div class="col-5" v-if="expense[installment] > 0">
+                                <div class="col-5 d-flex justify-content-center align-items-center"
+                                     v-if="mustShowItem(expense)">
                                     <span>{{ StringTools.formatFloatValueToBrString(expense[installment]) }}</span>
                                 </div>
                                 <div class="col-1 d-flex justify-content-center align-items-center"
-                                     v-if="expense[installment] > 0">
+                                     v-if="mustShowItem(expense)">
                                     <div class="dropdown-center">
                                         <button class="btn btn-outline-success"
                                                 type="button"
@@ -54,12 +60,16 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <div class="col-12" v-show="mustShowItem(expense)">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <hr class="mfp-card-divider">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12">
-                    <hr class="mfp-card-divider">
                 </div>
                 <div class="row" v-if="haveInvoiceItens()">
                     <div class="col-6">
@@ -148,6 +158,12 @@ export default {
                 }
             })
             return haveItens
+        },
+        mustShowItem(expense) {
+            if (expense[this.installment] === 0) {
+                return false
+            }
+            return true
         }
     }
 }
