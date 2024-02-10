@@ -76,19 +76,18 @@
 </template>
 
 <script>
-import CalendarTools from "~js/tools/calendarTools";
-import StringTools from "~js/tools/stringTools";
-import stringTools from "~js/tools/stringTools";
-import IconEnum from "~js/enums/iconEnum";
+import CalendarTools from '~js/tools/calendarTools'
+import StringTools from '~js/tools/stringTools'
+import IconEnum from '~js/enums/iconEnum'
 
 export default {
-    name: "MfpInvoiceCarouselItem",
+    name: 'MfpInvoiceCarouselItem',
     computed: {
         IconEnum() {
             return IconEnum
         },
         StringTools() {
-            return stringTools
+            return StringTools
         },
         CalendarTools() {
             return CalendarTools
@@ -120,18 +119,18 @@ export default {
     methods: {
         getMonthName() {
             switch (this.installment) {
-                case 'firstInstallment':
-                    return CalendarTools.getMonthNameByNumber(this.months[0])
-                case 'secondInstallment':
-                    return CalendarTools.getMonthNameByNumber(this.months[1])
-                case 'thirdInstallment':
-                    return CalendarTools.getMonthNameByNumber(this.months[2])
-                case 'fourthInstallment':
-                    return CalendarTools.getMonthNameByNumber(this.months[3])
-                case 'fifthInstallment':
-                    return CalendarTools.getMonthNameByNumber(this.months[4])
-                case 'sixthInstallment':
-                    return CalendarTools.getMonthNameByNumber(this.months[5])
+            case 'firstInstallment':
+                return CalendarTools.getMonthNameByNumber(this.months[0])
+            case 'secondInstallment':
+                return CalendarTools.getMonthNameByNumber(this.months[1])
+            case 'thirdInstallment':
+                return CalendarTools.getMonthNameByNumber(this.months[2])
+            case 'fourthInstallment':
+                return CalendarTools.getMonthNameByNumber(this.months[3])
+            case 'fifthInstallment':
+                return CalendarTools.getMonthNameByNumber(this.months[4])
+            case 'sixthInstallment':
+                return CalendarTools.getMonthNameByNumber(this.months[5])
             }
         },
         getTotalInvoiceValue() {
@@ -145,7 +144,7 @@ export default {
             let haveItens = false
             this.invoices.forEach(invoice => {
                 if (invoice[this.installment] > 0) {
-                   haveItens = true
+                    haveItens = true
                 }
             })
             return haveItens

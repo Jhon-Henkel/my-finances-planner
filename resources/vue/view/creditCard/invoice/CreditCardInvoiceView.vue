@@ -188,9 +188,9 @@ import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
 import MfpMessage from '~vue-component/MessageAlert.vue'
 import MessageEnum from '~js/enums/messageEnum'
 import messageTools from '~js/tools/messageTools'
-import requestTools from "~js/tools/requestTools";
-import MfpInvoiceCarouselItem from "~vue-component/carrousel/CarouselItemComponent.vue";
-import Router from "~js/router";
+import requestTools from '~js/tools/requestTools'
+import MfpInvoiceCarouselItem from '~vue-component/carrousel/CarouselItemComponent.vue'
+import Router from '~js/router'
 
 export default {
     name: 'CreditCardInvoiceView',
