@@ -5,57 +5,91 @@
         <div v-show="loadingDone">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title class="title" title="Movimentações"/>
-                <mfp-search-bar @search-for="filterResultsSearch($event)" placeholder="Buscar por descrição ou carteira" />
+                <mfp-search-bar @search-for="filterResultsSearch($event)" placeholder="Buscar por descrição ou carteira"/>
                 <filter-top-right @filter-quest="getMovementIndexFiltered($event)"/>
                 <mfp-drop-down-button :buttonsArray="buttons"/>
             </div>
             <divider/>
-            <div class="card glass success balance-card">
-                <div class="card-body text-center">
-                    <div class="card-text">
-                        <div class="table-responsive-lg">
-                            <table class="table table-transparent table-striped table-sm table-hover align-middle table-borderless">
-                                <thead class="text-center">
-                                    <tr>
-                                        <th></th>
-                                        <th scope="col">Descrição</th>
-                                        <th scope="col">Carteira</th>
-                                        <th scope="col">Valor</th>
-                                        <th scope="col">Data</th>
-                                        <th scope="col">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-center table-body-hover">
-                                    <tr v-show="movements.length === 0">
-                                        <td colspan="8">Nenhuma movimentação cadastrada ainda!</td>
-                                    </tr>
-                                    <tr v-for="movement in movements" :key="movement.id">
-                                        <td>
-                                            <font-awesome-icon :icon="iconTools.getIconForMovementType(movement.type)"
-                                                               :class="iconTools.getCssForMovementType(movement.type)"/>
-                                        </td>
-                                        <td class="text-start">{{ movement.description }}</td>
-                                        <td class="text-start">{{ movement.walletName }}</td>
-                                        <td>{{ StringTools.formatFloatValueToBrString(movement.amount) }}</td>
-                                        <td>{{ calendarTools.convertDateDbToBr(movement.createdAt) }}</td>
-                                        <td>
-                                            <action-buttons
-                                                v-if="movement.type !== MovementEnum.type.transfer()"
-                                                :delete-tooltip="'Deletar Movimentação'"
-                                                :tooltip-edit="'Editar Movimentação'"
-                                                :edit-to="'/movimentacoes/' + movement.id + '/atualizar'"
-                                                @delete-clicked="deleteMovement(movement.id, movement.description)"/>
-                                            <div class="text-center action-buttons" v-if="movement.type === MovementEnum.type.transfer()">
-                                                <button class="btn btn-sm btn-danger rounded-2 text-center action-buttons delete-button"
-                                                        @click="deleteTransfer(movement.id, movement.description)"
-                                                        v-tooltip="'Deletar Movimentação'" >
-                                                    <font-awesome-icon :icon="iconEnum.trashIcon()" />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            <div class="card glass">
+                <div class="card-body">
+                    <div class="text-center" v-if="movements.length === 0">
+                        <div class="col-12">
+                            <hr class="mfp-card-divider">
+                        </div>
+                        <span>Nenhuma movimentação cadastrada ainda!</span>
+                        <div class="col-12">
+                            <hr class="mfp-card-divider">
+                        </div>
+                    </div>
+                    <div class="row ms-1 me-1" v-else v-for="movement in movements" :key="movement.id">
+                        <div class="col-1 d-flex justify-content-center align-items-center">
+                            <font-awesome-icon :icon="iconTools.getIconForMovementType(movement.type)"
+                                               :class="iconTools.getCssForMovementType(movement.type)"/>
+                        </div>
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>{{ movement.description }}</strong>
+                                </div>
+                            </div>
+                            <div class="row text-sm">
+                                <div class="col-7">
+                                    <span>Carteira: </span>
+                                    <span>{{ movement.walletName }}</span>
+                                </div>
+                                <div class="col-5">
+                                    <span>Valor: </span>
+                                    <span>{{ StringTools.formatFloatValueToBrString(movement.amount) }}</span>
+                                </div>
+                            </div>
+                            <div class="row text-sm">
+                                <div class="col-12">
+                                    <span>Data: </span>
+                                    <span>{{ calendarTools.convertDateDbToBr(movement.createdAt) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1 d-flex justify-content-center align-items-center">
+                            <div class="dropdown-center">
+                                <button class="btn btn-outline-success"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    <font-awesome-icon :icon="iconEnum.ellipsisVertical()"/>
+                                </button>
+                                <ul class="dropdown-menu" v-if="movement.type !== MovementEnum.type.transfer()">
+                                    <li>
+                                        <router-link
+                                            class="dropdown-item"
+                                            :to="'/movimentacoes/' + movement.id + '/atualizar'"
+                                            v-tooltip="'Editar'">
+                                            <font-awesome-icon :icon="iconEnum.editIcon()" />
+                                            Editar
+                                        </router-link>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item"
+                                                @click="deleteMovement(movement.id, movement.description)"
+                                                v-tooltip="'Apagar'">
+                                            <font-awesome-icon :icon="iconEnum.trashIcon()" />
+                                            Apagar
+                                        </button>
+                                    </li>
+                                </ul>
+                                <ul class="dropdown-menu" v-else>
+                                    <li>
+                                        <button class="dropdown-item"
+                                                @click="deleteTransfer(movement.id, movement.description)"
+                                                v-tooltip="'Apagar'">
+                                            <font-awesome-icon :icon="iconEnum.trashIcon()" />
+                                            Apagar
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mfp-card-divider">
                         </div>
                     </div>
                 </div>
@@ -67,7 +101,7 @@
                             <font-awesome-icon :icon="iconEnum.movement()" class="me-2"/>
                             Resumo
                         </h4>
-                        <hr>
+                        <hr class="mfp-card-divider">
                         <div class="card-text resume-content">
                             <div class="row">
                                 <div class="col-4">
@@ -115,7 +149,6 @@
 <script>
 import LoadingComponent from '~vue-component/LoadingComponent.vue'
 import iconEnum from '~js/enums/iconEnum'
-import ActionButtons from '~vue-component/ActionButtons.vue'
 import MfpDropDownButton from '~vue-component/buttons/DropDownButtonGroup.vue'
 import MovementEnum from '~js/enums/movementEnum'
 import apiRouter from '~js/router/apiRouter'
@@ -157,15 +190,14 @@ export default {
         MfpMessage,
         MfpTitle,
         Divider,
-        ActionButtons,
         LoadingComponent,
         MfpDropDownButton
     },
     data() {
         return {
             loadingDone: false,
-            movements: {},
-            originalMovements: {},
+            movements: [],
+            originalMovements: [],
             filterList: {},
             totalSpent: 0,
             totalGain: 0,
@@ -289,19 +321,22 @@ export default {
             width: 50px !important;
         }
         .resume-content {
-            display: table-row;
+            width: 100%;
             white-space: nowrap;
+            display: flex;
+            justify-content: center;
         }
         .resume-content .row {
             display: table-cell;
         }
         .resume-content h6,
         .resume-content .col-4 {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             width: 33%;
         }
         .resume-value .col-4 {
             margin-bottom: 0.28rem;
+            margin-left: 0.5rem;
         }
         .resume-value {
             white-space: nowrap;
