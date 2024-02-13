@@ -128,38 +128,23 @@ const calendarTools = {
     },
     getThisMonthPeriod() {
         const date = this.getToday()
-        return [
-            startOfMonth(date).toLocaleDateString('sv-SE').split('T')[0],
-            endOfMonth(date).toLocaleDateString('sv-SE').split('T')[0]
-        ]
+        return [startOfMonth(date), endOfMonth(date)]
     },
     getLastMonthPeriod() {
         const date = this.getToday()
-        return [
-            startOfMonth(subMonths(date, 1)).toLocaleDateString('sv-SE').split('T')[0],
-            endOfMonth(subMonths(date, 1)).toLocaleDateString('sv-SE').split('T')[0]
-        ]
+        return [startOfMonth(subMonths(date, 1)), endOfMonth(subMonths(date, 1))]
     },
     getThisYearPeriod() {
         const date = this.getToday()
-        return [
-            startOfYear(date).toLocaleDateString('sv-SE').split('T')[0],
-            endOfYear(date).toLocaleDateString('sv-SE').split('T')[0]
-        ]
+        return [startOfYear(date), endOfYear(date)]
     },
     getLastYearPeriod() {
         const date = this.getToday()
-        return [
-            startOfYear(subYears(date, 1)).toLocaleDateString('sv-SE').split('T')[0],
-            endOfYear(subYears(date, 1)).toLocaleDateString('sv-SE').split('T')[0]
-        ]
+        return [startOfYear(subYears(date, 1)), endOfYear(subYears(date, 1))]
     },
     getLastOneYearPeriod() {
         const date = this.getToday()
-        return [
-            subYears(date, 1).toLocaleDateString('sv-SE').split('T')[0],
-            date.toLocaleDateString('sv-SE').split('T')[0]
-        ]
+        return [subYears(date, 1), date]
     }
 }
 export default calendarTools
