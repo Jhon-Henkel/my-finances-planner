@@ -38,7 +38,7 @@
         "@vuepic/vue-datepicker": "^7.2.0",
         "chart.js": "^4.2.1",
         "pinia": "^2.1.4",
-        "vue": "^3.2.36",
+        "vue": "^3.4.15",
         "vue-chartjs": "^5.2.0",
         "vue-loader": "^17.0.1",
         "vue-router": "^4.1.6"
