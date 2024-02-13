@@ -5,75 +5,74 @@
         <div v-show="loadingDone">
             <mfp-title :title="title" class="title"/>
             <divider/>
-            <form class="was-validated">
+            <form class="was-validated form-floating text-black">
                 <div class="row justify-content-center">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="gain-description">
-                                Descrição
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="text"
                                    class="form-control"
+                                   id="description-input"
+                                   placeholder=""
+                                   minlength="2"
                                    v-model="gain.description"
-                                   id="gain-description"
-                                   required
-                                   minlength="2">
+                                   required>
+                            <label for="description-input">Descrição</label>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-2">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="gain-first-installment">
-                                Primeira Parcela
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="date"
                                    class="form-control"
+                                   id="first-installment"
+                                   placeholder=""
                                    v-model="gain.forecast"
-                                   id="gain-first-installment"
                                    required>
+                            <label for="first-installment">Primeira Parcela</label>
                         </div>
                     </div>
                 </div>
-                <input-money :value="gain.amount" @input-money="gain.amount = $event"/>
+                <input-money :value="gain.amount" @input-money="gain.amount = $event" :use-floating-labels="true"/>
                 <div class="row justify-content-center mt-3">
-                    <div class="col-4">
+                    <div class="col-4 text-white">
                         <div class="form-check form-switch">
                             <label class="form-check-label" for="fix-gain">
-                                Ganho fixa
+                                Despesa fixa
                             </label>
-                            <input class="form-check-input" v-model="gain.fix" type="checkbox" role="switch" id="fix-gain">
+                            <input class="form-check-input"
+                                   v-model="gain.fix"
+                                   type="checkbox"
+                                   role="switch"
+                                   id="fix-gain">
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3" v-if="gain.fix === false">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="gain-installments">
-                                Quantidade de vezes
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="number"
                                    class="form-control"
+                                   id="installments"
+                                   placeholder=""
                                    v-model="gain.installments"
-                                   id="gain-installments"
-                                   required
                                    min="1"
-                                   max="48">
+                                   max="48"
+                                   required>
+                            <label for="installments">Parcelas restantes</label>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center" :class="gain.fix ? 'mt-3' : 'mt-2'">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="gain-wallet">
-                                Carteira
-                            </label>
-                            <select class="form-select" v-model="gain.walletId" id="gain-wallet" required>
+                        <div class="form-floating">
+                            <select class="form-select" id="wallet" v-model="gain.walletId" required>
                                 <option value="0" disabled selected>Selecione uma carteira</option>
                                 <option v-for="wallet in wallets" :key="wallet.id" :value="wallet.id">
                                     {{ wallet.name }}
                                 </option>
                             </select>
+                            <label for="wallet">Carteira</label>
                         </div>
                     </div>
                 </div>
@@ -85,15 +84,15 @@
 </template>
 
 <script>
-import LoadingComponent from '../../components/LoadingComponent.vue'
-import BottomButtons from '../../components/BottomButtons.vue'
-import apiRouter from '../../../js/router/apiRouter'
-import InputMoney from '../../components/inputMoneyComponent.vue'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import BottomButtons from '~vue-component/BottomButtons.vue'
+import apiRouter from '~js/router/apiRouter'
+import InputMoney from '~vue-component/inputMoneyComponent.vue'
 import { HttpStatusCode } from 'axios'
-import Divider from '../../components/DividerComponent.vue'
-import MfpTitle from '../../components/TitleComponent.vue'
-import MfpMessage from '../../components/MessageAlert.vue'
-import messageTools from '../../../js/tools/messageTools'
+import Divider from '~vue-component/DividerComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import messageTools from '~js/tools/messageTools'
 
 const FIX_GAIN = 0
 
