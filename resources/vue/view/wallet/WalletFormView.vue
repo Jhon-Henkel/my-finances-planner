@@ -5,35 +5,32 @@
         <div v-show="loadingDone">
             <mfp-title :title="title" class="title"/>
             <divider/>
-            <form class="was-validated">
+            <form class="was-validated form-floating text-black">
                 <div class="row justify-content-center">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="wallet-name">
-                                Nome
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="text"
                                    class="form-control"
+                                   id="wallet-name-input"
+                                   placeholder=""
+                                   minlength="2"
                                    v-model="wallet.name"
-                                   id="wallet-name"
-                                   required
-                                   minlength="2">
+                                   required>
+                            <label for="wallet-name-input">Nome</label>
                         </div>
                     </div>
                 </div>
-                <input-money :value="wallet.amount" @input-money="wallet.amount = $event"/>
-                <div class="row justify-content-center">
+                <input-money :value="wallet.amount" @input-money="wallet.amount = $event" :use-floating-labels="true"/>
+                <div class="row justify-content-center mt-2">
                     <div class="col-4">
-                        <div class="form-group mt-2">
-                            <label class="form-label" for="wallet-type">
-                                Tipo de conta
-                            </label>
-                            <select class="form-select" v-model="wallet.type" id="wallet-type" required>
-                                <option value="0" disabled selected>Selecione um tipo de conta</option>
+                        <div class="form-floating">
+                            <select class="form-select" id="expense-credit-card" v-model="wallet.type" required>
+                                <option value="0" disabled>Selecione um tipo de conta</option>
                                 <option v-for="type in typesOfWallet" :key="type.id" :value="type.id">
                                     {{ type.description }}
                                 </option>
                             </select>
+                            <label for="expense-credit-card">Cartão de crédito</label>
                         </div>
                     </div>
                 </div>
@@ -45,18 +42,18 @@
 </template>
 
 <script>
-import walletEnum from '../../../js/enums/walletEnum'
-import apiRouter from '../../../js/router/apiRouter'
+import walletEnum from '~js/enums/walletEnum'
+import apiRouter from '~js/router/apiRouter'
 import { HttpStatusCode } from 'axios'
-import iconEnum from '../../../js/enums/iconEnum'
-import InputMoney from '../../components/inputMoneyComponent.vue'
-import LoadingComponent from '../../components/LoadingComponent.vue'
-import BottomButtons from '../../components/BottomButtons.vue'
-import Divider from '../../components/DividerComponent.vue'
-import MfpTitle from '../../components/TitleComponent.vue'
-import MfpMessage from '../../components/MessageAlert.vue'
-import stringTools from '../../../js/tools/stringTools'
-import messageTools from '../../../js/tools/messageTools'
+import iconEnum from '~js/enums/iconEnum'
+import InputMoney from '~vue-component/inputMoneyComponent.vue'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import BottomButtons from '~vue-component/BottomButtons.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import stringTools from '~js/tools/stringTools'
+import messageTools from '~js/tools/messageTools'
 
 export default {
     name: 'WalletFormView',
@@ -121,12 +118,9 @@ export default {
             }
         },
         async updateWallet() {
-            if (
-                confirm('Deseja realmente atualizar a carteira "' +
-                    this.wallet.name + '" com o valor "' +
-                    stringTools.formatFloatValueToBrString(this.wallet.amount) +
-                    '" ?') === false
-            ) {
+            const value = stringTools.formatFloatValueToBrString(this.wallet.amount)
+            const message = 'Deseja realmente atualizar a carteira "' + this.wallet.name + '" com o valor "' + value + '" ?'
+            if (confirm(message) === false) {
                 return
             }
             await apiRouter.wallet.update(this.populateData(), this.wallet.id).then((response) => {
