@@ -7,42 +7,43 @@
                 <mfp-title :title="title"/>
             </div>
             <divider/>
-            <form class="was-validated">
+            <form class="was-validated form-floating text-black">
                 <div class="row justify-content-center">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="spent-description">
-                                Descrição
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="text"
                                    class="form-control"
+                                   id="description-input"
+                                   placeholder=""
+                                   minlength="2"
                                    v-model="spent.description"
-                                   id="spent-description"
-                                   required
-                                   minlength="2">
+                                   required>
+                            <label for="description-input">Descrição</label>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-2">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="spent-first-installment">
-                                Primeira Parcela
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="date"
                                    class="form-control"
+                                   id="first-installment"
+                                   placeholder=""
                                    v-model="spent.forecast"
-                                   id="spent-first-installment"
                                    required>
+                            <label for="first-installment">Primeira Parcela</label>
                         </div>
                     </div>
                 </div>
-                <input-money :value="spent.amount" title="Valor Parcela" @input-money="spent.amount = $event"/>
+                <input-money :value="spent.amount"
+                             title="Valor Parcela"
+                             @input-money="spent.amount = $event"
+                             :use-floating-labels="true"/>
                 <div class="row justify-content-center mt-3">
-                    <div class="col-4">
+                    <div class="col-4 text-white">
                         <div class="form-check form-switch">
                             <label class="form-check-label" for="fix-spent">
-                                Gasto fixa
+                                Despesa fixa
                             </label>
                             <input class="form-check-input"
                                    v-model="spent.fix"
@@ -54,31 +55,29 @@
                 </div>
                 <div class="row justify-content-center mt-3" v-if="spent.fix === false">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="spent-installments">
-                                Quantidade de vezes
-                            </label>
+                        <div class="form-floating mb-3">
                             <input type="number"
                                    class="form-control"
+                                   id="installments"
+                                   placeholder=""
                                    v-model="spent.installments"
-                                   id="spent-installments"
-                                   required
                                    min="1"
-                                   max="100">
+                                   max="100"
+                                   required>
+                            <label for="installments">Parcelas restantes</label>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center" :class="spent.fix ? 'mt-3' : 'mt-2'">
                     <div class="col-4">
-                        <div class="form-group">
-                            <label class="form-label" for="spent-wallet">
-                                Carteira
-                            </label>
-                            <select class="form-select" v-model="spent.walletId" id="spent-wallet" required>
+                        <div class="form-floating">
+                            <select class="form-select" id="wallet" v-model="spent.walletId" required>
+                                <option value="0" disabled selected>Selecione uma carteira</option>
                                 <option v-for="wallet in wallets" :key="wallet.id" :value="wallet.id">
                                     {{ wallet.name }}
                                 </option>
                             </select>
+                            <label for="wallet">Carteira</label>
                         </div>
                     </div>
                 </div>
@@ -90,15 +89,15 @@
 </template>
 
 <script>
-import MfpTitle from '../../components/TitleComponent.vue'
-import Divider from '../../components/DividerComponent.vue'
-import LoadingComponent from '../../components/LoadingComponent.vue'
-import apiRouter from '../../../js/router/apiRouter'
-import BottomButtons from '../../components/BottomButtons.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import Divider from '~vue-component/DividerComponent.vue'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import apiRouter from '~js/router/apiRouter'
+import BottomButtons from '~vue-component/BottomButtons.vue'
 import { HttpStatusCode } from 'axios'
-import InputMoney from '../../components/inputMoneyComponent.vue'
-import MfpMessage from '../../components/MessageAlert.vue'
-import messageTools from '../../../js/tools/messageTools'
+import InputMoney from '~vue-component/inputMoneyComponent.vue'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import messageTools from '~js/tools/messageTools'
 
 const FIX_SPENT = 0
 
@@ -117,7 +116,9 @@ export default {
             title: '',
             loadingDone: false,
             wallets: {},
-            spent: {},
+            spent: {
+                walletId: 0
+            },
             redirect: '/panorama',
             messageData: {}
         }
