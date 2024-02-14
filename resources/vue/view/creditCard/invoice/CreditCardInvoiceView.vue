@@ -95,59 +95,39 @@
                     </div>
                 </div>
             </div>
-            <div class="card glass" v-else>
-                <div class="mt-4 mb-4">
-                    <div id="carouselExampleIndicators" class="carousel slide">
-                        <div class="carousel-inner">
-                            <mfp-invoice-carousel-item installment="firstInstallment"
-                                                       :invoices="invoices"
-                                                       :months="months"
-                                                       :active="true"
-                                                       @expense-edit="editExpense($event)"
-                                                       @expense-delete="deleteExpense($event.id, $event.name)"/>
-                            <mfp-invoice-carousel-item installment="secondInstallment"
-                                                       :invoices="invoices"
-                                                       :months="months"
-                                                       @expense-edit="editExpense($event)"
-                                                       @expense-delete="deleteExpense($event.id, $event.name)"/>
-                            <mfp-invoice-carousel-item installment="thirdInstallment"
-                                                       :invoices="invoices"
-                                                       :months="months"
-                                                       @expense-edit="editExpense($event)"
-                                                       @expense-delete="deleteExpense($event.id, $event.name)"/>
-                            <mfp-invoice-carousel-item installment="fourthInstallment"
-                                                       :invoices="invoices"
-                                                       :months="months"
-                                                       @expense-edit="editExpense($event)"
-                                                       @expense-delete="deleteExpense($event.id, $event.name)"/>
-                            <mfp-invoice-carousel-item installment="fifthInstallment"
-                                                       :invoices="invoices"
-                                                       :months="months"
-                                                       @expense-edit="editExpense($event)"
-                                                       @expense-delete="deleteExpense($event.id, $event.name)"/>
-                            <mfp-invoice-carousel-item installment="sixthInstallment"
-                                                       :invoices="invoices"
-                                                       :months="months"
-                                                       @expense-edit="editExpense($event)"
-                                                       @expense-delete="deleteExpense($event.id, $event.name)"/>
-                        </div>
-                        <button class="carousel-control-prev"
-                                type="button"
-                                data-bs-target="#carouselExampleIndicators"
-                                data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next"
-                                type="button"
-                                data-bs-target="#carouselExampleIndicators"
-                                data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <mfp-carousel v-else>
+                <mfp-invoice-carousel-item installment="firstInstallment"
+                                           :invoices="invoices"
+                                           :months="months"
+                                           :active="true"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteExpense($event)"/>
+                <mfp-invoice-carousel-item installment="secondInstallment"
+                                           :invoices="invoices"
+                                           :months="months"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteExpense($event)"/>
+                <mfp-invoice-carousel-item installment="thirdInstallment"
+                                           :invoices="invoices"
+                                           :months="months"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteExpense($event)"/>
+                <mfp-invoice-carousel-item installment="fourthInstallment"
+                                           :invoices="invoices"
+                                           :months="months"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteExpense($event)"/>
+                <mfp-invoice-carousel-item installment="fifthInstallment"
+                                           :invoices="invoices"
+                                           :months="months"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteExpense($event)"/>
+                <mfp-invoice-carousel-item installment="sixthInstallment"
+                                           :invoices="invoices"
+                                           :months="months"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteExpense($event)"/>
+            </mfp-carousel>
             <divider/>
             <div>
                 <div class="input-group mb-3">
@@ -190,6 +170,7 @@ import messageTools from '~js/tools/messageTools'
 import requestTools from '~js/tools/requestTools'
 import MfpInvoiceCarouselItem from '~vue-component/carrousel/CarouselItemComponent.vue'
 import Router from '~js/router'
+import MfpCarousel from '~vue-component/carrousel/CarouselComponent.vue'
 
 export default {
     name: 'CreditCardInvoiceView',
@@ -208,6 +189,7 @@ export default {
         }
     },
     components: {
+        MfpCarousel,
         MfpInvoiceCarouselItem,
         MfpMessage,
         MfpRouterLinkButton,
