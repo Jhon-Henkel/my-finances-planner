@@ -6,10 +6,12 @@
             <div class="nav nav-item mt-2 justify-content-end">
                 <mfp-title title="Gerenciamento CDB"/>
                 <back-button to="/investimentos" class="me-2 mobile-margin-top"/>
-                <router-link-button title="Novo"
-                                    :icon="iconEnum.billTrendUp()"
-                                    redirect-to="/investimentos/cdb/cadastrar"
-                                    class="mobile-margin-top"/>
+                <mfp-router-link-button
+                    :icon="iconEnum.billTrendUp()"
+                    redirect-to="/investimentos/cdb/cadastrar"
+                    class="mobile-margin-top">
+                    Novo
+                </mfp-router-link-button>
             </div>
             <divider/>
             <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
@@ -89,7 +91,7 @@ import messageTools from '~js/tools/messageTools'
 import investmentEnum from '~js/enums/investmentEnum'
 import StringTools from '~js/tools/stringTools'
 import BackButton from '~vue-component/buttons/BackButton.vue'
-import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
+import MfpRouterLinkButton from '~vue-component/buttons/RouterLinkButtonComponent.vue'
 import PayReceive from '~vue-component/PayReceiveComponent.vue'
 
 export default {
@@ -107,7 +109,7 @@ export default {
     },
     components: {
         PayReceive,
-        RouterLinkButton,
+        MfpRouterLinkButton,
         BackButton,
         ActionButtons,
         Divider,

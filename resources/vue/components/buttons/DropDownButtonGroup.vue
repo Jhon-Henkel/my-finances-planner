@@ -10,10 +10,9 @@
         <ul class="dropdown-menu">
             <li v-for="(button, index) in buttonsArray" :key="index">
                 <div :class="alignItensCenter ? 'text-center' : ''">
-                    <router-link-button :title="button.title"
-                                        :icon="button.icon"
-                                        :redirect-to="button.redirectTo"
-                                        customClass="dropdown-item" />
+                    <mfp-router-link-button :icon="button.icon" :redirect-to="button.redirectTo" customClass="dropdown-item" >
+                        {{ button.title }}
+                    </mfp-router-link-button>
                 </div>
             </li>
         </ul>
@@ -22,7 +21,7 @@
 
 <script>
 import iconEnum from '~js/enums/iconEnum'
-import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
+import MfpRouterLinkButton from '~vue-component/buttons/RouterLinkButtonComponent.vue'
 
 export default {
     name: 'MfpDropDownButton',
@@ -32,7 +31,7 @@ export default {
         }
     },
     components: {
-        RouterLinkButton
+        MfpRouterLinkButton
     },
     props: {
         dropdownTitle: {

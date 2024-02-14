@@ -5,13 +5,12 @@
         <div v-show="loadingDone === 1">
             <div class="nav mt-2 justify-content-end">
                 <mfp-title :title="title"/>
-                <router-link-button title="Voltar" :icon="iconEnum.back()"
-                                    redirect-to="/gerenciar-cartoes"
-                                    class="top-button"/>
-                <router-link-button title="Nova despesa"
-                                    :icon="iconEnum.expense()"
-                                    :redirect-to="'/gerenciar-cartoes/despesa/' + cardId + '/cadastrar'"
-                                    class="ms-2 top-button"/>
+                <mfp-router-link-button :icon="iconEnum.back()" redirect-to="/gerenciar-cartoes" class="top-button">
+                    Voltar
+                </mfp-router-link-button>
+                <mfp-router-link-button :icon="iconEnum.expense()" :redirect-to="newExpenseRoute" class="ms-2 top-button">
+                    Nova despesa
+                </mfp-router-link-button>
             </div>
             <divider/>
             <div class="card glass success balance-card" v-if="! requestTools.device.isMobile()">
@@ -69,7 +68,7 @@
                                                     </li>
                                                     <li>
                                                         <button class="dropdown-item"
-                                                                @click="deleteExpense(expense.id, expense.name)"
+                                                                @click="deleteExpense(expense)"
                                                                 v-tooltip="'Apagar'">
                                                             <font-awesome-icon :icon="iconEnum.trashIcon()" />
                                                             Apagar
@@ -184,7 +183,7 @@ import { HttpStatusCode } from 'axios'
 import Divider from '~vue-component/DividerComponent.vue'
 import MfpTitle from '~vue-component/TitleComponent.vue'
 import NumberTools from '~js/tools/numberTools'
-import RouterLinkButton from '~vue-component/RouterLinkButtonComponent.vue'
+import MfpRouterLinkButton from '~vue-component/buttons/RouterLinkButtonComponent.vue'
 import MfpMessage from '~vue-component/MessageAlert.vue'
 import MessageEnum from '~js/enums/messageEnum'
 import messageTools from '~js/tools/messageTools'
@@ -211,7 +210,7 @@ export default {
     components: {
         MfpInvoiceCarouselItem,
         MfpMessage,
-        RouterLinkButton,
+        MfpRouterLinkButton,
         MfpTitle,
         Divider,
         LoadingComponent
@@ -236,13 +235,14 @@ export default {
                 sixthMonth: 0,
                 totalRemaining: 0,
                 total: 0
-            }
+            },
+            newExpenseRoute: ''
         }
     },
     methods: {
-        async deleteExpense(id, name) {
-            if (confirm('Deseja realmente deletar a despesa ' + name + '?')) {
-                await apiRouter.expense.delete(id)
+        async deleteExpense(expense) {
+            if (confirm('Deseja realmente deletar a despesa ' + expense.name + '?')) {
+                await apiRouter.expense.delete(expense.id)
                 this.messageData = messageTools.successMessage('Despesa deletada com sucesso!')
                 await this.getInvoice()
             }
@@ -306,6 +306,7 @@ export default {
         await this.getInvoice()
         this.title = 'Fatura cartão ' + this.card.name
         this.months = CalendarTools.getNextSixMonths(CalendarTools.getThisMonth())
+        this.newExpenseRoute = '/gerenciar-cartoes/despesa/' + this.cardId + '/cadastrar'
     }
 }
 </script>
