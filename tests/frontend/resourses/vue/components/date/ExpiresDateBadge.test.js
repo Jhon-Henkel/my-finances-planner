@@ -1,5 +1,5 @@
 import { describe, it, expect, vitest } from 'vitest'
-import { shallowMount } from '@vue/test-utils'
+import {RouterLinkStub, shallowMount} from '@vue/test-utils'
 import MfpExpiresDateBadge from '~vue-component/date/ExpiresDateBadge.vue'
 import calendarTools from '~js/tools/calendarTools'
 
@@ -18,10 +18,15 @@ describe("Testing ExpiresDateBadge component", () => {
             global: {
                 directives: {
                     tooltip: true
+                },
+                stubs: {
+                    'router-link': RouterLinkStub,
+                    'font-awesome-icon': true,
                 }
             }
         })
-        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-success">16</span>')
+        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-success">')
+        expect(wrapper.html()).toContain('> 16</span>')
     })
 
     it ("Render DatepickerRange Danger", async () => {
@@ -38,10 +43,15 @@ describe("Testing ExpiresDateBadge component", () => {
             global: {
                 directives: {
                     tooltip: true
+                },
+                stubs: {
+                    'router-link': RouterLinkStub,
+                    'font-awesome-icon': true,
                 }
             }
         })
-        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-danger">2</span>')
+        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-danger">')
+        expect(wrapper.html()).toContain('> 2</span>')
     })
 
     it ("Render DatepickerRange Warning", async () => {
@@ -58,10 +68,15 @@ describe("Testing ExpiresDateBadge component", () => {
             global: {
                 directives: {
                     tooltip: true
+                },
+                stubs: {
+                    'router-link': RouterLinkStub,
+                    'font-awesome-icon': true,
                 }
             }
         })
-        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-warning text-bg-warning">20</span>')
+        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-warning text-bg-warning">')
+        expect(wrapper.html()).toContain('> 20</span>')
     })
 
     it ("Render DatepickerRange Warning today", async () => {
@@ -78,9 +93,14 @@ describe("Testing ExpiresDateBadge component", () => {
             global: {
                 directives: {
                     tooltip: true
+                },
+                stubs: {
+                    'router-link': RouterLinkStub,
+                    'font-awesome-icon': true,
                 }
             }
         })
-        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-warning text-bg-warning">16</span>')
+        expect(wrapper.html()).toContain('<span class="badge rounded-2 bg-warning text-bg-warning">')
+        expect(wrapper.html()).toContain('> 16</span>')
     })
 })

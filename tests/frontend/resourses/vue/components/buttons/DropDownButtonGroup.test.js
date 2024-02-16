@@ -17,7 +17,7 @@ describe('Testing the MfpDropDownButton', () => {
                     },
                     {
                         title: 'Nova Transferência',
-                            icon: IconEnum.buildingColumns(),
+                        icon: IconEnum.buildingColumns(),
                         redirectTo: '/movimentacoes/transferir'
                     }
                 ]
@@ -32,7 +32,7 @@ describe('Testing the MfpDropDownButton', () => {
 
         expect(wrapper.html()).toContain('class="btn btn-success dropdown-toggle top-button margin-mobile" type="button" data-bs-toggle="dropdown" aria-expanded="false">')
         expect(wrapper.html()).toContain('icon="fas,circle-plus" class="me-2 icon"></font-awesome-icon-stub> Novo')
-        expect(wrapper.html()).toContain('title="Novo Gasto/Ganho" icon="fas,money-bill-transfer" redirectto="/movimentacoes/cadastrar" customclass="dropdown-item"></router-link-button-stub>')
-        expect(wrapper.html()).toContain('icon="fas,building-columns" redirectto="/movimentacoes/transferir" customclass="dropdown-item"></router-link-button-stub>')
+        expect(wrapper.html()).toContain('icon="fas,money-bill-transfer" redirectto="/movimentacoes/cadastrar" customclass="dropdown-item"></mfp-router-link-button-stub>')
+        expect(wrapper.html()).toContain('icon="fas,building-columns" redirectto="/movimentacoes/transferir" customclass="dropdown-item"></mfp-router-link-button-stub>')
     })
 })

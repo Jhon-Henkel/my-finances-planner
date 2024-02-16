@@ -1,19 +1,15 @@
 <template>
     <router-link :class="customClass" :to="redirectTo">
         <font-awesome-icon :icon="icon" class="me-2"/>
-        {{ title }}
+        <slot/>
     </router-link>
 </template>
 
 <script>
 export default {
-    name: 'RouterLinkButton',
+    name: 'MfpRouterLinkButton',
     props: {
         redirectTo: {
-            type: String,
-            required: true
-        },
-        title: {
             type: String,
             required: true
         },

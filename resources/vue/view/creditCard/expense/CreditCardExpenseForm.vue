@@ -231,7 +231,7 @@ export default {
             } else {
                 this.expense.fix = false
             }
-            this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.expense.creditCardId
+            this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.$route.params.id
         } else {
             this.title = 'Cadastrar Despesa'
             this.expense.fix = false
