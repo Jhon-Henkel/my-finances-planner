@@ -9,7 +9,7 @@
 
 <script>
 import CalendarTools from '~js/tools/calendarTools'
-import IconEnum from "../../../js/enums/iconEnum";
+import IconEnum from '~js/enums/iconEnum'
 
 export default {
     name: 'MfpExpiresDateBadge',

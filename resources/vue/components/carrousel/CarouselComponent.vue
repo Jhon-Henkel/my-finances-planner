@@ -20,6 +20,6 @@
 
 <script>
 export default {
-    name: "MfpCarousel"
+    name: 'MfpCarousel'
 }
 </script>

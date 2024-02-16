@@ -190,7 +190,6 @@
 import LoadingComponent from '~vue-component/LoadingComponent.vue'
 import iconEnum from '~js/enums/iconEnum'
 import CalendarTools from '~js/tools/calendarTools'
-import ActionButtons from '~vue-component/ActionButtons.vue'
 import ApiRouter from '~js/router/apiRouter'
 import StringTools from '~js/tools/stringTools'
 import NumberTools from '~js/tools/numberTools'
@@ -233,7 +232,6 @@ export default {
         MfpMessage,
         MfpTitle,
         Divider,
-        ActionButtons,
         LoadingComponent
     },
     data() {

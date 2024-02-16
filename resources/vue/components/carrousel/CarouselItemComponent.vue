@@ -115,7 +115,7 @@ import MfpExpiresDateBadge from '../date/ExpiresDateBadge.vue'
 
 export default {
     name: 'MfpInvoiceCarouselItem',
-    components: {MfpExpiresDateBadge},
+    components: { MfpExpiresDateBadge },
     computed: {
         IconEnum() {
             return IconEnum
@@ -190,7 +190,7 @@ export default {
             return haveItens
         },
         mustShowItem(expense) {
-            return expense[this.installment] !== 0;
+            return expense[this.installment] !== 0
         }
     }
 }

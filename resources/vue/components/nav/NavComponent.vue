@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: "MfpNavComponent"
+    name: 'MfpNavComponent'
 }
 </script>
 

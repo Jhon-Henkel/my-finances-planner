@@ -96,7 +96,6 @@
                 </div>
             </div>
             <mfp-carousel v-else>
-                <!-- Permitir receber somente o próximo -->
                 <mfp-invoice-carousel-item installment="firstInstallment"
                                            :invoices="invoices"
                                            :months="months"
@@ -172,7 +171,7 @@ import requestTools from '~js/tools/requestTools'
 import MfpInvoiceCarouselItem from '~vue-component/carrousel/CarouselItemComponent.vue'
 import Router from '~js/router'
 import MfpCarousel from '~vue-component/carrousel/CarouselComponent.vue'
-import MfpNavComponent from "../../../components/nav/NavComponent.vue";
+import MfpNavComponent from '~vue-component/components/nav/NavComponent.vue'
 
 export default {
     name: 'CreditCardInvoiceView',
