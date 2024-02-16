@@ -171,7 +171,7 @@ import requestTools from '~js/tools/requestTools'
 import MfpInvoiceCarouselItem from '~vue-component/carrousel/CarouselItemComponent.vue'
 import Router from '~js/router'
 import MfpCarousel from '~vue-component/carrousel/CarouselComponent.vue'
-import MfpNavComponent from '~vue-component/components/nav/NavComponent.vue'
+import MfpNavComponent from '~vue-component/nav/NavComponent.vue'
 
 export default {
     name: 'CreditCardInvoiceView',
