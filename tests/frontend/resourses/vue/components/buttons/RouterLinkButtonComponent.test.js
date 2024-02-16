@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { shallowMount, RouterLinkStub } from '@vue/test-utils'
-import RouterLinkButtonComponent from '~vue-component/RouterLinkButtonComponent.vue'
+import RouterLinkButtonComponent from '~vue-component/buttons/RouterLinkButtonComponent.vue'
 
 describe('Testing the RouterLinkButtonComponent', () => {
     it('should render button', () => {

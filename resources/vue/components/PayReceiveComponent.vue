@@ -1,6 +1,7 @@
 <template>
     <mfp-message :message-data="messageData"/>
     <div class="row mt-4 was-validated pay-receive" v-show="showPayReceive">
+        <slot/>
         <div class="col-4 money">
             <input-money :value="value"
                          @input-money="value = $event"

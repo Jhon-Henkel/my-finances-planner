@@ -3,7 +3,7 @@
         <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === 0" />
         <div v-show="loadingDone === 1">
-            <div class="nav mt-2 justify-content-end">
+            <mfp-nav-component>
                 <mfp-title :title="title"/>
                 <mfp-router-link-button :icon="iconEnum.back()" redirect-to="/gerenciar-cartoes" class="top-button">
                     Voltar
@@ -11,7 +11,7 @@
                 <mfp-router-link-button :icon="iconEnum.expense()" :redirect-to="newExpenseRoute" class="ms-2 top-button">
                     Nova despesa
                 </mfp-router-link-button>
-            </div>
+            </mfp-nav-component>
             <divider/>
             <div class="card glass success balance-card" v-if="! requestTools.device.isMobile()">
                 <div class="card-body text-center">
@@ -96,6 +96,7 @@
                 </div>
             </div>
             <mfp-carousel v-else>
+                <!-- Permitir receber somente o próximo -->
                 <mfp-invoice-carousel-item installment="firstInstallment"
                                            :invoices="invoices"
                                            :months="months"
@@ -171,6 +172,7 @@ import requestTools from '~js/tools/requestTools'
 import MfpInvoiceCarouselItem from '~vue-component/carrousel/CarouselItemComponent.vue'
 import Router from '~js/router'
 import MfpCarousel from '~vue-component/carrousel/CarouselComponent.vue'
+import MfpNavComponent from "../../../components/nav/NavComponent.vue";
 
 export default {
     name: 'CreditCardInvoiceView',
@@ -189,6 +191,7 @@ export default {
         }
     },
     components: {
+        MfpNavComponent,
         MfpCarousel,
         MfpInvoiceCarouselItem,
         MfpMessage,
@@ -300,9 +303,6 @@ export default {
         border-top: 2px solid $table-line-divider-color;
     }
     @media (max-width: 1000px) {
-        .nav {
-            flex-direction: column;
-        }
         .top-button {
             margin-top: 10px;
             border-radius: 8px !important;

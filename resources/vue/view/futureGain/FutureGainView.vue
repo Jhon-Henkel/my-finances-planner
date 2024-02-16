@@ -3,15 +3,14 @@
         <mfp-message :message-data="messageData"/>
         <loading-component v-show="loadingDone === false"/>
         <div v-show="loadingDone">
-            <div class="nav mt-2 justify-content-end">
+            <mfp-nav-component>
                 <mfp-title :title="'Ganhos Futuros'"/>
-                <router-link class="btn btn-success rounded-2 top-button" to="/ganhos-futuros/cadastrar">
-                    <font-awesome-icon :icon="iconEnum.sackDollar()" class="me-2"/>
+                <mfp-router-link-button :icon="iconEnum.sackDollar()" redirect-to="/ganhos-futuros/cadastrar">
                     Novo Ganho Futuro
-                </router-link>
-            </div>
+                </mfp-router-link-button>
+            </mfp-nav-component>
             <divider/>
-            <div class="card glass success balance-card">
+            <div class="card glass success balance-card" v-if="! requestTools.device.isMobile()">
                 <div class="card-body text-center">
                     <div class="card-text">
                         <div class="table-responsive-lg">
@@ -48,21 +47,41 @@
                                         <td v-else v-tooltip="StringTools.formatFloatValueToBrString(gain.totalRemainingValue)">
                                             {{ gain.remainingInstallments }}
                                         </td>
-                                        <td class="text-center">
-                                            <action-buttons
-                                                :delete-tooltip="'Deletar Ganho'"
-                                                :tooltip-edit="'Editar Ganho'"
-                                                :edit-to="'/ganhos-futuros/' + gain.id + '/atualizar'"
-                                                :check-button="showCheckButton(gain)"
-                                                :check-tooltip="'Marcar próxima como recebido'"
-                                                @delete-clicked="deleteGain(gain.id, gain.name)"
-                                                @check-clicked="showReceiveGainForm(
-                                                    gain.id,
-                                                    gain.countId,
-                                                    getNextGainValue(gain),
-                                                    gain.name
-                                                )"
-                                            />
+                                        <td class="d-flex justify-content-center align-items-center">
+                                            <div class="dropdown-center">
+                                                <button class="btn btn-outline-success"
+                                                        type="button"
+                                                        data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                    <font-awesome-icon :icon="iconEnum.ellipsisVertical()"/>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <button class="dropdown-item check-button"
+                                                                @click="showReceiveGainForm(gain)"
+                                                                v-tooltip="'Ok para o próximo'">
+                                                            <font-awesome-icon :icon="iconEnum.check()" />
+                                                            Ok
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item edit-button"
+                                                                @click="editExpense(gain)"
+                                                                v-tooltip="'Editar'">
+                                                            <font-awesome-icon :icon="iconEnum.editIcon()" />
+                                                            Editar
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item delete-button"
+                                                                @click="deleteGain(gain)"
+                                                                v-tooltip="'Apagar'">
+                                                            <font-awesome-icon :icon="iconEnum.trashIcon()" />
+                                                            Apagar
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr class="text-center border-table">
@@ -81,30 +100,81 @@
                     </div>
                 </div>
             </div>
+            <mfp-carousel v-else>
+                <mfp-invoice-carousel-item installment="firstInstallment"
+                                           :invoices="futureGains"
+                                           :months="months"
+                                           :active="true"
+                                           :useCheckButton="true"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteGain($event)"
+                                           @check-clicked="showReceiveGainForm($event)"/>
+                <mfp-invoice-carousel-item installment="secondInstallment"
+                                           :invoices="futureGains"
+                                           :months="months"
+                                           :useCheckButton="true"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteGain($event)"
+                                           @check-clicked="showReceiveGainForm($event)"/>
+                <mfp-invoice-carousel-item installment="thirdInstallment"
+                                           :invoices="futureGains"
+                                           :months="months"
+                                           :useCheckButton="true"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteGain($event)"
+                                           @check-clicked="showReceiveGainForm($event)"/>
+                <mfp-invoice-carousel-item installment="fourthInstallment"
+                                           :invoices="futureGains"
+                                           :months="months"
+                                           :useCheckButton="true"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteGain($event)"
+                                           @check-clicked="showReceiveGainForm($event)"/>
+                <mfp-invoice-carousel-item installment="fifthInstallment"
+                                           :invoices="futureGains"
+                                           :months="months"
+                                           :useCheckButton="true"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteGain($event)"
+                                           @check-clicked="showReceiveGainForm($event)"/>
+                <mfp-invoice-carousel-item installment="sixthInstallment"
+                                           :invoices="futureGains"
+                                           :months="months"
+                                           :useCheckButton="true"
+                                           @expense-edit="editExpense($event)"
+                                           @expense-delete="deleteGain($event)"
+                                           @check-clicked="showReceiveGainForm($event)"/>
+            </mfp-carousel>
             <pay-receive :show-pay-receive="showReceiveGain"
                          :value="receiveGainValue"
                          :check-tooltip="'Receber Ganho'"
                          :wallet-id="receiveGainWalletId"
                          :partial-label="'Receber Parcial'"
                          @hide-pay-receive="showReceiveGain = false"
-                         @pay="receiveGain($event)"/>
-            <div class="row ms-1 mt-4">
-                <div class="card glass balance-card card-resume balance-card-resume">
-                    <div class="card-body text-center">
-                        <h4 class="card-title">
-                            <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
-                            Resumo
-                        </h4>
-                        <hr>
-                        <div class="card-text card-text-resume">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h6>Total previsto no período</h6>
+                         @pay="receiveGain($event)">
+                <span class="mb-1">
+                    Receber Ganho <strong class="">{{ receiveGainName }}</strong> do mês {{ getNextGainMonth() }}
+                </span>
+            </pay-receive>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card glass balance-card card-resume balance-card-resume">
+                        <div class="card-body text-center">
+                            <h4 class="card-title">
+                                <font-awesome-icon :icon="iconEnum.wallet()" class="me-2"/>
+                                Resumo
+                            </h4>
+                            <hr>
+                            <div class="card-text card-text-resume">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6>Total previsto no período</h6>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    {{ StringTools.formatFloatValueToBrString(totalPerMonth.total) }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        {{ StringTools.formatFloatValueToBrString(totalPerMonth.total) }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -117,23 +187,32 @@
 </template>
 
 <script>
-import LoadingComponent from '../../components/LoadingComponent.vue'
-import iconEnum from '../../../js/enums/iconEnum'
-import CalendarTools from '../../../js/tools/calendarTools'
-import ActionButtons from '../../components/ActionButtons.vue'
-import ApiRouter from '../../../js/router/apiRouter'
-import StringTools from '../../../js/tools/stringTools'
-import NumberTools from '../../../js/tools/numberTools'
-import Divider from '../../components/DividerComponent.vue'
-import MfpTitle from '../../components/TitleComponent.vue'
-import MfpMessage from '../../components/MessageAlert.vue'
-import PayReceive from '../../components/PayReceiveComponent.vue'
-import messageTools from '../../../js/tools/messageTools'
-import MfpExpiresDateBadge from '../../components/date/ExpiresDateBadge.vue'
+import LoadingComponent from '~vue-component/LoadingComponent.vue'
+import iconEnum from '~js/enums/iconEnum'
+import CalendarTools from '~js/tools/calendarTools'
+import ActionButtons from '~vue-component/ActionButtons.vue'
+import ApiRouter from '~js/router/apiRouter'
+import StringTools from '~js/tools/stringTools'
+import NumberTools from '~js/tools/numberTools'
+import Divider from '~vue-component/DividerComponent.vue'
+import MfpTitle from '~vue-component/TitleComponent.vue'
+import MfpMessage from '~vue-component/MessageAlert.vue'
+import PayReceive from '~vue-component/PayReceiveComponent.vue'
+import messageTools from '~js/tools/messageTools'
+import MfpExpiresDateBadge from '~vue-component/date/ExpiresDateBadge.vue'
+import MfpRouterLinkButton from '~vue-component/buttons/RouterLinkButtonComponent.vue'
+import MfpNavComponent from '~vue-component/nav/NavComponent.vue'
+import requestTools from '~js/tools/requestTools'
+import MfpCarousel from '~vue-component/carrousel/CarouselComponent.vue'
+import MfpInvoiceCarouselItem from '~vue-component/carrousel/CarouselItemComponent.vue'
+import Router from '~js/router'
 
 export default {
     name: 'FutureGainView',
     computed: {
+        requestTools() {
+            return requestTools
+        },
         StringTools() {
             return StringTools
         },
@@ -145,6 +224,10 @@ export default {
         }
     },
     components: {
+        MfpInvoiceCarouselItem,
+        MfpCarousel,
+        MfpNavComponent,
+        MfpRouterLinkButton,
         MfpExpiresDateBadge,
         PayReceive,
         MfpMessage,
@@ -171,7 +254,7 @@ export default {
             receiveGainId: 0,
             receiveGainName: '',
             showReceiveGain: false,
-            futureGains: {},
+            futureGains: [],
             messageData: {}
         }
     },
@@ -196,9 +279,9 @@ export default {
             this.totalPerMonth.sixthMonth = totalPerMonthCount.sixthMonth
             this.totalPerMonth.total = totalPerMonthCount.total
         },
-        async deleteGain(id, gainName) {
-            if (confirm('Tem certeza que realmente quer deletar o ganho ' + gainName + '?')) {
-                await ApiRouter.futureGain.delete(id).then(response => {
+        async deleteGain(event) {
+            if (confirm('Tem certeza que realmente quer deletar o ganho ' + event.name + '?')) {
+                await ApiRouter.futureGain.delete(event.id).then(() => {
                     this.messageData = messageTools.successMessage('Ganho deletado com sucesso!')
                     this.updateFutureGainsList()
                 }).catch(() => {
@@ -218,7 +301,7 @@ export default {
                     value: event.value,
                     partial: event.partial
                 }
-                await ApiRouter.futureGain.receive(this.receiveGainId, object).then(response => {
+                await ApiRouter.futureGain.receive(this.receiveGainId, object).then(() => {
                     this.messageData = messageTools.successMessage('Ganho recebido com sucesso!')
                     this.updateFutureGainsList()
                     this.showReceiveGain = false
@@ -227,11 +310,11 @@ export default {
                 })
             }
         },
-        showReceiveGainForm(id, countId, value, gainName) {
-            this.receiveGainValue = value
-            this.receiveGainWalletId = countId
-            this.receiveGainId = id
-            this.receiveGainName = gainName
+        showReceiveGainForm(event) {
+            this.receiveGainValue = this.getNextGainValue(event)
+            this.receiveGainWalletId = event.countId
+            this.receiveGainId = event.id
+            this.receiveGainName = event.name
             this.showReceiveGain = true
         },
         getNextGainValue(gain) {
@@ -261,6 +344,34 @@ export default {
                 return false
             }
             return true
+        },
+        editExpense(event) {
+            Router.push('/ganhos-futuros/' + event.id + '/atualizar')
+        },
+        getNextGainMonth() {
+            const id = this.receiveGainId
+            if (id === 0) {
+                return
+            }
+            let month = ''
+            this.futureGains.forEach(gain => {
+                if (gain.id === id) {
+                    if (gain.firstInstallment > 0) {
+                        month = CalendarTools.getMonthNameByNumber(this.months[0])
+                    } else if (gain.secondInstallment > 0) {
+                        month = CalendarTools.getMonthNameByNumber(this.months[1])
+                    } else if (gain.thirdInstallment > 0) {
+                        month = CalendarTools.getMonthNameByNumber(this.months[2])
+                    } else if (gain.fourthInstallment > 0) {
+                        month = CalendarTools.getMonthNameByNumber(this.months[3])
+                    } else if (gain.fifthInstallment > 0) {
+                        month = CalendarTools.getMonthNameByNumber(this.months[4])
+                    } else if (gain.sixthInstallment > 0) {
+                        month = CalendarTools.getMonthNameByNumber(this.months[5])
+                    }
+                }
+            })
+            return month
         }
     },
     async mounted() {
@@ -277,25 +388,7 @@ export default {
     .border-table {
         border-top: 2px solid $table-line-divider-color;
     }
-    .card-resume {
-        width: 24rem;
-    }
-    .balance-card-resume {
-        width: 80.5rem;
-    }
     .card-text-resume {
         font-size: 1.5rem;
-    }
-    @media (max-width: 1000px) {
-        .nav {
-            flex-direction: column;
-        }
-        .top-button {
-            margin-top: 10px;
-            border-radius: 8px !important;
-        }
-        .balance-card-resume {
-            width: 97%;
-        }
     }
 </style>
