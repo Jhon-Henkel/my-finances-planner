@@ -125,7 +125,7 @@ export default {
             expense: {
                 creditCardId: 0,
                 installments: 1,
-                nextInstallment: this.today,
+                nextInstallment: this.today
             },
             title: '',
             loadingDone: false,
