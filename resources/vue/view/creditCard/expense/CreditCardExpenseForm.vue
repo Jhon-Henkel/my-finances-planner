@@ -29,7 +29,7 @@
                                    placeholder=""
                                    v-model="expense.nextInstallment"
                                    required>
-                            <label for="purchase-input">Próximo vencimento</label>
+                            <label for="purchase-input">Data Registro</label>
                         </div>
                     </div>
                 </div>
@@ -121,10 +121,11 @@ export default {
     },
     data() {
         return {
+            today: CalendarTools.addDaysInDate(new Date(), 0),
             expense: {
                 creditCardId: 0,
                 installments: 1,
-                nextInstallment: CalendarTools.addDaysInDate(new Date(), 30)
+                nextInstallment: this.today,
             },
             title: '',
             loadingDone: false,
@@ -152,7 +153,7 @@ export default {
             if (!this.expense.name) {
                 field = 'descrição'
             } else if (!this.expense.nextInstallment) {
-                field = 'próximo vencimento'
+                field = 'data registro'
             } else if (!this.expense.value || this.expense.value <= 0) {
                 field = 'valor'
             } else if (this.expense.installments < 0 || this.expense.installments > 48) {
@@ -172,7 +173,7 @@ export default {
                 if (response.status === HttpStatusCode.Created) {
                     this.messageData = messageTools.successMessage('Despesa cadastrada com sucesso!')
                     this.expense = {}
-                    this.expense.nextInstallment = CalendarTools.addDaysInDate(new Date(), 30)
+                    this.expense.nextInstallment = this.today
                     this.expense.fix = false
                     if (this.$route.params.cardId) {
                         this.expense.creditCardId = this.$route.params.cardId
@@ -224,7 +225,7 @@ export default {
             } else {
                 this.expense.fix = false
             }
-            this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.$route.params.id
+            this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.expense.creditCardId
         } else {
             this.title = 'Cadastrar Despesa'
             this.expense.fix = false
@@ -237,7 +238,7 @@ export default {
             this.redirect = '/gerenciar-cartoes/fatura-cartao/' + this.expense.creditCardId
         }
         if (!this.expense.nextInstallment) {
-            this.expense.nextInstallment = CalendarTools.addDaysInDate(new Date(), 30)
+            this.expense.nextInstallment = this.today
         }
     }
 }
