@@ -29,7 +29,7 @@
                                    placeholder=""
                                    v-model="expense.nextInstallment"
                                    required>
-                            <label for="purchase-input">Data próxima parcela</label>
+                            <label for="purchase-input">Data Registro</label>
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@ export default {
     },
     data() {
         return {
-            today: CalendarTools.addDaysInDate(new Date(), 30),
+            today: CalendarTools.addDaysInDate(new Date(), 0),
             expense: {
                 creditCardId: 0,
                 installments: 1,
@@ -153,7 +153,7 @@ export default {
             if (!this.expense.name) {
                 field = 'descrição'
             } else if (!this.expense.nextInstallment) {
-                field = 'data próxima parcela'
+                field = 'data registro'
             } else if (!this.expense.value || this.expense.value <= 0) {
                 field = 'valor'
             } else if (this.expense.installments < 0 || this.expense.installments > 48) {
