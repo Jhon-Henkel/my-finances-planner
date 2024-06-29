@@ -43,12 +43,6 @@ class RequestToolsReal
     }
 
     /** @codeCoverageIgnore */
-    public function isApplicationInBetaMode(): bool
-    {
-        return env('APP_BETA_MODE', false);
-    }
-
-    /** @codeCoverageIgnore */
     public function isApplicationInDevelopMode(): bool
     {
         return env('APP_ENV') != 'production';

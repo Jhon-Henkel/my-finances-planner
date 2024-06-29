@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Facade;
  * @method static array inputPostAll()
  * @method static mixed inputGet(null|string $key = null)
  * @method static bool isApplicationInDemoMode()
- * @method static bool isApplicationInBetaMode()
  * @method static bool isApplicationInDevelopMode()
  * @method static string|null getUserIp()
  * @method static string|null getUserAgent()
