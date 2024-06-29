@@ -32,16 +32,6 @@
             gtag('js', new Date());
             gtag('config', 'G-TFXE4NPB8W');
         </script>
-    @elseif(RequestTools::isApplicationInBetaMode())
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XTZ8R45NX1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
-            gtag('config', 'G-XTZ8R45NX1');
-        </script>
     @endif
     @php
         $manifestDir = __DIR__ . '/../../../public/build/manifest.json';
