@@ -24,6 +24,16 @@ $router->prefix('/')->group(function ($router) {
         });
     };
 
+    $router->prefix('v2')->group(function () use ($router) {
+        $router->get('', function () {
+            return view('indexV2');
+        });
+        $router->get('/{any}', function () {
+            return view('indexV2');
+        })->where('any', '.*');
+    });
+
+
     $router->get('{any}', function () {
         return view('index');
     })->where('any', '.*');
