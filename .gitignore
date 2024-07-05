@@ -31,3 +31,4 @@ composer.phar
 coverage
 spec/coverage
 .env.bkp
+/public/build-ionic
