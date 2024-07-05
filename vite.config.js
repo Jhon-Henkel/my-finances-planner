@@ -91,6 +91,7 @@ export default defineConfig({
                 'resources/js/router',
                 'resources/vue/store',
                 'resources/vue/App.vue',
+                'resources/frontend-v2',
             ],
             reportsDirectory: './spec/coverage',
         }
