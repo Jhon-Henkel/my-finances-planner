@@ -216,9 +216,9 @@ class MovementService extends BasicService
         return $this->getRepository()->countByWalletId($walletId);
     }
 
-    public function getSumValuesForPeriod(DatePeriodDTO $period, ?int $tenantId = null): MovementSumValuesDTO
+    public function getSumValuesForPeriod(DatePeriodDTO $period): MovementSumValuesDTO
     {
-        $movements = $this->getRepository()->findByPeriod($period, $tenantId);
+        $movements = $this->getRepository()->findByPeriod($period);
         return $this->makeMovementSumValuesDTO($movements);
     }
 

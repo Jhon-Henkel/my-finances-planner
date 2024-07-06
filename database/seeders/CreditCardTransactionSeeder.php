@@ -4,9 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\CreditCard;
 use App\Models\CreditCardTransaction;
-use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CreditCardTransactionSeeder extends Seeder
 {
@@ -24,8 +22,6 @@ class CreditCardTransactionSeeder extends Seeder
                 );
             }
         }
-        $user = User::all()->first();
-        DB::table('credit_card_transaction')->update(['tenant_id' => $user->tenant_id,]);
     }
 
     protected function getTransactionDescription(): string

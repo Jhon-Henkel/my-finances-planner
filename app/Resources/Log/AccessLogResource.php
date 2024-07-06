@@ -18,7 +18,6 @@ class AccessLogResource extends BasicResource
             $item['user_agent'],
             $item['logged'],
             $item['comments'],
-            $item['tenant_id'],
             $item['created_at'] ?? null,
         );
     }
@@ -35,7 +34,6 @@ class AccessLogResource extends BasicResource
             'logged' => $item->getLogged(),
             'comments' => $item->getComments(),
             'created_at' => $item->getCreatedAt(),
-            'tenant_id' => $item->getTenantId(),
         ];
     }
 

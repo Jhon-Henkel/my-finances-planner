@@ -117,7 +117,6 @@ class AuthService
             RequestTools::getUserAgent(),
             $logged,
             $comments,
-            $user->tenant_id,
         );
         $this->accessLogService->saveAccessLog($log);
     }

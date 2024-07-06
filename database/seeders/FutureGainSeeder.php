@@ -4,11 +4,9 @@ namespace Database\Seeders;
 
 use App\Enums\DateFormatEnum;
 use App\Models\FutureGain;
-use App\Models\User;
 use App\Models\WalletModel;
 use App\Tools\Calendar\CalendarTools;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class FutureGainSeeder extends Seeder
 {
@@ -27,8 +25,6 @@ class FutureGainSeeder extends Seeder
                 ]
             );
         }
-        $user = User::all()->first();
-        DB::table('future_gain')->update(['tenant_id' => $user->tenant_id,]);
     }
 
     protected function getWalletIds(): array

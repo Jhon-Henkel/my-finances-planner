@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
@@ -10,10 +9,9 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('{{ table }}', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('personal_access_tokens');
     }
 
     /**
@@ -21,6 +19,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('{{ table }}');
+        //
     }
 };

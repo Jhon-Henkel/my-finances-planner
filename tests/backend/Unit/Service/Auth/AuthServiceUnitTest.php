@@ -183,7 +183,6 @@ class AuthServiceUnitTest extends Falcon9
         $user->status = 1;
         $user->wrong_login_attempts = 0;
         $user->password = bcrypt('password');
-        $user->tenant_id = 1;
 
         $_SERVER['REMOTE_ADDR'] = '192.168.1.1';
         $_SERVER['HTTP_USER_AGENT'] = 'user_agent';

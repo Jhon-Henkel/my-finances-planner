@@ -106,10 +106,10 @@ class FutureSpentService extends BasicService
         return $total;
     }
 
-    public function getThisMonthFutureSpentSum(?int $tenantId = null): float
+    public function getThisMonthFutureSpentSum(): float
     {
         $period = CalendarTools::getThisMonthPeriod();
-        $spending = $this->getRepository()->findByPeriod($period, $tenantId);
+        $spending = $this->getRepository()->findByPeriod($period);
         $total = 0;
         foreach ($spending as $spent) {
             $total += $spent->getAmount();
