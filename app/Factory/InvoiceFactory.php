@@ -22,7 +22,7 @@ class InvoiceFactory
                 continue;
             }
             $installment[$key] = $expense->getValue();
-            for ($remaining = $key; $remaining <= 5; $remaining ++) {
+            for ($remaining = $key; $remaining <= 5; $remaining++) {
                 if (self::isLimitInstallment($remaining, $key, $installments)) {
                     break;
                 }

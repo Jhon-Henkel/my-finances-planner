@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CreditCard extends Model
 {
-    use Tenantable, HasFactory;
+    use Tenantable;
+    use HasFactory;
 
     protected $table = 'credit_card';
     protected $fillable = ['id', 'name', 'limit', 'due_date', 'closing_day'];

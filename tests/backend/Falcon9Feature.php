@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 abstract class Falcon9Feature extends BaseTestCase
 {
-    use CreatesApplication, WithFaker;
+    use CreatesApplication;
+    use WithFaker;
 
     protected array $apiHeaders;
     protected User $user;

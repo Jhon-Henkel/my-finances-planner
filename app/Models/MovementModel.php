@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class MovementModel extends Model
 {
-    use Tenantable, HasFactory;
+    use Tenantable;
+    use HasFactory;
 
     protected $table = 'movements';
     protected $fillable = ['id', 'wallet_id', 'description', 'type', 'amount'];

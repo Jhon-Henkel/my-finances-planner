@@ -18,7 +18,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
         "fakerphp/faker": "^1.9.1",
-        "laravel/pint": "^1.0",
+        "laravel/pint": "^1",
         "laravel/sail": "^1.21",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
@@ -75,8 +75,8 @@
         "seed:investment": "php artisan db:seed --class=InvestmentSeeder",
         "seed:all-data": "php artisan db:seed",
         "analyze:phpstan": "./vendor/bin/phpstan analyse --memory-limit=512M app tests",
-        "analyze:pint": "./vendor/bin/pint --test --config ./config/pint.json",
-        "autocorrect:pint": "./vendor/bin/pint --config ./config/pint.json"
+        "analyze:pint": "./vendor/bin/pint --test --preset psr12",
+        "autocorrect:pint": "./vendor/bin/pint --preset psr12"
     },
     "extra": {
         "laravel": {

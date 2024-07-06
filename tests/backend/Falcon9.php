@@ -7,5 +7,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 abstract class Falcon9 extends BaseTestCase
 {
-    use CreatesApplication, WithFaker;
+    use CreatesApplication;
+    use WithFaker;
 }

@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class WalletModel extends Model
 {
-    use Tenantable, HasFactory;
+    use Tenantable;
+    use HasFactory;
 
     protected $table = 'wallets';
     protected $fillable = ['id', 'name', 'type', 'amount'];

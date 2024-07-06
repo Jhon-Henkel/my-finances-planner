@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,7 +14,7 @@ return new class extends Migration
         Schema::create('credit_card', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', '255')->default(null);
-            $table->decimal('limit', 60,2)->nullable(false);
+            $table->decimal('limit', 60, 2)->nullable(false);
             $table->integer('due_date')->nullable(false);
             $table->integer('closing_day')->nullable(false);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
