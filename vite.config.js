@@ -77,11 +77,15 @@ export default defineConfig({
                 app: '/resources/js/app.js',
                 'app.scss': '/resources/sass/app.scss',
                 'app.css': '/resources/css/app.css',
-            }
+            },
+            external: [
+                'resources/frontend-v2/**'
+            ]
         }
     },
     test: {
         environment: 'happy-dom',
+        exclude: ['resources/frontend-v2/**', 'node_modules/**'],
         coverage: {
             all: true,
             include: ['resources/js', 'resources/vue'],
@@ -91,7 +95,7 @@ export default defineConfig({
                 'resources/js/router',
                 'resources/vue/store',
                 'resources/vue/App.vue',
-                'resources/frontend-v2',
+                'resources/frontend-v2/**',
             ],
             reportsDirectory: './spec/coverage',
         }
