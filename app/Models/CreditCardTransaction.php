@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CreditCardTransaction extends Model
 {
-    use Tenantable, HasFactory;
+    use Tenantable;
+    use HasFactory;
 
     protected $table = 'credit_card_transaction';
     protected $fillable = ['id', 'credit_card_id', 'name', 'value', 'installments', 'next_installment'];

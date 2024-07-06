@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Investment extends Model
 {
-    use Tenantable, HasFactory;
+    use Tenantable;
+    use HasFactory;
 
     protected $table = 'investment';
     protected $fillable = [

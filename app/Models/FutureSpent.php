@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class FutureSpent extends Model
 {
-    use Tenantable, HasFactory;
+    use Tenantable;
+    use HasFactory;
 
     protected $table = 'future_spent';
     protected $fillable = ['id', 'wallet_id', 'description', 'amount', 'forecast', 'installments'];
