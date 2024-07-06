@@ -8,8 +8,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FinancialHealthController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
-use App\Http\Controllers\Investment\InvestmentController;
-use App\Http\Controllers\MonthlyClosingController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\PanoramaController;
 use App\Http\Controllers\UserController;
@@ -100,19 +98,5 @@ $router->prefix('/')->middleware('auth.api:api')->group(function ($router) {
 
     $router->prefix('financial-health')->group(function () use ($router) {
         $router->get('/filter', [FinancialHealthController::class, 'indexFiltered'])->name(RouteEnum::ApiFinancialHealthIndexFiltered->value);
-    });
-
-    $router->prefix('monthly-closing')->group(function () use ($router) {
-        $router->get('/filter', [MonthlyClosingController::class, 'indexFiltered'])->name(RouteEnum::ApiMonthlyClosingIndexFiltered->value);
-    });
-
-    $router->prefix('investment')->group(function () use ($router) {
-        $router->get('data-graph', [InvestmentController::class, 'makeDataGraph'])->name(RouteEnum::ApiInvestmentCdbDataGraph->value);
-        $router->get('', [InvestmentController::class, 'index'])->name(RouteEnum::ApiInvestmentIndex->value);
-        $router->get('/{id}', [InvestmentController::class, 'show'])->name(RouteEnum::ApiInvestmentShow->value);
-        $router->post('/rescue-apport', [InvestmentController::class, 'rescueApportInvestment'])->name(RouteEnum::ApiInvestmentRescueApport->value);
-        $router->post('', [InvestmentController::class, 'insert'])->name(RouteEnum::ApiInvestmentInsert->value);
-        $router->put('/{id}', [InvestmentController::class, 'update'])->name(RouteEnum::ApiInvestmentUpdate->value);
-        $router->delete('/{id}', [InvestmentController::class, 'delete'])->name(RouteEnum::ApiInvestmentDelete->value);
     });
 });

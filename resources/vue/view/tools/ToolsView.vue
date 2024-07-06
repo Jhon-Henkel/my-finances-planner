@@ -63,12 +63,6 @@ export default {
                     redirectTo: '/ferramentas/saude-financeira'
                 },
                 {
-                    title: 'Fechamento de Mês',
-                    imagePath: '../../../../public/images/tools/monthly-closing.jpg',
-                    description: 'Relatório que mostra o fechamento do mês.',
-                    redirectTo: '/ferramentas/fechamento-mensal'
-                },
-                {
                     title: 'Planejamento Mercado',
                     imagePath: '../../../../public/images/tools/market.png',
                     description: 'Planeje de gastos mensais para o mercado.',

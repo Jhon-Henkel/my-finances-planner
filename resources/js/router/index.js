@@ -273,54 +273,9 @@ const routes = [
                 }
             },
             {
-                path: 'fechamento-mensal',
-                name: 'monthlyClosing',
-                component: () => import('../../vue/view/tools/monthlyClosing/MonthlyClosingView.vue'),
-                meta: {
-                    auth: true
-                }
-            },
-            {
                 path: 'planejamento-mercado',
                 name: 'marketPlanner',
                 component: () => import('../../vue/view/tools/marketPlanner/MarketPlannerView.vue'),
-                meta: {
-                    auth: true
-                }
-            }
-        ]
-    },
-    {
-        path: '/investimentos',
-        children: [
-            {
-                path: '',
-                name: 'investments',
-                component: () => import('../../vue/view/investment/InvestmentView.vue'),
-                meta: {
-                    auth: true
-                }
-            },
-            {
-                path: 'cdb',
-                name: 'investmentCdb',
-                component: () => import('../../vue/view/investment/cdb/InvestmentCdbView.vue'),
-                meta: {
-                    auth: true
-                }
-            },
-            {
-                path: 'cdb/cadastrar',
-                name: 'registerInvestmentCdb',
-                component: () => import('../../vue/view/investment/cdb/InvestmentCdbForm.vue'),
-                meta: {
-                    auth: true
-                }
-            },
-            {
-                path: 'cdb/:id/atualizar',
-                name: 'updateInvestmentCdb',
-                component: () => import('../../vue/view/investment/cdb/InvestmentCdbForm.vue'),
                 meta: {
                     auth: true
                 }

@@ -235,15 +235,4 @@ class MovementService extends BasicService
         }
         return $movementSum;
     }
-
-    public function launchMovementForInvestment(float $amount, int $type, int $walletId, bool $rescue): void
-    {
-        $description = $rescue ? 'Resgate de investimento' : 'Aporte de investimento';
-        $movement = new MovementDTO();
-        $movement->setWalletId($walletId);
-        $movement->setDescription($description);
-        $movement->setType($type);
-        $movement->setAmount($amount);
-        $this->getRepository()->insert($movement);
-    }
 }

@@ -185,41 +185,6 @@ const apiRouter = {
             return request.data
         }
     },
-    monthlyClosing: {
-        indexFiltered: async function(quest) {
-            if (quest === undefined) {
-                quest = ''
-            }
-            const request = await requestTools.request.get('/api/monthly-closing/filter' + quest)
-            return request.data
-        }
-    },
-    investments: {
-        index: async function() {
-            const request = await requestTools.request.get('/api/investment')
-            return request.data
-        },
-        show: async function(id) {
-            const request = await requestTools.request.get('/api/investment/' + id)
-            return request.data
-        },
-        insert: async function(investment) {
-            return await requestTools.request.post('/api/investment', investment)
-        },
-        update: async function(investment, id) {
-            return await requestTools.request.put('/api/investment/' + id, investment)
-        },
-        delete: async function(id) {
-            return await requestTools.request.delete('/api/investment/' + id)
-        },
-        dataGraph: async function() {
-            const request = await requestTools.request.get('/api/investment/data-graph')
-            return request.data
-        },
-        rescueApport: async function(data) {
-            return await requestTools.request.post('/api/investment/rescue-apport', data)
-        }
-    }
 }
 
 export default apiRouter

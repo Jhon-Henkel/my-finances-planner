@@ -41,51 +41,6 @@ class MovementDtoUnitTest extends Falcon9
         $this->assertEquals(169.74, $dto->getAmount());
     }
 
-    public function testIsInvestmentType()
-    {
-        $dto = new MovementDTO();
-        $dto->setType(8);
-        $this->assertTrue($dto->isInvestmentType());
-
-        $dto->setType(8);
-        $this->assertTrue($dto->isInvestmentType());
-
-        $dto->setType(3);
-        $this->assertFalse($dto->isInvestmentType());
-    }
-
-    public function testIsRescuedInvestmentType()
-    {
-        $dto = new MovementDTO();
-        $dto->setType(8);
-        $dto->setDescription('Resgate de investimento');
-        $this->assertTrue($dto->isRescuedInvestmentType());
-
-        $dto->setType(8);
-        $dto->setDescription('Aporte de investimento');
-        $this->assertFalse($dto->isRescuedInvestmentType());
-
-        $dto->setType(3);
-        $dto->setDescription('Resgate de investimento');
-        $this->assertFalse($dto->isRescuedInvestmentType());
-    }
-
-    public function testIsApportInvestmentType()
-    {
-        $dto = new MovementDTO();
-        $dto->setType(8);
-        $dto->setDescription('Aporte de investimento');
-        $this->assertTrue($dto->isApportInvestmentType());
-
-        $dto->setType(8);
-        $dto->setDescription('Resgate de investimento');
-        $this->assertFalse($dto->isApportInvestmentType());
-
-        $dto->setType(3);
-        $dto->setDescription('Aporte de investimento');
-        $this->assertFalse($dto->isApportInvestmentType());
-    }
-
     public function testIsMarketSpent()
     {
         $dto = new MovementDTO();

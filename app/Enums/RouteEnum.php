@@ -49,14 +49,6 @@ enum RouteEnum: string
     case ApiUserUpdate = 'apiUserUpdate';
     case ApiPanoramaIndex = 'apiPanoramaIndex';
     case ApiFinancialHealthIndexFiltered = 'apiFinancialHealthIndex';
-    case ApiMonthlyClosingIndexFiltered = 'apiMonthlyClosingIndexFiltered';
-    case ApiInvestmentIndex = 'apiInvestmentIndex';
-    case ApiInvestmentShow = 'apiInvestmentShow';
-    case ApiInvestmentInsert = 'apiInvestmentInsert';
-    case ApiInvestmentUpdate = 'apiInvestmentUpdate';
-    case ApiInvestmentDelete = 'apiInvestmentDelete';
-    case ApiInvestmentCdbDataGraph = 'apiInvestmentCdbDataGraph';
-    case ApiInvestmentRescueApport = 'apiInvestmentRescueApport';
     case WebLogout = 'logout';
     case WebMakeLogin = 'makeLogin';
     case WebVerifyToken = 'verifyToken';
