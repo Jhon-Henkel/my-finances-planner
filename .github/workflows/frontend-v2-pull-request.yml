@@ -1,11 +1,11 @@
-name: Pull Request Workflow
+name: Frontend V2 Pull Request Workflow
 
 on:
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  frontend-v2-linter:
+  linter-frontend-v2:
     runs-on: ubuntu-latest
     env:
       TZ: 'America/Sao_Paulo'
@@ -25,7 +25,7 @@ jobs:
         run: cd resources/frontend-v2 && npm run lint
 
 
-  frontend-v2-test-vitest:
+  test-vitest-frontend-v2:
     runs-on: ubuntu-latest
     env:
       TZ: 'America/Sao_Paulo'
@@ -44,7 +44,7 @@ jobs:
       - name: 🧪 Executing Vitest tests
         run: cd resources/frontend-v2 && npm run test:unit
 
-  frontend-v2-test-build:
+  test-build-frontend-v2:
     runs-on: ubuntu-latest
     env:
       TZ: 'America/Sao_Paulo'

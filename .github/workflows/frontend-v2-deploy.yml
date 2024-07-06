@@ -1,0 +1,55 @@
+name: Frontend V2 Deploy Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy-frontend-v2:
+    runs-on: ubuntu-latest
+    env:
+      TZ: 'America/Sao_Paulo'
+
+    steps:
+      - name: 🔥 Configuring checkout
+        uses: actions/checkout@v4
+
+      - name: 📄 Making .env file
+        run: |
+          echo "${{ secrets.ENV_MFP_APP }}" > resources/frontend-v2/.env
+
+      - name: 🛠️ Installing Node dependencies
+        run: npm install
+
+#      - name: ⚡️ Executing coverage
+#        run: npm run test:coverage
+#
+#      - name: 💡️ Codecov
+#        uses: codecov/codecov-action@v4.0.1
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          slug: Jhon-Henkel/my-finances-planner-app
+#          files: ./tests/coverage/clover.xml
+
+      - name: 📦️ Building application
+        run: cd resources/frontend-v2 && npm run build
+
+      - name: 📂 Upload files to private server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_ADDRESS }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./public/build-ionic/
+          server-dir: ./projects/my-finances-planner/public/build-ionic/
+          dangerous-clean-slate: true
+
+      - name: 📂 Upload files to demo server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_ADDRESS }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./public/build-ionic/
+          server-dir: ./projects/my-finances-planner-demo/public/build-ionic/
+          dangerous-clean-slate: true
