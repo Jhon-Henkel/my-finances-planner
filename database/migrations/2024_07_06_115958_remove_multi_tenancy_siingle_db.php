@@ -12,7 +12,6 @@ return new class () extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropConstrainedForeignId('tenant_id');
-            $table->dropColumn('tenant_id');
         });
 
         Schema::table('configurations', function (Blueprint $table) {
