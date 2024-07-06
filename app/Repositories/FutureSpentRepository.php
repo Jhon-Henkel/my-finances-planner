@@ -24,17 +24,14 @@ class FutureSpentRepository extends BasicRepository
         return $this->resource;
     }
 
-    public function findByPeriod(DatePeriodDTO $period, ?int $tenantId = null): array
+    public function findByPeriod(DatePeriodDTO $period): array
     {
         $items = $this->getModel()
             ->query()
             ->select('future_spent.*', 'wallets.name')
             ->where('future_spent.forecast', '>=', $period->getStartDate())
-            ->where('future_spent.forecast', '<=', $period->getEndDate());
-        if ($tenantId) {
-            $items->where('future_spent.tenant_id', '=', $tenantId);
-        }
-        $items->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
+            ->where('future_spent.forecast', '<=', $period->getEndDate())
+            ->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
             ->orderBy('id', 'desc');
         $items = $items->get();
         return $items ? $this->getResource()->arrayToDtoItens($items->toArray()) : array();

@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use App\Enums\DateFormatEnum;
-use App\Models\Trait\Tenantable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class FutureSpent extends Model
 {
-    use Tenantable;
     use HasFactory;
 
     protected $table = 'future_spent';

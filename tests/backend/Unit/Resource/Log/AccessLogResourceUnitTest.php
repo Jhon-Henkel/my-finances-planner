@@ -44,7 +44,6 @@ class AccessLogResourceUnitTest extends Falcon9
             'deg',
             1,
             'test',
-            1,
             '2020-01-01 00:00:00'
         );
 
@@ -72,7 +71,6 @@ class AccessLogResourceUnitTest extends Falcon9
                 'user_agent' => 'sssss',
                 'logged' => 0,
                 'comments' => 'test',
-                'tenant_id' => '2',
                 'created_at' => '2021-01-01 00:00:00',
             ],
             [
@@ -83,7 +81,6 @@ class AccessLogResourceUnitTest extends Falcon9
                 'user_agent' => 'ppppppp',
                 'logged' => 1,
                 'comments' => 'test1',
-                'tenant_id' => '1',
                 'created_at' => '2023-01-01 00:00:00',
             ]
         ]);

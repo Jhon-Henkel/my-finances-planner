@@ -102,10 +102,10 @@ class FutureGainService extends BasicService
         return $total;
     }
 
-    public function getThisMonthFutureGainSum(?int $tenantId = null): float
+    public function getThisMonthFutureGainSum(): float
     {
         $period = CalendarTools::getThisMonthPeriod();
-        $gains = $this->getRepository()->findByPeriod($period, $tenantId);
+        $gains = $this->getRepository()->findByPeriod($period);
         $total = 0;
         foreach ($gains as $gain) {
             $total += $gain->getAmount();

@@ -6,11 +6,9 @@ use App\Enums\CalendarMonthsNumberEnum;
 use App\Enums\DateFormatEnum;
 use App\Enums\MovementEnum;
 use App\Models\MovementModel;
-use App\Models\User;
 use App\Models\WalletModel;
 use App\Tools\Calendar\CalendarTools;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class MovementsSeeder extends Seeder
 {
@@ -32,8 +30,6 @@ class MovementsSeeder extends Seeder
                 ]
             );
         }
-        $user = User::all()->first();
-        DB::table('movements')->update(['tenant_id' => $user->tenant_id,]);
     }
 
     protected function getWalletIds(): array

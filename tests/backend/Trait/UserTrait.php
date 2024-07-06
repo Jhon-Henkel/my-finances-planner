@@ -3,7 +3,6 @@
 namespace Tests\backend\Trait;
 
 use App\Enums\StatusEnum;
-use App\Models\Tenant;
 use App\Models\User;
 use App\Tools\Auth\JwtTools;
 use Illuminate\Support\Facades\DB;
@@ -26,11 +25,6 @@ trait UserTrait
             'wrong_login_attempts' => 0,
         ]);
 
-        $tenant = Tenant::create([
-            'user_id' => $user->id,
-        ]);
-
-        $user->tenant_id = $tenant->id;
         $user->save();
         return $user;
     }

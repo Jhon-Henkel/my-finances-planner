@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Enums\WalletTypeEnum;
-use App\Models\User;
 use App\Models\WalletModel;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class WalletSeeder extends Seeder
 {
@@ -16,8 +14,6 @@ class WalletSeeder extends Seeder
             $data = $this->geDataToInsert();
             WalletModel::factory()->create(['name' => $data['name'], 'type' => $data['type']]);
         }
-        $user = User::all()->first();
-        DB::table('wallets')->update(['tenant_id' => $user->tenant_id,]);
     }
 
     protected function geDataToInsert(): array

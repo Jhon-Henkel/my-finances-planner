@@ -29,11 +29,9 @@ class MovementRepositoryFeatureTest extends Falcon9Feature
     public function testFindByPeriod()
     {
         $this->markTestSkipped('Está quebrando todo inicio de mês, ver o por que');
-        $query = "SELECT * FROM users WHERE email = 'demo@demo.dev'";
-        $user = DB::select($query);
 
         $repository = $this->app->make(MovementRepository::class);
-        $movements = $repository->findByPeriod(CalendarTools::getThisYearPeriod(), $user[0]->tenant_id);
+        $movements = $repository->findByPeriod(CalendarTools::getThisYearPeriod());
 
         $this->assertCount(26, $movements);
     }

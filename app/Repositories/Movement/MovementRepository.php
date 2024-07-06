@@ -29,17 +29,14 @@ class MovementRepository extends BasicRepository
     }
 
     /** @return MovementDTO[] */
-    public function findByPeriod(DatePeriodDTO $period, ?int $tenantId = null): array
+    public function findByPeriod(DatePeriodDTO $period): array
     {
         $items = $this->getModel()
             ->query()
             ->select('movements.*', 'wallets.name')
             ->where('movements.created_at', '>=', $period->getStartDate())
-            ->where('movements.created_at', '<=', $period->getEndDate());
-        if ($tenantId) {
-            $items->where('movements.tenant_id', '=', $tenantId);
-        }
-        $items->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
+            ->where('movements.created_at', '<=', $period->getEndDate())
+            ->join('wallets', 'movements.wallet_id', '=', 'wallets.id')
             ->orderBy('id', 'desc');
         $items = $items->get();
         return $this->getResource()->arrayToDtoItens($items->toArray());
