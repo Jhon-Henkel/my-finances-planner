@@ -1,15 +1,11 @@
+FROM composer AS composer-php
+
 FROM php:8.2-apache
 
 COPY . .
 
-# installing composer
-RUN apt-get update && apt-get -y --no-install-recommends install git \
-    && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
-    && rm -rf /var/lib/apt/lists/*
-
-# instaling node
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -  \
-    && apt-get install -y nodejs
+# copy composer
+COPY --from=composer-php /usr/bin/composer /usr/bin/composer
 
 # installing zip
 RUN apt-get update && apt-get install -y zlib1g-dev libzip-dev unzip

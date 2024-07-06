@@ -32,6 +32,22 @@ Forma mais rápida de iniciar o projeto:
 Caso precise configurar o projeto manualmente, leia o arquivo de [primeiros passos](https://github.com/Jhon-Henkel/my-finances-planner/blob/main/.docs/FIRST_STEPS.md).
 
 Criei alguns comandos úteis, você pode conferir [aqui](https://github.com/Jhon-Henkel/my-finances-planner/blob/main/.docs/COMMANDS.md).
+
+## Modo Desenvolvimento
+Comandos para rodar o projeto em modo de desenvolvimento:
+#### Frontend-v1: 
+```bash
+npm run dev
+```
+#### Frontend-v2: 
+```bash
+cd resources/frontend-v2 && npm run ionic serve
+```
+#### Backend: 
+```bash
+docker compose up -d
+```
+
 ## Monitoramentos
 - **Erros**: Para monitoramento de erros estou utilizando o [honeybadger](https://www.honeybadger.io/), para configurar basta popular 
 a variável **HONEYBADGER_API_KEY** com a chave de acesso da sua conta.

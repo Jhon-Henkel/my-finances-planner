@@ -21,12 +21,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     @vite('resources/js/app.js')
     @if(RequestTools::isApplicationInDemoMode() && ! RequestTools::isApplicationInDevelopMode())
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-TFXE4NPB8W"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){
+            function gtag() {
                 dataLayer.push(arguments);
             }
             gtag('js', new Date());
