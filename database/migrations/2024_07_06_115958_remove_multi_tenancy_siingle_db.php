@@ -16,47 +16,38 @@ return new class () extends Migration {
 
         Schema::table('configurations', function (Blueprint $table) {
             $table->dropConstrainedForeignId('tenant_id');
-            $table->dropColumn('tenant_id');
         });
 
         Schema::table('access_log', function (Blueprint $table) {
             $table->dropConstrainedForeignId('tenant_id');
-            $table->dropColumn('tenant_id');
         });
 
         Schema::table('credit_card', function (Blueprint $table) {
             $table->dropConstrainedForeignId('tenant_id');
-            $table->dropColumn('tenant_id');
         });
 
         Schema::table('credit_card_transaction', function (Blueprint $table) {
             $table->dropConstrainedForeignId('tenant_id');
-            $table->dropColumn('tenant_id');
         });
 
         Schema::table('credit_card_movement', function (Blueprint $table) {
             $table->dropConstrainedForeignId('tenant_id');
-            $table->dropColumn('tenant_id');
         });
 
         Schema::table('future_gain', function (Blueprint $table) {
             $table->dropConstrainedForeignId('tenant_id');
-            $table->dropColumn('tenant_id');
         });
 
         Schema::table('future_spent', function (Blueprint $table) {
             $table->dropConstrainedForeignId('tenant_id');
-            $table->dropColumn('tenant_id');
         });
 
         Schema::table('movements', function (Blueprint $table) {
             $table->dropConstrainedForeignId('tenant_id');
-            $table->dropColumn('tenant_id');
         });
 
         Schema::table('wallets', function (Blueprint $table) {
             $table->dropConstrainedForeignId('tenant_id');
-            $table->dropColumn('tenant_id');
         });
 
         Schema::dropIfExists('tenants');
