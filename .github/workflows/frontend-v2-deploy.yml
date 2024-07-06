@@ -19,7 +19,7 @@ jobs:
 
       - name: 📄 Making .env file
         run: |
-          echo "${{ secrets.ENV_MFP_APP }}" > resources/frontend-v2/.env
+          echo "${{ secrets.ENV_MFP_FRONTEND_V2 }}" > resources/frontend-v2/.env
 
       - name: 🛠️ Installing Node dependencies
         run: cd resources/frontend-v2 && npm install
