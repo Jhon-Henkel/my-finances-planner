@@ -184,7 +184,7 @@ const apiRouter = {
             const request = await requestTools.request.get('/api/financial-health/filter' + quest)
             return request.data
         }
-    },
+    }
 }
 
 export default apiRouter
