@@ -96,7 +96,7 @@ class AccessLogResourceUnitTest extends Falcon9
         $item = $this->accessLogResource->dtoToArray($this->accessLogDTO);
 
         $this->assertIsArray($item);
-        $this->assertCount(9, $item);
+        $this->assertCount(8, $item);
         $this->assertArrayHasKey('id', $item);
         $this->assertArrayHasKey('user_id', $item);
         $this->assertArrayHasKey('user_ip', $item);
