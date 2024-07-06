@@ -1,0 +1,61 @@
+name: Backend Coverage Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  coverage-frontend-v1:
+    runs-on: ubuntu-latest
+
+    container:
+      image: jhowrf/php-image:latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 33306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: 123
+          MYSQL_DATABASE: my_finances_testing
+        options:
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: 🔥 Configuring checkout
+        uses: actions/checkout@v4
+
+      - name: 📄 Making .env file
+        run: |
+          echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
+
+      - name: 🛠️ Installing dependencies
+        run: composer install
+
+      - name: 🛠 Setup Runner Database
+        run: |
+          php artisan migrate --database=mysql_testing --force
+
+      - name: 👍 Applying permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: ⚡️ Executing PHP test coverage
+        run: composer run test:coverage
+
+      - name: 🏷 Making coverage badge
+        uses: timkrase/phpunit-coverage-badge@v1.2.1
+        with:
+          coverage_badge_path: output/coverage-backend.svg
+          push_badge: false
+
+      - name: 💡️Uploading coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./clover.xml
+          flags: backend
+          name: Backend Test

@@ -28,7 +28,7 @@ jobs:
       - name: ⚡️ Executing PHP Unit tests
         run: composer run test:unit
 
-  unit-test-backend:
+  test-unit-backend:
     runs-on: ubuntu-latest
 
     container:
@@ -51,7 +51,7 @@ jobs:
       - name: ⚡️ Analyzing PHP Code Quality
         run: composer run analyze:pint && composer run analyze:phpstan
 
-  feature-test-backend:
+  test-feature-backend:
     runs-on: ubuntu-latest
 
     container:
