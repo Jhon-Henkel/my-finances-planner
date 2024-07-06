@@ -38,7 +38,7 @@ jobs:
         run: cd resources/frontend-v2 && npm run build
 
       - name: 📂 Upload files to private server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
@@ -48,7 +48,7 @@ jobs:
           dangerous-clean-slate: true
 
       - name: 📂 Upload files to demo server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_ADDRESS }}
           username: ${{ secrets.FTP_USERNAME }}
