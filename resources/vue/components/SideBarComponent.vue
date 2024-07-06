@@ -70,11 +70,6 @@ export default {
                     to: '/ganhos-futuros'
                 },
                 {
-                    title: 'Investimentos',
-                    icon: 'bx bxs-chart me-2',
-                    to: '/investimentos'
-                },
-                {
                     title: 'Carteiras',
                     icon: 'bx bxs-wallet me-2',
                     to: '/carteiras'

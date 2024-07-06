@@ -54,14 +54,6 @@ class RouteEnumUnitTest extends Falcon9
         $this->assertEquals('apiUserUpdate', RouteEnum::ApiUserUpdate->value);
         $this->assertEquals('apiPanoramaIndex', RouteEnum::ApiPanoramaIndex->value);
         $this->assertEquals('apiFinancialHealthIndex', RouteEnum::ApiFinancialHealthIndexFiltered->value);
-        $this->assertEquals('apiMonthlyClosingIndexFiltered', RouteEnum::ApiMonthlyClosingIndexFiltered->value);
-        $this->assertEquals('apiInvestmentIndex', RouteEnum::ApiInvestmentIndex->value);
-        $this->assertEquals('apiInvestmentShow', RouteEnum::ApiInvestmentShow->value);
-        $this->assertEquals('apiInvestmentInsert', RouteEnum::ApiInvestmentInsert->value);
-        $this->assertEquals('apiInvestmentUpdate', RouteEnum::ApiInvestmentUpdate->value);
-        $this->assertEquals('apiInvestmentDelete', RouteEnum::ApiInvestmentDelete->value);
-        $this->assertEquals('apiInvestmentCdbDataGraph', RouteEnum::ApiInvestmentCdbDataGraph->value);
-        $this->assertEquals('apiInvestmentRescueApport', RouteEnum::ApiInvestmentRescueApport->value);
         $this->assertEquals('logout', RouteEnum::WebLogout->value);
         $this->assertEquals('makeLogin', RouteEnum::WebMakeLogin->value);
         $this->assertEquals('verifyToken', RouteEnum::WebVerifyToken->value);
