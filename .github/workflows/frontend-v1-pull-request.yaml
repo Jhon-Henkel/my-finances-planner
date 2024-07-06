@@ -7,8 +7,6 @@ on:
 jobs:
   linter-frontend-v1:
     runs-on: ubuntu-latest
-    env:
-      TZ: 'America/Sao_Paulo'
 
     steps:
       - name: 🔥 Configuring checkout
@@ -27,8 +25,6 @@ jobs:
 
   test-vitest-frontend-v1:
     runs-on: ubuntu-latest
-    env:
-      TZ: 'America/Sao_Paulo'
 
     steps:
       - name: 🔥 Configuring checkout
@@ -46,8 +42,6 @@ jobs:
 
   test-build-frontend-v1:
     runs-on: ubuntu-latest
-    env:
-      TZ: 'America/Sao_Paulo'
 
     steps:
       - name: 🔥 Configuring checkout
