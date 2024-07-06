@@ -1,0 +1,64 @@
+name: Frontend V1 Pull Request Workflow
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  linter-frontend-v1:
+    runs-on: ubuntu-latest
+    env:
+      TZ: 'America/Sao_Paulo'
+
+    steps:
+      - name: 🔥 Configuring checkout
+        uses: actions/checkout@v4
+
+      - name: 📄 Making .env file
+        run: |
+          echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
+
+      - name: 🛠️ Installing Node dependencies
+        run: npm install
+
+      - name: 🔍 Executing linter
+        run: npm run analyze:eslint
+
+
+  test-vitest-frontend-v1:
+    runs-on: ubuntu-latest
+    env:
+      TZ: 'America/Sao_Paulo'
+
+    steps:
+      - name: 🔥 Configuring checkout
+        uses: actions/checkout@v4
+
+      - name: 📄 Making .env file
+        run: |
+          echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
+
+      - name: 🛠️ Installing Node dependencies
+        run: npm install
+
+      - name: 🧪 Executing Vitest tests
+        run: LARAVEL_BYPASS_ENV_CHECK=1 npm run test:run
+
+  test-build-frontend-v1:
+    runs-on: ubuntu-latest
+    env:
+      TZ: 'America/Sao_Paulo'
+
+    steps:
+      - name: 🔥 Configuring checkout
+        uses: actions/checkout@v4
+
+      - name: 📄 Making .env file
+        run: |
+          echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
+
+      - name: 🛠️ Installing Node dependencies
+        run: npm install
+
+      - name: 📦 Testing building application
+        run: npm run build
