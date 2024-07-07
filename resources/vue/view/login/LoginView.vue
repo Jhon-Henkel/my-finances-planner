@@ -135,9 +135,11 @@ export default {
         this.loadingDone = 0
         await this.checkUserIsLogged()
         if (RequestTools.isApplicationInDemoMode()) {
+            window.location.href = '/v2/login?demo-mode=true'
             this.user.email = import.meta.env.VITE_DEMO_USER
             this.user.password = import.meta.env.VITE_DEMO_PASSWORD
         }
+        window.location.href = '/v2/login'
     }
 }
 </script>
