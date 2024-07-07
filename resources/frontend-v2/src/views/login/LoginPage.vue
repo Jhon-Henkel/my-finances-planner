@@ -43,6 +43,12 @@ onMounted(() => {
         // await router.push({name: 'dashboard'})
         return
     }
+    const urlParams = new URLSearchParams(window.location.search)
+    const demoMode: string | null = urlParams.get('demo-mode')
+    if (demoMode === 'true') {
+        loginData.value.email = 'mfp-demo@jhon.dev.br'
+        loginData.value.password = 'mfp-demo'
+    }
 })
 </script>
 
