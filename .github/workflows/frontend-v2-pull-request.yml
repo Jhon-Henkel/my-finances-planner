@@ -42,7 +42,7 @@ jobs:
         run: cd resources/frontend-v2 && npm install
 
       - name: 🧪 Executing Vitest tests
-        run: cd resources/frontend-v2 && npm run test:unit
+        run: cd resources/frontend-v2 && npm run test
 
   test-build-frontend-v2:
     runs-on: ubuntu-latest
