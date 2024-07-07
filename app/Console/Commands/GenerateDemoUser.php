@@ -17,7 +17,7 @@ class GenerateDemoUser extends Command
         $user = User::create([
             'name' => 'Demo User',
             'email' => 'demo@demo.dev',
-            'password' => bcrypt('1234'),
+            'password' => bcrypt('12345678'),
             'status' => StatusEnum::Active->value,
             'salary' => 1000,
             'wrong_login_attempts' => 0,
@@ -26,6 +26,6 @@ class GenerateDemoUser extends Command
 
         $this->info('Success!');
         $this->info('User = demo@demo.dev');
-        $this->info('Password = 1234');
+        $this->info('Password = 12345678');
     }
 }

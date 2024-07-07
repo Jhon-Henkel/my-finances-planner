@@ -3,7 +3,6 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/Jhon-Henkel/my-finances-planner/actions?query=branch%3Amain++"><img src="https://github.com/Jhon-Henkel/my-finances-planner/actions/workflows/main_branch_pipeline.yml/badge.svg" alt="pipeline badge"></a>
     <a href="https://my-finances-planner-demo.cronitorstatus.com/"><img src="https://cronitor.io/badges/7TNGwI/production/Kx5Z8Ty_r1i5MPDI_w5JPm66d7Y.svg" alt="cronitor badge"></a>
     <a href="https://github.com/Jhon-Henkel/my-finances-planner/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Jhon-Henkel/my-finances-planner"></a>
 </p>
@@ -22,6 +21,9 @@
 ## Sobre My Finances Planner
 Com a necessidade de algo mais completo e personalizado para controle financeiro, resolvi desenvolver essa aplicação.
 
+Acesso no mode demo: [My Finances Planner](https://my-finances-planner-demo.jhon.dev.br/)
+- Usuário: mfp-demo@jhon.dev.br
+- Senha: mfp-demo
 ## Como iniciar o projeto
 
 Forma mais rápida de iniciar o projeto:
@@ -35,11 +37,11 @@ Criei alguns comandos úteis, você pode conferir [aqui](https://github.com/Jhon
 
 ## Modo Desenvolvimento
 Comandos para rodar o projeto em modo de desenvolvimento:
-#### Frontend-v1: 
+#### Frontend-v1 (Rodar fora do container): 
 ```bash
 npm run dev
 ```
-#### Frontend-v2: 
+#### Frontend-v2 (Rodar fora do container): 
 ```bash
 cd resources/frontend-v2 && npm run ionic serve
 ```
