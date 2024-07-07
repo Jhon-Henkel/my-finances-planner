@@ -1,2 +1,28 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-2px);
+    }
+}
+
+.animate-icon-left {
+    animation: slide-left 0.5s ease-out 1;
+}
+
+@keyframes slide-right {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(2px);
+    }
+}
+
+.animate-icon-right {
+    animation: slide-right 0.5s ease-out 1;
+}
