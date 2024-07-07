@@ -5,9 +5,9 @@ import {localStorageCache} from '@jhowrf/local-storage-cache/src/localStorageCac
 
 export const useAuthStore = defineStore({
     id: 'auth',
-    state: (): { token: any, email: any | null } => ({
+    state: (): { token: any, user: any | null } => ({
         token: ref(localStorageCache.getStorageItem('mfp-token')) ?? null,
-        email: ref(localStorageCache.getStorageItem('mfp-user')) ?? null,
+        user: ref(localStorageCache.getStorageItem('mfp-user')) ?? null,
     }),
     actions: {
         setToken(tokenValue: string): void {
@@ -15,16 +15,23 @@ export const useAuthStore = defineStore({
             this.token = tokenValue
         },
         setUser(userValue: string): void {
-            localStorageCache.setStorageItem('mfp-user', userValue, UtilTime.getOneYearInMs())
-            this.email = userValue
+            localStorageCache.setStorageItem('mfp-user', userValue, UtilTime.getThreeHoursInMs())
+            this.user = userValue
         },
         logout(): void {
             localStorageCache.removeStorageItems('mfp-token')
         },
         isAuthUser(): boolean {
-            const isTokenInSessionStorage = localStorageCache.getStorageItem('mfp-token')
-            const isUserInSessionStorage = localStorageCache.getStorageItem('mfp-user')
-            return this.token && this.email && isTokenInSessionStorage && isUserInSessionStorage
+            const sessionToken = localStorageCache.getStorageItem('mfp-token')
+            const sessionUser = localStorageCache.getStorageItem('mfp-user')
+            const auth = sessionToken && sessionUser
+            if (!auth) {
+                this.logout()
+                return false
+            }
+            this.token = sessionToken
+            this.user = sessionUser
+            return true
         }
     },
     getters: {
@@ -32,7 +39,7 @@ export const useAuthStore = defineStore({
             return ref(this.token)
         },
         getEmail(): Ref<string | null> {
-            return ref(this.email)
+            return ref(this.user.email)
         },
     },
 })

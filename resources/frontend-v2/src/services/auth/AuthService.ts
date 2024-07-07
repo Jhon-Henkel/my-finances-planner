@@ -15,8 +15,8 @@ function getAuthStore() {
 export const authService = {
     login: async (data: ILoginForm): Promise<IApiResponse> => {
         return await ApiRouter.auth.login(data).then((response: any): IApiResponse => {
+            getAuthStore().setUser(data)
             getAuthStore().setToken(response.token)
-            getAuthStore().setUser(data.email)
             return {isSuccess: true, data: 'Logado com sucesso!'}
         }).catch((response: any): IApiResponse => {
             return {isSuccess: false, data: response?.data?.message ?? 'Usuário ou senha inválidos!'}
