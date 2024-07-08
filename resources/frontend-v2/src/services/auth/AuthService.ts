@@ -15,7 +15,7 @@ function getAuthStore() {
 export const authService = {
     login: async (data: ILoginForm): Promise<IApiResponse> => {
         return await ApiRouter.auth.login(data).then((response: any): IApiResponse => {
-            getAuthStore().setUser(data)
+            getAuthStore().setUser(response.user)
             getAuthStore().setToken(response.token)
             return {isSuccess: true, data: 'Logado com sucesso!'}
         }).catch((response: any): IApiResponse => {
