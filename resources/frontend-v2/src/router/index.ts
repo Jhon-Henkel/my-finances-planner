@@ -27,6 +27,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'wallets',
                 component: () => import('@/views/wallets/WalletsPage.vue')
             },
+            {
+                path: 'movimentacoes',
+                name: 'movements',
+                component: () => import('@/views/movement/MovementsPage.vue')
+            },
         ],
         meta: {
             auth: true
