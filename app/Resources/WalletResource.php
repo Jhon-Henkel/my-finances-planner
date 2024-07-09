@@ -3,6 +3,7 @@
 namespace App\Resources;
 
 use App\DTO\WalletDTO;
+use App\Enums\WalletTypeEnum;
 use App\VO\WalletVO;
 
 /**
@@ -16,7 +17,7 @@ class WalletResource extends BasicResource
         $dto = new WalletDTO();
         $dto->setId(isset($item['id']) ? (int)$item['id'] : null);
         $dto->setName($item['name']);
-        $dto->setType((int)$item['type']);
+        $dto->setType(isset($item['type']) ? (int)$item['type'] : WalletTypeEnum::Other->value);
         $dto->setAmount((float)$item['amount']);
         $dto->setCreatedAt($item['created_at'] ?? null);
         $dto->setUpdatedAt($item['updated_at'] ?? null);
