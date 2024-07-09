@@ -231,6 +231,7 @@ export default {
         }
     },
     mounted() {
+		window.location.href = '/v2/carteiras'
         this.getWallets()
     }
 }
