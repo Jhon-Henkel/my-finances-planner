@@ -1,6 +1,9 @@
 import {z} from "zod"
-import {IFormValidation} from "@/form-validation/IFormValidation"
 import {IFormValidationReturn} from "@/form-validation/IFormValidationReturn"
+
+interface IFormValidation {
+    validate: (schema: z.ZodObject<any>, data: any) => IFormValidationReturn
+}
 
 export const FormValidation: IFormValidation = {
     validate: (schema: z.ZodObject<any>, data: any): IFormValidationReturn => {
