@@ -12,7 +12,7 @@ function getAuthStore() {
     return authStore
 }
 
-export const authService = {
+export const AuthService = {
     login: async (data: ILoginForm): Promise<IApiResponse> => {
         return await ApiRouter.auth.login(data).then((response: any): IApiResponse => {
             getAuthStore().setUser(response.user)
@@ -44,6 +44,6 @@ export const authService = {
         return getAuthStore().getEmail
     },
     getToken: (): string => {
-        return getAuthStore().getToken
+        return getAuthStore().getToken?.value ?? ''
     },
 }

@@ -8,13 +8,13 @@ import MfpLoginTopText from "@/views/login/MfpLoginTopText.vue"
 import MfpLoginButton from "@/views/login/MfpLoginButton.vue"
 import MfpInput from "@/components/input/MfpInput.vue"
 import MfpPage from "@/components/page/MfpPage.vue"
-import {authService} from "@/services/auth/AuthService"
+import {AuthService} from "@/services/auth/AuthService"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {LoginFormValidation} from "@/form-validation/auth/login/LoginFormValidation"
 // import router from "@/router"
 
-const loginData = ref(authService.emptyLoginObject())
-loginData.value.email = authService.getRememberedEmail()
+const loginData = ref(AuthService.emptyLoginObject())
+loginData.value.email = AuthService.getRememberedEmail()
 
 async function submit() {
     const okAlert = new MfpOkAlert("Dados inválidos!")
@@ -23,7 +23,7 @@ async function submit() {
         await okAlert.open(validationResult.errors)
         return
     }
-    const login = await authService.login(loginData.value)
+    const login = await AuthService.login(loginData.value)
     if (login.isSuccess) {
         loginData.value.password = ''
         // todo - temporário até desenvolver o dashboard em ionic
@@ -37,7 +37,7 @@ async function submit() {
 }
 
 onMounted(() => {
-    if (authService.isUserLogged()) {
+    if (AuthService.isUserLogged()) {
         // todo - temporário até desenvolver o dashboard em ionic
         window.location.href = '/dashboard'
         // await router.push({name: 'dashboard'})
