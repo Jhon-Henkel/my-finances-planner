@@ -15,8 +15,10 @@ import '@ionic/vue/css/flex-utils.css'
 import '@ionic/vue/css/display.css'
 import '@ionic/vue/css/palettes/dark.system.css'
 import './theme/variables.css'
+import moneyMask from "@/directives/mask/money/moneyMask"
 
 const app = createApp(App)
+    .directive('money', moneyMask)
     .use(IonicVue)
     .use(router)
     .use(createPinia())
