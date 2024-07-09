@@ -21,10 +21,8 @@ class WalletControllerUnitTest extends TestCase
         $rules = $controllerMock->rulesUpdate();
 
         $this->assertArrayHasKey('name', $rules);
-        $this->assertArrayHasKey('type', $rules);
         $this->assertArrayHasKey('amount', $rules);
         $this->assertEquals('required|max:255|min:2|string', $rules['name']);
-        $this->assertEquals('required|int', $rules['type']);
         $this->assertEquals('required|decimal:0,2', $rules['amount']);
     }
 
@@ -39,10 +37,8 @@ class WalletControllerUnitTest extends TestCase
         $rules = $controllerMock->rulesInsert();
 
         $this->assertArrayHasKey('name', $rules);
-        $this->assertArrayHasKey('type', $rules);
         $this->assertArrayHasKey('amount', $rules);
         $this->assertEquals('required|max:255|min:2|string', $rules['name']);
-        $this->assertEquals('required|int', $rules['type']);
         $this->assertEquals('required|decimal:0,2', $rules['amount']);
     }
 

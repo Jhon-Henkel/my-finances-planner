@@ -39,11 +39,12 @@ class StartDevelopProject extends Command
         system('php artisan db:seed');
         $this->info('=> Building...');
         system('npm run build');
+        system('cd resources/frontend-v2 && npm run build');
         $this->info('<=== Project configured! ===>');
         $this->info('<===========================>');
         $this->info('Access the project at http://localhost. For rot reload, run "npm run dev" in your container');
         $this->info('User = demo@demo.dev');
-        $this->info('Password = 1234');
+        $this->info('Password = 12345678');
     }
 
     protected function installDependencies(): void
@@ -52,6 +53,8 @@ class StartDevelopProject extends Command
         system('composer update');
         system('npm install');
         system('npm update');
+        system('cd resources/frontend-v2 && npm install');
+        system('cd resources/frontend-v2 && npm update');
     }
 
     protected function injectKeys(): void

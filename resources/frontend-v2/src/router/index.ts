@@ -1,8 +1,13 @@
 import {createRouter, createWebHistory} from '@ionic/vue-router'
 import {RouteRecordRaw} from 'vue-router'
-import TabsPage from '../views/TabsPage.vue'
+import RouterAuthMiddleware from "@/router/RouterAuthMiddleware"
+import MfpMenu from "@/views/menu/MfpMenu.vue"
 
 const routes: Array<RouteRecordRaw> = [
+    {
+        path: '/v2',
+        redirect: '/v2/login'
+    },
     {
         path: '/v2/login',
         name: 'login',
@@ -14,26 +19,18 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/in-development/InDevelopmentPage.vue')
     },
     {
-        path: '/v2/tabs/',
-        component: TabsPage,
+        path: '/v2/',
+        component: MfpMenu,
         children: [
             {
-                path: '',
-                redirect: '/v2/tabs/tab1'
+                path: 'carteiras',
+                name: 'wallets',
+                component: () => import('@/views/wallets/WalletsPage.vue')
             },
-            {
-                path: 'tab1',
-                component: () => import('@/views/Tab1Page.vue')
-            },
-            {
-                path: 'tab2',
-                component: () => import('@/views/Tab2Page.vue')
-            },
-            {
-                path: 'tab3',
-                component: () => import('@/views/Tab3Page.vue')
-            }
-        ]
+        ],
+        meta: {
+            auth: true
+        }
     }
 ]
 
@@ -41,5 +38,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+router.beforeEach(RouterAuthMiddleware)
 
 export default router

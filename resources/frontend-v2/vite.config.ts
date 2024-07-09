@@ -23,6 +23,7 @@ export default defineConfig((): any => {
             manifest: true,
             outDir: '../../public/build-ionic',
             emptyOutDir: true,
+            chunkSizeWarningLimit: 1024
         },
         base: env.VITE_ENV === 'production' ? '/public/build-ionic/' : '/',
         test: {

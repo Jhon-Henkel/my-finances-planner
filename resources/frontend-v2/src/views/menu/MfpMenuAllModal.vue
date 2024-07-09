@@ -1,0 +1,46 @@
+<script setup lang="ts">
+import router from "@/router"
+import {IonButton, IonButtons, IonHeader, IonIcon, IonItem, IonTitle, IonToolbar, modalController} from "@ionic/vue"
+import MfpModalContent from "@/components/modal/MfpModalContent.vue"
+import {AuthService} from "@/services/auth/AuthService"
+import {MenuItems} from "@/views/menu/MenuItems"
+import {logOutOutline} from "ionicons/icons"
+
+function goToRoute(routeName: string) {
+    if (routeName === 'login') {
+        AuthService.logout()
+    }
+    modalController.dismiss()
+    router.push({name: routeName})
+}
+
+function closeMenu() {
+    modalController.dismiss()
+}
+</script>
+
+<template>
+    <ion-header>
+        <ion-toolbar>
+            <ion-buttons slot="start">
+                <ion-button @click="closeMenu">
+                    Fechar
+                </ion-button>
+            </ion-buttons>
+            <ion-title>Menu</ion-title>
+            <ion-buttons slot="end">
+                <ion-button @click="goToRoute('login')">
+                    <ion-icon :icon="logOutOutline" color="danger"/>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
+    <MfpModalContent>
+        <template #list>
+            <ion-item v-for="(item, index) in MenuItems" :key="index" button @click="goToRoute(item.routeName)">
+                <ion-icon :icon="item.icon" slot="start"/>
+                {{ item.label }}
+            </ion-item>
+        </template>
+    </MfpModalContent>
+</template>

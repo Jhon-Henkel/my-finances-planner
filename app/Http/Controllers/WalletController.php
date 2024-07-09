@@ -21,7 +21,6 @@ class WalletController extends BasicController
     {
         return array(
             'name' => 'required|max:255|min:2|string',
-            'type' => 'required|int',
             'amount' => 'required|decimal:0,2'
         );
     }
@@ -30,7 +29,6 @@ class WalletController extends BasicController
     {
         return array(
             'name' => 'required|max:255|min:2|string',
-            'type' => 'required|int',
             'amount' => 'required|decimal:0,2'
         );
     }

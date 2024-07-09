@@ -35,11 +35,11 @@ export const useAuthStore = defineStore({
         }
     },
     getters: {
-        getToken(): Ref<string | null> {
-            return ref(this.token)
+        getToken(): Ref<string> {
+            return ref(this.token ??  '')
         },
-        getEmail(): Ref<string | null> {
-            return ref(this.user?.email)
+        getEmail(): Ref<string> {
+            return ref(this.user?.email ?? '')
         },
     },
 })

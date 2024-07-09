@@ -2,11 +2,13 @@
 
 namespace App\DTO;
 
+use App\Enums\WalletTypeEnum;
+
 class WalletDTO
 {
     private null|int $id;
     private string $name;
-    private int $type;
+    private int $type = WalletTypeEnum::Other->value;
     private null|bool $movementAlreadyDone = false;
     private float|int $amount;
     private mixed $createdAt;
