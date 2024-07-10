@@ -4,6 +4,7 @@ import {AuthService} from "@/services/auth/AuthService"
 import {IWalletForm} from "@/services/wallet/IWalletForm"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {IMovementForm} from "@/services/movement/IMovementForm"
+import {ITransferForm} from "@/services/movement/transfer/ITransferForm"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -65,9 +66,13 @@ export const ApiRouter = {
         }
     },
     movement: {
-        index: async (quest: null|string = null) => {
+        index: async () => {
+            const response = await axios.get(mountApiUrl('movement'), makeHeaders())
+            return response.data
+        },
+        indexFiltered: async (quest: null|string = null) => {
             quest = quest ? `?${quest}` : ''
-            const response = await axios.get(mountApiUrl(`movement${quest}`), makeHeaders())
+            const response = await axios.get(mountApiUrl(`movement/filter${quest}`), makeHeaders())
             return response.data
         },
         post: async (data: IMovementForm) => {
@@ -83,7 +88,7 @@ export const ApiRouter = {
             return response.data
         },
         transfer: {
-            post: async (data: transferFormInterface) => {
+            post: async (data: ITransferForm) => {
                 const response = await axios.post(mountApiUrl('movement/transfer'), data, makeHeaders())
                 return response.data
             }

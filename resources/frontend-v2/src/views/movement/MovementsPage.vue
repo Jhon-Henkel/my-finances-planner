@@ -29,21 +29,21 @@ import {UtilCalendar} from "@/util/UtilCalendar"
 import {MovementService} from "@/services/movement/MovementService"
 import {useWalletStore} from "@/stores/wallet/WalletStore"
 import {MovementModel} from "@/model/movement/MovementModel"
-// import {MfpModal} from "@/components/modal/MfpModal"
+import {MfpModal} from "@/components/modal/MfpModal"
+import {useMovementStore} from "@/stores/movement/MovementStore"
+import MfpFilterButton from "@/components/button/MfpFilterButton.vue"
 
 const movements = ref<MovementModel[]>([])
 const originalMovements = ref<MovementModel[]>([])
 const totalIncomes = ref(0)
 const totalExpenses = ref(0)
 const totalBalance = ref(0)
-const listLoaded = ref(false)
-const nothingToShow = ref(false)
 const movementToEdit = ref()
 const movementToEditLocal = ref()
 const filterPeriodLabel = ref('')
-const walletStore = useWalletStore()
 // const formModal = new MfpModal(MfpMovementsFormModal)
-// const filterModal = new MfpModal(MfpMovementsFilterModal)
+const filterModal = new MfpModal(MfpMovementsFilterModal)
+const movementStore = useMovementStore()
 
 async function optionsAction(movement: MovementModel) {
     movementToEditLocal.value = movement
@@ -92,19 +92,18 @@ function filterMovement(event: any) {
     movements.value = movements.value.filter(
         movement =>
             movement.description.toLowerCase().includes(query)
-            || movement.walletName.toLowerCase().includes(query)
+            || movement.walletName && movement.walletName.toLowerCase().includes(query)
     )
 }
 
 async function updateMovements(quest: null | string = null) {
-    listLoaded.value = false
     resetTotalsToZero()
     filterPeriodLabel.value = UtilCalendar.makeLabelFilterDate(quest)
-    movements.value = originalMovements.value = await MovementService.index(quest)
-    nothingToShow.value = movements.value.length === 0
+    movementStore.loadAgainOnNextTick()
+    movements.value = originalMovements.value = await movementStore.loadMovements(quest)
     updateTotals()
+    const walletStore = useWalletStore()
     walletStore.loadAgainOnNextTick()
-    listLoaded.value = true
 }
 
 async function handleRefresh(event: any) {
@@ -114,9 +113,6 @@ async function handleRefresh(event: any) {
 
 onMounted(async () => {
     filterPeriodLabel.value = UtilCalendar.makeLabelFilterDate()
-    if (!walletStore.isLoadedOnStore) {
-        await walletStore.getWallets
-    }
     await updateMovements()
 })
 </script>
@@ -126,7 +122,7 @@ onMounted(async () => {
         <mfp-refresh @refresh-content="handleRefresh($event)"/>
         <ion-list-header>
             <ion-label>Movimentações</ion-label>
-            <mfp-movements-filter-modal @filter-changed="updateMovements($event)"/>
+            <mfp-filter-button @click="filterModal.open()"/>
             <mfp-movements-form-modal
                 :movement="movementToEdit"
                 @modal-closed="movementToEdit = null"
@@ -136,10 +132,10 @@ onMounted(async () => {
         <mfp-movements-filter-period-label :filter-period-label="filterPeriodLabel"/>
         <mfp-movements-details-card :incomes="totalIncomes" :expenses="totalExpenses" :balance="totalBalance"/>
         <ion-searchbar :animated="true" placeholder="Buscar por conta ou descrição" @ionInput="filterMovement($event)"/>
-        <mfp-empty-list-item :nothing-to-show="nothingToShow"/>
-        <mfp-movements-list-skeleton-load :is-loaded="listLoaded"/>
-        <ion-list v-if="listLoaded">
-            <ion-item-sliding v-for="(movement, index) in movements" :key="index" class="ion-text-center">
+        <mfp-empty-list-item :nothing-to-show="movementStore.getMovements.length === 0"/>
+        <mfp-movements-list-skeleton-load :is-loaded="movementStore.isLoadedOnStore"/>
+        <ion-list v-if="movementStore.isLoadedOnStore">
+            <ion-item-sliding v-for="(movement, index) in movementStore.movements" :key="index" class="ion-text-center">
                 <mfp-movements-list-item :movement="movement"/>
                 <ion-item-options side="end">
                     <ion-item-option color="light" @click="optionsAction(movement)">

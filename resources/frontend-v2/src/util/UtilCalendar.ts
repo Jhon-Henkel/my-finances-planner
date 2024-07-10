@@ -22,7 +22,7 @@ export const UtilCalendar = {
         const dateStartString: string = new Date(dateStart).toISOString().slice(0, 10)
         const dateEndString: string = new Date(subDays(dateEnd, 1)).toISOString().slice(0, 10)
 
-        return `date_start=${dateStartString}&date_end=${dateEndString}`
+        return `dateStart=${dateStartString}&dateEnd=${dateEndString}`
     },
     makeLabelFilterDate: function(quest: string|null = null): string {
         if (quest === null) {

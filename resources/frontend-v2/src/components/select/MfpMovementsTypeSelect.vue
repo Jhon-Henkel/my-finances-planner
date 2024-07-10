@@ -2,6 +2,7 @@
 import {IonItem, IonSelect, IonSelectOption} from "@ionic/vue"
 import {onMounted, ref} from "vue"
 import {MovementService} from "@/services/movement/MovementService"
+import {useMovementStore} from "@/stores/movement/MovementStore"
 
 const props = defineProps(
     {
@@ -20,7 +21,6 @@ const props = defineProps(
             required: false,
             default: false
         },
-        modelValue: Number,
     }
 )
 
@@ -30,11 +30,11 @@ const transactionTypeSelectOptions = {
 }
 
 const movementTypes = ref()
-
-const emit = defineEmits(['update:modelValue'])
+const movementStore = useMovementStore()
+const lastFilterType = ref(movementStore.lastMovementFilterType)
 
 function updateValue(value: any) {
-    emit('update:modelValue', value)
+    movementStore.setLastMovementFilterType(value)
 }
 
 onMounted(() => {
@@ -45,6 +45,7 @@ onMounted(() => {
 <template>
     <ion-item>
         <ion-select
+            :value="lastFilterType"
             :label="label"
             :interface-options="transactionTypeSelectOptions"
             :placeholder="placeholder"

@@ -12,7 +12,7 @@ const movementType = {
 
 export const MovementService = {
     index: async (quest: null | string = null): Promise<Array<MovementModel>> => {
-        const data = await ApiRouter.movement.index(quest)
+        const data = quest ? await ApiRouter.movement.indexFiltered(quest) : await ApiRouter.movement.index()
         return data.map((item: any) => new MovementModel(item))
     },
     create: async (data: IMovementForm): Promise<MovementModel> => {
@@ -89,6 +89,20 @@ export const MovementService = {
                 return repeatOutline
             default:
                 return alertOutline
+        }
+    },
+    geLabelForMovementType: (type: number): string => {
+        switch (type) {
+            case movementType.income:
+                return 'Entrada'
+            case movementType.expense:
+                return 'Saída'
+            case movementType.transfer:
+                return 'Transferência'
+            case movementType.all:
+                return 'Todas'
+            default:
+                return 'Tipo desconhecido'
         }
     },
     incomeType: movementType.income,
