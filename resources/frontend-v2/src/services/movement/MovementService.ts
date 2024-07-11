@@ -3,6 +3,7 @@ import {ApiRouter} from "@/api/ApiRouter"
 import {IMovementForm} from "@/services/movement/IMovementForm"
 import {alertOutline, arrowDownOutline, arrowUpOutline, repeatOutline} from "ionicons/icons"
 import {useMovementStore} from "@/stores/movement/MovementStore"
+import {IMovementFormView} from "@/services/movement/IMovementFormView"
 
 const movementType = {
     income: 6,
@@ -29,11 +30,12 @@ export const MovementService = {
     delete: async (id: number): Promise<void> => {
         await ApiRouter.movement.delete(id)
     },
-    emptyMovement: (): IMovementForm => {
+    emptyMovement: (): IMovementFormView => {
         return {
             id: undefined,
             walletId: 0,
             description: '',
+            walletName: '',
             amount: 0,
             type: movementType.expense,
         }

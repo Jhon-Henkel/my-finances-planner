@@ -39,13 +39,16 @@ async function saveItem() {
         }
         if (internalMovement.value.id) {
             const moneyValue = UtilMoney.formatValueToBr(internalMovement.value.amount)
+            let message = `O valor na conta referente a essa movimentação será atualizado! `
+            message += `Nome: ${internalMovement.value.description}, Valor: ${moneyValue}`
             const confirmAlert = new MfpConfirmAlert("Deseja atualizar a movimentação?")
-            const confirm = await confirmAlert.open(`Nome: ${internalMovement.value.description}, Valor: ${moneyValue}`)
+            const confirm = await confirmAlert.open(message)
             if (confirm) {
                 await MovementService.update(internalMovement.value)
                 await toast.open('Movimentação atualizada com sucesso!')
                 closeModal()
                 await MovementService.forceUpdateMovementList()
+                await WalletService.forceUpdateWalletList()
             }
             return
         }
@@ -124,6 +127,13 @@ watchEffect(() => {
                         <ion-label color="danger">Saída</ion-label>
                     </ion-segment-button>
                 </ion-segment>
+                <div class="ion-text-center">
+                    <ion-label v-show="editMode">
+                        <ion-text>
+                            Carteira: {{ internalMovement.walletName }}
+                        </ion-text>
+                    </ion-label>
+                </div>
                 <ion-list :inset="true">
                     <mfp-input
                         v-model="internalMovement.description"
@@ -131,7 +141,7 @@ watchEffect(() => {
                         placeholder="Do que é essa movimentação?"
                     />
                     <mfp-input-money v-model="internalMovement.amount"/>
-                    <mfp-wallet-select label="Conta" v-model="internalMovement.walletId"/>
+                    <mfp-wallet-select label="Conta" v-model="internalMovement.walletId" v-show="! editMode"/>
                 </ion-list>
             </div>
             <div v-else-if="insertType === 'transfer'">

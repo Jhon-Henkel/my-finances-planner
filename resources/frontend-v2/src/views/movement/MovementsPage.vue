@@ -32,12 +32,10 @@ import {MfpModal} from "@/components/modal/MfpModal"
 import {useMovementStore} from "@/stores/movement/MovementStore"
 import MfpFilterButton from "@/components/button/MfpFilterButton.vue"
 import MfpCirclePlusButton from "@/components/button/MfpCirclePlusButton.vue"
+import {WalletService} from "@/services/wallet/WalletService"
 
 const movements = ref<MovementModel[]>([])
 const originalMovements = ref<MovementModel[]>([])
-const totalIncomes = ref(0)
-const totalExpenses = ref(0)
-const totalBalance = ref(0)
 const movementToEditLocal = ref()
 const filterPeriodLabel = ref('')
 const formModal = new MfpModal(MfpMovementsFormModal)
@@ -56,8 +54,8 @@ async function optionsAction(movement: MovementModel) {
         }
         await formModal.open({movement: movementToEditLocal.value})
     } else if (action === 'delete') {
-        let message = `Deseja realmente excluir a movimentação ${movementToEditLocal.value.name}? `
-        message += 'O valor na conta referente a essa movimentação será atualizada!'
+        let message = `Deseja realmente excluir a movimentação '${movementToEditLocal.value.description}'? `
+        message += 'O valor na conta referente a essa movimentação será atualizado!'
         const deleteConfirmAlert = new MfpConfirmAlert('Deseja realmente deletar a movimentação?')
         const confirm = await deleteConfirmAlert.open(message)
         if (confirm) {
@@ -65,6 +63,7 @@ async function optionsAction(movement: MovementModel) {
             const toast = new MfpToast()
             await toast.open('Movimentação removida com sucesso!')
             await updateMovements()
+            await WalletService.forceUpdateWalletList()
         }
     }
 }
