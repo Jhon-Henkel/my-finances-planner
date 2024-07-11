@@ -2,24 +2,9 @@
 import {IonCard, IonCardContent, IonCol, IonGrid, IonIcon, IonLabel, IonRow, IonText} from "@ionic/vue"
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
 import {arrowDownOutline, arrowUpOutline, walletOutline} from "ionicons/icons"
+import {useMovementStore} from "@/stores/movement/MovementStore"
 
-defineProps(
-    {
-        incomes: {
-            type: Number,
-            required: true
-        },
-        expenses: {
-            type: Number,
-            required: true
-        },
-        balance: {
-            type: Number,
-            required: true
-        }
-    }
-
-)
+const store = useMovementStore()
 </script>
 
 <template>
@@ -31,7 +16,7 @@ defineProps(
                         <ion-label class="center-ion-label-content">
                             <ion-icon :icon="arrowUpOutline" color="success" class="icon"/>
                             <ion-text>
-                                <mfp-counter-money :end="incomes"/>
+                                <mfp-counter-money :end="store.totalIncomesValue"/>
                             </ion-text>
                         </ion-label>
                     </ion-col>
@@ -39,7 +24,7 @@ defineProps(
                         <ion-label class="center-ion-label-content">
                             <ion-icon :icon="arrowDownOutline" color="danger" class="icon"/>
                             <ion-text>
-                                <mfp-counter-money :end="expenses"/>
+                                <mfp-counter-money :end="store.totalExpensesValue"/>
                             </ion-text>
                         </ion-label>
                     </ion-col>
@@ -49,7 +34,7 @@ defineProps(
                         <ion-label class="center-ion-label-content">
                             <ion-icon :icon="walletOutline" color="primary" class="icon"/>
                             <ion-text>
-                                <mfp-counter-money :end="balance"/>
+                                <mfp-counter-money :end="store.totalBalanceValue"/>
                             </ion-text>
                         </ion-label>
                     </ion-col>

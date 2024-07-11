@@ -69,19 +69,6 @@ async function optionsAction(movement: MovementModel) {
     }
 }
 
-function updateTotals() {
-    const totals = MovementService.sumTotalValues(movements.value)
-    totalIncomes.value = totals.incomes
-    totalExpenses.value = totals.expenses
-    totalBalance.value = totals.balance
-}
-
-function resetTotalsToZero() {
-    totalIncomes.value = 0
-    totalExpenses.value = 0
-    totalBalance.value = 0
-}
-
 function filterMovement(event: any) {
     const query = event.target.value.toLowerCase()
     movements.value = originalMovements.value
@@ -96,10 +83,8 @@ function filterMovement(event: any) {
 }
 
 async function updateMovements(quest: null | string = null) {
-    resetTotalsToZero()
     filterPeriodLabel.value = UtilCalendar.makeLabelFilterDate(quest)
     await MovementService.forceUpdateMovementList()
-    updateTotals()
 }
 
 async function handleRefresh(event: any) {
@@ -122,7 +107,7 @@ onMounted(async () => {
             <mfp-circle-plus-button @click="formModal.open()"/>
         </ion-list-header>
         <mfp-movements-filter-period-label :filter-period-label="filterPeriodLabel"/>
-        <mfp-movements-details-card :incomes="totalIncomes" :expenses="totalExpenses" :balance="totalBalance"/>
+        <mfp-movements-details-card/>
         <ion-searchbar :animated="true" placeholder="Buscar por conta ou descrição" @ionInput="filterMovement($event)"/>
         <mfp-empty-list-item :nothing-to-show="movementStore.movements.length === 0 && movementStore.isLoaded"/>
         <mfp-movements-list-skeleton-load :is-loaded="movementStore.isLoaded"/>

@@ -7,6 +7,9 @@ interface IMovementStoreState {
     movements: Array<MovementModel>
     isLoaded: boolean
     lastMovementFilterType: number
+    totalIncomesValue: number
+    totalExpensesValue: number
+    totalBalanceValue: number
 }
 
 export const useMovementStore = defineStore({
@@ -14,7 +17,10 @@ export const useMovementStore = defineStore({
     state: (): IMovementStoreState => ({
         movements: [],
         isLoaded: false,
-        lastMovementFilterType: MovementService.allType
+        lastMovementFilterType: MovementService.allType,
+        totalIncomesValue: 0,
+        totalExpensesValue: 0,
+        totalBalanceValue: 0
     }),
     actions: {
         loadAgainOnNextTick() {
@@ -29,6 +35,10 @@ export const useMovementStore = defineStore({
                 this.isLoaded = false
                 this.movements = await MovementService.index(quest)
                 this.isLoaded = true
+                const totals = MovementService.sumTotalValues(this.movements)
+                this.totalIncomesValue = totals.incomes
+                this.totalExpensesValue = totals.expenses
+                this.totalBalanceValue = totals.balance
             }
             return this.movements
         },
