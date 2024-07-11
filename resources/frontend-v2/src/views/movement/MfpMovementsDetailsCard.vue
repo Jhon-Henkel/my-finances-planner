@@ -12,7 +12,7 @@ const store = useMovementStore()
         <ion-card-content class="value">
             <ion-grid class="ion-no-padding">
                 <ion-row>
-                    <ion-col size="6">
+                    <ion-col size="6" class="ion-text-center">
                         <ion-label class="center-ion-label-content">
                             <ion-icon :icon="arrowUpOutline" color="success" class="icon"/>
                             <ion-text>
@@ -20,7 +20,7 @@ const store = useMovementStore()
                             </ion-text>
                         </ion-label>
                     </ion-col>
-                    <ion-col size="6">
+                    <ion-col size="6" class="ion-text-center">
                         <ion-label class="center-ion-label-content">
                             <ion-icon :icon="arrowDownOutline" color="danger" class="icon"/>
                             <ion-text>
@@ -29,8 +29,8 @@ const store = useMovementStore()
                         </ion-label>
                     </ion-col>
                 </ion-row>
-                <ion-row class="ion-margin-top">
-                    <ion-col>
+                <ion-row class="ion-margin-top ion-text-center">
+                    <ion-col class="ion-text-center">
                         <ion-label class="center-ion-label-content">
                             <ion-icon :icon="walletOutline" color="primary" class="icon"/>
                             <ion-text>
