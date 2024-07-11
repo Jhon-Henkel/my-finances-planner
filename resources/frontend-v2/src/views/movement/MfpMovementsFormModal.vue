@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import {
-    IonButton,
-    IonContent,
-    IonIcon,
-    IonLabel,
-    IonList,
-    IonModal,
-    IonSegment,
-    IonSegmentButton
-} from "@ionic/vue"
+import {IonContent, IonLabel, IonList, IonSegment, IonSegmentButton, modalController} from "@ionic/vue"
 import {ref, watchEffect} from "vue"
 import MfpInputMoney from "@/components/input/MfpInputMoney.vue"
 import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
@@ -22,21 +13,18 @@ import {MovementModel} from "@/model/movement/MovementModel"
 import {TransferService} from "@/services/movement/transfer/TransferService"
 import {MovementFormValidation} from "@/form-validation/movement/MovementFormValidation"
 import {TransferFormValidation} from "@/form-validation/movement/transfer/TransferFormValidation"
-import {addCircleOutline} from "ionicons/icons"
 import {WalletService} from "@/services/wallet/WalletService"
 
 const props = defineProps(
     {
         movement: {
-            type: Object as () => MovementModel
+            type: MovementModel
         }
     }
 )
 
-const emits = defineEmits(['reload-list', 'modalClosed'])
 const internalMovement = ref(MovementService.emptyMovement())
 const internalTransfer = ref(TransferService.emptyTransfer())
-const modal = ref()
 const title = ref('Nova Movimentação')
 const insertType = ref('movement')
 const movementType = ref('expense')
@@ -53,18 +41,18 @@ async function saveItem() {
             const moneyValue = UtilMoney.formatValueToBr(internalMovement.value.amount)
             const confirmAlert = new MfpConfirmAlert("Deseja atualizar a movimentação?")
             const confirm = await confirmAlert.open(`Nome: ${internalMovement.value.description}, Valor: ${moneyValue}`)
-            if (!confirm) {
+            if (confirm) {
                 await MovementService.update(internalMovement.value)
                 await toast.open('Movimentação atualizada com sucesso!')
-                emits('reload-list')
                 closeModal()
+                await MovementService.forceUpdateMovementList()
             }
             return
         }
         await MovementService.create(internalMovement.value)
         await toast.open('Movimentação cadastrada com sucesso!')
-        emits('reload-list')
         closeModal()
+        await MovementService.forceUpdateMovementList()
     } else if (insertType.value === 'transfer') {
         const validationResult = TransferFormValidation.validate(internalTransfer.value)
         if (!validationResult.isValid) {
@@ -72,8 +60,8 @@ async function saveItem() {
         }
         await TransferService.create(internalTransfer.value)
         await toast.open('Transferência cadastrada com sucesso!')
-        emits('reload-list')
         closeModal()
+        await MovementService.forceUpdateMovementList()
     }
     await WalletService.forceUpdateWalletList()
 }
@@ -84,9 +72,8 @@ function closeModal() {
     title.value = 'Nova Movimentação'
     editMode.value = false
     insertType.value = 'movement'
-    modal.value.$el.dismiss()
+    modalController.dismiss()
     movementType.value = 'expense'
-    emits('modalClosed')
 }
 
 function changeInsertType(event: any) {
@@ -109,7 +96,6 @@ function changeMovementType(event: any) {
 
 watchEffect(() => {
     if (props.movement) {
-        modal.value.$el.present()
         title.value = 'Editar Movimentação'
         internalMovement.value = props.movement
         editMode.value = true
@@ -118,54 +104,45 @@ watchEffect(() => {
 </script>
 
 <template>
-    <ion-button class="ion-no-padding ion-margin-end" id="mfp-movement-form-modal" expand="block">
-        <ion-icon :icon="addCircleOutline" class="top-icon"/>
-    </ion-button>
-    <ion-modal
-        trigger="mfp-movement-form-modal"
-        :initial-breakpoint="0.90"
-        :breakpoints="[0.90, 1]"
-        handle-behavior="cycle"
-        backdrop-dismiss="false"
-        ref="modal"
-    >
-        <mfp-modal-header :title="title" @close-action="closeModal" @save-action="saveItem"/>
-        <ion-content class="ion-padding">
-            <ion-segment :value="insertType" @ionChange="changeInsertType" v-if="! editMode">
-                <ion-segment-button value="movement">
-                    <ion-label>Movimentação</ion-label>
-                </ion-segment-button>
-                <ion-segment-button value="transfer">
-                    <ion-label>Transferência</ion-label>
-                </ion-segment-button>
-            </ion-segment>
-            <div class="ion-padding-top ion-padding-bottom">
-                <div v-if="insertType === 'movement'">
-                    <ion-segment :value="movementType" @ionChange="changeMovementType" v-if="! editMode">
-                        <ion-segment-button value="income">
-                            <ion-label color="success">Entrada</ion-label>
-                        </ion-segment-button>
-                        <ion-segment-button value="expense">
-                            <ion-label color="danger">Saída</ion-label>
-                        </ion-segment-button>
-                    </ion-segment>
-                    <ion-list :inset="true">
-                        <mfp-input v-model="internalMovement.description" label="Descrição"
-                                   placeholder="Do que é essa movimentação?"/>
-                        <mfp-input-money v-model="internalMovement.amount"/>
-                        <mfp-wallet-select label="Conta" v-model="internalMovement.walletId"/>
-                    </ion-list>
-                </div>
-                <div v-else-if="insertType === 'transfer'">
-                    <ion-list :inset="true">
-                        <mfp-input-money v-model="internalTransfer.amount"/>
-                        <mfp-wallet-select label="Origem" v-model="internalTransfer.originId"/>
-                        <mfp-wallet-select label="Destino" v-model="internalTransfer.destinationId"/>
-                    </ion-list>
-                </div>
+    <mfp-modal-header :title="title" @close-action="closeModal" @save-action="saveItem"/>
+    <ion-content class="ion-padding">
+        <ion-segment :value="insertType" @ionChange="changeInsertType" v-if="! editMode">
+            <ion-segment-button value="movement">
+                <ion-label>Movimentação</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="transfer">
+                <ion-label>Transferência</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+        <div class="ion-padding-top ion-padding-bottom">
+            <div v-if="insertType === 'movement'">
+                <ion-segment :value="movementType" @ionChange="changeMovementType" v-if="! editMode">
+                    <ion-segment-button value="income">
+                        <ion-label color="success">Entrada</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="expense">
+                        <ion-label color="danger">Saída</ion-label>
+                    </ion-segment-button>
+                </ion-segment>
+                <ion-list :inset="true">
+                    <mfp-input
+                        v-model="internalMovement.description"
+                        label="Descrição"
+                        placeholder="Do que é essa movimentação?"
+                    />
+                    <mfp-input-money v-model="internalMovement.amount"/>
+                    <mfp-wallet-select label="Conta" v-model="internalMovement.walletId"/>
+                </ion-list>
             </div>
-        </ion-content>
-    </ion-modal>
+            <div v-else-if="insertType === 'transfer'">
+                <ion-list :inset="true">
+                    <mfp-input-money v-model="internalTransfer.amount"/>
+                    <mfp-wallet-select label="Origem" v-model="internalTransfer.originId"/>
+                    <mfp-wallet-select label="Destino" v-model="internalTransfer.destinationId"/>
+                </ion-list>
+            </div>
+        </div>
+    </ion-content>
 </template>
 
 <style scoped>

@@ -31,16 +31,16 @@ import {MovementModel} from "@/model/movement/MovementModel"
 import {MfpModal} from "@/components/modal/MfpModal"
 import {useMovementStore} from "@/stores/movement/MovementStore"
 import MfpFilterButton from "@/components/button/MfpFilterButton.vue"
+import MfpCirclePlusButton from "@/components/button/MfpCirclePlusButton.vue"
 
 const movements = ref<MovementModel[]>([])
 const originalMovements = ref<MovementModel[]>([])
 const totalIncomes = ref(0)
 const totalExpenses = ref(0)
 const totalBalance = ref(0)
-const movementToEdit = ref()
 const movementToEditLocal = ref()
 const filterPeriodLabel = ref('')
-// const formModal = new MfpModal(MfpMovementsFormModal)
+const formModal = new MfpModal(MfpMovementsFormModal)
 const filterModal = new MfpModal(MfpMovementsFilterModal)
 const movementStore = useMovementStore()
 
@@ -54,7 +54,7 @@ async function optionsAction(movement: MovementModel) {
             await invalidActionAlert.open('Não é possível editar movimentação do tipo transferência!')
             return
         }
-        movementToEdit.value = movementToEditLocal.value
+        await formModal.open({movement: movementToEditLocal.value})
     } else if (action === 'delete') {
         let message = `Deseja realmente excluir a movimentação ${movementToEditLocal.value.name}? `
         message += 'O valor na conta referente a essa movimentação será atualizada!'
@@ -119,16 +119,12 @@ onMounted(async () => {
         <ion-list-header>
             <ion-label>Movimentações</ion-label>
             <mfp-filter-button @click="filterModal.open()"/>
-            <mfp-movements-form-modal
-                :movement="movementToEdit"
-                @modal-closed="movementToEdit = null"
-                @reload-list="updateMovements"
-            />
+            <mfp-circle-plus-button @click="formModal.open()"/>
         </ion-list-header>
         <mfp-movements-filter-period-label :filter-period-label="filterPeriodLabel"/>
         <mfp-movements-details-card :incomes="totalIncomes" :expenses="totalExpenses" :balance="totalBalance"/>
         <ion-searchbar :animated="true" placeholder="Buscar por conta ou descrição" @ionInput="filterMovement($event)"/>
-        <mfp-empty-list-item :nothing-to-show="movementStore.getMovements.length === 0"/>
+        <mfp-empty-list-item :nothing-to-show="movementStore.movements.length === 0 && movementStore.isLoaded"/>
         <mfp-movements-list-skeleton-load :is-loaded="movementStore.isLoaded"/>
         <ion-list v-if="movementStore.isLoaded">
             <ion-item-sliding v-for="(movement, index) in movementStore.movements" :key="index" class="ion-text-center">

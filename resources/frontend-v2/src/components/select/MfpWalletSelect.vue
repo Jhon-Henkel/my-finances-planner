@@ -40,6 +40,7 @@ onMounted(async () => {
             :interface-options="walletsSelectOptions"
             :placeholder="placeholder"
             fill="solid"
+            :value="modelValue"
             interface="action-sheet"
             cancel-text="Cancelar"
             @ionChange="updateValue($event.target.value)"

@@ -35,7 +35,7 @@ export const MovementService = {
             walletId: 0,
             description: '',
             amount: 0,
-            type: 0,
+            type: movementType.expense,
         }
     },
     getTypesList: (): Array<{ value: number, label: string }> => {
