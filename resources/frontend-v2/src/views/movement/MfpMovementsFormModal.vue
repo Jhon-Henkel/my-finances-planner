@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {IonContent, IonLabel, IonList, IonSegment, IonSegmentButton, modalController} from "@ionic/vue"
+import {IonContent, IonLabel, IonList, IonSegment, IonSegmentButton, modalController, IonText} from "@ionic/vue"
 import {ref, watchEffect} from "vue"
 import MfpInputMoney from "@/components/input/MfpInputMoney.vue"
 import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
@@ -154,9 +154,3 @@ watchEffect(() => {
         </div>
     </ion-content>
 </template>
-
-<style scoped>
-.top-icon {
-    font-size: 1.8em;
-}
-</style>

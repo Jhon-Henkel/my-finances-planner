@@ -32,3 +32,7 @@ http://ionicframework.com/docs/theming/ */
     align-items: center;
     justify-content: center;
 }
+
+.top-icon {
+    font-size: 1.8em;
+}

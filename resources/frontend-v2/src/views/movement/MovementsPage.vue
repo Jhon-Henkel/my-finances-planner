@@ -33,52 +33,49 @@ import {useMovementStore} from "@/stores/movement/MovementStore"
 import MfpFilterButton from "@/components/button/MfpFilterButton.vue"
 import MfpCirclePlusButton from "@/components/button/MfpCirclePlusButton.vue"
 import {WalletService} from "@/services/wallet/WalletService"
+import MfpTotalRegistersRow from "@/components/page/MfpTotalRegistersRow.vue"
 
-const movements = ref<MovementModel[]>([])
-const originalMovements = ref<MovementModel[]>([])
-const movementToEditLocal = ref()
 const filterPeriodLabel = ref('')
 const formModal = new MfpModal(MfpMovementsFormModal)
 const filterModal = new MfpModal(MfpMovementsFilterModal)
 const movementStore = useMovementStore()
 
+function filterMovement(event: any) {
+    const query = event.target.value
+    movementStore.filterMovementsOnStore(query)
+}
+
 async function optionsAction(movement: MovementModel) {
-    movementToEditLocal.value = movement
     const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtons(true, true, true))
     const action = await actionSheet.open()
     if (action === 'edit') {
-        if (movementToEditLocal.value.type === MovementService.transferType) {
-            const invalidActionAlert = new MfpOkAlert("Ação inválida!")
-            await invalidActionAlert.open('Não é possível editar movimentação do tipo transferência!')
-            return
-        }
-        await formModal.open({movement: movementToEditLocal.value})
+        await editMovement(movement)
     } else if (action === 'delete') {
-        let message = `Deseja realmente excluir a movimentação '${movementToEditLocal.value.description}'? `
-        message += 'O valor na conta referente a essa movimentação será atualizado!'
-        const deleteConfirmAlert = new MfpConfirmAlert('Deseja realmente deletar a movimentação?')
-        const confirm = await deleteConfirmAlert.open(message)
-        if (confirm) {
-            await MovementService.delete(movementToEditLocal.value.id)
-            const toast = new MfpToast()
-            await toast.open('Movimentação removida com sucesso!')
-            await updateMovements()
-            await WalletService.forceUpdateWalletList()
-        }
+        await deleteMovement(movement)
     }
 }
 
-function filterMovement(event: any) {
-    const query = event.target.value.toLowerCase()
-    movements.value = originalMovements.value
-    if (!query) {
+async function editMovement(movement: MovementModel) {
+    if (movement.type === MovementService.transferType) {
+        const invalidActionAlert = new MfpOkAlert("Ação inválida!")
+        await invalidActionAlert.open('Não é possível editar movimentação do tipo transferência!')
         return
     }
-    movements.value = movements.value.filter(
-        movement =>
-            movement.description.toLowerCase().includes(query)
-            || movement.walletName && movement.walletName.toLowerCase().includes(query)
-    )
+    await formModal.open({movement: movement})
+}
+
+async function deleteMovement(movement: MovementModel) {
+    let message = `Deseja realmente excluir a movimentação '${movement.description}'? `
+    message += 'O valor na conta referente a essa movimentação será atualizado!'
+    const deleteConfirmAlert = new MfpConfirmAlert('Deseja realmente deletar a movimentação?')
+    const confirm = await deleteConfirmAlert.open(message)
+    if (confirm) {
+        await MovementService.delete(movement.id)
+        const toast = new MfpToast()
+        await toast.open('Movimentação removida com sucesso!')
+        await updateMovements()
+        await WalletService.forceUpdateWalletList()
+    }
 }
 
 async function updateMovements(quest: null | string = null) {
@@ -121,5 +118,6 @@ onMounted(async () => {
                 </ion-item-options>
             </ion-item-sliding>
         </ion-list>
+        <mfp-total-registers-row :total-itens="movementStore.movements.length"/>
     </mfp-page>
 </template>

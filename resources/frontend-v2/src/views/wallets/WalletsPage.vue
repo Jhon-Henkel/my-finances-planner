@@ -26,6 +26,7 @@ import {UtilActionSheet} from "@/util/UtilActionSheet"
 import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
 import {WalletService} from "@/services/wallet/WalletService"
 import {useWalletStore} from "@/stores/wallet/WalletStore"
+import MfpTotalRegistersRow from "@/components/page/MfpTotalRegistersRow.vue"
 
 const walletStore = useWalletStore()
 const formModal = new MfpModal(MfpWalletsFormModal)
@@ -82,5 +83,6 @@ onMounted(async () => {
                 </ion-item-options>
             </ion-item-sliding>
         </ion-list>
+        <mfp-total-registers-row :total-itens="walletStore.wallets.length"/>
     </mfp-page>
 </template>
