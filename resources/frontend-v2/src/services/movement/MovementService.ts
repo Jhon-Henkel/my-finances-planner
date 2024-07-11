@@ -2,6 +2,7 @@ import {MovementModel} from "@/model/movement/MovementModel"
 import {ApiRouter} from "@/api/ApiRouter"
 import {IMovementForm} from "@/services/movement/IMovementForm"
 import {alertOutline, arrowDownOutline, arrowUpOutline, repeatOutline} from "ionicons/icons"
+import {useMovementStore} from "@/stores/movement/MovementStore"
 
 const movementType = {
     income: 6,
@@ -103,6 +104,19 @@ export const MovementService = {
                 return 'Todas'
             default:
                 return 'Tipo desconhecido'
+        }
+    },
+    updateMovementList: async () => {
+        const store= useMovementStore()
+        if (! store.isLoaded) {
+            await store.loadMovements()
+        }
+    },
+    forceUpdateMovementList: async () => {
+        const store= useMovementStore()
+        store.loadAgainOnNextTick()
+        if (! store.isLoaded) {
+            await store.loadMovements()
         }
     },
     incomeType: movementType.income,

@@ -12,7 +12,6 @@ import {
 import {ref, watchEffect} from "vue"
 import MfpInputMoney from "@/components/input/MfpInputMoney.vue"
 import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
-import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {MfpToast} from "@/components/toast/MfpToast"
 import {UtilMoney} from "@/util/UtilMoney"
 import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
@@ -24,6 +23,7 @@ import {TransferService} from "@/services/movement/transfer/TransferService"
 import {MovementFormValidation} from "@/form-validation/movement/MovementFormValidation"
 import {TransferFormValidation} from "@/form-validation/movement/transfer/TransferFormValidation"
 import {addCircleOutline} from "ionicons/icons"
+import {WalletService} from "@/services/wallet/WalletService"
 
 const props = defineProps(
     {
@@ -34,7 +34,6 @@ const props = defineProps(
 )
 
 const emits = defineEmits(['reload-list', 'modalClosed'])
-const okAlert = new MfpOkAlert("Dados inválidos!")
 const internalMovement = ref(MovementService.emptyMovement())
 const internalTransfer = ref(TransferService.emptyTransfer())
 const modal = ref()
@@ -48,7 +47,6 @@ async function saveItem() {
     if (insertType.value === 'movement') {
         const validationResult = MovementFormValidation.validate(internalMovement.value)
         if (!validationResult.isValid) {
-            await okAlert.open(validationResult.errors)
             return
         }
         if (internalMovement.value.id) {
@@ -70,7 +68,6 @@ async function saveItem() {
     } else if (insertType.value === 'transfer') {
         const validationResult = TransferFormValidation.validate(internalTransfer.value)
         if (!validationResult.isValid) {
-            await okAlert.open(validationResult.errors)
             return
         }
         await TransferService.create(internalTransfer.value)
@@ -78,6 +75,7 @@ async function saveItem() {
         emits('reload-list')
         closeModal()
     }
+    await WalletService.forceUpdateWalletList()
 }
 
 function closeModal() {

@@ -27,7 +27,6 @@ import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
 import {MfpToast} from "@/components/toast/MfpToast"
 import {UtilCalendar} from "@/util/UtilCalendar"
 import {MovementService} from "@/services/movement/MovementService"
-import {useWalletStore} from "@/stores/wallet/WalletStore"
 import {MovementModel} from "@/model/movement/MovementModel"
 import {MfpModal} from "@/components/modal/MfpModal"
 import {useMovementStore} from "@/stores/movement/MovementStore"
@@ -99,11 +98,8 @@ function filterMovement(event: any) {
 async function updateMovements(quest: null | string = null) {
     resetTotalsToZero()
     filterPeriodLabel.value = UtilCalendar.makeLabelFilterDate(quest)
-    movementStore.loadAgainOnNextTick()
-    movements.value = originalMovements.value = await movementStore.loadMovements(quest)
+    await MovementService.forceUpdateMovementList()
     updateTotals()
-    const walletStore = useWalletStore()
-    walletStore.loadAgainOnNextTick()
 }
 
 async function handleRefresh(event: any) {
@@ -133,8 +129,8 @@ onMounted(async () => {
         <mfp-movements-details-card :incomes="totalIncomes" :expenses="totalExpenses" :balance="totalBalance"/>
         <ion-searchbar :animated="true" placeholder="Buscar por conta ou descrição" @ionInput="filterMovement($event)"/>
         <mfp-empty-list-item :nothing-to-show="movementStore.getMovements.length === 0"/>
-        <mfp-movements-list-skeleton-load :is-loaded="movementStore.isLoadedOnStore"/>
-        <ion-list v-if="movementStore.isLoadedOnStore">
+        <mfp-movements-list-skeleton-load :is-loaded="movementStore.isLoaded"/>
+        <ion-list v-if="movementStore.isLoaded">
             <ion-item-sliding v-for="(movement, index) in movementStore.movements" :key="index" class="ion-text-center">
                 <mfp-movements-list-item :movement="movement"/>
                 <ion-item-options side="end">

@@ -47,25 +47,17 @@ async function deleteWallet(wallet: WalletModel) {
         await WalletService.delete(wallet.id)
         const toast = new MfpToast()
         await toast.open('Carteira deletada com sucesso!')
-        walletStore.loadAgainOnNextTick()
-        await updateWalletsList()
-    }
-}
-
-async function updateWalletsList() {
-    if (!walletStore.isLoadedOnStore) {
-        await walletStore.getWallets
+        await WalletService.forceUpdateWalletList()
     }
 }
 
 async function handleRefresh(event: any) {
-    walletStore.loadAgainOnNextTick()
-    await updateWalletsList()
+    await WalletService.forceUpdateWalletList()
     event.target.complete()
 }
 
 onMounted(async () => {
-    await updateWalletsList()
+    await WalletService.updateWalletList()
 })
 </script>
 
