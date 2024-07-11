@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia'
 import {MovementModel} from "@/model/movement/MovementModel"
 import {MovementService} from "@/services/movement/MovementService"
+import {UtilCalendar} from "@/util/UtilCalendar"
 
 interface IMovementStoreState {
     movements: Array<MovementModel>
@@ -20,6 +21,10 @@ export const useMovementStore = defineStore({
             this.isLoaded = false
         },
         async loadMovements(quest: string | null = null): Promise<Array<MovementModel>> {
+            if (! quest) {
+                const dateFilterString: string = UtilCalendar.makeStringFilterDate(UtilCalendar.getTodayIso())
+                quest = `type=${MovementService.allType}&${dateFilterString}`
+            }
             if (!this.isLoaded) {
                 this.isLoaded = false
                 this.movements = await MovementService.index(quest)
