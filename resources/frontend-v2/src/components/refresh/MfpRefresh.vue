@@ -16,6 +16,11 @@ function handleRefresh(event: any) {
 
 <template>
     <ion-refresher slot="fixed" @ionRefresh="handleRefresh($event)">
-        <ion-refresher-content :pulling-icon="refreshOutline" pulling-text="Puxe para atualizar..." />
+        <ion-refresher-content
+            :pulling-icon="refreshOutline"
+            pulling-text="Puxe para atualizar..."
+            refreshing-spinner="crescent"
+            refreshing-text="Atualizando..."
+        />
     </ion-refresher>
 </template>

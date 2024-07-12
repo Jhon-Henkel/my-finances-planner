@@ -36,3 +36,7 @@ http://ionicframework.com/docs/theming/ */
 .top-icon {
     font-size: 1.8em;
 }
+
+.no-break {
+    white-space: nowrap;
+}

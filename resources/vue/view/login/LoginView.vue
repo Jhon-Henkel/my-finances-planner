@@ -132,6 +132,7 @@ export default {
         }
     },
     async mounted() {
+        window.location.href = '/v2/login'
         this.loadingDone = 0
         await this.checkUserIsLogged()
         if (RequestTools.isApplicationInDemoMode()) {
@@ -140,7 +141,6 @@ export default {
             this.user.password = import.meta.env.VITE_DEMO_PASSWORD
             return
         }
-        window.location.href = '/v2/login'
     }
 }
 </script>
