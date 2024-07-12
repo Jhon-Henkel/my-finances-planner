@@ -1,6 +1,7 @@
 import {ApiRouter} from "@/api/ApiRouter"
 import {WalletModel} from "@/model/wallet/WalletModel"
 import {IWalletForm} from "@/services/wallet/IWalletForm"
+import {useWalletStore} from "@/stores/wallet/WalletStore"
 
 export const WalletService = {
     index: async (): Promise<Array<WalletModel>> => {
@@ -35,5 +36,18 @@ export const WalletService = {
             })
         }
         return parseFloat(total.toFixed(2))
+    },
+    updateWalletList: async () => {
+        const store= useWalletStore()
+        if (! store.isLoaded) {
+            await store.getWallets
+        }
+    },
+    forceUpdateWalletList: async () => {
+        const store= useWalletStore()
+        store.loadAgainOnNextTick()
+        if (! store.isLoaded) {
+            await store.getWallets
+        }
     }
 }

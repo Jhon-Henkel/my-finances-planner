@@ -3,6 +3,8 @@ import {ILoginForm} from "@/services/auth/ILoginForm"
 import {AuthService} from "@/services/auth/AuthService"
 import {IWalletForm} from "@/services/wallet/IWalletForm"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
+import {IMovementForm} from "@/services/movement/IMovementForm"
+import {ITransferForm} from "@/services/movement/transfer/ITransferForm"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -61,6 +63,35 @@ export const ApiRouter = {
         delete: async (id: number) => {
             const response = await axios.delete(mountApiUrl('wallet', id), makeHeaders())
             return response.data
+        }
+    },
+    movement: {
+        index: async () => {
+            const response = await axios.get(mountApiUrl('movement'), makeHeaders())
+            return response.data
+        },
+        indexFiltered: async (quest: null|string = null) => {
+            quest = quest ? `?${quest}` : ''
+            const response = await axios.get(mountApiUrl(`movement/filter${quest}`), makeHeaders())
+            return response.data
+        },
+        post: async (data: IMovementForm) => {
+            const response = await axios.post(mountApiUrl('movement'), data, makeHeaders())
+            return response.data
+        },
+        put: async (id: number, data: IMovementForm) => {
+            const response = await axios.put(mountApiUrl('movement', id), data, makeHeaders())
+            return response.data
+        },
+        delete: async (id: number) => {
+            const response = await axios.delete(mountApiUrl('movement', id), makeHeaders())
+            return response.data
+        },
+        transfer: {
+            post: async (data: ITransferForm) => {
+                const response = await axios.post(mountApiUrl('movement/transfer'), data, makeHeaders())
+                return response.data
+            }
         }
     },
 }

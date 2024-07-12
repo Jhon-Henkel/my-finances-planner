@@ -1,5 +1,6 @@
 import {z} from "zod"
 import {IFormValidationReturn} from "@/form-validation/IFormValidationReturn"
+import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 
 interface IFormValidation {
     validate: (schema: z.ZodObject<any>, data: any) => IFormValidationReturn
@@ -11,6 +12,8 @@ export const FormValidation: IFormValidation = {
         if (result.success) {
             return {isValid : true, errors: ''}
         }
+        const okAlert: MfpOkAlert = new MfpOkAlert("Dados inválidos!")
+        okAlert.open(result.error.errors[0].message)
         return {isValid: result.success, errors: result.error.errors[0].message}
     }
 }

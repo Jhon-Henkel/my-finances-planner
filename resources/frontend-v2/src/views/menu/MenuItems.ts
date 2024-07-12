@@ -20,8 +20,8 @@ export const MenuItems = [
     },
     {
         icon: swapHorizontalOutline,
-        routeName: 'in-development',
-        label: 'Movimentações (Em Desenvolvimento)',
+        routeName: 'movements',
+        label: 'Movimentações',
     },
     {
         icon: cashOutline,
@@ -31,7 +31,7 @@ export const MenuItems = [
     {
         icon: walletOutline,
         routeName: 'wallets',
-        label: 'Contas',
+        label: 'Carteiras',
     },
     {
         icon: cardOutline,

@@ -19,6 +19,7 @@
         "@ionic/vue": "^8.0.0",
         "@ionic/vue-router": "^8.0.0",
         "@jhowrf/local-storage-cache": "^1.0.2",
+        "date-fns": "^3.6.0",
         "ionicons": "^7.0.0",
         "pinia": "^2.1.7",
         "vue": "^3.3.0",

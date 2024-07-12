@@ -20,7 +20,6 @@ async function submit() {
     const okAlert = new MfpOkAlert("Dados inválidos!")
     const validationResult = LoginFormValidation.validate(loginData.value)
     if (!validationResult.isValid) {
-        await okAlert.open(validationResult.errors)
         return
     }
     const login = await AuthService.login(loginData.value)

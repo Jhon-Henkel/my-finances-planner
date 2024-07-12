@@ -21,7 +21,7 @@ function redirect(route: string) {
                 <ion-tab-button tab="home" @click="redirect('/dashboard')">
                     <ion-icon :icon="homeOutline"/>
                 </ion-tab-button>
-                <ion-tab-button tab="movements" @click="redirect('/movimentacoes')">
+                <ion-tab-button tab="movements" href="/v2/movimentacoes">
                     <ion-icon :icon="swapHorizontalOutline"/>
                 </ion-tab-button>
                 <ion-tab-button tab="add" id="mfp-tab-plus-modal">
