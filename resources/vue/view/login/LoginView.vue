@@ -139,7 +139,6 @@ export default {
             window.location.href = '/v2/login?demo-mode=true'
             this.user.email = import.meta.env.VITE_DEMO_USER
             this.user.password = import.meta.env.VITE_DEMO_PASSWORD
-            return
         }
     }
 }
