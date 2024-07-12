@@ -11,6 +11,7 @@ interface IMovementStoreState {
     totalIncomesValue: number
     totalExpensesValue: number
     totalBalanceValue: number
+    dateOfResults: string
 }
 
 export const useMovementStore = defineStore({
@@ -22,7 +23,8 @@ export const useMovementStore = defineStore({
         lastMovementFilterType: MovementService.allType,
         totalIncomesValue: 0,
         totalExpensesValue: 0,
-        totalBalanceValue: 0
+        totalBalanceValue: 0,
+        dateOfResults: ''
     }),
     actions: {
         loadAgainOnNextTick() {
@@ -37,6 +39,7 @@ export const useMovementStore = defineStore({
                 this.isLoaded = false
                 this.movements = this.originalMovements = await MovementService.index(quest)
                 this.isLoaded = true
+                this.dateOfResults = UtilCalendar.makeLabelFilterDate(quest)
                 const totals = MovementService.sumTotalValues(this.movements)
                 this.totalIncomesValue = totals.incomes
                 this.totalExpensesValue = totals.expenses

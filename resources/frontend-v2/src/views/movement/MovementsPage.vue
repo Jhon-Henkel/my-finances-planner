@@ -10,7 +10,7 @@ import {
     IonSearchbar
 } from "@ionic/vue"
 import {ellipsisHorizontal} from 'ionicons/icons'
-import {onMounted, ref} from "vue"
+import {onMounted} from "vue"
 import MfpEmptyListItem from "@/components/list/MfpEmptyListItem.vue"
 import MfpRefresh from "@/components/refresh/MfpRefresh.vue"
 import MfpPage from "@/components/page/MfpPage.vue"
@@ -25,7 +25,6 @@ import {UtilActionSheet} from "@/util/UtilActionSheet"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
 import {MfpToast} from "@/components/toast/MfpToast"
-import {UtilCalendar} from "@/util/UtilCalendar"
 import {MovementService} from "@/services/movement/MovementService"
 import {MovementModel} from "@/model/movement/MovementModel"
 import {MfpModal} from "@/components/modal/MfpModal"
@@ -35,7 +34,6 @@ import MfpCirclePlusButton from "@/components/button/MfpCirclePlusButton.vue"
 import {WalletService} from "@/services/wallet/WalletService"
 import MfpTotalRegistersRow from "@/components/page/MfpTotalRegistersRow.vue"
 
-const filterPeriodLabel = ref('')
 const formModal = new MfpModal(MfpMovementsFormModal)
 const filterModal = new MfpModal(MfpMovementsFilterModal)
 const movementStore = useMovementStore()
@@ -78,8 +76,7 @@ async function deleteMovement(movement: MovementModel) {
     }
 }
 
-async function updateMovements(quest: null | string = null) {
-    filterPeriodLabel.value = UtilCalendar.makeLabelFilterDate(quest)
+async function updateMovements() {
     await MovementService.forceUpdateMovementList()
 }
 
@@ -89,7 +86,6 @@ async function handleRefresh(event: any) {
 }
 
 onMounted(async () => {
-    filterPeriodLabel.value = UtilCalendar.makeLabelFilterDate()
     await updateMovements()
 })
 </script>
@@ -102,7 +98,7 @@ onMounted(async () => {
             <mfp-filter-button @click="filterModal.open()"/>
             <mfp-circle-plus-button @click="formModal.open()"/>
         </ion-list-header>
-        <mfp-movements-filter-period-label :filter-period-label="filterPeriodLabel"/>
+        <mfp-movements-filter-period-label/>
         <mfp-movements-details-card/>
         <ion-searchbar :animated="true" placeholder="Buscar por conta ou descrição" @ionInput="filterMovement($event)"/>
         <mfp-empty-list-item :nothing-to-show="movementStore.movements.length === 0 && movementStore.isLoaded"/>
