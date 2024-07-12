@@ -260,6 +260,7 @@ export default {
         }
     },
     async mounted() {
+        window.location.href = '/v2/movimentacoes'
         this.filterList = MovementEnum.getFilterList()
         await this.getMovementIndexFiltered()
     }

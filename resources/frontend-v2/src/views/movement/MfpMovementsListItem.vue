@@ -31,7 +31,7 @@ defineProps(
                 <ion-col size="6">
                     <ion-row>
                         <ion-col>
-                            <ion-label>
+                            <ion-label class="no-break">
                                 <strong>
                                     {{ UtilString.ellipsis(movement.description, 37) }}
                                 </strong>
@@ -45,7 +45,7 @@ defineProps(
                             </ion-label>
                         </ion-col>
                         <ion-col size="6">
-                            <ion-label class="nowrap">
+                            <ion-label class="no-break">
                                 {{ UtilString.ellipsis(movement.walletName, 10) }}
                             </ion-label>
                         </ion-col>
