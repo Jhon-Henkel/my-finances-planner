@@ -30,7 +30,7 @@ export const UtilCalendar = {
             const string: string = format(today, 'MMMM - yyyy', { locale: ptBR })
             return UtilString.capitalizeFirstLetter(string)
         }
-        const slice: string = quest.slice(18, 28)
+        const slice: string = quest.slice(17, 27)
         const date: Date = new Date(slice)
         const string: string = format(addDays(date, 1), 'MMMM - yyyy', { locale: ptBR })
         return UtilString.capitalizeFirstLetter(string)

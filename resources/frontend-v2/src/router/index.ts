@@ -36,6 +36,11 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             auth: true
         }
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'not-found',
+        component: () => import('@/views/not-found/NotFoundPage.vue'),
     }
 ]
 
