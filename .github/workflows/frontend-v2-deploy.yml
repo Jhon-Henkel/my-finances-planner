@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  deploy-frontend-v2:
+  deploy-frontend-v2-private-server:
     runs-on: ubuntu-latest
     env:
       TZ: 'America/Sao_Paulo'
@@ -24,16 +24,6 @@ jobs:
       - name: 🛠️ Installing Node dependencies
         run: cd resources/frontend-v2 && npm install
 
-#      - name: ⚡️ Executing coverage
-#        run: npm run test:coverage
-#
-#      - name: 💡️ Codecov
-#        uses: codecov/codecov-action@v4.0.1
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
-#          slug: Jhon-Henkel/my-finances-planner-app
-#          files: ./tests/coverage/clover.xml
-
       - name: 📦️ Building application
         run: cd resources/frontend-v2 && npm run build
 
@@ -46,6 +36,28 @@ jobs:
           local-dir: ./public/build-ionic/
           server-dir: ./projects/my-finances-planner/public/build-ionic/
           dangerous-clean-slate: true
+
+  deploy-frontend-v2-demo-server:
+    runs-on: ubuntu-latest
+    env:
+      TZ: 'America/Sao_Paulo'
+
+    steps:
+      - name: 🔥 Configuring checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+
+      - name: 📄 Making .env file
+        run: |
+          echo "${{ secrets.ENV_MFP_FRONTEND_V2_DEMO }}" > resources/frontend-v2/.env
+
+      - name: 🛠️ Installing Node dependencies
+        run: cd resources/frontend-v2 && npm install
+
+      - name: 📦️ Building application
+        run: cd resources/frontend-v2 && npm run build
 
       - name: 📂 Upload files to demo server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
