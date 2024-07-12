@@ -30,7 +30,9 @@ function closeModal() {
             <mfp-movements-type-select label="Tipo:" :forFilter="true"/>
             <ion-item>
                 <ion-text>Período:</ion-text>
-                <ion-datetime-button datetime="datetime"/>
+                <div class="date-filter-button">
+                    <ion-datetime-button datetime="datetime"/>
+                </div>
             </ion-item>
             <ion-modal :keep-contents-mounted="true">
                 <ion-datetime
@@ -48,3 +50,11 @@ function closeModal() {
         </template>
     </mfp-modal-content>
 </template>
+
+<style scoped>
+.date-filter-button {
+    flex-grow: 1;
+    justify-content: flex-end;
+    display: flex;
+}
+</style>

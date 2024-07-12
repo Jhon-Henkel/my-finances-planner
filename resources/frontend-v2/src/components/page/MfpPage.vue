@@ -4,7 +4,7 @@ import {IonContent, IonPage} from "@ionic/vue"
 
 <template>
     <ion-page>
-        <ion-content :fullscreen="true">
+        <ion-content :fullscreen="true" class="ion-margin-top ion-padding-top">
             <slot/>
         </ion-content>
     </ion-page>
