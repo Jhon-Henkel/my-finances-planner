@@ -28,7 +28,13 @@ export default defineConfig((): any => {
         base: env.VITE_ENV === 'production' ? '/public/build-ionic/' : '/',
         test: {
             globals: true,
-            environment: 'jsdom'
+            environment: 'jsdom',
+            coverage: {
+                reportsDirectory: './tests/coverage',
+                include: ['src/**/*'],
+                exclude: [''],
+                all: true
+            }
         }
     }
 })
