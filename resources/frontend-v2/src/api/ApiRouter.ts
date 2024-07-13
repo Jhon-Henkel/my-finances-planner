@@ -94,4 +94,10 @@ export const ApiRouter = {
             }
         }
     },
+    panorama: {
+        index: async () => {
+            const response = await axios.get(mountApiUrl('panorama'), makeHeaders())
+            return response.data
+        }
+    }
 }

@@ -15,8 +15,8 @@ export const MenuItems = [
     },
     {
         icon: calendarOutline,
-        routeName: 'in-development',
-        label: 'Balanço Mensal (Em Desenvolvimento)',
+        routeName: 'panorama',
+        label: 'Plano de Gastos',
     },
     {
         icon: swapHorizontalOutline,

@@ -8,6 +8,11 @@ export const UtilCalendar = {
         const saoPauloTime = now.toLocaleString("en-US", {timeZone: "America/Sao_Paulo"})
         return new Date(saoPauloTime)
     },
+    makeDate: function(date: string): Date {
+        const now: Date =  new Date(date)
+        const saoPauloTime = now.toLocaleString("en-US", {timeZone: "America/Sao_Paulo"})
+        return new Date(saoPauloTime)
+    },
     getTodayIso: function(): string {
         return this.getToday().toISOString()
     },
@@ -34,5 +39,51 @@ export const UtilCalendar = {
         const date: Date = new Date(slice)
         const string: string = format(addDays(date, 1), 'MMMM - yyyy', { locale: ptBR })
         return UtilString.capitalizeFirstLetter(string)
-    }
+    },
+    getNextSixMonths(currentMonth: number): Array<number> {
+        const months: number[] = []
+        let month: number = parseInt(String(currentMonth))
+        for (let index: number = 0; index < 6; index++) {
+            if (month > 11) {
+                month = 0
+            }
+            months.push(month)
+            month++
+        }
+        return months
+    },
+    getCurrentMonth(): number {
+        const date: Date = this.getToday()
+        return date.getMonth()
+    },
+    getMonthNameByNumber(month: number): string {
+        switch (month) {
+            case 0:
+                return 'Janeiro'
+            case 1:
+                return 'Fevereiro'
+            case 2:
+                return 'Março'
+            case 3:
+                return 'Abril'
+            case 4:
+                return 'Maio'
+            case 5:
+                return 'Junho'
+            case 6:
+                return 'Julho'
+            case 7:
+                return 'Agosto'
+            case 8:
+                return 'Setembro'
+            case 9:
+                return 'Outubro'
+            case 10:
+                return 'Novembro'
+            case 11:
+                return 'Dezembro'
+            default:
+                return 'Mês inválido'
+        }
+    },
 }
