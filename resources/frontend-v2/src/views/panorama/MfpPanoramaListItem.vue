@@ -63,22 +63,40 @@ function getColorForNextInstallmentDay(installment: number): string {
                 </ion-col>
                 <ion-col size="4" class="ion-text-end">
                     <ion-label v-if="store.installmentSelected === 1">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.firstInstallment) }}
+                        <ion-badge color="success" v-if="panoramaItem.firstInstallment == 0">
+                            Pago
+                        </ion-badge>
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.firstInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 2">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.secondInstallment) }}
+                        <ion-badge color="success" v-if="panoramaItem.secondInstallment == 0">
+                            Pago
+                        </ion-badge>
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.secondInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 3">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.thirdInstallment) }}
+                        <ion-badge color="success" v-if="panoramaItem.thirdInstallment == 0">
+                            Pago
+                        </ion-badge>
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.thirdInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 4">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.fourthInstallment) }}
+                        <ion-badge color="success" v-if="panoramaItem.fourthInstallment == 0">
+                            Pago
+                        </ion-badge>
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.fourthInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 5">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.fifthInstallment) }}
+                        <ion-badge color="success" v-if="panoramaItem.fifthInstallment == 0">
+                            Pago
+                        </ion-badge>
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.fifthInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 6">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.sixthInstallment) }}
+                        <ion-badge color="success" v-if="panoramaItem.sixthInstallment == 0">
+                            Pago
+                        </ion-badge>
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.sixthInstallment) }}
                     </ion-label>
                 </ion-col>
                 <ion-col size="1" class="ion-text-end no-padding-end">

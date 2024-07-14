@@ -9,10 +9,10 @@ export const UtilMoney = {
             }
         )
     },
-    formatValueToBrReturnHyphenCaseZero: (value: number): string => {
+    formatValueToBrReturnStringCaseZero: (value: number, string: string = ''): string => {
         value = parseFloat(String(value))
         if (value === 0) {
-            return '-'
+            return string
         }
         return UtilMoney.formatValueToBr(value)
     }
