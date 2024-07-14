@@ -23,6 +23,7 @@ import {UtilCalendar} from "@/util/UtilCalendar"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import MfpPanoramaPayModal from "@/views/panorama/MfpPanoramaPayModal.vue"
 import MfpPanoramaAddValueModal from "@/views/panorama/MfpPanoramaAddValueModal.vue"
+import MfpPanoramaDetailsModal from "@/views/panorama/MfpPanoramaDetailsModal.vue"
 
 const store = usePanoramaStore()
 const formModal = new MfpModal(MfpPanoramaFormModal)
@@ -54,6 +55,10 @@ async function optionsAction(item: InvoiceModel) {
         const futureExpense = await FutureExpenseService.get(item.id)
         const addValueModal = new MfpModal(MfpPanoramaAddValueModal)
         await addValueModal.open({futureExpense: futureExpense})
+    } else if (action === 'details') {
+        const futureExpense = await FutureExpenseService.get(item.id)
+        const details = new MfpModal(MfpPanoramaDetailsModal)
+        await details.open({futureExpense: futureExpense})
     }
 }
 

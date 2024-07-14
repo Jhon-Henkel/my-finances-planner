@@ -405,6 +405,7 @@ export default {
         }
     },
     async mounted() {
+        window.location.href = '/v2/panorama'
         this.thisMonth = CalendarTools.getThisMonth()
         this.months = CalendarTools.getNextSixMonths(this.thisMonth)
         await this.updateFutureSpendingList()

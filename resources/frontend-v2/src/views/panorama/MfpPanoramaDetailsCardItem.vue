@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {IonCol, IonRow, IonText, IonIcon, IonLabel} from "@ionic/vue"
+import {IonCol, IonRow, IonText, IonIcon, IonLabel, IonBadge} from "@ionic/vue"
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
 
 defineProps({
