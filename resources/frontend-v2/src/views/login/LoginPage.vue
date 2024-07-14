@@ -15,6 +15,7 @@ import {LoginFormValidation} from "@/form-validation/auth/login/LoginFormValidat
 
 const loginData = ref(AuthService.emptyLoginObject())
 loginData.value.email = AuthService.getRememberedEmail()
+const loading = ref(false)
 
 async function submit() {
     const okAlert = new MfpOkAlert("Dados inválidos!")
@@ -22,7 +23,9 @@ async function submit() {
     if (!validationResult.isValid) {
         return
     }
+    loading.value = true
     const login = await AuthService.login(loginData.value)
+    loading.value = false
     if (login.isSuccess) {
         loginData.value.password = ''
         // todo - temporário até desenvolver o dashboard em ionic
@@ -76,7 +79,7 @@ onMounted(() => {
                 <ion-col size="1"/>
             </ion-row>
             <mfp-forgotten-password-link/>
-            <mfp-login-button @loginPressed="submit"/>
+            <mfp-login-button :loading="loading" @loginPressed="submit"/>
             <mfp-create-account-link/>
         </ion-grid>
     </mfp-page>
