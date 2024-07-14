@@ -25,7 +25,7 @@ function submit() {
                 Entrar
                 <ion-icon slot="end" :icon="chevronForward" class="animate-icon-right"/>
             </ion-button>
-            <ion-button expand="block" v-else>
+            <ion-button expand="block" v-else disabled>
                 <ion-spinner name="crescent"/>
             </ion-button>
         </ion-col>

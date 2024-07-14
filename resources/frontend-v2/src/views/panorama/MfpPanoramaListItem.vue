@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {IonBadge, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
-import {chevronBackOutline} from "ionicons/icons"
+import {checkmarkCircleOutline, chevronBackOutline} from "ionicons/icons"
 import {UtilString} from "@/util/UtilString"
 import {UtilMoney} from "@/util/UtilMoney"
 import {IInvoice} from "@/services/invoice/IInvoice"
@@ -63,22 +63,52 @@ function getColorForNextInstallmentDay(installment: number): string {
                 </ion-col>
                 <ion-col size="4" class="ion-text-end">
                     <ion-label v-if="store.installmentSelected === 1">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.firstInstallment) }}
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.firstInstallment == 0"
+                        />
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.firstInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 2">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.secondInstallment) }}
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.secondInstallment == 0"
+                        />
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.secondInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 3">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.thirdInstallment) }}
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.thirdInstallment == 0"
+                        />
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.thirdInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 4">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.fourthInstallment) }}
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.fourthInstallment == 0"
+                        />
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.fourthInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 5">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.fifthInstallment) }}
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.fifthInstallment == 0"
+                        />
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.fifthInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 6">
-                        {{ UtilMoney.formatValueToBrReturnHyphenCaseZero(panoramaItem.sixthInstallment) }}
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.sixthInstallment == 0"
+                        />
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.sixthInstallment) }}
                     </ion-label>
                 </ion-col>
                 <ion-col size="1" class="ion-text-end no-padding-end">

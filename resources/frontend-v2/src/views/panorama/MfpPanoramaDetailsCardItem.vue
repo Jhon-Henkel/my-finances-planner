@@ -18,6 +18,10 @@ defineProps({
     title: {
         type: String,
         required: true
+    },
+    useBadge: {
+        type: Boolean,
+        default: false
     }
 })
 </script>
@@ -30,9 +34,17 @@ defineProps({
                 <ion-text class="ion-margin-end">
                     {{ title }}
                 </ion-text>
-                <mfp-counter-money :end="value" v-if="typeof value === 'number'"/>
+                <ion-badge v-if="useBadge" :color="value > 0 ? 'success' : 'danger'">
+                    <mfp-counter-money :end="value" v-if="typeof value === 'number'"/>
+                    <ion-text v-else>
+                        {{ value }}
+                    </ion-text>
+                </ion-badge>
                 <ion-text v-else>
-                    {{ value }}
+                    <mfp-counter-money :end="value" v-if="typeof value === 'number'"/>
+                    <ion-text v-else>
+                        {{ value }}
+                    </ion-text>
                 </ion-text>
             </ion-label>
         </ion-col>
