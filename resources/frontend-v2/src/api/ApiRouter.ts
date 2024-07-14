@@ -105,6 +105,14 @@ export const ApiRouter = {
         post: async (data: IFutureExpenseForm) => {
             const response = await axios.post(mountApiUrl('future-spent'), data, makeHeaders())
             return response.data
-        }
+        },
+        get: async (id: number) => {
+            const response = await axios.get(mountApiUrl('future-spent', id), makeHeaders())
+            return response.data
+        },
+        put: async (id: number, data: IFutureExpenseForm) => {
+            const response = await axios.put(mountApiUrl('future-spent', id), data, makeHeaders())
+            return response.data
+        },
     }
 }

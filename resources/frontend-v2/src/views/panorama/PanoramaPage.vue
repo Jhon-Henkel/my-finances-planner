@@ -18,6 +18,8 @@ import MfpPanoramaListSkeletonLoad from "@/views/panorama/MfpPanoramaListSkeleto
 import {PanoramaService} from "@/services/panorama/PanoramaService"
 import {MfpModal} from "@/components/modal/MfpModal"
 import MfpPanoramaFormModal from "@/views/panorama/MfpPanoramaFormModal.vue"
+import {FutureExpenseService} from "@/services/future-expense/FutureExpenseService"
+import {UtilCalendar} from "@/util/UtilCalendar"
 
 const store = usePanoramaStore()
 const formModal = new MfpModal(MfpPanoramaFormModal)
@@ -25,7 +27,13 @@ const formModal = new MfpModal(MfpPanoramaFormModal)
 async function optionsAction(item: InvoiceModel) {
     const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtonsToPanorama())
     const action = await actionSheet.open()
-    console.log(action, item)
+    if (action === 'edit') {
+        const futureExpense = await FutureExpenseService.get(item.id)
+        futureExpense.forecast = UtilCalendar.toIso(futureExpense.forecast)
+        await formModal.open({futureExpense: futureExpense})
+    } else if (action === 'delete') {
+        // delete
+    }
 }
 
 async function handleRefresh(event: any) {

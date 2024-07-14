@@ -2,7 +2,7 @@
 import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
 import MfpModalContent from "@/components/modal/MfpModalContent.vue"
 import {modalController} from "@ionic/vue"
-import {ref} from "vue"
+import {onMounted, ref} from "vue"
 import {FutureExpenseService} from "@/services/future-expense/FutureExpenseService"
 import MfpInput from "@/components/input/MfpInput.vue"
 import MfpInputMoney from "@/components/input/MfpInputMoney.vue"
@@ -12,9 +12,14 @@ import MfpInputDate from "@/components/input/MfpInputDate.vue"
 import {FutureExpenseFormValidation} from "@/form-validation/future-expense/FutureExpenseFormValidation"
 import {MfpToast} from "@/components/toast/MfpToast"
 import {PanoramaService} from "@/services/panorama/PanoramaService"
+import {FutureExpenseModel} from "@/model/future-expense/FutureExpenseModel"
 
-const internalFutureExpense = ref(FutureExpenseService.makeEmptyFutureExpense())
-const title = 'Cadastrar Gasto'
+const props = defineProps({
+    futureExpense: FutureExpenseModel
+})
+
+const internalFutureExpense = props.futureExpense ? ref(props.futureExpense) : ref(FutureExpenseService.makeEmptyFutureExpense())
+const title = props.futureExpense ? 'Editar Gasto' : 'Cadastrar Gasto'
 const fixExpense = ref(false)
 
 async function save() {
@@ -25,7 +30,9 @@ async function save() {
     const toast = new MfpToast()
     let toastMessage = ''
     if (internalFutureExpense.value.id) {
-        // edit
+        await FutureExpenseService.update(internalFutureExpense.value, fixExpense.value)
+        toastMessage = 'Gasto atualizado com sucesso!'
+        closeModal()
     } else {
         await FutureExpenseService.create(internalFutureExpense.value, fixExpense.value)
         toastMessage = 'Gasto cadastrado com sucesso!'
@@ -39,6 +46,12 @@ function closeModal() {
     internalFutureExpense.value = FutureExpenseService.makeEmptyFutureExpense()
     modalController.dismiss()
 }
+
+onMounted(() => {
+    if (props.futureExpense) {
+        fixExpense.value = props.futureExpense.installments === 0
+    }
+})
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 import {IFutureExpenseForm} from "@/services/future-expense/IFutureExpenseForm"
 import {UtilCalendar} from "@/util/UtilCalendar"
 import {ApiRouter} from "@/api/ApiRouter"
+import {FutureExpenseModel} from "@/model/future-expense/FutureExpenseModel"
 
 export const FutureExpenseService = {
     create: async (data: IFutureExpenseForm, isFixExpense: boolean): Promise<void> => {
@@ -9,6 +10,17 @@ export const FutureExpenseService = {
         }
         data.forecast = data.forecast.slice(0, 10)
         await ApiRouter.futureExpense.post(data)
+    },
+    get: async (id: number): Promise<FutureExpenseModel> => {
+        const data = await ApiRouter.futureExpense.get(id)
+        return new FutureExpenseModel(data)
+    },
+    update: async (data: IFutureExpenseForm, isFixExpense: boolean): Promise<void> => {
+        if (isFixExpense) {
+            data.installments = 0
+        }
+        data.forecast = data.forecast.slice(0, 10)
+        await ApiRouter.futureExpense.put(data.id, data)
     },
     makeEmptyFutureExpense: (): IFutureExpenseForm => {
         return {
