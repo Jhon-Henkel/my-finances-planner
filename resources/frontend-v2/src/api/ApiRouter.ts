@@ -6,7 +6,7 @@ import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {IMovementForm} from "@/services/movement/IMovementForm"
 import {ITransferForm} from "@/services/movement/transfer/ITransferForm"
 import {IFutureExpenseForm} from "@/services/future-expense/IFutureExpenseForm"
-import {FutureExpensePayModel} from "@/model/future-expense/FutureExpensePayModel"
+import {PayReceiveModel} from "@/model/pay-receive/PayReceiveModel"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -119,7 +119,7 @@ export const ApiRouter = {
             const response = await axios.delete(mountApiUrl('future-spent', id), makeHeaders())
             return response.data
         },
-        pay: async (id: number, data: FutureExpensePayModel) => {
+        pay: async (id: number, data: PayReceiveModel) => {
             const response = await axios.post(mountApiUrl(`future-spent/${id}/pay`), data, makeHeaders())
             return response.data
         }
@@ -127,6 +127,26 @@ export const ApiRouter = {
     futureProfits: {
         index: async () => {
             const response = await axios.get(mountApiUrl('future-gain/next-six-months'), makeHeaders())
+            return response.data
+        },
+        post: async (data: IFutureExpenseForm) => {
+            const response = await axios.post(mountApiUrl('future-gain'), data, makeHeaders())
+            return response.data
+        },
+        put: async (id: number, data: IFutureExpenseForm) => {
+            const response = await axios.put(mountApiUrl('future-gain', id), data, makeHeaders())
+            return response.data
+        },
+        get: async (id: number) => {
+            const response = await axios.get(mountApiUrl('future-gain', id), makeHeaders())
+            return response.data
+        },
+        delete: async (id: number) => {
+            const response = await axios.delete(mountApiUrl('future-gain', id), makeHeaders())
+            return response.data
+        },
+        receive: async (id: number, data: PayReceiveModel) => {
+            const response = await axios.post(mountApiUrl(`future-gain/${id}/receive`), data, makeHeaders())
             return response.data
         }
     }

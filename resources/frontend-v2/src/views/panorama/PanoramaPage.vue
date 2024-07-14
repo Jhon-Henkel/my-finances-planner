@@ -20,10 +20,11 @@ import {UtilCalendar} from "@/util/UtilCalendar"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import MfpPanoramaPayModal from "@/views/panorama/MfpPanoramaPayModal.vue"
 import MfpPanoramaAddValueModal from "@/views/panorama/MfpPanoramaAddValueModal.vue"
-import MfpPanoramaDetailsModal from "@/views/panorama/MfpPanoramaDetailsModal.vue"
 import MfpPeriodSwitcher from "@/components/switcher/MfpPeriodSwitcher.vue"
 import MfpInvoiceListItem from "@/views/invoice/MfpInvoiceListItem.vue"
 import MfpInvoiceListSkeletonLoad from "@/views/invoice/MfpInvoiceListSkeletonLoad.vue"
+import MfpInvoiceDetailsModal from "@/views/invoice/MfpInvoiceDetailsModal.vue"
+import {InvoiceService} from "@/services/invoice/InvoiceService"
 
 const store = usePanoramaStore()
 const formModal = new MfpModal(MfpPanoramaFormModal)
@@ -45,7 +46,7 @@ async function optionsAction(item: InvoiceModel) {
     } else if (action === 'delete') {
         await FutureExpenseService.delete(item)
     } else if (action === 'pay') {
-        if (store.installmentSelected !== PanoramaService.getNumberOfNextInvoice(item)) {
+        if (store.installmentSelected !== InvoiceService.getNumberOfNextInvoice(item)) {
             await okAlert.open('Essa não é a próxima parcela a ser paga!')
             return
         }
@@ -57,8 +58,8 @@ async function optionsAction(item: InvoiceModel) {
         await addValueModal.open({futureExpense: futureExpense})
     } else if (action === 'details') {
         const futureExpense = await FutureExpenseService.get(item.id)
-        const details = new MfpModal(MfpPanoramaDetailsModal)
-        await details.open({futureExpense: futureExpense})
+        const details = new MfpModal(MfpInvoiceDetailsModal)
+        await details.open({item: futureExpense})
     }
 }
 
