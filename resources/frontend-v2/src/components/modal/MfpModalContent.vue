@@ -1,5 +1,15 @@
 <script setup lang="ts">
-import {IonContent, IonList} from "@ionic/vue"
+import {IonContent, IonList, IonItem} from "@ionic/vue"
+
+defineProps(
+    {
+        showContent: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
+    }
+)
 </script>
 
 <template>
@@ -7,6 +17,10 @@ import {IonContent, IonList} from "@ionic/vue"
         <ion-list :inset="true">
             <slot name="list"/>
         </ion-list>
-        <slot name="content"/>
+        <ion-list :inset="true" v-if="showContent">
+            <ion-item color="light">
+                <slot name="content"/>
+            </ion-item>
+        </ion-list>
     </ion-content>
 </template>

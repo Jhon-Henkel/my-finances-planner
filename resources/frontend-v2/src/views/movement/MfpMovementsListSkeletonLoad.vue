@@ -18,7 +18,7 @@ defineProps(
             <ion-grid>
                 <ion-row class="center-ion-label-content">
                     <ion-col size="1" class="ion-no-margin">
-                        <ion-skeleton-text :animated="true" class="text-size"/>
+                        <ion-skeleton-text :animated="true" class="icon"/>
                     </ion-col>
                     <ion-col size="6" class="ion-no-margin">
                         <ion-row>
@@ -50,5 +50,9 @@ defineProps(
 <style scoped>
 .text-size {
     height: 10px;
+}
+
+.icon {
+    height: 40px;
 }
 </style>

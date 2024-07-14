@@ -40,3 +40,7 @@ http://ionicframework.com/docs/theming/ */
 .no-break {
     white-space: nowrap;
 }
+
+.skeleton-load-size {
+    height: 10px;
+}

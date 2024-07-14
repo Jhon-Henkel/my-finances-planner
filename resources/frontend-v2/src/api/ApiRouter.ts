@@ -5,6 +5,8 @@ import {IWalletForm} from "@/services/wallet/IWalletForm"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {IMovementForm} from "@/services/movement/IMovementForm"
 import {ITransferForm} from "@/services/movement/transfer/ITransferForm"
+import {IFutureExpenseForm} from "@/services/future-expense/IFutureExpenseForm"
+import {FutureExpensePayModel} from "@/model/future-expense/FutureExpensePayModel"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -70,7 +72,7 @@ export const ApiRouter = {
             const response = await axios.get(mountApiUrl('movement'), makeHeaders())
             return response.data
         },
-        indexFiltered: async (quest: null|string = null) => {
+        indexFiltered: async (quest: null | string = null) => {
             quest = quest ? `?${quest}` : ''
             const response = await axios.get(mountApiUrl(`movement/filter${quest}`), makeHeaders())
             return response.data
@@ -94,4 +96,32 @@ export const ApiRouter = {
             }
         }
     },
+    panorama: {
+        index: async () => {
+            const response = await axios.get(mountApiUrl('panorama'), makeHeaders())
+            return response.data
+        }
+    },
+    futureExpense: {
+        post: async (data: IFutureExpenseForm) => {
+            const response = await axios.post(mountApiUrl('future-spent'), data, makeHeaders())
+            return response.data
+        },
+        get: async (id: number) => {
+            const response = await axios.get(mountApiUrl('future-spent', id), makeHeaders())
+            return response.data
+        },
+        put: async (id: number, data: IFutureExpenseForm) => {
+            const response = await axios.put(mountApiUrl('future-spent', id), data, makeHeaders())
+            return response.data
+        },
+        delete: async (id: number) => {
+            const response = await axios.delete(mountApiUrl('future-spent', id), makeHeaders())
+            return response.data
+        },
+        pay: async (id: number, data: FutureExpensePayModel) => {
+            const response = await axios.post(mountApiUrl(`future-spent/${id}/pay`), data, makeHeaders())
+            return response.data
+        }
+    }
 }

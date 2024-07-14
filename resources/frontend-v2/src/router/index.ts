@@ -32,6 +32,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'movements',
                 component: () => import('@/views/movement/MovementsPage.vue')
             },
+            {
+                path: 'panorama',
+                name: 'panorama',
+                component: () => import('@/views/panorama/PanoramaPage.vue')
+            },
         ],
         meta: {
             auth: true

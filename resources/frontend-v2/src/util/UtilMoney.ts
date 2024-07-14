@@ -8,5 +8,12 @@ export const UtilMoney = {
                 currency: 'BRL'
             }
         )
+    },
+    formatValueToBrReturnHyphenCaseZero: (value: number): string => {
+        value = parseFloat(String(value))
+        if (value === 0) {
+            return '-'
+        }
+        return UtilMoney.formatValueToBr(value)
     }
 }
