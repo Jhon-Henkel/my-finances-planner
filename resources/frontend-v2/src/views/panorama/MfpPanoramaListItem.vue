@@ -63,39 +63,51 @@ function getColorForNextInstallmentDay(installment: number): string {
                 </ion-col>
                 <ion-col size="4" class="ion-text-end">
                     <ion-label v-if="store.installmentSelected === 1">
-                        <ion-badge color="success" v-if="panoramaItem.firstInstallment == 0">
-                            <ion-icon :icon="checkmarkCircleOutline" class="animate-icon-left"/>
-                        </ion-badge>
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.firstInstallment == 0"
+                        />
                         {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.firstInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 2">
-                        <ion-badge color="success" v-if="panoramaItem.secondInstallment == 0">
-                            <ion-icon :icon="checkmarkCircleOutline" class="animate-icon-left"/>
-                        </ion-badge>
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.secondInstallment == 0"
+                        />
                         {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.secondInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 3">
-                        <ion-badge color="success" v-if="panoramaItem.thirdInstallment == 0">
-                            <ion-icon :icon="checkmarkCircleOutline" class="animate-icon-left"/>
-                        </ion-badge>
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.thirdInstallment == 0"
+                        />
                         {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.thirdInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 4">
-                        <ion-badge color="success" v-if="panoramaItem.fourthInstallment == 0">
-                            <ion-icon :icon="checkmarkCircleOutline" class="animate-icon-left"/>
-                        </ion-badge>
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.fourthInstallment == 0"
+                        />
                         {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.fourthInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 5">
-                        <ion-badge color="success" v-if="panoramaItem.fifthInstallment == 0">
-                            <ion-icon :icon="checkmarkCircleOutline" class="animate-icon-left"/>
-                        </ion-badge>
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.fifthInstallment == 0"
+                        />
                         {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.fifthInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 6">
-                        <ion-badge color="success" v-if="panoramaItem.sixthInstallment == 0">
-                            <ion-icon :icon="checkmarkCircleOutline" class="animate-icon-left"/>
-                        </ion-badge>
+                        <ion-icon
+                            :icon="checkmarkCircleOutline"
+                            color="success"
+                            v-if="panoramaItem.sixthInstallment == 0"
+                        />
                         {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.sixthInstallment) }}
                     </ion-label>
                 </ion-col>
