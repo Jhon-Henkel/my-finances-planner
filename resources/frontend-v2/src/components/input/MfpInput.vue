@@ -4,7 +4,7 @@ import {IonIcon, IonInput, IonItem, IonText} from '@ionic/vue'
 defineProps({
     label: String,
     placeholder: String,
-    modelValue: String,
+    modelValue: [String, Number],
     clearInput: {
         type: Boolean,
         default: false

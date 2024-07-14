@@ -5,6 +5,7 @@ import {IWalletForm} from "@/services/wallet/IWalletForm"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {IMovementForm} from "@/services/movement/IMovementForm"
 import {ITransferForm} from "@/services/movement/transfer/ITransferForm"
+import {IFutureExpenseForm} from "@/services/future-expense/IFutureExpenseForm"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -70,7 +71,7 @@ export const ApiRouter = {
             const response = await axios.get(mountApiUrl('movement'), makeHeaders())
             return response.data
         },
-        indexFiltered: async (quest: null|string = null) => {
+        indexFiltered: async (quest: null | string = null) => {
             quest = quest ? `?${quest}` : ''
             const response = await axios.get(mountApiUrl(`movement/filter${quest}`), makeHeaders())
             return response.data
@@ -97,6 +98,12 @@ export const ApiRouter = {
     panorama: {
         index: async () => {
             const response = await axios.get(mountApiUrl('panorama'), makeHeaders())
+            return response.data
+        }
+    },
+    futureExpense: {
+        post: async (data: IFutureExpenseForm) => {
+            const response = await axios.post(mountApiUrl('future-spent'), data, makeHeaders())
             return response.data
         }
     }

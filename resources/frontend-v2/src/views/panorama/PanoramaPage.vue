@@ -16,8 +16,11 @@ import {onMounted} from "vue"
 import {usePanoramaStore} from "@/stores/panorama/PanoramaStore"
 import MfpPanoramaListSkeletonLoad from "@/views/panorama/MfpPanoramaListSkeletonLoad.vue"
 import {PanoramaService} from "@/services/panorama/PanoramaService"
+import {MfpModal} from "@/components/modal/MfpModal"
+import MfpPanoramaFormModal from "@/views/panorama/MfpPanoramaFormModal.vue"
 
 const store = usePanoramaStore()
+const formModal = new MfpModal(MfpPanoramaFormModal)
 
 async function optionsAction(item: InvoiceModel) {
     const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtonsToPanorama())
@@ -31,7 +34,7 @@ async function handleRefresh(event: any) {
 }
 
 onMounted(async () => {
-    if (! store.isLoaded) {
+    if (!store.isLoaded) {
         await store.load()
     }
 })
@@ -42,7 +45,7 @@ onMounted(async () => {
         <mfp-refresh @refresh-content="handleRefresh($event)"/>
         <ion-list-header>
             <ion-label>Plano de Gastos</ion-label>
-            <mfp-circle-plus-button/>
+            <mfp-circle-plus-button @click="formModal.open()"/>
         </ion-list-header>
         <mfp-panorama-period-switcher/>
         <mfp-panorama-details-card/>
