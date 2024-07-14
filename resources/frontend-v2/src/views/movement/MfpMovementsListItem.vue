@@ -33,7 +33,7 @@ defineProps(
                         <ion-col>
                             <ion-label class="no-break">
                                 <strong>
-                                    {{ UtilString.ellipsis(movement.description, 37) }}
+                                    {{ UtilString.ellipsis(movement.description, 30) }}
                                 </strong>
                             </ion-label>
                         </ion-col>

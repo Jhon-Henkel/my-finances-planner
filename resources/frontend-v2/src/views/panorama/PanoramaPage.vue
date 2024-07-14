@@ -21,15 +21,16 @@ import MfpPanoramaFormModal from "@/views/panorama/MfpPanoramaFormModal.vue"
 import {FutureExpenseService} from "@/services/future-expense/FutureExpenseService"
 import {UtilCalendar} from "@/util/UtilCalendar"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
+import MfpPanoramaPayModal from "@/views/panorama/MfpPanoramaPayModal.vue"
 
 const store = usePanoramaStore()
 const formModal = new MfpModal(MfpPanoramaFormModal)
+const okAlert = new MfpOkAlert('Ação inválida!')
 
 async function optionsAction(item: InvoiceModel) {
     if (item.id == 0 && item.countId == 0) {
         let message = 'Essa despesa é apenas do tipo informativa, não é possível fazer nenhuma ação com ela. '
         message += 'Conforme for marcando movimentações com esse nome o valor será atualizado automaticamente.'
-        const okAlert = new MfpOkAlert('Ação inválida!')
         await okAlert.open(message)
         return
     }
@@ -41,6 +42,13 @@ async function optionsAction(item: InvoiceModel) {
         await formModal.open({futureExpense: futureExpense})
     } else if (action === 'delete') {
         await FutureExpenseService.delete(item)
+    } else if (action === 'pay') {
+        if (store.installmentSelected !== PanoramaService.getNumberOfNextInvoice(item)) {
+            await okAlert.open('Essa não é a próxima parcela a ser paga!')
+            return
+        }
+        const payModal = new MfpModal(MfpPanoramaPayModal)
+        await payModal.open({item: item})
     }
 }
 

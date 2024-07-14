@@ -6,6 +6,7 @@ import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {IMovementForm} from "@/services/movement/IMovementForm"
 import {ITransferForm} from "@/services/movement/transfer/ITransferForm"
 import {IFutureExpenseForm} from "@/services/future-expense/IFutureExpenseForm"
+import {FutureExpensePayModel} from "@/model/future-expense/FutureExpensePayModel"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -118,5 +119,9 @@ export const ApiRouter = {
             const response = await axios.delete(mountApiUrl('future-spent', id), makeHeaders())
             return response.data
         },
+        pay: async (id: number, data: FutureExpensePayModel) => {
+            const response = await axios.post(mountApiUrl(`future-spent/${id}/pay`), data, makeHeaders())
+            return response.data
+        }
     }
 }
