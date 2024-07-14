@@ -19,7 +19,7 @@ function closeModal() {
 
 <template>
     <mfp-modal-header
-        title="Adicionar Valor"
+        title="Detalhes"
         @close-action="closeModal"
         @save-action="closeModal"
         save-action-label="Ok"
