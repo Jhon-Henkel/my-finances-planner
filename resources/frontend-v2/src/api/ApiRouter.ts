@@ -114,5 +114,9 @@ export const ApiRouter = {
             const response = await axios.put(mountApiUrl('future-spent', id), data, makeHeaders())
             return response.data
         },
+        delete: async (id: number) => {
+            const response = await axios.delete(mountApiUrl('future-spent', id), makeHeaders())
+            return response.data
+        },
     }
 }

@@ -40,7 +40,7 @@ async function optionsAction(item: InvoiceModel) {
         futureExpense.forecast = UtilCalendar.toIso(futureExpense.forecast)
         await formModal.open({futureExpense: futureExpense})
     } else if (action === 'delete') {
-        // delete
+        await FutureExpenseService.delete(item)
     }
 }
 
