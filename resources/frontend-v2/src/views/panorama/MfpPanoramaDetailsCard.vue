@@ -107,6 +107,7 @@ function makeSumOfAllValues(installmentSelected: number): number {
                     icon-color="primary"
                     :icon="arrowForwardOutline"
                     :value="makeSumOfAllValues(store.installmentSelected)"
+                    :use-badge="true"
                 />
             </ion-grid>
         </mfp-accordion>
