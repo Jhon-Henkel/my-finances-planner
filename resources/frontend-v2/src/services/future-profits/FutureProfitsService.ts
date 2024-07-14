@@ -7,7 +7,6 @@ import {IFutureProfitForm} from "@/services/future-profits/IFutureProfitForm"
 import {FutureProfitsModel} from "@/model/future-profits/FutureProfitsModel"
 import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
 import {MfpToast} from "@/components/toast/MfpToast"
-import {PanoramaService} from "@/services/panorama/PanoramaService"
 
 export const FutureProfitsService = {
     index: async (): Promise<Array<IInvoice>> => {
