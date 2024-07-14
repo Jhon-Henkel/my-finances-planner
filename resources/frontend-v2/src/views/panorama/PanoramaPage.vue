@@ -20,11 +20,19 @@ import {MfpModal} from "@/components/modal/MfpModal"
 import MfpPanoramaFormModal from "@/views/panorama/MfpPanoramaFormModal.vue"
 import {FutureExpenseService} from "@/services/future-expense/FutureExpenseService"
 import {UtilCalendar} from "@/util/UtilCalendar"
+import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 
 const store = usePanoramaStore()
 const formModal = new MfpModal(MfpPanoramaFormModal)
 
 async function optionsAction(item: InvoiceModel) {
+    if (item.id == 0 && item.countId == 0) {
+        let message = 'Essa despesa é apenas do tipo informativa, não é possível fazer nenhuma ação com ela. '
+        message += 'Conforme for marcando movimentações com esse nome o valor será atualizado automaticamente.'
+        const okAlert = new MfpOkAlert('Ação inválida!')
+        await okAlert.open(message)
+        return
+    }
     const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtonsToPanorama())
     const action = await actionSheet.open()
     if (action === 'edit') {

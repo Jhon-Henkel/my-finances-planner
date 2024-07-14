@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow, IonBadge} from "@ionic/vue"
+import {IonBadge, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
 import {chevronBackOutline} from "ionicons/icons"
 import {UtilString} from "@/util/UtilString"
 import {UtilMoney} from "@/util/UtilMoney"
