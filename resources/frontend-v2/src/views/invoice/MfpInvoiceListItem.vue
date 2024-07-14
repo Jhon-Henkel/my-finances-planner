@@ -4,23 +4,26 @@ import {checkmarkCircleOutline, chevronBackOutline} from "ionicons/icons"
 import {UtilString} from "@/util/UtilString"
 import {UtilMoney} from "@/util/UtilMoney"
 import {IInvoice} from "@/services/invoice/IInvoice"
-import {usePanoramaStore} from "@/stores/panorama/PanoramaStore"
 import {UtilCalendar} from "@/util/UtilCalendar"
 
-const store = usePanoramaStore()
 const props = defineProps({
-    panoramaItem: {
+    invoiceItem: {
         type: Object as () => IInvoice,
+        required: true
+    },
+    store: {
+        type: Object,
         required: true
     }
 })
+const store = props.store
 
 function getColorForNextInstallmentDay(installment: number): string {
     const today = UtilCalendar.getToday()
-    const nextInstallmentDay = UtilCalendar.makeDate(props.panoramaItem.nextInstallmentDate)
-    if ((nextInstallmentDay < today) && (props.panoramaItem.firstInstallment > 0) && installment == 1) {
+    const nextInstallmentDay = UtilCalendar.makeDate(props.invoiceItem.nextInstallmentDate)
+    if ((nextInstallmentDay < today) && (props.invoiceItem.firstInstallment > 0) && installment == 1) {
         return 'danger'
-    } else if ((nextInstallmentDay >= today) && (props.panoramaItem.firstInstallment > 0) && installment == 1) {
+    } else if ((nextInstallmentDay >= today) && (props.invoiceItem.firstInstallment > 0) && installment == 1) {
         return 'warning'
     }
     return 'success'
@@ -34,7 +37,7 @@ function getColorForNextInstallmentDay(installment: number): string {
             <ion-row class="center-ion-label-content">
                 <ion-col size="1">
                     <ion-badge :color="getColorForNextInstallmentDay(store.installmentSelected)">
-                        {{ panoramaItem.nextInstallmentDay }}
+                        {{ invoiceItem.nextInstallmentDay }}
                     </ion-badge>
                 </ion-col>
                 <ion-col size="6">
@@ -42,18 +45,18 @@ function getColorForNextInstallmentDay(installment: number): string {
                         <ion-col class="ion-padding-start">
                             <ion-label class="no-break">
                                 <strong>
-                                    {{ UtilString.ellipsis(panoramaItem.name, 24) }}
+                                    {{ UtilString.ellipsis(invoiceItem.name, 24) }}
                                 </strong>
                             </ion-label>
                         </ion-col>
                     </ion-row>
                     <ion-row>
                         <ion-col size="6" class="ion-padding-start">
-                            <ion-label class="no-break" v-if="panoramaItem.remainingInstallments === 1">
-                                Restam {{ panoramaItem.remainingInstallments }} parcela
+                            <ion-label class="no-break" v-if="invoiceItem.remainingInstallments === 1">
+                                Restam {{ invoiceItem.remainingInstallments }} parcela
                             </ion-label>
-                            <ion-label class="no-break" v-else-if="panoramaItem.remainingInstallments > 0">
-                                Restam {{ panoramaItem.remainingInstallments }} parcelas
+                            <ion-label class="no-break" v-else-if="invoiceItem.remainingInstallments > 0">
+                                Restam {{ invoiceItem.remainingInstallments }} parcelas
                             </ion-label>
                             <ion-label class="no-break" v-else>
                                 Despesa Fixa
@@ -66,49 +69,49 @@ function getColorForNextInstallmentDay(installment: number): string {
                         <ion-icon
                             :icon="checkmarkCircleOutline"
                             color="success"
-                            v-if="panoramaItem.firstInstallment == 0"
+                            v-if="invoiceItem.firstInstallment == 0"
                         />
-                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.firstInstallment) }}
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(invoiceItem.firstInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 2">
                         <ion-icon
                             :icon="checkmarkCircleOutline"
                             color="success"
-                            v-if="panoramaItem.secondInstallment == 0"
+                            v-if="invoiceItem.secondInstallment == 0"
                         />
-                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.secondInstallment) }}
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(invoiceItem.secondInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 3">
                         <ion-icon
                             :icon="checkmarkCircleOutline"
                             color="success"
-                            v-if="panoramaItem.thirdInstallment == 0"
+                            v-if="invoiceItem.thirdInstallment == 0"
                         />
-                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.thirdInstallment) }}
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(invoiceItem.thirdInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 4">
                         <ion-icon
                             :icon="checkmarkCircleOutline"
                             color="success"
-                            v-if="panoramaItem.fourthInstallment == 0"
+                            v-if="invoiceItem.fourthInstallment == 0"
                         />
-                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.fourthInstallment) }}
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(invoiceItem.fourthInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 5">
                         <ion-icon
                             :icon="checkmarkCircleOutline"
                             color="success"
-                            v-if="panoramaItem.fifthInstallment == 0"
+                            v-if="invoiceItem.fifthInstallment == 0"
                         />
-                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.fifthInstallment) }}
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(invoiceItem.fifthInstallment) }}
                     </ion-label>
                     <ion-label v-else-if="store.installmentSelected === 6">
                         <ion-icon
                             :icon="checkmarkCircleOutline"
                             color="success"
-                            v-if="panoramaItem.sixthInstallment == 0"
+                            v-if="invoiceItem.sixthInstallment == 0"
                         />
-                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(panoramaItem.sixthInstallment) }}
+                        {{ UtilMoney.formatValueToBrReturnStringCaseZero(invoiceItem.sixthInstallment) }}
                     </ion-label>
                 </ion-col>
                 <ion-col size="1" class="ion-text-end no-padding-end">

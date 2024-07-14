@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import {IonButton, IonCol, IonGrid, IonIcon, IonItem, IonRow, IonLabel} from "@ionic/vue"
+import {IonButton, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
 import {chevronBackOutline, chevronForwardOutline} from "ionicons/icons"
 import {UtilCalendar} from "@/util/UtilCalendar"
 import {ref} from "vue"
-import {usePanoramaStore} from "@/stores/panorama/PanoramaStore"
 
+const props = defineProps(
+    {
+        store: {
+            type: Object,
+            required: true
+        }
+    }
+)
+
+const store = props.store
 const months = UtilCalendar.getNextSixMonths(UtilCalendar.getCurrentMonth())
 const selectedMonth = ref(months[0])
-const store = usePanoramaStore()
 store.installmentSelected = 1
 
 function nextMonth() {

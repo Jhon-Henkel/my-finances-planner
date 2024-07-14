@@ -70,5 +70,19 @@ export const UtilActionSheet = {
         buttons.push(deleteObject)
         buttons.push(cancelObject)
         return buttons
+    },
+    makeButtonsToFutureProfits(): Array<IActionSheetItem> {
+        const buttons: Array<IActionSheetItem> = []
+        buttons.push({
+            text: 'Receber',
+            data: {
+                action: 'receive'
+            }
+        })
+        buttons.push(editObject)
+        buttons.push(detailsObject)
+        buttons.push(deleteObject)
+        buttons.push(cancelObject)
+        return buttons
     }
 }

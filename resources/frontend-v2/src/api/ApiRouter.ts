@@ -123,5 +123,11 @@ export const ApiRouter = {
             const response = await axios.post(mountApiUrl(`future-spent/${id}/pay`), data, makeHeaders())
             return response.data
         }
+    },
+    futureProfits: {
+        index: async () => {
+            const response = await axios.get(mountApiUrl('future-gain/next-six-months'), makeHeaders())
+            return response.data
+        }
     }
 }
