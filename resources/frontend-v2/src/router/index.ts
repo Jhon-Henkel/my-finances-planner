@@ -37,6 +37,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'panorama',
                 component: () => import('@/views/panorama/PanoramaPage.vue')
             },
+            {
+                path: 'ganhos-futuros',
+                name: 'future-profits',
+                component: () => import('@/views/future-profits/FutureProfitsPage.vue')
+            },
         ],
         meta: {
             auth: true

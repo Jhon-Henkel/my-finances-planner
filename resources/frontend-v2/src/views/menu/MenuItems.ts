@@ -14,19 +14,19 @@ export const MenuItems = [
         label: 'Inicio (Em Desenvolvimento)',
     },
     {
-        icon: calendarOutline,
-        routeName: 'panorama',
-        label: 'Plano de Gastos',
-    },
-    {
         icon: swapHorizontalOutline,
         routeName: 'movements',
         label: 'Movimentações',
     },
     {
+        icon: calendarOutline,
+        routeName: 'panorama',
+        label: 'Plano de Gastos',
+    },
+    {
         icon: cashOutline,
-        routeName: 'in-development',
-        label: 'Receitas Futuras (Em Desenvolvimento)',
+        routeName: 'future-profits',
+        label: 'Plano de Receitas',
     },
     {
         icon: walletOutline,
