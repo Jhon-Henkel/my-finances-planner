@@ -2,7 +2,6 @@
 import MfpPage from "@/components/page/MfpPage.vue"
 import MfpRefresh from "@/components/refresh/MfpRefresh.vue"
 import {IonIcon, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonListHeader} from "@ionic/vue"
-import MfpPanoramaPeriodSwitcher from "@/views/panorama/MfpPanoramaPeriodSwitcher.vue"
 import MfpCirclePlusButton from "@/components/button/MfpCirclePlusButton.vue"
 import MfpPanoramaDetailsCard from "@/views/panorama/MfpPanoramaDetailsCard.vue"
 import MfpEmptyListItem from "@/components/list/MfpEmptyListItem.vue"
@@ -10,11 +9,9 @@ import MfpTotalRegistersRow from "@/components/page/MfpTotalRegistersRow.vue"
 import {ellipsisHorizontal} from "ionicons/icons"
 import {MfpActionSheet} from "@/components/action-sheet/MfpActionSheet"
 import {UtilActionSheet} from "@/util/UtilActionSheet"
-import MfpPanoramaListItem from "@/views/panorama/MfpPanoramaListItem.vue"
 import {InvoiceModel} from "@/model/invoice/invoiceModel"
 import {onMounted} from "vue"
 import {usePanoramaStore} from "@/stores/panorama/PanoramaStore"
-import MfpPanoramaListSkeletonLoad from "@/views/panorama/MfpPanoramaListSkeletonLoad.vue"
 import {PanoramaService} from "@/services/panorama/PanoramaService"
 import {MfpModal} from "@/components/modal/MfpModal"
 import MfpPanoramaFormModal from "@/views/panorama/MfpPanoramaFormModal.vue"
@@ -23,7 +20,11 @@ import {UtilCalendar} from "@/util/UtilCalendar"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import MfpPanoramaPayModal from "@/views/panorama/MfpPanoramaPayModal.vue"
 import MfpPanoramaAddValueModal from "@/views/panorama/MfpPanoramaAddValueModal.vue"
-import MfpPanoramaDetailsModal from "@/views/panorama/MfpPanoramaDetailsModal.vue"
+import MfpPeriodSwitcher from "@/components/switcher/MfpPeriodSwitcher.vue"
+import MfpInvoiceListItem from "@/views/invoice/MfpInvoiceListItem.vue"
+import MfpInvoiceListSkeletonLoad from "@/views/invoice/MfpInvoiceListSkeletonLoad.vue"
+import MfpInvoiceDetailsModal from "@/views/invoice/MfpInvoiceDetailsModal.vue"
+import {InvoiceService} from "@/services/invoice/InvoiceService"
 
 const store = usePanoramaStore()
 const formModal = new MfpModal(MfpPanoramaFormModal)
@@ -45,7 +46,7 @@ async function optionsAction(item: InvoiceModel) {
     } else if (action === 'delete') {
         await FutureExpenseService.delete(item)
     } else if (action === 'pay') {
-        if (store.installmentSelected !== PanoramaService.getNumberOfNextInvoice(item)) {
+        if (store.installmentSelected !== InvoiceService.getNumberOfNextInvoice(item)) {
             await okAlert.open('Essa não é a próxima parcela a ser paga!')
             return
         }
@@ -57,8 +58,8 @@ async function optionsAction(item: InvoiceModel) {
         await addValueModal.open({futureExpense: futureExpense})
     } else if (action === 'details') {
         const futureExpense = await FutureExpenseService.get(item.id)
-        const details = new MfpModal(MfpPanoramaDetailsModal)
-        await details.open({futureExpense: futureExpense})
+        const details = new MfpModal(MfpInvoiceDetailsModal)
+        await details.open({item: futureExpense})
     }
 }
 
@@ -81,13 +82,13 @@ onMounted(async () => {
             <ion-label>Plano de Gastos</ion-label>
             <mfp-circle-plus-button @click="formModal.open()"/>
         </ion-list-header>
-        <mfp-panorama-period-switcher/>
+        <mfp-period-switcher :store="store"/>
         <mfp-panorama-details-card/>
         <mfp-empty-list-item :nothing-to-show="store.panorama.futureExpenses.length === 0 && store.isLoaded"/>
-        <mfp-panorama-list-skeleton-load :is-loaded="store.isLoaded"/>
+        <mfp-invoice-list-skeleton-load :is-loaded="store.isLoaded"/>
         <ion-list v-if="store.isLoaded">
             <ion-item-sliding v-for="(item, index) in store.panorama.futureExpenses" :key="index">
-                <mfp-panorama-list-item :panoramaItem="item"/>
+                <mfp-invoice-list-item :invoice-item="item" :store="store"/>
                 <ion-item-options side="end">
                     <ion-item-option color="light" @click="optionsAction(item)">
                         <ion-icon slot="top" :icon="ellipsisHorizontal"/>

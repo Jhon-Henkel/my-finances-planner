@@ -373,6 +373,7 @@ export default {
         }
     },
     async mounted() {
+        window.location.href = '/v2/ganhos-futuros'
         this.thisMonth = CalendarTools.getThisMonth()
         this.months = CalendarTools.getNextSixMonths(this.thisMonth)
         await this.updateFutureGainsList()

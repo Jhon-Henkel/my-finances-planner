@@ -1,4 +1,4 @@
-export class FutureExpensePayModel {
+export class PayReceiveModel {
     value: number
     walletId: number
     partial: boolean
