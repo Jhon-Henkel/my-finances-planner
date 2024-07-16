@@ -22,6 +22,17 @@ function makeDueDate() {
     const monthName = UtilCalendar.getMonthNameByNumber(month)
     return `${props.card.dueDate}/${monthName.slice(0, 3)}.`
 }
+
+function getColorForForecast() {
+    const today = UtilCalendar.getToday().getDate()
+    if (props.card.isThisMonthInvoicePayed) {
+        return 'success'
+    } else if (props.card.dueDate < today) {
+        return 'danger'
+    } else if (props.card.dueDate > today) {
+        return 'warning'
+    }
+}
 </script>
 
 <template>
@@ -37,7 +48,7 @@ function makeDueDate() {
                         </ion-col>
                         <ion-col size="6" class="ion-text-end">
                             <ion-label v-if="card.dueDate">
-                                <ion-badge :color="card.isThisMonthInvoicePayed ? 'success' : 'warning'">
+                                <ion-badge :color="getColorForForecast">
                                     {{ makeDueDate() }}
                                 </ion-badge>
                             </ion-label>
