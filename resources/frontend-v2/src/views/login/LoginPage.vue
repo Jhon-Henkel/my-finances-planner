@@ -25,9 +25,9 @@ async function submit() {
     }
     loading.value = true
     const login = await AuthService.login(loginData.value)
-    loading.value = false
     if (login.isSuccess) {
         loginData.value.password = ''
+        loading.value = false
         // todo - temporário até desenvolver o dashboard em ionic
         window.location.href = '/dashboard'
         // const urlParams = new URLSearchParams(window.location.search)
@@ -35,6 +35,7 @@ async function submit() {
         // await router.push({name: redirect ?? 'dashboard'})
         return
     }
+    loading.value = false
     await okAlert.open(login.data)
 }
 

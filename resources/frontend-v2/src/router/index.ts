@@ -42,6 +42,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'future-profits',
                 component: () => import('@/views/future-profits/FutureProfitsPage.vue')
             },
+            {
+                path: 'gerenciar-cartoes',
+                name: 'manage-cards',
+                component: () => import('@/views/cards/CardsPage.vue')
+            },
         ],
         meta: {
             auth: true

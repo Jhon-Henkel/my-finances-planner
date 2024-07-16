@@ -7,6 +7,7 @@ import {IMovementForm} from "@/services/movement/IMovementForm"
 import {ITransferForm} from "@/services/movement/transfer/ITransferForm"
 import {IFutureExpenseForm} from "@/services/future-expense/IFutureExpenseForm"
 import {PayReceiveModel} from "@/model/pay-receive/PayReceiveModel"
+import {ICardForm} from "@/services/cards/ICardForm"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -147,6 +148,28 @@ export const ApiRouter = {
         },
         receive: async (id: number, data: PayReceiveModel) => {
             const response = await axios.post(mountApiUrl(`future-gain/${id}/receive`), data, makeHeaders())
+            return response.data
+        }
+    },
+    cards: {
+        index: async () => {
+            const response = await axios.get(mountApiUrl('credit-card'), makeHeaders())
+            return response.data
+        },
+        put: async (id: number, data: ICardForm) => {
+            const response = await axios.put(mountApiUrl('credit-card', id), data, makeHeaders())
+            return response.data
+        },
+        post: async (data: ICardForm) => {
+            const response = await axios.post(mountApiUrl('credit-card'), data, makeHeaders())
+            return response.data
+        },
+        delete: async (id: number) => {
+            const response = await axios.delete(mountApiUrl('credit-card', id), makeHeaders())
+            return response.data
+        },
+        payNextInvoice: async (data: ICardForm, walletId: number) => {
+            const response = await axios.put(mountApiUrl(`/api/credit-card/${data.id}/invoices/${walletId}`), makeHeaders())
             return response.data
         }
     }

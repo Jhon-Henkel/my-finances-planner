@@ -300,6 +300,7 @@ export default {
         }
     },
     async mounted() {
+        window.location.href = '/v2/gerenciar-cartoes'
         this.getCards()
         this.wallets = await apiRouter.wallet.index()
     }

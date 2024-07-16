@@ -22,8 +22,8 @@ const title = props.futureProfit ? 'Editar Receita' : 'Cadastrar Receita'
 const fixProfit = ref(false)
 
 async function save() {
-    const isValid = FutureProfitFormValidation.validate(internalFutureProfit.value)
-    if (!isValid) {
+    const validationResult = FutureProfitFormValidation.validate(internalFutureProfit.value)
+    if (!validationResult.isValid) {
         return
     }
     const toast = new MfpToast()

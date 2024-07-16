@@ -37,6 +37,13 @@ const detailsObject: IActionSheetItem = {
     }
 }
 
+const payObject: IActionSheetItem = {
+    text: 'Pagar',
+    data: {
+        action: 'pay'
+    }
+}
+
 export const UtilActionSheet = {
     makeButtons(edit: boolean = false, del: boolean = false, cancel: boolean = false): Array<IActionSheetItem> {
         const buttons: Array<IActionSheetItem> = []
@@ -53,12 +60,7 @@ export const UtilActionSheet = {
     },
     makeButtonsToPanorama(): Array<IActionSheetItem> {
         const buttons: Array<IActionSheetItem> = []
-        buttons.push({
-            text: 'Pagar',
-            data: {
-                action: 'pay'
-            }
-        })
+        buttons.push(payObject)
         buttons.push({
             text: 'Adicionar Valor',
             data: {
@@ -80,6 +82,29 @@ export const UtilActionSheet = {
             }
         })
         buttons.push(editObject)
+        buttons.push(detailsObject)
+        buttons.push(deleteObject)
+        buttons.push(cancelObject)
+        return buttons
+    },
+    makeButtonsToCards(): Array<IActionSheetItem> {
+        const buttons: Array<IActionSheetItem> = []
+        buttons.push(editObject)
+        const pay = payObject
+        pay.text = 'Pagar Próxima Fatura'
+        buttons.push(pay)
+        buttons.push({
+            text: 'Adicionar Compra',
+            data: {
+                action: 'new-invoice-item'
+            }
+        })
+        buttons.push({
+            text: 'Ver Faturas',
+            data: {
+                action: 'see-invoices'
+            }
+        })
         buttons.push(detailsObject)
         buttons.push(deleteObject)
         buttons.push(cancelObject)
