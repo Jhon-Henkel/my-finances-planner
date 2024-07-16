@@ -9,6 +9,7 @@ import {CardModel} from "@/model/card/CardModel"
 import {UtilMoney} from "@/util/UtilMoney"
 import {ApiRouter} from "@/api/ApiRouter"
 import {alertCircleOutline} from "ionicons/icons"
+import {CardsPayFormValidation} from "@/form-validation/cards/CardsPayFormValidation"
 
 const props = defineProps({
     item: {
@@ -24,6 +25,10 @@ async function pay() {
     const confirm = new MfpConfirmAlert('Pagar Próxima Fatura')
     const confirmPay = await confirm.open(`Deseja realmente pagar a próxima fatura do cartão ${props.item.name}?`)
     if (confirmPay) {
+        const validationResults = CardsPayFormValidation.validate({walletId: internalWalletId.value})
+        if (! validationResults.isValid) {
+            return
+        }
         await ApiRouter.cards.payNextInvoice(props.item, internalWalletId.value)
     }
 }

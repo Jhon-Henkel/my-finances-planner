@@ -6,7 +6,7 @@ import {FormValidation} from "@/form-validation/FormValidation"
 const futureExpenseSchema = z.object({
     description: z.string().min(1, {message: 'Campo "Descrição" é obrigatório'}),
     amount: z.number().min(0, {message: 'Campo "Valor da Parcela" deve ser maior ou igual a zero'}),
-    walletId: z.number().min(1, {message: 'Campo "Conta" deve ser selecionado'}),
+    walletId: z.number().min(1, {message: 'Campo "Carteira" deve ser selecionado'}),
     forecast: z.string().min(10, {message: 'Campo "Próximo Pagamento" é obrigatório'}),
 })
 
