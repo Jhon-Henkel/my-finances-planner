@@ -14,7 +14,7 @@ export class CardModel {
         this.limit = data.limit
         this.dueDate = data.dueDate
         this.closingDay = data.closingDay
-        this.isThisMonthInvoicePayed = data.isThisMonthInvoicePayed
+        this.isThisMonthInvoicePayed = data.isThinsMouthInvoicePayed
         this.totalValueSpending = data.totalValueSpending
         this.nextInvoiceValue = data.nextInvoiceValue
     }
