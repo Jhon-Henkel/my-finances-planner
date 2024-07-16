@@ -90,7 +90,9 @@ export const UtilActionSheet = {
     makeButtonsToCards(): Array<IActionSheetItem> {
         const buttons: Array<IActionSheetItem> = []
         buttons.push(editObject)
-        buttons.push(payObject)
+        const pay = payObject
+        pay.text = 'Pagar Próxima Fatura'
+        buttons.push(pay)
         buttons.push({
             text: 'Adicionar Compra',
             data: {

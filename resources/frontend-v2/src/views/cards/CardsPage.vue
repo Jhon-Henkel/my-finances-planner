@@ -16,6 +16,8 @@ import MfpCardsListSkeletonLoad from "@/views/cards/MfpCardsListSkeletonLoad.vue
 import {CardsService} from "@/services/cards/CardsService"
 import {MfpModal} from "@/components/modal/MfpModal"
 import MfpCardsFormModal from "@/views/cards/MfpCardsFormModal.vue"
+import MfpCardsPayModal from "@/views/cards/MfpCardsPayModal.vue"
+import MfpCardsDetailsModal from "@/views/cards/MfpCardsDetailsModal.vue"
 
 const store = useCardsStore()
 const formModal = new MfpModal(MfpCardsFormModal)
@@ -27,8 +29,19 @@ async function optionsAction(item: CardModel) {
         await formModal.open({card: item})
     } else if (action === 'delete') {
         await CardsService.delete(item)
+    } else if (action === 'new-invoice-item') {
+        // todo temporário, somente até ter a tela de faturas desenvolvida
+        window.location.href = `gerenciar-cartoes/despesa/${item.id}/cadastrar`
+    } else if (action === 'see-invoices') {
+        // todo temporário, somente até ter a tela de faturas desenvolvida
+        window.location.href = `gerenciar-cartoes/fatura-cartao/${item.id}`
+    } else if (action === 'pay') {
+        const payModal = new MfpModal(MfpCardsPayModal)
+        await payModal.open({item: item})
+    } else if (action == 'details') {
+        const detailsModal = new MfpModal(MfpCardsDetailsModal)
+        await detailsModal.open({item: item})
     }
-    console.log(action, item)
 }
 
 async function handleRefresh(event: any) {

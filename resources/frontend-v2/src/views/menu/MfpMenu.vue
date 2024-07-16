@@ -3,7 +3,13 @@ import {IonIcon, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs} fro
 import {MfpModal} from "@/components/modal/MfpModal"
 import MfpMenuAddModal from "@/views/menu/MfpMenuAddModal.vue"
 import MfpMenuAllModal from "@/views/menu/MfpMenuAllModal.vue"
-import {addOutline, homeOutline, menuOutline, settingsOutline, swapHorizontalOutline} from "ionicons/icons"
+import {
+    addOutline,
+    calendarOutline,
+    homeOutline,
+    menuOutline,
+    swapHorizontalOutline
+} from "ionicons/icons"
 
 const menuModal = new MfpModal(MfpMenuAllModal, true)
 
@@ -27,8 +33,8 @@ function redirect(route: string) {
                 <ion-tab-button tab="add" id="mfp-tab-plus-modal">
                     <ion-icon :icon="addOutline"/>
                 </ion-tab-button>
-                <ion-tab-button tab="settings" @click="redirect('/configuracoes')">
-                    <ion-icon :icon="settingsOutline"/>
+                <ion-tab-button tab="settings" href="/v2/panorama">
+                    <ion-icon :icon="calendarOutline"/>
                 </ion-tab-button>
                 <ion-tab-button tab="menu" @click="menuModal.open()">
                     <ion-icon :icon="menuOutline"/>

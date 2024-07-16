@@ -167,6 +167,10 @@ export const ApiRouter = {
         delete: async (id: number) => {
             const response = await axios.delete(mountApiUrl('credit-card', id), makeHeaders())
             return response.data
+        },
+        payNextInvoice: async (data: ICardForm, walletId: number) => {
+            const response = await axios.put(mountApiUrl(`/api/credit-card/${data.id}/invoices/${walletId}`), makeHeaders())
+            return response.data
         }
     }
 }
