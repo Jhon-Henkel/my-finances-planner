@@ -48,7 +48,7 @@ function getColorForForecast() {
                         </ion-col>
                         <ion-col size="6" class="ion-text-end">
                             <ion-label v-if="card.dueDate">
-                                <ion-badge :color="getColorForForecast">
+                                <ion-badge :color="getColorForForecast()">
                                     {{ makeDueDate() }}
                                 </ion-badge>
                             </ion-label>
