@@ -23,8 +23,8 @@ const title = props.futureExpense ? 'Editar Gasto' : 'Cadastrar Gasto'
 const fixExpense = ref(false)
 
 async function save() {
-    const isValid = FutureExpenseFormValidation.validate(internalFutureExpense.value)
-    if (!isValid) {
+    const validationResult = FutureExpenseFormValidation.validate(internalFutureExpense.value)
+    if (!validationResult.isValid) {
         return
     }
     const toast = new MfpToast()

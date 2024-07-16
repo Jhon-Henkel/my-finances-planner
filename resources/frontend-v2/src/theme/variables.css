@@ -11,7 +11,7 @@ http://ionicframework.com/docs/theming/ */
 }
 
 .animate-icon-left {
-    animation: slide-left 0.5s ease-out 1;
+    animation: slide-left 0.8s ease-out 1;
 }
 
 @keyframes slide-right {
@@ -24,7 +24,7 @@ http://ionicframework.com/docs/theming/ */
 }
 
 .animate-icon-right {
-    animation: slide-right 0.5s ease-out 1;
+    animation: slide-right 0.8s ease-out 1;
 }
 
 .center-ion-label-content {

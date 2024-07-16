@@ -20,7 +20,7 @@ defineProps({
     type: {
         type: String,
         default: 'text',
-        validator: (value: string) => ['decimal', 'email', 'numeric', 'tel', 'text', 'password'].includes(value)
+        validator: (value: string) => ['decimal', 'email', 'number', 'tel', 'text', 'password'].includes(value)
     }
 })
 const emit = defineEmits(['update:modelValue'])

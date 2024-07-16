@@ -35,8 +35,8 @@ export const MenuItems = [
     },
     {
         icon: cardOutline,
-        routeName: 'in-development',
-        label: 'Cartões (Em Desenvolvimento)',
+        routeName: 'manage-cards',
+        label: 'Cartões',
     },
     {
         icon: settingsOutline,
