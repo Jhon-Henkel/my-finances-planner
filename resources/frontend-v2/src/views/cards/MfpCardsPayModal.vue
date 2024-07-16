@@ -10,6 +10,10 @@ import {UtilMoney} from "@/util/UtilMoney"
 import {ApiRouter} from "@/api/ApiRouter"
 import {alertCircleOutline} from "ionicons/icons"
 import {CardsPayFormValidation} from "@/form-validation/cards/CardsPayFormValidation"
+import {MfpToast} from "@/components/toast/MfpToast"
+import {CardsService} from "@/services/cards/CardsService"
+import {MovementService} from "@/services/movement/MovementService"
+import {WalletService} from "@/services/wallet/WalletService"
 
 const props = defineProps({
     item: {
@@ -30,6 +34,12 @@ async function pay() {
             return
         }
         await ApiRouter.cards.payNextInvoice(props.item, internalWalletId.value)
+        closeModal()
+        const toast = new MfpToast()
+        await toast.open('Fatura paga com sucesso!')
+        CardsService.forceReloadStore()
+        MovementService.forceUpdateMovementList()
+        WalletService.forceUpdateWalletList()
     }
 }
 
