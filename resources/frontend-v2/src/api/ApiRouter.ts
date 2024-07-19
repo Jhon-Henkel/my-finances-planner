@@ -8,6 +8,7 @@ import {ITransferForm} from "@/services/movement/transfer/ITransferForm"
 import {IFutureExpenseForm} from "@/services/future-expense/IFutureExpenseForm"
 import {PayReceiveModel} from "@/model/pay-receive/PayReceiveModel"
 import {ICardForm} from "@/services/cards/ICardForm"
+import router from "@/router"
 import {CardInvoiceItemModel} from "@/model/card/invoice-item/CardInvoiceItemModel"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
@@ -33,6 +34,7 @@ axios.interceptors.response.use(response => {
 }, async (error) => {
     if (error.response && error.response.status === 401) {
         await AuthService.logout()
+        await router.push({name: 'login'})
     }
     if (error.response && error.response.status === 400) {
         const okAlert: MfpOkAlert = new MfpOkAlert("Ocorreu um erro!")
@@ -170,7 +172,7 @@ export const ApiRouter = {
             return response.data
         },
         payNextInvoice: async (data: ICardForm, walletId: number) => {
-            const response = await axios.put(mountApiUrl(`/api/credit-card/${data.id}/invoices/${walletId}`), makeHeaders())
+            const response = await axios.put(mountApiUrl(`credit-card/${data.id}/invoices/${walletId}`), null, makeHeaders())
             return response.data
         },
         invoices: {
