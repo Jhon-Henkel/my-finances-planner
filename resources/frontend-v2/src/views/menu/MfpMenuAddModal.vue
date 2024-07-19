@@ -1,7 +1,18 @@
 <script setup lang="ts">
-import {IonModal} from "@ionic/vue"
+import {IonCol, IonIcon, IonItem, IonLabel, IonModal, IonRow} from "@ionic/vue"
+import MfpModalContent from "@/components/modal/MfpModalContent.vue"
+import {calendarOutline, cardOutline, cashOutline, swapHorizontalOutline} from "ionicons/icons"
+import {MfpModal} from "@/components/modal/MfpModal"
+import MfpMovementsFormModal from "@/views/movement/MfpMovementsFormModal.vue"
+import MfpFutureProfitsFormModal from "@/views/future-profits/MfpFutureProfitsFormModal.vue"
+import MfpPanoramaFormModal from "@/views/panorama/MfpPanoramaFormModal.vue"
+import MfpCardInvoicesFormModal from "@/views/cards/invoice/MfpCardInvoicesFormModal.vue"
 
 const modalBreakpoints: Array<number> = [0, 0.85]
+const movementFormModal = new MfpModal(MfpMovementsFormModal)
+const panoramaFormModal = new MfpModal(MfpPanoramaFormModal)
+const futureProfitFormModal = new MfpModal(MfpFutureProfitsFormModal)
+const cardInstallmentFormModal = new MfpModal(MfpCardInvoicesFormModal)
 </script>
 
 <template>
@@ -11,6 +22,32 @@ const modalBreakpoints: Array<number> = [0, 0.85]
         :breakpoints="modalBreakpoints"
         handle-behavior="cycle"
     >
-        <h1 class="ion-text-center">Em Desenvolvimento</h1>
+        <ion-row class="ion-text-center ion-margin-top">
+            <ion-col class="ion-margin-top">
+                <ion-label>
+                    Adicionar Novo:
+                </ion-label>
+            </ion-col>
+        </ion-row>
+        <mfp-modal-content>
+            <template #list>
+                <ion-item :button="true" @click="movementFormModal.open()">
+                    <ion-icon slot="start" :icon="swapHorizontalOutline"/>
+                    <ion-label>Movimentação</ion-label>
+                </ion-item>
+                <ion-item :button="true" @click="panoramaFormModal.open()">
+                    <ion-icon slot="start" :icon="calendarOutline"/>
+                    <ion-label>Plano de Gasto</ion-label>
+                </ion-item>
+                <ion-item :button="true" @click="futureProfitFormModal.open()">
+                    <ion-icon slot="start" :icon="cashOutline"/>
+                    <ion-label>Plano de Receita</ion-label>
+                </ion-item>
+                <ion-item :button="true" @click="cardInstallmentFormModal.open()">
+                    <ion-icon slot="start" :icon="cardOutline"/>
+                    <ion-label>Parcela Cartão</ion-label>
+                </ion-item>
+            </template>
+        </mfp-modal-content>
     </ion-modal>
 </template>
