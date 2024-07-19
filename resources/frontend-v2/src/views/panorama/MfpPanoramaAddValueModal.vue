@@ -25,7 +25,12 @@ async function add() {
     const newExpense = props.futureExpense
     const confirm = new MfpConfirmAlert('Revisão')
     const value = UtilMoney.formatValueToBr(newExpense.amount + internalAmount.value)
-    const message = `O novo valor de ${value} será o novo valor dessa despesa planejada em todos os meses. Continuar?`
+    let message = `O novo valor de ${value} será o novo valor dessa despesa planejada `
+    if (newExpense.installments == 0) {
+        message += 'em todos os meses. Continuar?'
+    } else {
+        message += `para as ${newExpense.installments} restantes. Continuar?`
+    }
     const result = await confirm.open(message)
     if (!result) {
         return

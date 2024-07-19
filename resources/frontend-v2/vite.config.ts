@@ -3,13 +3,17 @@ import legacy from '@vitejs/plugin-legacy'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import {defineConfig, loadEnv} from 'vite'
+import {VitePWA} from "vite-plugin-pwa"
 
 export default defineConfig((): any => {
     const env = loadEnv('', process.cwd())
     return {
         plugins: [
             vue(),
-            legacy()
+            legacy(),
+            VitePWA({
+                registerType: 'autoUpdate'
+            })
         ],
         define: {
             'process.env': env

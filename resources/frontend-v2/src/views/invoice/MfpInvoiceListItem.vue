@@ -14,6 +14,11 @@ const props = defineProps({
     store: {
         type: Object,
         required: true
+    },
+    fixInstallmentLabel: {
+        type: String,
+        required: false,
+        default: 'Despesa'
     }
 })
 const store = props.store
@@ -27,7 +32,6 @@ function getColorForNextInstallmentDay(installment: number): string {
         return 'warning'
     }
     return 'success'
-
 }
 </script>
 
@@ -59,7 +63,7 @@ function getColorForNextInstallmentDay(installment: number): string {
                                 Restam {{ invoiceItem.remainingInstallments }} parcelas
                             </ion-label>
                             <ion-label class="no-break" v-else>
-                                Despesa Fixa
+                                {{ fixInstallmentLabel }} Fixa
                             </ion-label>
                         </ion-col>
                     </ion-row>
