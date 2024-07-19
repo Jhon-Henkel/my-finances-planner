@@ -47,6 +47,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'manage-cards',
                 component: () => import('@/views/cards/CardsPage.vue')
             },
+            {
+                path: 'gerenciar-cartoes/fatura-cartao/:id',
+                name: 'card-invoices',
+                component: () => import('@/views/cards/invoice/CardInvoicesPage.vue')
+            },
         ],
         meta: {
             auth: true

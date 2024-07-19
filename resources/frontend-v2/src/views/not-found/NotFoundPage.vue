@@ -6,7 +6,7 @@ import {IonButton} from '@ionic/vue'
     <div class="not-found-container">
         <h1>Oops!</h1>
         <p>Parece que a página que você está procurando não existe.</p>
-        <ion-button href="/dashboard">Voltar para a dashboard</ion-button>
+        <ion-button href="/dashboard">Voltar para a Dashboard</ion-button>
     </div>
 </template>
 

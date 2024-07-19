@@ -26,13 +26,13 @@ const internalAmount = ref(props.item.nextInvoiceValue)
 const internalWalletId = ref(0)
 
 async function pay() {
+    const validationResults = CardsPayFormValidation.validate({walletId: internalWalletId.value})
+    if (! validationResults.isValid) {
+        return
+    }
     const confirm = new MfpConfirmAlert('Pagar Próxima Fatura')
     const confirmPay = await confirm.open(`Deseja realmente pagar a próxima fatura do cartão ${props.item.name}?`)
     if (confirmPay) {
-        const validationResults = CardsPayFormValidation.validate({walletId: internalWalletId.value})
-        if (! validationResults.isValid) {
-            return
-        }
         await ApiRouter.cards.payNextInvoice(props.item, internalWalletId.value)
         closeModal()
         const toast = new MfpToast()

@@ -66,7 +66,7 @@ onMounted(() => {
                 v-model="internalFutureExpense.installments"
                 label="Parcelas Restantes"
                 placeholder="Quantas parcelas faltam?"
-                type="numeric"
+                type="number"
                 v-if="!fixExpense"
             />
             <mfp-wallet-select label="Carteira Preferencial" v-model="internalFutureExpense.walletId"/>
