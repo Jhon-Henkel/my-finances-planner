@@ -11,6 +11,7 @@ import MfpPage from "@/components/page/MfpPage.vue"
 import {AuthService} from "@/services/auth/AuthService"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {LoginFormValidation} from "@/form-validation/auth/login/LoginFormValidation"
+import {UtilApp} from "@/util/UtilApp"
 // import router from "@/router"
 
 const loginData = ref(AuthService.emptyLoginObject())
@@ -38,18 +39,19 @@ async function submit() {
     await okAlert.open(login.data)
 }
 
-onMounted(() => {
+onMounted(async () => {
     if (AuthService.isUserLogged()) {
         // todo - temporário até desenvolver o dashboard em ionic
         window.location.href = '/dashboard'
         // await router.push({name: 'dashboard'})
         return
     }
-    const urlParams = new URLSearchParams(window.location.search)
-    const demoMode: string | null = urlParams.get('demo-mode')
-    if (demoMode === 'true') {
+    if (UtilApp.isAppInDevelopmentMode()) {
         loginData.value.email = 'mfp-demo@jhon.dev.br'
         loginData.value.password = 'mfp-demo'
+    } else if (UtilApp.isDevelopmentMode()) {
+        loginData.value.email = 'demo@demo.dev'
+        loginData.value.password = '12345678'
     }
 })
 </script>

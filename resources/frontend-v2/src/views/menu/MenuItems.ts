@@ -2,7 +2,7 @@ import {
     calendarOutline,
     cardOutline,
     cashOutline,
-    homeOutline, settingsOutline,
+    homeOutline, personCircleOutline,
     swapHorizontalOutline,
     walletOutline
 } from "ionicons/icons"
@@ -39,8 +39,8 @@ export const MenuItems = [
         label: 'Cartões',
     },
     {
-        icon: settingsOutline,
-        routeName: 'in-development',
-        label: 'Configurações (Em Desenvolvimento)',
+        icon: personCircleOutline,
+        routeName: 'user-settings',
+        label: 'Configurações do Usuário',
     }
 ]

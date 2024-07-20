@@ -18,7 +18,7 @@ defineProps(
             <slot name="list"/>
         </ion-list>
         <ion-list :inset="true" v-if="showContent">
-            <ion-item color="light">
+            <ion-item>
                 <slot name="content"/>
             </ion-item>
         </ion-list>

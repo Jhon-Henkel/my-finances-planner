@@ -5,12 +5,20 @@ import MfpModalContent from "@/components/modal/MfpModalContent.vue"
 import {AuthService} from "@/services/auth/AuthService"
 import {MenuItems} from "@/views/menu/MenuItems"
 import {logOutOutline} from "ionicons/icons"
+import {MfpModal} from "@/components/modal/MfpModal"
+import MfpUserSettingsModal from "@/views/settings/user/MfpUserSettingsModal.vue"
 
 function goToRoute(routeName: string) {
     if (routeName === 'login') {
         AuthService.logout()
     }
     modalController.dismiss()
+    if (routeName === 'user-settings') {
+        const userSettingsModal = new MfpModal(MfpUserSettingsModal)
+        closeMenu()
+        userSettingsModal.open()
+        return
+    }
     router.push({name: routeName})
 }
 

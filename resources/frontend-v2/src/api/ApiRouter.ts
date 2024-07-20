@@ -10,6 +10,7 @@ import {PayReceiveModel} from "@/model/pay-receive/PayReceiveModel"
 import {ICardForm} from "@/services/cards/ICardForm"
 import router from "@/router"
 import {CardInvoiceItemModel} from "@/model/card/invoice-item/CardInvoiceItemModel"
+import {UserModel} from "@/model/user/UserModel"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -196,6 +197,16 @@ export const ApiRouter = {
                 const response = await axios.delete(mountApiUrl(`credit-card/transaction/${id}`), makeHeaders())
                 return response.data
             }
+        }
+    },
+    user: {
+        get: async function(id: number) {
+            const response = await axios.get(mountApiUrl('user', id), makeHeaders())
+            return response.data
+        },
+        update: async function(id: number, user: UserModel) {
+            const response = await axios.put(mountApiUrl('user', id), user, makeHeaders())
+            return response.data
         }
     }
 }

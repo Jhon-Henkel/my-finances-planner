@@ -41,5 +41,8 @@ export const useAuthStore = defineStore({
         getEmail(): Ref<string> {
             return ref(this.user?.email ?? '')
         },
+        getUserId(): Ref<number> {
+            return ref(this.user?.id ?? 0)
+        }
     },
 })
