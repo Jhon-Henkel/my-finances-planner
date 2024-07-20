@@ -27,7 +27,6 @@ async function submit() {
     const login = await AuthService.login(loginData.value)
     if (login.isSuccess) {
         loginData.value.password = ''
-        loading.value = false
         // todo - temporário até desenvolver o dashboard em ionic
         window.location.href = '/dashboard'
         // const urlParams = new URLSearchParams(window.location.search)

@@ -1,5 +1,5 @@
 {
-    "name": "mfp-frontend-v2",
+    "name": "my-finances-planner",
     "private": true,
     "version": "0.0.1",
     "type": "module",
@@ -46,5 +46,5 @@
         "vitest": "^0.34.6",
         "vue-tsc": "^2.0.22"
     },
-    "description": "An Ionic project"
+    "description": "Finances Planner Project"
 }
