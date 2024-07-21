@@ -14,6 +14,7 @@ interface IMovementStoreState {
     totalBalanceValue: number
     thisMonthTotalIncomesValue: number
     thisMonthTotalExpensesValue: number
+    thisMonthTotalBalance: number
     dateOfResults: string
 }
 
@@ -29,6 +30,7 @@ export const useMovementStore = defineStore({
         totalExpensesValue: 0,
         thisMonthTotalIncomesValue: 0,
         thisMonthTotalExpensesValue: 0,
+        thisMonthTotalBalance: 0,
         totalBalanceValue: 0,
         dateOfResults: ''
     }),
@@ -55,6 +57,7 @@ export const useMovementStore = defineStore({
                     this.thisMonthMovements = this.movements
                     this.thisMonthTotalIncomesValue = this.totalIncomesValue
                     this.thisMonthTotalExpensesValue = this.totalExpensesValue
+                    this.thisMonthTotalBalance = this.totalBalanceValue
                 }
             }
             return this.movements

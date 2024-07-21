@@ -2,6 +2,7 @@
 import {IonCol, IonGrid, IonRow, IonImg, IonButton, IonLabel} from '@ionic/vue'
 import MfpPage from "@/components/page/MfpPage.vue"
 import AppConfig from "@/config/AppConfig"
+import router from "@/router"
 
 const imageUrl = `${AppConfig.storageBaseUrl}in-development.gif`
 </script>
@@ -17,7 +18,7 @@ const imageUrl = `${AppConfig.storageBaseUrl}in-development.gif`
                             <ion-label>
                                 <p>Essa tela ainda está em desenvolvimento, logo estará disponível!</p>
                             </ion-label>
-                            <ion-button href="/v2/dashboard" class="ion-margin-top">
+                            <ion-button @click="router.push({name: 'dashboard'})" class="ion-margin-top">
                                 Voltar para o dashboard
                             </ion-button>
                         </ion-col>
