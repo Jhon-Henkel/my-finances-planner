@@ -17,7 +17,7 @@ const imageUrl = `${AppConfig.storageBaseUrl}in-development.gif`
                             <ion-label>
                                 <p>Essa tela ainda está em desenvolvimento, logo estará disponível!</p>
                             </ion-label>
-                            <ion-button href="/dashboard" class="ion-margin-top">
+                            <ion-button href="/v2/dashboard" class="ion-margin-top">
                                 Voltar para o dashboard
                             </ion-button>
                         </ion-col>

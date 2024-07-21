@@ -6,11 +6,14 @@ import {UtilCalendar} from "@/util/UtilCalendar"
 interface IMovementStoreState {
     movements: Array<MovementModel>
     originalMovements: Array<MovementModel>
+    thisMonthMovements: Array<MovementModel>
     isLoaded: boolean
     lastMovementFilterType: number
     totalIncomesValue: number
     totalExpensesValue: number
     totalBalanceValue: number
+    thisMonthTotalIncomesValue: number
+    thisMonthTotalExpensesValue: number
     dateOfResults: string
 }
 
@@ -19,10 +22,13 @@ export const useMovementStore = defineStore({
     state: (): IMovementStoreState => ({
         movements: [],
         originalMovements: [],
+        thisMonthMovements: [],
         isLoaded: false,
         lastMovementFilterType: MovementService.allType,
         totalIncomesValue: 0,
         totalExpensesValue: 0,
+        thisMonthTotalIncomesValue: 0,
+        thisMonthTotalExpensesValue: 0,
         totalBalanceValue: 0,
         dateOfResults: ''
     }),
@@ -31,6 +37,7 @@ export const useMovementStore = defineStore({
             this.isLoaded = false
         },
         async loadMovements(quest: string | null = null): Promise<Array<MovementModel>> {
+            const questIsNull = quest === null
             if (! quest) {
                 const dateFilterString: string = UtilCalendar.makeStringFilterDate(UtilCalendar.getTodayIso())
                 quest = `type=${MovementService.allType}&${dateFilterString}`
@@ -44,6 +51,11 @@ export const useMovementStore = defineStore({
                 this.totalIncomesValue = totals.incomes
                 this.totalExpensesValue = totals.expenses
                 this.totalBalanceValue = totals.balance
+                if (questIsNull) {
+                    this.thisMonthMovements = this.movements
+                    this.thisMonthTotalIncomesValue = this.totalIncomesValue
+                    this.thisMonthTotalExpensesValue = this.totalExpensesValue
+                }
             }
             return this.movements
         },
@@ -63,13 +75,9 @@ export const useMovementStore = defineStore({
             )
         }
     },
-
     getters: {
         isLoadedOnStore(): boolean {
             return this.isLoaded
-        },
-        getMovements(): Array<MovementModel> {
-            return this.movements
         }
     }
 })

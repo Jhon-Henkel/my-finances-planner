@@ -11,8 +11,8 @@ import {
 export const MenuItems = [
     {
         icon: homeOutline,
-        routeName: 'in-development',
-        label: 'Inicio (Em Desenvolvimento)',
+        routeName: 'dashboard',
+        label: 'Inicio',
     },
     {
         icon: swapHorizontalOutline,

@@ -6,6 +6,7 @@ interface IFutureProfitsStoreState {
     futureProfits: Array<IInvoice>
     isLoaded: boolean,
     installmentSelected: number
+    thisMonthValue: number
 }
 
 export const useFutureProfitsStore = defineStore({
@@ -14,6 +15,7 @@ export const useFutureProfitsStore = defineStore({
         futureProfits: [],
         isLoaded: false,
         installmentSelected: 0,
+        thisMonthValue: 0
     }),
     actions: {
         loadAgainOnNextTick() {
@@ -22,6 +24,9 @@ export const useFutureProfitsStore = defineStore({
         async load() {
             this.isLoaded = false
             this.futureProfits = await FutureProfitsService.index()
+            this.futureProfits.forEach((invoice) => {
+                this.thisMonthValue += invoice.firstInstallment
+            })
             this.isLoaded = true
         }
     }
