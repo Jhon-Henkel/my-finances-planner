@@ -35,7 +35,7 @@ axios.interceptors.response.use(response => {
 }, async (error) => {
     if (error.response && error.response.status === 401) {
         await AuthService.logout()
-        await router.push({name: 'login'})
+        router.push({name: 'login'})
     }
     if (error.response && error.response.status === 400) {
         const okAlert: MfpOkAlert = new MfpOkAlert("Ocorreu um erro!")
@@ -206,6 +206,13 @@ export const ApiRouter = {
         },
         update: async function(id: number, user: UserModel) {
             const response = await axios.put(mountApiUrl('user', id), user, makeHeaders())
+            return response.data
+        }
+    },
+    financialHealth: {
+        getFiltered: async (quest: null | string = null) => {
+            quest = quest ? `?${quest}` : ''
+            const response = await axios.get(mountApiUrl(`financial-health/filter${quest}`), makeHeaders())
             return response.data
         }
     }

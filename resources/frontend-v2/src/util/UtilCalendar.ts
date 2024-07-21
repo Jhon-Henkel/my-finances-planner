@@ -19,10 +19,6 @@ export const UtilCalendar = {
     toIso: function(date: string): string {
         return this.makeDate(date).toISOString()
     },
-    formatStringToBr: function(date: string): string {
-        const dateTime: Date = new Date(date)
-        return dateTime.toLocaleDateString('pt-BR', { year: '2-digit', month: '2-digit', day: '2-digit' })
-    },
     makeStringFilterDate: function(date: string): string {
         const  dateObj: Date = new Date(date)
         const  dateStart: Date = startOfMonth(dateObj)
