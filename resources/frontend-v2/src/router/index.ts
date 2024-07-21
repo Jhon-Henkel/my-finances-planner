@@ -57,6 +57,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'dashboard',
                 component: () => import('@/views/dashboard/DashboardPage.vue')
             },
+            {
+                path: 'saude-financeira',
+                name: 'financial-health',
+                component: () => import('@/views/financial-health/FinancialHealthPage.vue')
+            },
         ],
         meta: {
             auth: true

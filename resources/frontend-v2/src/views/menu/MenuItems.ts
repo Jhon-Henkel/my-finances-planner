@@ -2,6 +2,7 @@ import {
     calendarNumberOutline,
     cardOutline,
     cashOutline,
+    fitnessOutline,
     homeOutline,
     personCircleOutline,
     swapHorizontalOutline,
@@ -38,6 +39,11 @@ export const MenuItems = [
         icon: cardOutline,
         routeName: 'manage-cards',
         label: 'Cartões',
+    },
+    {
+        icon: fitnessOutline,
+        routeName: 'financial-health',
+        label: 'Saúde Financeira',
     },
     {
         icon: personCircleOutline,
