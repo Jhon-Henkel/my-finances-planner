@@ -12,7 +12,7 @@ import {AuthService} from "@/services/auth/AuthService"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {LoginFormValidation} from "@/form-validation/auth/login/LoginFormValidation"
 import {UtilApp} from "@/util/UtilApp"
-// import router from "@/router"
+import router from "@/router"
 
 const loginData = ref(AuthService.emptyLoginObject())
 loginData.value.email = AuthService.getRememberedEmail()
@@ -28,11 +28,9 @@ async function submit() {
     const login = await AuthService.login(loginData.value)
     if (login.isSuccess) {
         loginData.value.password = ''
-        // todo - temporário até desenvolver o dashboard em ionic
-        window.location.href = '/dashboard'
-        // const urlParams = new URLSearchParams(window.location.search)
-        // const redirect: string | null = urlParams.get('redirect')
-        // await router.push({name: redirect ?? 'dashboard'})
+        const urlParams = new URLSearchParams(window.location.search)
+        const redirect: string | null = urlParams.get('redirect')
+        await router.push({name: redirect ?? 'dashboard'})
         return
     }
     loading.value = false
@@ -41,9 +39,7 @@ async function submit() {
 
 onMounted(async () => {
     if (AuthService.isUserLogged()) {
-        // todo - temporário até desenvolver o dashboard em ionic
-        window.location.href = '/dashboard'
-        // await router.push({name: 'dashboard'})
+        await router.push({name: 'dashboard'})
         return
     }
     if (UtilApp.isAppInDevelopmentMode()) {

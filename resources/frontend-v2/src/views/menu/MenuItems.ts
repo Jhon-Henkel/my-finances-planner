@@ -1,8 +1,9 @@
 import {
-    calendarOutline,
+    calendarNumberOutline,
     cardOutline,
     cashOutline,
-    homeOutline, personCircleOutline,
+    homeOutline,
+    personCircleOutline,
     swapHorizontalOutline,
     walletOutline
 } from "ionicons/icons"
@@ -10,8 +11,8 @@ import {
 export const MenuItems = [
     {
         icon: homeOutline,
-        routeName: 'in-development',
-        label: 'Inicio (Em Desenvolvimento)',
+        routeName: 'dashboard',
+        label: 'Inicio',
     },
     {
         icon: swapHorizontalOutline,
@@ -19,7 +20,7 @@ export const MenuItems = [
         label: 'Movimentações',
     },
     {
-        icon: calendarOutline,
+        icon: calendarNumberOutline,
         routeName: 'panorama',
         label: 'Plano de Gastos',
     },

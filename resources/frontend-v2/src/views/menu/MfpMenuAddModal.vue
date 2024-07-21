@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {IonCol, IonIcon, IonItem, IonLabel, IonModal, IonRow, modalController} from "@ionic/vue"
 import MfpModalContent from "@/components/modal/MfpModalContent.vue"
-import {calendarOutline, cardOutline, cashOutline, swapHorizontalOutline} from "ionicons/icons"
+import {calendarNumberOutline, cardOutline, cashOutline, swapHorizontalOutline} from "ionicons/icons"
 import {MfpModal} from "@/components/modal/MfpModal"
 import MfpMovementsFormModal from "@/views/movement/MfpMovementsFormModal.vue"
 import MfpFutureProfitsFormModal from "@/views/future-profits/MfpFutureProfitsFormModal.vue"
@@ -41,7 +41,7 @@ function openModal(modal: MfpModal) {
                     <ion-label>Movimentação</ion-label>
                 </ion-item>
                 <ion-item :button="true" @click="openModal(panoramaFormModal)">
-                    <ion-icon slot="start" :icon="calendarOutline"/>
+                    <ion-icon slot="start" :icon="calendarNumberOutline"/>
                     <ion-label>Plano de Gasto</ion-label>
                 </ion-item>
                 <ion-item :button="true" @click="openModal(futureProfitFormModal)">

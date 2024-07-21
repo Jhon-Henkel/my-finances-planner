@@ -52,6 +52,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'card-invoices',
                 component: () => import('@/views/cards/invoice/CardInvoicesPage.vue')
             },
+            {
+                path: 'dashboard',
+                name: 'dashboard',
+                component: () => import('@/views/dashboard/DashboardPage.vue')
+            },
         ],
         meta: {
             auth: true
