@@ -9,6 +9,7 @@ import MfpDashboardPlannerAmountCard from "@/views/dashboard/MfpDashboardPlanner
 import MfpDashboardMovementAmountCard from "@/views/dashboard/MfpDashboardMovementAmountCard.vue"
 import MfpDashboardMonthLabel from "@/views/dashboard/MfpDashboardMonthLabel.vue"
 import MfpDashboardLastMovementsCard from "@/views/dashboard/MfpDashboardLastMovementsCard.vue"
+import MfpDashboardScheduledForTheMonthCard from "@/views/dashboard/MfpDashboardScheduledForTheMonthCard.vue"
 
 const userModal = new MfpModal(MfpUserSettingsModal)
 </script>
@@ -24,6 +25,7 @@ const userModal = new MfpModal(MfpUserSettingsModal)
             <mfp-dashboard-total-wallet-amount-card/>
             <mfp-dashboard-movement-amount-card/>
             <mfp-dashboard-planner-amount-card/>
+            <mfp-dashboard-scheduled-for-the-month-card/>
             <mfp-dashboard-last-movements-card/>
         </ion-grid>
     </mfp-page>

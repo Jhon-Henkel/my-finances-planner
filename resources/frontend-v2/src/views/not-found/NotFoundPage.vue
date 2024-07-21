@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import {IonButton} from '@ionic/vue'
+import router from "@/router"
 </script>
 
 <template>
     <div class="not-found-container">
         <h1>Oops!</h1>
         <p>Parece que a página que você está procurando não existe.</p>
-        <ion-button href="/v2/dashboard">Voltar para a Dashboard</ion-button>
+        <ion-button @click="router.push({name: 'dashboard'})">Voltar para a Dashboard</ion-button>
     </div>
 </template>
 
