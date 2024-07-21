@@ -2,15 +2,14 @@
 import {IonCard, IonCardSubtitle, IonCol, IonIcon, IonRow} from '@ionic/vue'
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
 import {arrowDownCircleOutline, arrowUpCircleOutline} from "ionicons/icons"
+import {useFinancialHealthStore} from "@/stores/financial-health/financialHealthStore"
+import {onMounted} from "vue"
 
-defineProps({
-    incomes: {
-        type: Number,
-        required: true
-    },
-    expenses: {
-        type: Number,
-        required: true
+const store = useFinancialHealthStore()
+
+onMounted(async () => {
+    if (!store.isLoaded) {
+        await store.load()
     }
 })
 </script>
@@ -25,7 +24,7 @@ defineProps({
                     </ion-col>
                     <ion-col size="9">
                         <ion-card-subtitle>Recebeu</ion-card-subtitle>
-                        <mfp-counter-money :end="incomes"/>
+                        <mfp-counter-money :end="store.items.incomeTotalAmount"/>
                     </ion-col>
                 </ion-row>
             </ion-card>
@@ -38,7 +37,7 @@ defineProps({
                     </ion-col>
                     <ion-col size="9">
                         <ion-card-subtitle>Gastou</ion-card-subtitle>
-                        <mfp-counter-money :end="expenses"/>
+                        <mfp-counter-money :end="store.items.expenseTotalAmount"/>
                     </ion-col>
                 </ion-row>
             </ion-card>

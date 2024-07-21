@@ -12,6 +12,7 @@ import MfpFinancialHealthItemsListSkeletonLoad
 import MfpFinancialHealthMonthLabel from "@/views/financial-health/MfpFinancialHealthMonthLabel.vue"
 import {MfpModal} from "@/components/modal/MfpModal"
 import MfpFinancialHealthFilterModal from "@/views/financial-health/MfpFinancialHealthFilterModal.vue"
+import MfpFinancialHealthBalanceCard from "@/views/financial-health/MfpFinancialHealthBalanceCard.vue"
 
 const store = useFinancialHealthStore()
 const filterModal = new MfpModal(MfpFinancialHealthFilterModal)
@@ -31,10 +32,8 @@ onMounted(() => {
         </ion-list-header>
         <ion-grid>
             <mfp-financial-health-month-label/>
-            <mfp-financial-health-values-card
-                :expenses="store.items.expenseTotalAmount"
-                :incomes="store.items.incomeTotalAmount"
-            />
+            <mfp-financial-health-values-card/>
+            <mfp-financial-health-balance-card/>
             <ion-row>
                 <ion-col>
                     <ion-list-header>
