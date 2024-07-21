@@ -16,7 +16,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <ion-item v-for="movement in movementStore.thisMonthMovements.slice(0, 5)">
+    <ion-item v-for="movement in movementStore.thisMonthMovements.slice(0, 5)" :key="movement.id">
         <ion-grid>
             <ion-row class="center-ion-label-content">
                 <ion-col size="1">
