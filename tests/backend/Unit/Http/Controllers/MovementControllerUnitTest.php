@@ -113,20 +113,6 @@ class MovementControllerUnitTest extends Falcon9
         $this->assertInstanceOf(MovementResource::class, $resource);
     }
 
-    public function testDeleteTransfer()
-    {
-        $serviceMock = Mockery::mock(MovementService::class);
-        $serviceMock->shouldReceive('deleteTransferById')->once()->andReturn(true);
-        $mocks = [$serviceMock, new MovementResource()];
-
-        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
-        $controllerMock->shouldAllowMockingProtectedMethods();
-
-        $response = $controllerMock->deleteTransfer(1);
-
-        $this->assertEquals(200, $response->getStatusCode());
-    }
-
     public function testInsertTransferWithInvalidRequest()
     {
         $serviceMock = Mockery::mock(MovementService::class);

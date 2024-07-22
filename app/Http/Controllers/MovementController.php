@@ -84,10 +84,4 @@ class MovementController extends BasicController
         $this->getService()->insertWithWalletUpdateType($transferReceived, MovementEnum::Gain->value);
         return response()->json(null, ResponseAlias::HTTP_CREATED);
     }
-
-    public function deleteTransfer(int $id): JsonResponse
-    {
-        $this->getService()->deleteTransferById($id);
-        return response()->json(null, ResponseAlias::HTTP_OK);
-    }
 }
