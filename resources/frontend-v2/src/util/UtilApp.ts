@@ -1,8 +1,8 @@
 export const UtilApp = {
-    isAppInDevelopmentMode: () => {
+    isAppInDemoMode: () => {
         return process.env.VITE_MFP_APP_DEMO_MODE === 'true';
     },
-    isDevelopmentMode: () => {
+    isAppInDeveloperMode: () => {
         return process.env.VITE_ENV === 'develop';
     }
 }
