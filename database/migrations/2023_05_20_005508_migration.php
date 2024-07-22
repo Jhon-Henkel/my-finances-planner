@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Configurations;
 use Illuminate\Database\Migrations\Migration;
 
 return new class () extends Migration {
@@ -9,7 +8,6 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Configurations::where('name', 'mfp-token')->delete();
     }
 
     /**
@@ -17,6 +15,5 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        // this migration not have rollback
     }
 };
