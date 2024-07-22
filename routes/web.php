@@ -8,33 +8,49 @@ use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Route;
 
 /** @var Route $router */
-$router->prefix('/')->group(function ($router) {
-    $router->prefix('auth')->group(function () use ($router) {
-        $router->get('/verify', [AuthController::class, 'verifyIsAuthenticated'])->name(RouteEnum::WebVerifyToken->value);
-        $router->post('', [AuthController::class, 'auth'])->name(RouteEnum::WebMakeLogin->value);
+Route::prefix('/')->group(function () {
+    Route::prefix('auth')->group(function () {
+
+        Route::get('/verify', [AuthController::class, 'verifyIsAuthenticated'])
+            ->name(RouteEnum::WebVerifyToken->value);
+
+        Route::post('', [AuthController::class, 'auth'])
+            ->name(RouteEnum::WebMakeLogin->value);
     });
 
-    $router->get('logout', [AuthController::class, 'logout'])->name(RouteEnum::WebLogout->value);
-    $router->get('send-test-email', [MailController::class, 'sendTestEmail'])->name(RouteEnum::WebSendTestEmail->value);
-    $router->get('active-user/{verifyHash}', [UserController::class, 'activeUser'])->name(RouteEnum::WebActiveUser->value);
+    Route::get('logout', [AuthController::class, 'logout'])
+        ->name(RouteEnum::WebLogout->value);
+
+    Route::get('send-test-email', [MailController::class, 'sendTestEmail'])
+        ->name(RouteEnum::WebSendTestEmail->value);
+
+    Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser'])
+        ->name(RouteEnum::WebActiveUser->value);
+
 
     if (RequestTools::isApplicationInDevelopMode()) {
-        $router->prefix('develop')->group(function () use ($router) {
-            $router->get('get-tokens', [UserController::class, 'developGetTokens'])->name(RouteEnum::DevelopGetTokens->value);
-        });
-    };
+        Route::prefix('develop')->group(function () {
 
-    $router->prefix('v2')->group(function () use ($router) {
-        $router->get('', function () {
+            Route::get('get-tokens', [UserController::class, 'developGetTokens'])
+                ->name(RouteEnum::DevelopGetTokens->value);
+
+        });
+    }
+
+    Route::prefix('v2')->group(function () {
+
+        Route::get('', function () {
             return view('indexV2');
         });
-        $router->get('/{any}', function () {
+
+        Route::get('/{any}', function () {
             return view('indexV2');
         })->where('any', '.*');
+
     });
 
 
-    $router->get('{any}', function () {
-        return view('index');
+    Route::get('{any}', function () {
+        return redirect('/v2/login');
     })->where('any', '.*');
 });
