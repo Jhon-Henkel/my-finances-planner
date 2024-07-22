@@ -98,6 +98,10 @@ export const ApiRouter = {
             post: async (data: ITransferForm) => {
                 const response = await axios.post(mountApiUrl('movement/transfer'), data, makeHeaders())
                 return response.data
+            },
+            delete: async (id: number) => {
+                const response = await axios.delete(mountApiUrl('movement/transfer', id), makeHeaders())
+                return response.data
             }
         }
     },
