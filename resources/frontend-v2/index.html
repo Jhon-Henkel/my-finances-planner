@@ -27,19 +27,30 @@
     <meta name="apple-mobile-web-app-title" content="My Finances Planner"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 
-    <link rel="manifest" href="../../public/site.webmanifest">
-    <link rel="mask-icon" href="../../public/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="apple-touch-icon" sizes="180x180" href="../../public/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../public/favicon-16x16.png">
+    <link rel="manifest" href="public/site.webmanifest">
+    <link rel="mask-icon" href="public/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png">
 </head>
 
 <body>
-<noscript>You need to enable JavaScript to run this app.</noscript>
-<div id="ionic-app"></div>
-<script type="module" src="/src/main.ts"></script>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TFXE4NPB8W"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-TFXE4NPB8W');
+    </script>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div id="ionic-app"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
 
