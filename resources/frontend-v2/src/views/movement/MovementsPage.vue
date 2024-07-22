@@ -68,7 +68,11 @@ async function deleteMovement(movement: MovementModel) {
     const deleteConfirmAlert = new MfpConfirmAlert('Deseja realmente deletar a movimentação?')
     const confirm = await deleteConfirmAlert.open(message)
     if (confirm) {
-        await MovementService.delete(movement.id)
+        if (movement.type === MovementService.transferType) {
+            await MovementService.deleteTransfer(movement.id)
+        } else {
+            await MovementService.delete(movement.id)
+        }
         const toast = new MfpToast()
         await toast.open('Movimentação removida com sucesso!')
         await updateMovements()

@@ -30,6 +30,9 @@ export const MovementService = {
     delete: async (id: number): Promise<void> => {
         await ApiRouter.movement.delete(id)
     },
+    deleteTransfer: async (id: number): Promise<void> => {
+        await ApiRouter.movement.transfer.delete(id)
+    },
     emptyMovement: (): IMovementFormView => {
         return {
             id: undefined,
