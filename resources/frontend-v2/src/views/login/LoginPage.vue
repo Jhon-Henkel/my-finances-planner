@@ -30,7 +30,7 @@ async function submit() {
         loginData.value.password = ''
         const urlParams = new URLSearchParams(window.location.search)
         const redirect: string | null = urlParams.get('redirect')
-        await router.push({name: redirect ?? 'dashboard'})
+        router.push({name: redirect ?? 'dashboard'})
         return
     }
     loading.value = false
@@ -39,13 +39,13 @@ async function submit() {
 
 onMounted(async () => {
     if (AuthService.isUserLogged()) {
-        await router.push({name: 'dashboard'})
+        router.push({name: 'dashboard'})
         return
     }
-    if (UtilApp.isAppInDevelopmentMode()) {
+    if (UtilApp.isAppInDemoMode()) {
         loginData.value.email = 'mfp-demo@jhon.dev.br'
         loginData.value.password = 'mfp-demo'
-    } else if (UtilApp.isDevelopmentMode()) {
+    } else if (UtilApp.isAppInDeveloperMode()) {
         loginData.value.email = 'demo@demo.dev'
         loginData.value.password = '12345678'
     }

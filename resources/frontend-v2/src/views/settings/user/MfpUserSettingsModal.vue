@@ -23,7 +23,7 @@ const authStore = useAuthStore()
 
 async function save() {
     let okMessage = new MfpOkAlert('Ação não permitida')
-    if (UtilApp.isAppInDevelopmentMode()) {
+    if (UtilApp.isAppInDemoMode()) {
         await okMessage.open('Aplicação em mode demo não permite alterar as configurações!')
         return
     }
