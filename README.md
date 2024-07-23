@@ -26,7 +26,8 @@ Acesso no mode demo: [My Finances Planner](https://my-finances-planner-demo.jhon
 - Senha: mfp-demo
 ## Como iniciar o projeto
 
-Forma mais rápida de iniciar o projeto:
+Forma mais rápida de iniciar o projeto: (O setup automatizado não está funcionando após migrarmos para o frontend v2, 
+logo volta a ficar ok. Enquanto isso, siga o processo manual.)
 - Criar o .env com base no .env.example e configurar as variáveis de ambiente
 - Rodar o ***php artisan start:develop-project*** (rodar dentro do container)
 - Seguir os passos informados no terminal após terminar a configuração
