@@ -5,6 +5,7 @@ namespace App\Enums;
 enum RouteEnum: string
 {
     case ApiWalletIndex = 'apiWalletIndex';
+    case ApiWalletShow = 'apiWalletShow';
     case ApiWalletInsert = 'apiWalletInsert';
     case ApiWalletUpdate = 'apiWalletUpdate';
     case ApiWalletDelete = 'apiWalletDelete';

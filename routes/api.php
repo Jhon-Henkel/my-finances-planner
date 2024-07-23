@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/')->middleware('auth.api:api')->group(function () {
     Route::prefix('wallet')->group(function () {
+        Route::get('{id}', [WalletController::class, 'show'])
+            ->name(RouteEnum::ApiWalletShow->value);
         Route::get('', [WalletController::class, 'index'])
             ->name(RouteEnum::ApiWalletIndex->value);
         Route::post('', [WalletController::class, 'insert'])
