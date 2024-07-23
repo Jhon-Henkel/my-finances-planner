@@ -4,7 +4,6 @@ use App\Enums\RouteEnum;
 use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FinancialHealthController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
@@ -14,89 +13,117 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
-/** @var Route $router */
-$router->prefix('/')->middleware('auth.api:api')->group(function ($router) {
-    $router->prefix('dashboard')->group(function () use ($router) {
-        $router->get('', [DashboardController::class, 'index'])->name(RouteEnum::ApiDashboardIndex->value);
+Route::prefix('/')->middleware('auth.api:api')->group(function () {
+    Route::prefix('wallet')->group(function () {
+        Route::get('', [WalletController::class, 'index'])
+            ->name(RouteEnum::ApiWalletIndex->value);
+        Route::post('', [WalletController::class, 'insert'])
+            ->name(RouteEnum::ApiWalletInsert->value);
+        Route::put('/{id}', [WalletController::class, 'update'])
+            ->name(RouteEnum::ApiWalletUpdate->value);
+        Route::delete('/{id}', [WalletController::class, 'delete'])
+            ->name(RouteEnum::ApiWalletDelete->value);
     });
 
-    $router->prefix('wallet')->group(function () use ($router) {
-        $router->get('', [WalletController::class, 'index'])->name(RouteEnum::ApiWalletIndex->value);
-        $router->get('/{id}', [WalletController::class, 'show'])->name(RouteEnum::ApiWalletShow->value);
-        $router->post('', [WalletController::class, 'insert'])->name(RouteEnum::ApiWalletInsert->value);
-        $router->put('/{id}', [WalletController::class, 'update'])->name(RouteEnum::ApiWalletUpdate->value);
-        $router->delete('/{id}', [WalletController::class, 'delete'])->name(RouteEnum::ApiWalletDelete->value);
-    });
-
-    $router->prefix('movement')->group(function () use ($router) {
-        $router->prefix('transfer')->group(function () use ($router) {
-            $router->post('', [MovementController::class, 'insertTransfer'])->name(RouteEnum::ApiMovementInsertTransfer->value);
-            $router->delete('/{id}', [MovementController::class, 'deleteTransfer'])->name(RouteEnum::ApiMovementDeleteTransfer->value);
+    Route::prefix('movement')->group(function () {
+        Route::prefix('transfer')->group(function () {
+            Route::post('', [MovementController::class, 'insertTransfer'])
+                ->name(RouteEnum::ApiMovementInsertTransfer->value);
+            Route::delete('/{id}', [MovementController::class, 'deleteTransfer'])
+                ->name(RouteEnum::ApiMovementDeleteTransfer->value);
         });
 
-        $router->get('', [MovementController::class, 'index'])->name(RouteEnum::ApiMovementIndex->value);
-        $router->get('/filter', [MovementController::class, 'indexFiltered'])->name(RouteEnum::ApiMovementIndexFiltered->value);
-        $router->get('/{id}', [MovementController::class, 'show'])->name(RouteEnum::ApiMovementShow->value);
-        $router->post('', [MovementController::class, 'insert'])->name(RouteEnum::ApiMovementInsert->value);
-        $router->put('/{id}', [MovementController::class, 'update'])->name(RouteEnum::ApiMovementUpdate->value);
-        $router->delete('/{id}', [MovementController::class, 'delete'])->name(RouteEnum::ApiMovementDelete->value);
+        Route::get('', [MovementController::class, 'index'])
+            ->name(RouteEnum::ApiMovementIndex->value);
+        Route::get('/filter', [MovementController::class, 'indexFiltered'])
+            ->name(RouteEnum::ApiMovementIndexFiltered->value);
+        Route::post('', [MovementController::class, 'insert'])
+            ->name(RouteEnum::ApiMovementInsert->value);
+        Route::put('/{id}', [MovementController::class, 'update'])
+            ->name(RouteEnum::ApiMovementUpdate->value);
+        Route::delete('/{id}', [MovementController::class, 'delete'])
+            ->name(RouteEnum::ApiMovementDelete->value);
     });
 
-    $router->prefix('credit-card')->group(function () use ($router) {
-        $router->prefix('transaction')->group(function () use ($router) {
-            $router->get('', [CreditCardTransactionController::class, 'index'])->name(RouteEnum::ApiCreditCardTransactionIndex->value);
-            $router->get('/{id}', [CreditCardTransactionController::class, 'show'])->name(RouteEnum::ApiCreditCardTransactionShow->value);
-            $router->post('', [CreditCardTransactionController::class, 'insert'])->name(RouteEnum::ApiCreditCardTransactionInsert->value);
-            $router->put('/{id}', [CreditCardTransactionController::class, 'update'])->name(RouteEnum::ApiCreditCardTransactionUpdate->value);
-            $router->delete('/{id}', [CreditCardTransactionController::class, 'delete'])->name(RouteEnum::ApiCreditCardTransactionDelete->value);
+    Route::prefix('credit-card')->group(function () {
+        Route::prefix('transaction')->group(function () {
+            Route::get('/{id}', [CreditCardTransactionController::class, 'show'])
+                ->name(RouteEnum::ApiCreditCardTransactionShow->value);
+            Route::post('', [CreditCardTransactionController::class, 'insert'])
+                ->name(RouteEnum::ApiCreditCardTransactionInsert->value);
+            Route::put('/{id}', [CreditCardTransactionController::class, 'update'])
+                ->name(RouteEnum::ApiCreditCardTransactionUpdate->value);
+            Route::delete('/{id}', [CreditCardTransactionController::class, 'delete'])
+                ->name(RouteEnum::ApiCreditCardTransactionDelete->value);
         });
 
-        $router->prefix('{id}/invoices')->group(function () use ($router) {
-            $router->get('', [CreditCardTransactionController::class, 'invoices'])->name(RouteEnum::ApiCreditCardInvoices->value);
-            $router->put('/{walletId}', [CreditCardTransactionController::class, 'payInvoice'])->name(RouteEnum::ApiCreditCardPayInvoice->value);
+        Route::prefix('{id}/invoices')->group(function () {
+            Route::get('', [CreditCardTransactionController::class, 'invoices'])
+                ->name(RouteEnum::ApiCreditCardInvoices->value);
+            Route::put('/{walletId}', [CreditCardTransactionController::class, 'payInvoice'])
+                ->name(RouteEnum::ApiCreditCardPayInvoice->value);
         });
 
-        $router->get('', [CreditCardController::class, 'index'])->name(RouteEnum::ApiCreditCardIndex->value);
-        $router->get('/{id}', [CreditCardController::class, 'show'])->name(RouteEnum::ApiCreditCardShow->value);
-        $router->post('', [CreditCardController::class, 'insert'])->name(RouteEnum::ApiCreditCardInsert->value);
-        $router->put('/{id}', [CreditCardController::class, 'update'])->name(RouteEnum::ApiCreditCardUpdate->value);
-        $router->delete('/{id}', [CreditCardController::class, 'delete'])->name(RouteEnum::ApiCreditCardDelete->value);
+        Route::get('', [CreditCardController::class, 'index'])
+            ->name(RouteEnum::ApiCreditCardIndex->value);
+        Route::post('', [CreditCardController::class, 'insert'])
+            ->name(RouteEnum::ApiCreditCardInsert->value);
+        Route::put('/{id}', [CreditCardController::class, 'update'])
+            ->name(RouteEnum::ApiCreditCardUpdate->value);
+        Route::delete('/{id}', [CreditCardController::class, 'delete'])
+            ->name(RouteEnum::ApiCreditCardDelete->value);
     });
 
-    $router->prefix('future-gain')->group(function () use ($router) {
-        $router->get('', [FutureGainController::class, 'index'])->name(RouteEnum::ApiFutureGainIndex->value);
-        $router->get('next-six-months', [FutureGainController::class, 'nextSixMonths'])->name(RouteEnum::ApiFutureGainNextSixMonths->value);
-        $router->get('/{id}', [FutureGainController::class, 'show'])->name(RouteEnum::ApiFutureGainShow->value);
-        $router->post('/{id}/receive', [FutureGainController::class, 'receive'])->name(RouteEnum::ApiFutureGainReceive->value);
-        $router->post('', [FutureGainController::class, 'insert'])->name(RouteEnum::ApiFutureGainInsert->value);
-        $router->put('/{id}', [FutureGainController::class, 'update'])->name(RouteEnum::ApiFutureGainUpdate->value);
-        $router->delete('/{id}', [FutureGainController::class, 'delete'])->name(RouteEnum::ApiFutureGainDelete->value);
+    Route::prefix('future-gain')->group(function () {
+        Route::get('next-six-months', [FutureGainController::class, 'nextSixMonths'])
+            ->name(RouteEnum::ApiFutureGainNextSixMonths->value);
+        Route::get('/{id}', [FutureGainController::class, 'show'])
+            ->name(RouteEnum::ApiFutureGainShow->value);
+        Route::post('/{id}/receive', [FutureGainController::class, 'receive'])
+            ->name(RouteEnum::ApiFutureGainReceive->value);
+        Route::post('', [FutureGainController::class, 'insert'])
+            ->name(RouteEnum::ApiFutureGainInsert->value);
+        Route::put('/{id}', [FutureGainController::class, 'update'])
+            ->name(RouteEnum::ApiFutureGainUpdate->value);
+        Route::delete('/{id}', [FutureGainController::class, 'delete'])
+            ->name(RouteEnum::ApiFutureGainDelete->value);
     });
 
-    $router->prefix('future-spent')->group(function () use ($router) {
-        $router->get('', [FutureSpentController::class, 'index'])->name(RouteEnum::ApiFutureSpentIndex->value);
-        $router->get('/{id}', [FutureSpentController::class, 'show'])->name(RouteEnum::ApiFutureSpentShow->value);
-        $router->post('', [FutureSpentController::class, 'insert'])->name(RouteEnum::ApiFutureSpentInsert->value);
-        $router->post('/{id}/pay', [FutureSpentController::class, 'paySpent'])->name(RouteEnum::ApiFutureSpentPay->value);
-        $router->put('/{id}', [FutureSpentController::class, 'update'])->name(RouteEnum::ApiFutureSpentUpdate->value);
-        $router->delete('/{id}', [FutureSpentController::class, 'delete'])->name(RouteEnum::ApiFutureSpentDelete->value);
+    Route::prefix('future-spent')->group(function () {
+        Route::get('/{id}', [FutureSpentController::class, 'show'])
+            ->name(RouteEnum::ApiFutureSpentShow->value);
+        Route::post('', [FutureSpentController::class, 'insert'])
+            ->name(RouteEnum::ApiFutureSpentInsert->value);
+        Route::post('/{id}/pay', [FutureSpentController::class, 'paySpent'])
+            ->name(RouteEnum::ApiFutureSpentPay->value);
+        Route::put('/{id}', [FutureSpentController::class, 'update'])
+            ->name(RouteEnum::ApiFutureSpentUpdate->value);
+        Route::delete('/{id}', [FutureSpentController::class, 'delete'])
+            ->name(RouteEnum::ApiFutureSpentDelete->value);
     });
 
-    $router->prefix('configurations')->group(function () use ($router) {
-        $router->get('/{configName}', [ConfigurationsController::class, 'showByName'])->name(RouteEnum::ApiConfigurationGet->value);
-        $router->put('/{configName}', [ConfigurationsController::class, 'updateByName'])->name(RouteEnum::ApiConfigurationUpdate->value);
+    /** todo - hoje esse grupo de endpoint não está sendo usado, mas futuramente será necessário */
+    Route::prefix('configurations')->group(function () {
+        Route::get('/{configName}', [ConfigurationsController::class, 'showByName'])
+            ->name(RouteEnum::ApiConfigurationGet->value);
+        Route::put('/{configName}', [ConfigurationsController::class, 'updateByName'])
+            ->name(RouteEnum::ApiConfigurationUpdate->value);
     });
 
-    $router->prefix('user')->group(function () use ($router) {
-        $router->get('/{id}', [UserController::class, 'show'])->name(RouteEnum::ApiUserShow->value);
-        $router->put('/{id}', [UserController::class, 'update'])->name(RouteEnum::ApiUserUpdate->value);
+    Route::prefix('user')->group(function () {
+        Route::get('/{id}', [UserController::class, 'show'])
+            ->name(RouteEnum::ApiUserShow->value);
+        Route::put('/{id}', [UserController::class, 'update'])
+            ->name(RouteEnum::ApiUserUpdate->value);
     });
 
-    $router->prefix('panorama')->group(function () use ($router) {
-        $router->get('', [PanoramaController::class, 'getPanoramaData'])->name(RouteEnum::ApiPanoramaIndex->value);
+    Route::prefix('panorama')->group(function () {
+        Route::get('', [PanoramaController::class, 'getPanoramaData'])
+            ->name(RouteEnum::ApiPanoramaIndex->value);
     });
 
-    $router->prefix('financial-health')->group(function () use ($router) {
-        $router->get('/filter', [FinancialHealthController::class, 'indexFiltered'])->name(RouteEnum::ApiFinancialHealthIndexFiltered->value);
+    Route::prefix('financial-health')->group(function () {
+        Route::get('/filter', [FinancialHealthController::class, 'indexFiltered'])
+            ->name(RouteEnum::ApiFinancialHealthIndexFiltered->value);
     });
 });
