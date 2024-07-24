@@ -34,7 +34,7 @@ class FutureSpentRepository extends BasicRepository
             ->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
             ->orderBy('id', 'desc');
         $items = $items->get();
-        return $items ? $this->getResource()->arrayToDtoItens($items->toArray()) : array();
+        return $this->getResource()->arrayToDtoItens($items->toArray());
     }
 
     public function findAll(): array
@@ -45,6 +45,6 @@ class FutureSpentRepository extends BasicRepository
             ->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
             ->orderBy('id', 'desc')
             ->get();
-        return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : array();
+        return $this->getResource()->arrayToDtoItens($itens->toArray());
     }
 }

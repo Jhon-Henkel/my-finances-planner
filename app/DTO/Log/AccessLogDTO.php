@@ -16,7 +16,7 @@ readonly class AccessLogDTO
     ) {
     }
 
-    public function getId(): null|string
+    public function getId(): null|int
     {
         return $this->id;
     }

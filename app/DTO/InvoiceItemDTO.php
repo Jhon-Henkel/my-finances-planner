@@ -87,7 +87,7 @@ class InvoiceItemDTO
 
     public function getNextInstallmentMonth(): int
     {
-        return substr($this->nextInstallment, 5, 2);
+        return (int)substr($this->nextInstallment, 5, 2);
     }
 
     protected function setNextInstallment(string $nextInstallment): void

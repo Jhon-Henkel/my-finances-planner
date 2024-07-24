@@ -39,7 +39,6 @@ class CreditCardMovementResource extends BasicResource
 
     /**
      * @param CreditCardMovementDTO[] $creditCardMovement
-     * @return MovementDTO[]
      */
     public function convertCreditCardMovementsToMovements(array $creditCardMovement): array
     {
@@ -47,7 +46,7 @@ class CreditCardMovementResource extends BasicResource
         foreach ($creditCardMovement as $movement) {
             $movementDto = new MovementDTO();
             $movementDto->setId($movement->getId());
-            $movementDto->setType($movement->getType());
+            $movementDto->setType((int)$movement->getType());
             $movementDto->setDescription($movement->getDescription());
             $movementDto->setAmount($movement->getAmount());
             $movementDto->setCreatedAt($movement->getCreatedAt());

@@ -14,11 +14,11 @@ class CalendarToolsReal
     public function salutation(null|string $name, int $hour): string
     {
         if($hour >= 4 && $hour <= 12) {
-            return 'Bom dia ' . $name ?? '';
+            return 'Bom dia ' . ($name ?? '');
         } elseif ($hour > 12 && $hour < 19) {
-            return 'Boa tarde ' . $name ?? '';
+            return 'Boa tarde ' . ($name ?? '');
         } else {
-            return 'Boa noite ' . $name ?? '';
+            return 'Boa noite ' . ($name ?? '');
         }
     }
 

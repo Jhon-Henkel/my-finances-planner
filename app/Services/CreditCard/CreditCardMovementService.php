@@ -35,7 +35,7 @@ class CreditCardMovementService extends BasicService
             null,
             $creditCardId,
             $transaction->getName(),
-            MovementEnum::Spent->value,
+            (string)MovementEnum::Spent->value,
             $transaction->getValue()
         );
         $this->insert($movement);

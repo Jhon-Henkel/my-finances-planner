@@ -26,7 +26,7 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: ⚡️ Analyzing PHP Code Quality
-        run: composer run analyze:pint && composer run analyze:phpstan
+        run: composer run pint && composer run phpstan
 
   test-unit-backend:
     runs-on: ubuntu-latest

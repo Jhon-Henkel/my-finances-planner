@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use App\Enums\DateFormatEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin Builder
+ */
 class WalletModel extends Model
 {
     use HasFactory;

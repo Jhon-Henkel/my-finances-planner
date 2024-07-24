@@ -3,8 +3,12 @@
 namespace App\Models;
 
 use App\Enums\DateFormatEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin Builder
+ */
 class Configurations extends Model
 {
     protected $table = 'configurations';

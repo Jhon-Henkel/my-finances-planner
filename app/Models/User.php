@@ -3,11 +3,27 @@
 namespace App\Models;
 
 use App\Enums\DateFormatEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $unique_id
+ * @property string $password
+ * @property int $status
+ * @property string $account_group
+ * @property string $verify_hash
+ * @property float $salary
+ * @property int $wrong_login_attempts
+ * @property float $market_planner_value
+ *
+ * @mixin Builder
+ */
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -22,7 +38,6 @@ class User extends Authenticatable
         'status',
         'account_group',
         'salary',
-        'password',
         'wrong_login_attempts',
         'market_planner_value'
     ];
