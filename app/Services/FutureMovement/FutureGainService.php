@@ -29,14 +29,14 @@ class FutureGainService extends BasicService
 
     public function getNextSixMonthsFutureGain(): array
     {
-        $year = CalendarTools::getThisYear();
-        $month = CalendarTools::getThisMonth();
+        $year = (int)CalendarTools::getThisYear();
+        $month = (int)CalendarTools::getThisMonth();
         $period = CalendarTools::getIntervalMonthPeriodByMonthAndYear($month, $year, 6);
         $gains = $this->getRepository()->findByPeriod($period);
         $gainsPackage = [];
         foreach ($gains as $gain) {
             $futureGainDTO = $this->resource->futureGainToInvoiceDTO($gain);
-            $gainsPackage[] = InvoiceFactory::factoryInvoice($futureGainDTO, CalendarTools::getThisMonth());
+            $gainsPackage[] = InvoiceFactory::factoryInvoice($futureGainDTO, $month);
         }
         return $gainsPackage;
     }

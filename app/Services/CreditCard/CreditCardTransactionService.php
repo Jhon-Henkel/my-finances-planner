@@ -118,15 +118,10 @@ class CreditCardTransactionService extends BasicService
         return $this->orderInvoiceItensByClosingDay($invoice, $card);
     }
 
-    /**
-     * @param InvoiceVO[] $invoice
-     * @return InvoiceVO[]
-     * Funcionalidade que ordena as faturas conforme o dia de fechamento do cartão, desabilitado, pois
-     * a funcionalidade gerou bug e não foi corrigida.
-     */
     protected function orderInvoiceItensByClosingDay(array $invoice, CreditCardDTO $card): array
     {
         return $invoice;
+        // @phpstan-ignore-next-line
         $closingDate = CalendarTools::makeDateByCreditCardClosingDay($card->getClosingDay(), $card->getDueDate());
         foreach ($invoice as $key => $invoiceItem) {
             $nextInstallmentDate = CalendarTools::mountDateTimeByDateString($invoiceItem->nextInstallmentDate);

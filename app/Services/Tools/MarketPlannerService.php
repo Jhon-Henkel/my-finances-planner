@@ -35,7 +35,7 @@ class MarketPlannerService
         $movements = $this->movementService->findByPeriodByDatePeriod($thisMonth);
         $this->makeThisMonthMarketSpentValue($movements);
         $invoiceItem = $this->makeMarketInvoiceItem();
-        $invoice = InvoiceFactory::factoryInvoice($invoiceItem, CalendarTools::getThisMonth());
+        $invoice = InvoiceFactory::factoryInvoice($invoiceItem, (int)CalendarTools::getThisMonth());
         $invoice->firstInstallment = $this->getFirstInstallmentMarket();
         return $invoice;
     }

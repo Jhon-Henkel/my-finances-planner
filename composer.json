@@ -57,7 +57,7 @@
         "test:unit": "vendor/bin/phpunit ./tests/backend/Unit",
         "test:feature": "vendor/bin/phpunit ./tests/backend/Feature",
         "test:coverage": "vendor/bin/phpunit --coverage-html ./tests/backend/coverage/",
-        "phpstan": "./vendor/bin/phpstan analyse --level=3 --memory-limit=512M app",
+        "phpstan": "./vendor/bin/phpstan analyse --level=5 --memory-limit=512M app",
         "pint": "./vendor/bin/pint --test --preset psr12",
         "pint-correct": "./vendor/bin/pint --preset psr12"
     },

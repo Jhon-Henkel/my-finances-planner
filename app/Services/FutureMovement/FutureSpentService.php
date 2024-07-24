@@ -31,14 +31,14 @@ class FutureSpentService extends BasicService
 
     public function getNextSixMonthsFutureSpent(): array
     {
-        $month = CalendarTools::getThisMonth();
-        $year = CalendarTools::getThisYear();
+        $month = (int)CalendarTools::getThisMonth();
+        $year = (int)CalendarTools::getThisYear();
         $period = CalendarTools::getIntervalMonthPeriodByMonthAndYear($month, $year, 6);
         $spending = $this->getRepository()->findByPeriod($period);
         $spentPackage = [];
         foreach ($spending as $spent) {
             $invoice = $this->resource->futureSpentToInvoiceDTO($spent);
-            $spentPackage[] = InvoiceFactory::factoryInvoice($invoice, CalendarTools::getThisMonth());
+            $spentPackage[] = InvoiceFactory::factoryInvoice($invoice, $month);
         }
         if ($this->marketPlannerService->useMarketPlanner()) {
             $spentPackage[] = $this->marketPlannerService->getMarketPlannerInvoice();

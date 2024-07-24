@@ -31,8 +31,8 @@ class CreditCardVO
         $vo->id = $id;
         $vo->name = $name;
         $vo->limit = $limit;
-        $vo->dueDate = str_pad($dueDate, 2, '0', STR_PAD_LEFT);
-        $vo->closingDay = str_pad($closingDay, 2, '0', STR_PAD_LEFT);
+        $vo->dueDate = str_pad((string)$dueDate, 2, '0', STR_PAD_LEFT);
+        $vo->closingDay = str_pad((string)$closingDay, 2, '0', STR_PAD_LEFT);
         $vo->createdAt = $createdAt;
         $vo->updatedAt = $updatedAt;
         $vo->totalValueSpending = $totalValueSpending;

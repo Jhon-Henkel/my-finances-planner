@@ -38,7 +38,7 @@ class CreditCardTransactionRepository extends BasicRepository
             ->where('next_installment', '<=', $period->getEndDate())
             ->orderBy('id', 'desc')
             ->get();
-        return $itens ? $this->getResource()->arrayToDtoItens($itens->toArray()) : [];
+        return $this->getResource()->arrayToDtoItens($itens->toArray());
     }
 
     public function countByCreditCardId(int $creditCardId): int

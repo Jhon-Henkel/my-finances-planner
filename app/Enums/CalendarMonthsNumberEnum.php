@@ -24,6 +24,7 @@ enum CalendarMonthsNumberEnum: int
 
     public static function getMonthName(int $month): string
     {
+        // @phpstan-ignore-next-line
         return match($month) {
             self::January->value => 'Janeiro',
             self::February->value => 'Fevereiro',

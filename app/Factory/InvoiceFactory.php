@@ -78,7 +78,7 @@ class InvoiceFactory
             $sum[4] = ($sum[4] ?? 0) + $invoice->fifthInstallment;
             $sum[5] = ($sum[5] ?? 0) + $invoice->sixthInstallment;
         }
-        $invoiceDto = new InvoiceItemDTO(0, 0, null, 'SumPerMonthOfInvoices', 0, 0, 0);
+        $invoiceDto = new InvoiceItemDTO(0, 0, null, 'SumPerMonthOfInvoices', 0, "0", 0);
         return InvoiceVO::makeInvoice($invoiceDto, $sum, 0);
     }
 }

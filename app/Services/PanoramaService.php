@@ -70,7 +70,7 @@ class PanoramaService
             4 => $gains->fifthInstallment - ($expenses->fifthInstallment + $creditCardExpenses->fifthInstallment),
             5 => $gains->sixthInstallment - ($expenses->sixthInstallment + $creditCardExpenses->sixthInstallment),
         ];
-        $invoiceDto = new InvoiceItemDTO(0, 0, null, 'SumTotalLeft', 0, 0, 0);
+        $invoiceDto = new InvoiceItemDTO(0, 0, null, 'SumTotalLeft', 0, "0", 0);
         return InvoiceVO::makeInvoice($invoiceDto, $totalLeft, 0);
     }
 }
