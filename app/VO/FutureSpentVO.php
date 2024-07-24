@@ -27,6 +27,5 @@ class FutureSpentVO
         $this->forecast = $item->getForecast();
         $this->createdAt = $item->getCreatedAt();
         $this->updatedAt = $item->getUpdatedAt();
-        return $this;
     }
 }

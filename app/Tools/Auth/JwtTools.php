@@ -7,6 +7,7 @@ use App\Models\User;
 use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use stdClass;
 
 class JwtTools
 {
@@ -20,7 +21,7 @@ class JwtTools
         return JWT::encode($payload, env('APP_KEY'), 'HS256');
     }
 
-    public static function validateJWT(string $authorization): bool|object
+    public static function validateJWT(string $authorization): stdClass|false
     {
         try {
             $token = str_replace('Bearer ', '', $authorization);

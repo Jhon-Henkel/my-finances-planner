@@ -27,7 +27,6 @@ class MovementResource extends BasicResource
         return $dto;
     }
 
-    /** @var MovementDTO $item */
     public function dtoToArray($item): array
     {
         return array(
@@ -38,7 +37,6 @@ class MovementResource extends BasicResource
         );
     }
 
-    /** @var MovementDTO $item */
     public function dtoToVo($item): MovementVO
     {
         $vo = new MovementVO();

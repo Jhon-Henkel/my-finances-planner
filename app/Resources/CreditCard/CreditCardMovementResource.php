@@ -39,7 +39,6 @@ class CreditCardMovementResource extends BasicResource
 
     /**
      * @param CreditCardMovementDTO[] $creditCardMovement
-     * @return MovementDTO[]
      */
     public function convertCreditCardMovementsToMovements(array $creditCardMovement): array
     {

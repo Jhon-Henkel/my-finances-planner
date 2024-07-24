@@ -24,7 +24,6 @@ class WalletResource extends BasicResource
         return $dto;
     }
 
-    /** @var WalletDTO $item */
     public function dtoToArray($item): array
     {
         return array(
@@ -35,7 +34,6 @@ class WalletResource extends BasicResource
         );
     }
 
-    /** @var WalletDTO $item */
     public function dtoToVo($item): WalletVO
     {
         return WalletVO::makeWalletVO(

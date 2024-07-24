@@ -47,8 +47,13 @@ class UserRepository extends BasicRepository
 
     public function activeUser(int $id): bool
     {
-        return $this->getModel()
+        if (
+            $this->getModel()
             ->where('id', $id)
-            ->update(['status' => 1, 'verify_hash' => '', 'email_verified_at' => now(), 'wrong_login_attempts' => 0]);
+            ->update(['status' => 1, 'verify_hash' => '', 'email_verified_at' => now(), 'wrong_login_attempts' => 0])
+        ) {
+            return true;
+        }
+        return false;
     }
 }

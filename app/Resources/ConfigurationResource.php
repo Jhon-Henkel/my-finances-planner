@@ -18,7 +18,6 @@ class ConfigurationResource extends BasicResource
         return $dto;
     }
 
-    /** @var ConfigurationDTO $item */
     public function dtoToArray($item): array
     {
         return array(
@@ -27,7 +26,6 @@ class ConfigurationResource extends BasicResource
         );
     }
 
-    /** @var ConfigurationDTO $item */
     public function dtoToVo($item): ConfigurationsVO
     {
         return ConfigurationsVO::make($item);

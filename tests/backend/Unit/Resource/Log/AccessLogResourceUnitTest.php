@@ -24,7 +24,6 @@ class AccessLogResourceUnitTest extends Falcon9
             'abc',
             0,
             'test',
-            1,
             '2020-01-01 00:00:00'
         );
     }

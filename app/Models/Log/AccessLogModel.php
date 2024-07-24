@@ -3,8 +3,12 @@
 namespace App\Models\Log;
 
 use App\Enums\DateFormatEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin Builder
+ */
 class AccessLogModel extends Model
 {
     protected $table = 'access_log';

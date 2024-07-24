@@ -22,7 +22,7 @@ readonly class AccessLogVO
         $this->userIp = $dto->getUserIp();
         $this->accountGroup = $dto->getAccountGroup();
         $this->userAgent = $dto->getUserAgent();
-        $this->logged = $dto->getLogged();
+        $this->logged = (string)$dto->getLogged();
         $this->comments = $dto->getComments();
         $this->createdAt = $dto->getCreatedAt();
     }

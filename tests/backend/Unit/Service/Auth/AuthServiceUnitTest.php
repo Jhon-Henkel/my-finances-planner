@@ -163,8 +163,6 @@ class AuthServiceUnitTest extends Falcon9
         $data = $service->makeAuthUserResponseData($user);
 
         $this->assertIsArray($data);
-        $this->arrayHasKey('token', $data);
-        $this->arrayHasKey('user', $data);
         $this->assertIsString($data['token']);
         $this->assertEquals('Joãozinho', $data['user']['name']);
         $this->assertEquals(1, $data['user']['id']);
