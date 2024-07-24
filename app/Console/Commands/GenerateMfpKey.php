@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Application;
 
 /** @codeCoverageIgnore */
 class GenerateMfpKey extends Command
