@@ -32,5 +32,21 @@ export const InvoiceService = {
             return 6
         }
         return 0
+    },
+    getInvoiceValueByNumber: (installment: number, item: InvoiceModel): number => {
+        if (installment == 1) {
+            return item.firstInstallment
+        } else if (installment == 2) {
+            return item.secondInstallment
+        } else if (installment == 3) {
+            return item.thirdInstallment
+        } else if (installment == 4) {
+            return item.fourthInstallment
+        } else if (installment == 5) {
+            return item.fifthInstallment
+        } else if (installment == 6) {
+            return item.sixthInstallment
+        }
+        return 0
     }
 }

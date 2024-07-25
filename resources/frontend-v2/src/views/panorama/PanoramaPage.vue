@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import MfpPage from "@/components/page/MfpPage.vue"
 import MfpRefresh from "@/components/refresh/MfpRefresh.vue"
-import {IonIcon, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonListHeader} from "@ionic/vue"
+import {
+    IonIcon,
+    IonItemOption,
+    IonItemOptions,
+    IonItemSliding,
+    IonLabel,
+    IonList,
+    IonListHeader,
+    IonButton
+} from "@ionic/vue"
 import MfpCirclePlusButton from "@/components/button/MfpCirclePlusButton.vue"
 import MfpPanoramaDetailsCard from "@/views/panorama/MfpPanoramaDetailsCard.vue"
 import MfpEmptyListItem from "@/components/list/MfpEmptyListItem.vue"
@@ -10,7 +19,7 @@ import {ellipsisHorizontal} from "ionicons/icons"
 import {MfpActionSheet} from "@/components/action-sheet/MfpActionSheet"
 import {UtilActionSheet} from "@/util/UtilActionSheet"
 import {InvoiceModel} from "@/model/invoice/invoiceModel"
-import {onMounted} from "vue"
+import {onMounted, ref} from "vue"
 import {usePanoramaStore} from "@/stores/panorama/PanoramaStore"
 import {PanoramaService} from "@/services/panorama/PanoramaService"
 import {MfpModal} from "@/components/modal/MfpModal"
@@ -29,6 +38,7 @@ import {InvoiceService} from "@/services/invoice/InvoiceService"
 const store = usePanoramaStore()
 const formModal = new MfpModal(MfpPanoramaFormModal)
 const okAlert = new MfpOkAlert('Ação inválida!')
+const onlyNonPaid = ref(true)
 
 async function optionsAction(item: InvoiceModel) {
     if (item.id == 0 && item.countId == 0) {
@@ -68,6 +78,10 @@ async function handleRefresh(event: any) {
     event.target.complete()
 }
 
+function mustShowItem(item: InvoiceModel, onlyNonPaid: boolean): boolean {
+    return ! onlyNonPaid || (onlyNonPaid && InvoiceService.getInvoiceValueByNumber(store.installmentSelected, item) > 0)
+}
+
 onMounted(async () => {
     if (!store.isLoaded) {
         await store.load()
@@ -84,10 +98,19 @@ onMounted(async () => {
         </ion-list-header>
         <mfp-period-switcher :store="store"/>
         <mfp-panorama-details-card/>
+        <div class="ion-text-end">
+            <ion-button fill="clear" @click="onlyNonPaid = !onlyNonPaid">
+                {{ onlyNonPaid ? 'Ver Todos' : 'Somente a pagar' }}
+            </ion-button>
+        </div>
         <mfp-empty-list-item :nothing-to-show="store.panorama.futureExpenses.length === 0 && store.isLoaded"/>
         <mfp-invoice-list-skeleton-load :is-loaded="store.isLoaded"/>
         <ion-list v-if="store.isLoaded">
-            <ion-item-sliding v-for="(item, index) in store.panorama.futureExpenses" :key="index">
+            <ion-item-sliding
+                v-for="(item, index) in store.panorama.futureExpenses"
+                :key="index"
+                v-show="mustShowItem(item, onlyNonPaid)"
+            >
                 <mfp-invoice-list-item :invoice-item="item" :store="store"/>
                 <ion-item-options side="end">
                     <ion-item-option color="light" @click="optionsAction(item)">
