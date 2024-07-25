@@ -15,6 +15,9 @@ interface IMovementStoreState {
     thisMonthTotalIncomesValue: number
     thisMonthTotalExpensesValue: number
     thisMonthTotalBalance: number
+    originalThisMonthTotalIncomesValue: number
+    originalThisMonthTotalExpensesValue: number
+    originalThisMonthTotalBalance: number
     dateOfResults: string
 }
 
@@ -28,6 +31,9 @@ export const useMovementStore = defineStore({
         lastMovementFilterType: MovementService.allType,
         totalIncomesValue: 0,
         totalExpensesValue: 0,
+        originalThisMonthTotalIncomesValue: 0,
+        originalThisMonthTotalExpensesValue: 0,
+        originalThisMonthTotalBalance: 0,
         thisMonthTotalIncomesValue: 0,
         thisMonthTotalExpensesValue: 0,
         thisMonthTotalBalance: 0,
@@ -50,9 +56,9 @@ export const useMovementStore = defineStore({
                 this.isLoaded = true
                 this.dateOfResults = UtilCalendar.makeLabelFilterDate(quest)
                 const totals = MovementService.sumTotalValues(this.movements)
-                this.totalIncomesValue = totals.incomes
-                this.totalExpensesValue = totals.expenses
-                this.totalBalanceValue = totals.balance
+                this.totalIncomesValue = this.originalThisMonthTotalBalance = totals.incomes
+                this.totalExpensesValue = this.originalThisMonthTotalExpensesValue = totals.expenses
+                this.totalBalanceValue = this.originalThisMonthTotalIncomesValue = totals.balance
                 if (questIsNull) {
                     this.thisMonthMovements = this.movements
                     this.thisMonthTotalIncomesValue = this.totalIncomesValue
@@ -67,6 +73,9 @@ export const useMovementStore = defineStore({
         },
         filterMovementsOnStore(query: string|null) {
             this.movements = this.originalMovements
+            this.thisMonthTotalBalance = this.originalThisMonthTotalBalance
+            this.thisMonthTotalExpensesValue = this.originalThisMonthTotalExpensesValue
+            this.thisMonthTotalIncomesValue = this.originalThisMonthTotalIncomesValue
             if (!query) {
                 return
             }
@@ -76,6 +85,10 @@ export const useMovementStore = defineStore({
                     movement.description.toLowerCase().includes(query)
                     || movement.walletName && movement.walletName.toLowerCase().includes(query)
             )
+            const totals = MovementService.sumTotalValues(this.movements)
+            this.totalIncomesValue = totals.incomes
+            this.totalExpensesValue = totals.expenses
+            this.totalBalanceValue = totals.balance
         }
     },
     getters: {

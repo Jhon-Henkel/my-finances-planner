@@ -2,6 +2,7 @@
 import {UtilMoney} from "@/util/UtilMoney"
 import {PropType} from "vue"
 import {IonItem, IonLabel, IonList} from "@ionic/vue"
+import {UtilString} from "../../util/UtilString"
 
 const props = defineProps({
     items: {
@@ -26,7 +27,7 @@ function getPercentage(value: number): string {
 <template>
     <ion-list v-for="(item, index) in items" :key="index">
         <ion-item>
-            <ion-label>{{ item.name }}</ion-label>
+            <ion-label>{{ UtilString.capitalizeFirstLetters(item.name) }}</ion-label>
             <ion-label>{{ UtilMoney.formatValueToBr(item.value) }}</ion-label>
             <ion-label slot="end">{{ getPercentage(item.value) }} %</ion-label>
         </ion-item>
