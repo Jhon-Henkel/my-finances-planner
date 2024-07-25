@@ -19,6 +19,7 @@ import {useCardsStore} from "@/stores/cards/CardsStore"
 import {MfpModal} from "@/components/modal/MfpModal"
 import MfpCardInvoicesFormModal from "@/views/cards/invoice/MfpCardInvoicesFormModal.vue"
 import {CardInvoiceItemService} from "@/services/cards/invoice-item/CardInvoiceItemService"
+import MfpCardInvoicesDetailsCard from "@/views/cards/invoice/MfpCardInvoicesDetailsCard.vue"
 
 const invoiceStore = useCardInvoicesStore()
 const cardStore = useCardsStore()
@@ -63,6 +64,7 @@ onMounted(async () => {
             <mfp-circle-plus-button @click="formModal.open()"/>
         </ion-list-header>
         <mfp-period-switcher :store="invoiceStore"/>
+        <mfp-card-invoices-details-card/>
         <mfp-empty-list-item :nothing-to-show="invoiceStore.invoice.length === 0 && invoiceStore.isLoaded"/>
         <mfp-invoice-list-skeleton-load :is-loaded="invoiceStore.isLoaded"/>
         <ion-list v-if="invoiceStore.isLoaded">
