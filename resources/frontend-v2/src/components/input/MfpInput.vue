@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {IonIcon, IonInput, IonItem, IonText} from '@ionic/vue'
+import {UtilString} from "@/util/UtilString"
 
-defineProps({
+const props = defineProps({
     label: String,
     placeholder: String,
     modelValue: [String, Number],
@@ -26,6 +27,7 @@ defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 function updateValue(value: any) {
+    value = props.type == 'text' ? UtilString.capitalizeFirstLetters(value) : value
     emit('update:modelValue', value)
 }
 </script>
