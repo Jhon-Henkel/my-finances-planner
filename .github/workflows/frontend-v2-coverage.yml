@@ -1,0 +1,30 @@
+name: Frontend V1 Coverage Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  coverage-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔥 Configuring checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+
+      - name: 🛠️ Installing Node dependencies
+        run: npm install
+
+      - name: ⚡️ Executing Vitest coverage
+        run: npm run test:coverage
+
+      - name: 💡️Uploading coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./resources/frontend-v2/tests/coverage/clover.xml
+          flags: frontend
+          name: Frontend Test
