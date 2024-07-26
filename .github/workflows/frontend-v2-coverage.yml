@@ -19,7 +19,7 @@ jobs:
         run: cd resources/frontend-v2 && npm install
 
       - name: ⚡️ Executing Vitest coverage
-        run: cd resources/frontend-v2 && npm run test:coverage
+        run: cd resources/frontend-v2 && npm run coverage
 
       - name: 💡️Uploading coverage to Codecov
         uses: codecov/codecov-action@v4
