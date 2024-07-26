@@ -1,4 +1,4 @@
-name: Frontend V1 Coverage Workflow
+name: Frontend V2 Coverage Workflow
 
 on:
   push:
@@ -16,10 +16,10 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: 🛠️ Installing Node dependencies
-        run: npm install
+        run: cd resources/frontend-v2 && npm install
 
       - name: ⚡️ Executing Vitest coverage
-        run: npm run test:coverage
+        run: cd resources/frontend-v2 && npm run test:coverage
 
       - name: 💡️Uploading coverage to Codecov
         uses: codecov/codecov-action@v4
