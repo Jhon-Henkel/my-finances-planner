@@ -30,11 +30,17 @@ export default defineConfig((): any => {
         base: env.VITE_ENV === 'production' ? '/public/build-ionic/' : '/',
         test: {
             globals: true,
-            environment: 'jsdom',
+            environment: 'happy-dom',
             coverage: {
                 reportsDirectory: './tests/coverage',
                 include: ['src/**/*'],
-                exclude: [''],
+                exclude: [
+                    'src/App.vue',
+                    'src/main.ts',
+                    'src/vite-env.d.ts',
+                    'src/router/index.ts',
+                    'src/directives/mask/money/*',
+                ],
                 all: true
             }
         }
