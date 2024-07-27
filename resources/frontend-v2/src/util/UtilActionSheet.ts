@@ -4,7 +4,6 @@ interface IActionSheetItem {
     data: {
         action: string
     }
-
 }
 
 const cancelObject: IActionSheetItem = {
