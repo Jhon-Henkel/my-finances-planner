@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Response\ResponseError;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -59,7 +60,7 @@ abstract class BasicController extends Controller
         return response()->json($this->getResource()->dtoToVo($updated), ResponseAlias::HTTP_OK);
     }
 
-    public function delete(int $id): Response|JsonResponse
+    public function delete(int $id): ResponseFactory|Response
     {
         $this->getService()->deleteById($id);
         return response(null, ResponseAlias::HTTP_OK);
