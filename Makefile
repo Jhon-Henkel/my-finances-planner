@@ -1,4 +1,4 @@
-backend-start:
+backend:
 	@echo "Starting container..."
 	docker compose start
 
@@ -14,12 +14,13 @@ backend-bash:
 	@echo "Starting bash..."
 	docker exec -it my_finances_planner_app bash
 
-front-v1-dev:
-	@echo "Starting front v1..."
-	npm run dev
-
-front-v2-dev:
+frontend:
 	@echo "Starting front v2..."
-	cd resources/frontend-v2 && ionic serve
+	cd resources/frontend-v2 && npm run dev
 
-.PHONY: backend-start backend-stop backend-restart backend-bash front-v1-dev front-v2-dev
+setup-frontend:
+	@echo "Setting up..."
+	cd resources/frontend-v2 && npm install && npm update
+	@echo "Run 'cd resources/frontend-v2 && make frontend' to start the frontend. To access the frontend, go to http://localhost/login"
+
+.PHONY: backend-start backend-stop backend-restart backend-bash front-dev setup-frontend

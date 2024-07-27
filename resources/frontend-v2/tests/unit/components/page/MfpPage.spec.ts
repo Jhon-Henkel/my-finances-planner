@@ -6,7 +6,6 @@ describe('test render component', () => {
     it("render base component", async () => {
         const wrapper = shallowMount(MfpPage)
 
-        console.log(wrapper.html())
         expect(wrapper.html()).toContain('<ion-page-stub registerionpage="[Function]" class="ion-margin-top ion-padding-top"></ion-page-stub>')
     })
 })

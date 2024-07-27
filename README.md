@@ -9,7 +9,7 @@
 
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=docker,php,html,css,js,vue,bootstrap,mysql,laravel,vite" />
+    <img src="https://skillicons.dev/icons?i=docker,php,html,css,ts,vue,mysql,laravel,vite" />
   </a>
 </p>
 
@@ -21,42 +21,18 @@
 ## Sobre My Finances Planner
 Com a necessidade de algo mais completo e personalizado para controle financeiro, resolvi desenvolver essa aplicação.
 
-Acesso no mode demo: [My Finances Planner](https://my-finances-planner-demo.jhon.dev.br/)
-- Usuário: mfp-demo@jhon.dev.br
-- Senha: mfp-demo
 ## Como iniciar o projeto
 
-Forma mais rápida de iniciar o projeto: (O setup automatizado não está funcionando após migrarmos para o frontend v2, 
-logo volta a ficar ok. Enquanto isso, siga o processo manual.)
-- Criar o .env com base no .env.example e configurar as variáveis de ambiente
-- Rodar o ***php artisan start:develop-project*** (rodar dentro do container)
-- Seguir os passos informados no terminal após terminar a configuração
-
-Caso precise configurar o projeto manualmente, leia o arquivo de [primeiros passos](https://github.com/Jhon-Henkel/my-finances-planner/blob/main/.docs/FIRST_STEPS.md).
-
-Criei alguns comandos úteis, você pode conferir [aqui](https://github.com/Jhon-Henkel/my-finances-planner/blob/main/.docs/COMMANDS.md).
-
-## Modo Desenvolvimento
-Comandos para rodar o projeto em modo de desenvolvimento:
-#### Frontend-v1 (Rodar fora do container): 
-```bash
-npm run dev
-```
-#### Frontend-v2 (Rodar fora do container): 
-```bash
-cd resources/frontend-v2 && npm run ionic serve
-```
-#### Backend: 
-```bash
-docker compose up -d
-```
-
-## Monitoramentos
-- **Erros**: Para monitoramento de erros estou utilizando o [honeybadger](https://www.honeybadger.io/), para configurar basta popular 
-a variável **HONEYBADGER_API_KEY** com a chave de acesso da sua conta.
-- **Cron**: Para monitoramento de cron estou utilizando o [cronitor](https://cronitor.io/), para configura, basta popular
-a variável **CRONITOR_API_KEY** com a chave de acesso da sua conta.
-- **Up Time**: O monitoramento de up time do site pode ser visto [aqui](https://my-finances-planner-demo.cronitorstatus.com/).
+- Rodar os comandos abaixo no container:
+    ```bash
+    composer update
+    php artisan setup:develop
+    ```
+- Rodar os comandos abaixo fora do container:
+    ```bash
+    make setup-frontend
+    make frontend
+    ```
 
 ## Licença
 My finances planner é um software open-sourced licenciado em [MIT license](https://opensource.org/licenses/MIT).

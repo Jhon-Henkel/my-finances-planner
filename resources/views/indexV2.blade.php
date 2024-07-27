@@ -36,7 +36,7 @@
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="ionic-app"></div>
-        <script type="module" src="http://localhost:8100/src/main.ts"></script>
+        <script type="module" src="http://localhost:5173/src/main.ts"></script>
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </body>
