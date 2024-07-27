@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\DTO\UserDTO;
-use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\Auth\AuthService;
 use App\Tools\AppTools;
