@@ -1,6 +1,6 @@
 FROM composer AS composer-php
 
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 COPY . .
 

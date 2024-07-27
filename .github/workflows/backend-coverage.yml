@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: jhowrf/php-image:latest
+      image: jhowrf/php8.3-apache:latest
 
     services:
       mysql:
