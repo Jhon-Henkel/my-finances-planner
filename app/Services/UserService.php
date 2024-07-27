@@ -3,11 +3,11 @@
 namespace App\Services;
 
 use App\DTO\UserDTO;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\Auth\AuthService;
 use App\Tools\AppTools;
 use App\Tools\Auth\JwtTools;
-use Illuminate\Database\Eloquent\Model;
 
 class UserService extends BasicService
 {
@@ -46,7 +46,7 @@ class UserService extends BasicService
         return parent::update($id, $itemDb);
     }
 
-    public function findUserByEmail(string $email): Model|null
+    public function findUserByEmail(string $email): User|null
     {
         return $this->getRepository()->findByEmail($email);
     }

@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\DTO\UserDTO;
 use App\Models\User;
 use App\Resources\UserResource;
-use Illuminate\Database\Eloquent\Model;
 
 class UserRepository extends BasicRepository
 {
@@ -32,7 +31,7 @@ class UserRepository extends BasicRepository
         return $item;
     }
 
-    public function findByEmail(string $email): null|Model
+    public function findByEmail(string $email)
     {
         return $this->getModel()->where('email', $email)->first();
     }
