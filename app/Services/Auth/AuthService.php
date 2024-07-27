@@ -27,7 +27,7 @@ class AuthService
     ) {
     }
 
-    public function findUserForAuth(string $email): null|User
+    public function findUserForAuth(string $email): User|null
     {
         return $this->userService->findUserByEmail($email);
     }

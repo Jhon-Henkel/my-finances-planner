@@ -46,7 +46,7 @@ class UserService extends BasicService
         return parent::update($id, $itemDb);
     }
 
-    public function findUserByEmail(string $email): null|User
+    public function findUserByEmail(string $email): User|null
     {
         return $this->getRepository()->findByEmail($email);
     }

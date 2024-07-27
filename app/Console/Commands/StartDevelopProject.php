@@ -23,9 +23,9 @@ class StartDevelopProject extends Command
 
     private function startProjectConfiguration(): void
     {
-        $this->info('<====================================>');
-        $this->info('<===== Setup step one started... ====>');
-        $this->info('<====================================>');
+        $this->warn('<====================================>');
+        $this->warn('<===== Setup step one started... ====>');
+        $this->warn('<====================================>');
         $this->info('');
 
         $this->info('=> Make .env files...');
@@ -64,11 +64,11 @@ class StartDevelopProject extends Command
         $this->addTokenOnFrontendEnv();
         $this->info('');
 
-        $this->info('<====================================>');
-        $this->info('<===== Setup step one concluded! ====>');
-        $this->info('<====================================>');
+        $this->warn('<====================================>');
+        $this->warn('<===== Setup step one concluded! ====>');
+        $this->warn('<====================================>');
         $this->info('');
-        $this->info('Run "make setup-frontend" in out of container');
+        $this->alert('Run "make setup-frontend" in out of container to run setup step two');
         $this->info('');
         $this->info('User = demo@demo.dev');
         $this->info('Password = 12345678');

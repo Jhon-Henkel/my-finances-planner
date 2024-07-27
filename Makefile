@@ -21,6 +21,6 @@ frontend:
 setup-frontend:
 	@echo "Setting up..."
 	cd resources/frontend-v2 && npm install && npm update
-	@echo "Run 'cd resources/frontend-v2 && make frontend' to start the frontend. To access the frontend, go to http://localhost/login"
+	@echo "Run 'make frontend' to start the frontend. To access the frontend, go to http://localhost/login"
 
 .PHONY: backend-start backend-stop backend-restart backend-bash front-dev setup-frontend

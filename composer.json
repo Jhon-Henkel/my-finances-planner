@@ -1,7 +1,8 @@
 {
     "name": "laravel/my_finances_planner",
     "type": "project",
-    "description": "App for finances planner in lumen framework.",
+    "description": "App for finances planner",
+    "version": "2.3.0",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
@@ -9,9 +10,9 @@
         "cronitor/cronitor-php": "^1.3",
         "firebase/php-jwt": "^6.8",
         "guzzlehttp/guzzle": "^7.2",
-        "honeybadger-io/honeybadger-laravel": "^3.15",
-        "laravel/framework": "^10.0",
-        "laravel/sanctum": "^3.2",
+        "honeybadger-io/honeybadger-laravel": "^4.1.0",
+        "laravel/framework": "^11.18",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2"
     },
@@ -21,39 +22,26 @@
         "laravel/pint": "^1",
         "laravel/sail": "^1.21",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0",
+        "nunomaduro/collision": "^8.3",
         "phpstan/extension-installer": "^1.3",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-mockery": "^1.1",
-        "phpunit/phpunit": "^10.0",
+        "phpunit/phpunit": "^11.2",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "Database\\Seeders\\": "database/seeders/",
+            "Database\\Factories\\": "database/factories/"
         }
     },
     "scripts": {
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
-        ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
-        ],
         "test:unit": "vendor/bin/phpunit ./tests/backend/Unit",
         "test:feature": "vendor/bin/phpunit ./tests/backend/Feature",
         "test:coverage": "vendor/bin/phpunit --coverage-html ./tests/backend/coverage/",

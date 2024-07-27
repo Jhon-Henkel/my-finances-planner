@@ -31,7 +31,7 @@ class UserRepository extends BasicRepository
         return $item;
     }
 
-    public function findByEmail(string $email): null|User
+    public function findByEmail(string $email)
     {
         return $this->getModel()->where('email', $email)->first();
     }
