@@ -12,6 +12,7 @@ use App\Services\UserService;
 use App\Tools\Auth\JwtTools;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\Request\RequestTools;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
@@ -27,7 +28,7 @@ class AuthService
     ) {
     }
 
-    public function findUserForAuth(string $email): null|User
+    public function findUserForAuth(string $email): Model|null
     {
         return $this->userService->findUserByEmail($email);
     }
