@@ -14,7 +14,8 @@
         "laravel/framework": "^11.18",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.8",
-        "laravel/ui": "^4.2"
+        "laravel/ui": "^4.2",
+        "stancl/tenancy": "^3.8"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
@@ -42,6 +43,19 @@
         }
     },
     "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ],
         "test:unit": "vendor/bin/phpunit ./tests/backend/Unit",
         "test:feature": "vendor/bin/phpunit ./tests/backend/Feature",
         "test:coverage": "vendor/bin/phpunit --coverage-html ./tests/backend/coverage/",
