@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DateFormatEnum;
+use App\Models\User\Tenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,6 +37,7 @@ class User extends Authenticatable
         'unique_id',
         'password',
         'status',
+        'tenant_id',
         'account_group',
         'salary',
         'wrong_login_attempts',
@@ -49,4 +51,9 @@ class User extends Authenticatable
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value,
         'email_verified_at' => DateFormatEnum::ModelDefaultDateFormat->value
     ];
+
+    public function tenant(): Tenant
+    {
+        return $this->belongsTo(Tenant::class)->first();
+    }
 }

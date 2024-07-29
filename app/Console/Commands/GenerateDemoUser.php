@@ -2,9 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\Database\DatabaseConnectionEnum;
 use App\Enums\StatusEnum;
 use App\Models\User;
+use App\Models\User\Tenant;
+use App\Services\Database\DatabaseService;
+use App\Tools\Calendar\CalendarTools;
 use Illuminate\Console\Command;
+use Throwable;
 
 /** @codeCoverageIgnore */
 class GenerateDemoUser extends Command
@@ -14,18 +19,37 @@ class GenerateDemoUser extends Command
 
     public function handle(): void
     {
-        $user = User::create([
-            'name' => 'Demo User',
-            'email' => 'demo@demo.dev',
-            'password' => bcrypt('12345678'),
-            'status' => StatusEnum::Active->value,
-            'salary' => 1000,
-            'wrong_login_attempts' => 0,
-        ]);
-        $user->save();
+        try {
+            $database = new DatabaseService();
+            $schemaName = $database->createTenancyDatabase(
+                config('database.connections.' . DatabaseConnectionEnum::Master->value . '.password'),
+                md5((string)CalendarTools::getDateNow()->getTimestamp())
+            );
 
-        $this->info('Success!');
-        $this->info('User = demo@demo.dev');
-        $this->info('Password = 12345678');
+            $tenant = Tenant::create([
+                'tenant_hash' => $schemaName,
+                'database' => $schemaName,
+                'username' => config('database.connections.' . DatabaseConnectionEnum::Master->value . '.username'),
+                'password' => config('database.connections.' . DatabaseConnectionEnum::Master->value . '.password'),
+            ]);
+            $tenant->save();
+
+            $user = User::create([
+                'name' => 'Demo User',
+                'email' => 'demo@demo.dev',
+                'tenant_id' => $tenant['id'],
+                'password' => bcrypt('12345678'),
+                'status' => StatusEnum::Active->value,
+                'salary' => 1000,
+                'wrong_login_attempts' => 0,
+            ]);
+            $user->save();
+
+            $this->info('Success!');
+            $this->warn('User => demo@demo.dev');
+            $this->warn('Password => 12345678');
+        } catch (Throwable $e) {
+            $this->error('Error: ' . $e->getMessage());
+        }
     }
 }

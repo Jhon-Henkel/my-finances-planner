@@ -18,4 +18,10 @@ class AppTools
     {
         return env($key);
     }
+
+    /** @codeCoverageIgnore */
+    public static function isLocalhost(): bool
+    {
+        return config('app.env') === 'local';
+    }
 }

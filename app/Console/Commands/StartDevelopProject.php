@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\Database\DatabaseConnectionEnum;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /** @codeCoverageIgnore */
 class StartDevelopProject extends Command
@@ -23,56 +26,70 @@ class StartDevelopProject extends Command
 
     private function startProjectConfiguration(): void
     {
-        $this->warn('<====================================>');
-        $this->warn('<===== Setup step one started... ====>');
-        $this->warn('<====================================>');
-        $this->info('');
+        try {
+            $this->warn('<====================================>');
+            $this->warn('<===== Setup step one started... ====>');
+            $this->warn('<====================================>');
+            $this->info('');
 
-        $this->info('=> Make .env files...');
-        system('cp .env.example .env');
-        system('cp resources/frontend-v2/.env.example resources/frontend-v2/.env');
-        system('chown www-data:www-data .env');
-        system('chown www-data:www-data resources/frontend-v2/.env');
-        $this->info('');
+            $this->info('=> Configuring backend keys...');
+            system('php artisan key:generate');
+            system('php artisan key:mfp-key');
+            $this->info('');
 
-        $this->info('=> Configuring backend keys...');
-        system('php artisan key:generate');
-        system('php artisan key:mfp-key');
-        $this->info('');
+            $this->info('=> Applying permissions...');
+            system('chown www-data:www-data -R storage/logs/');
+            system('chown www-data:www-data -R storage/framework');
+            system('chown 1000:1000 .env');
+            system('chown 1000:1000 resources/frontend-v2/.env');
+            $this->info('');
 
-        $this->info('=> Applying permissions...');
-        system('chown www-data:www-data -R storage/logs/');
-        system('chown www-data:www-data -R storage/framework');
-        system('chown 1000:1000 .env');
-        system('chown 1000:1000 resources/frontend-v2/.env');
-        $this->info('');
+            $this->info('=> Cleaning caches...');
+            $this->call('cache:clear');
+            $this->call('config:clear');
 
-        $this->info('=> Running migrations...');
-        system('php artisan migrate --force --database=mysql');
-        system('php artisan migrate --force --database=mysql_testing');
-        $this->info('');
+            $this->info('=> Preparing master database...');
+            system('php artisan migrate --database=' . DatabaseConnectionEnum::Master->value . ' --force');
+            $this->info('');
 
-        $this->info('=> Creating user...');
-        system('php artisan create:user');
-        $this->info('');
+            $this->info('=> Preparing test database...');
+            system('php artisan migrate --database=' . DatabaseConnectionEnum::Test->value . ' --force');
+            system('php artisan migrate --database=' . DatabaseConnectionEnum::Test->value . ' --force --path=database/migrations/tenant --seed');
+            $this->info('');
 
-        $this->info('=> Running seeds...');
-        system('php artisan db:seed');
-        $this->info('');
+            $this->info('=> Creating user...');
+            system('php artisan create:user');
+            $this->info('');
 
-        $this->info('=> Configuring frontend keys...');
-        $this->addTokenOnFrontendEnv();
-        $this->info('');
+            $this->info('=> Preparing tenant database...');
+            $result = DB::connection(DatabaseConnectionEnum::Master->value)->select('SELECT * FROM tenants ORDER BY id DESC LIMIT 1');
 
-        $this->warn('<====================================>');
-        $this->warn('<===== Setup step one concluded! ====>');
-        $this->warn('<====================================>');
-        $this->info('');
-        $this->alert('Run "make setup-frontend" in out of container to run setup step two');
-        $this->info('');
-        $this->info('User = demo@demo.dev');
-        $this->info('Password = 12345678');
-        $this->info('');
+            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.database' => $result[0]->database]);
+            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.username' => $result[0]->username]);
+            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.password' => $result[0]->password]);
+            $this->call('migrate', ['--database' => DatabaseConnectionEnum::Tenant->value, '--path' => 'database/migrations/tenant', '--seed' => true]);
+            $this->info('');
+
+            $this->info('=> Configuring frontend keys...');
+            $this->addTokenOnFrontendEnv();
+            $this->info('');
+
+            $this->info('=> Cleaning caches...');
+            $this->call('cache:clear');
+            $this->call('config:clear');
+
+            $this->warn('<====================================>');
+            $this->warn('<===== Setup step one concluded! ====>');
+            $this->warn('<====================================>');
+            $this->info('');
+            $this->alert('Run "make setup-frontend" in out of container to run setup step two');
+            $this->info('');
+            $this->info('User = demo@demo.dev');
+            $this->info('Password = 12345678');
+            $this->info('');
+        } catch (Throwable $e) {
+            $this->error($e->getMessage());
+        }
     }
 
     private function addTokenOnFrontendEnv(): void
