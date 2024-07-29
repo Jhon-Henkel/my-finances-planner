@@ -18,6 +18,7 @@ return new class () extends Migration {
             $table->timestamp('email_verified_at')->nullable()->default(null);
             $table->string('password', '255')->nullable(false);
             $table->integer('status')->nullable(false)->default(0);
+            $table->string('verify_hash', '255')->nullable()->default(null);
             $table->rememberToken();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

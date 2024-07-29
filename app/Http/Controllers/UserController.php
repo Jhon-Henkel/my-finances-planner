@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\NotImplementedException;
 use App\Resources\UserResource;
+use App\Services\Database\DatabaseConnectionService;
 use App\Services\UserService;
 use App\Tools\Request\RequestTools;
 use Illuminate\Contracts\View\View;
@@ -15,7 +16,8 @@ class UserController extends BasicController
 {
     public function __construct(
         private readonly UserService $service,
-        private readonly UserResource $resource
+        private readonly UserResource $resource,
+        private readonly DatabaseConnectionService $dbConnection
     ) {
     }
 
@@ -43,6 +45,18 @@ class UserController extends BasicController
     protected function getResource(): UserResource
     {
         return $this->resource;
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        $this->dbConnection->setMasterConnection();
+        return parent::show($id);
+    }
+
+    public function update(int $id, Request $request): JsonResponse
+    {
+        $this->dbConnection->setMasterConnection();
+        return parent::update($id, $request);
     }
 
     public function insert(Request $request): JsonResponse

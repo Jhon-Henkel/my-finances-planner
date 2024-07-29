@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\ConfigEnum;
 use App\Enums\StatusEnum;
+use App\Exceptions\User\TryAlterAnotherUserByRequestException;
 use App\Models\User;
 use App\Services\Database\DatabaseConnectionService;
 use App\Tools\AppTools;
@@ -12,7 +13,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthServiceProvider extends ServiceProvider
+final class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [];
 
@@ -22,19 +23,27 @@ class AuthServiceProvider extends ServiceProvider
             $dbConnection = new DatabaseConnectionService();
             $dbConnection->setMasterConnection();
             $mfpUserToken = $request->header(ConfigEnum::MfpUserTokenKey->value) ?? '';
-            $user = JwtTools::validateJWT($mfpUserToken);
-            if (! $user) {
+            $userJWT = JwtTools::validateJWT($mfpUserToken);
+            if (! $userJWT) {
                 return null;
             }
             $mfpApiTokenEncrypted = bcrypt(AppTools::getEnvValue('PUSHER_APP_KEY'));
             $mfpApiToken = $request->header(ConfigEnum::MfpTokenKey->value) ?? '';
             $isValidToken = password_verify($mfpApiToken, $mfpApiTokenEncrypted);
-            $userDB = User::query()->where('email', $user->data->email)->first();
+            $userDB = User::query()->where('email', $userJWT->data->email)->first();
+            $this->validateIsAllowedRequest($userDB, $request);
             if ($isValidToken && $userDB->status === StatusEnum::Active->value) {
                 $dbConnection->connectUser($userDB);
-                return new User((array)$user->data);
+                return new User((array)$userJWT->data);
             }
             return null;
         });
+    }
+
+    protected function validateIsAllowedRequest(User $user, Request $request): void
+    {
+        if ($request->route()->uri() === 'api/user/{id}') {
+            TryAlterAnotherUserByRequestException::throwIfRequestUserIdDifferentUserJwt($user, $request);
+        }
     }
 }
