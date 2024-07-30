@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\ConfigurationDTO;
 use App\Repositories\ConfigurationRepository;
 
 class ConfigurationService extends BasicService
@@ -16,13 +17,7 @@ class ConfigurationService extends BasicService
         return $this->repository;
     }
 
-    public function findConfigValue(string $configName): mixed
-    {
-        $config = $this->findConfigByName($configName);
-        return $config->getValue();
-    }
-
-    public function findConfigByName(string $configName): mixed
+    public function findConfigByName(string $configName): ConfigurationDTO
     {
         $config = $this->getRepository()->findByName($configName);
         return reset($config);

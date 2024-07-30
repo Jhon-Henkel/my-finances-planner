@@ -4,12 +4,14 @@ namespace App\Services\Tools;
 
 use App\DTO\InvoiceItemDTO;
 use App\DTO\Movement\MovementDTO;
+use App\Enums\Configurations\ConfigEnum;
 use App\Enums\InvoiceInstallmentsEnum;
 use App\Factory\InvoiceFactory;
+use App\Services\ConfigurationService;
 use App\Services\Movement\MovementService;
-use App\Services\UserService;
 use App\Tools\Calendar\CalendarTools;
 use App\VO\InvoiceVO;
+use App\Tools\NumberTools;
 
 class MarketPlannerService
 {
@@ -17,11 +19,11 @@ class MarketPlannerService
     private float $thisMonthMarketSpentValue = 0;
 
     public function __construct(
-        readonly private UserService $userService,
+        readonly private ConfigurationService $configurationService,
         readonly private MovementService $movementService
     ) {
-        $userLogged = $this->userService->findOne();
-        $this->marketPlannerValue = $userLogged->getMarketPlannerValue();
+        $config = $this->configurationService->findConfigByName(ConfigEnum::MarketPlannerValue->value);
+        $this->marketPlannerValue = NumberTools::roundFloatAmount((float)$config->getValue());
     }
 
     public function useMarketPlanner(): bool
