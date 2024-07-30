@@ -37,9 +37,6 @@ class UserService extends BasicService
             $password = $item->getPassword();
             $itemDb->setPassword(bcrypt($password));
         }
-        if (! empty($item->getMarketPlannerValue())) {
-            $itemDb->setMarketPlannerValue($item->getMarketPlannerValue());
-        }
         return parent::update($id, $itemDb);
     }
 

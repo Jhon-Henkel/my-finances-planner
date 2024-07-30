@@ -27,7 +27,6 @@ class UserControllerUnitTest extends TestCase
         $this->assertEquals('required|string', $rules['name']);
         $this->assertEquals('required|string', $rules['email']);
         $this->assertEquals('string', $rules['password']);
-        $this->assertEquals('numeric', $rules['marketPlannerValue']);
     }
 
     public function testRulesInsert()

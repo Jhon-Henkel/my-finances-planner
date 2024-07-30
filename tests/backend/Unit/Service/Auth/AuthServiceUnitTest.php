@@ -165,7 +165,6 @@ class AuthServiceUnitTest extends Falcon9
         $this->assertIsString($data['token']);
         $this->assertEquals('Joãozinho', $data['user']['name']);
         $this->assertEquals(1, $data['user']['id']);
-        $this->assertEquals(10, $data['user']['marketPlannerValue']);
         $this->assertEquals('email@email.com', $data['user']['email']);
         $this->assertStringContainsString('Joãozinho', $data['user']['salutation']);
     }

@@ -10,7 +10,6 @@ class UserDTO
     private null|string $password;
     private string $unique_id;
     private null|int $status;
-    private float $marketPlannerValue;
     private string $verifyHash = '';
     private mixed $created_at;
     private mixed $updated_at;
@@ -75,16 +74,6 @@ class UserDTO
     public function setStatus(null|int $status): void
     {
         $this->status = $status;
-    }
-
-    public function getMarketPlannerValue(): float
-    {
-        return $this->marketPlannerValue;
-    }
-
-    public function setMarketPlannerValue(float $marketPlannerValue): void
-    {
-        $this->marketPlannerValue = $marketPlannerValue;
     }
 
     public function getVerifyHash(): string

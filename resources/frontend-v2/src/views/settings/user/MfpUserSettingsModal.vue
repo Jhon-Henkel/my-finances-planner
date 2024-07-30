@@ -61,7 +61,6 @@ onMounted(async () => {
         <template #list>
             <mfp-input v-model="userSettings.name" label="Nome" placeholder="Seu Nome"/>
             <mfp-input v-model="userSettings.email" label="E-mail" placeholder="Seu E-mail" type="email"/>
-            <mfp-input-money v-model="userSettings.marketPlannerValue" label="Plano para Mercado"/>
             <mfp-input-toggle v-model="alterPassword" label="Alterar Senha"/>
             <mfp-input v-model="password"
                        label="Nova Senha"

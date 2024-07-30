@@ -13,7 +13,6 @@ class UserVoUnitTest extends Falcon9
         $item = new UserDTO();
         $item->setName('test');
         $item->setEmail('test@test.com');
-        $item->setMarketPlannerValue(1000.00);
         $item->setStatus(1);
 
         $vo = UserVO::make($item);
@@ -22,6 +21,5 @@ class UserVoUnitTest extends Falcon9
         $this->assertEquals('test', $vo->name);
         $this->assertEquals('test@test.com', $vo->email);
         $this->assertEquals(1, $vo->status);
-        $this->assertEquals(1000.00, $vo->marketPlannerValue);
     }
 }

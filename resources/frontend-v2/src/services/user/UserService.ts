@@ -14,7 +14,6 @@ export const UserService = {
         return new UserModel({
             email: '',
             name: '',
-            marketPlannerValue: 0,
         })
     }
 }
