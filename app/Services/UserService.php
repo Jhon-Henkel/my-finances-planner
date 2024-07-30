@@ -33,9 +33,6 @@ class UserService extends BasicService
         if (! empty($item->getStatus())) {
             $itemDb->setStatus($item->getStatus());
         }
-        if (! empty($item->getSalary())) {
-            $itemDb->setSalary($item->getSalary());
-        }
         if (! empty($item->getPassword())) {
             $password = $item->getPassword();
             $itemDb->setPassword(bcrypt($password));

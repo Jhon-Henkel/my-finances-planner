@@ -14,7 +14,6 @@ class UserResource extends BasicResource
         $user->setName($item['name']);
         $user->setEmail($item['email']);
         $user->setPassword($item['password'] ?? null);
-        $user->setSalary($item['salary']);
         $user->setMarketPlannerValue($item['market_planner_value'] ?? $item['marketPlannerValue']);
         $user->setStatus($item['status'] ?? null);
         $user->setEmailVerifiedAt($item['email_verified_at'] ?? null);
@@ -33,7 +32,6 @@ class UserResource extends BasicResource
             'name' => $item->getName(),
             'email' => $item->getEmail(),
             'password' => $item->getPassword(),
-            'salary' => $item->getSalary(),
             'market_planner_value' => $item->getMarketPlannerValue(),
             'status' => $item->getStatus(),
             'verify_hash' => $item->getVerifyHash(),

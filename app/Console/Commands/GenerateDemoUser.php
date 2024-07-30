@@ -40,7 +40,6 @@ class GenerateDemoUser extends Command
                 'tenant_id' => $tenant['id'],
                 'password' => bcrypt('12345678'),
                 'status' => StatusEnum::Active->value,
-                'salary' => 1000,
                 'wrong_login_attempts' => 0,
             ]);
             $user->save();

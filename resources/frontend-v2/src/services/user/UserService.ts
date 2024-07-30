@@ -12,7 +12,6 @@ export const UserService = {
     },
     makeEmptyUser: (): UserModel => {
         return new UserModel({
-            salary: 0,
             email: '',
             name: '',
             marketPlannerValue: 0,

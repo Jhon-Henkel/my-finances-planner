@@ -24,11 +24,9 @@ class UserControllerUnitTest extends TestCase
         $this->assertArrayHasKey('name', $rules);
         $this->assertArrayHasKey('email', $rules);
         $this->assertArrayHasKey('password', $rules);
-        $this->assertArrayHasKey('salary', $rules);
         $this->assertEquals('required|string', $rules['name']);
         $this->assertEquals('required|string', $rules['email']);
         $this->assertEquals('string', $rules['password']);
-        $this->assertEquals('required|numeric', $rules['salary']);
         $this->assertEquals('numeric', $rules['marketPlannerValue']);
     }
 

@@ -10,7 +10,6 @@ class UserDTO
     private null|string $password;
     private string $unique_id;
     private null|int $status;
-    private float $salary;
     private float $marketPlannerValue;
     private string $verifyHash = '';
     private mixed $created_at;
@@ -76,16 +75,6 @@ class UserDTO
     public function setStatus(null|int $status): void
     {
         $this->status = $status;
-    }
-
-    public function getSalary(): float
-    {
-        return $this->salary;
-    }
-
-    public function setSalary(float $salary): void
-    {
-        $this->salary = $salary;
     }
 
     public function getMarketPlannerValue(): float

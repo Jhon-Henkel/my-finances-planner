@@ -21,7 +21,6 @@ trait UserTrait
             'email' => 'demo2@demo.dev',
             'password' => bcrypt('1234'),
             'status' => StatusEnum::Active->value,
-            'salary' => 5000,
             'wrong_login_attempts' => 0,
         ]);
 
