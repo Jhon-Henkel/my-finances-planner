@@ -104,7 +104,6 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
             ->name(RouteEnum::ApiFutureSpentDelete->value);
     });
 
-    /** todo - hoje esse grupo de endpoint não está sendo usado, mas futuramente será necessário */
     Route::prefix('configurations')->group(function () {
         Route::get('/{configName}', [ConfigurationsController::class, 'showByName'])
             ->name(RouteEnum::ApiConfigurationGet->value);

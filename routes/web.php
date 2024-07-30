@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\Route;
 /** @var Route $router */
 Route::prefix('/')->group(function () {
     Route::prefix('auth')->group(function () {
-
-        Route::get('/verify', [AuthController::class, 'verifyIsAuthenticated'])
-            ->name(RouteEnum::WebVerifyToken->value);
-
         Route::post('', [AuthController::class, 'auth'])
             ->name(RouteEnum::WebMakeLogin->value);
     });
@@ -26,7 +22,6 @@ Route::prefix('/')->group(function () {
 
     Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser'])
         ->name(RouteEnum::WebActiveUser->value);
-
 
     if (RequestTools::isApplicationInDevelopMode()) {
         Route::prefix('develop')->group(function () {
@@ -48,7 +43,6 @@ Route::prefix('/')->group(function () {
         })->where('any', '.*');
 
     });
-
 
     Route::get('{any}', function () {
         return redirect('/v2/login');
