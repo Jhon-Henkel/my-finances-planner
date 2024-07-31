@@ -30,7 +30,8 @@ class MigrateTenant extends Command
             config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.database' => $result[0]->database]);
             config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.username' => $result[0]->username]);
             config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.password' => $result[0]->password]);
-            $this->call('migrate', ['--database' => DatabaseConnectionEnum::Tenant->value, '--path' => 'database/migrations/tenant']);
+            $this->call('migrate', ['--database' => DatabaseConnectionEnum::Tenant->value, '--path' => 'database/migrations/tenant', '--force' => true]);
+            DB::purge(DatabaseConnectionEnum::Tenant->value);
             $this->info("Migrate tenant $tenantHash Success!");
         } catch (Throwable $e) {
             $this->error('Error: ' . $e->getMessage());
