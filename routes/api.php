@@ -105,10 +105,10 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
     });
 
     Route::prefix('configurations')->group(function () {
-        Route::get('/{configName}', [ConfigurationsController::class, 'showByName'])
-            ->name(RouteEnum::ApiConfigurationGet->value);
-        Route::put('/{configName}', [ConfigurationsController::class, 'updateByName'])
+        Route::put('', [ConfigurationsController::class, 'updateConfigs'])
             ->name(RouteEnum::ApiConfigurationUpdate->value);
+        Route::get('', [ConfigurationsController::class, 'index'])
+            ->name(RouteEnum::ApiConfigurationIndex->value);
     });
 
     Route::prefix('user')->group(function () {

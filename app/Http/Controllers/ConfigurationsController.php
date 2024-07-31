@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Resources\ConfigurationResource;
 use App\Services\ConfigurationService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ConfigurationsController extends BasicController
@@ -23,7 +24,8 @@ class ConfigurationsController extends BasicController
     protected function rulesUpdate(): array
     {
         return [
-            'value' => 'required',
+            '*.name' => 'required|string',
+            '*.value' => 'required|string'
         ];
     }
 
@@ -37,19 +39,11 @@ class ConfigurationsController extends BasicController
         return $this->resource;
     }
 
-    public function showByName(string $name): JsonResponse
+    public function updateConfigs(Request $request): JsonResponse
     {
-        $config = strtolower($name);
-        $item = $this->service->findConfigByName($config);
-        return response()->json($this->resource->dtoToVo($item), ResponseAlias::HTTP_OK);
-    }
-
-    public function updateByName(string $name): JsonResponse
-    {
-        $config = strtolower($name);
-        $item = $this->service->findConfigByName($config);
-        $item->setValue(request()->input('value'));
-        $item = $this->service->update($item->getId(), $item);
-        return response()->json($this->resource->dtoToVo($item), ResponseAlias::HTTP_OK);
+        $data = $request->json()->all();
+        $this->validate($request, $this->rulesUpdate());
+        $this->getService()->updateConfigs($data);
+        return response()->json(null, ResponseAlias::HTTP_NO_CONTENT);
     }
 }

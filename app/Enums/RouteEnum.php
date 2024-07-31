@@ -37,15 +37,14 @@ enum RouteEnum: string
     case ApiFutureSpentUpdate = 'apiFutureSpentUpdate';
     case ApiFutureSpentDelete = 'apiFutureSpentDelete';
     case ApiFutureSpentPay = 'apiFutureSpentPay';
-    case ApiConfigurationGet = 'apiConfigurationGet';
     case ApiConfigurationUpdate = 'apiConfigurationUpdate';
+    case ApiConfigurationIndex = 'apiConfigurationIndex';
     case ApiUserShow = 'apiUserShow';
     case ApiUserUpdate = 'apiUserUpdate';
     case ApiPanoramaIndex = 'apiPanoramaIndex';
     case ApiFinancialHealthIndexFiltered = 'apiFinancialHealthIndex';
     case WebLogout = 'logout';
     case WebMakeLogin = 'makeLogin';
-    case WebVerifyToken = 'verifyToken';
     case WebSendTestEmail = 'sendTestEmail';
     case WebActiveUser = 'activeUser';
     case DevelopGetTokens = 'developGetTokens';

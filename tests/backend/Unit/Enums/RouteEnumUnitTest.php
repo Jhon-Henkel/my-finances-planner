@@ -41,7 +41,6 @@ class RouteEnumUnitTest extends Falcon9
         $this->assertEquals('apiFutureSpentUpdate', RouteEnum::ApiFutureSpentUpdate->value);
         $this->assertEquals('apiFutureSpentDelete', RouteEnum::ApiFutureSpentDelete->value);
         $this->assertEquals('apiFutureSpentPay', RouteEnum::ApiFutureSpentPay->value);
-        $this->assertEquals('apiConfigurationGet', RouteEnum::ApiConfigurationGet->value);
         $this->assertEquals('apiConfigurationUpdate', RouteEnum::ApiConfigurationUpdate->value);
         $this->assertEquals('apiUserShow', RouteEnum::ApiUserShow->value);
         $this->assertEquals('apiUserUpdate', RouteEnum::ApiUserUpdate->value);
@@ -49,7 +48,6 @@ class RouteEnumUnitTest extends Falcon9
         $this->assertEquals('apiFinancialHealthIndex', RouteEnum::ApiFinancialHealthIndexFiltered->value);
         $this->assertEquals('logout', RouteEnum::WebLogout->value);
         $this->assertEquals('makeLogin', RouteEnum::WebMakeLogin->value);
-        $this->assertEquals('verifyToken', RouteEnum::WebVerifyToken->value);
         $this->assertEquals('sendTestEmail', RouteEnum::WebSendTestEmail->value);
         $this->assertEquals('activeUser', RouteEnum::WebActiveUser->value);
         $this->assertEquals('developGetTokens', RouteEnum::DevelopGetTokens->value);

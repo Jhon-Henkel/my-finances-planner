@@ -7,9 +7,8 @@ use App\Repositories\ConfigurationRepository;
 
 class ConfigurationService extends BasicService
 {
-    public function __construct(
-        private readonly ConfigurationRepository $repository
-    ) {
+    public function __construct(private readonly ConfigurationRepository $repository)
+    {
     }
 
     protected function getRepository(): ConfigurationRepository
@@ -17,7 +16,19 @@ class ConfigurationService extends BasicService
         return $this->repository;
     }
 
-    public function findConfigByName(string $configName): ConfigurationDTO
+    public function updateConfigs(array $data): void
+    {
+        foreach ($data as $config) {
+            $configDB = $this->findConfigByName($config['name']);
+            if (!$configDB) {
+                continue;
+            }
+            $configDB->setValue($config['value']);
+            $this->getRepository()->update($configDB->getId(), $configDB);
+        }
+    }
+
+    public function findConfigByName(string $configName): null|ConfigurationDTO
     {
         $config = $this->getRepository()->findByName($configName);
         return reset($config);
