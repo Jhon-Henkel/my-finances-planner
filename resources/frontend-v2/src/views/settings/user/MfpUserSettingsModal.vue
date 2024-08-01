@@ -3,7 +3,6 @@ import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
 import {IonCol, IonIcon, IonRow, modalController, IonLabel} from "@ionic/vue"
 import MfpModalContent from "@/components/modal/MfpModalContent.vue"
 import {onMounted, ref} from "vue"
-import MfpInputMoney from "@/components/input/MfpInputMoney.vue"
 import MfpInput from "@/components/input/MfpInput.vue"
 import MfpInputToggle from "@/components/input/MfpInputToggle.vue"
 import {alertCircleOutline} from "ionicons/icons"
@@ -43,7 +42,7 @@ async function save() {
     await okMessage.open('Faça o login novamente!')
     await AuthService.logout()
     closeModal()
-    await router.push({name: 'login'})
+    router.push({name: 'login'})
 }
 
 function closeModal() {

@@ -2,6 +2,7 @@ import {
     calendarNumberOutline,
     cardOutline,
     cashOutline,
+    cogOutline,
     fitnessOutline,
     homeOutline,
     personCircleOutline,
@@ -49,5 +50,10 @@ export const MenuItems = [
         icon: personCircleOutline,
         routeName: 'user-settings',
         label: 'Configurações do Usuário',
-    }
+    },
+    {
+        icon: cogOutline,
+        routeName: 'main-settings',
+        label: 'Configurações Gerais',
+    },
 ]
