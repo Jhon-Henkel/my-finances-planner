@@ -15,20 +15,17 @@ use App\Tools\NumberTools;
 
 class MarketPlannerService
 {
-    private float $marketPlannerValue;
     private float $thisMonthMarketSpentValue = 0;
 
     public function __construct(
         readonly private ConfigurationService $configurationService,
         readonly private MovementService $movementService
     ) {
-        $config = $this->configurationService->findConfigByName(ConfigEnum::MarketPlannerValue->value);
-        $this->marketPlannerValue = NumberTools::roundFloatAmount((float)$config->getValue());
     }
 
     public function useMarketPlanner(): bool
     {
-        return $this->marketPlannerValue > 0;
+        return $this->getMarketPlannerValue() > 0;
     }
 
     public function getMarketPlannerInvoice(): InvoiceVO
@@ -61,7 +58,7 @@ class MarketPlannerService
             0,
             null,
             'Mercado',
-            $this->marketPlannerValue,
+            $this->getMarketPlannerValue(),
             $thisMonth->getEndDate(),
             InvoiceInstallmentsEnum::FixedInstallments->value
         );
@@ -75,7 +72,8 @@ class MarketPlannerService
 
     protected function getMarketPlannerValue(): float
     {
-        return $this->marketPlannerValue;
+        $config = $this->configurationService->findConfigByName(ConfigEnum::MarketPlannerValue->value);
+        return NumberTools::roundFloatAmount((float)$config->getValue());
     }
 
     protected function getThisMonthMarketSpentValue(): float
