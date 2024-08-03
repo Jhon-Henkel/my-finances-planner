@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\Database\DatabaseConnectionEnum;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -33,7 +34,6 @@ class StartDevelopProject extends Command
             $this->info('');
 
             $this->info('=> Configuring backend keys...');
-            system('php artisan key:generate');
             system('php artisan key:mfp-key');
             $this->info('');
 
@@ -64,9 +64,9 @@ class StartDevelopProject extends Command
             $this->info('=> Preparing tenant database...');
             $result = DB::connection(DatabaseConnectionEnum::Master->value)->select('SELECT * FROM tenants ORDER BY id DESC LIMIT 1');
 
-            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.database' => $result[0]->database]);
-            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.username' => $result[0]->username]);
-            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.password' => $result[0]->password]);
+            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.database' => Crypt::decryptString($result[0]->database)]);
+            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.username' => Crypt::decryptString($result[0]->username)]);
+            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.password' => Crypt::decryptString($result[0]->password)]);
             $this->call('migrate', ['--database' => DatabaseConnectionEnum::Tenant->value, '--path' => 'database/migrations/tenant', '--seed' => true]);
             $this->info('');
 

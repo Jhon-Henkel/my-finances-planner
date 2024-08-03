@@ -11,9 +11,9 @@ return new class () extends Migration {
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
             $table->string('tenant_hash')->nullable(false)->unique();
-            $table->string('database')->nullable(false)->unique();
-            $table->string('username')->nullable(false);
-            $table->string('password')->nullable(false);
+            $table->text('database')->nullable(false);
+            $table->text('username')->nullable(false);
+            $table->text('password')->nullable(false);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

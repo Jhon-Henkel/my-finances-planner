@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 
 /**
  * @property int $id
@@ -24,4 +25,27 @@ class Tenant extends Model
         'username',
         'password',
     ];
+
+    protected array $encryptFields = [
+        'username',
+        'password',
+        'database',
+    ];
+
+    public function setAttribute($key, $value)
+    {
+        if (in_array($key, $this->encryptFields)) {
+            $value = Crypt::encryptString($value);
+        }
+        return parent::setAttribute($key, $value);
+    }
+
+    public function getAttribute($key)
+    {
+        $value = parent::getAttribute($key);
+        if (in_array($key, $this->encryptFields)) {
+            $value = Crypt::decryptString($value);
+        }
+        return $value;
+    }
 }

@@ -27,6 +27,7 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
     ```bash
     composer update
     cp .env.example .env && cp resources/frontend-v2/.env.example resources/frontend-v2/.env
+    php artisan key:generate  
     php artisan setup:develop
     ```
 - Rodar os comandos abaixo fora do container:
