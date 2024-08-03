@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
-    public const INVALID_LOGIN_OR_PASSWORD_CODE = 1;
-    public const INACTIVE_USER_CODE = 2;
-    public const OK_CODE = 3;
+    public const int INVALID_LOGIN_OR_PASSWORD_CODE = 1;
+    public const int INACTIVE_USER_CODE = 2;
+    public const int OK_CODE = 3;
 
     public function __construct(
         private readonly UserService $userService,
@@ -111,7 +111,6 @@ class AuthService
             null,
             $user->id,
             RequestTools::getUserIp(),
-            $user->account_group,
             RequestTools::getUserAgent(),
             $logged,
             $comments,

@@ -21,7 +21,6 @@ class AccessLogResourceUnitTest extends Falcon9
             2,
             '192.168.10.10',
             '111',
-            'abc',
             0,
             'test',
             '2020-01-01 00:00:00'
@@ -40,7 +39,6 @@ class AccessLogResourceUnitTest extends Falcon9
             3,
             '198.122.22.110',
             '222',
-            'deg',
             1,
             'test',
             '2020-01-01 00:00:00'
@@ -66,7 +64,6 @@ class AccessLogResourceUnitTest extends Falcon9
                 'id' => 1,
                 'user_id' => 2,
                 'user_ip' => '193.22.33.44',
-                'account_group' => '111',
                 'user_agent' => 'sssss',
                 'logged' => 0,
                 'comments' => 'test',
@@ -76,7 +73,6 @@ class AccessLogResourceUnitTest extends Falcon9
                 'id' => 5,
                 'user_id' => 6,
                 'user_ip' => '193.11.22.45',
-                'account_group' => '222',
                 'user_agent' => 'ppppppp',
                 'logged' => 1,
                 'comments' => 'test1',
@@ -99,7 +95,6 @@ class AccessLogResourceUnitTest extends Falcon9
         $this->assertArrayHasKey('id', $item);
         $this->assertArrayHasKey('user_id', $item);
         $this->assertArrayHasKey('user_ip', $item);
-        $this->assertArrayHasKey('account_group', $item);
         $this->assertArrayHasKey('user_agent', $item);
         $this->assertArrayHasKey('logged', $item);
         $this->assertArrayHasKey('comments', $item);

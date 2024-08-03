@@ -17,7 +17,6 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $unique_id
  * @property string $password
  * @property int $status
- * @property string $account_group
  * @property string $verify_hash
  * @property int $wrong_login_attempts
  * @property float $market_planner_value
@@ -37,7 +36,6 @@ class User extends Authenticatable
         'password',
         'status',
         'tenant_id',
-        'account_group',
         'wrong_login_attempts',
         'market_planner_value'
     ];
