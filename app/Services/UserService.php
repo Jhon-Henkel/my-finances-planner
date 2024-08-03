@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\UserDTO;
+use App\Exceptions\User\InvalidCurrentPasswordException;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\Auth\AuthService;
@@ -21,6 +22,7 @@ class UserService extends BasicService
         return $this->repository;
     }
 
+    /** @param UserDTO $item */
     public function update(int $id, $item)
     {
         $itemDb = $this->findById($id);
@@ -34,8 +36,8 @@ class UserService extends BasicService
             $itemDb->setStatus($item->getStatus());
         }
         if (! empty($item->getPassword())) {
-            $password = $item->getPassword();
-            $itemDb->setPassword(bcrypt($password));
+            InvalidCurrentPasswordException::throwIfPasswordDontMatch($item, $itemDb);
+            $itemDb->setPassword(bcrypt($item->getPassword()));
         }
         return parent::update($id, $itemDb);
     }

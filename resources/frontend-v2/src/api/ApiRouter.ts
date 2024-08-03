@@ -38,7 +38,7 @@ axios.interceptors.response.use(response => {
         await AuthService.logout()
         router.push({name: 'login'})
     }
-    if (error.response && error.response.status === 400) {
+    if (error.response && (error.response.status === 400 || error.response.status === 403)) {
         const okAlert: MfpOkAlert = new MfpOkAlert("Ocorreu um erro!")
         await okAlert.open(error.response.data.message)
     }

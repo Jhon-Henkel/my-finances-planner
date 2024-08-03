@@ -14,6 +14,7 @@ class UserResource extends BasicResource
         $user->setName($item['name']);
         $user->setEmail($item['email']);
         $user->setPassword($item['password'] ?? null);
+        $user->setCurrentPassword($item['current_password'] ?? null);
         $user->setStatus($item['status'] ?? null);
         $user->setEmailVerifiedAt($item['email_verified_at'] ?? null);
         $user->setVerifyHash($item['verify_hash' ] ?? '');
@@ -33,7 +34,7 @@ class UserResource extends BasicResource
             'password' => $item->getPassword(),
             'status' => $item->getStatus(),
             'verify_hash' => $item->getVerifyHash(),
-            'wrong_login_attempts' => (int)$item->getWrongLoginAttempts(),
+            'wrong_login_attempts' => $item->getWrongLoginAttempts(),
             'email_verified_at' => $item->getEmailVerifiedAt(),
             'created_at' => $item->getCreatedAt(),
             'updated_at' => $item->getUpdatedAt(),

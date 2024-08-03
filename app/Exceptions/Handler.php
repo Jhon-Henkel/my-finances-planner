@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Exceptions\ResponseExceptions\BadRequestException;
+use App\Exceptions\ResponseExceptions\ForbiddenException;
 use App\Http\Response\ResponseError;
 use App\Tools\ErrorReport;
 use App\Tools\Request\RequestTools;
@@ -29,6 +30,7 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         BadRequestException::class,
+        ForbiddenException::class
     ];
 
     /**
@@ -49,6 +51,10 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (BadRequestException $exception) {
             return ResponseError::responseError($exception->getMessage(), ResponseAlias::HTTP_BAD_REQUEST);
+        });
+
+        $this->renderable(function (ForbiddenException $exception) {
+            return ResponseError::responseError($exception->getMessage(), $exception->getCode());
         });
 
         $this->renderable(function (QueryException $exception) {

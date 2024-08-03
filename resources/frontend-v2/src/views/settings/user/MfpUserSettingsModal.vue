@@ -16,6 +16,7 @@ import router from "@/router"
 
 const userSettings = ref(UserService.makeEmptyUser())
 const alterPassword = ref(false)
+const atualPassword = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 const authStore = useAuthStore()
@@ -30,8 +31,13 @@ async function save() {
         await okMessage.open('A nova senha e a senha de confirmação não são iguais!')
         return
     }
+    if (alterPassword.value && atualPassword.value === '') {
+        await okMessage.open('A senha atual não confere!')
+        return
+    }
     if (alterPassword.value) {
         userSettings.value.password = password.value
+        userSettings.value.current_password = atualPassword.value
     }
     const validationResult = UserSettingsFormValidation.validate(userSettings.value)
     if (!validationResult.isValid) {
@@ -61,6 +67,12 @@ onMounted(async () => {
             <mfp-input v-model="userSettings.name" label="Nome" placeholder="Seu Nome"/>
             <mfp-input v-model="userSettings.email" label="E-mail" placeholder="Seu E-mail" type="email"/>
             <mfp-input-toggle v-model="alterPassword" label="Alterar Senha"/>
+            <mfp-input v-model="atualPassword"
+                       label="Senha Atual"
+                       placeholder="Senha Atual"
+                       type="password"
+                       v-if="alterPassword"
+            />
             <mfp-input v-model="password"
                        label="Nova Senha"
                        placeholder="Nova senha"

@@ -7,6 +7,7 @@ class UserDTO
     private int $id;
     private string $name;
     private string $email;
+    private null|string $currentPassword;
     private null|string $password;
     private string $unique_id;
     private null|int $status;
@@ -54,6 +55,16 @@ class UserDTO
     public function setPassword(null|string $password): void
     {
         $this->password = $password;
+    }
+
+    public function setCurrentPassword(null|string $password): void
+    {
+        $this->currentPassword = $password;
+    }
+
+    public function getCurrentPassword(): ?string
+    {
+        return $this->currentPassword;
     }
 
     public function getUniqueId(): string
