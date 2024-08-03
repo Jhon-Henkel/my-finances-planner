@@ -42,7 +42,7 @@ final class AuthServiceProvider extends ServiceProvider
 
     protected function validateIsAllowedRequest(User $user, Request $request): void
     {
-        if ($request->route()->uri() === 'api/user/{id}') {
+        if (is_object($request->route()) && $request->route()->uri() === 'api/user/{id}') {
             TryAlterAnotherUserByRequestException::throwIfRequestUserIdDifferentUserJwt($user, $request);
         }
     }

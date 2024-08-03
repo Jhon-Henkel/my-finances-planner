@@ -17,7 +17,7 @@ class TryAlterAnotherUserByRequestException extends RuntimeException
 
     public static function throwIfRequestUserIdDifferentUserJwt(User $user, Request $request): void
     {
-        $routeUserId = $request->route()->parameter('id');
+        $routeUserId = is_object($request->route()) ? $request->route()->parameter('id') : '';
         if ($routeUserId != $user->id) {
             throw new self();
         }
