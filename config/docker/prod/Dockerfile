@@ -10,6 +10,7 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN chown -R www-data:www-data storage
 RUN apt-get install -y wget
+RUN chmod -R 755 /var/www/html/storage
 
 RUN a2enmod rewrite
 RUN addgroup --gid 1000 appuser; \
