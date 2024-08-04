@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\User\Tenant;
 use Illuminate\Support\Facades\Config;
 
-final readonly class DatabaseConnectionService
+class DatabaseConnectionService
 {
     public function setMasterConnection(): void
     {

@@ -5,6 +5,7 @@ namespace Tests\backend\Unit\Http\Controllers;
 use App\Exceptions\NotImplementedException;
 use App\Http\Controllers\UserController;
 use App\Resources\UserResource;
+use App\Services\Database\DatabaseConnectionService;
 use App\Services\UserService;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -13,8 +14,10 @@ class UserControllerUnitTest extends TestCase
 {
     public function testRulesUpdate()
     {
+        $dbMock = Mockery::mock(DatabaseConnectionService::class)->makePartial();
+
         $serviceMock = Mockery::mock(UserService::class);
-        $mocks = [$serviceMock, new UserResource()];
+        $mocks = [$serviceMock, new UserResource(), $dbMock];
 
         $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
@@ -31,8 +34,10 @@ class UserControllerUnitTest extends TestCase
 
     public function testRulesInsert()
     {
+        $dbMock = Mockery::mock(DatabaseConnectionService::class)->makePartial();
+
         $serviceMock = Mockery::mock(UserService::class);
-        $mocks = [$serviceMock, new UserResource()];
+        $mocks = [$serviceMock, new UserResource(), $dbMock];
 
         $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
@@ -45,8 +50,10 @@ class UserControllerUnitTest extends TestCase
 
     public function testGetService()
     {
+        $dbMock = Mockery::mock(DatabaseConnectionService::class)->makePartial();
+
         $serviceMock = Mockery::mock(UserService::class);
-        $mocks = [$serviceMock, new UserResource()];
+        $mocks = [$serviceMock, new UserResource(), $dbMock];
 
         $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
@@ -58,8 +65,10 @@ class UserControllerUnitTest extends TestCase
 
     public function testGetResource()
     {
+        $dbMock = Mockery::mock(DatabaseConnectionService::class)->makePartial();
+
         $serviceMock = Mockery::mock(UserService::class);
-        $mocks = [$serviceMock, new UserResource()];
+        $mocks = [$serviceMock, new UserResource(), $dbMock];
 
         $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
