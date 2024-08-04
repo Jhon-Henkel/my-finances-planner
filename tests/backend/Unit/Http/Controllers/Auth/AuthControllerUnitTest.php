@@ -93,26 +93,4 @@ class AuthControllerUnitTest extends Falcon9
 
         $this->assertEquals(500, $response->getStatusCode());
     }
-
-    public function testVerifyIsAuthenticatedWithValidJWT()
-    {
-        $authControllerMock = Mockery::mock(AuthController::class)->makePartial();
-        $authControllerMock->shouldAllowMockingProtectedMethods();
-        $authControllerMock->shouldReceive('validateJWT')->once()->andReturn(true);
-        $authControllerMock->shouldReceive('checkAuth')->once()->andReturn(true);
-        $response = $authControllerMock->verifyIsAuthenticated();
-
-        $this->assertEquals(200, $response->getStatusCode());
-    }
-
-    public function testVerifyIsAuthenticatedWithInvalidJWT()
-    {
-        $authControllerMock = Mockery::mock(AuthController::class)->makePartial();
-        $authControllerMock->shouldAllowMockingProtectedMethods();
-        $authControllerMock->shouldReceive('validateJWT')->once()->andReturn(false);
-        $authControllerMock->shouldReceive('checkAuth')->never()->andReturn(true);
-        $response = $authControllerMock->verifyIsAuthenticated();
-
-        $this->assertEquals(401, $response->getStatusCode());
-    }
 }

@@ -11,6 +11,7 @@ import {ICardForm} from "@/services/cards/ICardForm"
 import router from "@/router"
 import {CardInvoiceItemModel} from "@/model/card/invoice-item/CardInvoiceItemModel"
 import {UserModel} from "@/model/user/UserModel"
+import {MainSettingsModel} from "@/model/settings/MainSettingsModel"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -37,7 +38,7 @@ axios.interceptors.response.use(response => {
         await AuthService.logout()
         router.push({name: 'login'})
     }
-    if (error.response && error.response.status === 400) {
+    if (error.response && (error.response.status === 400 || error.response.status === 403)) {
         const okAlert: MfpOkAlert = new MfpOkAlert("Ocorreu um erro!")
         await okAlert.open(error.response.data.message)
     }
@@ -217,6 +218,16 @@ export const ApiRouter = {
         getFiltered: async (quest: null | string = null) => {
             quest = quest ? `?${quest}` : ''
             const response = await axios.get(mountApiUrl(`financial-health/filter${quest}`), makeHeaders())
+            return response.data
+        }
+    },
+    settings: {
+        index: async function() {
+            const response = await axios.get(mountApiUrl('configurations'), makeHeaders())
+            return response.data
+        },
+        update: async function(settings: Array<MainSettingsModel>) {
+            const response = await axios.put(mountApiUrl('configurations'), settings, makeHeaders())
             return response.data
         }
     }

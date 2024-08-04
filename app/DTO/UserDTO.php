@@ -7,11 +7,10 @@ class UserDTO
     private int $id;
     private string $name;
     private string $email;
+    private null|string $currentPassword;
     private null|string $password;
     private string $unique_id;
     private null|int $status;
-    private float $salary;
-    private float $marketPlannerValue;
     private string $verifyHash = '';
     private mixed $created_at;
     private mixed $updated_at;
@@ -58,6 +57,16 @@ class UserDTO
         $this->password = $password;
     }
 
+    public function setCurrentPassword(null|string $password): void
+    {
+        $this->currentPassword = $password;
+    }
+
+    public function getCurrentPassword(): ?string
+    {
+        return $this->currentPassword;
+    }
+
     public function getUniqueId(): string
     {
         return $this->unique_id;
@@ -76,26 +85,6 @@ class UserDTO
     public function setStatus(null|int $status): void
     {
         $this->status = $status;
-    }
-
-    public function getSalary(): float
-    {
-        return $this->salary;
-    }
-
-    public function setSalary(float $salary): void
-    {
-        $this->salary = $salary;
-    }
-
-    public function getMarketPlannerValue(): float
-    {
-        return $this->marketPlannerValue;
-    }
-
-    public function setMarketPlannerValue(float $marketPlannerValue): void
-    {
-        $this->marketPlannerValue = $marketPlannerValue;
     }
 
     public function getVerifyHash(): string

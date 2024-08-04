@@ -5,6 +5,7 @@ namespace Tests\backend\Unit\Http\Controllers;
 use App\Exceptions\NotImplementedException;
 use App\Http\Controllers\UserController;
 use App\Resources\UserResource;
+use App\Services\Database\DatabaseConnectionService;
 use App\Services\UserService;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -13,8 +14,10 @@ class UserControllerUnitTest extends TestCase
 {
     public function testRulesUpdate()
     {
+        $dbMock = Mockery::mock(DatabaseConnectionService::class)->makePartial();
+
         $serviceMock = Mockery::mock(UserService::class);
-        $mocks = [$serviceMock, new UserResource()];
+        $mocks = [$serviceMock, new UserResource(), $dbMock];
 
         $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
@@ -24,18 +27,17 @@ class UserControllerUnitTest extends TestCase
         $this->assertArrayHasKey('name', $rules);
         $this->assertArrayHasKey('email', $rules);
         $this->assertArrayHasKey('password', $rules);
-        $this->assertArrayHasKey('salary', $rules);
         $this->assertEquals('required|string', $rules['name']);
         $this->assertEquals('required|string', $rules['email']);
         $this->assertEquals('string', $rules['password']);
-        $this->assertEquals('required|numeric', $rules['salary']);
-        $this->assertEquals('numeric', $rules['marketPlannerValue']);
     }
 
     public function testRulesInsert()
     {
+        $dbMock = Mockery::mock(DatabaseConnectionService::class)->makePartial();
+
         $serviceMock = Mockery::mock(UserService::class);
-        $mocks = [$serviceMock, new UserResource()];
+        $mocks = [$serviceMock, new UserResource(), $dbMock];
 
         $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
@@ -48,8 +50,10 @@ class UserControllerUnitTest extends TestCase
 
     public function testGetService()
     {
+        $dbMock = Mockery::mock(DatabaseConnectionService::class)->makePartial();
+
         $serviceMock = Mockery::mock(UserService::class);
-        $mocks = [$serviceMock, new UserResource()];
+        $mocks = [$serviceMock, new UserResource(), $dbMock];
 
         $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
@@ -61,8 +65,10 @@ class UserControllerUnitTest extends TestCase
 
     public function testGetResource()
     {
+        $dbMock = Mockery::mock(DatabaseConnectionService::class)->makePartial();
+
         $serviceMock = Mockery::mock(UserService::class);
-        $mocks = [$serviceMock, new UserResource()];
+        $mocks = [$serviceMock, new UserResource(), $dbMock];
 
         $controllerMock = Mockery::mock(UserController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();

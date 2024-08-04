@@ -5,24 +5,17 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('tenant_id')->nullable()->after('name')->index();
-            $table->foreign('tenant_id')->references('id')->on('tenants');
+            $table->dropColumn('market_planner_value');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('users', function ($table) {
-            $table->dropColumn('tenant_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->decimal('market_planner_value', 10, 2)->nullable();
         });
     }
 };

@@ -35,8 +35,8 @@ class ConfigurationsControllerUnitTest extends Falcon9
         $rules = $controllerMock->rulesUpdate();
 
         $this->assertIsArray($rules);
-        $this->assertArrayHasKey('value', $rules);
-        $this->assertEquals('required', $rules['value']);
+        $this->assertArrayHasKey('*.value', $rules);
+        $this->assertEquals('required|string', $rules['*.value']);
     }
 
     public function testGetService()

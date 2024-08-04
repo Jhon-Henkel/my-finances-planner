@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
+use App\DTO\ConfigurationDTO;
 use App\Repositories\ConfigurationRepository;
 
 class ConfigurationService extends BasicService
 {
-    public function __construct(
-        private readonly ConfigurationRepository $repository
-    ) {
+    public function __construct(private readonly ConfigurationRepository $repository)
+    {
     }
 
     protected function getRepository(): ConfigurationRepository
@@ -16,13 +16,19 @@ class ConfigurationService extends BasicService
         return $this->repository;
     }
 
-    public function findConfigValue(string $configName): mixed
+    public function updateConfigs(array $data): void
     {
-        $config = $this->findConfigByName($configName);
-        return $config->getValue();
+        foreach ($data as $config) {
+            $configDB = $this->findConfigByName($config['name']);
+            if (!$configDB) {
+                continue;
+            }
+            $configDB->setValue($config['value']);
+            $this->getRepository()->update($configDB->getId(), $configDB);
+        }
     }
 
-    public function findConfigByName(string $configName): mixed
+    public function findConfigByName(string $configName): null|ConfigurationDTO
     {
         $config = $this->getRepository()->findByName($configName);
         return reset($config);

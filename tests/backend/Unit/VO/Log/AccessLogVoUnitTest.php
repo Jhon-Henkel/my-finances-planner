@@ -14,7 +14,6 @@ class AccessLogVoUnitTest extends Falcon9
             1,
             2,
             '192.168.10.10',
-            '111',
             'abc',
             0,
             null,
@@ -26,7 +25,6 @@ class AccessLogVoUnitTest extends Falcon9
         $this->assertEquals(1, $vo->id);
         $this->assertEquals(2, $vo->userId);
         $this->assertEquals('192.168.10.10', $vo->userIp);
-        $this->assertEquals('111', $vo->accountGroup);
         $this->assertEquals('abc', $vo->userAgent);
         $this->assertEquals(0, $vo->logged);
         $this->assertEquals(null, $vo->comments);

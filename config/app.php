@@ -13,11 +13,13 @@ return [
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'key' => env('APP_KEY'),
+    'db_server_login' => env('DB_SERVER_LOGIN'),
+    'db_server_password' => env('DB_SERVER_PASSWORD'),
+    'db_server_domain_id' => env('DB_SERVER_DOMAIN_ID'),
     'cipher' => 'AES-256-CBC',
     'max_wrong_login_attempts' => 5,
     'maintenance' => [
         'driver' => 'file',
-        // 'store'  => 'redis',
     ],
     'providers' => [
         Illuminate\Auth\AuthServiceProvider::class,
@@ -52,7 +54,6 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 

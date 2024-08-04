@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 class GenerateMfpKey extends Command
 {
     protected $signature = 'key:mfp-key';
-    protected $description = 'Save the MFP-key on .env file.';
+    protected $description = 'Save the MFP-Key on .env file.';
 
     public function handle(): void
     {

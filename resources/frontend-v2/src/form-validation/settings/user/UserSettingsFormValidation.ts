@@ -6,8 +6,6 @@ import {FormValidation} from "@/form-validation/FormValidation"
 const userSettingsSchema = z.object({
     name: z.string().min(1, {message: 'Campo "Nome" é obrigatório'}),
     email: z.string().email({message: 'Campo "E-mail" é obrigatório'}),
-    salary: z.number().min(0, {message: 'Campo "Salário Bruto" deve ser maior ou igual a zero'}),
-    marketPlannerValue: z.number().min(0, {message: 'Campo "Plano para Mercado" deve ser maior ou igual a zero'}),
 })
 
 export const UserSettingsFormValidation: IFormValidation = {

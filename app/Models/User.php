@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DateFormatEnum;
+use App\Models\User\Tenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,9 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $unique_id
  * @property string $password
  * @property int $status
- * @property string $account_group
  * @property string $verify_hash
- * @property float $salary
  * @property int $wrong_login_attempts
  * @property float $market_planner_value
  *
@@ -36,8 +35,7 @@ class User extends Authenticatable
         'unique_id',
         'password',
         'status',
-        'account_group',
-        'salary',
+        'tenant_id',
         'wrong_login_attempts',
         'market_planner_value'
     ];
@@ -49,4 +47,9 @@ class User extends Authenticatable
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value,
         'email_verified_at' => DateFormatEnum::ModelDefaultDateFormat->value
     ];
+
+    public function tenant(): Tenant
+    {
+        return $this->belongsTo(Tenant::class)->first();
+    }
 }

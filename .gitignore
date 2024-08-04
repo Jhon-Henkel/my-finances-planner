@@ -32,3 +32,4 @@ coverage
 spec/coverage
 .env.bkp
 /public/build-ionic
+.jetclient

@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\ConfigEnum;
+
 return [
 
     /*
@@ -12,7 +14,6 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
-
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
@@ -34,14 +35,13 @@ return [
     | Supported: "session"
     |
     */
-
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
         'api' => [
-            'driver' => 'mfp-token',
+            'driver' => ConfigEnum::MfpTokenKey->value,
         ],
     ],
 
@@ -61,7 +61,6 @@ return [
     | Supported: "database", "eloquent"
     |
     */
-
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
@@ -92,7 +91,6 @@ return [
     | quickly generating a very large amount of password reset tokens.
     |
     */
-
     'passwords' => [
         'users' => [
             'provider' => 'users',
@@ -112,7 +110,5 @@ return [
     | confirmation screen. By default, the timeout lasts for three hours.
     |
     */
-
     'password_timeout' => 10800,
-
 ];

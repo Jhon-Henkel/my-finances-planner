@@ -7,6 +7,7 @@ import {MenuItems} from "@/views/menu/MenuItems"
 import {logOutOutline} from "ionicons/icons"
 import {MfpModal} from "@/components/modal/MfpModal"
 import MfpUserSettingsModal from "@/views/settings/user/MfpUserSettingsModal.vue"
+import MfpMainSettingsModal from "@/views/settings/main/MfpMainSettingsModal.vue"
 
 function goToRoute(routeName: string) {
     if (routeName === 'login') {
@@ -17,6 +18,11 @@ function goToRoute(routeName: string) {
         const userSettingsModal = new MfpModal(MfpUserSettingsModal)
         closeMenu()
         userSettingsModal.open()
+        return
+    } else if (routeName === 'main-settings') {
+        const mainSettingsModal = new MfpModal(MfpMainSettingsModal)
+        closeMenu()
+        mainSettingsModal.open()
         return
     }
     router.push({name: routeName})

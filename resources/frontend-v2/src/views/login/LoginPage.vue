@@ -30,6 +30,7 @@ async function submit() {
         loginData.value.password = ''
         const urlParams = new URLSearchParams(window.location.search)
         const redirect: string | null = urlParams.get('redirect')
+        loading.value = false
         router.push({name: redirect ?? 'dashboard'})
         return
     }

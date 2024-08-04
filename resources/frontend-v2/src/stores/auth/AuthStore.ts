@@ -1,29 +1,29 @@
 import {defineStore} from "pinia"
 import {Ref, ref} from "vue"
 import {UtilTime} from "@/util/UtilTime"
-import {localStorageCache} from '@jhowrf/local-storage-cache/src/localStorageCache'
+import {UtilCookies} from "@/util/UtilCookies"
 
 export const useAuthStore = defineStore({
     id: 'auth',
     state: (): { token: any, user: any | null } => ({
-        token: ref(localStorageCache.getStorageItem('mfp-token')) ?? null,
-        user: ref(localStorageCache.getStorageItem('mfp-user')) ?? null,
+        token: ref(UtilCookies.getCookie('mfp-token')) ?? null,
+        user: ref(UtilCookies.getCookieObject('mfp-user')) ?? null,
     }),
     actions: {
         setToken(tokenValue: string): void {
-            localStorageCache.setStorageItem('mfp-token', tokenValue, UtilTime.getThreeHoursInMs())
+            UtilCookies.setCookie('mfp-token', tokenValue, UtilTime.getThreeHoursInMs())
             this.token = tokenValue
         },
         setUser(userValue: string): void {
-            localStorageCache.setStorageItem('mfp-user', userValue, UtilTime.getThreeHoursInMs())
+            UtilCookies.setCookieObject('mfp-user', userValue, UtilTime.getThreeHoursInMs())
             this.user = userValue
         },
         logout(): void {
-            localStorageCache.removeStorageItems('mfp-token')
+            UtilCookies.removeCookie('mfp-token')
         },
         isAuthUser(): boolean {
-            const sessionToken = localStorageCache.getStorageItem('mfp-token')
-            const sessionUser = localStorageCache.getStorageItem('mfp-user')
+            const sessionToken = UtilCookies.getCookie('mfp-token')
+            const sessionUser = UtilCookies.getCookieObject('mfp-user')
             const auth = sessionToken && sessionUser
             if (!auth) {
                 this.logout()

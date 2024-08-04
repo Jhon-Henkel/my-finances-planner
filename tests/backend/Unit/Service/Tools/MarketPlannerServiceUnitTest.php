@@ -2,15 +2,15 @@
 
 namespace Tests\backend\Unit\Service\Tools;
 
+use App\DTO\ConfigurationDTO;
 use App\DTO\Date\DatePeriodDTO;
 use App\DTO\InvoiceItemDTO;
 use App\DTO\Movement\MovementDTO;
-use App\DTO\UserDTO;
 use App\Enums\InvoiceInstallmentsEnum;
 use App\Enums\MovementEnum;
+use App\Services\ConfigurationService;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\MarketPlannerService;
-use App\Services\UserService;
 use App\Tools\Calendar\CalendarToolsReal;
 use App\VO\InvoiceVO;
 use Mockery;
@@ -19,22 +19,21 @@ use Tests\backend\Falcon9;
 
 class MarketPlannerServiceUnitTest extends Falcon9
 {
-    public function getUserForTest(float $marketValue): UserDTO
-    {
-        $userDto = new UserDTO();
-        $userDto->setMarketPlannerValue($marketValue);
-        return $userDto;
-    }
-
     #[TestDox('O usuário tem valor no planejador de mercado')]
     public function testUseMarketPlannerTestOne()
     {
-        $mockUserService = Mockery::mock(UserService::class)->makePartial();
-        $mockUserService->shouldReceive('findOne')->once()->andReturn($this->getUserForTest(1000));
+        $config = new ConfigurationDTO();
+        $config->setName('marketPlanner');
+        $config->setValue(1000);
 
         $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
+        $configMock = Mockery::mock(ConfigurationService::class)->makePartial();
+        $configMock
+            ->shouldReceive('findConfigByName')
+            ->once()
+            ->andReturn($config);
 
-        $mocks = [$mockUserService, $movementServiceMock];
+        $mocks = [$configMock, $movementServiceMock];
 
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class, $mocks)->makePartial();
 
@@ -44,12 +43,18 @@ class MarketPlannerServiceUnitTest extends Falcon9
     #[TestDox('O usuário não tem valor no planejador de mercado')]
     public function testUseMarketPlannerTestTwo()
     {
-        $mockUserService = Mockery::mock(UserService::class)->makePartial();
-        $mockUserService->shouldReceive('findOne')->once()->andReturn($this->getUserForTest(0));
+        $config = new ConfigurationDTO();
+        $config->setName('marketPlanner');
+        $config->setValue(0);
 
         $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
+        $configMock = Mockery::mock(ConfigurationService::class)->makePartial();
+        $configMock
+            ->shouldReceive('findConfigByName')
+            ->once()
+            ->andReturn($config);
 
-        $mocks = [$mockUserService, $movementServiceMock];
+        $mocks = [$configMock, $movementServiceMock];
 
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class, $mocks)->makePartial();
 
@@ -72,13 +77,12 @@ class MarketPlannerServiceUnitTest extends Falcon9
             InvoiceInstallmentsEnum::FixedInstallments->value
         );
 
-        $mockUserService = Mockery::mock(UserService::class)->makePartial();
-        $mockUserService->shouldReceive('findOne')->once()->andReturn($this->getUserForTest(0));
-
         $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
         $movementServiceMock->shouldReceive('findByPeriodByDatePeriod')->once()->andReturn([]);
 
-        $mocks = [$mockUserService, $movementServiceMock];
+        $configMock = Mockery::mock(ConfigurationService::class)->makePartial();
+
+        $mocks = [$configMock, $movementServiceMock];
 
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class, $mocks)->makePartial();
         $marketPlannerMock->shouldAllowMockingProtectedMethods();
@@ -116,12 +120,18 @@ class MarketPlannerServiceUnitTest extends Falcon9
 
         $movements = [$movementOne, $movementTwo, $movementThree];
 
-        $mockUserService = Mockery::mock(UserService::class)->makePartial();
-        $mockUserService->shouldReceive('findOne')->once()->andReturn($this->getUserForTest(100));
+        $config = new ConfigurationDTO();
+        $config->setName('marketPlanner');
+        $config->setValue(100);
 
         $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
+        $configMock = Mockery::mock(ConfigurationService::class)->makePartial();
+        $configMock
+            ->shouldReceive('findConfigByName')
+            ->once()
+            ->andReturn($config);
 
-        $mocks = [$mockUserService, $movementServiceMock];
+        $mocks = [$configMock, $movementServiceMock];
 
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class, $mocks)->makePartial();
         $marketPlannerMock->shouldAllowMockingProtectedMethods();
@@ -133,12 +143,18 @@ class MarketPlannerServiceUnitTest extends Falcon9
 
     public function testMakeMarketInvoiceItem()
     {
-        $mockUserService = Mockery::mock(UserService::class)->makePartial();
-        $mockUserService->shouldReceive('findOne')->once()->andReturn($this->getUserForTest(100));
+        $config = new ConfigurationDTO();
+        $config->setName('marketPlanner');
+        $config->setValue(100);
 
         $movementServiceMock = Mockery::mock(MovementService::class)->makePartial();
+        $configMock = Mockery::mock(ConfigurationService::class)->makePartial();
+        $configMock
+            ->shouldReceive('findConfigByName')
+            ->once()
+            ->andReturn($config);
 
-        $mocks = [$mockUserService, $movementServiceMock];
+        $mocks = [$configMock, $movementServiceMock];
 
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class, $mocks)->makePartial();
         $marketPlannerMock->shouldAllowMockingProtectedMethods();
