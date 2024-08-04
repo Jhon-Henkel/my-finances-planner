@@ -9,6 +9,7 @@ services:
     networks:
       my_finances_planner_network:
         ipv4_address: 192.168.152.55
+    entrypoint: dockerize -wait tcp://my_finances_planner_db:3306 -timeout 20s
     volumes:
       - .:/var/www/html
     tty: true
