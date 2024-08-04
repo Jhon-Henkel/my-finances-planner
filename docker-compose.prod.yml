@@ -3,7 +3,7 @@ services:
     container_name: "mfp_app"
     build:
       context: .
-      dockerfile: ./config/docker/develop/Dockerfile
+      dockerfile: ./config/docker/prod/Dockerfile
     ports:
       - "80:80"
       - "443:443"
@@ -24,29 +24,29 @@ services:
     image: mariadb:10.2.25-bionic
     container_name: "mfp_db"
     ports:
-      - "3306:3306"
+      - "1405:3306"
     networks:
       mfp_network:
         ipv4_address: 192.168.152.51
     volumes:
-      - ./.docker/mariadb/data:/var/lib/mariadb
+      - db_data:/var/lib/mariadb
       - ./config/docker/develop/initdb:/docker-entrypoint-initdb.d
     environment:
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_USER: ${DOCKER_COMPOSE_DB_USER}
+      MYSQL_ROOT_PASSWORD: ${DOCKER_COMPOSE_DB_PASS}
     command: --default-authentication-plugin=mysql_native_password
 
   php_my_admin:
     image: phpmyadmin/phpmyadmin
     container_name: "mfp_php_my_admin"
     ports:
-      - "8080:80"
+      - "1512:80"
     networks:
       mfp_network:
         ipv4_address: 192.168.152.52
     environment:
       PMA_HOST: mfp_db
-      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: ${DOCKER_COMPOSE_DB_PASS}
     depends_on:
       - database
 
@@ -56,3 +56,6 @@ networks:
       driver: default
       config:
         - subnet: 192.168.152.0/24
+
+volumes:
+  db_data:
