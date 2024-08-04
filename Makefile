@@ -12,7 +12,7 @@ backend-restart:
 
 backend-bash:
 	@echo "Starting bash..."
-	docker compose start && docker exec -it my_finances_planner_app bash
+	docker compose start && docker exec -it mfp_app bash
 
 frontend:
 	@echo "Starting front v2..."

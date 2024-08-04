@@ -3,11 +3,6 @@
 </p>
 
 <p align="center">
-    <a href="https://my-finances-planner-demo.cronitorstatus.com/"><img src="https://cronitor.io/badges/7TNGwI/production/Kx5Z8Ty_r1i5MPDI_w5JPm66d7Y.svg" alt="cronitor badge"></a>
-    <a href="https://github.com/Jhon-Henkel/my-finances-planner/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Jhon-Henkel/my-finances-planner"></a>
-</p>
-
-<p align="center">
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=docker,php,html,css,ts,vue,mysql,laravel,vite" />
   </a>
@@ -22,6 +17,10 @@
 Com a necessidade de algo mais completo e personalizado para controle financeiro, resolvi desenvolver essa aplicação.
 
 ## Como iniciar o projeto
+- Montar container:
+    ```bash
+    docker compose -f docker-compose.dev.yml up -d
+    ```
 
 - Rodar os comandos abaixo no container:
     ```bash
@@ -35,6 +34,11 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
     make setup-frontend
     make frontend
     ```
+## Acessos
+- PHPMyAdmin:
+    - [http://localhost:8080](http://localhost:8080)
+    - Usuário: root
+    - Senha: 123
 
 ## Licença
 My finances planner é um software open-sourced licenciado em [MIT license](https://opensource.org/licenses/MIT).
