@@ -5,6 +5,10 @@
 
     RewriteEngine On
 
+    # Redirect from / to /v2/dashboard
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteRule ^ /v2/dashboard [L,R=301]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

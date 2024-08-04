@@ -2,7 +2,7 @@ FROM composer AS composer-php
 
 FROM php:8.3-apache
 
-COPY . .
+COPY ../../.. .
 
 # copy composer
 COPY --from=composer-php /usr/bin/composer /usr/bin/composer
