@@ -24,15 +24,23 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
     docker compose up -d
     ```
 
-- Rodar os comandos abaixo no container:
+- Acessar o container:
+    ```bash
+    make backend-bash
+    ```
+
+- Setup backend (dentro do container):
     ```bash
     composer update
     php artisan key:generate  
     php artisan setup:develop
     ```
-- Rodar os comandos abaixo fora do container:
+- Setup frontend (fora do container):
     ```bash
     make setup-frontend
+    ```
+- Hot reload frontend (fora do container):
+    ```bash
     make frontend
     ```
 ## Acessos
