@@ -37,10 +37,10 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ${{ secrets.SSH_APP_PATH }}
-            docker exec -it mfp_app bash -c "php artisan down"
+            docker exec mfp_app bash -c "php artisan down"
             git pull ${{ secrets.SSH_GIT_PULL_URL }}
-            docker exec -it mfp_app bash -c "composer update --no-dev"
-            docker exec -it mfp_app bash -c "php artisan migrate:all-tenants"
+            docker exec mfp_app bash -c "composer update --no-dev"
+            docker exec mfp_app bash -c "php artisan migrate:all-tenants"
 
       # Copiando arquivos para o servidor
       - name: 📂 Deploy Frontend
@@ -63,4 +63,4 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ${{ secrets.SSH_APP_PATH }}
-            docker exec -it mfp_app bash -c "php artisan up"
+            docker exec mfp_app bash -c "php artisan up"
