@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\Database\DatabaseConnectionEnum;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -27,9 +28,9 @@ class MigrateTenant extends Command
                 $this->error("Tenant $tenantHash não encontrado!");
                 return;
             }
-            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.database' => $result[0]->database]);
-            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.username' => $result[0]->username]);
-            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.password' => $result[0]->password]);
+            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.database' => Crypt::decryptString($result[0]->database)]);
+            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.username' => Crypt::decryptString($result[0]->username)]);
+            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.password' => Crypt::decryptString($result[0]->password)]);
             $this->call('migrate', ['--database' => DatabaseConnectionEnum::Tenant->value, '--path' => 'database/migrations/tenant', '--force' => true]);
             DB::purge(DatabaseConnectionEnum::Tenant->value);
             $this->info("Migrate tenant $tenantHash Success!");

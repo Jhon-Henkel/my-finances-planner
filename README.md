@@ -19,13 +19,14 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
 ## Como iniciar o projeto
 - Montar container:
     ```bash
-    docker compose -f docker-compose.dev.yml up -d
+    cp .env.example .env && cp resources/frontend-v2/.env.example resources/frontend-v2/.env
+    cp docker-compose.dev.yml docker-compose.yml
+    docker compose up -d
     ```
 
 - Rodar os comandos abaixo no container:
     ```bash
     composer update
-    cp .env.example .env && cp resources/frontend-v2/.env.example resources/frontend-v2/.env
     php artisan key:generate  
     php artisan setup:develop
     ```
