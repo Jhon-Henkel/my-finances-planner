@@ -51,6 +51,7 @@ jobs:
           remote_path: ${{ secrets.SSH_APP_PATH }}public/build-ionic/
           remote_host: ${{ secrets.SSH_HOST }}
           remote_user: ${{ secrets.SSH_USERNAME }}
+          remote_port: ${{ secrets.SSH_PORT }}
           remote_key: ${{ secrets.DEPLOY_PRIVATE_RSA }}
 
       # Liberando Servidor
