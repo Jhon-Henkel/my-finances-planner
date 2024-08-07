@@ -44,14 +44,14 @@ jobs:
 
       # Copiando arquivos para o servidor
       - name: 📂 Deploy Frontend
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: burnett01/rsync-deployments@7.0.1
         with:
-          server: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          local-dir: ./public/build-ionic/
-          server-dir: ${{ secrets.SSH_APP_PATH }}public/build-ionic/
-          dangerous-clean-slate: true
+          switches: -avzr --delete
+          path: ./public/build-ionic/
+          remote_path: ${{ secrets.SSH_APP_PATH }}public/build-ionic/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USERNAME }}
+          remote_key: ${{ secrets.DEPLOY_PRIVATE_RSA }}
 
       # Liberando Servidor
       - name: 🛠️ Finishing Deploy
