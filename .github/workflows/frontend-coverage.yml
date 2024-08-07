@@ -1,4 +1,4 @@
-name: Frontend V2 Coverage Workflow
+name: Frontend Coverage
 
 on:
   push:

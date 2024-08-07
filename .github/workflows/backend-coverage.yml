@@ -1,4 +1,4 @@
-name: Backend Coverage Workflow
+name: Backend Coverage
 
 on:
   push:

@@ -1,0 +1,64 @@
+name: Deploy
+
+push:
+  branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      TZ: 'America/Sao_Paulo'
+
+    steps:
+      - name: 🔥 Configuring Checkout
+        uses: actions/checkout@v4
+
+      # Build Frontend
+      - name: 📄 Making .env File
+        run: |
+          echo "${{ secrets.ENV_FRONTEND_PRODUCTION }}" > resources/frontend-v2/.env
+
+      - name: 🛠️ Installing Node Dependencies
+        run: cd resources/frontend-v2 && npm install
+
+      - name: 📦 Building Frontend
+        run: cd resources/frontend-v2 && npm run build
+
+      # Rodando etapas no servidor
+      - name: 📂 Deploy Backend
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ${{ secrets.SSH_APP_PATH }}
+            docker exec mfp_app bash -c "php artisan down"
+            git pull ${{ secrets.SSH_GIT_PULL_URL }}
+            docker exec mfp_app bash -c "composer update --no-dev"
+            docker exec mfp_app bash -c "php artisan migrate:all-tenants"
+
+      # Copiando arquivos para o servidor
+      - name: 📂 Deploy Frontend
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avzr --delete
+          path: ./public/build-ionic/
+          remote_path: ${{ secrets.SSH_APP_PATH }}public/build-ionic/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USERNAME }}
+          remote_port: ${{ secrets.SSH_PORT }}
+          remote_key: ${{ secrets.DEPLOY_PRIVATE_RSA }}
+
+      # Liberando Servidor
+      - name: 🛠️ Finishing Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ${{ secrets.SSH_APP_PATH }}
+            docker exec mfp_app bash -c "php artisan up"
