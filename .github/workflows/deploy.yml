@@ -1,10 +1,7 @@
 name: Deploy
 
-on:
-  pull_request:
-    branches: [ "main" ]
-#  push:
-#    branches: [ "main" ]
+push:
+  branches: [ "main" ]
 
 jobs:
   deploy:
@@ -13,18 +10,18 @@ jobs:
       TZ: 'America/Sao_Paulo'
 
     steps:
-      - name: 🔥 Configuring checkout
+      - name: 🔥 Configuring Checkout
         uses: actions/checkout@v4
 
       # Build Frontend
-      - name: 📄 Making .env file
+      - name: 📄 Making .env File
         run: |
           echo "${{ secrets.ENV_FRONTEND_PRODUCTION }}" > resources/frontend-v2/.env
 
-      - name: 🛠️ Installing Node dependencies
+      - name: 🛠️ Installing Node Dependencies
         run: cd resources/frontend-v2 && npm install
 
-      - name: 📦 Building application
+      - name: 📦 Building Frontend
         run: cd resources/frontend-v2 && npm run build
 
       # Rodando etapas no servidor
