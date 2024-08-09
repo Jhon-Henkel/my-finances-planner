@@ -10,7 +10,7 @@
     <html lang="pt-BR">
     <head>
         <meta charset="utf-8"/>
-        <title>My Finances Planner</title>
+        <title>Finanças na Mão</title>
 
         <base href="/"/>
 
