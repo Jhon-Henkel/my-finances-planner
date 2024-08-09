@@ -10,6 +10,6 @@ class AuthenticateAPI extends Middleware
     protected function unauthenticated($request, array $guards): ?string
     {
         $message = 'Tokens obrigatórios ausentes ou inválidos!';
-        abort(response()->json($message, Response::HTTP_UNAUTHORIZED));
+        abort(Response::HTTP_UNAUTHORIZED, $message);
     }
 }

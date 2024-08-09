@@ -13,7 +13,7 @@
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | [![codecov](https://codecov.io/gh/Jhon-Henkel/my-finances-planner/branch/main/graph/badge.svg?flag=backend&token=ZWK28PWTZF&precision=2)](https://codecov.io/gh/Jhon-Henkel/my-finances-planner) | [![codecov](https://codecov.io/gh/Jhon-Henkel/my-finances-planner/branch/main/graph/badge.svg?flag=frontend&token=ZWK28PWTZF&precision=2)](https://codecov.io/gh/Jhon-Henkel/my-finances-planner) | [![codecov](https://codecov.io/gh/Jhon-Henkel/my-finances-planner/flag/backend/graph/badge.svg?token=ZWK28PWTZF&precision=2)](https://codecov.io/gh/Jhon-Henkel/my-finances-planner) |
 
-## Sobre My Finances Planner
+## Sobre Finanças na Mão
 Com a necessidade de algo mais completo e personalizado para controle financeiro, resolvi desenvolver essa aplicação.
 
 ## Como iniciar o projeto
@@ -50,4 +50,4 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
     - Senha: 123
 
 ## Licença
-My finances planner é um software open-sourced licenciado em [MIT license](https://opensource.org/licenses/MIT).
+Finanças na Mão é um software open-sourced licenciado em [MIT license](https://opensource.org/licenses/MIT).

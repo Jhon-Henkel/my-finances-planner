@@ -23,6 +23,9 @@ Sentry.init({
     integrations: [
         Sentry.replayIntegration(),
     ],
+    tracePropagationTargets: [
+        `${process.env.VITE_API_BASE_URL}`
+    ],
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
 });
