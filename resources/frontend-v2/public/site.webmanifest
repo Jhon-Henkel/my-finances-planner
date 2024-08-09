@@ -1,7 +1,7 @@
 {
     "name": "Finanças na Mão",
     "short_name": "Finanças na Mão",
-    "start_url": "/v2",
+    "start_url": "/v2/dashboard",
     "icons": [
         {
             "src": "/public/android-chrome-192x192.png",
