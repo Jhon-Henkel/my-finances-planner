@@ -20,6 +20,11 @@ import * as Sentry from "@sentry/vue"
 
 Sentry.init({
     dsn: process.env.VITE_SENTRY_DSN_PUBLIC,
+    integrations: [
+        Sentry.replayIntegration(),
+    ],
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
 });
 
 const app = createApp(App)
