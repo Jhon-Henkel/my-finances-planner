@@ -3,6 +3,7 @@
 namespace App\Tools;
 
 use App\Tools\Request\RequestTools;
+use Sentry\State\HubInterface;
 use Throwable;
 
 class ErrorReport
@@ -13,8 +14,7 @@ class ErrorReport
         if (RequestTools::isApplicationInDevelopMode()) {
             return;
         }
-        if (app()->bound('honeybadger')) {
-            app('honeybadger')->notify($exception, app('request'));
-        }
+        $sentry = app(HubInterface::class);
+        $sentry->captureException($exception);
     }
 }

@@ -16,6 +16,11 @@ import '@ionic/vue/css/display.css'
 import '@ionic/vue/css/palettes/dark.system.css'
 import './theme/variables.css'
 import moneyMask from "@/directives/mask/money/moneyMask"
+import * as Sentry from "@sentry/vue"
+
+Sentry.init({
+    dsn: process.env.VITE_SENTRY_DSN_PUBLIC,
+});
 
 const app = createApp(App)
     .directive('money', moneyMask)
