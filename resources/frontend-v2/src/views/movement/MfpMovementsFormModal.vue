@@ -15,6 +15,7 @@ import {MovementFormValidation} from "@/form-validation/movement/MovementFormVal
 import {TransferFormValidation} from "@/form-validation/movement/transfer/TransferFormValidation"
 import {WalletService} from "@/services/wallet/WalletService"
 import {useFinancialHealthStore} from "@/stores/financial-health/financialHealthStore"
+import {PanoramaService} from "@/services/panorama/PanoramaService"
 
 const props = defineProps(
     {
@@ -50,13 +51,13 @@ async function saveItem() {
                 closeModal()
                 await MovementService.forceUpdateMovementList()
                 await WalletService.forceUpdateWalletList()
+                await PanoramaService.forceReloadStore()
             }
             return
         }
         await MovementService.create(internalMovement.value)
         await toast.open('Movimentação cadastrada com sucesso!')
         closeModal()
-        await MovementService.forceUpdateMovementList()
         useFinancialHealthStore().load()
     } else if (insertType.value === 'transfer') {
         const validationResult = TransferFormValidation.validate(internalTransfer.value)
@@ -66,8 +67,9 @@ async function saveItem() {
         await TransferService.create(internalTransfer.value)
         await toast.open('Transferência cadastrada com sucesso!')
         closeModal()
-        await MovementService.forceUpdateMovementList()
     }
+    await MovementService.forceUpdateMovementList()
+    await PanoramaService.forceReloadStore()
     await WalletService.forceUpdateWalletList()
 }
 

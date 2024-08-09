@@ -12,6 +12,7 @@ import {MfpToast} from "@/components/toast/MfpToast"
 import {FutureProfitsModel} from "@/model/future-profits/FutureProfitsModel"
 import {FutureProfitsService} from "@/services/future-profits/FutureProfitsService"
 import {FutureProfitFormValidation} from "@/form-validation/future-profit/FutureProfitFormValidation"
+import {PanoramaService} from "@/services/panorama/PanoramaService"
 
 const props = defineProps({
     futureProfit: FutureProfitsModel,
@@ -39,6 +40,7 @@ async function save() {
     }
     await toast.open(toastMessage)
     await FutureProfitsService.forceLoadStore()
+    await PanoramaService.forceReloadStore()
 }
 
 function closeModal() {

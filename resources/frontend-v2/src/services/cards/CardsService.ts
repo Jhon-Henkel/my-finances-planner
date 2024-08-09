@@ -12,9 +12,11 @@ export const CardsService = {
     },
     update: async (data: ICardForm) => {
         await ApiRouter.cards.put(data.id, data)
+        await CardsService.forceReloadStore()
     },
     create: async (data: ICardForm) => {
         await ApiRouter.cards.post(data)
+        await CardsService.forceReloadStore()
     },
     delete: async (data: CardModel): Promise<void> => {
         const deleteConfirmAlert = new MfpConfirmAlert('Deseja realmente deletar o cartão?')

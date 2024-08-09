@@ -19,7 +19,7 @@ onMounted(async () => {
             <ion-card color="light" class="ion-no-margin ion-text-center">
                 <ion-row class="ion-margin">
                     <ion-col size="12">
-                        <ion-card-subtitle>Previsto para o mês</ion-card-subtitle>
+                        <ion-card-subtitle>Balanço do mês</ion-card-subtitle>
                         <ion-badge :color="movementStore.thisMonthTotalBalance > 0 ? 'success' : 'danger'">
                             <mfp-counter-money :end="movementStore.thisMonthTotalBalance"/>
                         </ion-badge>

@@ -45,8 +45,8 @@ async function save() {
     }
     await toast.open(toastMessage)
     await CardInvoiceItemService.forceReloadStore(cardId)
-    await PanoramaService.forceReloadStore()
     await CardsService.forceReloadStore()
+    await PanoramaService.forceReloadStore()
 }
 
 function closeModal() {

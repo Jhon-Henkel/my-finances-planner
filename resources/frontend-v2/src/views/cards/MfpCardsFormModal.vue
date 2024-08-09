@@ -36,7 +36,6 @@ function save() {
         closeModal()
     }
     toast.open(toastMessage)
-    CardsService.forceReloadStore()
 }
 
 function closeModal() {
