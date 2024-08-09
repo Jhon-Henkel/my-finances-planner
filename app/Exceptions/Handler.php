@@ -6,7 +6,6 @@ use App\Exceptions\ResponseExceptions\BadRequestException;
 use App\Exceptions\ResponseExceptions\ForbiddenException;
 use App\Http\Response\ResponseError;
 use App\Tools\ErrorReport;
-use App\Tools\Request\RequestTools;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;

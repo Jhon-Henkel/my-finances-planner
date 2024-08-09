@@ -14,7 +14,7 @@ class ErrorReport
         if (RequestTools::isApplicationInDevelopMode()) {
             return;
         }
-        $sentry = app(HubInterface::class::class);
+        $sentry = app(HubInterface::class);
         $sentry->captureException($exception);
     }
 }
