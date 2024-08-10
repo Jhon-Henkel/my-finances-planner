@@ -5,6 +5,31 @@ on:
     branches: [ "main" ]
 
 jobs:
+  setup-backend:
+    runs-on: ubuntu-latest
+
+    container:
+      image: jhowrf/php8.3-apache:latest
+
+    steps:
+      - name: 🔥 Configuring checkout
+        uses: actions/checkout@v4
+
+      - name: 📄 Making .env file
+        run: |
+          echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
+
+      - name: 📦 Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: 🛠️ Installing dependencies
+        run: composer install
+
   linter-backend:
     runs-on: ubuntu-latest
 
@@ -19,8 +44,13 @@ jobs:
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
-      - name: 🛠️ Installing dependencies
-        run: composer install
+      - name: 📦 Restore Composer dependencies cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: 👍 Applying permissions
         run: chmod -R 777 storage bootstrap/cache
@@ -42,8 +72,13 @@ jobs:
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
-      - name: 🛠️ Installing dependencies
-        run: composer install
+      - name: 📦 Restore Composer dependencies cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: 👍 Applying permissions
         run: chmod -R 777 storage bootstrap/cache
@@ -79,8 +114,13 @@ jobs:
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
-      - name: 🛠️ Installing dependencies
-        run: composer install
+      - name: 📦 Restore Composer dependencies cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: 🛠 Setup Runner Database
         run: |

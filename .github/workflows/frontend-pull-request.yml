@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  linter-frontend-v2:
+  setup-frontend-v2:
     runs-on: ubuntu-latest
     env:
       TZ: 'America/Sao_Paulo'
@@ -20,6 +20,35 @@ jobs:
 
       - name: 🛠️ Installing Node dependencies
         run: cd resources/frontend-v2 && npm install
+
+      - name: 📦 Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+  linter-frontend-v2:
+    runs-on: ubuntu-latest
+    env:
+      TZ: 'America/Sao_Paulo'
+
+    steps:
+      - name: 🔥 Configuring checkout
+        uses: actions/checkout@v4
+
+      - name: 📄 Making .env file
+        run: |
+          echo "${{ secrets.ENV_MFP_FRONTEND_V2 }}" > resources/frontend-v2/.env
+
+      - name: 📦 Restore Node modules cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: 🔍 Executing linter
         run: cd resources/frontend-v2 && npm run lint
@@ -38,8 +67,13 @@ jobs:
         run: |
           echo "${{ secrets.ENV_MFP_FRONTEND_V2 }}" > resources/frontend-v2/.env
 
-      - name: 🛠️ Installing Node dependencies
-        run: cd resources/frontend-v2 && npm install
+      - name: 📦 Restore Node modules cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: 🧪 Executing Vitest tests
         run: cd resources/frontend-v2 && npm run test
@@ -63,8 +97,13 @@ jobs:
         run: |
           echo "${{ secrets.ENV_MFP_FRONTEND_V2 }}" > resources/frontend-v2/.env
 
-      - name: 🛠️ Installing Node dependencies
-        run: cd resources/frontend-v2 && npm install
+      - name: 📦 Restore Node modules cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: 📦 Testing building application
         run: cd resources/frontend-v2 && npm run build
