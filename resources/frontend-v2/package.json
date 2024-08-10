@@ -7,7 +7,7 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "test": "vitest",
+        "test": "vitest --reporter=junit",
         "lint": "eslint .",
         "coverage": "vitest run --coverage"
     },
@@ -31,6 +31,7 @@
     },
     "devDependencies": {
         "@capacitor/cli": "6.1.0",
+        "@codecov/vite-plugin": "^0.0.1-beta.10",
         "@types/js-cookie": "^3.0.6",
         "@vitejs/plugin-legacy": "^5.0.0",
         "@vitejs/plugin-vue": "^4.0.0",
