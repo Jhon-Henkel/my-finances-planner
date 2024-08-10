@@ -49,5 +49,3 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
     - Usuário: root
     - Senha: 123
 
-## Licença
-Finanças na Mão é um software open-sourced licenciado em [MIT license](https://opensource.org/licenses/MIT).

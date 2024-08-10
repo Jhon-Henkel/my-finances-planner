@@ -14,7 +14,19 @@ class ErrorReport
         if (RequestTools::isApplicationInDevelopMode()) {
             return;
         }
+        if (self::mustIgnoreExceptionByMessage($exception)) {
+            return;
+        }
         $sentry = app(HubInterface::class);
         $sentry->captureException($exception);
+    }
+
+    protected static function mustIgnoreExceptionByMessage(Throwable $exception): bool
+    {
+        return match ($exception->getMessage()) {
+            'Tokens obrigatórios ausentes ou inválidos!',
+            'Service Unavailable' => true,
+            default => false,
+        };
     }
 }
