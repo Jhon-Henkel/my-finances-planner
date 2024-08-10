@@ -29,7 +29,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-  linter-frontend:
+  linter-frontend-v2:
     runs-on: ubuntu-latest
     requires: setup-frontend
     env:
@@ -55,7 +55,7 @@ jobs:
         run: cd resources/frontend-v2 && npm run lint
 
 
-  test-vitest-frontend:
+  test-vitest-frontend-v2:
     runs-on: ubuntu-latest
     requires: setup-frontend
     env:
@@ -86,7 +86,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-  test-build-frontend:
+  test-build-frontend-v2:
     runs-on: ubuntu-latest
     requires: setup-frontend
     env:
