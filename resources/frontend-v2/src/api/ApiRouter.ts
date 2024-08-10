@@ -42,6 +42,9 @@ axios.interceptors.response.use(response => {
         const okAlert: MfpOkAlert = new MfpOkAlert("Ocorreu um erro!")
         await okAlert.open(error.response.data.message)
     }
+    if (error.response && error.response.status === 503) {
+        router.push({name: 'updating'})
+    }
     return Promise.reject(error)
 })
 

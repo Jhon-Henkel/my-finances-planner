@@ -62,6 +62,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'financial-health',
                 component: () => import('@/views/financial-health/FinancialHealthPage.vue')
             },
+            {
+                path: 'atualizando',
+                name: 'updating',
+                component: () => import('@/views/updating/UpdatingPage.vue')
+            },
         ],
         meta: {
             auth: true
