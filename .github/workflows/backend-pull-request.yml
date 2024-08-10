@@ -32,6 +32,7 @@ jobs:
 
   linter-backend:
     runs-on: ubuntu-latest
+    requires: setup-backend
 
     container:
       image: jhowrf/php8.3-apache:latest
@@ -60,6 +61,7 @@ jobs:
 
   test-unit-backend:
     runs-on: ubuntu-latest
+    requires: setup-backend
 
     container:
       image: jhowrf/php8.3-apache:latest
@@ -88,7 +90,7 @@ jobs:
 
   test-feature-backend:
     runs-on: ubuntu-latest
-
+    requires: setup-backend
     container:
       image: jhowrf/php8.3-apache:latest
 
