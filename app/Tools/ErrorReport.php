@@ -14,6 +14,9 @@ class ErrorReport
         if (RequestTools::isApplicationInDevelopMode()) {
             return;
         }
+        if ($exception->getMessage() === 'Tokens obrigatórios ausentes ou inválidos!') {
+            return;
+        }
         $sentry = app(HubInterface::class);
         $sentry->captureException($exception);
     }
