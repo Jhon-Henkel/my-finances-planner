@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import {defineConfig, loadEnv} from 'vite'
 import {VitePWA} from "vite-plugin-pwa"
+import { codecovVitePlugin } from "@codecov/vite-plugin";
 
 export default defineConfig((): any => {
     const env = loadEnv('', process.cwd())
@@ -11,6 +12,11 @@ export default defineConfig((): any => {
             vue(),
             VitePWA({
                 registerType: 'autoUpdate'
+            }),
+            codecovVitePlugin({
+                enableBundleAnalysis: process.env.VITE_CODECOV_TOKEN !== undefined,
+                bundleName: "bundle_finances_in_hand",
+                uploadToken: process.env.VITE_CODECOV_TOKEN,
             })
         ],
         define: {

@@ -44,6 +44,12 @@ jobs:
       - name: 🧪 Executing Vitest tests
         run: cd resources/frontend-v2 && npm run test
 
+      - name: 🔍 Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
   test-build-frontend-v2:
     runs-on: ubuntu-latest
     env:
