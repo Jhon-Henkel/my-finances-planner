@@ -48,4 +48,8 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
     - [http://localhost:8080](http://localhost:8080)
     - Usuário: root
     - Senha: 123
+- RabbitMQ:
+    - [http://localhost:15672](http://localhost:15672)
+    - Usuário: guest
+    - Senha: guest
 
