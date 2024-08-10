@@ -16,6 +16,10 @@ return [
     'db_server_login' => env('DB_SERVER_LOGIN'),
     'db_server_password' => env('DB_SERVER_PASSWORD'),
     'db_server_domain_id' => env('DB_SERVER_DOMAIN_ID'),
+    'queue_host' => env('QUEUE_HOST'),
+    'queue_port' => env('QUEUE_PORT'),
+    'queue_user' => env('QUEUE_USER'),
+    'queue_password' => env('QUEUE_PASSWORD'),
     'cipher' => 'AES-256-CBC',
     'max_wrong_login_attempts' => 5,
     'maintenance' => [

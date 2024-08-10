@@ -7,6 +7,7 @@ COPY --from=composer-php /usr/bin/composer /usr/bin/composer
 
 RUN apt-get update && apt-get install -y zlib1g-dev libzip-dev unzip
 RUN docker-php-ext-install zip
+RUN docker-php-ext-install bcmath
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN chown -R www-data:www-data storage
 RUN apt-get install -y wget
