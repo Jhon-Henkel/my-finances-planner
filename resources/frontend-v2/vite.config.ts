@@ -15,7 +15,7 @@ export default defineConfig((): any => {
             }),
             codecovVitePlugin({
                 enableBundleAnalysis: process.env.VITE_CODECOV_TOKEN !== undefined,
-                bundleName: "<bundle finances in hand>",
+                bundleName: "bundle_finances_in_hand",
                 uploadToken: process.env.VITE_CODECOV_TOKEN,
             })
         ],
