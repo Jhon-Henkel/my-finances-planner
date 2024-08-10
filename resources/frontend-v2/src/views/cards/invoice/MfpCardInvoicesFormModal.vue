@@ -44,7 +44,7 @@ async function save() {
         closeModal()
     }
     await toast.open(toastMessage)
-    await CardInvoiceItemService.forceReloadStore(cardId)
+    await CardInvoiceItemService.forceReloadStore(props.cardIdProp ?? parseInt(String(useRoute().params.id)))
     await CardsService.forceReloadStore()
     await PanoramaService.forceReloadStore()
 }
