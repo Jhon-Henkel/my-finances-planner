@@ -31,7 +31,7 @@ jobs:
 
   linter-frontend-v2:
     runs-on: ubuntu-latest
-    requires: setup-frontend
+    needs: setup-frontend
     env:
       TZ: 'America/Sao_Paulo'
 
@@ -57,7 +57,7 @@ jobs:
 
   test-vitest-frontend-v2:
     runs-on: ubuntu-latest
-    requires: setup-frontend
+    needs: setup-frontend
     env:
       TZ: 'America/Sao_Paulo'
 
@@ -88,7 +88,7 @@ jobs:
 
   test-build-frontend-v2:
     runs-on: ubuntu-latest
-    requires: setup-frontend
+    needs: setup-frontend
     env:
       TZ: 'America/Sao_Paulo'
 
