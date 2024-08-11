@@ -3,10 +3,11 @@ package queue_manager
 import (
 	"github.com/Jhon-Henkel/my-finances-planner/consumer-go/infra/error_hanlder"
 	"github.com/streadway/amqp"
+	"os"
 )
 
 func MakeConnection() *amqp.Connection {
-	conn, err := amqp.Dial("amqp://guest:guest@192.168.152.53:5672/")
+	conn, err := amqp.Dial(os.Getenv("QUEUE_CONNECTION_URL"))
 	error_hanlder.FailOnError(err, "Failed to connect to RabbitMQ")
 	return conn
 }

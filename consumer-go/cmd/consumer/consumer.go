@@ -7,18 +7,18 @@ import (
 )
 
 func Consume(queueName string, ch *amqp.Channel) {
-	msgs, err := ch.Consume(
-		queueName, "", false, false, false, false, nil,
-	)
+	msgs, err := ch.Consume(queueName, "", false, false, false, false, nil)
 	error_hanlder.FailOnError(err, "Failed to register a consumer for queue "+queueName)
 
 	go func() {
 		for msg := range msgs {
-			err := processMessage(msg.Body)
+			err := processMessage(msg.Body, queueName)
 			if err != nil {
+				// print url item on log
 				log.Printf("Failed to process: %s", msg.Body)
-				msg.Nack(false, false) // Negative acknowledgment
+				msg.Nack(false, false)
 			} else {
+				// print url item on log
 				log.Printf("Success to process: %s %s", msg.Body, queueName)
 				msg.Ack(false)
 			}
@@ -26,8 +26,8 @@ func Consume(queueName string, ch *amqp.Channel) {
 	}()
 }
 
-func processMessage(body []byte) error {
-	log.Printf("Processing message: %s", body)
+func processMessage(body []byte, queueName string) error {
+	log.Printf("Processing message in queue: %s", queueName)
 	// Implement your message processing logic here
 	return nil
 }
