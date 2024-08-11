@@ -13,9 +13,9 @@ class QueueDataDTO
     public function __construct(
         private readonly string $url,
         private readonly string $method,
-        private readonly array $data,
         private readonly int $expectedResponseCode,
-        protected readonly QueueNameEnum $queueName
+        protected readonly QueueNameEnum $queueName,
+        private readonly array $data = [],
     ) {
     }
 
