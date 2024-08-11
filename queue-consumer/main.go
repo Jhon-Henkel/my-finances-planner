@@ -29,6 +29,6 @@ func main() {
 		consumer.Consume(queueName, chanel)
 	}
 
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	log.Printf("[*] Waiting for messages. To exit press CTRL+C")
 	select {}
 }
