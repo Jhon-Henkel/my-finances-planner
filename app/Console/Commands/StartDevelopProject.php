@@ -74,6 +74,10 @@ class StartDevelopProject extends Command
             $this->addTokenOnFrontendEnv();
             $this->info('');
 
+            $this->info('=> Configuring queue consumer keys...');
+            $this->addTokenOnConsumerEnv();
+            $this->info('');
+
             $this->info('=> Cleaning caches...');
             $this->call('cache:clear');
             $this->call('config:clear');
@@ -100,7 +104,21 @@ class StartDevelopProject extends Command
         $input = file_get_contents($filepath);
         $replaced = str_replace('VITE_MFP_TOKEN=', "VITE_MFP_TOKEN=$key", $input);
         if ($replaced === $input) {
-            $this->error('Unable to set MFP-key key. No VITE_MFP_TOKEN variable was found in the .env file.');
+            $this->error('Unable to set MFP-key key. No VITE_MFP_TOKEN variable was found in the frontend .env file.');
+            return;
+        }
+        file_put_contents($filepath, $replaced);
+    }
+
+    private function addTokenOnConsumerEnv(): void
+    {
+        $inputBackend = file_get_contents('.env');
+        $key = explode('PUSHER_APP_SECRET', explode('PUSHER_APP_KEY=', $inputBackend)[1])[0];
+        $filepath = 'queue-consumer/.env';
+        $input = file_get_contents($filepath);
+        $replaced = str_replace('APP_TOKEN=', "APP_TOKEN=$key", $input);
+        if ($replaced === $input) {
+            $this->error('Unable to set MFP-key key. No APP_TOKEN variable was found in the queue consumer .env file.');
             return;
         }
         file_put_contents($filepath, $replaced);
