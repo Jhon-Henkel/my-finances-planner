@@ -48,4 +48,6 @@ enum RouteEnum: string
     case WebSendTestEmail = 'sendTestEmail';
     case WebActiveUser = 'activeUser';
     case DevelopGetTokens = 'developGetTokens';
+    case WebUserRegisterStepZero = 'userRegisterStepZero';
+    case MfpUserRegisterStepOne = 'userRegisterStepOne';
 }

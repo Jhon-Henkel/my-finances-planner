@@ -9,6 +9,7 @@ use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\PanoramaController;
+use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
@@ -127,4 +128,14 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
         Route::get('/filter', [FinancialHealthController::class, 'indexFiltered'])
             ->name(RouteEnum::ApiFinancialHealthIndexFiltered->value);
     });
+});
+
+Route::prefix('/mfp')->group(function () {
+    Route::prefix('/user')->group(function () {
+        Route::prefix('/register')->group(function () {
+            Route::post('/step-one', [UserRegisterController::class, 'registerStepOne'])
+                ->name(RouteEnum::MfpUserRegisterStepOne->value);
+        });
+    });
+
 });

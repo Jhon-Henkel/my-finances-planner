@@ -20,7 +20,7 @@ export const RegisterService = {
             return {isSuccess: true, data: 'Usuário cadastrado com sucesso!'}
         }).catch((error: any): IUserRegisterResponse => {
             let message: string = 'Erro ao cadastrar usuário!'
-            if (error.response?.data?.message?.email) {
+            if (error.response?.data?.errors?.email) {
                 message = 'Email já cadastrado!'
             }
             return {isSuccess: false, data: message}

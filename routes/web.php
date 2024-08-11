@@ -3,12 +3,18 @@
 use App\Enums\RouteEnum;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
 use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Route;
 
 /** @var Route $router */
 Route::prefix('/')->group(function () {
+    Route::prefix('user')->group(function () {
+        Route::post('/register', [UserRegisterController::class, 'registerStepZero'])
+            ->name(RouteEnum::WebUserRegisterStepZero->value);
+    });
+
     Route::prefix('auth')->group(function () {
         Route::post('', [AuthController::class, 'auth'])
             ->name(RouteEnum::WebMakeLogin->value);
