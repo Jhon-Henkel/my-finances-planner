@@ -64,6 +64,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${QUEUE_USERNAME}
       RABBITMQ_DEFAULT_PASS: ${QUEUE_PASSWORD}
+    command: sh -c "rabbitmq-plugins enable rabbitmq_shovel rabbitmq_shovel_management && rabbitmq-server"
 
   rabbitmq-consumer:
     build:
