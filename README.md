@@ -37,11 +37,30 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
     ```
 - Setup frontend (fora do container):
     ```bash
+    make rebuild-container container=rabbitmq-consumer
     make setup-frontend
     ```
 - Hot reload frontend (fora do container):
     ```bash
     make frontend
+    ```
+  
+## Commands
+- Start e Acessar o container:
+    ```bash
+    make backend-bash
+    ```
+- Start o frontend:
+    ```bash
+    make frontend
+    ```
+- Setup frontend:
+    ```bash
+    make setup-frontend
+    ```
+- Rebuild container:
+    ```bash
+    make rebuild-container container=app
     ```
 ## Acessos
 - PHPMyAdmin:

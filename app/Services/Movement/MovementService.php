@@ -14,7 +14,6 @@ use App\Factory\DataGraph\Movement\DataGraphMovementFactory;
 use App\Repositories\Movement\MovementRepository;
 use App\Resources\Movement\MovementResource;
 use App\Services\BasicService;
-use App\Services\Queue\QueueProducerService;
 use App\Services\WalletService;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\NumberTools;
@@ -28,7 +27,6 @@ class MovementService extends BasicService
         private readonly WalletService $walletService,
     ) {
         $walletService->setMovementService($this);
-        app(QueueProducerService::class)->sendMessage(['message' => 'hello_world']);
     }
 
     protected function getRepository(): MovementRepository
