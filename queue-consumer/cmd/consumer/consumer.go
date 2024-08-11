@@ -53,7 +53,7 @@ func processMessage(queueData QueueData) error {
 		return err
 	}
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("x-mfp-user-token", os.Getenv("APP_TOKEN"))
+	req.Header.Set("MFP-TOKEN", os.Getenv("APP_TOKEN"))
 	req.Header.Set("user-agent", "mfp-consumer")
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {

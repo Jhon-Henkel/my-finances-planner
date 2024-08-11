@@ -12,6 +12,7 @@ import router from "@/router"
 import {CardInvoiceItemModel} from "@/model/card/invoice-item/CardInvoiceItemModel"
 import {UserModel} from "@/model/user/UserModel"
 import {MainSettingsModel} from "@/model/settings/MainSettingsModel"
+import {IRegisterForm} from "@/services/register/IRegisterForm"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -185,7 +186,7 @@ export const ApiRouter = {
             return response.data
         },
         invoices: {
-            index: async (cardId: number|string) => {
+            index: async (cardId: number | string) => {
                 const response = await axios.get(mountApiUrl(`credit-card/${cardId}/invoices`), makeHeaders())
                 return response.data
             },
@@ -193,7 +194,7 @@ export const ApiRouter = {
                 const response = await axios.post(mountApiUrl('credit-card/transaction'), data, makeHeaders())
                 return response.data
             },
-            put: async (cardId: number|string, data: CardInvoiceItemModel) => {
+            put: async (cardId: number | string, data: CardInvoiceItemModel) => {
                 const response = await axios.put(mountApiUrl(`credit-card/transaction/${cardId}`), data, makeHeaders())
                 return response.data
             },
@@ -208,12 +209,16 @@ export const ApiRouter = {
         }
     },
     user: {
-        get: async function(id: number) {
+        get: async function (id: number) {
             const response = await axios.get(mountApiUrl('user', id), makeHeaders())
             return response.data
         },
-        update: async function(id: number, user: UserModel) {
+        update: async function (id: number, user: UserModel) {
             const response = await axios.put(mountApiUrl('user', id), user, makeHeaders())
+            return response.data
+        },
+        register: async function (user: IRegisterForm) {
+            const response = await axios.post('/user/register', user)
             return response.data
         }
     },
@@ -225,11 +230,11 @@ export const ApiRouter = {
         }
     },
     settings: {
-        index: async function() {
+        index: async function () {
             const response = await axios.get(mountApiUrl('configurations'), makeHeaders())
             return response.data
         },
-        update: async function(settings: Array<MainSettingsModel>) {
+        update: async function (settings: Array<MainSettingsModel>) {
             const response = await axios.put(mountApiUrl('configurations'), settings, makeHeaders())
             return response.data
         }
