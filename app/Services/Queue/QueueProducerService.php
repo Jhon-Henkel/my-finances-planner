@@ -2,6 +2,7 @@
 
 namespace App\Services\Queue;
 
+use App\DTO\Queue\QueueDataDTO;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -13,7 +14,16 @@ class QueueProducerService
     protected AMQPStreamConnection $connection;
     protected AMQPChannel $channel;
 
-    public function __construct()
+    public function produce(QueueDataDTO $data): void
+    {
+        $this->connect();
+        $data->addAdditionDate();
+        $msg = new AMQPMessage($data->toJson(), ['delivery_mode' => self::DELIVERY_MODE_PERSISTENT]);
+        $this->channel->basic_publish($msg, '', $data->getQueueName());
+        $this->disconnect();
+    }
+
+    protected function connect(): void
     {
         $this->connection = new AMQPStreamConnection(
             config('app.queue_host'),
@@ -21,17 +31,10 @@ class QueueProducerService
             config('app.queue_user'),
             config('app.queue_password')
         );
-
         $this->channel = $this->connection->channel();
     }
 
-    public function sendMessage(array $data): void
-    {
-        $msg = new AMQPMessage(json_encode($data), ['delivery_mode' => self::DELIVERY_MODE_PERSISTENT]);
-        $this->channel->basic_publish($msg, '', 'create_user');
-    }
-
-    public function __destruct()
+    protected function disconnect(): void
     {
         $this->channel->close();
         $this->connection->close();
