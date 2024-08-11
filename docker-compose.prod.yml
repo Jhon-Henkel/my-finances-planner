@@ -65,6 +65,18 @@ services:
       RABBITMQ_DEFAULT_USER: ${QUEUE_USERNAME}
       RABBITMQ_DEFAULT_PASS: ${QUEUE_PASSWORD}
 
+  rabbitmq-consumer:
+    build:
+      context: .
+      dockerfile: ./queue-consumer/Dockerfile
+    container_name: mfp_rabbitmq_consumer
+    entrypoint: dockerize -wait tcp://mfp_rabbitmq:15672 -timeout 60s ./main
+    networks:
+      mfp_network:
+        ipv4_address: 192.168.152.54
+    depends_on:
+      - rabbitmq
+
 networks:
   mfp_network:
     ipam:

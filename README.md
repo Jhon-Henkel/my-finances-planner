@@ -19,7 +19,7 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
 ## Como iniciar o projeto
 - Montar container:
     ```bash
-    cp .env.example .env && cp resources/frontend-v2/.env.example resources/frontend-v2/.env
+    cp .env.example .env && cp resources/frontend-v2/.env.example resources/frontend-v2/.env && cp queue-consumer/.env.example queue-consumer/.env
     cp docker-compose.dev.yml docker-compose.yml
     docker compose up -d
     ```
