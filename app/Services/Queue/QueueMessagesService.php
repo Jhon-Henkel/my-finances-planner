@@ -25,4 +25,16 @@ readonly class QueueMessagesService
         );
         $this->queueProducerService->produce($message);
     }
+
+    public function putMessageUserRegisterStepTwo(int $userId): void
+    {
+        $message = new QueueDataDTO(
+            route(RouteEnum::MfpUserRegisterStepTwo->value),
+            RequestTypeEnum::Post,
+            StatusCodeEnum::HttpOk,
+            QueueNameEnum::CreateUser,
+            ['userId' => $userId]
+        );
+        $this->queueProducerService->produce($message);
+    }
 }

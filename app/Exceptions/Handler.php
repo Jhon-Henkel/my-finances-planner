@@ -2,13 +2,14 @@
 
 namespace App\Exceptions;
 
+use App\Enums\Response\StatusCodeEnum;
 use App\Exceptions\ResponseExceptions\BadRequestException;
 use App\Exceptions\ResponseExceptions\ForbiddenException;
 use App\Http\Response\ResponseError;
 use App\Tools\ErrorReport;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -48,18 +49,18 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(function (BadRequestException $exception) {
-            return ResponseError::responseError($exception->getMessage(), ResponseAlias::HTTP_BAD_REQUEST);
+        $this->renderable(function (BadRequestException|DecryptException $exception) {
+            return ResponseError::responseError($exception->getMessage(), StatusCodeEnum::HttpBadRequest->value);
         });
 
         $this->renderable(function (ForbiddenException $exception) {
-            return ResponseError::responseError($exception->getMessage(), $exception->getCode());
+            return ResponseError::responseError($exception->getMessage(), StatusCodeEnum::HttpForbidden->value);
         });
 
         $this->renderable(function (QueryException $exception) {
             ErrorReport::report(new DatabaseException($exception->getMessage()));
             $message = 'Erro ao se conectar com o banco de dados!';
-            return ResponseError::responseError($message, ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+            return ResponseError::responseError($message, StatusCodeEnum::HttpInternalServerError->value);
         });
 
         $this->reportable(function (Throwable $exception) {

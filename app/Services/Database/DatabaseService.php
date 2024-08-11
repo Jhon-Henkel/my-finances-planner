@@ -2,40 +2,60 @@
 
 namespace App\Services\Database;
 
-require_once __DIR__ . '/../../../vendor/kinghost/api-php/Mysql.php';
-
-use App\Exceptions\Database\CreateNewDatabaseException;
-use App\Tools\AppTools;
-use Illuminate\Support\Facades\Schema;
-use Mysql;
+use App\DTO\User\UserRegisterDatabaseCreationDTO;
+use App\DTO\User\UserRegisterDTO;
+use App\Enums\Database\DatabaseConnectionEnum;
+use App\Models\User;
+use App\Models\User\Tenant;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseService
 {
-    public function createTenancyDatabase(string $dbPassword, string $dbDescription): string
+    public function createDatabaseAndTenant(UserRegisterDTO $userRegister): Tenant
     {
-        if (AppTools::isLocalhost()) {
-            return $this->createLocalhostDatabase($dbDescription);
-        }
-        $domainId = config('app.db_server_domain_id');
-        $database = $this->getDatabaseConnection();
-        $result = $database->addBanco(['obs' => $dbDescription, 'senha' => $dbPassword, 'idDominio' => $domainId]);
-        CreateNewDatabaseException::throwIfDatabaseNotCreated($result['status']);
-        return $result['BancoNome'];
+        $databaseCreationData = new UserRegisterDatabaseCreationDTO($userRegister);
+        $dbName = $this->createTenancyDatabase($databaseCreationData->getDbName());
+        $databaseCreationData->updateDbNameAfterDbCreation($dbName);
+        $this->createDatabaseUser($databaseCreationData);
+        return $this->createTenant($databaseCreationData);
     }
 
-    protected function createLocalhostDatabase(string $dbDescription): string
+    public function createTenancyDatabase(string $dbName): string
     {
-        $databaseName = md5($dbDescription);
-        Schema::createDatabase($databaseName);
+        $databaseName = md5($dbName);
+        DB::statement("CREATE DATABASE $databaseName");
         return $databaseName;
     }
 
-    /** @phpstan-ignore-next-line */
-    protected function getDatabaseConnection(): Mysql
+    protected function createDatabaseUser(UserRegisterDatabaseCreationDTO $dbData): void
     {
-        return new Mysql(
-            config('app.db_server_login'),
-            config('app.db_server_password')
-        );
+        DB::statement("CREATE USER '{$dbData->getDbUser()}'@'%' IDENTIFIED BY '{$dbData->getDbPass()}'");
+        DB::statement("GRANT ALL PRIVILEGES ON {$dbData->getDbName()}.* TO '{$dbData->getDbUser()}'@'%'");
+        DB::statement("FLUSH PRIVILEGES");
+    }
+
+    protected function createTenant(UserRegisterDatabaseCreationDTO $dbData): Tenant
+    {
+        $tenant = Tenant::create([
+            'tenant_hash' => $dbData->getDbName(),
+            'database' => $dbData->getDbName(),
+            'username' => $dbData->getDbUser(),
+            'password' => $dbData->getDbPass(),
+        ]);
+        $tenant->save();
+        return $tenant;
+    }
+
+    public function runMigrations(User $user): void
+    {
+        $dbConnection = new DatabaseConnectionService();
+        $dbConnection->connectUser($user);
+        Artisan::call('migrate', [
+            '--database' => DatabaseConnectionEnum::Tenant->value,
+            '--path' => 'database/migrations/tenant',
+            '--force' => true
+        ]);
+        $dbConnection->setMasterConnection();
     }
 }

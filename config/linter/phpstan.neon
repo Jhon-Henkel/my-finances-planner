@@ -3,7 +3,3 @@ parameters:
         - ../../app/
 
     level: 5
-
-    ignoreErrors:
-        - '#Instantiated class Mysql not found.#'
-        - '#Call to method addBanco\(\) on an unknown class Mysql.#'
