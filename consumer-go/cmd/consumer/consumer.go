@@ -16,11 +16,12 @@ func Consume(queueName string, ch *amqp.Channel) {
 			if err != nil {
 				// print url item on log
 				log.Printf("Failed to process: %s", msg.Body)
-				msg.Nack(false, false)
+				error_hanlder.FailOnError(msg.Nack(false, false), "Error to nack message")
+
 			} else {
 				// print url item on log
 				log.Printf("Success to process: %s %s", msg.Body, queueName)
-				msg.Ack(false)
+				error_hanlder.FailOnError(msg.Ack(false), "Error to ack message")
 			}
 		}
 	}()
