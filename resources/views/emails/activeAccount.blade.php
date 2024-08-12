@@ -9,7 +9,8 @@
     Boas noticias, a espera acabou! Seu cadastro foi realizado com sucesso, só falta ativar a conta.
 </p>
 <p>
-    Para ativar sua conta e ter acesso ao sistema, é muito simples, basta clicar <a href="{{ $linkToActiveUser }}" target="_blank">aqui</a>.
+    Para ativar sua conta e ter acesso ao sistema, é muito simples, basta clicar
+    <a href="{{ config('app.url') }}/v2/ativar/{{ $hash }}" target="_blank">aqui</a>.
 </p>
 </body>
 </html>

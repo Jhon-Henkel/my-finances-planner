@@ -62,7 +62,7 @@ class UserRegisterService extends BasicService
         $subject = 'Conta criada com sucesso!';
         $template = 'emails.activeAccount';
         $data = [
-            'linkToActiveUser' => route('activeUser', ['verifyHash' => $user->verify_hash]),
+            'hash' => $user->verify_hash,
             'name' => $user->name,
         ];
         $message = new MailMessageDTO($user->email, $user->name, $subject, $template, $data);
