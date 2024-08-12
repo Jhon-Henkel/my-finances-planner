@@ -13,6 +13,7 @@ return [
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'key' => env('APP_KEY'),
+    'mfp_token' => env('PUSHER_APP_KEY'),
     'queue_host' => env('QUEUE_HOST'),
     'queue_port' => env('QUEUE_PORT'),
     'queue_user' => env('QUEUE_USERNAME'),

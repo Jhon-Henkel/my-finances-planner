@@ -16,4 +16,9 @@ class ResponseApi
     {
         return response()->json(null, StatusCodeEnum::HttpOk->value);
     }
+
+    public static function renderUnauthorized(): JsonResponse
+    {
+        return response()->json(null, StatusCodeEnum::HttpUnauthorized->value);
+    }
 }

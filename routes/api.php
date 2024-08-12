@@ -130,7 +130,7 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
     });
 });
 
-Route::prefix('/mfp')->group(function () {
+Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
     Route::prefix('/user')->group(function () {
         Route::prefix('/register')->group(function () {
             Route::post('/step-one', [UserRegisterController::class, 'registerStepOne'])
