@@ -32,6 +32,16 @@ function makeHeaders(): object {
     }
 }
 
+function makeHeadersNonLogged(): object {
+    return {
+        headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+            'MFP-TOKEN': process.env.VITE_MFP_TOKEN,
+        }
+    }
+}
+
 axios.interceptors.response.use(response => {
     return response
 }, async (error) => {
@@ -219,6 +229,10 @@ export const ApiRouter = {
         },
         register: async function (user: IRegisterForm) {
             const response = await axios.post('/user/register', user)
+            return response.data
+        },
+        activateAccount: async function (hash: string) {
+            const response = await axios.post(`/api/mfp/user/register/activate/${hash}`, makeHeadersNonLogged())
             return response.data
         }
     },
