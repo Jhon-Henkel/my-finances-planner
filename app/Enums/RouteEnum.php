@@ -51,4 +51,5 @@ enum RouteEnum: string
     case WebUserRegisterStepZero = 'userRegisterStepZero';
     case MfpUserRegisterStepOne = 'userRegisterStepOne';
     case MfpUserRegisterStepTwo = 'userRegisterStepTwo';
+    case MfpUserRegisterStepThree = 'userRegisterStepThree';
 }

@@ -94,4 +94,15 @@ class UserRegisterController extends BasicController
         $this->getService()->registerUserStepTwo($dataDecoded['userId']);
         return ResponseApi::renderOk();
     }
+
+    /**
+     * Responsável por:
+     *  - Ativar o usuário
+     */
+    public function registerStepThree(string $hash): JsonResponse
+    {
+        $this->databaseConnectionService->setMasterConnection();
+        $this->getService()->registerUserStepThree($hash);
+        return ResponseApi::renderOk();
+    }
 }

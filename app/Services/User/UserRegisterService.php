@@ -69,4 +69,13 @@ class UserRegisterService extends BasicService
         $this->mailService->sendEmail($message);
 
     }
+
+    public function registerUserStepThree(string $hash): void
+    {
+        $user = User::where('verify_hash', $hash)->firstOrFail();
+        $user->status = StatusEnum::Active->value;
+        $user->verify_hash = null;
+        $user->email_verified_at = CalendarTools::getThisMonthString();
+        $user->save();
+    }
 }

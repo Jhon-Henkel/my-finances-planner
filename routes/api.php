@@ -135,8 +135,12 @@ Route::prefix('/mfp')->group(function () {
         Route::prefix('/register')->group(function () {
             Route::post('/step-one', [UserRegisterController::class, 'registerStepOne'])
                 ->name(RouteEnum::MfpUserRegisterStepOne->value);
+
             Route::post('/step-two', [UserRegisterController::class, 'registerStepTwo'])
                 ->name(RouteEnum::MfpUserRegisterStepTwo->value);
+
+            Route::post('/activate/{hash}', [UserRegisterController::class, 'registerStepThree'])
+                ->name(RouteEnum::MfpUserRegisterStepThree->value);
         });
     });
 

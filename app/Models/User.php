@@ -19,6 +19,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $status
  * @property string $verify_hash
  * @property int $wrong_login_attempts
+ * @property string $email_verified_at
  *
  * @mixin Builder
  */
@@ -37,6 +38,7 @@ class User extends Authenticatable
         'tenant_id',
         'verify_hash',
         'wrong_login_attempts',
+        'email_verified_at'
     ];
 
     protected $hidden = [
