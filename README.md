@@ -37,7 +37,6 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
     ```
 - Setup frontend (fora do container):
     ```bash
-    make rebuild-container container=rabbitmq-consumer
     make setup-frontend
     ```
 - Hot reload frontend (fora do container):

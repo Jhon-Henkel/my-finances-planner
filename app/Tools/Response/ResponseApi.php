@@ -11,4 +11,9 @@ class ResponseApi
     {
         return response()->json(null, StatusCodeEnum::HttpCreated->value);
     }
+
+    public static function renderOk(): JsonResponse
+    {
+        return response()->json(null, StatusCodeEnum::HttpOk->value);
+    }
 }

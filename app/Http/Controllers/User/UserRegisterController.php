@@ -88,6 +88,10 @@ class UserRegisterController extends BasicController
      */
     public function registerStepTwo(Request $request): JsonResponse
     {
-        dd($request->json()->all());
+        $this->databaseConnectionService->setMasterConnection();
+        $dataDecrypted = Crypt::decryptString($request->json()->all()[0]);
+        $dataDecoded = json_decode($dataDecrypted, true);
+        $this->getService()->registerUserStepTwo($dataDecoded['userId']);
+        return ResponseApi::renderOk();
     }
 }

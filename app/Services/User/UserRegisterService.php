@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\DTO\Mail\MailMessageDTO;
 use App\DTO\User\UserRegisterDTO;
 use App\Enums\StatusEnum;
 use App\Exceptions\NotImplementedException;
@@ -9,6 +10,7 @@ use App\Models\User;
 use App\Models\User\Tenant;
 use App\Services\BasicService;
 use App\Services\Database\DatabaseService;
+use App\Services\Mail\MailService;
 use App\Services\Queue\QueueMessagesService;
 use App\Tools\Calendar\CalendarTools;
 
@@ -16,7 +18,8 @@ class UserRegisterService extends BasicService
 {
     public function __construct(
         private readonly DatabaseService $dbService,
-        private readonly QueueMessagesService $queueMessagesService
+        private readonly QueueMessagesService $queueMessagesService,
+        private readonly MailService $mailService
     ) {
     }
 
@@ -45,5 +48,25 @@ class UserRegisterService extends BasicService
         ]);
         $user->save();
         return $user;
+    }
+
+    public function registerUserStepTwo(int $userId): void
+    {
+        $user = User::findOrFail($userId);
+        $this->dbService->runMigrationsInUser($user);
+        $this->sendEmailRegisterDone($user);
+    }
+
+    protected function sendEmailRegisterDone(User $user): void
+    {
+        $subject = 'Conta criada com sucesso!';
+        $template = 'emails.activeAccount';
+        $data = [
+            'linkToActiveUser' => route('activeUser', ['verifyHash' => $user->verify_hash]),
+            'name' => $user->name,
+        ];
+        $message = new MailMessageDTO($user->email, $user->name, $subject, $template, $data);
+        $this->mailService->sendEmail($message);
+
     }
 }

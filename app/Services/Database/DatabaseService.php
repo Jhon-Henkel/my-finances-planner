@@ -47,15 +47,9 @@ class DatabaseService
         return $tenant;
     }
 
-    public function runMigrations(User $user): void
+    public function runMigrationsInUser(User $user): void
     {
-        $dbConnection = new DatabaseConnectionService();
-        $dbConnection->connectUser($user);
-        Artisan::call('migrate', [
-            '--database' => DatabaseConnectionEnum::Tenant->value,
-            '--path' => 'database/migrations/tenant',
-            '--force' => true
-        ]);
-        $dbConnection->setMasterConnection();
+        $tenant = $user->tenant();
+        Artisan::call('migrate:tenant', ['--tenant' => $tenant->tenant_hash]);
     }
 }
