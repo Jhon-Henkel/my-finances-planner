@@ -9,7 +9,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class QueueProducerService
 {
-    const int DELIVERY_MODE_PERSISTENT = 2;
+    private const int DELIVERY_MODE_PERSISTENT = 2;
 
     protected AMQPStreamConnection $connection;
     protected AMQPChannel $channel;

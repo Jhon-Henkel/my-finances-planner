@@ -4,7 +4,6 @@ namespace App\Services\Database;
 
 use App\DTO\User\UserRegisterDatabaseCreationDTO;
 use App\DTO\User\UserRegisterDTO;
-use App\Enums\Database\DatabaseConnectionEnum;
 use App\Models\User;
 use App\Models\User\Tenant;
 use Illuminate\Support\Facades\Artisan;

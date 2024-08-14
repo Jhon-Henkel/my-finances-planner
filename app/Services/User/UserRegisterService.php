@@ -44,7 +44,7 @@ class UserRegisterService extends BasicService
             'password' => bcrypt($userRegister->getPassword()),
             'status' => StatusEnum::Inactive->value,
             'wrong_login_attempts' => 0,
-            'verify_hash' => md5(CalendarTools::getDateNow()->getTimestamp()),
+            'verify_hash' => md5((string)CalendarTools::getDateNow()->getTimestamp()),
         ]);
         $user->save();
         return $user;
