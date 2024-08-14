@@ -35,7 +35,7 @@ class QueueDataDTO
     public function toJson(): string
     {
         $data = [
-            'url' => $this->url,
+            'url' => str_replace(config('app.url'), config('app.url_container_app'), $this->url),
             'method' => $this->method->value,
             'data' => Crypt::encryptString(json_encode($this->data)),
             'expected_response_code' => $this->expectedResponseCode->value,

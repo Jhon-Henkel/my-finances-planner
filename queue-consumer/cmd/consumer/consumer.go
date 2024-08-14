@@ -31,20 +31,20 @@ func Consume(queueName string, ch *amqp.Channel) {
 			if err == nil {
 				err = processMessage(queueData)
 				if err != nil {
-					log.Printf("Failed to process: %s, Error: %s", queueData.Url, err)
+					log.Printf("[ERROR] Failed to process: %s, Error: %s", queueData.Url, err)
 					error_hanlder.FailOnError(msg.Nack(false, false), "Error to nack message")
 				} else {
 					error_hanlder.FailOnError(msg.Ack(false), "Error to ack message")
 				}
 			} else {
-				log.Printf("Error: %s", err)
+				log.Printf("[ERROR] Error: %s", err)
 			}
 		}
 	}()
 }
 
 func processMessage(queueData QueueData) error {
-	log.Printf("Prossessing: %s ...", queueData.Url)
+	log.Printf("[INFO] Prossessing: %s", queueData.Url)
 	ctx := context.Background()
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
@@ -61,8 +61,8 @@ func processMessage(queueData QueueData) error {
 	}
 	defer res.Body.Close()
 	if res.StatusCode != queueData.ExpectedResponseCode {
-		return fmt.Errorf("expected response code %v but got %v", queueData.ExpectedResponseCode, res.StatusCode)
+		return fmt.Errorf("expected response code %v but got %v, response: %v", queueData.ExpectedResponseCode, res.StatusCode, res.Body)
 	}
-	log.Printf("Success to process: %s", queueData.Url)
+	log.Printf("[SUCCESS] Success to process: %s", queueData.Url)
 	return nil
 }

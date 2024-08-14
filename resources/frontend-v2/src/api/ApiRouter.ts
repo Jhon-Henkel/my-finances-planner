@@ -232,7 +232,7 @@ export const ApiRouter = {
             return response.data
         },
         activateAccount: async function (hash: string) {
-            const response = await axios.post(`/api/mfp/user/register/activate/${hash}`, makeHeadersNonLogged())
+            const response = await axios.post(`/api/mfp/user/register/activate/${hash}`, {}, makeHeadersNonLogged())
             return response.data
         }
     },
