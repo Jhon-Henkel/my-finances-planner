@@ -14,6 +14,21 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/login/LoginPage.vue')
     },
     {
+        path: '/v2/registrar-se',
+        name: 'register',
+        component: () => import('@/views/register/RegisterPage.vue')
+    },
+    {
+        path: '/v2/registrado',
+        name: 'register-done',
+        component: () => import('@/views/register/RegisterSuccessPage.vue')
+    },
+    {
+        path: '/v2/ativar/:hash',
+        name: 'activate-register',
+        component: () => import('@/views/register/RegisterActivateUser.vue')
+    },
+    {
         path: '/v2/em-breve',
         name: 'in-development',
         component: () => import('@/views/in-development/InDevelopmentPage.vue')

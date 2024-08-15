@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\AuthenticateAPI;
+use App\Http\Middleware\AuthenticateApiMfpToken;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -76,6 +77,7 @@ class Kernel extends HttpKernel
     protected $middlewareAliases = [
         'auth' => Authenticate::class,
         'auth.api' => AuthenticateAPI::class,
+        'auth.mfp' => AuthenticateApiMfpToken::class,
         'auth.basic' => AuthenticateWithBasicAuth::class,
         'auth.session' => AuthenticateSession::class,
         'cache.headers' => SetCacheHeaders::class,

@@ -21,10 +21,7 @@ class GenerateDemoUser extends Command
     {
         try {
             $database = new DatabaseService();
-            $schemaName = $database->createTenancyDatabase(
-                config('database.connections.' . DatabaseConnectionEnum::Master->value . '.password'),
-                md5((string)CalendarTools::getDateNow()->getTimestamp())
-            );
+            $schemaName = $database->createTenancyDatabase(md5((string)CalendarTools::getDateNow()->getTimestamp()));
 
             $tenant = Tenant::create([
                 'tenant_hash' => $schemaName,

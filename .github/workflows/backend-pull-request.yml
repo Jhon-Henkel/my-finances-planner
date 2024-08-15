@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  setup-backend:
+  linter-backend:
     runs-on: ubuntu-latest
 
     container:
@@ -18,40 +18,9 @@ jobs:
       - name: 📄 Making .env file
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
-
-      - name: 📦 Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
 
       - name: 🛠️ Installing dependencies
         run: composer install
-
-  linter-backend:
-    runs-on: ubuntu-latest
-    needs: setup-backend
-
-    container:
-      image: jhowrf/php8.3-apache:latest
-
-    steps:
-      - name: 🔥 Configuring checkout
-        uses: actions/checkout@v4
-
-      - name: 📄 Making .env file
-        run: |
-          echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
-
-      - name: 📦 Restore Composer dependencies cache
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
 
       - name: 👍 Applying permissions
         run: chmod -R 777 storage bootstrap/cache
@@ -61,7 +30,6 @@ jobs:
 
   test-unit-backend:
     runs-on: ubuntu-latest
-    needs: setup-backend
 
     container:
       image: jhowrf/php8.3-apache:latest
@@ -74,13 +42,8 @@ jobs:
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
-      - name: 📦 Restore Composer dependencies cache
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+      - name: 🛠️ Installing dependencies
+        run: composer install
 
       - name: 👍 Applying permissions
         run: chmod -R 777 storage bootstrap/cache
@@ -90,18 +53,20 @@ jobs:
 
   test-feature-backend:
     runs-on: ubuntu-latest
-    needs: setup-backend
+
     container:
       image: jhowrf/php8.3-apache:latest
 
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         ports:
           - 33306:3306
         env:
+          MYSQL_DATABASE: testing
           MYSQL_ROOT_PASSWORD: 123
-          MYSQL_DATABASE: my_finances_testing
+          MYSQL_USER: testing
+          MYSQL_PASSWORD: 123
         options:
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -116,13 +81,8 @@ jobs:
         run: |
           echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
 
-      - name: 📦 Restore Composer dependencies cache
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+      - name: 🛠️ Installing dependencies
+        run: composer install
 
       - name: 🛠 Setup Runner Database
         run: |

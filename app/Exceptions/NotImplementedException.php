@@ -2,8 +2,8 @@
 
 namespace App\Exceptions;
 
-use RuntimeException;
+use App\Exceptions\ResponseExceptions\BadRequestException;
 
-class NotImplementedException extends RuntimeException
+class NotImplementedException extends BadRequestException
 {
 }

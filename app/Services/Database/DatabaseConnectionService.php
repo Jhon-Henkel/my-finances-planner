@@ -16,7 +16,11 @@ class DatabaseConnectionService
 
     public function connectUser(User $user): void
     {
-        $tenant = $user->tenant();
+        $this->connectTenant($user->tenant());
+    }
+
+    public function connectTenant(Tenant $tenant): void
+    {
         $this->makeTenantConnection($tenant);
         $this->setDefaultDatabase($tenant->tenant_hash);
     }

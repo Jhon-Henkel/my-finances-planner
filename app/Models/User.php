@@ -19,7 +19,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $status
  * @property string $verify_hash
  * @property int $wrong_login_attempts
- * @property float $market_planner_value
+ * @property string $email_verified_at
  *
  * @mixin Builder
  */
@@ -36,12 +36,15 @@ class User extends Authenticatable
         'password',
         'status',
         'tenant_id',
+        'verify_hash',
         'wrong_login_attempts',
-        'market_planner_value'
+        'email_verified_at'
     ];
+
     protected $hidden = [
         'remember_token',
     ];
+
     protected $casts = [
         'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value,

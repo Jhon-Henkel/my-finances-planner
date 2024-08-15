@@ -37,6 +37,12 @@ class CalendarToolsReal
         return $date->format(DateFormatEnum::OnlyMonth->value);
     }
 
+    public function getThisMonthString(?DateFormatEnum $format = null): string
+    {
+        $date = $this->getDateNow();
+        return $date->format($format ? $format->value : DateFormatEnum::DefaultDbDateFormat->value);
+    }
+
     public function getThisYear(): string
     {
         $date = $this->getDateNow();

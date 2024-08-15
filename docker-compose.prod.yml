@@ -49,6 +49,35 @@ services:
     depends_on:
       - database
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: "mfp_rabbitmq"
+    ports:
+      - "1513:15672"
+      - "1514:5672"
+    networks:
+      mfp_network:
+        ipv4_address: 192.168.152.53
+    volumes:
+      - ./.docker/rabbitmq/data:/var/lib/rabbitmq
+      - ./.docker/rabbitmq/log:/var/log/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${QUEUE_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${QUEUE_PASSWORD}
+    command: sh -c "rabbitmq-plugins enable rabbitmq_shovel rabbitmq_shovel_management && rabbitmq-server"
+
+  rabbitmq-consumer:
+    build:
+      context: .
+      dockerfile: ./queue-consumer/Dockerfile
+    container_name: mfp_rabbitmq_consumer
+    entrypoint: dockerize -wait tcp://mfp_rabbitmq:15672 -timeout 60s ./main
+    networks:
+      mfp_network:
+        ipv4_address: 192.168.152.54
+    depends_on:
+      - rabbitmq
+
 networks:
   mfp_network:
     ipam:

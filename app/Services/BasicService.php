@@ -52,6 +52,12 @@ abstract class BasicService
         return $validate->fails() ? $validate->errors() : false;
     }
 
+    public function isInvalidArrayData(array $array, array $rules): MessageBag|bool
+    {
+        $validate = Validator::make($array, $rules, $this->rulesInsertMessages());
+        return $validate->fails() ? $validate->errors() : false;
+    }
+
     protected function rulesInsertMessages(): array
     {
         return array(

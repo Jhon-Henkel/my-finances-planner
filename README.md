@@ -19,7 +19,7 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
 ## Como iniciar o projeto
 - Montar container:
     ```bash
-    cp .env.example .env && cp resources/frontend-v2/.env.example resources/frontend-v2/.env
+    cp .env.example .env && cp resources/frontend-v2/.env.example resources/frontend-v2/.env && cp queue-consumer/.env.example queue-consumer/.env
     cp docker-compose.dev.yml docker-compose.yml
     docker compose up -d
     ```
@@ -43,9 +43,31 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
     ```bash
     make frontend
     ```
+  
+## Commands
+- Start e Acessar o container:
+    ```bash
+    make backend-bash
+    ```
+- Start o frontend:
+    ```bash
+    make frontend
+    ```
+- Setup frontend:
+    ```bash
+    make setup-frontend
+    ```
+- Rebuild container:
+    ```bash
+    make rebuild-container container=app
+    ```
 ## Acessos
 - PHPMyAdmin:
     - [http://localhost:8080](http://localhost:8080)
     - Usuário: root
     - Senha: 123
+- RabbitMQ:
+    - [http://localhost:15672](http://localhost:15672)
+    - Usuário: guest
+    - Senha: guest
 
