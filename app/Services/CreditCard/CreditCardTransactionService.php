@@ -121,7 +121,6 @@ class CreditCardTransactionService extends BasicService
     protected function orderInvoiceItensByClosingDay(array $invoice, CreditCardDTO $card): array
     {
         return $invoice;
-        // @phpstan-ignore-next-line
         $closingDate = CalendarTools::makeDateByCreditCardClosingDay($card->getClosingDay(), $card->getDueDate());
         foreach ($invoice as $key => $invoiceItem) {
             $nextInstallmentDate = CalendarTools::mountDateTimeByDateString($invoiceItem->nextInstallmentDate);

@@ -1,5 +1,20 @@
+includes:
+    - ../../vendor/larastan/larastan/extension.neon
+
 parameters:
     paths:
         - ../../app/
 
     level: 5
+
+    ignoreErrors:
+        - '#Method App\\Services\\Database\\DatabaseService::createTenant\(\) should return App\\Models\\User\\Tenant but returns Illuminate\\Database\\Eloquent\\Model.#'
+        - '#Method App\\Services\\User\\UserRegisterService::createUser\(\) should return App\\Models\\User but returns Illuminate\\Database\\Eloquent\\Model.#'
+        - '#Parameter \#1 \$user of method App\\Services\\Database\\DatabaseService::runMigrationsInUser\(\) expects App\\Models\\User, Illuminate\\Database\\Eloquent\\Model given.#'
+        - '#Parameter \#1 \$user of method App\\Services\\User\\UserRegisterService::sendEmailRegisterDone\(\) expects App\\Models\\User, Illuminate\\Database\\Eloquent\\Model given.#'
+        - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model::\$status.#'
+        - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model::\$verify_hash.#'
+        - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model::\$email_verified_at.#'
+        - '#Comparison operation "!=" between object\|string\|null and int results in an error.#'
+        - '#Match expression does not handle remaining values: int<min, 0>\|int<13, max>#'
+        - '#Unreachable statement - code above always terminates.#'

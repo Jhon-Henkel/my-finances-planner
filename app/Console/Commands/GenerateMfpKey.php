@@ -23,7 +23,6 @@ class GenerateMfpKey extends Command
 
     protected function setKeyInEnvironmentFile(string $key): bool
     {
-        // @phpstan-ignore-next-line
         $filepath = $this->laravel->environmentFilePath();
         $input = file_get_contents($filepath);
         $replaced = preg_replace($this->keyReplacementPattern(), 'PUSHER_APP_KEY=' . $key, $input);
