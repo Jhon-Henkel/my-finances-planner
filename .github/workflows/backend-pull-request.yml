@@ -59,12 +59,14 @@ jobs:
 
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         ports:
           - 33306:3306
         env:
+          MYSQL_DATABASE: testing
           MYSQL_ROOT_PASSWORD: 123
-          MYSQL_DATABASE: my_finances_testing
+          MYSQL_USER: testing
+          MYSQL_PASSWORD: 123
         options:
           --health-cmd="mysqladmin ping"
           --health-interval=10s
