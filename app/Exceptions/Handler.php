@@ -59,6 +59,7 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (QueryException $exception) {
             ErrorReport::report(new DatabaseException($exception->getMessage()));
+            dd($exception->getMessage(), $exception->getTrace());
             $message = 'Erro ao se conectar com o banco de dados!';
             return ResponseError::responseError($message, StatusCodeEnum::HttpInternalServerError->value);
         });
