@@ -43,8 +43,6 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
         $responseStepZero = $this->postJson('/user/register', $userData);
         $data = json_decode($queueData, true);
 
-        dd($responseStepZero->json());
-
         $message = '=> Step zero failed';
         $this->assertEquals(StatusCodeEnum::HttpCreated->value, $responseStepZero->status(), $message);
         $this->assertEquals('http://mfp_app/api/mfp/user/register/step-one', $data['url'], $message);
@@ -55,7 +53,6 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
 
         $responseStepOne = $this->postJson('/api/mfp/user/register/step-one', [$data['data']], $this->headers);
         $data = json_decode($queueData, true);
-
 
         $message = '=> Step one failed';
         $this->assertEquals(StatusCodeEnum::HttpCreated->value, $responseStepOne->status(), $message);
