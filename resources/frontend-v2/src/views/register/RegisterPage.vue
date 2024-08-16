@@ -12,6 +12,7 @@ import {RegisterService} from "@/services/register/RegisterService"
 import {UserRegisterFormValidation} from "@/form-validation/register/UserRegisterFormValidation"
 import MfpPage from "@/components/page/MfpPage.vue"
 import MfpInput from "@/components/input/MfpInput.vue"
+import {onMounted} from "vue"
 
 const registerData = ref(RegisterService.emptyRegisterData())
 
@@ -30,6 +31,10 @@ async function register() {
     const okAlert = new MfpOkAlert('Dados Inválidos!')
     await okAlert.open(result.data)
 }
+
+onMounted(() => {
+    router.push({name: 'in-development'})
+})
 </script>
 
 <template>
