@@ -36,7 +36,7 @@ class QueueDataDTO
     {
         $appUrl = str_replace('https://', 'http://', config('app.url'));
         $data = [
-            'url' => str_replace(config('app.url'), config('app.url_container_app'), $this->url),
+            'url' => str_replace($appUrl, config('app.url_container_app'), $this->url),
             'method' => $this->method->value,
             'data' => Crypt::encryptString(json_encode($this->data)),
             'expected_response_code' => $this->expectedResponseCode->value,
