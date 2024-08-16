@@ -34,6 +34,7 @@ class QueueDataDTO
 
     public function toJson(): string
     {
+        $appUrl = str_replace('https://', 'http://', config('app.url'));
         $data = [
             'url' => str_replace(config('app.url'), config('app.url_container_app'), $this->url),
             'method' => $this->method->value,
