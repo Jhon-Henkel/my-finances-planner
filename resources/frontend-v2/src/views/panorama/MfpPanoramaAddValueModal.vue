@@ -11,6 +11,7 @@ import {FutureExpenseService} from "@/services/future-expense/FutureExpenseServi
 import {PanoramaService} from "@/services/panorama/PanoramaService"
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
 import {informationCircleOutline} from "ionicons/icons"
+import MfpInputToggle from "@/components/input/MfpInputToggle.vue"
 
 const props = defineProps({
     futureExpense: {
@@ -20,12 +21,15 @@ const props = defineProps({
 })
 
 const internalAmount = ref(0)
+const divideValue = ref(false)
 
 async function add() {
     const newExpense = props.futureExpense
     const confirm = new MfpConfirmAlert('Revisão')
-    const value = UtilMoney.formatValueToBr(newExpense.amount + internalAmount.value)
-    let message = `O novo valor de ${value} será o novo valor dessa despesa planejada `
+    let value = divideValue.value ? (internalAmount.value / newExpense.installments) : internalAmount.value
+    value = parseFloat(value.toFixed(2))
+    const valueString = UtilMoney.formatValueToBr(newExpense.amount + value)
+    let message = `O novo valor de ${valueString} será o novo valor dessa despesa planejada `
     if (newExpense.installments == 0) {
         message += 'em todos os meses. Continuar?'
     } else {
@@ -35,7 +39,7 @@ async function add() {
     if (!result) {
         return
     }
-    newExpense.amount += internalAmount.value
+    newExpense.amount += value
     await FutureExpenseService.update(newExpense, newExpense.installments == 0)
     closeModal()
     await PanoramaService.forceReloadStore()
@@ -67,11 +71,15 @@ function closeModal() {
     <mfp-modal-content :show-content="true">
         <template #list>
             <mfp-input-money label="Acrescentar" v-model="internalAmount"/>
+            <mfp-input-toggle label="Dividir valor entre parcelas restantes" v-model="divideValue"/>
         </template>
         <template #content>
             <ion-icon :icon="informationCircleOutline" slot="start"/>
             <ion-label>
-                <p>
+                <p v-if="divideValue">
+                    O valor será dividido entre os meses restantes dessa despesa planejada.
+                </p>
+                <p v-else>
                     O valor será o novo valor dessa despesa planejada em todos os meses.
                 </p>
             </ion-label>
