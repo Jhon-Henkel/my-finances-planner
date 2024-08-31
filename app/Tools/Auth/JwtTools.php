@@ -11,23 +11,26 @@ use stdClass;
 
 class JwtTools
 {
-    public static function createJWT(User $data): string
+    /**
+     * Cuidado com os dados que você coloca no payload, pois ele pode ser decodificado como um base64 comum.
+     */
+    public static function createJWT(User $user): string
     {
-        $payload = array(
+        $payload = [
             'exp' => time() + TimeNumberEnum::TreeHourInSeconds->value,
             'iat' => time(),
-            'data' => $data
-        );
-        return JWT::encode($payload, env('APP_KEY'), 'HS256');
+            'data' => ['email' => $user->email],
+        ];
+        return JWT::encode($payload, config('app.key'), 'HS256');
     }
 
     public static function validateJWT(string $authorization): stdClass|false
     {
         try {
             $token = str_replace('Bearer ', '', $authorization);
-            $key = new Key(env('APP_KEY'), 'HS256');
+            $key = new Key(config('app.key'), 'HS256');
             return JWT::decode($token, $key);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }
