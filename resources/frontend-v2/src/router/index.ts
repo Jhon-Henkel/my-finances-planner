@@ -29,6 +29,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/register/RegisterActivateUser.vue')
     },
     {
+        path: '/v2/bem-vindo',
+        name: 'welcome',
+        component: () => import('@/views/welcome/WelcomePage.vue'),
+        meta: {
+            auth: true
+        }
+    },
+    {
         path: '/v2/em-breve',
         name: 'in-development',
         component: () => import('@/views/in-development/InDevelopmentPage.vue')
