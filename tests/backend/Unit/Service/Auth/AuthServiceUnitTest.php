@@ -2,9 +2,11 @@
 
 namespace Tests\backend\Unit\Service\Auth;
 
+use App\DTO\ConfigurationDTO;
 use App\DTO\Mail\MailMessageDTO;
 use App\Models\User;
 use App\Services\Auth\AuthService;
+use App\Services\ConfigurationService;
 use App\Services\Log\AccessLogService;
 use App\Services\Mail\MailService;
 use App\Services\UserService;
@@ -28,7 +30,8 @@ class AuthServiceUnitTest extends Falcon9
         $mocks = [
             $serviceMock,
             Mockery::mock(MailService::class)->makePartial(),
-            Mockery::mock(AccessLogService::class)->makePartial()
+            Mockery::mock(AccessLogService::class)->makePartial(),
+            Mockery::mock(ConfigurationService::class)->makePartial()
         ];
 
         $service = Mockery::mock(AuthService::class, $mocks)->makePartial();
@@ -119,7 +122,8 @@ class AuthServiceUnitTest extends Falcon9
         $mocks = [
             Mockery::mock(UserService::class)->makePartial(),
             $mailService,
-            Mockery::mock(AccessLogService::class)->makePartial()
+            Mockery::mock(AccessLogService::class)->makePartial(),
+            Mockery::mock(ConfigurationService::class)->makePartial()
         ];
 
         $service = Mockery::mock(AuthService::class, $mocks)->makePartial();
@@ -153,10 +157,22 @@ class AuthServiceUnitTest extends Falcon9
         $user = new User();
         $user->name = 'Joãozinho';
         $user->id = 1;
-        $user->market_planner_value = 10;
         $user->email = 'email@email.com';
 
-        $service = Mockery::mock(AuthService::class)->makePartial();
+        $configurationDTO = new ConfigurationDTO();
+        $configurationDTO->setValue('1');
+
+        $settingsMock = Mockery::mock(ConfigurationService::class)->makePartial();
+        $settingsMock->shouldReceive('findConfigByName')->once()->andReturn($configurationDTO);
+
+        $mocks = [
+            Mockery::mock(UserService::class)->makePartial(),
+            Mockery::mock(MailService::class)->makePartial(),
+            Mockery::mock(AccessLogService::class)->makePartial(),
+            $settingsMock
+        ];
+
+        $service = Mockery::mock(AuthService::class, $mocks)->makePartial();
         $service->shouldAllowMockingProtectedMethods();
 
         $data = $service->makeAuthUserResponseData($user);
@@ -165,6 +181,7 @@ class AuthServiceUnitTest extends Falcon9
         $this->assertIsString($data['token']);
         $this->assertEquals('Joãozinho', $data['user']['name']);
         $this->assertEquals(1, $data['user']['id']);
+        $this->assertTrue($data['must_show_welcome_page']);
         $this->assertEquals('email@email.com', $data['user']['email']);
         $this->assertStringContainsString('Joãozinho', $data['user']['salutation']);
     }
@@ -188,7 +205,8 @@ class AuthServiceUnitTest extends Falcon9
         $mocks = [
             Mockery::mock(UserService::class)->makePartial(),
             Mockery::mock(MailService::class)->makePartial(),
-            $accessLogMock
+            $accessLogMock,
+            Mockery::mock(ConfigurationService::class)->makePartial()
         ];
 
         $service = Mockery::mock(AuthService::class, $mocks)->makePartial();

@@ -21,7 +21,7 @@ const props = defineProps({
 })
 
 const internalAmount = ref(0)
-const divideValue = ref(false)
+const divideValue = ref(true)
 
 async function add() {
     const newExpense = props.futureExpense
@@ -71,7 +71,7 @@ function closeModal() {
     <mfp-modal-content :show-content="true">
         <template #list>
             <mfp-input-money label="Acrescentar" v-model="internalAmount"/>
-            <mfp-input-toggle label="Dividir valor entre parcelas restantes" v-model="divideValue"/>
+            <mfp-input-toggle label="Dividir valor entre parcelas" v-model="divideValue"/>
         </template>
         <template #content>
             <ion-icon :icon="informationCircleOutline" slot="start"/>

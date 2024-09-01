@@ -4,7 +4,7 @@ namespace App\Services\Tools;
 
 use App\DTO\InvoiceItemDTO;
 use App\DTO\Movement\MovementDTO;
-use App\Enums\Configurations\ConfigEnum;
+use App\Enums\ConfigEnum;
 use App\Enums\InvoiceInstallmentsEnum;
 use App\Factory\InvoiceFactory;
 use App\Services\ConfigurationService;

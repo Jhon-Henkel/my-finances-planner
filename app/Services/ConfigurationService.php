@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\DTO\ConfigurationDTO;
+use App\Models\User;
 use App\Repositories\ConfigurationRepository;
+use App\Services\Database\DatabaseConnectionService;
 
 class ConfigurationService extends BasicService
 {
@@ -28,8 +30,12 @@ class ConfigurationService extends BasicService
         }
     }
 
-    public function findConfigByName(string $configName): null|ConfigurationDTO
+    public function findConfigByName(string $configName, User $userToConnect = null): null|ConfigurationDTO
     {
+        if (! is_null($userToConnect)) {
+            $connection = new DatabaseConnectionService();
+            $connection->connectUser($userToConnect);
+        }
         $config = $this->getRepository()->findByName($configName);
         return reset($config);
     }

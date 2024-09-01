@@ -10,7 +10,7 @@
     <html lang="pt-BR">
     <head>
         <meta charset="utf-8"/>
-        <title>Finanças na Mão</title>
+        <title>Develop Mode - Finanças na Mão</title>
 
         <base href="/"/>
 
@@ -27,14 +27,11 @@
             type="image/png"
             href="https://mfpimages.blob.core.windows.net/my-finances-planner-public/favicon.png"
         />
-
-        <meta name="apple-mobile-web-app-capable" content="yes"/>
-        <meta name="apple-mobile-web-app-title" content="Ionic App"/>
-        <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     </head>
 
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
+        <script>console.log('Running in develop mode, index file is indexV2.blade.php');</script>
         <div id="ionic-app"></div>
         <script type="module" src="http://localhost:5173/src/main.ts"></script>
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
