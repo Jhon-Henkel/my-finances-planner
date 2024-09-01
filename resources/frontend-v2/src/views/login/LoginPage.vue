@@ -28,10 +28,14 @@ async function submit() {
     const login = await AuthService.login(loginData.value)
     if (login.isSuccess) {
         loginData.value.password = ''
+        if (login.data.must_show_welcome_page) {
+            await router.push({name: 'welcome'})
+            return
+        }
         const urlParams = new URLSearchParams(window.location.search)
         const redirect: string | null = urlParams.get('redirect')
         loading.value = false
-        router.push({name: redirect ?? 'dashboard'})
+        await router.push({name: redirect ?? 'dashboard'})
         return
     }
     loading.value = false
@@ -40,7 +44,7 @@ async function submit() {
 
 onMounted(async () => {
     if (AuthService.isUserLogged()) {
-        router.push({name: 'dashboard'})
+        await router.push({name: 'dashboard'})
         return
     }
     if (UtilApp.isAppInDemoMode()) {

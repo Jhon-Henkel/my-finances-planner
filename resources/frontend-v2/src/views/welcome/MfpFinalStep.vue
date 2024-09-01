@@ -2,9 +2,15 @@
 import {IonButton, IonCol, IonRow, IonText} from "@ionic/vue"
 import MfpMainText from "@/views/welcome/MfpMainText.vue"
 import router from "@/router"
+import {MainSettingsService} from "@/services/Settings/MainSettingsService"
+import {MainSettingsModel} from "@/model/settings/MainSettingsModel"
 
 function goToDashboard() {
-    // fazer requisição atualizando o usuário para não mostrar mais a tela de boas-vindas ao fazer login
+    const config = {
+        name: 'must_show_welcome_page',
+        value: '0'
+    }
+    MainSettingsService.update([new MainSettingsModel(config)])
     router.push({name: 'dashboard'})
 }
 </script>
