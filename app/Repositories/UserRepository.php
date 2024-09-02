@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTO\UserDTO;
 use App\Models\User;
 use App\Resources\UserResource;
+use App\Services\Database\DatabaseConnectionService;
 
 class UserRepository extends BasicRepository
 {
@@ -33,6 +34,8 @@ class UserRepository extends BasicRepository
 
     public function findByEmail(string $email)
     {
+        $connection = new DatabaseConnectionService();
+        $connection->setMasterConnection();
         return $this->getModel()->where('email', $email)->first();
     }
 

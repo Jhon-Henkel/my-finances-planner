@@ -43,7 +43,7 @@ class AuthService
         if ($user->status === StatusEnum::Inactive->value) {
             return self::INACTIVE_USER_CODE;
         }
-        if ($user->wrong_login_attempts > config('max_wrong_login_attempts')) {
+        if ($user->wrong_login_attempts > config('app.max_wrong_login_attempts')) {
             $this->inactiveUser($user);
             $this->sendEmailInactiveUser($user);
             return self::INACTIVE_USER_CODE;
@@ -61,9 +61,6 @@ class AuthService
 
     protected function inactiveUser(User $user): void
     {
-        if (RequestTools::isApplicationInDemoMode()) {
-            return;
-        }
         if ($user->status == StatusEnum::Inactive->value) {
             return;
         }
