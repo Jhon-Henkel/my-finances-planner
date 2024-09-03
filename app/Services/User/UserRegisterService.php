@@ -4,9 +4,11 @@ namespace App\Services\User;
 
 use App\DTO\Mail\MailMessageDTO;
 use App\DTO\User\UserRegisterDTO;
+use App\Enums\Plan\PlanNameEnum;
 use App\Enums\StatusEnum;
 use App\Exceptions\NotImplementedException;
 use App\Models\User;
+use App\Models\User\Plan;
 use App\Models\User\Tenant;
 use App\Services\BasicService;
 use App\Services\Database\DatabaseService;
@@ -72,10 +74,13 @@ class UserRegisterService extends BasicService
 
     public function registerUserStepThree(string $hash): void
     {
+        $plan = Plan::firstWhere('name', PlanNameEnum::Free->name);
+
         $user = User::where('verify_hash', $hash)->firstOrFail();
         $user->status = StatusEnum::Active->value;
         $user->verify_hash = null;
         $user->email_verified_at = CalendarTools::getThisMonthString();
+        $user->plan_id = $plan->id;
         $user->save();
     }
 }
