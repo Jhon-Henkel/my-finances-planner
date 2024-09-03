@@ -74,7 +74,7 @@ class UserRegisterService extends BasicService
 
     public function registerUserStepThree(string $hash): void
     {
-        $plan = Plan::firstWhere('name', PlanNameEnum::Free->name);
+        $plan = Plan::where('name', PlanNameEnum::Free->name)->get()->first();
 
         $user = User::where('verify_hash', $hash)->firstOrFail();
         $user->status = StatusEnum::Active->value;

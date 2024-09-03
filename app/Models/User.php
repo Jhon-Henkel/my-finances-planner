@@ -22,6 +22,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $verify_hash
  * @property int $wrong_login_attempts
  * @property string $email_verified_at
+ * @property int $plan_id
  *
  * @mixin Builder
  */
