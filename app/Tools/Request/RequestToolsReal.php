@@ -2,9 +2,6 @@
 
 namespace App\Tools\Request;
 
-use App\Enums\ConfigEnum;
-use App\Tools\Auth\JwtTools;
-
 class RequestToolsReal
 {
     public function inputGet(null|string $key = null): mixed
