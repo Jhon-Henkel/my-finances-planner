@@ -38,11 +38,12 @@ class UserRegisterService extends BasicService
 
     protected function createUser(UserRegisterDTO $userRegister, Tenant $tenant): User
     {
+        $plan = new Plan();
         $user = User::create([
             'name' => $userRegister->getName(),
             'email' => $userRegister->getEmail(),
             'tenant_id' => $tenant->id,
-            'plan_id' => (new Plan)->freePlan()->id,
+            'plan_id' => $plan->freePlan()->id,
             'password' => bcrypt($userRegister->getPassword()),
             'status' => StatusEnum::Inactive->value,
             'wrong_login_attempts' => 0,
