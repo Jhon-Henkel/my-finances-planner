@@ -4,7 +4,6 @@ namespace App\Services\User;
 
 use App\DTO\Mail\MailMessageDTO;
 use App\DTO\User\UserRegisterDTO;
-use App\Enums\Plan\PlanNameEnum;
 use App\Enums\StatusEnum;
 use App\Exceptions\NotImplementedException;
 use App\Models\User;
@@ -43,6 +42,7 @@ class UserRegisterService extends BasicService
             'name' => $userRegister->getName(),
             'email' => $userRegister->getEmail(),
             'tenant_id' => $tenant->id,
+            'plan_id' => (new Plan)->freePlan()->id,
             'password' => bcrypt($userRegister->getPassword()),
             'status' => StatusEnum::Inactive->value,
             'wrong_login_attempts' => 0,
@@ -78,7 +78,6 @@ class UserRegisterService extends BasicService
         $user->status = StatusEnum::Active->value;
         $user->verify_hash = null;
         $user->email_verified_at = CalendarTools::getThisMonthString();
-        $user->plan_id = Plan::freePlan()->id;
         $user->save();
     }
 }

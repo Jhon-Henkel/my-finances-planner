@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Enums\Database\DatabaseConnectionEnum;
-use App\Enums\Plan\PlanNameEnum;
 use App\Enums\StatusEnum;
 use App\Models\User;
 use App\Models\User\Plan;
@@ -36,7 +35,7 @@ class GenerateDemoUser extends Command
             $user = User::create([
                 'name' => 'Demo User',
                 'email' => 'demo@demo.dev',
-                'plan_id' => Plan::freePlan()->id,
+                'plan_id' => (new Plan)->freePlan()->id,
                 'tenant_id' => $tenant['id'],
                 'password' => bcrypt('12345678'),
                 'status' => StatusEnum::Active->value,
