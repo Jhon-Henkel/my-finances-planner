@@ -14,4 +14,3 @@ return new class () extends Migration {
         DB::table('users')->update(['plan_id' => 0]);
     }
 };
-
