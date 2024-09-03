@@ -34,7 +34,7 @@ final class AuthServiceProvider extends ServiceProvider
             $this->validateIsAllowedRequest($userDB, $request);
             if ($isValidToken && $userDB->status === StatusEnum::Active->value) {
                 $dbConnection->connectUser($userDB);
-                return new User((array)$userJWT->data);
+                return $userDB;
             }
             return null;
         });
