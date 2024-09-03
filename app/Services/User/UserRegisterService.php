@@ -74,13 +74,11 @@ class UserRegisterService extends BasicService
 
     public function registerUserStepThree(string $hash): void
     {
-        $plan = Plan::where('name', PlanNameEnum::Free->name)->get()->first();
-
         $user = User::where('verify_hash', $hash)->firstOrFail();
         $user->status = StatusEnum::Active->value;
         $user->verify_hash = null;
         $user->email_verified_at = CalendarTools::getThisMonthString();
-        $user->plan_id = $plan->id;
+        $user->plan_id = Plan::freePlan()->id;
         $user->save();
     }
 }

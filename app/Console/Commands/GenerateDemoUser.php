@@ -33,12 +33,10 @@ class GenerateDemoUser extends Command
             ]);
             $tenant->save();
 
-            $plan = Plan::firstWhere('name', PlanNameEnum::Free->name);
-
             $user = User::create([
                 'name' => 'Demo User',
                 'email' => 'demo@demo.dev',
-                'plan_id' => $plan->id,
+                'plan_id' => Plan::freePlan()->id,
                 'tenant_id' => $tenant['id'],
                 'password' => bcrypt('12345678'),
                 'status' => StatusEnum::Active->value,

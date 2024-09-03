@@ -12,7 +12,7 @@ class LimitExceededException extends ForbiddenException
 {
     public function __construct(string $type)
     {
-        return parent::__construct("Limite de '$type' atingido para o seu plano.");
+        parent::__construct("Limite de '$type' atingido para o seu plano.");
     }
 
     public static function validateExceeded(GatesAbilityEnum $ability, string $model): void
