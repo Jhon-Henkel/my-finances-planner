@@ -5,7 +5,11 @@ namespace App\Providers;
 use App\Enums\ConfigEnum;
 use App\Enums\StatusEnum;
 use App\Exceptions\User\TryAlterAnotherUserByRequestException;
+use App\Models\CreditCard;
 use App\Models\User;
+use App\Models\WalletModel;
+use App\Policies\CreditCardPolicy;
+use App\Policies\WalletPolicy;
 use App\Services\Database\DatabaseConnectionService;
 use App\Tools\AppTools;
 use App\Tools\Auth\JwtTools;
@@ -15,7 +19,10 @@ use Illuminate\Support\Facades\Auth;
 
 final class AuthServiceProvider extends ServiceProvider
 {
-    protected $policies = [];
+    protected $policies = [
+        WalletModel::class => WalletPolicy::class,
+        CreditCard::class => CreditCardPolicy::class,
+    ];
 
     public function boot(): void
     {
