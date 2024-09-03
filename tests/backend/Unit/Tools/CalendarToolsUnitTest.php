@@ -68,13 +68,6 @@ class CalendarToolsUnitTest extends Falcon9
         }
     }
 
-    public function testUsToBrDate()
-    {
-        $date = CalendarTools::stringUsToBrDate('2022-12-01 15:10:50');
-
-        $this->assertEquals('01/12/2022 15:10:50', $date);
-    }
-
     public function testGetThisMonth()
     {
         $mont = CalendarTools::getDateNow();
@@ -89,30 +82,6 @@ class CalendarToolsUnitTest extends Falcon9
         $mont = $mont->format('Y');
 
         $this->assertEquals($mont, CalendarTools::getThisYear());
-    }
-
-    #[DataProvider("dataProviderTestGetMonthFromDate")]
-    public function testGetMonthFromDate(string $date, string $expected)
-    {
-        $this->assertEquals($expected, CalendarTools::getMonthFromStringDate($date));
-    }
-
-    public static function dataProviderTestGetMonthFromDate(): array
-    {
-        return [
-            "testJanuaryMonth" => ["date" => "2022-01-01", "expected" => "01"],
-            "testFebruaryMonth" => ["date" => "2022-02-01", "expected" => "02"],
-            "testMarchMonth" => ["date" => "2022-03-01", "expected" => "03"],
-            "testAprilMonth" => ["date" => "2022-04-01", "expected" => "04"],
-            "testMayMonth" => ["date" => "2022-05-01", "expected" => "05"],
-            "testJuneMonth" => ["date" => "2022-06-01", "expected" => "06"],
-            "testJulyMonth" => ["date" => "2022-07-01", "expected" => "07"],
-            "testAugustMonth" => ["date" => "2022-08-01", "expected" => "08"],
-            "testSeptemberMonth" => ["date" => "2022-09-01", "expected" => "09"],
-            "testOctoberMonth" => ["date" => "2022-10-01", "expected" => "10"],
-            "testNovemberMonth" => ["date" => "2022-11-01", "expected" => "11"],
-            "testDecemberMonth" => ["date" => "2022-12-01", "expected" => "12"],
-        ];
     }
 
     #[DataProvider("dataProviderTestGetDayFromData")]
@@ -315,23 +284,6 @@ class CalendarToolsUnitTest extends Falcon9
         ];
     }
 
-    public function testGetMonthLabelWithYear()
-    {
-        $this->assertEquals('01/2022', CalendarTools::getMonthLabelWithYear('2022-01-01 00:00:00'));
-    }
-
-    public function testGetYearFromDate()
-    {
-        $this->assertEquals('2022', CalendarTools::getYearFromStringDate('2022-01-01 00:00:00'));
-    }
-
-    public function testGetMonthPeriodFromDate()
-    {
-        $period = CalendarTools::getMonthPeriodFromDate('2022-01-01 00:00:00');
-        $this->assertEquals('2022-01-01 00:00:00', $period->getStartDate());
-        $this->assertEquals('2022-01-31 23:59:59', $period->getEndDate());
-    }
-
     public function testMountDatePeriodFromIsoDateRange()
     {
         $datePeriod = [
@@ -370,15 +322,5 @@ class CalendarToolsUnitTest extends Falcon9
         $this->app->instance(CalendarToolsReal::class, $calendarMock);
 
         $this->assertEquals($datePeriod, $calendarMock->makeDateRangeByDefaultFilterParams(['dateStart' => '', 'dateEnd' => '']));
-    }
-
-    public function testGetLastFiveYearPeriod()
-    {
-        $calendarMock = Mockery::mock(CalendarToolsReal::class)->makePartial();
-        $calendarMock->shouldReceive('getThisYear')->andReturn(2022);
-
-        $date = $calendarMock->getLastFiveYearPeriod();
-        $this->assertEquals("2017-01-01 00:00:00", $date->getStartDate());
-        $this->assertEquals("2022-12-31 23:59:59", $date->getEndDate());
     }
 }

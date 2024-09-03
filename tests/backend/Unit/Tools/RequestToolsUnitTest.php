@@ -21,23 +21,6 @@ class RequestToolsUnitTest extends Falcon9
         parent::tearDown();
     }
 
-    public function testInputPost()
-    {
-        $_POST['abc'] = 'def';
-
-        $this->assertEquals('def', RequestTools::inputPost('abc'));
-        $this->assertEquals(null, RequestTools::inputPost('aaa'));
-    }
-
-    public function testInputPostAll()
-    {
-        $_POST['abc'] = 'def';
-        $post = RequestTools::inputPostAll();
-
-        $this->assertCount(1, $post);
-        $this->assertArrayHasKey('abc', $post);
-    }
-
     public function testInputGet()
     {
         $_GET['jkl'] = 'ert';

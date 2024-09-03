@@ -57,15 +57,6 @@ class UserController extends BasicController
         return parent::update($id, $request);
     }
 
-    public function insert(Request $request): JsonResponse
-    {
-        if (RequestTools::isApplicationInDemoMode()) {
-            $message = 'Aplicação em mode demo não permite alterar as configurações!';
-            return response()->json($message, ResponseAlias::HTTP_BAD_REQUEST);
-        }
-        return parent::insert($request);
-    }
-
     public function activeUser(string $verifyHash): View
     {
         $user = $this->getService()->findByVerifyHash($verifyHash);

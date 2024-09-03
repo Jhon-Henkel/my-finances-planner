@@ -11,7 +11,6 @@ use App\Models\WalletModel;
 use App\Policies\CreditCardPolicy;
 use App\Policies\WalletPolicy;
 use App\Services\Database\DatabaseConnectionService;
-use App\Tools\AppTools;
 use App\Tools\Auth\JwtTools;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -34,7 +33,7 @@ final class AuthServiceProvider extends ServiceProvider
             if (! $userJWT) {
                 return null;
             }
-            $mfpApiTokenEncrypted = bcrypt(AppTools::getEnvValue('PUSHER_APP_KEY'));
+            $mfpApiTokenEncrypted = bcrypt(config('app.mfp_token'));
             $mfpApiToken = $request->header(ConfigEnum::MfpTokenKey->value) ?? '';
             $isValidToken = password_verify($mfpApiToken, $mfpApiTokenEncrypted);
             $userDB = User::query()->where('email', $userJWT->data->email)->first();

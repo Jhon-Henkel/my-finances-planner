@@ -3,7 +3,6 @@
 namespace Tests\backend\Unit\DTO\Mail;
 
 use App\DTO\Mail\MailMessageDTO;
-use App\Tools\AppTools;
 use Tests\backend\Falcon9;
 
 class MailMessageDtoUnitTest extends Falcon9
@@ -18,8 +17,8 @@ class MailMessageDtoUnitTest extends Falcon9
             ['title' => 'This is a mail test', 'body' => 'A test send mail from app']
         );
 
-        $mailFrom = AppTools::getEnvValue('MAIL_FROM_ADDRESS');
-        $mailFromName = str_replace('_', ' ', AppTools::getEnvValue('MAIL_FROM_NAME'));
+        $mailFrom = config('app.mail_from_address');
+        $mailFromName = str_replace('_', ' ', config('app.mail_from_name'));
         $params = ['title' => 'This is a mail test', 'body' => 'A test send mail from app'];
 
         $this->assertEquals('test@test.com', $mailMessageDto->getAddressee());

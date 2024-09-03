@@ -3,7 +3,6 @@
 namespace App\Services\Mail;
 
 use App\DTO\Mail\MailMessageDTO;
-use App\Tools\AppTools;
 use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Mail;
 
@@ -12,7 +11,7 @@ class MailService
     public function sendTestEmail(): void
     {
         $this->sendEmail(new MailMessageDTO(
-            AppTools::getEnvValue('MAIL_FROM_ADDRESS'),
+            config('app.mail_from_address'),
             'Account Test',
             'Test Send Email From App',
             'emails.testMail',
