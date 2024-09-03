@@ -4,7 +4,7 @@ namespace App\Http\Response;
 
 use Illuminate\Http\JsonResponse;
 
-class ResponseError
+class ApiResponse
 {
     public static function responseError(string $error, int $statusCode): JsonResponse
     {

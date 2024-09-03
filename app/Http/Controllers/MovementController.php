@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\MovementEnum;
-use App\Http\Response\ResponseError;
+use App\Http\Response\ApiResponse;
 use App\Resources\Movement\MovementResource;
 use App\Services\Movement\MovementService;
 use App\Tools\Request\RequestTools;
@@ -75,7 +75,7 @@ class MovementController extends BasicController
     {
         $invalid = $this->getService()->isInvalidRequest($request, $this->rulesInsertTransfer());
         if ($invalid instanceof MessageBag) {
-            return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
+            return ApiResponse::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
         }
         $data = $request->json()->all();
         $transferSpent = $this->getResource()->makeTransferSpentMovement($data);

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\UserException;
 use App\Http\Controllers\Controller;
-use App\Http\Response\ResponseError;
+use App\Http\Response\ApiResponse;
 use App\Models\User;
 use App\Services\Auth\AuthService;
 use App\Tools\ErrorReport;
@@ -26,7 +26,7 @@ class AuthController extends Controller
         $user = $this->authService->findUserForAuth($data['email']);
         if (! $user) {
             $message = 'Usuário ou senha incorreto!';
-            return ResponseError::responseError($message, ResponseAlias::HTTP_UNAUTHORIZED);
+            return ApiResponse::responseError($message, ResponseAlias::HTTP_UNAUTHORIZED);
         }
         $loginCode = $this->authService->validateLogin($user, $data['password']);
         if ($loginCode === AuthService::OK_CODE) {
@@ -36,16 +36,16 @@ class AuthController extends Controller
         } elseif ($loginCode === AuthService::INACTIVE_USER_CODE) {
             $message = 'Usuário inativo!';
             $this->authService->saveAccessLog($user, 0, $message);
-            return ResponseError::responseError($message, ResponseAlias::HTTP_FORBIDDEN);
+            return ApiResponse::responseError($message, ResponseAlias::HTTP_FORBIDDEN);
         } elseif ($loginCode === AuthService::INVALID_LOGIN_OR_PASSWORD_CODE) {
             $message = 'Usuário ou senha incorreto!';
             $this->authService->saveAccessLog($user, 0, $message);
-            return ResponseError::responseError($message, ResponseAlias::HTTP_UNAUTHORIZED);
+            return ApiResponse::responseError($message, ResponseAlias::HTTP_UNAUTHORIZED);
         } else {
             $message = 'Erro inesperado ao realizar login!';
             $this->authService->saveAccessLog($user, 0, $message);
             ErrorReport::report(new UserException($message));
-            return ResponseError::responseError($message, ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+            return ApiResponse::responseError($message, ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
