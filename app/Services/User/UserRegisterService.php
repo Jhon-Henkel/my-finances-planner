@@ -7,7 +7,6 @@ use App\DTO\User\UserRegisterDTO;
 use App\Enums\StatusEnum;
 use App\Exceptions\NotImplementedException;
 use App\Models\User;
-use App\Models\User\Plan;
 use App\Models\User\Tenant;
 use App\Services\BasicService;
 use App\Services\Database\DatabaseService;
@@ -20,7 +19,8 @@ class UserRegisterService extends BasicService
     public function __construct(
         private readonly DatabaseService $dbService,
         private readonly QueueMessagesService $queueMessagesService,
-        private readonly MailService $mailService
+        private readonly MailService $mailService,
+        private readonly PlanService $planService
     ) {
     }
 
@@ -38,12 +38,11 @@ class UserRegisterService extends BasicService
 
     protected function createUser(UserRegisterDTO $userRegister, Tenant $tenant): User
     {
-        $plan = new Plan();
         $user = User::create([
             'name' => $userRegister->getName(),
             'email' => $userRegister->getEmail(),
             'tenant_id' => $tenant->id,
-            'plan_id' => $plan->freePlan()->id,
+            'plan_id' => $this->planService->freePlan()->id,
             'password' => bcrypt($userRegister->getPassword()),
             'status' => StatusEnum::Inactive->value,
             'wrong_login_attempts' => 0,
