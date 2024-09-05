@@ -19,6 +19,7 @@ export const useAuthStore = defineStore({
             this.user = userValue
         },
         logout(): void {
+            this.user.plan = null
             UtilCookies.removeCookie('mfp-token')
         },
         isAuthUser(): boolean {
