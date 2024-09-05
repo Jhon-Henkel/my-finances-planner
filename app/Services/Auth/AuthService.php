@@ -101,6 +101,7 @@ class AuthService
             'user' => [
                 'name' => $user->name,
                 'id' => $user->id,
+                'plan' => $user->plan()->name,
                 'salutation' => CalendarTools::salutation($user->name, (int)date('H')),
                 'email' => $user->email,
             ]
