@@ -8,7 +8,7 @@ const authStore = useAuthStore()
 <template>
     <ion-page class="ion-margin-top ion-padding-top">
         <ion-content :fullscreen="true">
-            <div class="bg-danger ion-text-center" v-if="authStore.user.plan === 'Free'">
+            <div class="bg-danger ion-text-center" v-if="authStore?.user?.plan === 'Free'">
                 <div class="padding-plan">
                     <p>Você está usando um plano gratuíto com limitações</p>
                 </div>
