@@ -5,6 +5,7 @@ namespace Tests\backend\Unit\Service\Auth;
 use App\DTO\ConfigurationDTO;
 use App\DTO\Mail\MailMessageDTO;
 use App\Models\User;
+use App\Models\User\Plan;
 use App\Services\Auth\AuthService;
 use App\Services\ConfigurationService;
 use App\Services\Log\AccessLogService;
@@ -154,10 +155,14 @@ class AuthServiceUnitTest extends Falcon9
 
     public function testMakeAuthUserResponseData()
     {
-        $user = new User();
+        $planMock = new Plan();
+        $planMock->name = 'Free';
+
+        $user = Mockery::mock(User::class)->makePartial();
         $user->name = 'Joãozinho';
         $user->id = 1;
         $user->email = 'email@email.com';
+        $user->shouldReceive('plan')->andReturn($planMock);
 
         $configurationDTO = new ConfigurationDTO();
         $configurationDTO->setValue('1');
@@ -181,6 +186,7 @@ class AuthServiceUnitTest extends Falcon9
         $this->assertIsString($data['token']);
         $this->assertEquals('Joãozinho', $data['user']['name']);
         $this->assertEquals(1, $data['user']['id']);
+        $this->assertEquals('Free', $data['user']['plan']);
         $this->assertTrue($data['must_show_welcome_page']);
         $this->assertEquals('email@email.com', $data['user']['email']);
         $this->assertStringContainsString('Joãozinho', $data['user']['salutation']);

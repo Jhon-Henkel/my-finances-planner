@@ -76,7 +76,7 @@ class UserRegisterService extends BasicService
     {
         $user = User::where('verify_hash', $hash)->firstOrFail();
         $user->status = StatusEnum::Active->value;
-        $user->verify_hash = null;
+        $user->verify_hash = '';
         $user->email_verified_at = CalendarTools::getThisMonthString();
         $user->save();
     }
