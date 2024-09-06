@@ -13,22 +13,13 @@ class CalendarToolsReal
 {
     public function salutation(null|string $name, int $hour): string
     {
-        if($hour >= 4 && $hour <= 12) {
+        if ($hour >= 4 && $hour <= 12) {
             return 'Bom dia ' . ($name ?? '');
         } elseif ($hour > 12 && $hour < 19) {
             return 'Boa tarde ' . ($name ?? '');
         } else {
             return 'Boa noite ' . ($name ?? '');
         }
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function stringUsToBrDate(string $date): string
-    {
-        $date = new DateTime($date);
-        return $date->format(DateFormatEnum::DefaultBrDateFormat->value);
     }
 
     public function getThisMonth(): string
@@ -52,21 +43,6 @@ class CalendarToolsReal
     public function getDateNow(): DateTime
     {
         return new DateTime();
-    }
-
-    /** @throws Exception */
-    public function getMonthFromStringDate(string $date): string
-    {
-        $date = new DateTime($date);
-        $month = $date->format(DateFormatEnum::OnlyMonth->value);
-        return str_pad($month, 2, '0', STR_PAD_LEFT);
-    }
-
-    /** @throws Exception */
-    public function getYearFromStringDate(string $date): string
-    {
-        $date = new DateTime($date);
-        return $date->format(DateFormatEnum::OnlyCompleteYear->value);
     }
 
     /** @throws Exception */
@@ -115,15 +91,6 @@ class CalendarToolsReal
         return new DatePeriodDTO($startDate, $endDate);
     }
 
-    public function getLastFiveYearPeriod(): DatePeriodDTO
-    {
-        $year = (int)$this->getThisYear();
-        $lastYear = $year - 5;
-        $startDate = $this->mountStringDateTime($lastYear, CalendarMonthsNumberEnum::January->value, 1, '00:00:00');
-        $endDate = $this->mountStringDateTime($year, CalendarMonthsNumberEnum::December->value, 31, '23:59:59');
-        return new DatePeriodDTO($startDate, $endDate);
-    }
-
     public function getLastDayOfData(string $data): string
     {
         $day = date('t', strtotime($data));
@@ -157,26 +124,6 @@ class CalendarToolsReal
         $dateStart = $this->mountStringDateTime($year, $month, 1, '00:00:00');
         $dateEnd = $this->addMonthInDate($dateStart, $interval);
         return new DatePeriodDTO($dateStart, $dateEnd);
-    }
-
-    /** @throws Exception */
-    public function getMonthLabelWithYear(string $date): string
-    {
-        $date = new DateTime($date);
-        $month = $date->format(DateFormatEnum::OnlyMonth->value);
-        $year = $date->format(DateFormatEnum::OnlyCompleteYear->value);
-        return $month . '/' . $year;
-    }
-
-    /** @throws Exception */
-    public function getMonthPeriodFromDate(string $date): DatePeriodDTO
-    {
-        $month = $this->getMonthFromStringDate($date);
-        $year = $this->getYearFromStringDate($date);
-        $startDate = $this->mountStringDateTime($year, $month, 1, '00:00:00');
-        $lastDay = $this->getLastDayOfData($startDate);
-        $endDate = $this->mountStringDateTime($year, $month, $lastDay, '23:59:59');
-        return new DatePeriodDTO($startDate, $endDate);
     }
 
     /** @throws Exception */

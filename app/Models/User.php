@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\DateFormatEnum;
+use App\Enums\Plan\PlanNameEnum;
+use App\Models\User\Plan;
 use App\Models\User\Tenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +22,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $verify_hash
  * @property int $wrong_login_attempts
  * @property string $email_verified_at
+ * @property int $plan_id
  *
  * @mixin Builder
  */
@@ -32,10 +35,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'unique_id',
         'password',
         'status',
         'tenant_id',
+        'plan_id',
         'verify_hash',
         'wrong_login_attempts',
         'email_verified_at'
@@ -54,5 +57,15 @@ class User extends Authenticatable
     public function tenant(): Tenant
     {
         return $this->belongsTo(Tenant::class)->first();
+    }
+
+    public function plan(): Plan
+    {
+        return $this->belongsTo(Plan::class)->first();
+    }
+
+    public function mustValidatePlanLimit(): bool
+    {
+        return $this->plan()->name === PlanNameEnum::Free->value;
     }
 }

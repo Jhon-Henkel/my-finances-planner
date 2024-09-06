@@ -5,8 +5,11 @@ namespace App\Console\Commands;
 use App\Enums\Database\DatabaseConnectionEnum;
 use App\Enums\StatusEnum;
 use App\Models\User;
+use App\Models\User\Plan;
 use App\Models\User\Tenant;
+use App\Repositories\User\PlanRepository;
 use App\Services\Database\DatabaseService;
+use App\Services\User\PlanService;
 use App\Tools\Calendar\CalendarTools;
 use Illuminate\Console\Command;
 use Throwable;
@@ -31,9 +34,11 @@ class GenerateDemoUser extends Command
             ]);
             $tenant->save();
 
+            $planService = new PlanService(new PlanRepository(new Plan()));
             $user = User::create([
                 'name' => 'Demo User',
                 'email' => 'demo@demo.dev',
+                'plan_id' => $planService->freePlan()->id,
                 'tenant_id' => $tenant['id'],
                 'password' => bcrypt('12345678'),
                 'status' => StatusEnum::Active->value,

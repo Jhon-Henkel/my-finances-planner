@@ -20,6 +20,8 @@ return [
     'queue_user' => env('QUEUE_USERNAME'),
     'queue_password' => env('QUEUE_PASSWORD'),
     'cipher' => 'AES-256-CBC',
+    'mail_from_address' => env('MAIL_FROM_ADDRESS'),
+    'mail_from_name' => env('MAIL_FROM_NAME'),
     'max_wrong_login_attempts' => 5,
     'maintenance' => [
         'driver' => 'file',

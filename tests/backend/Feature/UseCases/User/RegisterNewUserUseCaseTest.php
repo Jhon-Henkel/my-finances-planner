@@ -2,8 +2,10 @@
 
 namespace Tests\backend\Feature\UseCases\User;
 
+use App\Enums\Plan\PlanNameEnum;
 use App\Enums\Response\StatusCodeEnum;
 use App\Enums\StatusEnum;
+use App\Models\User\Plan;
 use App\Services\Mail\MailService;
 use App\Services\Queue\QueueProducerService;
 use Tests\backend\Falcon9Feature;
@@ -79,9 +81,12 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
 
         $this->assertEquals(StatusCodeEnum::HttpOk->value, $responseStepTwo->status(), '=> Step three failed');
 
+        $plan = Plan::where('name', PlanNameEnum::Free->name)->first();
+
         $this->assertDatabaseHas('users', [
             'email' => $userData['email'],
             'name' => $userData['name'],
+            'plan_id' => $plan->id,
             'status' => StatusEnum::Active->value,
         ]);
     }

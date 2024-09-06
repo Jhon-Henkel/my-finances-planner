@@ -1,11 +1,31 @@
-import {describe, expect, it} from "vitest"
+import {beforeEach, describe, expect, it, vitest} from "vitest"
 import {shallowMount} from '@vue/test-utils'
 import MfpPage from "../../../../src/components/page/MfpPage.vue"
 
 describe('test render component', () => {
+    beforeEach(() => {
+        vitest.mock('../../../../src/stores/auth/AuthStore', () => ({
+            useAuthStore: () => {
+                return {
+                    setToken: vitest.fn(),
+                    setUser: vitest.fn(),
+                    logout: vitest.fn(),
+                    getToken: vitest.fn(),
+                    getEmail: vitest.fn(),
+                    getUserId: vitest.fn(),
+                    isAuthUser: vitest.fn(function () {
+                        return true
+                    }),
+                    user: 'email_vitest',
+                    token: 'token_vitest',
+                }
+            }
+        }))
+    })
+
     it("render base component", async () => {
         const wrapper = shallowMount(MfpPage)
 
-        expect(wrapper.html()).toContain('<ion-page-stub registerionpage="[Function]" class="ion-margin-top ion-padding-top"></ion-page-stub>')
+        expect(wrapper.html()).toContain('registerionpage="[Function]" class="ion-margin-top ion-padding-top"></ion-page-stub>')
     })
 })

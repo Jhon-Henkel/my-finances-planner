@@ -32,7 +32,7 @@ class FutureSpentRepository extends BasicRepository
             ->where('future_spent.forecast', '>=', $period->getStartDate())
             ->where('future_spent.forecast', '<=', $period->getEndDate())
             ->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
-            ->orderBy('id', 'desc');
+            ->orderBy('future_spent.forecast', 'asc');
         $items = $items->get();
         return $this->getResource()->arrayToDtoItens($items->toArray());
     }

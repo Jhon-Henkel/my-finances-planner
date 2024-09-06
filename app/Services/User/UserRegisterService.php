@@ -19,7 +19,8 @@ class UserRegisterService extends BasicService
     public function __construct(
         private readonly DatabaseService $dbService,
         private readonly QueueMessagesService $queueMessagesService,
-        private readonly MailService $mailService
+        private readonly MailService $mailService,
+        private readonly PlanService $planService
     ) {
     }
 
@@ -41,6 +42,7 @@ class UserRegisterService extends BasicService
             'name' => $userRegister->getName(),
             'email' => $userRegister->getEmail(),
             'tenant_id' => $tenant->id,
+            'plan_id' => $this->planService->freePlan()->id,
             'password' => bcrypt($userRegister->getPassword()),
             'status' => StatusEnum::Inactive->value,
             'wrong_login_attempts' => 0,
@@ -74,7 +76,7 @@ class UserRegisterService extends BasicService
     {
         $user = User::where('verify_hash', $hash)->firstOrFail();
         $user->status = StatusEnum::Active->value;
-        $user->verify_hash = null;
+        $user->verify_hash = '';
         $user->email_verified_at = CalendarTools::getThisMonthString();
         $user->save();
     }

@@ -44,3 +44,7 @@ http://ionicframework.com/docs/theming/ */
 .skeleton-load-size {
     height: 10px;
 }
+
+.bg-danger {
+    background-color: #6d131a;
+}

@@ -60,7 +60,7 @@
         "test:coverage": "vendor/bin/phpunit --coverage-html ./tests/backend/coverage/",
         "phpstan": "./vendor/bin/phpstan analyse --memory-limit=512M --configuration=./config/linter/phpstan.neon",
         "pint": "./vendor/bin/pint --test --preset psr12",
-        "pint-correct": "./vendor/bin/pint --preset psr12"
+        "pint-fix": "./vendor/bin/pint --preset psr12"
     },
     "extra": {
         "laravel": {

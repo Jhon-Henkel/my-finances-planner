@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Response\ResponseError;
+use App\Http\Response\ApiResponse;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -37,7 +37,7 @@ abstract class BasicController extends Controller
     {
         $invalid = $this->getService()->isInvalidRequest($request, $this->rulesInsert());
         if ($invalid instanceof MessageBag) {
-            return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
+            return ApiResponse::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
         }
         $item = $this->getResource()->arrayToDto($request->json()->all());
         $insert = $this->getService()->insert($item);
@@ -51,7 +51,7 @@ abstract class BasicController extends Controller
     {
         $invalid = $this->getService()->isInvalidRequest($request, $this->rulesUpdate());
         if ($invalid instanceof MessageBag) {
-            return ResponseError::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
+            return ApiResponse::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
         }
         $requestItem = $request->json()->all();
         $requestItem['id'] = $id;

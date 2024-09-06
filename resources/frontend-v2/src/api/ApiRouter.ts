@@ -13,6 +13,7 @@ import {CardInvoiceItemModel} from "@/model/card/invoice-item/CardInvoiceItemMod
 import {UserModel} from "@/model/user/UserModel"
 import {MainSettingsModel} from "@/model/settings/MainSettingsModel"
 import {IRegisterForm} from "@/services/register/IRegisterForm"
+import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -47,14 +48,20 @@ axios.interceptors.response.use(response => {
 }, async (error) => {
     if (error.response && error.response.status === 401) {
         await AuthService.logout()
-        router.push({name: 'login'})
+        await router.push({name: 'login'})
     }
     if (error.response && (error.response.status === 400 || error.response.status === 403)) {
-        const okAlert: MfpOkAlert = new MfpOkAlert("Ocorreu um erro!")
-        await okAlert.open(error.response.data.message)
+        if (error.response.data.message.includes('atingido para o seu plano')) {
+            const confirmAlert: MfpConfirmAlert = new MfpConfirmAlert("Bora fazer upgrade!")
+            await confirmAlert.open(error.response.data.message + ' Vamos fazer um upgrade?')
+            // todo - implementar ação de upgrade
+        } else {
+            const okAlert: MfpOkAlert = new MfpOkAlert("Ocorreu um erro!")
+            await okAlert.open(error.response.data.message)
+        }
     }
     if (error.response && error.response.status === 503) {
-        router.push({name: 'updating'})
+        await router.push({name: 'updating'})
     }
     return Promise.reject(error)
 })

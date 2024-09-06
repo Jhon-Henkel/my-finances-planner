@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Gates\GatesAbilityEnum;
+use App\Exceptions\Plan\LimitExceededException;
+use App\Models\CreditCard;
 use App\Resources\CreditCard\CreditCardResource;
 use App\Services\CreditCard\CreditCardService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class CreditCardController extends BasicController
 {
@@ -41,5 +46,11 @@ class CreditCardController extends BasicController
     protected function getResource(): CreditCardResource
     {
         return $this->resource;
+    }
+
+    public function insert(Request $request): JsonResponse
+    {
+        LimitExceededException::validateExceeded(GatesAbilityEnum::Create, CreditCard::class);
+        return parent::insert($request);
     }
 }

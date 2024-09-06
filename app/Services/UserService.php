@@ -7,7 +7,6 @@ use App\Exceptions\User\InvalidCurrentPasswordException;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\Auth\AuthService;
-use App\Tools\AppTools;
 use App\Tools\Auth\JwtTools;
 
 class UserService extends BasicService
@@ -61,7 +60,7 @@ class UserService extends BasicService
     public function developGetTokens(): array
     {
         return [
-            'MFP-TOKEN' => AppTools::getEnvValue('PUSHER_APP_KEY'),
+            'MFP-TOKEN' => config('app.mfp_token'),
             'X-MFP-USER-TOKEN' => JwtTools::createJWT(
                 app(AuthService::class)->findUserForAuth('demo@demo.dev')
             )

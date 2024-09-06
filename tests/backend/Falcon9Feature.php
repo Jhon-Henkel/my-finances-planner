@@ -18,6 +18,7 @@ abstract class Falcon9Feature extends BaseTestCase
 
     protected array $apiHeaders;
     protected User $user;
+    protected array $headerWithoutUser;
 
     protected function setUp(): void
     {
@@ -35,6 +36,11 @@ abstract class Falcon9Feature extends BaseTestCase
         }
         $this->user = new User((array)$user[0]);
         User::query()->where('email', $this->user->email)->update(['status' => StatusEnum::Active->value]);
+        $this->headerWithoutUser = [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'MFP-TOKEN' => config('app.mfp_token'),
+        ];
         $this->apiHeaders = $this->makeHeaders();
     }
 
