@@ -44,9 +44,11 @@ function previousMonth() {
         <ion-grid>
             <ion-row>
                 <ion-col size="1" class="center-ion-label-content">
-                    <ion-button @click="previousMonth" class="ion-padding-start">
-                        <ion-icon :icon="chevronBackOutline"/>
-                    </ion-button>
+                    <div class="ion-padding-start">
+                        <ion-button @click="previousMonth">
+                            <ion-icon :icon="chevronBackOutline"/>
+                        </ion-button>
+                    </div>
                 </ion-col>
                 <ion-col size="10" class="center-ion-label-content">
                     <ion-label>
@@ -54,9 +56,11 @@ function previousMonth() {
                     </ion-label>
                 </ion-col>
                 <ion-col size="1" class="center-ion-label-content">
-                    <ion-button @click="nextMonth" class="ion-margin-end">
-                        <ion-icon :icon="chevronForwardOutline"/>
-                    </ion-button>
+                    <div class="ion-padding-end">
+                        <ion-button @click="nextMonth">
+                            <ion-icon :icon="chevronForwardOutline"/>
+                        </ion-button>
+                    </div>
                 </ion-col>
             </ion-row>
         </ion-grid>

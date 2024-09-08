@@ -45,6 +45,11 @@ http://ionicframework.com/docs/theming/ */
     height: 10px;
 }
 
-.bg-danger {
-    background-color: #6d131a;
+.full-width-badge {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    height: 50px;
+    line-height: 50px;
 }
