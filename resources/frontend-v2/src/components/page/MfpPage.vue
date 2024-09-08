@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {IonContent, IonPage} from "@ionic/vue"
+import {IonContent, IonPage, IonRow, IonCol, IonGrid, IonBadge} from "@ionic/vue"
 import {useAuthStore} from "@/stores/auth/AuthStore"
 
 const authStore = useAuthStore()
@@ -8,19 +8,16 @@ const authStore = useAuthStore()
 <template>
     <ion-page class="ion-margin-top ion-padding-top">
         <ion-content :fullscreen="true">
-            <div class="bg-danger ion-text-center" v-if="authStore?.user?.plan === 'Free'">
-                <div class="padding-plan">
-                    <p>Você está usando um plano gratuíto com limitações</p>
-                </div>
-            </div>
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <ion-badge color="danger" v-if="authStore?.user?.plan === 'Free'" class="full-width-badge">
+                            Você está usando um plano gratuíto
+                        </ion-badge>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
             <slot/>
         </ion-content>
     </ion-page>
 </template>
-
-<style scoped>
-    .padding-plan {
-        padding-top: 2px;
-        padding-bottom: 2px;
-    }
-</style>
