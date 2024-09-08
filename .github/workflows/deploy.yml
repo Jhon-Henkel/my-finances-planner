@@ -38,6 +38,7 @@ jobs:
             docker exec mfp_app bash -c "php artisan down"
             git pull ${{ secrets.SSH_GIT_PULL_URL }}
             docker exec mfp_app bash -c "composer update --no-dev"
+            docker exec mfp_app bash -c "php artisan migrate --force"
             docker exec mfp_app bash -c "php artisan migrate:all-tenants"
 
       # Copiando arquivos para o servidor
