@@ -6,6 +6,7 @@ interface ImportMetaEnv {
     readonly VITE_MFP_TOKEN: string;
     readonly VITE_SENTRY_DSN_PUBLIC: string;
     readonly VITE_CODECOV_TOKEN: string;
+    readonly VITE_PAYMENT_LINK: string;
 }
 
 interface ImportMeta {
