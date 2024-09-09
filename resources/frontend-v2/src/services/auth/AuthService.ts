@@ -2,7 +2,7 @@ import {ILoginForm} from "@/services/auth/ILoginForm"
 import {ApiRouter} from "@/api/ApiRouter"
 import {IApiResponse} from "@/api/IApiResponse"
 import {useAuthStore} from "@/stores/auth/AuthStore"
-import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
+import {MfpSubscriptionService} from "@/services/subscription/MfpSubscriptionService"
 
 let authStore: any = null
 
@@ -19,9 +19,7 @@ export const AuthService = {
             getAuthStore().setUser(response.user)
             getAuthStore().setToken(response.token)
             if (response.user.plan === 'Free') {
-                const alert = new MfpConfirmAlert('Bora fazer um upgrade')
-                alert.open('Voce tem limitações de uso no plano gratuito, deseja fazer um upgrade?')
-                // todo - implementar ação de upgrade
+                MfpSubscriptionService.openModal('Voce tem limitações de uso no plano gratuito.')
             }
             return {isSuccess: true, data: response}
         }).catch((response: any): IApiResponse => {
