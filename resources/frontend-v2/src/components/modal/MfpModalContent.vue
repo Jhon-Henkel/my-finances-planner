@@ -22,5 +22,6 @@ defineProps(
                 <slot name="content"/>
             </ion-item>
         </ion-list>
+        <slot name="footer"/>
     </ion-content>
 </template>
