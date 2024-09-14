@@ -17,7 +17,7 @@ class PaymentController
     public function payPlan(Request $request): JsonResponse
     {
         $data = $request->all();
-        $this->paymentService->paySubscribe('', '');
+        $this->paymentService->createAgreement();
         return response()->json(['message' => 'Payment successful']); // todo - usar response api
     }
 }

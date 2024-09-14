@@ -2,6 +2,7 @@
 
 namespace App\Services\PaymentMethod\PayPal;
 
+use App\DTO\Subscription\SubscriptionAgreementDTO;
 use App\Enums\ConfigEnum;
 use App\Services\PaymentMethod\IPaymentMethod;
 use GuzzleHttp\Client;
@@ -18,6 +19,7 @@ class PayPalService implements IPaymentMethod
                 'Content-Type' => $contentType,
                 'Authorization' => $authorization ? "Bearer $authorization" : $this->makeBasicAuthToken()
             ],
+            'http_errors' => false
         ]);
     }
 
@@ -47,9 +49,45 @@ class PayPalService implements IPaymentMethod
         return $this->auth;
     }
 
-    public function paySubscribe(string $payerEmail, string $cardTokenId)
+    public function createAgreement(): SubscriptionAgreementDTO
     {
-        $this->getToken();
-        dd($this->auth);
+        $data = [
+            "plan_id" => 'PLAN_ID',
+            "quantity" => '1',
+            "custom_id" => 'CUST-1234',
+            "subscriber" => [
+                "name" => [
+                    "given_name" => 'USER NAME',
+                    "surname" => 'USER SURNAME',
+                ],
+                "email_address" => 'USER_EMAIL',
+            ],
+            "application_context" => [
+                "brand_name" => "Finanças na Mão",
+                "locale" => "pt-BR",
+                "shipping_preference" => "NO_SHIPPING",
+                "user_action" => "SUBSCRIBE_NOW",
+                "payment_method" => [
+                    "payer_selected" => "PAYPAL",
+                    "payee_preferred" => "IMMEDIATE_PAYMENT_REQUIRED",
+                ],
+                "return_url" => "https://financasnamao.com.br/execute_subscription.php?success=true",
+                "cancel_url" => "https://financasnamao.com.br/execute_subscription.php?success=false",
+            ]
+        ];
+        $client = $this->getClient(authorization: $this->getToken()->getAccessToken());
+        $response = $client->post('billing/subscriptions', ['body' => json_encode($data)]);
+        $dataDecoded = json_decode($response->getBody()->getContents(), true);
+        if ($response->getStatusCode() !== 201) {
+            throw new \Exception('Erro ao criar assinatura'); // todo - fazer exception específico
+        }
+        return new SubscriptionAgreementDTO($dataDecoded);
     }
+
+    /**
+     * Criar os métodos:
+     * - validar assinatura: https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_get
+     * - cancelar assinatura: https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_cancel
+     *
+     */
 }

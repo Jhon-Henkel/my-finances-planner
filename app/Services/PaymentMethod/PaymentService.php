@@ -23,8 +23,8 @@ class PaymentService
         };
     }
 
-    public function paySubscribe(string $payerEmail, string $cardTokenId): void
+    public function createAgreement(): void
     {
-        $data = $this->paymentMethod->paySubscribe($payerEmail, $cardTokenId);
+        $data = $this->paymentMethod->createAgreement();
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Services\PaymentMethod;
 
+use App\DTO\Subscription\SubscriptionAgreementDTO;
+
 interface IPaymentMethod
 {
-    // todo - tem que validar se a assinatura do método vai ficar assim
-    public function paySubscribe(string $payerEmail, string $cardTokenId);
+    public function createAgreement(): SubscriptionAgreementDTO;
 }
