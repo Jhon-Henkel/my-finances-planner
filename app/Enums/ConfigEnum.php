@@ -9,4 +9,5 @@ enum ConfigEnum: string
     case XMfpUserTokenKey = 'HTTP_X_MFP_USER_TOKEN';
     case MustShowWelcomePage = 'must_show_welcome_page';
     case MarketPlannerValue = 'market_planner_value';
+    case DevDotEnv = 'local';
 }

@@ -257,5 +257,11 @@ export const ApiRouter = {
             const response = await axios.put(mountApiUrl('configurations'), settings, makeHeaders())
             return response.data
         }
+    },
+    payPlan: {
+        post: async function (data: any) {
+            const response = await axios.post(mountApiUrl('pay-plan'), data, makeHeaders())
+            return response.data
+        }
     }
 }
