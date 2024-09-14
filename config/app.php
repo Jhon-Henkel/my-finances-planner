@@ -14,6 +14,7 @@ return [
     'payment_method_name' => env('PAYMENT_METHOD_NAME'),
     'payment_method_client_id' => env('PAYMENT_METHOD_CLIENT_ID'),
     'payment_method_client_secret' => env('PAYMENT_METHOD_CLIENT_SECRET'),
+    'payment_method_plan_id' => env('PAYMENT_METHOD_SUBSCRIBE_PLAN_ID'),
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'key' => env('APP_KEY'),

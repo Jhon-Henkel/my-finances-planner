@@ -3,7 +3,9 @@
 namespace App\Services\PaymentMethod\PayPal;
 
 use App\DTO\Subscription\SubscriptionAgreementDTO;
+use App\DTO\Subscription\SubscriptionDTO;
 use App\Enums\ConfigEnum;
+use App\Enums\Response\StatusCodeEnum;
 use App\Services\PaymentMethod\IPaymentMethod;
 use GuzzleHttp\Client;
 
@@ -38,56 +40,47 @@ class PayPalService implements IPaymentMethod
         return 'Basic ' . base64_encode("$client_id:$client_secret");
     }
 
-    public function getToken(): PayPalAuthDTO
+    protected function getToken(): string
     {
-        if ($this->auth && ! $this->auth->isExpired()) {
-            return $this->auth;
+        if ($this->auth && !$this->auth->isExpired()) {
+            return $this->auth->getAccessToken();
         }
         $client = $this->getClient('application/x-www-form-urlencoded');
         $response = $client->post('oauth2/token', ['form_params' => ['grant_type' => 'client_credentials']]);
         $this->auth = new PayPalAuthDTO(json_decode($response->getBody()->getContents(), true));
-        return $this->auth;
+        return $this->auth->getAccessToken();
     }
 
-    public function createAgreement(): SubscriptionAgreementDTO
+    public function createAgreement(array $userData): SubscriptionAgreementDTO
     {
-        $data = [
-            "plan_id" => 'PLAN_ID',
-            "quantity" => '1',
-            "custom_id" => 'CUST-1234',
-            "subscriber" => [
-                "name" => [
-                    "given_name" => 'USER NAME',
-                    "surname" => 'USER SURNAME',
-                ],
-                "email_address" => 'USER_EMAIL',
-            ],
-            "application_context" => [
-                "brand_name" => "Finanças na Mão",
-                "locale" => "pt-BR",
-                "shipping_preference" => "NO_SHIPPING",
-                "user_action" => "SUBSCRIBE_NOW",
-                "payment_method" => [
-                    "payer_selected" => "PAYPAL",
-                    "payee_preferred" => "IMMEDIATE_PAYMENT_REQUIRED",
-                ],
-                "return_url" => "https://financasnamao.com.br/execute_subscription.php?success=true",
-                "cancel_url" => "https://financasnamao.com.br/execute_subscription.php?success=false",
-            ]
-        ];
-        $client = $this->getClient(authorization: $this->getToken()->getAccessToken());
+        $data = PayPalRequestDataFactory::makeAgreementBody($userData['name'], $userData['email']);
+        $client = $this->getClient(authorization: $this->getToken());
         $response = $client->post('billing/subscriptions', ['body' => json_encode($data)]);
-        $dataDecoded = json_decode($response->getBody()->getContents(), true);
-        if ($response->getStatusCode() !== 201) {
+        if ($response->getStatusCode() !== StatusCodeEnum::HttpCreated->value) {
+            // todo - tratar possíveis erros
             throw new \Exception('Erro ao criar assinatura'); // todo - fazer exception específico
         }
-        return new SubscriptionAgreementDTO($dataDecoded);
+        // todo - tem que validar o status antes de devolver esse item
+        return new SubscriptionAgreementDTO(json_decode($response->getBody()->getContents(), true));
     }
 
-    /**
-     * Criar os métodos:
-     * - validar assinatura: https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_get
-     * - cancelar assinatura: https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_cancel
-     *
-     */
+    public function getSubscription(string $subscriptionId): SubscriptionDTO
+    {
+        $client = $this->getClient(authorization: $this->getToken());
+        $response = $client->get("billing/subscriptions/$subscriptionId");
+        if ($response->getStatusCode() !== StatusCodeEnum::HttpOk->value) {
+            throw new \Exception('Erro ao buscar assinatura'); // todo - fazer exception específico
+        }
+        return new SubscriptionDTO(json_decode($response->getBody()->getContents(), true));
+    }
+
+    public function cancelSubscription(string $subscriptionId, string $reason): void
+    {
+        $client = $this->getClient(authorization: $this->getToken());
+        $data = ['reason' => $reason];
+        $response = $client->post("billing/subscriptions/$subscriptionId/cancel", ['body' => json_encode($data)]);
+        if ($response->getStatusCode() !== StatusCodeEnum::HttpNoContent->value) {
+            throw new \Exception('Erro ao cancelar assinatura'); // todo - fazer exception específico
+        }
+    }
 }

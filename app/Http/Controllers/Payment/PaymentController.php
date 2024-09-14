@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Payment;
 
 use App\Services\PaymentMethod\PaymentService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class PaymentController
 {
@@ -14,9 +13,8 @@ class PaymentController
     {
     }
 
-    public function payPlan(Request $request): JsonResponse
+    public function payPlan(): JsonResponse
     {
-        $data = $request->all();
         $this->paymentService->createAgreement();
         return response()->json(['message' => 'Payment successful']); // todo - usar response api
     }

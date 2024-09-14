@@ -5,14 +5,16 @@ namespace App\DTO\Subscription;
 class SubscriptionAgreementDTO
 {
     private string $status;
-    private string $id;
+    private string $subscriptionId;
     private string $createTime;
     private string $approveLink;
+
+    private const string LINK_TO_PAY = 'approve';
 
     public function __construct(array $response)
     {
         $this->status = $response['status'];
-        $this->id = $response['id'];
+        $this->subscriptionId = $response['id'];
         $this->createTime = $response['create_time'];
         $this->approveLink = $this->searchApproveLink($response['links']);
     }
@@ -20,7 +22,7 @@ class SubscriptionAgreementDTO
     protected function searchApproveLink(array $links): string
     {
         foreach ($links as $link) {
-            if ($link['rel'] === 'approve') {
+            if ($link['rel'] === self::LINK_TO_PAY) {
                 return $link['href'];
             }
         }
@@ -32,19 +34,9 @@ class SubscriptionAgreementDTO
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function getSubscriptionId(): string
     {
-        $this->status = $status;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    public function setId(string $id): void
-    {
-        $this->id = $id;
+        return $this->subscriptionId;
     }
 
     public function getCreateTime(): string
@@ -52,18 +44,8 @@ class SubscriptionAgreementDTO
         return $this->createTime;
     }
 
-    public function setCreateTime(string $createTime): void
-    {
-        $this->createTime = $createTime;
-    }
-
     public function getApproveLink(): string
     {
         return $this->approveLink;
-    }
-
-    public function setApproveLink(string $approveLink): void
-    {
-        $this->approveLink = $approveLink;
     }
 }
