@@ -132,9 +132,11 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
 
     Route::prefix('subscribe')->group(function () {
         Route::post('', [SubscribeController::class, 'subscribe'])
-            ->name(RouteEnum::ApiPayPlan->value);
+            ->name(RouteEnum::ApiSubscribe->value);
         Route::post('/cancel', [SubscribeController::class, 'cancel'])
-            ->name(RouteEnum::ApiPayPlan->value);
+            ->name(RouteEnum::ApiCancelSubscribe->value);
+        Route::get('/status', [SubscribeController::class, 'status'])
+            ->name(RouteEnum::ApiSubscribeStatus->value);
     });
 });
 
@@ -143,10 +145,8 @@ Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
         Route::prefix('/register')->group(function () {
             Route::post('/step-one', [UserRegisterController::class, 'registerStepOne'])
                 ->name(RouteEnum::MfpUserRegisterStepOne->value);
-
             Route::post('/step-two', [UserRegisterController::class, 'registerStepTwo'])
                 ->name(RouteEnum::MfpUserRegisterStepTwo->value);
-
             Route::post('/activate/{hash}', [UserRegisterController::class, 'registerStepThree'])
                 ->name(RouteEnum::MfpUserRegisterStepThree->value);
         });

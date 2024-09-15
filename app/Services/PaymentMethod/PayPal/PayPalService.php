@@ -9,6 +9,7 @@ use App\Enums\Response\StatusCodeEnum;
 use App\Exceptions\PaymentMethod\PaymentMethodCancelSubscriptionException;
 use App\Exceptions\PaymentMethod\PaymentMethodCreateSubscriptionException;
 use App\Exceptions\PaymentMethod\PaymentMethodGetSubscriptionException;
+use App\Models\User;
 use App\Services\PaymentMethod\IPaymentMethod;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
@@ -60,15 +61,13 @@ class PayPalService implements IPaymentMethod
         return $this->getClient()->post($uri, ['body' => json_encode($data)]);
     }
 
-    public function createAgreement(array $userData): SubscriptionAgreementDTO
+    public function createAgreement(User $user): SubscriptionAgreementDTO
     {
-        $data = PayPalRequestDataFactory::makeAgreementBody($userData['name'], $userData['email']);
+        $data = PayPalRequestDataFactory::makeAgreementBody($user->name, $user->email);
         $response = $this->post('billing/subscriptions', $data);
         if ($response->getStatusCode() !== StatusCodeEnum::HttpCreated->value) {
-            // todo - tratar possíveis erros
-            throw new PaymentMethodCreateSubscriptionException($userData['email']);
+            throw new PaymentMethodCreateSubscriptionException($user->email);
         }
-        // todo - tem que validar o status code antes de devolver esse item
         return new SubscriptionAgreementDTO(json_decode($response->getBody()->getContents(), true));
     }
 

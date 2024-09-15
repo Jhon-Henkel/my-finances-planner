@@ -4,14 +4,6 @@ namespace App\DTO\Subscription;
 
 class SubscriptionDTO
 {
-    // PayPal subscription statuses
-    private const string PENDING = 'APPROVAL_PENDING';
-    private const string APPROVED = 'APPROVED';
-    private const string ACTIVE = 'ACTIVE';
-    private const string SUSPENDED = 'SUSPENDED';
-    private const string CANCELLED = 'CANCELLED';
-    private const string EXPIRED = 'EXPIRED';
-
     private string $status;
     private string $subscriptionId;
 
@@ -26,8 +18,16 @@ class SubscriptionDTO
         return $this->subscriptionId;
     }
 
-    public function isActive(): bool
+    public function getStatus(): string
     {
-        return $this->status === self::ACTIVE;
+        return $this->status;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'status' => $this->status,
+            'subscriptionId' => $this->subscriptionId,
+        ];
     }
 }

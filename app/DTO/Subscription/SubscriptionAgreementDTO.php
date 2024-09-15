@@ -2,6 +2,8 @@
 
 namespace App\DTO\Subscription;
 
+use App\Exceptions\PaymentMethod\PaymentMethodApproveLinkSubscriptionException;
+
 class SubscriptionAgreementDTO
 {
     private string $status;
@@ -26,7 +28,7 @@ class SubscriptionAgreementDTO
                 return $link['href'];
             }
         }
-        // todo - throw exception
+        throw new PaymentMethodApproveLinkSubscriptionException($this->subscriptionId);
     }
 
     public function getStatus(): string
@@ -39,13 +41,13 @@ class SubscriptionAgreementDTO
         return $this->subscriptionId;
     }
 
-    public function getCreateTime(): string
+    public function toArray(): array
     {
-        return $this->createTime;
-    }
-
-    public function getApproveLink(): string
-    {
-        return $this->approveLink;
+        return [
+            'status' => $this->status,
+            'subscriptionId' => $this->subscriptionId,
+            'createTime' => $this->createTime,
+            'approveLink' => $this->approveLink
+        ];
     }
 }

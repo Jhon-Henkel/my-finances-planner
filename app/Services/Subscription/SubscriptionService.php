@@ -25,21 +25,27 @@ class SubscriptionService
         };
     }
 
-    public function createAgreement(): void
+    public function createAgreement(): array
     {
-        $user = Auth::user()->toArray();
-//        $agreement = $this->paymentMethod->createAgreement($user);
-//        $this->paymentMethod->cancelSubscription('I-GUTESYA1WHRX', 'Canceling the subscription');
-        $subscription = $this->paymentMethod->getSubscription('I-GUTESYA1WHRX');
-//        dd($agreement, $subscription);
-        dd($subscription);
-        // todo - salvar o id da assinatura no banco
+        $user = Auth::user();
+        $agreement = $this->paymentMethod->createAgreement($user);
+        $user->subscriptionId = $agreement->getSubscriptionId();
+        $user->save();
+        return $agreement->toArray();
     }
 
     public function cancelAgreement(string $reason): void
     {
-        $user = Auth::user()->toArray();
-        $this->paymentMethod->cancelSubscription('I-GUTESYA1WHRX', $reason);
-        // todo - remover o id da assinatura do banco
+        $user = Auth::user();
+        $this->paymentMethod->cancelSubscription($user->subscriptionId, $reason);
+        $user->subscriptionId = null;
+        $user->save();
+    }
+
+    public function getSubscription(): array
+    {
+        $user = Auth::user();
+        $subscription = $this->paymentMethod->getSubscription($user->subscriptionId);
+        return $subscription->toArray();
     }
 }

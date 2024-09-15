@@ -2,49 +2,36 @@
 
 namespace App\Http\Controllers\Subscribe;
 
-use _PHPStan_eeb46c016\Nette\NotImplementedException;
-use App\Http\Controllers\BasicController;
 use App\Services\Subscription\SubscriptionService;
 use App\Tools\Response\ResponseApi;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class SubscribeController extends BasicController
+class SubscribeController
 {
-    public function __construct(protected readonly SubscriptionService $subscribeService)
-    {
-    }
+    use ValidatesRequests;
 
-    protected function rulesInsert(): array
+    public function __construct(protected readonly SubscriptionService $subscriptionService)
     {
-        throw new NotImplementedException();
-    }
-
-    protected function rulesUpdate(): array
-    {
-        throw new NotImplementedException();
-    }
-
-    protected function getService()
-    {
-        throw new NotImplementedException();
-    }
-
-    protected function getResource()
-    {
-        throw new NotImplementedException();
     }
 
     public function subscribe(): JsonResponse
     {
-        $this->subscribeService->createAgreement();
-        return ResponseApi::renderOk();
+        $data = $this->subscriptionService->createAgreement();
+        return ResponseApi::renderOk($data);
     }
 
     public function cancel(Request $request): JsonResponse
     {
         $data = $this->validate($request, ['reason' => 'required|string']);
-        $this->subscribeService->cancelAgreement($data['reason']);
+        $this->subscriptionService->cancelAgreement($data['reason']);
         return ResponseApi::renderOk();
+    }
+
+    public function status(): JsonResponse
+    {
+        $data = $this->subscriptionService->getSubscription();
+        return ResponseApi::renderOk($data);
     }
 }
