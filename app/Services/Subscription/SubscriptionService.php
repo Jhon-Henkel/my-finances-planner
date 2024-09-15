@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Services\PaymentMethod;
+namespace App\Services\Subscription;
 
 use App\Enums\PaymentMethod\PaymentMethodNameEnum;
 use App\Exceptions\PaymentMethod\PaymentMethodNotFountException;
+use App\Services\PaymentMethod\IPaymentMethod;
 use App\Services\PaymentMethod\PayPal\PayPalService;
 use Illuminate\Support\Facades\Auth;
 
-class PaymentService
+class SubscriptionService
 {
     private IPaymentMethod $paymentMethod;
 
@@ -32,6 +33,13 @@ class PaymentService
         $subscription = $this->paymentMethod->getSubscription('I-GUTESYA1WHRX');
 //        dd($agreement, $subscription);
         dd($subscription);
-        // todo - salvar o id da transação no banco e disponibilizar para consultar
+        // todo - salvar o id da assinatura no banco
+    }
+
+    public function cancelAgreement(string $reason): void
+    {
+        $user = Auth::user()->toArray();
+        $this->paymentMethod->cancelSubscription('I-GUTESYA1WHRX', $reason);
+        // todo - remover o id da assinatura do banco
     }
 }

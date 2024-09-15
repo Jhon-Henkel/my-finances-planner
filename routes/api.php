@@ -9,7 +9,7 @@ use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\PanoramaController;
-use App\Http\Controllers\Payment\PaymentController;
+use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
@@ -130,8 +130,10 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
             ->name(RouteEnum::ApiFinancialHealthIndexFiltered->value);
     });
 
-    Route::prefix('pay-plan')->group(function () {
-        Route::post('', [PaymentController::class, 'payPlan'])
+    Route::prefix('subscribe')->group(function () {
+        Route::post('', [SubscribeController::class, 'subscribe'])
+            ->name(RouteEnum::ApiPayPlan->value);
+        Route::post('/cancel', [SubscribeController::class, 'cancel'])
             ->name(RouteEnum::ApiPayPlan->value);
     });
 });
