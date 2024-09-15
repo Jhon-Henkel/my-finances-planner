@@ -130,8 +130,8 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
             ->name(RouteEnum::ApiFinancialHealthIndexFiltered->value);
     });
 
-    Route::prefix('subscribe')->group(function () {
-        Route::post('', [SubscribeController::class, 'subscribe'])
+    Route::prefix('subscription')->group(function () {
+        Route::post('/subscribe', [SubscribeController::class, 'subscribe'])
             ->name(RouteEnum::ApiSubscribe->value);
         Route::post('/cancel', [SubscribeController::class, 'cancel'])
             ->name(RouteEnum::ApiCancelSubscribe->value);

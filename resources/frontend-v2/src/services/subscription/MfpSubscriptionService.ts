@@ -1,5 +1,4 @@
 import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
-import {ApiRouter} from "@/api/ApiRouter"
 
 export const MfpSubscriptionService = {
     openModal: async (massageConcatBefore: string = '') => {
@@ -10,6 +9,6 @@ export const MfpSubscriptionService = {
         }
     },
     openPlanPayment: async () => {
-        await ApiRouter.payPlan.post({aaa: 'bbb'})
+        console.log('openPlanPayment')
     }
 }
