@@ -14,9 +14,9 @@ export default defineConfig((): any => {
                 registerType: 'autoUpdate'
             }),
             codecovVitePlugin({
-                enableBundleAnalysis: process.env.VITE_CODECOV_TOKEN !== undefined,
+                enableBundleAnalysis: env.VITE_CODECOV_TOKEN !== undefined,
                 bundleName: "my-finances-planner",
-                uploadToken: process.env.VITE_CODECOV_TOKEN,
+                uploadToken: env.VITE_CODECOV_TOKEN,
             })
         ],
         define: {

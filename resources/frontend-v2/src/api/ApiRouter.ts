@@ -257,5 +257,19 @@ export const ApiRouter = {
             const response = await axios.put(mountApiUrl('configurations'), settings, makeHeaders())
             return response.data
         }
+    },
+    subscription: {
+        subscribe: async function (data: any) {
+            const response = await axios.post(mountApiUrl('subscription/subscribe'), data, makeHeaders())
+            return response.data
+        },
+        cancel: async function (data: any) {
+            const response = await axios.post(mountApiUrl('subscription/cancel'), data, makeHeaders())
+            return response.data
+        },
+        status: async function () {
+            const response = await axios.get(mountApiUrl('subscription/statue'), makeHeaders())
+            return response.data
+        }
     }
 }

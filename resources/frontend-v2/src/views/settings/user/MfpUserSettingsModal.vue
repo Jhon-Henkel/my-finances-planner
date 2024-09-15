@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
-import {IonCol, IonIcon, IonRow, modalController, IonLabel} from "@ionic/vue"
+import {IonCol, IonIcon, IonRow, modalController, IonLabel, IonGrid, IonButton} from "@ionic/vue"
 import MfpModalContent from "@/components/modal/MfpModalContent.vue"
 import {onMounted, ref} from "vue"
 import MfpInput from "@/components/input/MfpInput.vue"
@@ -13,6 +13,7 @@ import {useAuthStore} from "@/stores/auth/AuthStore"
 import {UserSettingsFormValidation} from "@/form-validation/settings/user/UserSettingsFormValidation"
 import {AuthService} from "@/services/auth/AuthService"
 import router from "@/router"
+import {MfpSubscriptionService} from "@/services/subscription/MfpSubscriptionService"
 
 const userSettings = ref(UserService.makeEmptyUser())
 const alterPassword = ref(false)
@@ -48,7 +49,7 @@ async function save() {
     await okMessage.open('Faça o login novamente!')
     await AuthService.logout()
     closeModal()
-    router.push({name: 'login'})
+    await router.push({name: 'login'})
 }
 
 function closeModal() {
@@ -99,6 +100,17 @@ onMounted(async () => {
                     </ion-label>
                 </ion-col>
             </ion-row>
+        </template>
+        <template #footer>
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <ion-button expand="block" @click="MfpSubscriptionService.openModal()">
+                            Mudar o plano
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
         </template>
     </mfp-modal-content>
 </template>

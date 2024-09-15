@@ -9,6 +9,6 @@ export const MfpSubscriptionService = {
         }
     },
     openPlanPayment: async () => {
-        window.open(process.env.VITE_PAYMENT_LINK, '_self')
+        console.log('openPlanPayment')
     }
 }

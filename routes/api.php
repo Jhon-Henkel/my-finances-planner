@@ -9,6 +9,7 @@ use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\PanoramaController;
+use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
@@ -128,6 +129,15 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
         Route::get('/filter', [FinancialHealthController::class, 'indexFiltered'])
             ->name(RouteEnum::ApiFinancialHealthIndexFiltered->value);
     });
+
+    Route::prefix('subscription')->group(function () {
+        Route::post('/subscribe', [SubscribeController::class, 'subscribe'])
+            ->name(RouteEnum::ApiSubscribe->value);
+        Route::post('/cancel', [SubscribeController::class, 'cancel'])
+            ->name(RouteEnum::ApiCancelSubscribe->value);
+        Route::get('/status', [SubscribeController::class, 'status'])
+            ->name(RouteEnum::ApiSubscribeStatus->value);
+    });
 });
 
 Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
@@ -135,13 +145,10 @@ Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
         Route::prefix('/register')->group(function () {
             Route::post('/step-one', [UserRegisterController::class, 'registerStepOne'])
                 ->name(RouteEnum::MfpUserRegisterStepOne->value);
-
             Route::post('/step-two', [UserRegisterController::class, 'registerStepTwo'])
                 ->name(RouteEnum::MfpUserRegisterStepTwo->value);
-
             Route::post('/activate/{hash}', [UserRegisterController::class, 'registerStepThree'])
                 ->name(RouteEnum::MfpUserRegisterStepThree->value);
         });
     });
-
 });
