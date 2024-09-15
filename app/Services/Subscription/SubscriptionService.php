@@ -29,7 +29,7 @@ class SubscriptionService
     {
         $user = Auth::user();
         $agreement = $this->paymentMethod->createAgreement($user);
-        $user->subscriptionId = $agreement->getSubscriptionId();
+        $user->subscription_id = $agreement->getSubscriptionId();
         $user->save();
         return $agreement->toArray();
     }
@@ -37,15 +37,15 @@ class SubscriptionService
     public function cancelAgreement(string $reason): void
     {
         $user = Auth::user();
-        $this->paymentMethod->cancelSubscription($user->subscriptionId, $reason);
-        $user->subscriptionId = null;
+        $this->paymentMethod->cancelSubscription($user->subscription_id, $reason);
+        $user->subscription_id = null;
         $user->save();
     }
 
     public function getSubscription(): array
     {
         $user = Auth::user();
-        $subscription = $this->paymentMethod->getSubscription($user->subscriptionId);
+        $subscription = $this->paymentMethod->getSubscription($user->subscription_id);
         return $subscription->toArray();
     }
 }

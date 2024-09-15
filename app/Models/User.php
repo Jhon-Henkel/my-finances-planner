@@ -16,7 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $id
  * @property string $name
  * @property string $email
- * @property string $unique_id
+ * @property null|string $subscription_id
  * @property string $password
  * @property int $status
  * @property string $verify_hash
