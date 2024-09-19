@@ -9,6 +9,7 @@ use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\PanoramaController;
+use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
@@ -137,6 +138,11 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
             ->name(RouteEnum::ApiCancelSubscribe->value);
         Route::get('/status', [SubscribeController::class, 'status'])
             ->name(RouteEnum::ApiSubscribeStatus->value);
+    });
+
+    Route::prefix('plan')->group(function () {
+        Route::get('', [PlanController::class, 'index'])
+            ->name(RouteEnum::ApiPlanIndex->value);
     });
 });
 

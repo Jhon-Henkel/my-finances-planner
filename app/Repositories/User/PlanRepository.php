@@ -3,13 +3,13 @@
 namespace App\Repositories\User;
 
 use App\Enums\Plan\PlanNameEnum;
-use App\Exceptions\NotImplementedException;
 use App\Models\User\Plan;
 use App\Repositories\BasicRepository;
+use App\Resources\Plan\PlanResource;
 
 class PlanRepository extends BasicRepository
 {
-    public function __construct(private readonly Plan $model)
+    public function __construct(private readonly Plan $model, private readonly PlanResource $planResource)
     {
     }
 
@@ -18,9 +18,9 @@ class PlanRepository extends BasicRepository
         return $this->model;
     }
 
-    protected function getResource()
+    protected function getResource(): PlanResource
     {
-        throw new NotImplementedException();
+        return $this->planResource;
     }
 
     public function freePlan(): Plan
