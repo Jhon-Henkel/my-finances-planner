@@ -27,6 +27,15 @@ export const MfpSubscriptionService = {
         window.location.href = response.approveLink
     },
     cancelProPlan: async () => {
-        console.log('desenvolver')
+        const confirmMessage = new MfpConfirmAlert('Cancelar assinatura')
+        let message = 'Você tem certeza que deseja cancelar sua assinatura?'
+        message += ' Após cancelado você receberá um e-mail para confirmando o cancelamento.'
+        const confirm = await confirmMessage.open(message)
+        if (! confirm) {
+            return
+        }
+        await ApiRouter.subscription.cancel({reason: 'Cancelado via tela'})
+        const alert = new MfpConfirmAlert('Assinatura cancelada')
+        await alert.open('Sua assinatura foi cancelada com sucesso.')
     }
 }
