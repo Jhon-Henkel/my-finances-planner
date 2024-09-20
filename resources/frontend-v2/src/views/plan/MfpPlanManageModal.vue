@@ -53,7 +53,7 @@ function closeModal() {
                 </ion-row>
                 <ion-row v-show="actualPlan === 'Pro'">
                     <ion-col>
-                        <ion-button expand="block" @click="MfpSubscriptionService.cancelProPlan()" color="danger">
+                        <ion-button expand="block" @click="MfpSubscriptionService.cancelProPlan(authStore.user.email)" color="danger">
                             Cancelar Assinatura
                         </ion-button>
                     </ion-col>
