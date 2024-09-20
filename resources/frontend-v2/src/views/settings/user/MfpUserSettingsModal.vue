@@ -105,7 +105,10 @@ onMounted(async () => {
             <ion-grid>
                 <ion-row>
                     <ion-col>
-                        <ion-button expand="block" @click="MfpSubscriptionService.openModal()">
+                        <ion-button
+                            expand="block"
+                            @click="MfpSubscriptionService.openModal('', false)"
+                        >
                             Gerenciar Plano
                         </ion-button>
                     </ion-col>

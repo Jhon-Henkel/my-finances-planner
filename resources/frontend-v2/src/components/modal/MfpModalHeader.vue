@@ -16,6 +16,11 @@ defineProps(
             type: Boolean,
             default: false,
             required: false
+        },
+        saveActionHidden: {
+            type: Boolean,
+            default: false,
+            required: false
         }
     }
 )
@@ -32,7 +37,7 @@ const emits = defineEmits(['close-action', 'save-action'])
                     Fechar
                 </ion-button>
             </ion-buttons>
-            <ion-buttons slot="end">
+            <ion-buttons slot="end" v-if="!saveActionHidden">
                 <ion-button @click="emits('save-action')" :disabled="saveActionButtonDisabled">
                     {{ saveActionLabel }}
                 </ion-button>
