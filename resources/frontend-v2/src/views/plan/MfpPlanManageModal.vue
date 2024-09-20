@@ -25,7 +25,8 @@ function closeModal() {
             <ion-list :inset="true">
                 <ion-item color="light">
                     <p>
-                        No Plano free você tem limitação de cadastro de carteiras e de cartões de crédito.
+                        No Plano free você tem limitação de cadastro de carteiras e de cartões de crédito, também não
+                        tem acesso a funcionalidade de Saúde Financeira.
                         <br>
                         <br>
                         No Plano Pro você paga <strong>R$ 9,90</strong> por mês e tem acesso a todos os recursos do aplicativo.
@@ -40,6 +41,13 @@ function closeModal() {
                     <ion-col>
                         <ion-button expand="block" @click="MfpSubscriptionService.subscribeProPlan()">
                             Assinar Plano Pro
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-button expand="block" @click="MfpSubscriptionService.syncSubscription(authStore.user.email)">
+                            Sincronizar Assinatura
                         </ion-button>
                     </ion-col>
                 </ion-row>

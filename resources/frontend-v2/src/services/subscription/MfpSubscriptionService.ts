@@ -2,6 +2,7 @@ import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
 import {ApiRouter} from "@/api/ApiRouter"
 import {MfpModal} from "@/components/modal/MfpModal"
 import MfpPlanManageModal from "@/views/plan/MfpPlanManageModal.vue"
+import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 
 export const MfpSubscriptionService = {
     openModal: async (massageConcatBefore: string = '', openConfirmation: boolean = true) => {
@@ -37,5 +38,13 @@ export const MfpSubscriptionService = {
         await ApiRouter.subscription.cancel({reason: 'Cancelado via tela'})
         const alert = new MfpConfirmAlert('Assinatura cancelada')
         await alert.open('Sua assinatura foi cancelada com sucesso.')
+    },
+    syncSubscription: async (email: string) => {
+        const okAlert = new MfpOkAlert('Retorno da Sincronização')
+        await ApiRouter.subscription.updateAccount({email: email}).then(() => {
+            okAlert.open('Sincronização realizada com sucesso.')
+        }).catch(() => {
+            okAlert.open('Erro ao sincronizar sua conta.')
+        })
     }
 }

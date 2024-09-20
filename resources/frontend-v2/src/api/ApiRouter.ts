@@ -266,6 +266,10 @@ export const ApiRouter = {
         cancel: async function (data: any) {
             const response = await axios.post(mountApiUrl('subscription/cancel'), data, makeHeaders())
             return response.data
+        },
+        updateAccount: async function (data: any) {
+            const response = await axios.post('api/mfp/subscription/update-account', data, makeHeadersNonLogged())
+            return response.data
         }
     }
 }
