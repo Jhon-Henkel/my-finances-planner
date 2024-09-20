@@ -29,9 +29,10 @@ class SubscribeController
         return ResponseApi::renderOk();
     }
 
-    public function status(): JsonResponse
+    public function updateAccount(Request $request)
     {
-        $data = $this->subscriptionService->getSubscription();
-        return ResponseApi::renderOk($data);
+        $data = $this->validate($request, ['email' => 'required|string']);
+        $this->subscriptionService->updateAccount($data['email']);
+        return ResponseApi::renderOk();
     }
 }

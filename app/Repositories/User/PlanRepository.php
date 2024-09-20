@@ -27,4 +27,9 @@ class PlanRepository extends BasicRepository
     {
         return $this->model->where('name', PlanNameEnum::Free->name)->first();
     }
+
+    public function proPlan(): Plan
+    {
+        return $this->model->where('name', PlanNameEnum::Pro->name)->first();
+    }
 }
