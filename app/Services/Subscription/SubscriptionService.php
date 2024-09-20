@@ -2,9 +2,12 @@
 
 namespace App\Services\Subscription;
 
+use App\DTO\Mail\MailMessageDTO;
 use App\Enums\PaymentMethod\PaymentMethodNameEnum;
 use App\Exceptions\PaymentMethod\PaymentMethodNotFountException;
+use App\Models\User;
 use App\Services\Database\DatabaseConnectionService;
+use App\Services\Mail\MailService;
 use App\Services\PaymentMethod\IPaymentMethod;
 use App\Services\PaymentMethod\PayPal\PayPalService;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +17,7 @@ class SubscriptionService
     private IPaymentMethod $paymentMethod;
     private null|DatabaseConnectionService $connection = null;
 
-    public function __construct()
+    public function __construct(private readonly MailService $mailService)
     {
         $this->paymentMethod = $this->getPaymentMethodInstance();
     }
@@ -58,6 +61,7 @@ class SubscriptionService
         $user->subscription_id = null;
         $this->getConnection()->connectUser($user);
         $user->save();
+        $this->mailService->sendEmail($this->generateDataForCreateCancelSubscriptionEmail($user));
     }
 
     public function getSubscription(): array
@@ -66,5 +70,13 @@ class SubscriptionService
         $subscription = $this->getPaymentMethod()->getSubscription($user->subscription_id);
         $this->getConnection()->connectUser($user);
         return $subscription->toArray();
+    }
+
+    protected function generateDataForCreateCancelSubscriptionEmail(User $user): MailMessageDTO
+    {
+        $subject = 'Cancelamento de assinatura';
+        $template = 'emails.subscription.cancel';
+        $data = ['name' => $user->name];
+        return new MailMessageDTO($user->email, $user->name, $subject, $template, $data);
     }
 }
