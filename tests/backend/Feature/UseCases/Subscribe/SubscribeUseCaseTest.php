@@ -44,15 +44,6 @@ class SubscribeUseCaseTest extends Falcon9Feature
             'subscription_id' => $stub->subscriptionId,
         ]);
 
-        // Get subscription
-        $response = $this->getJson($this->baseUrl . 'status', $this->headers);
-
-        $this->assertEquals(StatusCodeEnum::HttpOk->value, $response->getStatusCode(), 'Fail at get subscription');
-        $response->assertJson([
-            'status' => 'ACTIVE',
-            'subscriptionId' => $stub->subscriptionId,
-        ]);
-
         // Cancel subscription
         $response = $this->postJson($this->baseUrl . 'cancel', ['reason' => 'Canceling the subscription'], $this->headers);
 

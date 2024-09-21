@@ -88,7 +88,7 @@ class SubscriptionService
         if ($this->mustUpdatePlanToPro($user, $data['status'])) {
             $user->plan_id = $this->planService->proPlan()->id;
             $user->save();
-        } else if ($this->mustUpdatePlanToFree($user, $data['status'])) {
+        } elseif ($this->mustUpdatePlanToFree($user, $data['status'])) {
             $user->plan_id = $this->planService->freePlan()->id;
             $user->subscription_id = null;
             $user->save();
