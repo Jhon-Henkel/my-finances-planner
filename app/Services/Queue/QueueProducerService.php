@@ -4,6 +4,7 @@ namespace App\Services\Queue;
 
 use App\DTO\Queue\QueueDataDTO;
 use App\Enums\Queue\QueueNameEnum;
+use App\Tools\Request\RequestTools;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -30,7 +31,8 @@ class QueueProducerService
             config('app.queue_host'),
             config('app.queue_port'),
             config('app.queue_user'),
-            config('app.queue_password')
+            config('app.queue_password'),
+            RequestTools::isApplicationInDevelopMode() ? '/' : 'production'
         );
         $this->channel = $this->connection->channel();
         foreach (QueueNameEnum::getQueuesList() as $queueName) {
