@@ -50,6 +50,7 @@ enum RouteEnum: string
     case WebLogout = 'logout';
     case WebMakeLogin = 'makeLogin';
     case WebSendTestEmail = 'sendTestEmail';
+    case WebTestViewEmail = 'testViewEmail';
     case WebActiveUser = 'activeUser';
     case DevelopGetTokens = 'developGetTokens';
     case WebUserRegisterStepZero = 'userRegisterStepZero';
