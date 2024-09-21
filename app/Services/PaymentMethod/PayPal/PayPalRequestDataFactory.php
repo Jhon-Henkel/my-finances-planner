@@ -9,8 +9,8 @@ class PayPalRequestDataFactory
     private const string PAYPAL = 'PAYPAL';
     private const string PAYEE_PREFERRED = 'IMMEDIATE_PAYMENT_REQUIRED';
     private const string LOCALE = 'pt-BR';
-    private const string RETURN_URL = 'https://financasnamao.com.br/execute_subscription.php?success=true';
-    private const string CANCEL_URL = 'https://financasnamao.com.br/execute_subscription.php?success=false';
+    private const string RETURN_URI = '/v2/assinatura-sucesso';
+    private const string CANCEL_URI = '/v2/assinatura-cancelada';
 
     public static function makeAgreementBody(string $userName, string $email): array
     {
@@ -33,8 +33,8 @@ class PayPalRequestDataFactory
                     "payer_selected" => self::PAYPAL,
                     "payee_preferred" => self::PAYEE_PREFERRED,
                 ],
-                "return_url" => self::RETURN_URL,
-                "cancel_url" => self::CANCEL_URL,
+                "return_url" => config('app.url') . self::RETURN_URI . "?email=$email",
+                "cancel_url" => config('app.url') . self::CANCEL_URI . "?email=$email",
             ]
         ];
     }

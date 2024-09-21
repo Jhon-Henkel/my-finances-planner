@@ -31,6 +31,7 @@ class SubscribeUseCaseTest extends Falcon9Feature
         $subscriptionServiceMock = $this->mock(SubscriptionService::class)->makePartial();
         $subscriptionServiceMock->shouldAllowMockingProtectedMethods();
         $subscriptionServiceMock->shouldReceive('getPaymentMethod')->andReturn($stub);
+        $subscriptionServiceMock->shouldReceive('sendCancelAgreementEmail')->andReturn();
         $this->app->instance(SubscriptionService::class, $subscriptionServiceMock);
 
         // Subscribe
@@ -42,15 +43,6 @@ class SubscribeUseCaseTest extends Falcon9Feature
         $this->assertEquals(StatusCodeEnum::HttpOk->value, $response->getStatusCode(), 'Fail at subscribe');
         $this->assertDatabaseHas('users', [
             'subscription_id' => $stub->subscriptionId,
-        ]);
-
-        // Get subscription
-        $response = $this->getJson($this->baseUrl . 'status', $this->headers);
-
-        $this->assertEquals(StatusCodeEnum::HttpOk->value, $response->getStatusCode(), 'Fail at get subscription');
-        $response->assertJson([
-            'status' => 'ACTIVE',
-            'subscriptionId' => $stub->subscriptionId,
         ]);
 
         // Cancel subscription

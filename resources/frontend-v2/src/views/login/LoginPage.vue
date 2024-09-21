@@ -81,7 +81,7 @@ onMounted(async () => {
                 </ion-col>
                 <ion-col size="1"/>
             </ion-row>
-            <mfp-forgotten-password-link/>
+            <mfp-forgotten-password-link v-show="false"/>
             <mfp-login-button :loading="loading" @loginPressed="submit"/>
             <mfp-create-account-link/>
         </ion-grid>

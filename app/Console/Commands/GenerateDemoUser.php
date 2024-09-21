@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\User\Plan;
 use App\Models\User\Tenant;
 use App\Repositories\User\PlanRepository;
+use App\Resources\Plan\PlanResource;
 use App\Services\Database\DatabaseService;
 use App\Services\User\PlanService;
 use App\Tools\Calendar\CalendarTools;
@@ -34,7 +35,7 @@ class GenerateDemoUser extends Command
             ]);
             $tenant->save();
 
-            $planService = new PlanService(new PlanRepository(new Plan()));
+            $planService = new PlanService(new PlanRepository(new Plan(), new PlanResource()));
             $user = User::create([
                 'name' => 'Demo User',
                 'email' => 'demo@demo.dev',

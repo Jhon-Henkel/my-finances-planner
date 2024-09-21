@@ -21,4 +21,9 @@ class PlanService extends BasicService
     {
         return $this->repository->freePlan();
     }
+
+    public function proPlan(): Plan
+    {
+        return $this->repository->proPlan();
+    }
 }

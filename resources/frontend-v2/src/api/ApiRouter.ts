@@ -259,16 +259,16 @@ export const ApiRouter = {
         }
     },
     subscription: {
-        subscribe: async function (data: any) {
-            const response = await axios.post(mountApiUrl('subscription/subscribe'), data, makeHeaders())
+        subscribe: async function () {
+            const response = await axios.post(mountApiUrl('subscription/subscribe'), [], makeHeaders())
             return response.data
         },
         cancel: async function (data: any) {
             const response = await axios.post(mountApiUrl('subscription/cancel'), data, makeHeaders())
             return response.data
         },
-        status: async function () {
-            const response = await axios.get(mountApiUrl('subscription/statue'), makeHeaders())
+        updateAccount: async function (data: any) {
+            const response = await axios.post('api/mfp/subscription/update-account', data, makeHeadersNonLogged())
             return response.data
         }
     }

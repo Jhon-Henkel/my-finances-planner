@@ -9,6 +9,7 @@ use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\PanoramaController;
+use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
@@ -135,12 +136,20 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
             ->name(RouteEnum::ApiSubscribe->value);
         Route::post('/cancel', [SubscribeController::class, 'cancel'])
             ->name(RouteEnum::ApiCancelSubscribe->value);
-        Route::get('/status', [SubscribeController::class, 'status'])
-            ->name(RouteEnum::ApiSubscribeStatus->value);
+    });
+
+    Route::prefix('plan')->group(function () {
+        Route::get('', [PlanController::class, 'index'])
+            ->name(RouteEnum::ApiPlanIndex->value);
     });
 });
 
 Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
+    Route::prefix('/subscription')->group(function () {
+        Route::post('/update-account', [SubscribeController::class, 'updateAccount'])
+            ->name(RouteEnum::ApiSubscribeUpdateAccount->value);
+    });
+
     Route::prefix('/user')->group(function () {
         Route::prefix('/register')->group(function () {
             Route::post('/step-one', [UserRegisterController::class, 'registerStepOne'])

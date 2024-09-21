@@ -29,6 +29,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/register/RegisterActivateUser.vue')
     },
     {
+        path: '/v2/assinatura-sucesso',
+        name: 'subscribe-success',
+        component: () => import('@/views/subscription/SubscriptionSuccessPage.vue')
+    },
+    {
+        path: '/v2/assinatura-cancelada',
+        name: 'subscribe-canceled',
+        component: () => import('@/views/subscription/SubscriptionCanceledPage.vue')
+    },
+    {
         path: '/v2/bem-vindo',
         name: 'welcome',
         component: () => import('@/views/welcome/WelcomePage.vue'),
