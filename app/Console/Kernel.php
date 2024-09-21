@@ -10,12 +10,17 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\GenerateMfpKey::class,
         Commands\GenerateDemoUser::class,
+        Commands\GenerateMfpKey::class,
+        Commands\MigrateAllTenant::class,
+        Commands\MigrateTenant::class,
+        Commands\StartDevelopProject::class,
+        Commands\CheckSubscription::class
     ];
 
     /** @codeCoverageIgnore */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->exec('php ' . base_path('artisan') . ' reset:demodatabase');
+        $schedule->command('cron:check-subscription')->daily();
     }
 
     protected function commands(): void

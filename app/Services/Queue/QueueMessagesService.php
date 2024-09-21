@@ -37,4 +37,16 @@ readonly class QueueMessagesService
         );
         $this->queueProducerService->produce($message);
     }
+
+    public function putMessageCheckSubscription(string $userEmail): void
+    {
+        $message = new QueueDataDTO(
+            route(RouteEnum::ApiSubscribeUpdateAccount->value),
+            RequestTypeEnum::Post,
+            StatusCodeEnum::HttpOk,
+            QueueNameEnum::CheckSubscription,
+            ['email' => $userEmail]
+        );
+        $this->queueProducerService->produce($message);
+    }
 }
