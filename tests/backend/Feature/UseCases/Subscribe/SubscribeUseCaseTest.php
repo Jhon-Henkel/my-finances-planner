@@ -31,6 +31,7 @@ class SubscribeUseCaseTest extends Falcon9Feature
         $subscriptionServiceMock = $this->mock(SubscriptionService::class)->makePartial();
         $subscriptionServiceMock->shouldAllowMockingProtectedMethods();
         $subscriptionServiceMock->shouldReceive('getPaymentMethod')->andReturn($stub);
+        $subscriptionServiceMock->shouldReceive('sendCancelAgreementEmail')->andReturn();
         $this->app->instance(SubscriptionService::class, $subscriptionServiceMock);
 
         // Subscribe

@@ -63,6 +63,11 @@ class SubscriptionService
         $user->subscription_id = null;
         $this->getConnection()->connectUser($user);
         $user->save();
+        $this->sendCancelAgreementEmail($user);
+    }
+
+    protected function sendCancelAgreementEmail(User $user): void
+    {
         $this->mailService->sendEmail($this->generateDataForCreateCancelSubscriptionEmail($user));
     }
 
