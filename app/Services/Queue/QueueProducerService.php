@@ -3,13 +3,14 @@
 namespace App\Services\Queue;
 
 use App\DTO\Queue\QueueDataDTO;
+use App\Enums\Queue\QueueNameEnum;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 class QueueProducerService
 {
-    private const int DELIVERY_MODE_PERSISTENT = 2;
+    protected const int DELIVERY_MODE_PERSISTENT = 2;
 
     protected AMQPStreamConnection $connection;
     protected AMQPChannel $channel;
@@ -32,6 +33,25 @@ class QueueProducerService
             config('app.queue_password')
         );
         $this->channel = $this->connection->channel();
+        foreach (QueueNameEnum::getQueuesList() as $queueName) {
+            $this->setupQueue($queueName);
+        }
+    }
+
+    protected function setupQueue(QueueNameEnum $queueName): void
+    {
+        $dlxName = "{$queueName->value}_dlx";
+        $dlqName = "{$queueName->value}_dead";
+
+        $args = [
+            'x-dead-letter-exchange' => ['S', $dlxName],
+            'x-dead-letter-routing-key' => ['S', $dlqName]
+        ];
+
+        $this->channel->exchange_declare($dlxName, 'direct', false, true, false);
+        $this->channel->queue_declare($dlqName, false, true, false, false);
+        $this->channel->queue_bind($dlqName, $dlxName, $dlqName);
+        $this->channel->queue_declare($queueName->value, false, true, false, false, false, $args);
     }
 
     protected function disconnect(): void
