@@ -30,7 +30,7 @@ rebuild-container $(container):
 create-production-queue-vhost $(username):
 	@echo "Creating production queue vhost..."
 	docker exec mfp_rabbitmq /bin/bash -c "rabbitmqctl add_vhost production" && \
-	docker exec mfp_rabbitmq /bin/bash -c "rabbitmqctl remove_vhost /" && \
+	docker exec mfp_rabbitmq /bin/bash -c "rabbitmqctl delete_vhost /" && \
 	docker exec mfp_rabbitmq /bin/bash -c "rabbitmqctl set_permissions -p production $(username) \".*\" \".*\" \".*\""
 
 .PHONY: backend-start backend-stop backend-restart backend-bash front-dev setup-frontend rebuild-container create-production-queue-vhost
