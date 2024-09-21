@@ -10,6 +10,8 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class QueueProducerService
 {
+    protected const int DELIVERY_MODE_PERSISTENT = 2;
+
     protected AMQPStreamConnection $connection;
     protected AMQPChannel $channel;
 
@@ -17,7 +19,7 @@ class QueueProducerService
     {
         $this->connect();
         $data->addAdditionDate();
-        $msg = new AMQPMessage($data->toJson(), ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]);
+        $msg = new AMQPMessage($data->toJson(), ['delivery_mode' => self::DELIVERY_MODE_PERSISTENT]);
         $this->channel->basic_publish($msg, '', $data->getQueueName());
         $this->disconnect();
     }
