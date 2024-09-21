@@ -9,6 +9,7 @@ use App\Models\CreditCard;
 use App\Models\User;
 use App\Models\WalletModel;
 use App\Policies\CreditCardPolicy;
+use App\Policies\FinancialHealthPolicy;
 use App\Policies\WalletPolicy;
 use App\Services\Database\DatabaseConnectionService;
 use App\Tools\Auth\JwtTools;
@@ -21,6 +22,7 @@ final class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         WalletModel::class => WalletPolicy::class,
         CreditCard::class => CreditCardPolicy::class,
+        'financial-health' => FinancialHealthPolicy::class,
     ];
 
     public function boot(): void

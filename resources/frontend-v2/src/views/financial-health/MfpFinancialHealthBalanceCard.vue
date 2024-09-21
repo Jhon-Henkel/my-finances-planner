@@ -1,16 +1,9 @@
 <script setup lang="ts">
 import {IonCard, IonCardSubtitle, IonCol, IonRow} from '@ionic/vue'
-import {onMounted} from "vue"
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
 import {useFinancialHealthStore} from "@/stores/financial-health/financialHealthStore"
 
 const store = useFinancialHealthStore()
-
-onMounted(async () => {
-    if (!store.isLoaded) {
-        await store.load()
-    }
-})
 </script>
 
 <template>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Gates\GatesAbilityEnum;
 use App\Exceptions\NotImplementedException;
+use App\Exceptions\Plan\LimitExceededException;
 use App\Services\Tools\FinancialHealthService;
 use App\Tools\Request\RequestTools;
 use Illuminate\Http\JsonResponse;
@@ -26,6 +28,7 @@ class FinancialHealthController
 
     public function indexFiltered(): JsonResponse
     {
+        LimitExceededException::validateExceeded(GatesAbilityEnum::List, 'financial-health');
         $filterOption = RequestTools::inputGet();
         $data = $this->getService()->findByFilter($filterOption);
         return response()->json($data, ResponseAlias::HTTP_OK);

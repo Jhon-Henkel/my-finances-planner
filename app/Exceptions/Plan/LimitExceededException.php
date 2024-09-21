@@ -21,6 +21,7 @@ class LimitExceededException extends ForbiddenException
             match ($model) {
                 WalletModel::class => throw new self('carteiras'),
                 CreditCard::class => throw new self('cartão de crédito'),
+                'financial-health' => throw new self('saúde financeira'),
                 default => throw new self(''),
             };
         }
