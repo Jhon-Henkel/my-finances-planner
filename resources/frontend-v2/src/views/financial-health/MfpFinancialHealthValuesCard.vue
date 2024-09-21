@@ -3,15 +3,8 @@ import {IonCard, IonCardSubtitle, IonCol, IonIcon, IonRow} from '@ionic/vue'
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
 import {arrowDownCircleOutline, arrowUpCircleOutline} from "ionicons/icons"
 import {useFinancialHealthStore} from "@/stores/financial-health/financialHealthStore"
-import {onMounted} from "vue"
 
 const store = useFinancialHealthStore()
-
-onMounted(async () => {
-    if (!store.isLoaded) {
-        await store.load()
-    }
-})
 </script>
 
 <template>
