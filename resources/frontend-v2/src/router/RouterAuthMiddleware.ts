@@ -9,16 +9,21 @@ export default async function RouterAuthMiddleware(to: any, from: any, next: any
                     next()
                 } else {
                     auth.logout()
-                    next({ name: 'login', query: { redirect: to.name } })
+                    next({ name: 'login', query: { redirect: to.name } }).then(() => {
+                        window.location.reload();
+                    });
                 }
             } else {
                 auth.logout()
-                next({ name: 'login', query: { redirect: to.name } })
-            }
+                next({ name: 'login', query: { redirect: to.name } }).then(() => {
+                    window.location.reload();
+                });            }
         } else {
             next()
         }
     } catch (error) {
-        next({ name: 'login', query: { redirect: to.name } })
+        next({ name: 'login', query: { redirect: to.name } }).then(() => {
+            window.location.reload();
+        });
     }
 }

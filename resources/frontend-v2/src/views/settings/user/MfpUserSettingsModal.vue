@@ -49,8 +49,9 @@ async function save() {
     await okMessage.open('Faça o login novamente!')
     await AuthService.logout()
     closeModal()
-    await router.push({name: 'login'})
-}
+    await router.push({ name: 'login' }).then(() => {
+        window.location.reload();
+    });}
 
 function closeModal() {
     modalController.dismiss()
