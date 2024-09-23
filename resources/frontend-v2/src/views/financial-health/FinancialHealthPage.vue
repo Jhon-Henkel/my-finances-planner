@@ -13,9 +13,19 @@ import MfpFinancialHealthMonthLabel from "@/views/financial-health/MfpFinancialH
 import {MfpModal} from "@/components/modal/MfpModal"
 import MfpFinancialHealthFilterModal from "@/views/financial-health/MfpFinancialHealthFilterModal.vue"
 import MfpFinancialHealthBalanceCard from "@/views/financial-health/MfpFinancialHealthBalanceCard.vue"
+import MfpInfoButton from "@/components/button/MfpInfoButton.vue"
+import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 
 const store = useFinancialHealthStore()
 const filterModal = new MfpModal(MfpFinancialHealthFilterModal)
+
+function infoText() {
+    const okAlert = new MfpOkAlert('Dica')
+    okAlert.open(
+        'Aqui é agrupado todas as descrições de movimentações, no caso de desagrupar o cartão de crédito, ' +
+        'será exibido os itens das faturas referente a fatura paga nesse mesmo mês.'
+    )
+}
 
 onMounted(() => {
     if (!store.isLoaded) {
@@ -28,6 +38,7 @@ onMounted(() => {
     <mfp-page>
         <ion-list-header>
             <ion-label>Saúde Financeira</ion-label>
+            <mfp-info-button @click="infoText"/>
             <mfp-filter-button class="ion-margin-end" @click="filterModal.open()"/>
         </ion-list-header>
         <ion-grid>
