@@ -48,7 +48,9 @@ axios.interceptors.response.use(response => {
 }, async (error) => {
     if (error.response && error.response.status === 401) {
         await AuthService.logout()
-        await router.push({name: 'login'})
+        await router.push({ name: 'login' }).then(() => {
+            window.location.reload();
+        });
     }
     if (error.response && (error.response.status === 400 || error.response.status === 403)) {
         if (error.response.data.message.includes('atingido para o seu plano')) {
