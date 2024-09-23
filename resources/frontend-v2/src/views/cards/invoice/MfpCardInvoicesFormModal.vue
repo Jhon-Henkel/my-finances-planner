@@ -66,7 +66,7 @@ onMounted(() => {
     <mfp-modal-content>
         <template #list>
             <mfp-input v-model="internalInvoiceItem.name" label="Descrição" placeholder="Nome da Despesa"/>
-            <mfp-input-date v-model="internalInvoiceItem.nextInstallment" label="Próximo Pagamento"/>
+            <mfp-input-date v-model="internalInvoiceItem.nextInstallment" label="Dara Registro"/>
             <mfp-input-money v-model="internalInvoiceItem.value" label="Valor da Parcela"/>
             <mfp-input-toggle v-model="fixExpense" label="Parcela Fixa"/>
             <mfp-input
