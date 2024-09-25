@@ -12,6 +12,9 @@ import MfpMainSettingsModal from "@/views/settings/main/MfpMainSettingsModal.vue
 function goToRoute(routeName: string) {
     if (routeName === 'login') {
         AuthService.logout()
+        router.push({ name: 'login' }).then(() => {
+            window.location.reload();
+        });
     }
     modalController.dismiss()
     if (routeName === 'user-settings') {
