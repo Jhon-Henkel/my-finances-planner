@@ -4,7 +4,6 @@ namespace App\Services\PaymentMethod\Stripe;
 
 use App\DTO\Subscription\SubscriptionAgreementDTO;
 use App\DTO\Subscription\SubscriptionDTO;
-use App\Exceptions\PaymentMethod\PaymentMethodGetSubscriptionException;
 use App\Models\User;
 use App\Services\PaymentMethod\IPaymentMethod;
 use Stripe\StripeClient;
