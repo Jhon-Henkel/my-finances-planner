@@ -18,8 +18,8 @@ export const MfpSubscriptionService = {
         }
     },
     subscribeProPlan: async () => {
-        const confirmMessage = new MfpConfirmAlert('Redirecionar para o PayPal')
-        let message = 'Você será redirecionado para o PayPal para fazer sua assinatura. Após pago, basta '
+        const confirmMessage = new MfpConfirmAlert('Redirecionar para o Stripe')
+        let message = 'Você será redirecionado para o Stripe para fazer sua assinatura. Após pago, basta '
         message += 'fazer o login novamente para começar a usar o plano Pro.'
         const confirm = await confirmMessage.open(message)
         if (! confirm) {

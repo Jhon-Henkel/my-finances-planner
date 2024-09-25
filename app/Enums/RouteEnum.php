@@ -46,6 +46,7 @@ enum RouteEnum: string
     case ApiSubscribe = 'apiSubscribe';
     case ApiCancelSubscribe = 'apiCancelSubscribe';
     case ApiSubscribeUpdateAccount = 'apiSubscribeUpdateAccount';
+    case WebSubscribePaymentComplete = 'apiSubscribePaymentComplete';
     case ApiPlanIndex = 'apiPlanIndex';
     case WebLogout = 'logout';
     case WebMakeLogin = 'makeLogin';

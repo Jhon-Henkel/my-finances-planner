@@ -12,6 +12,10 @@ class SubscribeController
 {
     use ValidatesRequests;
 
+    private array $paymentNotificationRules = [
+        'data.object.payment_link' => 'required|string',
+    ];
+
     public function __construct(protected readonly SubscriptionService $subscriptionService)
     {
     }
@@ -33,6 +37,13 @@ class SubscribeController
     {
         $data = $this->validate($request, ['email' => 'required|string']);
         $this->subscriptionService->updateAccount($data['email']);
+        return ResponseApi::renderOk();
+    }
+
+    public function paymentCompletedNotification(Request $request)
+    {
+        $data = $this->validate($request, $this->paymentNotificationRules);
+        $this->subscriptionService->paymentCompletedNotification($data);
         return ResponseApi::renderOk();
     }
 }

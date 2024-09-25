@@ -2,6 +2,7 @@
 
 namespace App\DTO\Subscription;
 
+use App\Enums\PaymentMethod\PaymentMethodNameEnum;
 use App\Exceptions\PaymentMethod\PaymentMethodApproveLinkSubscriptionException;
 
 class SubscriptionAgreementDTO
@@ -10,23 +11,39 @@ class SubscriptionAgreementDTO
     private string $subscriptionId;
     private string $createTime;
     private string $approveLink;
-
-    private const string LINK_TO_PAY = 'approve';
+    private string $paymentMethod;
 
     public function __construct(array $response)
     {
-        $this->status = $response['status'];
         $this->subscriptionId = $response['id'];
-        $this->createTime = $response['create_time'];
-        $this->approveLink = $this->searchApproveLink($response['links']);
+        $this->paymentMethod = config('app.payment_method_name');
+        $this->populateData($response);
+        $this->populateLinkData($response);
     }
 
-    protected function searchApproveLink(array $links): string
+    protected function populateData(array $response): void
     {
-        foreach ($links as $link) {
-            if ($link['rel'] === self::LINK_TO_PAY) {
-                return $link['href'];
+        if ($this->paymentMethod == PaymentMethodNameEnum::PayPal->value) {
+            $this->status = $response['status'];
+            $this->createTime = $response['create_time'];
+        } elseif ($this->paymentMethod == PaymentMethodNameEnum::Stripe->value) {
+            $this->status = $response['status'] ?? '';
+            $this->createTime = '';
+        }
+    }
+
+    protected function populateLinkData(array $response): void
+    {
+        if ($this->paymentMethod == PaymentMethodNameEnum::PayPal->value) {
+            foreach ($response['links'] as $link) {
+                if ($link['rel'] === 'approve') {
+                    $this->approveLink = $link['href'];
+                    return;
+                }
             }
+        } elseif ($this->paymentMethod == PaymentMethodNameEnum::Stripe->value) {
+            $this->approveLink = $response['url'];
+            return;
         }
         throw new PaymentMethodApproveLinkSubscriptionException($this->subscriptionId);
     }

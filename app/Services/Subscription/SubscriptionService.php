@@ -11,6 +11,7 @@ use App\Services\Database\DatabaseConnectionService;
 use App\Services\Mail\MailService;
 use App\Services\PaymentMethod\IPaymentMethod;
 use App\Services\PaymentMethod\PayPal\PayPalService;
+use App\Services\PaymentMethod\Stripe\StripeService;
 use App\Services\User\PlanService;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,6 +43,7 @@ class SubscriptionService
     {
         return match (config('app.payment_method_name')) {
             PaymentMethodNameEnum::PayPal->value => new PayPalService(),
+            PaymentMethodNameEnum::Stripe->value => new StripeService(),
             default => throw new PaymentMethodNotFountException(),
         };
     }
@@ -61,8 +63,9 @@ class SubscriptionService
         $user = Auth::user();
         $this->getPaymentMethod()->cancelSubscription($user->subscription_id, $reason);
         $user->subscription_id = null;
-        $this->getConnection()->connectUser($user);
+        $user->plan_id = $this->planService->freePlan()->id;
         $user->save();
+        $this->getConnection()->connectUser($user);
         $this->sendCancelAgreementEmail($user);
     }
 
@@ -85,30 +88,36 @@ class SubscriptionService
         if (is_null($user)) {
             throw new BadRequestException('Usuário não encontrado para o e-mail informado');
         }
-        if (is_null($user->subscription_id)) {
-            return;
-        }
-        $subscription = $this->getPaymentMethod()->getSubscription($user->subscription_id);
-        $data = $subscription->toArray();
-        if ($this->mustUpdatePlanToPro($user, $data['status'])) {
-            $user->plan_id = $this->planService->proPlan()->id;
-            $user->save();
-        } elseif ($this->mustUpdatePlanToFree($user, $data['status'])) {
+        if (! is_null($user->subscription_id)) {
+            $subscription = $this->getPaymentMethod()->getSubscription($user);
+            if ($this->mustUpdatePlanToPro($user, $subscription->getStatus())) {
+                $user->plan_id = $this->planService->proPlan()->id;
+            } elseif ($subscription->getStatus() !== $this->getPaymentMethod()->getActiveSubscriptionStatus()) {
+                $user->plan_id = $this->planService->freePlan()->id;
+                $user->subscription_id = null;
+            }
+        } else {
             $user->plan_id = $this->planService->freePlan()->id;
             $user->subscription_id = null;
-            $user->save();
         }
+        $user->save();
         $this->getConnection()->connectUser($user);
     }
 
-    protected function mustUpdatePlanToFree(User $user, string $status): bool
+    public function paymentCompletedNotification(array $data): void
     {
-        return (in_array($status, ['CANCELLED', 'SUSPENDED', 'EXPIRED']) && ! $user->mustValidatePlanLimit())
-            || (is_null($user->subscription_id));
+        if (config('app.payment_method_name') === PaymentMethodNameEnum::Stripe->value) {
+            $user = User::where('subscription_id', $data['data']['object']['payment_link'])->first();
+            if (is_null($user)) {
+                return;
+            }
+            $this->updateAccount($user->email);
+            // todo - mandar e-mail de boas vindas no caso de uma nova assinatura
+        }
     }
 
     protected function mustUpdatePlanToPro(User $user, string $status): bool
     {
-        return $status === 'ACTIVE' && $user->mustValidatePlanLimit();
+        return $status === $this->getPaymentMethod()->getActiveSubscriptionStatus() && $user->mustValidatePlanLimit();
     }
 }

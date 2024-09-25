@@ -18,6 +18,11 @@ class PayPalService implements IPaymentMethod
 {
     private null|PayPalAuthDTO $auth = null;
 
+    public function getActiveSubscriptionStatus(): string
+    {
+        return 'ACTIVE';
+    }
+
     protected function getClient(string $authorization = null, string $contentType = 'application/json'): Client
     {
         return new Client([
@@ -71,11 +76,11 @@ class PayPalService implements IPaymentMethod
         return new SubscriptionAgreementDTO(json_decode($response->getBody()->getContents(), true));
     }
 
-    public function getSubscription(string $subscriptionId): SubscriptionDTO
+    public function getSubscription(User $user): SubscriptionDTO
     {
-        $response = $this->getClient()->get("billing/subscriptions/$subscriptionId");
+        $response = $this->getClient()->get("billing/subscriptions/$user->subscription_id");
         if ($response->getStatusCode() !== StatusCodeEnum::HttpOk->value) {
-            throw new PaymentMethodGetSubscriptionException($subscriptionId);
+            throw new PaymentMethodGetSubscriptionException($user->subscription_id);
         }
         return new SubscriptionDTO(json_decode($response->getBody()->getContents(), true));
     }
