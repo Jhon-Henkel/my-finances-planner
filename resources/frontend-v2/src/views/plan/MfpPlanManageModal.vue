@@ -4,12 +4,20 @@ import {IonButton, IonCol, IonGrid, IonRow, modalController, IonItem, IonList} f
 import MfpModalContent from "@/components/modal/MfpModalContent.vue"
 import {MfpSubscriptionService} from "@/services/subscription/MfpSubscriptionService"
 import {useAuthStore} from "@/stores/auth/AuthStore"
+import {ref} from "vue"
 
 const authStore = useAuthStore()
 const actualPlan = authStore.user.plan
+const subscribeButtonDisable = ref(false)
 
 function closeModal() {
     modalController.dismiss()
+}
+
+async function subscribe() {
+    subscribeButtonDisable.value = true
+    await MfpSubscriptionService.subscribeProPlan()
+    subscribeButtonDisable.value = false
 }
 </script>
 
@@ -39,8 +47,11 @@ function closeModal() {
             <ion-grid>
                 <ion-row v-show="actualPlan === 'Free'">
                     <ion-col>
-                        <ion-button expand="block" @click="MfpSubscriptionService.subscribeProPlan()">
+                        <ion-button expand="block" @click="subscribe" v-if="!subscribeButtonDisable">
                             Assinar Plano Pro
+                        </ion-button>
+                        <ion-button expand="block" disabled v-else>
+                            Gerando link de Pagamento...
                         </ion-button>
                     </ion-col>
                 </ion-row>
@@ -51,9 +62,9 @@ function closeModal() {
                         </ion-button>
                     </ion-col>
                 </ion-row>
-                <ion-row v-show="actualPlan === 'Pro'">
+                <ion-row>
                     <ion-col>
-                        <ion-button expand="block" @click="MfpSubscriptionService.cancelProPlan(authStore.user.email)" color="danger">
+                        <ion-button expand="block" @click="MfpSubscriptionService.cancelProPlan(authStore.user.email)" color="danger" :disabled="actualPlan === 'Free'">
                             Cancelar Assinatura
                         </ion-button>
                     </ion-col>
