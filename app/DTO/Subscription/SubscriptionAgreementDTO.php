@@ -58,6 +58,11 @@ class SubscriptionAgreementDTO
         return $this->subscriptionId;
     }
 
+    public function getApproveLink(): string
+    {
+        return $this->approveLink;
+    }
+
     public function toArray(): array
     {
         return [

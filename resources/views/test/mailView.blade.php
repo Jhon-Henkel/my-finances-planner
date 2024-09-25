@@ -46,6 +46,16 @@
                 Assinatura - Cancelamento
             </a>
         </li>
+        <li>
+            <a href="/develop/test-email-view?email=paymentLinkSubscription">
+                Assinatura - Link de Pagamento
+            </a>
+        </li>
+        <li>
+            <a href="/develop/test-email-view?email=welcomeSubscription">
+                Assinatura - Bem Vindo
+            </a>
+        </li>
     </ul>
 </div>
 </body>
