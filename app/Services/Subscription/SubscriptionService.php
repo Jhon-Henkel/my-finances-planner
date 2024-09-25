@@ -54,8 +54,17 @@ class SubscriptionService
         $agreement = $this->getPaymentMethod()->createAgreement($user);
         $user->subscription_id = $agreement->getSubscriptionId();
         $user->save();
+        $this->sendPaymentLinkSubscriptionEmail($user, $agreement->getApproveLink());
         $this->getConnection()->connectUser($user);
         return $agreement->toArray();
+    }
+
+    protected function sendPaymentLinkSubscriptionEmail(User $user, string $paymentLink): void
+    {
+        $subject = 'Link de Pagamento';
+        $template = 'emails.subscription.payment-link';
+        $data = ['name' => $user->name, 'paymentLink' => $paymentLink];
+        $this->mailService->sendEmail(new MailMessageDTO($user->email, $user->name, $subject, $template, $data));
     }
 
     public function cancelAgreement(string $reason): void
@@ -71,15 +80,10 @@ class SubscriptionService
 
     protected function sendCancelAgreementEmail(User $user): void
     {
-        $this->mailService->sendEmail($this->generateDataForCreateCancelSubscriptionEmail($user));
-    }
-
-    protected function generateDataForCreateCancelSubscriptionEmail(User $user): MailMessageDTO
-    {
         $subject = 'Cancelamento de assinatura';
         $template = 'emails.subscription.cancel';
         $data = ['name' => $user->name];
-        return new MailMessageDTO($user->email, $user->name, $subject, $template, $data);
+        $this->mailService->sendEmail(new MailMessageDTO($user->email, $user->name, $subject, $template, $data));
     }
 
     public function updateAccount(string $email): void
@@ -112,8 +116,16 @@ class SubscriptionService
                 return;
             }
             $this->updateAccount($user->email);
-            // todo - mandar e-mail de boas vindas no caso de uma nova assinatura
+            $this->sendWelcomeSubscriptionEmail($user);
         }
+    }
+
+    protected function sendWelcomeSubscriptionEmail(User $user): void
+    {
+        $subject = 'Bem Vindo(a)';
+        $template = 'emails.subscription.welcome';
+        $data = ['name' => $user->name];
+        $this->mailService->sendEmail(new MailMessageDTO($user->email, $user->name, $subject, $template, $data));
     }
 
     protected function mustUpdatePlanToPro(User $user, string $status): bool
