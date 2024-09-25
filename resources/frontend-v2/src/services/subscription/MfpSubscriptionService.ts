@@ -20,7 +20,7 @@ export const MfpSubscriptionService = {
     subscribeProPlan: async () => {
         const confirmMessage = new MfpConfirmAlert('Redirecionar para o Stripe')
         let message = 'Você será redirecionado para o Stripe para fazer sua assinatura. Após pago, basta '
-        message += 'fazer o login novamente para começar a usar o plano Pro.'
+        message += 'fazer o login novamente para começar a usar o plano Pro. Você também receberá o link de pagamento no e-mail.'
         const confirm = await confirmMessage.open(message)
         if (! confirm) {
             return
