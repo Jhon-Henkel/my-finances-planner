@@ -32,7 +32,7 @@ class PayPalServiceStub extends PayPalService
     {
     }
 
-    public function getSubscription(string $subscriptionId): SubscriptionDTO
+    public function getSubscription(User $user): SubscriptionDTO
     {
         return new SubscriptionDTO(['id' => $this->subscriptionId , 'status' => 'ACTIVE']);
     }
