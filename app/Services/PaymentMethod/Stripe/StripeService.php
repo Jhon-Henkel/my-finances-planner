@@ -47,13 +47,11 @@ class StripeService implements IPaymentMethod
         return new SubscriptionAgreementDTO($clientSubscription->toArray());
     }
 
-    // todo - Criar webhook para checkout.session.completed
     public function getSubscription(User $user): SubscriptionDTO
     {
         if ($user->subscription_id && $this->isPaymentLinkId($user->subscription_id)) {
             $checkoutSession = $this->getClient()->checkout->sessions->all(['payment_link' => $user->subscription_id]);
             if (count($checkoutSession->data) > 0) {
-                // todo - mandar e-mail de boas vindas no caso de uma nova assinatura
                 $session = reset($checkoutSession->data);
                 $user->subscription_id = $session['subscription'];
                 $user->save();

@@ -92,7 +92,7 @@ class SubscriptionService
             $subscription = $this->getPaymentMethod()->getSubscription($user);
             if ($this->mustUpdatePlanToPro($user, $subscription->getStatus())) {
                 $user->plan_id = $this->planService->proPlan()->id;
-            } else {
+            } elseif ($subscription->getStatus() !== $this->getPaymentMethod()->getActiveSubscriptionStatus()) {
                 $user->plan_id = $this->planService->freePlan()->id;
                 $user->subscription_id = null;
             }
@@ -102,6 +102,18 @@ class SubscriptionService
         }
         $user->save();
         $this->getConnection()->connectUser($user);
+    }
+
+    public function paymentCompletedNotification(array $data): void
+    {
+        if (config('app.payment_method_name') === PaymentMethodNameEnum::Stripe->value) {
+            $user = User::where('subscription_id', $data['data']['object']['payment_link'])->first();
+            if (is_null($user)) {
+                return;
+            }
+            $this->updateAccount($user->email);
+            // todo - mandar e-mail de boas vindas no caso de uma nova assinatura
+        }
     }
 
     protected function mustUpdatePlanToPro(User $user, string $status): bool
