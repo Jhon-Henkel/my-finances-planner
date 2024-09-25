@@ -58,9 +58,6 @@ class StripeService implements IPaymentMethod
             }
         }
         $subscription = $this->getClient()->subscriptions->retrieve($user->subscription_id);
-        if (! $subscription) {
-            throw new PaymentMethodGetSubscriptionException($user->subscription_id);
-        }
         return new SubscriptionDTO($subscription->toArray());
     }
 
