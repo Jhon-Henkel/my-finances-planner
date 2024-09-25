@@ -16,6 +16,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
+// Rotas com middleware de autenticação MFP e JWT
 Route::prefix('/')->middleware('auth.api:api')->group(function () {
     Route::prefix('wallet')->group(function () {
         Route::get('{id}', [WalletController::class, 'show'])
@@ -144,6 +145,7 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
     });
 });
 
+// Rotas com middleware de autenticação MFP
 Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
     Route::prefix('/subscription')->group(function () {
         Route::post('/update-account', [SubscribeController::class, 'updateAccount'])
@@ -159,5 +161,13 @@ Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
             Route::post('/activate/{hash}', [UserRegisterController::class, 'registerStepThree'])
                 ->name(RouteEnum::MfpUserRegisterStepThree->value);
         });
+    });
+});
+
+// Rotas sem middleware de autenticação
+Route::prefix('notification')->group(function () {
+    Route::prefix('stripe')->group(function () {
+        Route::post('checkout-session-complete', [SubscribeController::class, 'paymentCompletedNotification'])
+            ->name(RouteEnum::ApiSubscribePaymentComplete->value);
     });
 });
