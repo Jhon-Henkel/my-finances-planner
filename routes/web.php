@@ -3,7 +3,6 @@
 use App\Enums\RouteEnum;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
 use App\Tools\Request\RequestTools;
@@ -22,13 +21,6 @@ Route::prefix('/')->group(function () {
 
     Route::get('logout', [AuthController::class, 'logout'])
         ->name(RouteEnum::WebLogout->value);
-
-    Route::prefix('notification')->group(function () {
-        Route::prefix('stripe')->group(function () {
-            Route::post('checkout-session-complete', [SubscribeController::class, 'paymentCompletedNotification'])
-                ->name(RouteEnum::WebSubscribePaymentComplete->value);
-        });
-    });
 
     Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser'])
         ->name(RouteEnum::WebActiveUser->value);
