@@ -9,6 +9,7 @@ import {ref} from "vue"
 const authStore = useAuthStore()
 const actualPlan = authStore.user.plan
 const subscribeButtonDisable = ref(false)
+const cancelSubscriptionButtonDisable = ref(false)
 
 function closeModal() {
     modalController.dismiss()
@@ -18,6 +19,12 @@ async function subscribe() {
     subscribeButtonDisable.value = true
     await MfpSubscriptionService.subscribeProPlan()
     subscribeButtonDisable.value = false
+}
+
+async function cancelSubscription() {
+    cancelSubscriptionButtonDisable.value = true
+    await MfpSubscriptionService.cancelProPlan(authStore.user.email)
+    cancelSubscriptionButtonDisable.value = false
 }
 </script>
 
@@ -51,21 +58,17 @@ async function subscribe() {
                             Assinar Plano Pro
                         </ion-button>
                         <ion-button expand="block" disabled v-else>
-                            Gerando link de Pagamento...
+                            Gerando link de Pagamento, Aguarde...
                         </ion-button>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col>
-                        <ion-button expand="block" @click="MfpSubscriptionService.syncSubscription(authStore.user.email)">
-                            Sincronizar Assinatura
-                        </ion-button>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col>
-                        <ion-button expand="block" @click="MfpSubscriptionService.cancelProPlan(authStore.user.email)" color="danger" :disabled="actualPlan === 'Free'">
+                        <ion-button expand="block" @click="cancelSubscription" color="danger" :disabled="actualPlan === 'Free'" v-if="!cancelSubscriptionButtonDisable">
                             Cancelar Assinatura
+                        </ion-button>
+                        <ion-button expand="block" @click="cancelSubscription" color="danger" disabled v-else>
+                            Cancelando Assinatura, Aguarde...
                         </ion-button>
                     </ion-col>
                 </ion-row>

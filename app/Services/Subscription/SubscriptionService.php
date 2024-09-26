@@ -4,9 +4,11 @@ namespace App\Services\Subscription;
 
 use App\DTO\Mail\MailMessageDTO;
 use App\Enums\PaymentMethod\PaymentMethodNameEnum;
+use App\Exceptions\NotImplementedException;
 use App\Exceptions\PaymentMethod\PaymentMethodNotFountException;
 use App\Exceptions\ResponseExceptions\BadRequestException;
 use App\Models\User;
+use App\Services\BasicService;
 use App\Services\Database\DatabaseConnectionService;
 use App\Services\Mail\MailService;
 use App\Services\PaymentMethod\IPaymentMethod;
@@ -15,7 +17,7 @@ use App\Services\PaymentMethod\Stripe\StripeService;
 use App\Services\User\PlanService;
 use Illuminate\Support\Facades\Auth;
 
-class SubscriptionService
+class SubscriptionService extends BasicService
 {
     private IPaymentMethod $paymentMethod;
     private null|DatabaseConnectionService $connection = null;
@@ -131,5 +133,10 @@ class SubscriptionService
     protected function mustUpdatePlanToPro(User $user, string $status): bool
     {
         return $status === $this->getPaymentMethod()->getActiveSubscriptionStatus() && $user->mustValidatePlanLimit();
+    }
+
+    protected function getRepository()
+    {
+        throw new NotImplementedException();
     }
 }

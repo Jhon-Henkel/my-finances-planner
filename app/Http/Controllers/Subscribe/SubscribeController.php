@@ -7,6 +7,7 @@ use App\Tools\Response\ResponseApi;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class SubscribeController
 {
@@ -35,7 +36,13 @@ class SubscribeController
 
     public function updateAccount(Request $request)
     {
-        $data = $this->validate($request, ['email' => 'required|string']);
+        if (isset($request->json()->all()['email'])) {
+            $dataDecoded = $request->json()->all();
+        } else {
+            $dataDecrypted = Crypt::decryptString($request->json()->all()[0]);
+            $dataDecoded = json_decode($dataDecrypted, true);
+        }
+        $data = $this->subscriptionService->isInvalidArrayData($dataDecoded, ['email' => 'required|string']);
         $this->subscriptionService->updateAccount($data['email']);
         return ResponseApi::renderOk();
     }
