@@ -47,7 +47,7 @@ async function cancelSubscription() {
                         No Plano Pro você paga <strong>R$ 9,90</strong> por mês e tem acesso a todos os recursos do aplicativo.
                         <br>
                         <br>
-                        O pagamento é feito através do <strong>Stripe</strong> e pode ser cancelado a qualquer momento.
+                        O pagamento é feito através do <strong>Stripe</strong>, é renovado automáticamente e pode ser cancelado a qualquer momento.
                     </p>
                 </ion-item>
             </ion-list>

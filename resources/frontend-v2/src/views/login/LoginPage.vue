@@ -13,6 +13,7 @@ import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {LoginFormValidation} from "@/form-validation/auth/login/LoginFormValidation"
 import {UtilApp} from "@/util/UtilApp"
 import router from "@/router"
+import MfpTermsAndPrivacyText from "@/views/terms-and-policy/MfpTermsAndPrivacyText.vue"
 
 const loginData = ref(AuthService.emptyLoginObject())
 loginData.value.email = AuthService.getRememberedEmail()
@@ -59,31 +60,56 @@ onMounted(async () => {
 
 <template>
     <mfp-page>
-        <ion-grid>
-            <mfp-login-top-text/>
-            <ion-row>
+        <ion-grid class="login-grid">
+            <div class="content">
+                <mfp-login-top-text/>
+                <ion-row>
+                    <ion-col size="1"/>
+                    <ion-col size="10">
+                        <mfp-input
+                            type="email"
+                            label="E-mail"
+                            placeholder="Seu E-mail"
+                            v-model="loginData.email"
+                            :icon="mailOutline"
+                        />
+                        <mfp-input
+                            type="password"
+                            label="Senha"
+                            placeholder="Sua Senha"
+                            v-model="loginData.password"
+                            :icon="lockClosedOutline"
+                        />
+                    </ion-col>
+                    <ion-col size="1"/>
+                </ion-row>
+                <mfp-forgotten-password-link v-show="false"/>
+                <mfp-login-button :loading="loading" @loginPressed="submit"/>
+                <mfp-create-account-link/>
+            </div>
+            <ion-row class="footer">
                 <ion-col size="1"/>
                 <ion-col size="10">
-                    <mfp-input
-                        type="email"
-                        label="E-mail"
-                        placeholder="Seu E-mail"
-                        v-model="loginData.email"
-                        :icon="mailOutline"
-                    />
-                    <mfp-input
-                        type="password"
-                        label="Senha"
-                        placeholder="Sua Senha"
-                        v-model="loginData.password"
-                        :icon="lockClosedOutline"
-                    />
+                    <mfp-terms-and-privacy-text action="logar"/>
                 </ion-col>
                 <ion-col size="1"/>
             </ion-row>
-            <mfp-forgotten-password-link v-show="false"/>
-            <mfp-login-button :loading="loading" @loginPressed="submit"/>
-            <mfp-create-account-link/>
         </ion-grid>
     </mfp-page>
 </template>
+
+<style scoped>
+.login-grid {
+    display: flex;
+    flex-direction: column;
+    min-height: 94vh;
+}
+
+.content {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+}
+</style>
