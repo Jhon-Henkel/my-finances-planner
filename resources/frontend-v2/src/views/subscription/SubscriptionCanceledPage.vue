@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import MfpPage from "@/components/page/MfpPage.vue"
 import {IonButton, IonContent, IonHeader, IonTitle, IonToolbar} from "@ionic/vue"
-import {MfpSubscriptionService} from "@/services/subscription/MfpSubscriptionService"
 import router from "@/router"
-
-const urlParams = new URLSearchParams(window.location.search)
-const email = urlParams.get('email') ?? ''
-
-MfpSubscriptionService.syncSubscription(email)
 </script>
 
 <template>
@@ -21,6 +15,7 @@ MfpSubscriptionService.syncSubscription(email)
             <div class="canceled-container">
                 <h1>😢 Sentimos muito em ver você partir!</h1>
                 <p>Esperamos que você volte em breve e aproveite todos os benefícios do nosso plano Pro.</p>
+                <p>Você ainda terá acesso aos benefícios do plano Pro até o final desse ciclo de cobrança.</p>
                 <ion-button expand="block" @click="router.push({name: 'dashboard'})">
                     Ir para o Dashboard
                 </ion-button>
