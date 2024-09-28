@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-/** @codeCoverageIgnore */
 class GenerateMfpKey extends Command
 {
     protected $signature = 'key:mfp-key';

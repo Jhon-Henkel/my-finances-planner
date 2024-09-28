@@ -34,6 +34,7 @@
       <directory suffix=".php">app/Models</directory>
       <directory suffix=".php">app/Exceptions</directory>
       <directory suffix=".php">app/Http/Middleware</directory>
+      <directory suffix=".php">app/Console</directory>
     </exclude>
   </source>
 </phpunit>

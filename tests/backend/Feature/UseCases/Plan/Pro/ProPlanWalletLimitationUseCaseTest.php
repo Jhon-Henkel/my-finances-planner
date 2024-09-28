@@ -1,16 +1,17 @@
 <?php
 
-namespace Tests\backend\Feature\UseCases\Plan;
+namespace Tests\backend\Feature\UseCases\Plan\Pro;
 
 use App\Enums\Plan\PlanNameEnum;
+use App\Models\User;
 use App\Models\User\Plan;
 use App\Services\Database\DatabaseConnectionService;
 use Tests\backend\Falcon9Feature;
 
-class FreePlanWalletLimitationUseCaseTest extends Falcon9Feature
+class ProPlanWalletLimitationUseCaseTest extends Falcon9Feature
 {
     private array $headers;
-    private Plan $plan;
+    private Plan $freePlan;
     private string $baseUrl = '/api/wallet';
 
     protected function setUp(): void
@@ -22,12 +23,15 @@ class FreePlanWalletLimitationUseCaseTest extends Falcon9Feature
         $this->headers['X-MFP-USER-TOKEN'] = 'Bearer ' . $login->json('token');
         $connection = new DatabaseConnectionService();
         $connection->setMasterConnection();
-        $this->plan = Plan::where('name', PlanNameEnum::Free->name)->first();
+        $user = User::where('email', $userLoginData['email'])->first();
+        $user->plan_id = Plan::where('name', PlanNameEnum::Pro->name)->first()->id;
+        $user->save();
+        $this->freePlan = Plan::where('name', PlanNameEnum::Free->name)->first();
     }
 
     public function testWalletFreePlanLimitation()
     {
-        for ($i = 0; $i < $this->plan->wallet_limit; $i++) {
+        for ($i = 0; $i < $this->freePlan->wallet_limit; $i++) {
             $response = $this->postJson(
                 $this->baseUrl,
                 [
@@ -47,9 +51,6 @@ class FreePlanWalletLimitationUseCaseTest extends Falcon9Feature
             ],
             $this->headers
         );
-        $response->assertStatus(403);
-        $response->assertJson([
-            'message' => 'Limite de \'carteiras\' atingido para o seu plano.',
-        ]);
+        $response->assertStatus(201);
     }
 }

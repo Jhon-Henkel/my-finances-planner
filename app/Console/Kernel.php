@@ -17,7 +17,6 @@ class Kernel extends ConsoleKernel
         Commands\CheckSubscription::class
     ];
 
-    /** @codeCoverageIgnore */
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('cron:check-subscription')->daily();

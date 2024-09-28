@@ -1,17 +1,17 @@
 <?php
 
-namespace Tests\backend\Feature\UseCases\Plan;
+namespace Tests\backend\Feature\UseCases\Plan\Free;
 
 use App\Enums\Plan\PlanNameEnum;
 use App\Models\User\Plan;
 use App\Services\Database\DatabaseConnectionService;
 use Tests\backend\Falcon9Feature;
 
-class FreePlanCreditCardLimitationUseCaseTest extends Falcon9Feature
+class FreePlanWalletLimitationUseCaseTest extends Falcon9Feature
 {
     private array $headers;
     private Plan $plan;
-    private string $baseUrl = '/api/credit-card';
+    private string $baseUrl = '/api/wallet';
 
     protected function setUp(): void
     {
@@ -27,14 +27,12 @@ class FreePlanCreditCardLimitationUseCaseTest extends Falcon9Feature
 
     public function testWalletFreePlanLimitation()
     {
-        for ($i = 0; $i < $this->plan->credit_card_limit; $i++) {
+        for ($i = 0; $i < $this->plan->wallet_limit; $i++) {
             $response = $this->postJson(
                 $this->baseUrl,
                 [
                     'name' => $this->faker->name,
-                    'limit' => $this->faker->randomFloat(2, 0, 1000),
-                    'dueDate' => $this->faker->numberBetween(1, 31),
-                    'closingDay' => $this->faker->numberBetween(1, 31),
+                    'amount' => $this->faker->randomFloat(2, 0, 1000),
                 ],
                 $this->headers
             );
@@ -45,15 +43,13 @@ class FreePlanCreditCardLimitationUseCaseTest extends Falcon9Feature
             $this->baseUrl,
             [
                 'name' => $this->faker->name,
-                'limit' => $this->faker->randomFloat(2, 0, 1000),
-                'dueDate' => $this->faker->numberBetween(1, 31),
-                'closingDay' => $this->faker->numberBetween(1, 31),
+                'amount' => $this->faker->randomFloat(2, 0, 1000),
             ],
             $this->headers
         );
         $response->assertStatus(403);
         $response->assertJson([
-            'message' => 'Limite de \'cartão de crédito\' atingido para o seu plano.',
+            'message' => 'Limite de \'carteiras\' atingido para o seu plano.',
         ]);
     }
 }
