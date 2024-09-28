@@ -23,10 +23,7 @@ class SubscriptionAgreementDTO
 
     protected function populateData(array $response): void
     {
-        if ($this->paymentMethod == PaymentMethodNameEnum::PayPal->value) {
-            $this->status = $response['status'];
-            $this->createTime = $response['create_time'];
-        } elseif ($this->paymentMethod == PaymentMethodNameEnum::Stripe->value) {
+        if ($this->paymentMethod == PaymentMethodNameEnum::Stripe->value) {
             $this->status = $response['status'] ?? '';
             $this->createTime = '';
         }
@@ -34,14 +31,7 @@ class SubscriptionAgreementDTO
 
     protected function populateLinkData(array $response): void
     {
-        if ($this->paymentMethod == PaymentMethodNameEnum::PayPal->value) {
-            foreach ($response['links'] as $link) {
-                if ($link['rel'] === 'approve') {
-                    $this->approveLink = $link['href'];
-                    return;
-                }
-            }
-        } elseif ($this->paymentMethod == PaymentMethodNameEnum::Stripe->value) {
+        if ($this->paymentMethod == PaymentMethodNameEnum::Stripe->value) {
             $this->approveLink = $response['url'];
             return;
         }

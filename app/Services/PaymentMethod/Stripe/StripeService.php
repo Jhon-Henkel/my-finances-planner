@@ -6,6 +6,8 @@ use App\DTO\Subscription\SubscriptionAgreementDTO;
 use App\DTO\Subscription\SubscriptionDTO;
 use App\Models\User;
 use App\Services\PaymentMethod\IPaymentMethod;
+use DateTime;
+use Stripe\Checkout\Session;
 use Stripe\StripeClient;
 
 class StripeService implements IPaymentMethod
@@ -15,6 +17,11 @@ class StripeService implements IPaymentMethod
     public function getActiveSubscriptionStatus(): string
     {
         return 'active';
+    }
+
+    public function getCanceledSubscriptionStatus(): string
+    {
+        return 'canceled';
     }
 
     protected function getClient(): StripeClient
@@ -48,16 +55,27 @@ class StripeService implements IPaymentMethod
 
     public function getSubscription(User $user): SubscriptionDTO
     {
-        if ($user->subscription_id && $this->isPaymentLinkId($user->subscription_id)) {
+        if ($this->isPaymentLinkId($user->subscription_id)) {
             $checkoutSession = $this->getClient()->checkout->sessions->all(['payment_link' => $user->subscription_id]);
-            if (count($checkoutSession->data) > 0) {
+            if (count($checkoutSession->data) > 0 && ! $this->isSessionExpired(reset($checkoutSession->data))) {
                 $session = reset($checkoutSession->data);
                 $user->subscription_id = $session['subscription'];
-                $user->save();
+            } else {
+                $user->subscription_id = null;
             }
+            $user->save();
+        }
+        if ($this->isPaymentLinkId($user->subscription_id)) {
+            return new SubscriptionDTO([]);
         }
         $subscription = $this->getClient()->subscriptions->retrieve($user->subscription_id);
         return new SubscriptionDTO($subscription->toArray());
+    }
+
+    protected function isSessionExpired(Session $session): bool
+    {
+        $expirationTime = new DateTime('@' . $session->expires_at);
+        return $expirationTime < new DateTime();
     }
 
     protected function isPaymentLinkId(string $subscriptionId): bool

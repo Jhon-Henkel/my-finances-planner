@@ -3,6 +3,7 @@
 namespace App\Services\Subscription;
 
 use App\DTO\Mail\MailMessageDTO;
+use App\DTO\Subscription\SubscriptionDTO;
 use App\Enums\PaymentMethod\PaymentMethodNameEnum;
 use App\Exceptions\NotImplementedException;
 use App\Exceptions\PaymentMethod\PaymentMethodNotFountException;
@@ -12,9 +13,9 @@ use App\Services\BasicService;
 use App\Services\Database\DatabaseConnectionService;
 use App\Services\Mail\MailService;
 use App\Services\PaymentMethod\IPaymentMethod;
-use App\Services\PaymentMethod\PayPal\PayPalService;
 use App\Services\PaymentMethod\Stripe\StripeService;
 use App\Services\User\PlanService;
+use App\Tools\Calendar\CalendarTools;
 use Illuminate\Support\Facades\Auth;
 
 class SubscriptionService extends BasicService
@@ -44,7 +45,6 @@ class SubscriptionService extends BasicService
     protected function getPaymentMethodInstance(): IPaymentMethod
     {
         return match (config('app.payment_method_name')) {
-            PaymentMethodNameEnum::PayPal->value => new PayPalService(),
             PaymentMethodNameEnum::Stripe->value => new StripeService(),
             default => throw new PaymentMethodNotFountException(),
         };
@@ -73,10 +73,6 @@ class SubscriptionService extends BasicService
     {
         $user = Auth::user();
         $this->getPaymentMethod()->cancelSubscription($user->subscription_id, $reason);
-        $user->subscription_id = null;
-        $user->plan_id = $this->planService->freePlan()->id;
-        $user->save();
-        $this->getConnection()->connectUser($user);
         $this->sendCancelAgreementEmail($user);
     }
 
@@ -90,24 +86,42 @@ class SubscriptionService extends BasicService
 
     public function updateAccount(string $email): void
     {
+        /** @var null|User $user */
         $user = User::where('email', $email)->first();
         if (is_null($user)) {
             throw new BadRequestException('Usuário não encontrado para o e-mail informado');
         }
-        if (! is_null($user->subscription_id)) {
-            $subscription = $this->getPaymentMethod()->getSubscription($user);
-            if ($this->mustUpdatePlanToPro($user, $subscription->getStatus())) {
-                $user->plan_id = $this->planService->proPlan()->id;
-            } elseif ($subscription->getStatus() !== $this->getPaymentMethod()->getActiveSubscriptionStatus()) {
-                $user->plan_id = $this->planService->freePlan()->id;
-                $user->subscription_id = null;
-            }
-        } else {
-            $user->plan_id = $this->planService->freePlan()->id;
-            $user->subscription_id = null;
+        if (is_null($user->subscription_id)) {
+            return;
         }
-        $user->save();
-        $this->getConnection()->connectUser($user);
+        $subscription = $this->getPaymentMethod()->getSubscription($user);
+        if ($this->isActiveSubscription($subscription)) {
+            if ($user->isFreePlan()) {
+                $user->plan_id = $this->planService->proPlan()->id;
+            }
+        } elseif ($this->isCanceledSubscription($subscription)) {
+            if ($subscription->getCurrentPeriodEnd() >= CalendarTools::getDateNow()) {
+                if ($user->isFreePlan()) {
+                    $user->plan_id = $this->planService->proPlan()->id;
+                }
+            } elseif ($subscription->getCurrentPeriodEnd() < CalendarTools::getDateNow()) {
+                if ($user->isProPlan()) {
+                    $user->plan_id = $this->planService->freePlan()->id;
+                    $user->subscription_id = null;
+                }
+            }
+            $user->save();
+        }
+    }
+
+    protected function isActiveSubscription(SubscriptionDTO $subscription): bool
+    {
+        return $subscription->getStatus() == $this->getPaymentMethod()->getActiveSubscriptionStatus();
+    }
+
+    protected function isCanceledSubscription(SubscriptionDTO $subscription): bool
+    {
+        return $subscription->getStatus() == $this->getPaymentMethod()->getCanceledSubscriptionStatus();
     }
 
     public function paymentCompletedNotification(array $data): void
@@ -128,11 +142,6 @@ class SubscriptionService extends BasicService
         $template = 'emails.subscription.welcome';
         $data = ['name' => $user->name];
         $this->mailService->sendEmail(new MailMessageDTO($user->email, $user->name, $subject, $template, $data));
-    }
-
-    protected function mustUpdatePlanToPro(User $user, string $status): bool
-    {
-        return $status === $this->getPaymentMethod()->getActiveSubscriptionStatus() && $user->mustValidatePlanLimit();
     }
 
     protected function getRepository()

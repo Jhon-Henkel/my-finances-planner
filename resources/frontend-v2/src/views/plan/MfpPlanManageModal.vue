@@ -23,7 +23,7 @@ async function subscribe() {
 
 async function cancelSubscription() {
     cancelSubscriptionButtonDisable.value = true
-    await MfpSubscriptionService.cancelProPlan(authStore.user.email)
+    await MfpSubscriptionService.cancelProPlan()
     cancelSubscriptionButtonDisable.value = false
 }
 </script>
