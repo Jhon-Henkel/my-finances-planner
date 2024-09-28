@@ -8,6 +8,6 @@ class FinancialHealthPolicy
 {
     public function list(User $user): bool
     {
-        return $user->mustValidatePlanLimit() == false;
+        return $user->isFreePlan() == false;
     }
 }

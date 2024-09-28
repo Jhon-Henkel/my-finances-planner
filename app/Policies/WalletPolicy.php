@@ -9,7 +9,7 @@ class WalletPolicy
 {
     public function create(User $user): bool
     {
-        if ($user->mustValidatePlanLimit()) {
+        if ($user->isFreePlan()) {
             $totalWallets = WalletModel::count();
             return $totalWallets < $user->plan()->wallet_limit;
         }

@@ -9,7 +9,7 @@ class CreditCardPolicy
 {
     public function create(User $user): bool
     {
-        if ($user->mustValidatePlanLimit()) {
+        if ($user->isFreePlan()) {
             $totalWallets = CreditCard::count();
             return $totalWallets < $user->plan()->credit_card_limit;
         }

@@ -64,8 +64,13 @@ class User extends Authenticatable
         return $this->belongsTo(Plan::class)->first();
     }
 
-    public function mustValidatePlanLimit(): bool
+    public function isFreePlan(): bool
     {
         return $this->plan()->name === PlanNameEnum::Free->value;
+    }
+
+    public function isProPlan(): bool
+    {
+        return $this->plan()->name === PlanNameEnum::Pro->value;
     }
 }
