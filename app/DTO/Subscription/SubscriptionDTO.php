@@ -2,20 +2,17 @@
 
 namespace App\DTO\Subscription;
 
+use DateTime;
+
 class SubscriptionDTO
 {
     private string $status;
-    private string $subscriptionId;
+    private string $currentPeriodEndTimestamp;
 
     public function __construct(array $response)
     {
         $this->status = $response['status'];
-        $this->subscriptionId = $response['id'];
-    }
-
-    public function getSubscriptionId(): string
-    {
-        return $this->subscriptionId;
+        $this->currentPeriodEndTimestamp = $response['current_period_end'];
     }
 
     public function getStatus(): string
@@ -23,11 +20,8 @@ class SubscriptionDTO
         return $this->status;
     }
 
-    public function toArray(): array
+    public function getCurrentPeriodEnd(): DateTime
     {
-        return [
-            'status' => $this->status,
-            'subscriptionId' => $this->subscriptionId,
-        ];
+        return new DateTime('@' . $this->currentPeriodEndTimestamp);
     }
 }

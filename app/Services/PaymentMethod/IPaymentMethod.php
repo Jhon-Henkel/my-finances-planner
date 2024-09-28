@@ -12,4 +12,5 @@ interface IPaymentMethod
     public function getSubscription(User $user): SubscriptionDTO;
     public function cancelSubscription(string $subscriptionId, string $reason): void;
     public function getActiveSubscriptionStatus(): string;
+    public function getCanceledSubscriptionStatus(): string;
 }
