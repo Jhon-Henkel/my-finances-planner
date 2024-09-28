@@ -27,8 +27,9 @@ function openPrivacyPolicyModal() {
         <ion-col size="1"/>
         <ion-col size="10" class="ion-text-center">
             <ion-text>
-                Ao se <strong>{{ action }}</strong>, você concorda com os nossos <a @click="openTermsOfUseModal">
-                Termos de Uso</a> e <a @click="openPrivacyPolicyModal">Política de Privacidade</a>.
+                Ao <strong>{{ action }}</strong>, você concorda com os nossos
+                <a class="no-break" @click="openTermsOfUseModal">Termos de Uso</a> e
+                <a class="no-break" @click="openPrivacyPolicyModal">Política de Privacidade</a>
             </ion-text>
         </ion-col>
         <ion-col size="1"/>
