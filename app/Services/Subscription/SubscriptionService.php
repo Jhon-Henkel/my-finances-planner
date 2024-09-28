@@ -86,7 +86,7 @@ class SubscriptionService extends BasicService
 
     public function updateAccount(string $email): void
     {
-        /** @var User $user */
+        /** @var null|User $user */
         $user = User::where('email', $email)->first();
         if (is_null($user)) {
             throw new BadRequestException('Usuário não encontrado para o e-mail informado');
