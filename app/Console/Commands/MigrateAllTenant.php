@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-/** @codeCoverageIgnore */
 class MigrateAllTenant extends Command
 {
     protected $signature = 'migrate:all-tenants';

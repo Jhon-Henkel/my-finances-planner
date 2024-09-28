@@ -15,7 +15,6 @@ use App\Tools\Calendar\CalendarTools;
 use Illuminate\Console\Command;
 use Throwable;
 
-/** @codeCoverageIgnore */
 class GenerateDemoUser extends Command
 {
     protected $signature = 'create:user';

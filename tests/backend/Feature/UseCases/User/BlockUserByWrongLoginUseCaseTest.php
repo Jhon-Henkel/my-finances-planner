@@ -7,7 +7,7 @@ use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\backend\Falcon9Feature;
 
-class WrongUserLoginUseCaseTest extends Falcon9Feature
+class BlockUserByWrongLoginUseCaseTest extends Falcon9Feature
 {
     private array $headers;
 

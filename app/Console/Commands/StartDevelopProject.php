@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-/** @codeCoverageIgnore */
 class StartDevelopProject extends Command
 {
     protected $signature = 'setup:develop';

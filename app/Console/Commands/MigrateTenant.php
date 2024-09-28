@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-/** @codeCoverageIgnore */
 class MigrateTenant extends Command
 {
     protected $signature = 'migrate:tenant {--tenant=}';
