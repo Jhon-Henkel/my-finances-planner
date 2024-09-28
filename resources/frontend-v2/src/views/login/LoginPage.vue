@@ -90,7 +90,7 @@ onMounted(async () => {
             <ion-row class="footer">
                 <ion-col size="1"/>
                 <ion-col size="10">
-                    <mfp-terms-and-privacy-text action="logar"/>
+                    <mfp-terms-and-privacy-text action="entrar"/>
                 </ion-col>
                 <ion-col size="1"/>
             </ion-row>
@@ -111,5 +111,6 @@ onMounted(async () => {
 
 .footer {
     margin-top: auto;
+    margin-bottom: 20px;
 }
 </style>
