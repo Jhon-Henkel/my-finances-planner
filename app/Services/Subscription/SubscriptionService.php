@@ -12,7 +12,6 @@ use App\Services\BasicService;
 use App\Services\Database\DatabaseConnectionService;
 use App\Services\Mail\MailService;
 use App\Services\PaymentMethod\IPaymentMethod;
-use App\Services\PaymentMethod\PayPal\PayPalService;
 use App\Services\PaymentMethod\Stripe\StripeService;
 use App\Services\User\PlanService;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +43,6 @@ class SubscriptionService extends BasicService
     protected function getPaymentMethodInstance(): IPaymentMethod
     {
         return match (config('app.payment_method_name')) {
-            PaymentMethodNameEnum::PayPal->value => new PayPalService(),
             PaymentMethodNameEnum::Stripe->value => new StripeService(),
             default => throw new PaymentMethodNotFountException(),
         };
