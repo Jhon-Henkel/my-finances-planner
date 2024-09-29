@@ -33,7 +33,7 @@ const email = urlParams.get('email')
                     <ion-text>Em breve você receberá um e-mail para confirmar o seu registro.</ion-text>
                     <br><br>
                     <ion-icon :icon="chevronForward" color="primary"/>
-                    <ion-text>Se não receber o e-mail, verifique a caixa de spam.</ion-text>
+                    <ion-text>Se não receber o e-mail, verifique a caixa de spam ou a lixeira.</ion-text>
                     <br><br>
                     <ion-icon :icon="chevronForward" color="primary"/>
                     <ion-text>O login só poderá ser feito após receber o e-mail de confirmação.</ion-text>
