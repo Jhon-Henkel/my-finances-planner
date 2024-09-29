@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {IonButton, IonCol, IonRow, IonText} from "@ionic/vue"
+import {IonButton, IonText} from "@ionic/vue"
 import MfpMainText from "@/views/welcome/MfpMainText.vue"
 import router from "@/router"
 import {MainSettingsService} from "@/services/Settings/MainSettingsService"
