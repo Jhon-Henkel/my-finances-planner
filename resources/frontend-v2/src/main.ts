@@ -28,6 +28,21 @@ Sentry.init({
     ],
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
+    beforeSend(event: any) {
+        if (event.exception) {
+            const exception = event.exception.values[0]
+            if (exception.mechanism && exception.mechanism.data && exception.mechanism.data.status_code) {
+                const statusCode = exception.mechanism.data.status_code;
+                if (statusCode === 401 || statusCode === 403 || statusCode === 503) {
+                    return null
+                }
+            }
+            Sentry.showReportDialog({
+                eventId: event.event_id,
+            });
+        }
+        return event
+    }
 });
 
 const app = createApp(App)
