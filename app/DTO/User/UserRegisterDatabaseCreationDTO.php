@@ -13,9 +13,9 @@ class UserRegisterDatabaseCreationDTO
     public function __construct(UserRegisterDTO $userRegister)
     {
         $timestamp = CalendarTools::getDateNow()->getTimestamp();
-        $this->dbName = md5("{$userRegister->getEmail()}$timestamp");
-        $this->dbPass = md5("{$userRegister->getEmail()}$timestamp");
-        $this->dbUser = md5("{$userRegister->getEmail()}$timestamp");
+        $this->dbName = md5("{$userRegister->getEmail()}$timestamp" . rand(1000, 9999));
+        $this->dbPass = md5("{$userRegister->getEmail()}$timestamp" . rand(1000, 9999));
+        $this->dbUser = md5("{$userRegister->getEmail()}$timestamp" . rand(1000, 9999));
     }
 
     public function updateDbNameAfterDbCreation(string $newName): void
