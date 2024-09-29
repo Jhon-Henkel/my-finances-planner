@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import {IonContent, IonPage, IonRow, IonCol, IonGrid, IonBadge} from "@ionic/vue"
 import {useAuthStore} from "@/stores/auth/AuthStore"
+import {useRoute} from "vue-router"
 
 const authStore = useAuthStore()
+const route = useRoute();
 </script>
 
 <template>
     <ion-page class="ion-margin-top ion-padding-top">
         <ion-content :fullscreen="true">
-            <ion-grid>
+            <ion-grid v-show="route.name !== 'welcome'">
                 <ion-row>
                     <ion-col>
                         <ion-badge color="danger" v-if="authStore?.user?.plan === 'Free'" class="full-width-badge">

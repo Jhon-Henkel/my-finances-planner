@@ -18,8 +18,8 @@ export const AuthService = {
         return await ApiRouter.auth.login(data).then((response: any): IApiResponse => {
             getAuthStore().setUser(response.user)
             getAuthStore().setToken(response.token)
-            if (response.user.plan === 'Free') {
-                MfpSubscriptionService.openModal('Voce tem limitações de uso no plano gratuito.')
+            if (response.user.plan === 'Free' && response.must_show_welcome_page === false) {
+                MfpSubscriptionService.openModal('Você tem limitações de uso no plano gratuito.')
             }
             return {isSuccess: true, data: response}
         }).catch((response: any): IApiResponse => {
