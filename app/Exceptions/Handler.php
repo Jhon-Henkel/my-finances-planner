@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Enums\Response\StatusCodeEnum;
 use App\Exceptions\ResponseExceptions\BadRequestException;
 use App\Exceptions\ResponseExceptions\ForbiddenException;
+use App\Exceptions\ResponseExceptions\NotFoundException;
 use App\Http\Response\ApiResponse;
 use App\Tools\ErrorReport;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -55,6 +56,10 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (ForbiddenException $exception) {
             return ApiResponse::responseError($exception->getMessage(), StatusCodeEnum::HttpForbidden->value);
+        });
+
+        $this->renderable(function (NotFoundException $exception) {
+            return ApiResponse::responseError($exception->getMessage(), StatusCodeEnum::HttpNotFound->value);
         });
 
         $this->renderable(function (QueryException $exception) {

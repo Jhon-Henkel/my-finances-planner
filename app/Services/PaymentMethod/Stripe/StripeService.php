@@ -78,8 +78,11 @@ class StripeService implements IPaymentMethod
         return $expirationTime < new DateTime();
     }
 
-    protected function isPaymentLinkId(string $subscriptionId): bool
+    protected function isPaymentLinkId(null|string $subscriptionId): bool
     {
+        if (is_null($subscriptionId)) {
+            return false;
+        }
         return str_starts_with($subscriptionId, 'plink_');
     }
 

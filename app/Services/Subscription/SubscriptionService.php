@@ -8,6 +8,7 @@ use App\Enums\PaymentMethod\PaymentMethodNameEnum;
 use App\Exceptions\NotImplementedException;
 use App\Exceptions\PaymentMethod\PaymentMethodNotFountException;
 use App\Exceptions\ResponseExceptions\BadRequestException;
+use App\Exceptions\Subscription\PaymentNotificationUserNotFound;
 use App\Models\User;
 use App\Services\BasicService;
 use App\Services\Database\DatabaseConnectionService;
@@ -16,6 +17,7 @@ use App\Services\PaymentMethod\IPaymentMethod;
 use App\Services\PaymentMethod\Stripe\StripeService;
 use App\Services\User\PlanService;
 use App\Tools\Calendar\CalendarTools;
+use App\Tools\ErrorReport;
 use Illuminate\Support\Facades\Auth;
 
 class SubscriptionService extends BasicService
@@ -129,6 +131,7 @@ class SubscriptionService extends BasicService
         if (config('app.payment_method_name') === PaymentMethodNameEnum::Stripe->value) {
             $user = User::where('subscription_id', $data['data']['object']['payment_link'])->first();
             if (is_null($user)) {
+                ErrorReport::report(new PaymentNotificationUserNotFound($data));
                 return;
             }
             $this->updateAccount($user->email);
