@@ -45,7 +45,7 @@ onMounted(async () => {
             <mfp-input-money v-model="marketPlannerConfig" label="Plano para Mercado"/>
         </ion-list>
         <ion-note color="medium" class="ion-margin-horizontal">
-            Definindo um valor para o planejamento de mercado, sará criado um plano de gastos com esse valor e o saldo
+            Definindo um valor para o planejamento de mercado, será criado um plano de gastos com esse valor e o saldo
             será atualizado automaticamente conforme você for inserindo movimentações com o nome "Mercado".
         </ion-note>
     </ion-content>
