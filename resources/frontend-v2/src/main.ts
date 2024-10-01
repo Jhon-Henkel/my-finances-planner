@@ -22,6 +22,7 @@ Sentry.init({
     dsn: process.env.VITE_SENTRY_DSN_PUBLIC,
     integrations: [
         Sentry.replayIntegration(),
+        Sentry.browserTracingIntegration()
     ],
     tracePropagationTargets: [
         `${process.env.VITE_API_BASE_URL}`
@@ -37,9 +38,6 @@ Sentry.init({
                     return null
                 }
             }
-            Sentry.showReportDialog({
-                eventId: event.event_id,
-            });
         }
         return event
     }

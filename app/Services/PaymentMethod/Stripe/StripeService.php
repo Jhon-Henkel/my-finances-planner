@@ -65,6 +65,7 @@ class StripeService implements IPaymentMethod
             }
             $user->save();
         }
+        $user->refresh();
         if ($this->isPaymentLinkId($user->subscription_id)) {
             return new SubscriptionDTO([]);
         }
