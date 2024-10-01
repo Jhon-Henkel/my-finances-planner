@@ -81,6 +81,7 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
         $responseStepTwo = $this->postJson($url, [], $this->headers);
 
         $mockUserService = $this->mock(UserRegisterService::class);
+        $mockUserService->shouldAllowMockingProtectedMethods();
         $mockUserService->shouldReceive('sendEmailNewUserRegister')->once()->andReturn();
 
         $this->assertEquals(StatusCodeEnum::HttpOk->value, $responseStepTwo->status(), '=> Step three failed');
