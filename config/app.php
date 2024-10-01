@@ -26,6 +26,7 @@ return [
     'cipher' => 'AES-256-CBC',
     'mail_from_address' => env('MAIL_FROM_ADDRESS'),
     'mail_from_name' => env('MAIL_FROM_NAME'),
+    'mail_master_address' => env('MAIL_MASTER_ADDRESS'),
     'max_wrong_login_attempts' => 5,
     'maintenance' => [
         'driver' => 'file',
