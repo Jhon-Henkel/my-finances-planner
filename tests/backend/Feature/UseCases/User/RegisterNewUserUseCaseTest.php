@@ -66,7 +66,7 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
 
         $mailData = null;
         $mockMail = $this->mock(MailService::class);
-        $mockMail->shouldReceive('sendEmail')->once()->andReturnUsing(
+        $mockMail->shouldReceive('sendEmail')->twice()->andReturnUsing(
             function ($data) use (&$mailData) {
                 $mailData = $data;
             }

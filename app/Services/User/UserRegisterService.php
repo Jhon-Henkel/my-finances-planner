@@ -69,7 +69,6 @@ class UserRegisterService extends BasicService
         ];
         $message = new MailMessageDTO($user->email, $user->name, $subject, $template, $data);
         $this->mailService->sendEmail($message);
-
     }
 
     public function registerUserStepThree(string $hash): void
@@ -79,5 +78,18 @@ class UserRegisterService extends BasicService
         $user->verify_hash = '';
         $user->email_verified_at = CalendarTools::getThisMonthString();
         $user->save();
+        $this->sendEmailNewUserRegister($user);
+    }
+
+    protected function sendEmailNewUserRegister(User $user): void
+    {
+        $subject = 'Novo usuário cadastrado!';
+        $template = 'emails.newUserRegistered';
+        $data = [
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
+        $message = new MailMessageDTO(config('app.mail_master_address'), 'Master', $subject, $template, $data);
+        $this->mailService->sendEmail($message);
     }
 }

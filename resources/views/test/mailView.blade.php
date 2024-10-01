@@ -37,6 +37,11 @@
             </a>
         </li>
         <li>
+            <a href="/develop/test-email-view?email=newUserRegistered">
+                Usuário - Novo usuário registrado
+            </a>
+        </li>
+        <li>
             <a href="/develop/test-email-view?email=activateAccount">
                 Conta - Ativação após registro na plataforma
             </a>
