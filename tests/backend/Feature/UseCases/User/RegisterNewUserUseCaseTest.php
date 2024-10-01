@@ -8,6 +8,7 @@ use App\Enums\StatusEnum;
 use App\Models\User\Plan;
 use App\Services\Mail\MailService;
 use App\Services\Queue\QueueProducerService;
+use App\Services\User\UserRegisterService;
 use Tests\backend\Falcon9Feature;
 
 class RegisterNewUserUseCaseTest extends Falcon9Feature
@@ -78,6 +79,9 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
 
         $url = "/api/mfp/user/register/activate/{$mailData->getParams()['hash']}";
         $responseStepTwo = $this->postJson($url, [], $this->headers);
+
+        $mockUserService = $this->mock(UserRegisterService::class);
+        $mockUserService->shouldReceive('sendEmailNewUserRegister')->once()->andReturn();
 
         $this->assertEquals(StatusCodeEnum::HttpOk->value, $responseStepTwo->status(), '=> Step three failed');
 
