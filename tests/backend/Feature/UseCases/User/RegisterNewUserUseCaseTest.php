@@ -67,7 +67,7 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
 
         $mailData = null;
         $mockMail = $this->mock(MailService::class);
-        $mockMail->shouldReceive('sendEmail')->once()->andReturnUsing(
+        $mockMail->shouldReceive('sendEmail')->twice()->andReturnUsing(
             function ($data) use (&$mailData) {
                 $mailData = $data;
             }
@@ -79,10 +79,6 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
 
         $url = "/api/mfp/user/register/activate/{$mailData->getParams()['hash']}";
         $responseStepTwo = $this->postJson($url, [], $this->headers);
-
-        $mockUserService = $this->mock(UserRegisterService::class);
-        $mockUserService->shouldAllowMockingProtectedMethods();
-        $mockUserService->shouldReceive('sendEmailNewUserRegister')->once()->andReturn();
 
         $this->assertEquals(StatusCodeEnum::HttpOk->value, $responseStepTwo->status(), '=> Step three failed');
 
