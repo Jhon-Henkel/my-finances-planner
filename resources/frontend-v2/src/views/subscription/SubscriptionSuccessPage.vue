@@ -12,7 +12,7 @@ store.logout()
 <template>
     <mfp-page>
         <div class="welcome-container">
-            <h1>🎉 Obrigado por se tornar um usuário Pro! 🎉</h1>
+            <h1>Obrigado por se tornar um usuário Pro! 🎉</h1>
             <p>Aproveite todos os benefícios exclusivos do nosso plano <strong>Pro</strong> agora.</p>
             <ion-card>
                 <ion-card-header>
