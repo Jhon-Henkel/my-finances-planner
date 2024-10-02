@@ -19,7 +19,13 @@ class RequestToolsReal
 
     public function getUserIp(): string|null
     {
-        return $_SERVER['REMOTE_ADDR'] ?? null;
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $ip = trim($ipList[0]);
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
     }
 
     public function getUserAgent(): string|null
