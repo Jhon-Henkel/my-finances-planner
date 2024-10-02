@@ -24,10 +24,6 @@ const authStore = useAuthStore()
 
 async function save() {
     let okMessage = new MfpOkAlert('Ação não permitida')
-    if (UtilApp.isAppInDemoMode()) {
-        await okMessage.open('Aplicação em mode demo não permite alterar as configurações!')
-        return
-    }
     if (alterPassword.value && password.value !== confirmPassword.value) {
         await okMessage.open('A nova senha e a senha de confirmação não são iguais!')
         return

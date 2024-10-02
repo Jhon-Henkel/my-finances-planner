@@ -48,10 +48,7 @@ onMounted(async () => {
         await router.push({name: 'dashboard'})
         return
     }
-    if (UtilApp.isAppInDemoMode()) {
-        loginData.value.email = 'mfp-demo@jhon.dev.br'
-        loginData.value.password = 'mfp-demo'
-    } else if (UtilApp.isAppInDeveloperMode()) {
+    if (UtilApp.isAppInDeveloperMode()) {
         loginData.value.email = 'demo@demo.dev'
         loginData.value.password = '12345678'
     }
