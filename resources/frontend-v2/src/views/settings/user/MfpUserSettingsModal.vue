@@ -6,7 +6,6 @@ import {onMounted, ref} from "vue"
 import MfpInput from "@/components/input/MfpInput.vue"
 import MfpInputToggle from "@/components/input/MfpInputToggle.vue"
 import {alertCircleOutline} from "ionicons/icons"
-import {UtilApp} from "@/util/UtilApp"
 import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
 import {UserService} from "@/services/user/UserService"
 import {useAuthStore} from "@/stores/auth/AuthStore"
@@ -24,10 +23,6 @@ const authStore = useAuthStore()
 
 async function save() {
     let okMessage = new MfpOkAlert('Ação não permitida')
-    if (UtilApp.isAppInDemoMode()) {
-        await okMessage.open('Aplicação em mode demo não permite alterar as configurações!')
-        return
-    }
     if (alterPassword.value && password.value !== confirmPassword.value) {
         await okMessage.open('A nova senha e a senha de confirmação não são iguais!')
         return

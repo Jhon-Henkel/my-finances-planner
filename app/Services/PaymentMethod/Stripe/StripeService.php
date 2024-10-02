@@ -42,11 +42,10 @@ class StripeService implements IPaymentMethod
                     ['price' => config('app.payment_method_plan_id'), 'quantity' => 1]
                 ],
                 'after_completion' => [
-                    'hosted_confirmation' => [
-                        'custom_message' => 'Obrigado por assinar nosso plano! Agora basta deslogar e logar novamente
-                        para começar a usar.',
+                    'redirect' => [
+                        'url' => config('app.url') . '/v2/assinatura-sucesso',
                     ],
-                    'type' => 'hosted_confirmation'
+                    'type' => 'redirect'
                 ],
             ]);
         }
