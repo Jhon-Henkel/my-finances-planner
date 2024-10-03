@@ -9,6 +9,10 @@ use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/')->group(function () {
+    Route::get('site', function () {
+        return view('landingPage.landingPage');
+    });
+
     Route::prefix('user')->group(function () {
         Route::post('/register', [UserRegisterController::class, 'registerStepZero'])
             ->name(RouteEnum::WebUserRegisterStepZero->value);

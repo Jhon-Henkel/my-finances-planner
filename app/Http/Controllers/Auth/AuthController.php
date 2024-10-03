@@ -34,7 +34,7 @@ class AuthController extends Controller
             $this->authService->saveAccessLog($user, 1, 'Logado com sucesso');
             return response()->json($this->authService->makeAuthUserResponseData($user), ResponseAlias::HTTP_OK);
         } elseif ($loginCode === AuthService::INACTIVE_USER_CODE) {
-            $message = 'Usuário inativo!';
+            $message = 'Usuário inativo! Verifique seu e-mail para ativar sua conta.';
             $this->authService->saveAccessLog($user, 0, $message);
             return ApiResponse::responseError($message, ResponseAlias::HTTP_FORBIDDEN);
         } elseif ($loginCode === AuthService::INVALID_LOGIN_OR_PASSWORD_CODE) {
