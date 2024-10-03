@@ -43,7 +43,7 @@ class BlockUserByWrongLoginUseCaseTest extends Falcon9Feature
 
         // Testando login com usuário bloqueado
         $responseWrongLogin = $this->postJson('/auth', $userWrongLogin, $this->headers)->json();
-        $this->assertEquals('Usuário inativo!', $responseWrongLogin['message']);
+        $this->assertEquals('Usuário inativo! Verifique seu e-mail para ativar sua conta.', $responseWrongLogin['message']);
 
         $userDB = User::where('email', $user['email'])->first();
         $this->assertEquals(StatusEnum::Inactive->value, $userDB->status);
