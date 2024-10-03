@@ -58,7 +58,7 @@ function closeModal() {
     <mfp-modal-content>
         <template #list>
             <mfp-input v-model="internalWallet.name" label="Descrição" placeholder="Nome da carteira"/>
-            <mfp-input-money v-model="internalWallet.amount"/>
+            <mfp-input-money v-model="internalWallet.amount" label="Saldo Atual"/>
         </template>
     </mfp-modal-content>
 </template>

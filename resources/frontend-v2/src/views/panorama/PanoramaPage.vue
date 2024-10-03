@@ -100,7 +100,7 @@ onMounted(async () => {
         <mfp-panorama-details-card/>
         <div class="ion-text-end">
             <ion-button fill="clear" @click="onlyNonPaid = !onlyNonPaid">
-                {{ onlyNonPaid ? 'Ver Todos' : 'Somente a pagar' }}
+                {{ onlyNonPaid ? 'Ver Todas' : 'Ver somente a pagar' }}
             </ion-button>
         </div>
         <mfp-empty-list-item :nothing-to-show="store.panorama.futureExpenses.length === 0 && store.isLoaded"/>
