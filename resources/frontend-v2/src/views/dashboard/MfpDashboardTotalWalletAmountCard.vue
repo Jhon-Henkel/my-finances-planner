@@ -19,7 +19,7 @@ onMounted(async () => {
             <ion-card color="light" class="ion-no-margin ion-text-center">
                 <ion-row class="ion-margin">
                     <ion-col size="12">
-                        <ion-card-subtitle>Total em conta</ion-card-subtitle>
+                        <ion-card-subtitle>Saldo Carteiras</ion-card-subtitle>
                         <mfp-counter-money :end="walletStore.getTotalAmount"/>
                     </ion-col>
                 </ion-row>
