@@ -5,6 +5,7 @@ import {IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
 import {MovementService} from "@/services/movement/MovementService"
 import {UtilCalendar} from "@/util/UtilCalendar"
 import {UtilMoney} from "@/util/UtilMoney"
+import {UtilString} from "../../util/UtilString"
 
 const movementStore = useMovementStore()
 
@@ -28,7 +29,12 @@ onMounted(async () => {
                 </ion-col>
                 <ion-col>
                     <ion-label>
-                        {{ UtilCalendar.formatStringToBr(movement.createdAt) }}
+                        {{ UtilCalendar.formatStringToBrOnlyDayAndMonth(movement.createdAt) }}
+                    </ion-label>
+                </ion-col>
+                <ion-col>
+                    <ion-label>
+                        {{ UtilString.ellipsis(movement.description, 10) }}
                     </ion-label>
                 </ion-col>
                 <ion-col class="ion-text-end">
