@@ -27,14 +27,14 @@ onMounted(async () => {
                         class="icon"
                     />
                 </ion-col>
-                <ion-col>
+                <ion-col size="col-4">
                     <ion-label>
                         {{ UtilCalendar.formatStringToBrOnlyDayAndMonth(movement.createdAt) }}
                     </ion-label>
                 </ion-col>
                 <ion-col>
-                    <ion-label>
-                        {{ UtilString.ellipsis(movement.description, 10) }}
+                    <ion-label class="ion-text-start no-break">
+                        {{ UtilString.ellipsis(movement.description, 15) }}
                     </ion-label>
                 </ion-col>
                 <ion-col class="ion-text-end">

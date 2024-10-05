@@ -16,6 +16,7 @@ import {TransferFormValidation} from "@/form-validation/movement/transfer/Transf
 import {WalletService} from "@/services/wallet/WalletService"
 import {useFinancialHealthStore} from "@/stores/financial-health/financialHealthStore"
 import {PanoramaService} from "@/services/panorama/PanoramaService"
+import {useAuthStore} from "@/stores/auth/AuthStore"
 
 const props = defineProps(
     {
@@ -58,7 +59,9 @@ async function saveItem() {
         await MovementService.create(internalMovement.value)
         await toast.open('Movimentação cadastrada com sucesso!')
         closeModal()
-        useFinancialHealthStore().load()
+        if (useAuthStore().user?.plan != 'Free') {
+            await useFinancialHealthStore().load()
+        }
     } else if (insertType.value === 'transfer') {
         const validationResult = TransferFormValidation.validate(internalTransfer.value)
         if (!validationResult.isValid) {
