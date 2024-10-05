@@ -14,19 +14,19 @@ const menuModal = new MfpModal(MfpMenuAllModal, true)
         <ion-tabs>
             <ion-router-outlet/>
             <ion-tab-bar slot="bottom">
-                <ion-tab-button tab="home" @click="router.push({name: 'dashboard'})">
+                <ion-tab-button @click="router.push({name: 'dashboard'})">
                     <ion-icon :icon="homeOutline"/>
                 </ion-tab-button>
-                <ion-tab-button tab="movements" @click="router.push({name: 'movements'})">
+                <ion-tab-button @click="router.push({name: 'movements'})">
                     <ion-icon :icon="swapHorizontalOutline"/>
                 </ion-tab-button>
-                <ion-tab-button tab="add" id="mfp-tab-plus-modal">
+                <ion-tab-button id="mfp-tab-plus-modal">
                     <ion-icon :icon="addOutline"/>
                 </ion-tab-button>
-                <ion-tab-button tab="settings" @click="router.push({name: 'panorama'})">
+                <ion-tab-button @click="router.push({name: 'panorama'})">
                     <ion-icon :icon="calendarNumberOutline"/>
                 </ion-tab-button>
-                <ion-tab-button tab="menu" @click="menuModal.open()">
+                <ion-tab-button @click="menuModal.open()">
                     <ion-icon :icon="menuOutline"/>
                 </ion-tab-button>
             </ion-tab-bar>
