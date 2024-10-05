@@ -34,7 +34,7 @@ onMounted(async () => {
                 </ion-col>
                 <ion-col>
                     <ion-label class="ion-text-start no-break">
-                        {{ UtilString.ellipsis(movement.description, 15) }}
+                        {{ UtilString.ellipsis(movement.description, 10) }}
                     </ion-label>
                 </ion-col>
                 <ion-col class="ion-text-end">
