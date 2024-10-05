@@ -6,9 +6,7 @@ import {
     IonCardSubtitle,
     IonCol,
     IonGrid,
-    IonLabel,
     IonRow,
-    IonText
 } from "@ionic/vue"
 import {useFutureProfitsStore} from "@/stores/future-profits/FutureProfitsStore"
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
