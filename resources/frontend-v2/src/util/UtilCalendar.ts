@@ -17,6 +17,10 @@ export const UtilCalendar = {
         const dateTime: Date = new Date(date)
         return dateTime.toLocaleDateString('pt-BR', { year: '2-digit', month: '2-digit', day: '2-digit' })
     },
+    formatStringToBrOnlyDayAndMonth: function(date: string): string {
+        const dateTime: Date = new Date(date)
+        return dateTime.toLocaleDateString('pt-BR', { year: undefined, month: '2-digit', day: '2-digit' })
+    },
     getTodayIso: function(): string {
         return this.getToday().toISOString()
     },
