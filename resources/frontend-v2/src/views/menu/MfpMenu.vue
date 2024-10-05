@@ -5,8 +5,37 @@ import MfpMenuAddModal from "@/views/menu/MfpMenuAddModal.vue"
 import MfpMenuAllModal from "@/views/menu/MfpMenuAllModal.vue"
 import {addOutline, calendarNumberOutline, homeOutline, menuOutline, swapHorizontalOutline} from "ionicons/icons"
 import router from "@/router"
+import {ref} from "vue"
 
 const menuModal = new MfpModal(MfpMenuAllModal, true)
+const dashboardSelected = ref(true)
+const movementsSelected = ref(false)
+const panoramaSelected = ref(false)
+
+function goToRoute(route: string) {
+    if (route === 'dashboard') {
+        dashboardSelected.value = true
+        movementsSelected.value = false
+        panoramaSelected.value = false
+        router.push({name: route})
+    } else if (route === 'movements') {
+        dashboardSelected.value = false
+        movementsSelected.value = true
+        panoramaSelected.value = false
+        router.push({name: route})
+    } else if (route === 'panorama') {
+        dashboardSelected.value = false
+        movementsSelected.value = false
+        panoramaSelected.value = true
+        router.push({name: route})
+    } else if (route === 'menu') {
+        dashboardSelected.value = false
+        movementsSelected.value = false
+        panoramaSelected.value = false
+        menuModal.open()
+    }
+}
+
 </script>
 
 <template>
@@ -14,19 +43,19 @@ const menuModal = new MfpModal(MfpMenuAllModal, true)
         <ion-tabs>
             <ion-router-outlet/>
             <ion-tab-bar slot="bottom">
-                <ion-tab-button @click="router.push({name: 'dashboard'})">
+                <ion-tab-button @click="goToRoute('dashboard')" :selected="dashboardSelected">
                     <ion-icon :icon="homeOutline"/>
                 </ion-tab-button>
-                <ion-tab-button @click="router.push({name: 'movements'})">
+                <ion-tab-button @click="goToRoute('movements')" :selected="movementsSelected">
                     <ion-icon :icon="swapHorizontalOutline"/>
                 </ion-tab-button>
                 <ion-tab-button id="mfp-tab-plus-modal">
                     <ion-icon :icon="addOutline"/>
                 </ion-tab-button>
-                <ion-tab-button @click="router.push({name: 'panorama'})">
+                <ion-tab-button @click="goToRoute('panorama')" :selected="panoramaSelected">
                     <ion-icon :icon="calendarNumberOutline"/>
                 </ion-tab-button>
-                <ion-tab-button @click="menuModal.open()">
+                <ion-tab-button @click="goToRoute('menu')">
                     <ion-icon :icon="menuOutline"/>
                 </ion-tab-button>
             </ion-tab-bar>
