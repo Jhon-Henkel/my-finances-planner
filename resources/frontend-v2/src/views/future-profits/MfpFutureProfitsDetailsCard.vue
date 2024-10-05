@@ -1,5 +1,15 @@
 <script setup lang="ts">
-import {IonCard, IonCardContent, IonCol, IonGrid, IonLabel, IonRow, IonText} from "@ionic/vue"
+import {
+    IonBadge,
+    IonCard,
+    IonCardContent,
+    IonCardSubtitle,
+    IonCol,
+    IonGrid,
+    IonLabel,
+    IonRow,
+    IonText
+} from "@ionic/vue"
 import {useFutureProfitsStore} from "@/stores/future-profits/FutureProfitsStore"
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
 
@@ -42,12 +52,10 @@ function sumMonthValue(): number {
             <ion-grid class="ion-no-padding">
                 <ion-row>
                     <ion-col class="ion-text-center">
-                        <ion-label class="center-ion-label-content">
-                            <ion-text>
-                                Total Previsto para o mês:
-                            </ion-text>
-                            <mfp-counter-money :end="sumMonthValue()" class="ion-padding-start"/>
-                        </ion-label>
+                            <ion-card-subtitle>Total Previsto para o mês</ion-card-subtitle>
+                            <ion-badge :color="sumMonthValue() >= 0 ? 'success' : 'danger'">
+                                <mfp-counter-money :end="sumMonthValue()"/>
+                            </ion-badge>
                     </ion-col>
                 </ion-row>
             </ion-grid>
