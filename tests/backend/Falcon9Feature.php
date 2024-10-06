@@ -5,8 +5,6 @@ namespace Tests\backend;
 use App\Enums\StatusEnum;
 use App\Models\User;
 use App\Services\Database\DatabaseConnectionService;
-use App\Services\Mail\MailService;
-use App\Services\Queue\QueueProducerService;
 use App\Tools\Auth\JwtTools;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -66,7 +64,7 @@ abstract class Falcon9Feature extends BaseTestCase
     {
         DB::rollBack();
         $this->connectMaster();
-        DB::statement("DROP DATABASE IF EXISTS {$this->user->tenant()->tenant_hash}");
+        DB::statement("DROP DATABASE IF EXISTS '{$this->user->tenant()->tenant_hash}'");
         DB::delete("DELETE FROM users");
         DB::delete("DELETE FROM tenants");
         parent::tearDown();

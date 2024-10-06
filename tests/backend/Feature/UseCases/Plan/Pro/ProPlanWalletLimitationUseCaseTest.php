@@ -3,9 +3,7 @@
 namespace Tests\backend\Feature\UseCases\Plan\Pro;
 
 use App\Enums\Plan\PlanNameEnum;
-use App\Models\User;
 use App\Models\User\Plan;
-use App\Services\Database\DatabaseConnectionService;
 use Tests\backend\Falcon9Feature;
 
 class ProPlanWalletLimitationUseCaseTest extends Falcon9Feature

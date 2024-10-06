@@ -69,12 +69,10 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
 
         $this->assertEquals(StatusCodeEnum::HttpOk->value, $responseStepTwo->status(), '=> Step three failed');
 
-        $plan = Plan::where('name', PlanNameEnum::Free->name)->first();
-
         $this->assertDatabaseHas('users', [
             'email' => $userData['email'],
             'name' => $userData['name'],
-            'plan_id' => $plan->id,
+            'plan_id' => Plan::where('name', PlanNameEnum::Free->name)->first()->id,
             'status' => StatusEnum::Active->value,
         ]);
     }
