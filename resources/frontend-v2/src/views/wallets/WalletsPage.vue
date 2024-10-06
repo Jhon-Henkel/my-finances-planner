@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+    IonButton,
     IonIcon,
     IonItemOption,
     IonItemOptions,
@@ -11,7 +12,7 @@ import {
 import {ellipsisHorizontal} from "ionicons/icons"
 import MfpRefresh from "@/components/refresh/MfpRefresh.vue"
 import MfpPage from "@/components/page/MfpPage.vue"
-import {onMounted} from "vue"
+import {onMounted, ref} from "vue"
 import MfpCirclePlusButton from "@/components/button/MfpCirclePlusButton.vue"
 import MfpEmptyListItem from "@/components/list/MfpEmptyListItem.vue"
 import MfpWalletsBalanceCard from "@/views/wallets/MfpWalletsBalanceCard.vue"
@@ -30,6 +31,7 @@ import MfpTotalRegistersRow from "@/components/page/MfpTotalRegistersRow.vue"
 
 const walletStore = useWalletStore()
 const formModal = new MfpModal(MfpWalletsFormModal)
+const onlyWithFounds = ref(true)
 
 async function optionsAction(wallet: WalletModel) {
     const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtons(true, true, true))
@@ -57,6 +59,10 @@ async function handleRefresh(event: any) {
     event.target.complete()
 }
 
+function mustShowItem(item: WalletModel, onlyWithFounds: boolean): boolean {
+    return ! onlyWithFounds || (onlyWithFounds && item.amount > 0)
+}
+
 onMounted(async () => {
     await WalletService.updateWalletList()
 })
@@ -70,10 +76,20 @@ onMounted(async () => {
             <mfp-circle-plus-button @click="formModal.open()"/>
         </ion-list-header>
         <mfp-wallets-balance-card :balance="walletStore.getTotalAmount"/>
+        <div class="ion-text-end">
+            <ion-button fill="clear" @click="onlyWithFounds = !onlyWithFounds">
+                {{ onlyWithFounds ? 'Ver Todas' : 'Ver somente com saldo' }}
+            </ion-button>
+        </div>
         <mfp-empty-list-item :nothing-to-show="walletStore.wallets.length === 0 && walletStore.isLoaded"/>
         <mfp-wallets-list-skeleton-load :is-loaded="walletStore.isLoaded"/>
         <ion-list v-if="walletStore.isLoaded">
-            <ion-item-sliding v-for="wallet in walletStore.wallets" :key="wallet.id" class="ion-text-center">
+            <ion-item-sliding
+                v-for="wallet in walletStore.wallets"
+                :key="wallet.id"
+                class="ion-text-center"
+                v-show="mustShowItem(wallet, onlyWithFounds)"
+            >
                 <mfp-wallets-list-item :wallet="wallet"/>
                 <ion-item-options side="end">
                     <ion-item-option color="light" expandable @click="optionsAction(wallet)">
