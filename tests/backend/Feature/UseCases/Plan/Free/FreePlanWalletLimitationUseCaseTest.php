@@ -4,24 +4,17 @@ namespace Tests\backend\Feature\UseCases\Plan\Free;
 
 use App\Enums\Plan\PlanNameEnum;
 use App\Models\User\Plan;
-use App\Services\Database\DatabaseConnectionService;
 use Tests\backend\Falcon9Feature;
 
 class FreePlanWalletLimitationUseCaseTest extends Falcon9Feature
 {
-    private array $headers;
     private Plan $plan;
     private string $baseUrl = '/api/wallet';
 
     protected function setUp(): void
     {
         parent::setUp();
-        $userLoginData = $this->createNewUser();
-        $login = $this->postJson('/auth', $userLoginData);
-        $this->headers = $this->headerWithoutUser;
-        $this->headers['X-MFP-USER-TOKEN'] = 'Bearer ' . $login->json('token');
-        $connection = new DatabaseConnectionService();
-        $connection->setMasterConnection();
+        $this->connectMaster();
         $this->plan = Plan::where('name', PlanNameEnum::Free->name)->first();
     }
 
@@ -34,7 +27,7 @@ class FreePlanWalletLimitationUseCaseTest extends Falcon9Feature
                     'name' => $this->faker->name,
                     'amount' => $this->faker->randomFloat(2, 0, 1000),
                 ],
-                $this->headers
+                $this->makeHeaders()
             );
             $response->assertStatus(201);
         }
@@ -45,7 +38,7 @@ class FreePlanWalletLimitationUseCaseTest extends Falcon9Feature
                 'name' => $this->faker->name,
                 'amount' => $this->faker->randomFloat(2, 0, 1000),
             ],
-            $this->headers
+            $this->makeHeaders()
         );
         $response->assertStatus(403);
         $response->assertJson([

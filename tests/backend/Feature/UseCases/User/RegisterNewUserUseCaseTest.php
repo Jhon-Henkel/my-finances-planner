@@ -12,18 +12,6 @@ use Tests\backend\Falcon9Feature;
 
 class RegisterNewUserUseCaseTest extends Falcon9Feature
 {
-    private array $headers;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->headers = [
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'MFP-TOKEN' => config('app.mfp_token'),
-        ];
-    }
-
     public function testRegisterNewUser()
     {
         $userData = [
@@ -53,7 +41,7 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
         $this->assertnotEmpty($data['data'], $message);
         $this->assertnotEmpty($data['queue_addition_date'], $message);
 
-        $responseStepOne = $this->postJson('/api/mfp/user/register/step-one', [$data['data']], $this->headers);
+        $responseStepOne = $this->postJson('/api/mfp/user/register/step-one', [$data['data']], $this->headerWithoutUser);
         $data = json_decode($queueData, true);
 
         $message = '=> Step one failed';
@@ -72,12 +60,12 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
             }
         );
 
-        $responseStepOne = $this->postJson('/api/mfp/user/register/step-two', [$data['data']], $this->headers);
+        $responseStepOne = $this->postJson('/api/mfp/user/register/step-two', [$data['data']], $this->headerWithoutUser);
 
         $this->assertEquals(StatusCodeEnum::HttpOk->value, $responseStepOne->status(), '=> Step two failed');
 
         $url = "/api/mfp/user/register/activate/{$mailData->getParams()['hash']}";
-        $responseStepTwo = $this->postJson($url, [], $this->headers);
+        $responseStepTwo = $this->postJson($url, [], $this->headerWithoutUser);
 
         $this->assertEquals(StatusCodeEnum::HttpOk->value, $responseStepTwo->status(), '=> Step three failed');
 
