@@ -49,7 +49,7 @@ abstract class Falcon9Feature extends BaseTestCase
             $this->artisan('migrate:all-tenants');
             $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
         }
-        if (!isset($user[0])) {
+        if (empty($user)) {
             $this->makeUser();
         }
         $this->user = new User((array)$user[0]);
