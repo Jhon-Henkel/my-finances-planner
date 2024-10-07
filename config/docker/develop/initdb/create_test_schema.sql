@@ -1,1 +1,1 @@
-CREATE DATABASE IF NOT EXISTS my_finances_testing;
+CREATE DATABASE IF NOT EXISTS testing;

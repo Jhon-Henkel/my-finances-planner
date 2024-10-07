@@ -3,30 +3,20 @@
 namespace Tests\backend\Feature\UseCases\Plan\Pro;
 
 use App\Enums\Plan\PlanNameEnum;
-use App\Models\User;
 use App\Models\User\Plan;
-use App\Services\Database\DatabaseConnectionService;
 use Tests\backend\Falcon9Feature;
 
 class ProPlanCreditCardLimitationUseCaseTest extends Falcon9Feature
 {
-    private array $headers;
     private Plan $freePlan;
     private string $baseUrl = '/api/credit-card';
+    protected int $userPlanId = 2;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $userLoginData = $this->createNewUser();
-        $login = $this->postJson('/auth', $userLoginData);
-        $this->headers = $this->headerWithoutUser;
-        $this->headers['X-MFP-USER-TOKEN'] = 'Bearer ' . $login->json('token');
-        $connection = new DatabaseConnectionService();
-        $connection->setMasterConnection();
-        $user = User::where('email', $userLoginData['email'])->first();
-        $user->plan_id = Plan::where('name', PlanNameEnum::Pro->name)->first()->id;
-        $user->save();
-        $this->freePlan = Plan::where('name', PlanNameEnum::Free->name)->first();
+        $this->connectMaster();
+        $this->freePlan = Plan::where('name', PlanNameEnum::Free->value)->first();
     }
 
     public function testWalletFreePlanLimitation()
@@ -40,7 +30,7 @@ class ProPlanCreditCardLimitationUseCaseTest extends Falcon9Feature
                     'dueDate' => $this->faker->numberBetween(1, 31),
                     'closingDay' => $this->faker->numberBetween(1, 31),
                 ],
-                $this->headers
+                $this->makeHeaders()
             );
             $response->assertStatus(201);
         }
@@ -53,7 +43,7 @@ class ProPlanCreditCardLimitationUseCaseTest extends Falcon9Feature
                 'dueDate' => $this->faker->numberBetween(1, 31),
                 'closingDay' => $this->faker->numberBetween(1, 31),
             ],
-            $this->headers
+            $this->makeHeaders()
         );
         $response->assertStatus(201);
     }
