@@ -27,14 +27,7 @@ abstract class Falcon9Feature extends BaseTestCase
         $this->withoutMiddleware(VerifyCsrfToken::class);
         DB::beginTransaction();
         $this->configureServer();
-        $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
-        if (empty($user)) {
-            $this->artisan('migrate');
-            $this->artisan('create:user');
-            $this->artisan('migrate:all-tenants');
-            $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
-        }
-        $this->user = new User((array)$user[0]);
+        $this->makeUser();
         User::query()->where('email', $this->user->email)->update([
             'status' => StatusEnum::Active->value,
             'plan_id' => $this->userPlanId,
@@ -45,6 +38,21 @@ abstract class Falcon9Feature extends BaseTestCase
             'MFP-TOKEN' => config('app.mfp_token'),
         ];
         $this->apiHeaders = $this->makeHeaders();
+    }
+
+    protected function makeUser(): void
+    {
+        $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
+        if (empty($user)) {
+            $this->artisan('migrate');
+            $this->artisan('create:user');
+            $this->artisan('migrate:all-tenants');
+            $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
+        }
+        if (empty($user)) {
+            $this->makeUser();
+        }
+        $this->user = new User((array)$user[0]);
     }
 
     protected function configureServer(): void
