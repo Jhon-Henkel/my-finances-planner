@@ -65,6 +65,7 @@ abstract class Falcon9Feature extends BaseTestCase
         DB::rollBack();
         $this->connectMaster();
         DB::statement("DROP DATABASE IF EXISTS {$this->user->tenant()->tenant_hash}");
+        DB::delete("DELETE FROM access_log");
         DB::delete("DELETE FROM users");
         DB::delete("DELETE FROM tenants");
         parent::tearDown();
