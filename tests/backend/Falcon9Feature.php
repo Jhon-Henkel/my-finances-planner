@@ -3,6 +3,7 @@
 namespace Tests\backend;
 
 use App\Enums\StatusEnum;
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\User;
 use App\Services\Database\DatabaseConnectionService;
 use App\Tools\Auth\JwtTools;
@@ -23,6 +24,7 @@ abstract class Falcon9Feature extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->withoutMiddleware(VerifyCsrfToken::class);
         DB::beginTransaction();
         $this->configureServer();
         $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
@@ -50,14 +52,6 @@ abstract class Falcon9Feature extends BaseTestCase
         unset($_SERVER['HTTP_X_MFP_USER_TOKEN']);
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3';
-    }
-
-    protected function thisUserLoginData(): array
-    {
-        return [
-            'email' => $this->user->email,
-            'password' => '12345678',
-        ];
     }
 
     protected function tearDown(): void
