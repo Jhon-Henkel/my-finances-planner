@@ -47,7 +47,7 @@ return [
         DatabaseConnectionEnum::Test->value => [
             'driver' => 'mysql',
             'host' => env('DB_TEST_HOST', 'mysql'),
-            'database' => env('DB_TEST_DATABASE', 'my_finances_testing'),
+            'database' => env('DB_TEST_DATABASE', 'testing'),
             'username' => env('DB_TEST_USERNAME', 'root'),
             'password' => env('DB_TEST_PASSWORD', '123'),
             'port' => env('DB_TEST_PORT', '3306'),

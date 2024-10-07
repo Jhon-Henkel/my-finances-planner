@@ -23,8 +23,10 @@ class MailService
     public function sendEmail(MailMessageDTO $mail): void
     {
         if (config('app.env') === 'local') {
+            dd("q");
             return;
         }
+        dd('w');
         Mail::send($mail->getTempleteFile(), $mail->getParams(), function ($message) use ($mail) {
             $message->to($mail->getAddressee(), $mail->getAddresseeName());
             $message->subject($mail->getSubject());
