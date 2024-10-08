@@ -19,7 +19,11 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule): void
     {
+        // Todos os dias
         $schedule->command('cron:check-subscription')->daily();
+
+        // Toda segunda-feira
+        $schedule->command('telescope:prune')->mondays();
     }
 
     protected function commands(): void
