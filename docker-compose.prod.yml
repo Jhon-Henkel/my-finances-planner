@@ -78,6 +78,16 @@ services:
     depends_on:
       - rabbitmq
 
+  redis:
+    container_name: "mfp_redis"
+    image: redis:7.4.1
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --maxmemory-policy allkeys-lru --requirepass ${REDIS_PASSWORD}
+    networks:
+      mfp_network:
+        ipv4_address: 192.168.152.56
+
 networks:
   mfp_network:
     ipam:
