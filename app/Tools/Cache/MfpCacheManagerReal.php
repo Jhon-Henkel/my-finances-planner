@@ -32,6 +32,14 @@ class MfpCacheManagerReal
         return $data ? unserialize($data) : null;
     }
 
+    public function delete(string $email, CacheKeyEnum $key): void
+    {
+        if (config('app.use_redis') === false) {
+            return;
+        }
+        Cache::forget($this->makeKey($email, $key));
+    }
+
     protected function makeKey(string $email, CacheKeyEnum $key): string
     {
         return self::CACHE_PREFIX . md5($email) . $key->value;
