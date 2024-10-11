@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\Cache\CacheKeyEnum;
 use App\Enums\DateFormatEnum;
 use App\Enums\Plan\PlanNameEnum;
 use App\Models\User\Plan;
 use App\Models\User\Tenant;
+use App\Tools\Cache\MfpCacheManager;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -72,5 +74,17 @@ class User extends Authenticatable
     public function isProPlan(): bool
     {
         return $this->plan()->name === PlanNameEnum::Pro->value;
+    }
+
+    public function save(array $options = [])
+    {
+        MfpCacheManager::delete($this->email, CacheKeyEnum::User);
+        return parent::save($options);
+    }
+
+    public function update(array $attributes = [], array $options = [])
+    {
+        MfpCacheManager::delete($this->email, CacheKeyEnum::User);
+        return parent::update($attributes, $options);
     }
 }

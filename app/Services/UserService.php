@@ -3,13 +3,11 @@
 namespace App\Services;
 
 use App\DTO\UserDTO;
-use App\Enums\Cache\CacheKeyEnum;
 use App\Exceptions\User\InvalidCurrentPasswordException;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\Auth\AuthService;
 use App\Tools\Auth\JwtTools;
-use App\Tools\Cache\MfpCacheManager;
 
 class UserService extends BasicService
 {
@@ -40,7 +38,6 @@ class UserService extends BasicService
             InvalidCurrentPasswordException::throwIfPasswordDontMatch($item, $itemDb);
             $itemDb->setPassword(bcrypt($item->getPassword()));
         }
-        MfpCacheManager::delete($itemDb->getEmail(), CacheKeyEnum::User);
         return parent::update($id, $itemDb);
     }
 
