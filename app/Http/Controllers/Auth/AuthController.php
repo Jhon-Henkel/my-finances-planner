@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Cache\CacheKeyEnum;
 use App\Exceptions\UserException;
 use App\Http\Controllers\Controller;
 use App\Http\Response\ApiResponse;
 use App\Models\User;
 use App\Services\Auth\AuthService;
+use App\Tools\Cache\MfpCacheManager;
 use App\Tools\ErrorReport;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -31,6 +33,7 @@ class AuthController extends Controller
         $loginCode = $this->authService->validateLogin($user, $data['password']);
         if ($loginCode === AuthService::OK_CODE) {
             $this->login($user);
+            MfpCacheManager::setModel($user->email,CacheKeyEnum::User, $user);
             $this->authService->saveAccessLog($user, 1, 'Logado com sucesso');
             return response()->json($this->authService->makeAuthUserResponseData($user), ResponseAlias::HTTP_OK);
         } elseif ($loginCode === AuthService::INACTIVE_USER_CODE) {

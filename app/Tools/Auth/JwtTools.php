@@ -17,7 +17,7 @@ class JwtTools
     public static function createJWT(User $user): string
     {
         $payload = [
-            'exp' => time() + TimeNumberEnum::TreeHourInSeconds->value,
+            'exp' => time() + TimeNumberEnum::ThreeHourInSeconds->value,
             'iat' => time(),
             'data' => ['email' => $user->email],
         ];

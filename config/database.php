@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Str;
 use App\Enums\Database\DatabaseConnectionEnum;
+use App\Enums\TimeNumberEnum;
 
 return [
     'default' => env('DB_CONNECTION', 'mysql'),
@@ -81,21 +81,18 @@ return [
     |
     */
     'redis' => [
-        'client' => env('REDIS_CLIENT', 'phpredis'),
+        'client' => env('REDIS_CLIENT'),
         'options' => [
-            'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env(
-                'REDIS_PREFIX',
-                Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'
-            )
+            'cluster' => 'redis'
         ],
         'default' => [
             'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'host' => env('REDIS_HOST'),
             'username' => env('REDIS_USERNAME'),
             'password' => env('REDIS_PASSWORD'),
-            'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_DB', '0')
+            'port' => env('REDIS_PORT'),
+            'database' => env('REDIS_DB'),
+            'ttl' => TimeNumberEnum::ThreeHourInSeconds->value,
         ],
         'cache' => [
             'url' => env('REDIS_URL'),

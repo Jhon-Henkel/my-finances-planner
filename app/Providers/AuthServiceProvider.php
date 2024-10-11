@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\Cache\CacheKeyEnum;
 use App\Enums\ConfigEnum;
 use App\Enums\StatusEnum;
 use App\Exceptions\User\TryAlterAnotherUserByRequestException;
@@ -13,6 +14,7 @@ use App\Policies\FinancialHealthPolicy;
 use App\Policies\WalletPolicy;
 use App\Services\Database\DatabaseConnectionService;
 use App\Tools\Auth\JwtTools;
+use App\Tools\Cache\MfpCacheManager;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +40,7 @@ final class AuthServiceProvider extends ServiceProvider
             $mfpApiTokenEncrypted = bcrypt(config('app.mfp_token'));
             $mfpApiToken = $request->header(ConfigEnum::MfpTokenKey->value) ?? '';
             $isValidToken = password_verify($mfpApiToken, $mfpApiTokenEncrypted);
-            $userDB = User::query()->where('email', $userJWT->data->email)->first();
+            $userDB = $this->getUserDB($userJWT->data->email);
             $this->validateIsAllowedRequest($userDB, $request);
             if ($isValidToken && $userDB->status === StatusEnum::Active->value) {
                 $dbConnection->connectUser($userDB);
@@ -46,6 +48,12 @@ final class AuthServiceProvider extends ServiceProvider
             }
             return null;
         });
+    }
+
+    protected function getUserDB(string $email): User|null
+    {
+        return MfpCacheManager::getModel($email, CacheKeyEnum::User)
+            ?? User::query()->where('email', $email)->first();
     }
 
     protected function validateIsAllowedRequest(User $user, Request $request): void
