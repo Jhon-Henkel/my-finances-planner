@@ -2,9 +2,11 @@
 
 namespace App\Services\Database;
 
+use App\Enums\Cache\CacheKeyEnum;
 use App\Enums\Database\DatabaseConnectionEnum;
 use App\Models\User;
 use App\Models\User\Tenant;
+use App\Tools\Cache\MfpCacheManager;
 use Illuminate\Support\Facades\Config;
 
 class DatabaseConnectionService
@@ -16,7 +18,12 @@ class DatabaseConnectionService
 
     public function connectUser(User $user): void
     {
-        $this->connectTenant($user->tenant());
+        $tenant = MfpCacheManager::getModel($user->email, CacheKeyEnum::Tenant);
+        if (is_null($tenant)) {
+            $tenant = $user->tenant();
+            MfpCacheManager::setModel($user->email, CacheKeyEnum::Tenant, $tenant);
+        }
+        $this->connectTenant($tenant);
     }
 
     public function connectTenant(Tenant $tenant): void

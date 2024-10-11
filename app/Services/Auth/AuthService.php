@@ -4,6 +4,7 @@ namespace App\Services\Auth;
 
 use App\DTO\Log\AccessLogDTO;
 use App\DTO\Mail\MailMessageDTO;
+use App\Enums\Cache\CacheKeyEnum;
 use App\Enums\ConfigEnum;
 use App\Enums\StatusEnum;
 use App\Models\User;
@@ -12,6 +13,7 @@ use App\Services\Log\AccessLogService;
 use App\Services\Mail\MailService;
 use App\Services\UserService;
 use App\Tools\Auth\JwtTools;
+use App\Tools\Cache\MfpCacheManager;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Hash;
@@ -32,7 +34,12 @@ class AuthService
 
     public function findUserForAuth(string $email): User|null
     {
-        return $this->userService->findUserByEmail($email);
+        $user = MfpCacheManager::getModel($email, CacheKeyEnum::User);
+        if (is_null($user)) {
+            $user = $this->userService->findUserByEmail($email);
+            MfpCacheManager::setModel($email, CacheKeyEnum::User, $user);
+        }
+        return $user;
     }
 
     public function validateLogin(?User $user, string $password): int

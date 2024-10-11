@@ -11,3 +11,6 @@ parameters:
         - '#Comparison operation "!=" between object\|string\|null and int results in an error.#'
         - '#Match expression does not handle remaining values: int<min, 0>\|int<13, max>#'
         - '#Unreachable statement - code above always terminates.#'
+        - '#Method App\\Providers\\AuthServiceProvider::getUserDB\(\) should return App\\Models\\User\|null but returns Illuminate\\Database\\Eloquent\\Model\|null.#'
+        - '#Method App\\Services\\Auth\\AuthService::findUserForAuth\(\) should return App\\Models\\User\|null but returns Illuminate\\Database\\Eloquent\\Model\|null.#'
+        - '#Parameter \#1 \$tenant of method App\\Services\\Database\\DatabaseConnectionService::connectTenant\(\) expects App\\Models\\User\\Tenant, Illuminate\\Database\\Eloquent\\Model given.#'

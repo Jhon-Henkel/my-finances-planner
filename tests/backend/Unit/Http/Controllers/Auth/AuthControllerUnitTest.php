@@ -68,8 +68,9 @@ class AuthControllerUnitTest extends Falcon9
     #[TestDox('Testando com usuário registrado na base, usuário ativo, senha correta')]
     public function testAuthTestFour()
     {
+        $user = new User(['email' => $this->faker->email]);
         $authUserServiceMock = Mockery::mock(AuthService::class)->makePartial();
-        $authUserServiceMock->shouldReceive('findUserForAuth')->once()->andReturn(new User());
+        $authUserServiceMock->shouldReceive('findUserForAuth')->once()->andReturn($user);
         $authUserServiceMock->shouldReceive('validateLogin')->once()->andReturn(AuthService::OK_CODE);
         $authUserServiceMock->shouldReceive('saveAccessLog')->once()->andReturn(true);
         $authUserServiceMock->shouldReceive('makeAuthUserResponseData')->once()->andReturn([]);

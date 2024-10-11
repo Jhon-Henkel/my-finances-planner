@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Tools\Cache;
+
+use App\Enums\Cache\CacheKeyEnum;
+use App\Enums\TimeNumberEnum;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
+
+class MfpCacheManagerReal
+{
+    public const string CACHE_PREFIX = 'mfp_';
+
+    public function setModel(
+        string $email,
+        CacheKeyEnum $key,
+        Model $model,
+        TimeNumberEnum $expiresMinutes = TimeNumberEnum::ThreeHourInSeconds
+    ): void {
+        if (config('app.use_redis') === false) {
+            return;
+        }
+        Cache::put($this->makeKey($email, $key), serialize($model), $expiresMinutes->value);
+    }
+
+    public function getModel(string $email, CacheKeyEnum $key): null|Model
+    {
+        if (config('app.use_redis') === false) {
+            return null;
+        }
+        $data = Cache::get($this->makeKey($email, $key));
+        return $data ? unserialize($data) : null;
+    }
+
+    protected function makeKey(string $email, CacheKeyEnum $key): string
+    {
+        return self::CACHE_PREFIX . md5($email) . $key->value;
+    }
+}

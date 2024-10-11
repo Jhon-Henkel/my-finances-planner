@@ -11,7 +11,6 @@ use App\Tools\ErrorReport;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AuthController extends Controller
@@ -59,7 +58,6 @@ class AuthController extends Controller
     public function logout(): JsonResponse
     {
         Auth::logout();
-        Cache::clear();
         return response()->json(['message' => 'Logout realizado com sucesso']);
     }
 }
