@@ -52,7 +52,7 @@ final class AuthServiceProvider extends ServiceProvider
 
     protected function getUserDB(string $email): User|null
     {
-        $user =  MfpCacheManager::getModel($email, CacheKeyEnum::User);
+        $user = MfpCacheManager::getModel($email, CacheKeyEnum::User);
         if (is_null($user)) {
             $user = User::query()->where('email', $email)->first();
             MfpCacheManager::setModel($email, CacheKeyEnum::User, $user);

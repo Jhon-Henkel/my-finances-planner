@@ -5,22 +5,22 @@ namespace App\Tools\Cache;
 use App\Enums\Cache\CacheKeyEnum;
 use App\Enums\TimeNumberEnum;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Cache;
 
 class MfpCacheManagerReal
 {
-    protected const string EXPIRES_TYPE_SECONDS = 'EX';
+    public const string CACHE_PREFIX = 'mfp_';
 
     public function setModel(
         string $email,
         CacheKeyEnum $key,
         Model $model,
-        TimeNumberEnum $expires = TimeNumberEnum::ThreeHourInSeconds
+        TimeNumberEnum $expiresMinutes = TimeNumberEnum::ThreeHourInSeconds
     ): void {
         if (config('app.use_redis') === false) {
             return;
         }
-        Redis::set($this->makeKey($email, $key), serialize($model), self::EXPIRES_TYPE_SECONDS, $expires->value);
+        Cache::put($this->makeKey($email, $key), serialize($model), $expiresMinutes->value);
     }
 
     public function getModel(string $email, CacheKeyEnum $key): null|Model
@@ -28,12 +28,12 @@ class MfpCacheManagerReal
         if (config('app.use_redis') === false) {
             return null;
         }
-        $data = Redis::get($this->makeKey($email, $key));
+        $data = Cache::get($this->makeKey($email, $key));
         return $data ? unserialize($data) : null;
     }
 
     protected function makeKey(string $email, CacheKeyEnum $key): string
     {
-        return md5($email) . $key->value;
+        return self::CACHE_PREFIX . md5($email) . $key->value;
     }
 }
