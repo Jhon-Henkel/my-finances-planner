@@ -33,7 +33,7 @@ class AuthController extends Controller
         $loginCode = $this->authService->validateLogin($user, $data['password']);
         if ($loginCode === AuthService::OK_CODE) {
             $this->login($user);
-            MfpCacheManager::setModel($user->email,CacheKeyEnum::User, $user);
+            MfpCacheManager::setModel($user->email, CacheKeyEnum::User, $user);
             $this->authService->saveAccessLog($user, 1, 'Logado com sucesso');
             return response()->json($this->authService->makeAuthUserResponseData($user), ResponseAlias::HTTP_OK);
         } elseif ($loginCode === AuthService::INACTIVE_USER_CODE) {

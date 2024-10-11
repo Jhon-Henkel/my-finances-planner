@@ -34,7 +34,12 @@ class AuthService
 
     public function findUserForAuth(string $email): User|null
     {
-        return MfpCacheManager::getModel($email, CacheKeyEnum::User) ?? $this->userService->findUserByEmail($email);
+        $user = MfpCacheManager::getModel($email, CacheKeyEnum::User);
+        if (!$user) {
+            $user = $this->userService->findUserByEmail($email);
+            MfpCacheManager::setModel($email, CacheKeyEnum::User, $user);
+        }
+        return $user;
     }
 
     public function validateLogin(?User $user, string $password): int

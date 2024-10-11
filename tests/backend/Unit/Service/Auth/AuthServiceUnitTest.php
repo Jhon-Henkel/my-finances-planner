@@ -11,6 +11,7 @@ use App\Services\ConfigurationService;
 use App\Services\Log\AccessLogService;
 use App\Services\Mail\MailService;
 use App\Services\UserService;
+use App\Tools\Cache\MfpCacheManager;
 use Mockery;
 use Tests\backend\Falcon9;
 
@@ -25,6 +26,9 @@ class AuthServiceUnitTest extends Falcon9
 
     public function testFindUserForAuth()
     {
+        MfpCacheManager::shouldReceive('getModel')->andReturnNull();
+        MfpCacheManager::shouldReceive('setModel')->andReturnNull();
+
         $serviceMock = Mockery::mock(UserService::class)->makePartial();
         $serviceMock->shouldReceive('findUserByEmail')->once()->andReturn(new User());
 

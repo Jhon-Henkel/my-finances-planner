@@ -52,8 +52,12 @@ final class AuthServiceProvider extends ServiceProvider
 
     protected function getUserDB(string $email): User|null
     {
-        return MfpCacheManager::getModel($email, CacheKeyEnum::User)
-            ?? User::query()->where('email', $email)->first();
+        $user =  MfpCacheManager::getModel($email, CacheKeyEnum::User);
+        if (!$user) {
+            $user = User::query()->where('email', $email)->first();
+            MfpCacheManager::setModel($email, CacheKeyEnum::User, $user);
+        }
+        return $user;
     }
 
     protected function validateIsAllowedRequest(User $user, Request $request): void
