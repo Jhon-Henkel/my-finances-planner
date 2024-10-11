@@ -28,6 +28,7 @@ return [
     'mail_from_name' => env('MAIL_FROM_NAME'),
     'mail_master_address' => env('MAIL_MASTER_ADDRESS', ''),
     'max_wrong_login_attempts' => 5,
+    'use_redis' => env('REDIS_ENABLED', false),
     'maintenance' => [
         'driver' => 'file',
     ],

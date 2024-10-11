@@ -5,7 +5,6 @@ namespace Tests\backend\Unit\Http\Controllers\Auth;
 use App\Http\Controllers\Auth\AuthController;
 use App\Models\User;
 use App\Services\Auth\AuthService;
-use App\Tools\Cache\MfpCacheManager;
 use Illuminate\Http\Request;
 use Mockery;
 use PHPUnit\Framework\Attributes\TestDox;
@@ -69,11 +68,7 @@ class AuthControllerUnitTest extends Falcon9
     #[TestDox('Testando com usuário registrado na base, usuário ativo, senha correta')]
     public function testAuthTestFour()
     {
-        MfpCacheManager::shouldReceive('getModel')->andReturnNull();
-        MfpCacheManager::shouldReceive('setModel')->andReturnNull();
-
         $user = new User(['email' => $this->faker->email]);
-
         $authUserServiceMock = Mockery::mock(AuthService::class)->makePartial();
         $authUserServiceMock->shouldReceive('findUserForAuth')->once()->andReturn($user);
         $authUserServiceMock->shouldReceive('validateLogin')->once()->andReturn(AuthService::OK_CODE);

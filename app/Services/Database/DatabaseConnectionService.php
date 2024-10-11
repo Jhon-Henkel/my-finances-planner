@@ -19,7 +19,7 @@ class DatabaseConnectionService
     public function connectUser(User $user): void
     {
         $tenant = MfpCacheManager::getModel($user->email, CacheKeyEnum::Tenant);
-        if ($tenant) {
+        if (is_null($tenant)) {
             $tenant = $user->tenant();
             MfpCacheManager::setModel($user->email, CacheKeyEnum::Tenant, $tenant);
         }

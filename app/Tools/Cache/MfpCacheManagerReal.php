@@ -12,11 +12,17 @@ class MfpCacheManagerReal
 {
     public function setModel(string $email, CacheKeyEnum $key, Model $model, TimeNumberEnum $expires = TimeNumberEnum::ThreeHourInSeconds): void
     {
+        if (config('app.use_redis') === false) {
+            return;
+        }
         Redis::set(md5($email) . $key->value, serialize($model), $expires->value);
     }
 
     public function getModel(string $email, CacheKeyEnum $key): null|Model|User
     {
+        if (config('app.use_redis') === false) {
+            return null;
+        }
         $data = Redis::get(md5($email) . $key->value);
         return $data ? unserialize($data) : null;
     }

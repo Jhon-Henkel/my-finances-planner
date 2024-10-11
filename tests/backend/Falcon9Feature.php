@@ -7,7 +7,6 @@ use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\User;
 use App\Services\Database\DatabaseConnectionService;
 use App\Tools\Auth\JwtTools;
-use App\Tools\Cache\MfpCacheManager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
@@ -25,10 +24,6 @@ abstract class Falcon9Feature extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        MfpCacheManager::shouldReceive('getModel')->andReturnNull();
-        MfpCacheManager::shouldReceive('setModel')->andReturnNull();
-
         $this->withoutMiddleware(VerifyCsrfToken::class);
         DB::beginTransaction();
         $this->configureServer();
