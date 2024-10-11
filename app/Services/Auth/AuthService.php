@@ -16,6 +16,7 @@ use App\Tools\Auth\JwtTools;
 use App\Tools\Cache\MfpCacheManager;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\Request\RequestTools;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
@@ -32,7 +33,7 @@ class AuthService
     ) {
     }
 
-    public function findUserForAuth(string $email): User|null
+    public function findUserForAuth(string $email): Model|User|null
     {
         $user = MfpCacheManager::getModel($email, CacheKeyEnum::User);
         if (!$user) {

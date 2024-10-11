@@ -15,6 +15,7 @@ use App\Policies\WalletPolicy;
 use App\Services\Database\DatabaseConnectionService;
 use App\Tools\Auth\JwtTools;
 use App\Tools\Cache\MfpCacheManager;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +51,7 @@ final class AuthServiceProvider extends ServiceProvider
         });
     }
 
-    protected function getUserDB(string $email): User|null
+    protected function getUserDB(string $email): Model|User|null
     {
         $user =  MfpCacheManager::getModel($email, CacheKeyEnum::User);
         if (!$user) {
