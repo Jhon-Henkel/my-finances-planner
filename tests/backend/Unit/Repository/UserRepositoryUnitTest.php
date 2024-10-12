@@ -51,9 +51,9 @@ class UserRepositoryUnitTest extends Falcon9
 
     public function testUpdate()
     {
-        $mockModel = Mockery::mock(User::class);
-        $mockModel->shouldReceive('where')->once()->andReturn(new User());
-        $mockModel->shouldReceive('update')->andReturn(true);
+        $mockModel = Mockery::mock(User::class)->makePartial();
+        $mockModel->shouldReceive('save')->andReturn(true);
+        $mockModel->shouldReceive('find')->once()->andReturn($mockModel);
         $mocks = [$mockModel, new UserResource()];
 
         $mockRepository = Mockery::mock(UserRepository::class, $mocks)->makePartial();
@@ -95,15 +95,16 @@ class UserRepositoryUnitTest extends Falcon9
 
     public function testActiveUser()
     {
-        $mockModel = Mockery::mock(User::class);
-        $mockModel->shouldReceive('where->update')->once()->andReturn(true);
+        $mockModel = Mockery::mock(User::class)->makePartial();
+        $mockModel->shouldReceive('save')->once()->andReturn(true);
+        $mockModel->shouldReceive('findOrFail')->once()->andReturn($mockModel);
         $mocks = [$mockModel, new UserResource()];
 
         $mockRepository = Mockery::mock(UserRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
-        $result = $mockRepository->activeUser(1);
+        $mockRepository->activeUser(1);
 
-        $this->assertTrue($result);
+        $this->assertTrue(true);
     }
 }
