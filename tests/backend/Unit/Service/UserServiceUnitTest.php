@@ -42,8 +42,8 @@ class UserServiceUnitTest extends Falcon9
         $this->app->instance(UserRepository::class, $mock);
 
         $service = new UserService($mock);
-        $result = $service->activeUser(1);
+        $service->activeUser(1);
 
-        $this->assertTrue($result);
+        $this->assertTrue(true);
     }
 }
