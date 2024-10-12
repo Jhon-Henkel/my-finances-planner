@@ -56,6 +56,17 @@ class User extends Authenticatable
         'email_verified_at' => DateFormatEnum::ModelDefaultDateFormat->value
     ];
 
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::saving(function (User $user) {
+            MfpCacheManager::delete($user->email, CacheKeyEnum::User);
+        });
+        static::updating(function (User $user) {
+            MfpCacheManager::delete($user->email, CacheKeyEnum::User);
+        });
+    }
+
     public function tenant(): Tenant
     {
         return $this->belongsTo(Tenant::class)->first();
@@ -74,17 +85,5 @@ class User extends Authenticatable
     public function isProPlan(): bool
     {
         return $this->plan()->name === PlanNameEnum::Pro->value;
-    }
-
-    public function save(array $options = [])
-    {
-        MfpCacheManager::delete($this->email, CacheKeyEnum::User);
-        return parent::save($options);
-    }
-
-    public function update(array $attributes = [], array $options = [])
-    {
-        MfpCacheManager::delete($this->email, CacheKeyEnum::User);
-        return parent::update($attributes, $options);
     }
 }

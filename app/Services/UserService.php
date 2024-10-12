@@ -51,9 +51,9 @@ class UserService extends BasicService
         return $this->getRepository()->findByVerifyHash($verifyHash);
     }
 
-    public function activeUser(int $id): bool
+    public function activeUser(int $id): void
     {
-        return $this->getRepository()->activeUser($id);
+        $this->getRepository()->activeUser($id);
     }
 
     /** @codeCoverageIgnore */

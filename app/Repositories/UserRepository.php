@@ -28,7 +28,9 @@ class UserRepository extends BasicRepository
     public function update(int $id, $item)
     {
         $array = $this->getResource()->dtoToArray($item);
-        $this->getModel()->where('id', $id)->update($array);
+        $user = $this->getModel()->find($id);
+        $user->fill($array);
+        $user->save();
         return $item;
     }
 
@@ -48,13 +50,13 @@ class UserRepository extends BasicRepository
         return $this->getResource()->arrayToDto($user->toArray());
     }
 
-    public function activeUser(int $id): bool
+    public function activeUser(int $id): void
     {
-        return $this->getModel()->where('id', $id)->update([
-            'status' => 1,
-            'verify_hash' => '',
-            'email_verified_at' => now(),
-            'wrong_login_attempts' => 0]
-        );
+        $user = $this->getModel()->findOrFail($id);
+        $user->status = 1;
+        $user->verify_hash = '';
+        $user->email_verified_at = now();
+        $user->wrong_login_attempts = 0;
+        $user->save();
     }
 }
