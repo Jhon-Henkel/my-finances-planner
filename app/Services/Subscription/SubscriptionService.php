@@ -97,6 +97,7 @@ class SubscriptionService extends BasicService
             return;
         }
         $subscription = $this->getPaymentMethod()->getSubscription($user);
+        $user->refresh();
         if ($this->isActiveSubscription($subscription)) {
             if ($user->isFreePlan()) {
                 $user->plan_id = $this->planService->proPlan()->id;
