@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\MovementEnum;
-use App\Http\Response\ApiResponse;
 use App\Resources\Movement\MovementResource;
 use App\Services\Movement\MovementService;
 use App\Tools\Request\RequestTools;
+use App\Tools\Validator\MfpValidator;
 use App\VO\Movement\MovementVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 /**
@@ -73,10 +72,7 @@ class MovementController extends BasicController
 
     public function insertTransfer(Request $request): JsonResponse
     {
-        $invalid = $this->getService()->isInvalidRequest($request, $this->rulesInsertTransfer());
-        if ($invalid instanceof MessageBag) {
-            return ApiResponse::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
-        }
+        MfpValidator::validateRequest($request, $this->rulesInsertTransfer());
         $data = $request->json()->all();
         $transferSpent = $this->getResource()->makeTransferSpentMovement($data);
         $this->getService()->insertWithWalletUpdateType($transferSpent, MovementEnum::Spent->value);

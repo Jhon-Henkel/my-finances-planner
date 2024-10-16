@@ -10,6 +10,7 @@ use App\Services\Database\DatabaseConnectionService;
 use App\Services\Queue\QueueMessagesService;
 use App\Services\User\UserRegisterService;
 use App\Tools\Response\ResponseApi;
+use App\Tools\Validator\MfpValidator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -57,7 +58,7 @@ class UserRegisterController extends BasicController
     {
         $this->databaseConnectionService->setMasterConnection();
         $data = $request->json()->all();
-        $this->getService()->isInvalidRequest($request, $this->rulesInsert());
+        MfpValidator::validateRequest($request, $this->rulesInsert());
         $this->queueMessagesService->putMessageUserRegisterStepOne($data);
         return ResponseApi::renderCreated();
     }
@@ -75,7 +76,7 @@ class UserRegisterController extends BasicController
         $this->databaseConnectionService->setMasterConnection();
         $dataDecrypted = Crypt::decryptString($request->json()->all()[0]);
         $dataDecoded = json_decode($dataDecrypted, true);
-        $this->getService()->isInvalidArrayData($dataDecoded, $this->rulesInsert());
+        MfpValidator::validateArrayData($dataDecoded, $this->rulesInsert());
         $this->getService()->registerUserStepOne(new UserRegisterDTO($dataDecoded));
         return ResponseApi::renderCreated();
     }
