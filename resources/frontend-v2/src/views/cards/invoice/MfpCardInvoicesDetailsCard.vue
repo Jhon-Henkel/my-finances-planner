@@ -37,7 +37,7 @@ function sumMonthValue(): number {
 </script>
 
 <template>
-    <ion-card color="light" class="no-margin-bottom no-margin-top">
+    <ion-card color="light" class="no-margin-top">
         <ion-card-content class="value">
             <ion-grid class="ion-no-padding">
                 <ion-row>

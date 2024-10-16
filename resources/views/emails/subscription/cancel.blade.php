@@ -53,7 +53,9 @@
         <p>Olá {{ $name }},</p>
         <p>Sentimos muito em saber que você cancelou sua assinatura.</p>
         <p>Se houver algo que possamos fazer para melhorar nossos serviços, por favor, nos avise respondendo neste e-mail.</p>
+        <p>Você ainda terá acesso aos benefícios do plano Pro até o final desse ciclo de cobrança.</p>
         <p>Se você mudar de ideia, estamos sempre aqui para recebê-lo de volta.</p>
+        <p>Até logo!</p>
     </div>
     <div class="footer">
         <p>&copy; {{ date('Y') }} Finanças na Mão. Todos os direitos reservados.</p>
