@@ -103,8 +103,8 @@ class SubscriptionService extends BasicService
         if ($this->isActiveSubscription($subscription)) {
             if ($user->isFreePlan()) {
                 $user->plan_id = $this->planService->proPlan()->id;
+                $user->save();
             }
-            $user->save();
         } elseif ($this->isCanceledSubscription($subscription)) {
             if ($subscription->getCurrentPeriodEnd() >= CalendarTools::getDateNow()) {
                 if ($user->isFreePlan()) {
