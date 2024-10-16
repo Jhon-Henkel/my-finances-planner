@@ -24,7 +24,9 @@ defineProps(
                 <ion-row>
                     <ion-col class="ion-text-center balance-value">
                         <ion-text>
-                            <mfp-counter-money :end="balance"/>
+                            <strong>
+                                <mfp-counter-money :end="balance"/>
+                            </strong>
                         </ion-text>
                     </ion-col>
                 </ion-row>
