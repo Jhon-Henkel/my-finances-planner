@@ -4,6 +4,7 @@ namespace App\Services\Subscription;
 
 use App\DTO\Mail\MailMessageDTO;
 use App\DTO\Subscription\SubscriptionDTO;
+use App\Enums\Cache\CacheKeyEnum;
 use App\Enums\PaymentMethod\PaymentMethodNameEnum;
 use App\Exceptions\NotImplementedException;
 use App\Exceptions\PaymentMethod\PaymentMethodNotFountException;
@@ -16,6 +17,7 @@ use App\Services\Mail\MailService;
 use App\Services\PaymentMethod\IPaymentMethod;
 use App\Services\PaymentMethod\Stripe\StripeService;
 use App\Services\User\PlanService;
+use App\Tools\Cache\MfpCacheManager;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\ErrorReport;
 use Illuminate\Support\Facades\Auth;
@@ -101,6 +103,7 @@ class SubscriptionService extends BasicService
         if ($this->isActiveSubscription($subscription)) {
             if ($user->isFreePlan()) {
                 $user->plan_id = $this->planService->proPlan()->id;
+                $user->save();
             }
         } elseif ($this->isCanceledSubscription($subscription)) {
             if ($subscription->getCurrentPeriodEnd() >= CalendarTools::getDateNow()) {
@@ -115,6 +118,7 @@ class SubscriptionService extends BasicService
             }
             $user->save();
         }
+        MfpCacheManager::delete($user->email, CacheKeyEnum::User);
     }
 
     protected function isActiveSubscription(SubscriptionDTO $subscription): bool
