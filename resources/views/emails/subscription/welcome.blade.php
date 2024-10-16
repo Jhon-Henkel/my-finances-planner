@@ -62,6 +62,7 @@
         <p>Olá {{ $name }},</p>
         <p>Obrigado por escolher o Plano Pro! Estamos muito felizes em tê-lo(a) conosco. Aproveite todos os benefícios exclusivos do nosso plano Pro.</p>
         <a href="https://financasnamao.com.br/v2/login" class="button" target="_blank">Acessar Plataforma</a>
+        <p>Caso ainda não reconheça como plano Pro ao fazer login, aguarde, pode levar até 24 horas para instituição de pagamento nos notificar.</p>
     </div>
     <div class="footer">
         <p>&copy; {{ date('Y') }} Finanças na Mão. Todos os direitos reservados.</p>
