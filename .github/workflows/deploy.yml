@@ -40,6 +40,7 @@ jobs:
             docker exec mfp_app bash -c "composer update --optimize-autoloader --no-dev"
             docker exec mfp_app bash -c "php artisan migrate --force"
             docker exec mfp_app bash -c "php artisan migrate:all-tenants"
+            docker exec mfp_app bash -c "php artisan optimize"
             make rebuild-container container=rabbitmq-consumer
 
       # Copiando arquivos para o servidor
