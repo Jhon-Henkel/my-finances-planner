@@ -43,6 +43,7 @@ function updateValue(value: any) {
             label-placement="floating"
             @input="updateValue($event.target.value)"
             :autocorrect="type == 'text' ? 'on' : 'off'"
+            :autocomplete="type == 'text' ? 'on' : 'off'"
         >
             <div slot="label">
                 {{ label }}

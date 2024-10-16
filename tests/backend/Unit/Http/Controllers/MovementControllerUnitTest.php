@@ -4,11 +4,11 @@ namespace Tests\backend\Unit\Http\Controllers;
 
 use App\DTO\Movement\MovementDTO;
 use App\Enums\MovementEnum;
+use App\Exceptions\Validator\InvalidRequestDataException;
 use App\Http\Controllers\MovementController;
 use App\Resources\Movement\MovementResource;
 use App\Services\Movement\MovementService;
 use Illuminate\Http\Request;
-use Illuminate\Support\MessageBag;
 use Mockery;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\backend\Falcon9;
@@ -130,23 +130,21 @@ class MovementControllerUnitTest extends Falcon9
     public function testInsertTransferWithInvalidRequest()
     {
         $serviceMock = Mockery::mock(MovementService::class);
-        $serviceMock->shouldReceive('isInvalidRequest')->once()->andReturn(new MessageBag(['test']));
         $serviceMock->shouldReceive('insertWithWalletUpdateType')->never();
         $mocks = [$serviceMock, new MovementResource()];
 
         $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
         $controllerMock->shouldAllowMockingProtectedMethods();
-        $controllerMock->shouldReceive('rulesInsertTransfer')->once()->andReturn([]);
+        $controllerMock->shouldReceive('rulesInsertTransfer')->once()->andReturn(['aaa' => 'required']);
 
-        $response = $controllerMock->insertTransfer($this->getTransferRequest());
+        $this->expectException(InvalidRequestDataException::class);
 
-        $this->assertEquals(400, $response->getStatusCode());
+        $controllerMock->insertTransfer($this->getTransferRequest());
     }
 
     public function testInsertTransferWithValidData()
     {
         $serviceMock = Mockery::mock(MovementService::class);
-        $serviceMock->shouldReceive('isInvalidRequest')->once()->andReturnFalse();
         $serviceMock->shouldReceive('insertWithWalletUpdateType')->times(2)->andReturnUsing(
             function ($transfer, $type) {
                 Falcon9::assertEquals(MovementEnum::Spent->value, $type);

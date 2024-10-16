@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Response\ApiResponse;
+use App\Tools\Validator\MfpValidator;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 abstract class BasicController extends Controller
@@ -35,10 +34,7 @@ abstract class BasicController extends Controller
 
     public function insert(Request $request): JsonResponse
     {
-        $invalid = $this->getService()->isInvalidRequest($request, $this->rulesInsert());
-        if ($invalid instanceof MessageBag) {
-            return ApiResponse::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
-        }
+        MfpValidator::validateRequest($request, $this->rulesInsert());
         $item = $this->getResource()->arrayToDto($request->json()->all());
         $insert = $this->getService()->insert($item);
         if ($insert) {
@@ -49,10 +45,7 @@ abstract class BasicController extends Controller
 
     public function update(int $id, Request $request): JsonResponse
     {
-        $invalid = $this->getService()->isInvalidRequest($request, $this->rulesUpdate());
-        if ($invalid instanceof MessageBag) {
-            return ApiResponse::responseError($invalid, ResponseAlias::HTTP_BAD_REQUEST);
-        }
+        MfpValidator::validateRequest($request, $this->rulesUpdate());
         $requestItem = $request->json()->all();
         $requestItem['id'] = $id;
         $item = $this->getResource()->arrayToDto($requestItem);
