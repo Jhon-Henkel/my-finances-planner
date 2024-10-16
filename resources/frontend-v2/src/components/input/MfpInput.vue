@@ -42,6 +42,7 @@ function updateValue(value: any) {
             :clear-input="clearInput"
             label-placement="floating"
             @input="updateValue($event.target.value)"
+            :autocorrect="type == 'text' ? 'on' : 'off'"
         >
             <div slot="label">
                 {{ label }}
