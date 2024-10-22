@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('cron:check-subscription')->daily();
 
         // Toda segunda-feira
-        $schedule->command('telescope:prune')->mondays();
+        $schedule->command('telescope:prune')->mondays()->at('00:00');
     }
 
     protected function commands(): void
