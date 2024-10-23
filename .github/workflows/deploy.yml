@@ -47,7 +47,7 @@ jobs:
       - name: 📂 Deploy Frontend
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avzr --delete
+          switches: -avzr
           path: ./public/build-ionic/
           remote_path: ${{ secrets.SSH_APP_PATH }}public/build-ionic/
           remote_host: ${{ secrets.SSH_HOST }}
