@@ -43,6 +43,7 @@ enum RouteEnum: string
     case ApiUserUpdate = 'apiUserUpdate';
     case ApiPanoramaIndex = 'apiPanoramaIndex';
     case ApiFinancialHealthIndexFiltered = 'apiFinancialHealthIndex';
+    case ApiSpendingPlanList = 'spending-plan.list';
     case ApiSubscribe = 'apiSubscribe';
     case ApiCancelSubscribe = 'apiCancelSubscribe';
     case ApiSubscribeUpdateAccount = 'apiSubscribeUpdateAccount';
