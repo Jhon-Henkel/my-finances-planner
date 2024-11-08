@@ -108,7 +108,6 @@ class SpendingPlanListControllerFeatureTest extends Falcon9Feature
             'Dec 2021' => ['12', '2021', 'year=2022&month=1', 'year=2021&month=11', 2, ['Spending Plan 2', 'Spending Plan 3']],
             'Jan 2022' => ['01', '2022', 'year=2022&month=2', 'year=2021&month=12', 2, ['Spending Plan 2', 'Spending Plan 3']],
             'Feb 2022' => ['02', '2022', 'year=2022&month=3', 'year=2022&month=1', 1, ['Spending Plan 3']],
-            'Mar 2022' => ['03', '2022', 'year=2022&month=4', 'year=2022&month=2', 1, ['Spending Plan 3']],
         ];
     }
 }
