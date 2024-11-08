@@ -33,7 +33,7 @@ class SpendingPlanListControllerFeatureTest extends Falcon9Feature
             'wallet_id' => $wallet->id,
             'description' => 'Spending Plan 1',
             'amount' => 100,
-            'forecast' => '2021-01-01',
+            'forecast' => '2021-01-28',
             'installments' => 1
         ]);
 
@@ -41,7 +41,7 @@ class SpendingPlanListControllerFeatureTest extends Falcon9Feature
             'wallet_id' => $wallet->id,
             'description' => 'Spending Plan 2',
             'amount' => 100,
-            'forecast' => '2021-02-01',
+            'forecast' => '2021-02-05',
             'installments' => 12
         ]);
 
@@ -49,7 +49,7 @@ class SpendingPlanListControllerFeatureTest extends Falcon9Feature
             'wallet_id' => $wallet->id,
             'description' => 'Spending Plan 3',
             'amount' => 100,
-            'forecast' => '2021-03-01',
+            'forecast' => '2021-03-15',
             'installments' => 0
         ]);
 
@@ -57,7 +57,7 @@ class SpendingPlanListControllerFeatureTest extends Falcon9Feature
             'wallet_id' => $wallet->id,
             'description' => 'Spending Plan 4',
             'amount' => 100,
-            'forecast' => '2021-04-01',
+            'forecast' => '2021-04-20',
             'installments' => 2
         ]);
 

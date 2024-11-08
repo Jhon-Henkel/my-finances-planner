@@ -45,9 +45,9 @@ class SpendingPlanListUseCase implements IListUseCase
                     ->where('forecast', '<=', $endOfMonth)
                     ->where(DB::raw('DATE_ADD(forecast, INTERVAL (installments - 1) MONTH)'), '>=', $startOfMonth);
             })
-            ->orWhere(function ($query) use ($queryParams) {
+            ->orWhere(function ($query) use ($startOfMonth) {
                 $query->where('installments', '=', 0)
-                    ->whereMonth('forecast', '>=', $queryParams['month']);
+                    ->where('forecast', '<=', $startOfMonth);
             })
             ->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
             ->orderByRaw('DAY(forecast)');
