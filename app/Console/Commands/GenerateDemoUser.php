@@ -17,7 +17,7 @@ use Throwable;
 
 class GenerateDemoUser extends Command
 {
-    protected $signature = 'create:user';
+    protected $signature = 'create:user {--test-suit=}';
     protected $description = 'Generate demo user to access project.';
 
     public function handle(): void
@@ -26,11 +26,18 @@ class GenerateDemoUser extends Command
             $database = new DatabaseService();
             $schemaName = $database->createTenancyDatabase(md5((string)CalendarTools::getDateNow()->getTimestamp()));
 
+            $testSuit = $this->option('test-suit');
+
+            $connection = DatabaseConnectionEnum::Master->value;
+            if ($testSuit == 'true') {
+                $connection = DatabaseConnectionEnum::Test->value;
+            }
+
             $tenant = Tenant::create([
                 'tenant_hash' => $schemaName,
                 'database' => $schemaName,
-                'username' => config('database.connections.' . DatabaseConnectionEnum::Master->value . '.username'),
-                'password' => config('database.connections.' . DatabaseConnectionEnum::Master->value . '.password'),
+                'username' => config('database.connections.' . $connection . '.username'),
+                'password' => config('database.connections.' . $connection . '.password'),
             ]);
             $tenant->save();
 
