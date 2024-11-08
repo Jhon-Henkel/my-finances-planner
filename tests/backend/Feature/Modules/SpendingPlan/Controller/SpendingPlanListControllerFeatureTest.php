@@ -64,8 +64,8 @@ class SpendingPlanListControllerFeatureTest extends Falcon9Feature
         $this->connectMaster();
     }
 
-    #[DataProvider('dataProviderExecuteTest')]
-    public function testExecuteSuit(string $month, string $year, string $nextUrlContains, string $provUrlContains, int $totalItemsExpected, array $itemsName)
+    #[DataProvider('dataProviderListEndpoint')]
+    public function testListEndpoint(string $month, string $year, string $nextUrlContains, string $provUrlContains, int $totalItemsExpected, array $itemsName)
     {
         $response = $this->getJson("/api/v2/spending-plan?month=$month&year=$year", $this->makeHeaders());
 
@@ -90,7 +90,7 @@ class SpendingPlanListControllerFeatureTest extends Falcon9Feature
      * | Spending Plan 4 |       |       |       |   X   |   X   |       |       |       |       |       |       |       |       |       |
      * |---------------------------------------------------------------------------------------------------------------------------------|
      */
-    public static function dataProviderExecuteTest(): array
+    public static function dataProviderListEndpoint(): array
     {
         return [
             'Dec 2020' => ['12', '2020', 'year=2021&month=1', 'year=2020&month=11', 0, []],
@@ -108,7 +108,7 @@ class SpendingPlanListControllerFeatureTest extends Falcon9Feature
             'Dec 2021' => ['12', '2021', 'year=2022&month=1', 'year=2021&month=11', 2, ['Spending Plan 2', 'Spending Plan 3']],
             'Jan 2022' => ['01', '2022', 'year=2022&month=2', 'year=2021&month=12', 2, ['Spending Plan 2', 'Spending Plan 3']],
             'Feb 2022' => ['02', '2022', 'year=2022&month=3', 'year=2022&month=1', 1, ['Spending Plan 3']],
-            'Mar 2022' => ['03', '2022', 'year=2022&month=4', 'year=2022&month=2', 0, []],
+            'Mar 2022' => ['03', '2022', 'year=2022&month=4', 'year=2022&month=2', 1, ['Spending Plan 3']],
         ];
     }
 }
