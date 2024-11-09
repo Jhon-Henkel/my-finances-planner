@@ -2,6 +2,7 @@
 
 namespace Tests\backend;
 
+use App\Enums\Database\DatabaseConnectionEnum;
 use App\Enums\StatusEnum;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\User;
@@ -9,6 +10,7 @@ use App\Services\Database\DatabaseConnectionService;
 use App\Tools\Auth\JwtTools;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 abstract class Falcon9Feature extends BaseTestCase
@@ -24,6 +26,7 @@ abstract class Falcon9Feature extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        Config::set('database.default', DatabaseConnectionEnum::Test->value);
         $this->withoutMiddleware(VerifyCsrfToken::class);
         DB::beginTransaction();
         $this->configureServer();
@@ -45,7 +48,7 @@ abstract class Falcon9Feature extends BaseTestCase
         $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
         if (empty($user)) {
             $this->artisan('migrate');
-            $this->artisan('create:user');
+            $this->artisan('create:user --test-suit=true');
             $this->artisan('migrate:all-tenants');
             $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
         }

@@ -14,10 +14,18 @@ use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
+use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
 use Illuminate\Support\Facades\Route;
 
 // Rotas com middleware de autenticação MFP e JWT
 Route::prefix('/')->middleware('auth.api:api')->group(function () {
+
+    Route::prefix('v2/')->group(function () {
+        Route::prefix('spending-plan')->group(function () {
+            Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
+        });
+    });
+
     Route::prefix('wallet')->group(function () {
         Route::get('{id}', [WalletController::class, 'show'])
             ->name(RouteEnum::ApiWalletShow->value);
