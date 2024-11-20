@@ -4,7 +4,7 @@ import MfpPage from "../../../../src/modules/@shared/components/page/MfpPage.vue
 
 describe('test render component', () => {
     beforeEach(() => {
-        vitest.mock('../../../../src/stores/auth/AuthStore', () => ({
+        vitest.mock('../../../../src/modules/login/store/AuthStore', () => ({
             useAuthStore: () => {
                 return {
                     setToken: vitest.fn(),
