@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from '@ionic/vue-router'
 import {RouteRecordRaw} from 'vue-router'
 import RouterAuthMiddleware from "@/infra/router/RouterAuthMiddleware"
-import MfpMenu from "@/views/menu/MfpMenu.vue"
+import MfpMenu from "@/modules/menu/MfpMenu.vue"
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -11,37 +11,37 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/v2/login',
         name: 'login',
-        component: () => import('@/views/login/LoginPage.vue')
+        component: () => import('@/modules/login/page/LoginPage.vue')
     },
     {
         path: '/v2/registrar-se',
         name: 'register',
-        component: () => import('@/views/register/RegisterPage.vue')
+        component: () => import('@/modules/register/page/RegisterPage.vue')
     },
     {
         path: '/v2/registrado',
         name: 'register-done',
-        component: () => import('@/views/register/RegisterSuccessPage.vue')
+        component: () => import('@/modules/register/page/RegisterSuccessPage.vue')
     },
     {
         path: '/v2/ativar/:hash',
         name: 'activate-register',
-        component: () => import('@/views/register/RegisterActivateUser.vue')
+        component: () => import('@/modules/register/component/RegisterActivateUser.vue')
     },
     {
         path: '/v2/assinatura-cancelada',
         name: 'subscribe-canceled',
-        component: () => import('@/views/subscription/SubscriptionCanceledPage.vue')
+        component: () => import('@/modules/subscription/page/SubscriptionCanceledPage.vue')
     },
     {
         path: '/v2/assinatura-sucesso',
         name: 'subscribe-success',
-        component: () => import('@/views/subscription/SubscriptionSuccessPage.vue')
+        component: () => import('@/modules/subscription/page/SubscriptionSuccessPage.vue')
     },
     {
         path: '/v2/bem-vindo',
         name: 'welcome',
-        component: () => import('@/views/welcome/WelcomePage.vue'),
+        component: () => import('@/modules/welcome/WelcomePage.vue'),
         meta: {
             auth: true
         }
@@ -49,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/v2/em-breve',
         name: 'in-development',
-        component: () => import('@/views/in-development/InDevelopmentPage.vue')
+        component: () => import('@/modules/in-development/InDevelopmentPage.vue')
     },
     {
         path: '/v2/',
@@ -58,22 +58,22 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'carteiras',
                 name: 'wallets',
-                component: () => import('@/views/wallets/WalletsPage.vue')
+                component: () => import('@/modules/wallet/page/WalletsPage.vue')
             },
             {
                 path: 'movimentacoes',
                 name: 'movements',
-                component: () => import('@/views/movement/MovementsPage.vue')
+                component: () => import('@/modules/movement/page/MovementsPage.vue')
             },
             {
                 path: 'panorama',
                 name: 'panorama',
-                component: () => import('@/views/panorama/PanoramaPage.vue')
+                component: () => import('@/modules/panorama/page/PanoramaPage.vue')
             },
             {
                 path: 'ganhos-futuros',
                 name: 'future-profits',
-                component: () => import('@/views/future-profits/FutureProfitsPage.vue')
+                component: () => import('@/modules/future-profits/page/FutureProfitsPage.vue')
             },
             {
                 path: 'gerenciar-cartoes',
@@ -93,12 +93,12 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'saude-financeira',
                 name: 'financial-health',
-                component: () => import('@/views/financial-health/FinancialHealthPage.vue')
+                component: () => import('@/modules/financial-health/page/FinancialHealthPage.vue')
             },
             {
                 path: 'atualizando',
                 name: 'updating',
-                component: () => import('@/views/updating/UpdatingPage.vue')
+                component: () => import('@/modules/updating/UpdatingPage.vue')
             },
         ],
         meta: {
@@ -108,7 +108,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
-        component: () => import('@/views/not-found/NotFoundPage.vue'),
+        component: () => import('@/modules/not-found/NotFoundPage.vue'),
     }
 ]
 

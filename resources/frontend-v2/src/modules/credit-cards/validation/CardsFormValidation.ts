@@ -1,7 +1,7 @@
 import {z} from "zod"
-import {IFormValidation} from "@/form-validation/IFormValidation"
-import {IFormValidationReturn} from "@/form-validation/IFormValidationReturn"
-import {FormValidation} from "@/form-validation/FormValidation"
+import {IFormValidation} from "@/infra/form-validation/IFormValidation"
+import {IFormValidationReturn} from "@/infra/form-validation/IFormValidationReturn"
+import {FormValidation} from "@/infra/form-validation/FormValidation"
 
 const cardsSchema = z.object({
     name: z.string().min(1, {message: 'Campo "Nome" é obrigatório'}),

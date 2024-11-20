@@ -1,4 +1,4 @@
-import {useAuthStore} from "@/stores/auth/AuthStore"
+import {useAuthStore} from "@/modules/login/store/AuthStore"
 
 export default async function RouterAuthMiddleware(to: any, from: any, next: any): Promise<void> {
     try {

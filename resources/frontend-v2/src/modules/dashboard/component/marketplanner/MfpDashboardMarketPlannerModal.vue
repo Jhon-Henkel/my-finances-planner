@@ -4,7 +4,7 @@ import {IonCard, IonCardSubtitle, IonCol, IonIcon, IonProgressBar, IonRow} from 
 import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
-import {useMovementStore} from "@/stores/movement/MovementStore"
+import {useMovementStore} from "@/modules/movement/store/MovementStore"
 
 const store = useMovementStore()
 

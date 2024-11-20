@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {IonItem, IonSelect, IonSelectOption} from "@ionic/vue"
 import {onMounted, ref} from "vue"
-import {MovementService} from "@/services/movement/MovementService"
-import {useMovementStore} from "@/stores/movement/MovementStore"
+import {MovementService} from "@/modules/movement/service/MovementService"
+import {useMovementStore} from "@/modules/movement/store/MovementStore"
 
 const props = defineProps(
     {

@@ -12,8 +12,8 @@ import {alertCircleOutline} from "ionicons/icons"
 import {CardsPayFormValidation} from "@/modules/credit-cards/validation/CardsPayFormValidation"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
 import {CardsService} from "@/modules/credit-cards/service/CardsService"
-import {MovementService} from "@/services/movement/MovementService"
-import {WalletService} from "@/services/wallet/WalletService"
+import {MovementService} from "@/modules/movement/service/MovementService"
+import {WalletService} from "@/modules/wallet/service/WalletService"
 
 const props = defineProps({
     item: {

@@ -1,7 +1,7 @@
 import {z} from "zod"
-import {IFormValidation} from "@/form-validation/IFormValidation"
-import {IFormValidationReturn} from "@/form-validation/IFormValidationReturn"
-import {FormValidation} from "@/form-validation/FormValidation"
+import {IFormValidation} from "@/infra/form-validation/IFormValidation"
+import {IFormValidationReturn} from "@/infra/form-validation/IFormValidationReturn"
+import {FormValidation} from "@/infra/form-validation/FormValidation"
 
 const cardsPaySchema = z.object({
     walletId: z.number().min(1, {message: 'Campo "Carteira" deve ser selecionado'}),

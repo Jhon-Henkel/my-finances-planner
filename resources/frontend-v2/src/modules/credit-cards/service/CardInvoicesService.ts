@@ -1,5 +1,5 @@
 import {ApiRouter} from "@/infra/requst/api/ApiRouter"
-import {InvoiceModel} from "@/model/invoice/invoiceModel"
+import {InvoiceModel} from "@/modules/invoice/model/invoiceModel"
 
 export const CardInvoicesService = {
     index: async (cardId: number|string): Promise<Array<InvoiceModel>> => {

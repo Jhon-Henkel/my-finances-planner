@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {IonContent, IonPage, IonRow, IonCol, IonGrid, IonBadge} from "@ionic/vue"
-import {useAuthStore} from "@/stores/auth/AuthStore"
+import {useAuthStore} from "@/modules/login/store/AuthStore"
 import {useRoute} from "vue-router"
 
 const authStore = useAuthStore()

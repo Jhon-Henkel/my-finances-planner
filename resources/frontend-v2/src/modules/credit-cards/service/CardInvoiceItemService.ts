@@ -4,9 +4,9 @@ import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {useCardInvoicesStore} from "@/modules/credit-cards/store/CardInvoiceStore"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
-import {PanoramaService} from "@/services/panorama/PanoramaService"
+import {PanoramaService} from "@/modules/panorama/service/PanoramaService"
 import {CardsService} from "@/modules/credit-cards/service/CardsService"
-import {InvoiceModel} from "@/model/invoice/invoiceModel"
+import {InvoiceModel} from "@/modules/invoice/model/invoiceModel"
 
 export const CardInvoiceItemService = {
     create: async (data: CardInvoiceItemModel, isFixInstallment: boolean): Promise<void> => {

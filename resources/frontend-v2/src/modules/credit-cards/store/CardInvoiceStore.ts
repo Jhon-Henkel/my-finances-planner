@@ -1,5 +1,5 @@
 import {defineStore} from "pinia"
-import {IInvoice} from "@/services/invoice/IInvoice"
+import {IInvoice} from "@/modules/invoice/service/IInvoice"
 import {CardInvoicesService} from "@/modules/credit-cards/service/CardInvoicesService"
 
 interface ICardInvoicesStoreState {

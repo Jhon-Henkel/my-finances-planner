@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {IonItem, IonSelect, IonSelectOption} from "@ionic/vue"
 import {onMounted} from "vue"
-import {useWalletStore} from "@/stores/wallet/WalletStore"
+import {useWalletStore} from "@/modules/wallet/store/WalletStore"
 
 defineProps(
     {
