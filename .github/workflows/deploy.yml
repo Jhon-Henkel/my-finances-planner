@@ -36,6 +36,7 @@ jobs:
           script: |
             cd ${{ secrets.SSH_APP_PATH }}
             docker exec mfp_app bash -c "php artisan down"
+            git restore .
             git pull ${{ secrets.SSH_GIT_PULL_URL }}
             docker exec mfp_app bash -c "composer update --optimize-autoloader --no-dev"
             docker exec mfp_app bash -c "php artisan migrate --force"
