@@ -3,6 +3,7 @@ import {IonBadge, IonCard, IonCardSubtitle, IonCol, IonRow} from '@ionic/vue'
 import {onMounted} from "vue"
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
 import {useMovementStore} from "@/stores/movement/MovementStore"
+import router from "@/router"
 
 const movementStore = useMovementStore()
 
@@ -16,7 +17,7 @@ onMounted(async () => {
 <template>
     <ion-row>
         <ion-col>
-            <ion-card color="light" class="ion-no-margin ion-text-center">
+            <ion-card color="light" class="ion-no-margin ion-text-center" @click="router.push({name: 'movements'})">
                 <ion-row class="ion-margin">
                     <ion-col size="12">
                         <ion-card-subtitle>Balanço do mês</ion-card-subtitle>

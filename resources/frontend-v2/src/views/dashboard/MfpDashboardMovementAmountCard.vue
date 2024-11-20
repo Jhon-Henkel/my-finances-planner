@@ -5,6 +5,7 @@ import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
 import {arrowDownCircleOutline, arrowUpCircleOutline} from "ionicons/icons"
 import {useMovementStore} from "@/stores/movement/MovementStore"
 import {MovementService} from "@/services/movement/MovementService"
+import router from "@/router"
 
 const movementStore = useMovementStore()
 
@@ -16,7 +17,7 @@ onMounted(async () => {
 <template>
     <ion-row>
         <ion-col size="6">
-            <ion-card class="ion-no-margin" color="light">
+            <ion-card class="ion-no-margin" color="light" @click="router.push({name: 'movements'})">
                 <ion-row class="ion-margin">
                     <ion-col size="3">
                         <ion-icon :icon="arrowUpCircleOutline" size="large" color="success"/>
@@ -29,7 +30,7 @@ onMounted(async () => {
             </ion-card>
         </ion-col>
         <ion-col size="6">
-            <ion-card class="ion-no-margin" color="light">
+            <ion-card class="ion-no-margin" color="light" @click="router.push({name: 'movements'})">
                 <ion-row class="ion-margin">
                     <ion-col size="3">
                         <ion-icon :icon="arrowDownCircleOutline" size="large" color="danger"/>

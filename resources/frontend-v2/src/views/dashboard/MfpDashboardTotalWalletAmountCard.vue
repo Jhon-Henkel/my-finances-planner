@@ -3,6 +3,7 @@ import {IonCard, IonCardSubtitle, IonCol, IonRow} from '@ionic/vue'
 import {useWalletStore} from "@/stores/wallet/WalletStore"
 import {onMounted} from "vue"
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
+import router from "@/router"
 
 const walletStore = useWalletStore()
 
@@ -16,7 +17,7 @@ onMounted(async () => {
 <template>
     <ion-row>
         <ion-col>
-            <ion-card color="light" class="ion-no-margin ion-text-center">
+            <ion-card color="light" class="ion-no-margin ion-text-center" @click="router.push({name: 'wallets'})">
                 <ion-row class="ion-margin">
                     <ion-col size="12">
                         <ion-card-subtitle>Saldo Carteiras</ion-card-subtitle>

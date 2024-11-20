@@ -4,6 +4,7 @@ import {onMounted} from "vue"
 import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
 import {calendarNumberOutline, cashOutline} from "ionicons/icons"
 import {usePanoramaStore} from "@/stores/panorama/PanoramaStore"
+import router from "@/router"
 
 const panoramaStore = usePanoramaStore()
 
@@ -17,7 +18,7 @@ onMounted(async () => {
 <template>
     <ion-row>
         <ion-col size="6">
-            <ion-card class="ion-no-margin" color="light">
+            <ion-card class="ion-no-margin" color="light" @click="router.push({name: 'future-profits'})">
                 <ion-row class="ion-margin">
                     <ion-col size="3">
                         <ion-icon :icon="cashOutline" size="large" color="success"/>
@@ -30,7 +31,7 @@ onMounted(async () => {
             </ion-card>
         </ion-col>
         <ion-col size="6">
-            <ion-card class="ion-no-margin" color="light">
+            <ion-card class="ion-no-margin" color="light" @click="router.push({name: 'panorama'})">
                 <ion-row class="ion-margin">
                     <ion-col size="3">
                         <ion-icon :icon="calendarNumberOutline" size="large" color="danger"/>
