@@ -19,6 +19,13 @@ interface IMovementStoreState {
     originalThisMonthTotalExpensesValue: number
     originalThisMonthTotalBalance: number
     dateOfResults: string
+    marketPlannerDetails: {
+        total_limit: number
+        this_month_spent: number
+        this_month_remaining_limit: number,
+        percent_used: number,
+        use_market_planner: boolean
+    }
 }
 
 export const useMovementStore = defineStore({
@@ -38,7 +45,14 @@ export const useMovementStore = defineStore({
         thisMonthTotalExpensesValue: 0,
         thisMonthTotalBalance: 0,
         totalBalanceValue: 0,
-        dateOfResults: ''
+        dateOfResults: '',
+        marketPlannerDetails: {
+            total_limit: 0,
+            this_month_spent: 0,
+            this_month_remaining_limit: 0,
+            percent_used: 0,
+            use_market_planner: false
+        }
     }),
     actions: {
         loadAgainOnNextTick() {
@@ -65,6 +79,8 @@ export const useMovementStore = defineStore({
                     this.thisMonthTotalExpensesValue = this.totalExpensesValue
                     this.thisMonthTotalBalance = this.totalBalanceValue
                 }
+                this.marketPlannerDetails = await MovementService.getMarketPlannerDetails()
+                this.marketPlannerDetails.percent_used = this.marketPlannerDetails.this_month_spent / this.marketPlannerDetails.total_limit
             }
             return this.movements
         },

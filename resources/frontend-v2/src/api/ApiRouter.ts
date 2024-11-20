@@ -273,5 +273,11 @@ export const ApiRouter = {
             const response = await axios.post('api/mfp/subscription/update-account', data, makeHeadersNonLogged())
             return response.data
         }
+    },
+    marketPlanner: {
+        showDetails: async function () {
+            const response = await axios.get(mountApiUrl('v2/market-planner/show-details'), makeHeaders())
+            return response.data
+        }
     }
 }

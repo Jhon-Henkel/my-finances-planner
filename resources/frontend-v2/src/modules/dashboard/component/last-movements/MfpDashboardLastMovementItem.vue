@@ -5,7 +5,7 @@ import {IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
 import {MovementService} from "@/services/movement/MovementService"
 import {UtilCalendar} from "@/util/UtilCalendar"
 import {UtilMoney} from "@/util/UtilMoney"
-import {UtilString} from "../../util/UtilString"
+import {UtilString} from "@/util/UtilString"
 
 const movementStore = useMovementStore()
 
