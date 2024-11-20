@@ -1,6 +1,6 @@
 import {describe, expect, it} from "vitest"
 import {shallowMount} from '@vue/test-utils'
-import MfpInputMoney from "../../../../src/components/input/MfpInputMoney.vue"
+import MfpInputMoney from "../../../../src/modules/@shared/components/input/MfpInputMoney.vue"
 
 describe('test render component', () => {
     it("render base component", async () => {

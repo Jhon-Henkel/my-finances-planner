@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MfpPage from "@/components/page/MfpPage.vue"
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 import {ref} from "vue"
 import {IonGrid, IonProgressBar} from "@ionic/vue"
 import MfpFirstStep from "@/views/welcome/MfpFirstStep.vue"

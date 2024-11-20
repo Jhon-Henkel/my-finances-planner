@@ -1,4 +1,4 @@
-import {ApiRouter} from "@/api/ApiRouter"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {FinancialHealthModel} from "@/model/financial-health/FinancialHealthModel"
 
 export const FinancialHealthService = {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
+import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
 import {IonButton, IonCol, IonGrid, IonRow, modalController, IonItem, IonList} from "@ionic/vue"
-import MfpModalContent from "@/components/modal/MfpModalContent.vue"
+import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
 import {MfpSubscriptionService} from "@/services/subscription/MfpSubscriptionService"
 import {useAuthStore} from "@/stores/auth/AuthStore"
 import {ref} from "vue"

@@ -1,6 +1,6 @@
 import {describe, expect, it} from "vitest"
 import {shallowMount} from '@vue/test-utils'
-import MfpInputDate from "../../../../src/components/input/MfpInputDate.vue"
+import MfpInputDate from "../../../../src/modules/@shared/components/input/MfpInputDate.vue"
 
 describe('test render component', () => {
     it("render base component", async () => {

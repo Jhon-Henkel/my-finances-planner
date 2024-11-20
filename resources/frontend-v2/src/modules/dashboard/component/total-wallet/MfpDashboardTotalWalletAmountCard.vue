@@ -2,8 +2,8 @@
 import {IonCard, IonCardSubtitle, IonCol, IonRow} from '@ionic/vue'
 import {useWalletStore} from "@/stores/wallet/WalletStore"
 import {onMounted} from "vue"
-import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
-import router from "@/router"
+import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
+import router from "../../../../infra/router"
 
 const walletStore = useWalletStore()
 

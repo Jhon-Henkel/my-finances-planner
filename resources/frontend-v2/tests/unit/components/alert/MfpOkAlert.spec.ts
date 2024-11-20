@@ -1,6 +1,6 @@
 import {describe, it, expect, vitest} from "vitest"
 import {alertController} from "@ionic/vue"
-import {MfpOkAlert} from "../../../../src/components/alert/MfpOkAlert"
+import {MfpOkAlert} from "../../../../src/modules/@shared/components/alert/MfpOkAlert"
 
 describe("MfpOkAlertV2", () => {
     it("opens with provided message and header", async () => {

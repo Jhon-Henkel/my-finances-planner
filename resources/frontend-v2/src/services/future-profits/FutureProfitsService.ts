@@ -1,12 +1,12 @@
 import {IInvoice} from "@/services/invoice/IInvoice"
-import {ApiRouter} from "@/api/ApiRouter"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {useFutureProfitsStore} from "@/stores/future-profits/FutureProfitsStore"
 import {InvoiceModel} from "@/model/invoice/invoiceModel"
-import {UtilCalendar} from "@/util/UtilCalendar"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import {IFutureProfitForm} from "@/services/future-profits/IFutureProfitForm"
 import {FutureProfitsModel} from "@/model/future-profits/FutureProfitsModel"
-import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
-import {MfpToast} from "@/components/toast/MfpToast"
+import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
+import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
 
 export const FutureProfitsService = {
     index: async (): Promise<Array<IInvoice>> => {

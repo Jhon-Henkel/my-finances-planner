@@ -1,9 +1,9 @@
 import {IFutureExpenseForm} from "@/services/future-expense/IFutureExpenseForm"
-import {UtilCalendar} from "@/util/UtilCalendar"
-import {ApiRouter} from "@/api/ApiRouter"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {FutureExpenseModel} from "@/model/future-expense/FutureExpenseModel"
-import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
-import {MfpToast} from "@/components/toast/MfpToast"
+import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
+import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
 import {PanoramaService} from "@/services/panorama/PanoramaService"
 import {IInvoice} from "@/services/invoice/IInvoice"
 

@@ -1,5 +1,5 @@
 import {describe, it, expect} from "vitest"
-import {UtilMoney} from "../../../src/util/UtilMoney"
+import {UtilMoney} from "../../../src/modules/@shared/util/UtilMoney"
 
 describe('test UtilMoney const', () => {
     it('should return money ion BR format', () => {

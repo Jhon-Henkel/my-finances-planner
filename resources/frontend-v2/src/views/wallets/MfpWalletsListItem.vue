@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {IonCol, IonGrid, IonItem, IonLabel, IonRow, IonIcon} from "@ionic/vue"
 import {WalletModel} from "@/model/wallet/WalletModel"
-import {UtilMoney} from "@/util/UtilMoney"
-import {UtilString} from "@/util/UtilString"
+import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
+import {UtilString} from "@/modules/@shared/util/UtilString"
 import {chevronBackOutline} from "ionicons/icons"
 
 defineProps(

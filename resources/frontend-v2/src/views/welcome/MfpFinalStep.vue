@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {IonButton, IonText} from "@ionic/vue"
 import MfpMainText from "@/views/welcome/MfpMainText.vue"
-import router from "@/router"
+import router from "../../infra/router"
 import {MainSettingsService} from "@/services/Settings/MainSettingsService"
 import {MainSettingsModel} from "@/model/settings/MainSettingsModel"
-import MfpRow from "@/components/row/MfpRow.vue"
+import MfpRow from "@/modules/@shared/components/row/MfpRow.vue"
 
 function goToDashboard() {
     const config = {

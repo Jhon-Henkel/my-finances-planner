@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {IonCol, IonRow, IonText, IonButton} from "@ionic/vue"
-import {MfpModal} from "@/components/modal/MfpModal"
+import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpWalletsFormModal from "@/views/wallets/MfpWalletsFormModal.vue"
 import MfpMainText from "@/views/welcome/MfpMainText.vue"
 

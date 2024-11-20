@@ -1,4 +1,4 @@
-import {ApiRouter} from "@/api/ApiRouter"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {UserModel} from "@/model/user/UserModel"
 
 export const UserService = {

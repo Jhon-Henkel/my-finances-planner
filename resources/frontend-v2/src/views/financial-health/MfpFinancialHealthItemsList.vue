@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {UtilMoney} from "@/util/UtilMoney"
+import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {PropType} from "vue"
 import {IonItem, IonLabel, IonList} from "@ionic/vue"
-import {UtilString} from "../../util/UtilString"
+import {UtilString} from "@/modules/@shared/util/UtilString"
 
 const props = defineProps({
     items: {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {IonCol, IonRow, IonText} from "@ionic/vue"
-import {MfpModal} from "@/components/modal/MfpModal"
+import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpTermsOfUseModal from "@/views/terms-and-policy/MfpTermsOfUseModal.vue"
 import MfpPrivacyPolicyModal from "@/views/terms-and-policy/MfpPrivacyPolicyModal.vue"
 

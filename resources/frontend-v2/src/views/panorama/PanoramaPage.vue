@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MfpPage from "@/components/page/MfpPage.vue"
-import MfpRefresh from "@/components/refresh/MfpRefresh.vue"
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
+import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
 import {
     IonIcon,
     IonItemOption,
@@ -11,25 +11,25 @@ import {
     IonListHeader,
     IonButton
 } from "@ionic/vue"
-import MfpCirclePlusButton from "@/components/button/MfpCirclePlusButton.vue"
+import MfpCirclePlusButton from "@/modules/@shared/components/button/MfpCirclePlusButton.vue"
 import MfpPanoramaDetailsCard from "@/views/panorama/MfpPanoramaDetailsCard.vue"
-import MfpEmptyListItem from "@/components/list/MfpEmptyListItem.vue"
-import MfpTotalRegistersRow from "@/components/page/MfpTotalRegistersRow.vue"
+import MfpEmptyListItem from "@/modules/@shared/components/list/MfpEmptyListItem.vue"
+import MfpTotalRegistersRow from "@/modules/@shared/components/page/MfpTotalRegistersRow.vue"
 import {ellipsisHorizontal} from "ionicons/icons"
-import {MfpActionSheet} from "@/components/action-sheet/MfpActionSheet"
-import {UtilActionSheet} from "@/util/UtilActionSheet"
+import {MfpActionSheet} from "@/modules/@shared/components/action-sheet/MfpActionSheet"
+import {UtilActionSheet} from "@/modules/@shared/util/UtilActionSheet"
 import {InvoiceModel} from "@/model/invoice/invoiceModel"
 import {onMounted, ref} from "vue"
 import {usePanoramaStore} from "@/stores/panorama/PanoramaStore"
 import {PanoramaService} from "@/services/panorama/PanoramaService"
-import {MfpModal} from "@/components/modal/MfpModal"
+import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpPanoramaFormModal from "@/views/panorama/MfpPanoramaFormModal.vue"
 import {FutureExpenseService} from "@/services/future-expense/FutureExpenseService"
-import {UtilCalendar} from "@/util/UtilCalendar"
-import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
+import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import MfpPanoramaPayModal from "@/views/panorama/MfpPanoramaPayModal.vue"
 import MfpPanoramaAddValueModal from "@/views/panorama/MfpPanoramaAddValueModal.vue"
-import MfpPeriodSwitcher from "@/components/switcher/MfpPeriodSwitcher.vue"
+import MfpPeriodSwitcher from "@/modules/@shared/components/switcher/MfpPeriodSwitcher.vue"
 import MfpInvoiceListItem from "@/views/invoice/MfpInvoiceListItem.vue"
 import MfpInvoiceListSkeletonLoad from "@/views/invoice/MfpInvoiceListSkeletonLoad.vue"
 import MfpInvoiceDetailsModal from "@/views/invoice/MfpInvoiceDetailsModal.vue"

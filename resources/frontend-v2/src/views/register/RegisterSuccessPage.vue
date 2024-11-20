@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {IonCol, IonGrid, IonIcon, IonLabel, IonRow, IonText} from "@ionic/vue"
 import {checkmarkCircleOutline, chevronForward} from "ionicons/icons"
-import MfpPage from "@/components/page/MfpPage.vue"
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 
 const urlParams = new URLSearchParams(window.location.search)
 const email = urlParams.get('email')

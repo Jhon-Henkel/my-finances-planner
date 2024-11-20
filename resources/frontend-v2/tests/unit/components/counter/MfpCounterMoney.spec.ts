@@ -1,6 +1,6 @@
 import {describe, expect, it} from "vitest"
 import {shallowMount} from '@vue/test-utils'
-import MfpCounterMoney from "../../../../src/components/counter/MfpCounterMoney.vue"
+import MfpCounterMoney from "../../../../src/modules/@shared/components/counter/MfpCounterMoney.vue"
 
 describe('test render component', () => {
     it("render base component", async () => {

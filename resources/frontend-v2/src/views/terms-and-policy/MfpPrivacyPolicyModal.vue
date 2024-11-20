@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
+import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
 import {modalController, IonContent} from "@ionic/vue"
 
 function closeModal() {

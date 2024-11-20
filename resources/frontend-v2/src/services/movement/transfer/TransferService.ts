@@ -1,4 +1,4 @@
-import {ApiRouter} from "@/api/ApiRouter"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {ITransferForm} from "@/services/movement/transfer/ITransferForm"
 
 export const TransferService = {

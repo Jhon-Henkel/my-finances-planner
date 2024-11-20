@@ -1,6 +1,6 @@
 import {z} from "zod"
 import {IFormValidationReturn} from "@/form-validation/IFormValidationReturn"
-import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
+import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 
 interface IFormValidation {
     validate: (schema: z.ZodObject<any> | any, data: any) => IFormValidationReturn

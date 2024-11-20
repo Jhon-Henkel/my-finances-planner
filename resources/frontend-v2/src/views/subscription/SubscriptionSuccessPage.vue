@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MfpPage from "@/components/page/MfpPage.vue"
-import router from "@/router"
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
+import router from "../../infra/router"
 import {IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonRow, IonCol, IonGrid} from "@ionic/vue"
 import {useAuthStore} from "@/stores/auth/AuthStore"
 

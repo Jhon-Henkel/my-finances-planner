@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {IonCard, IonCardSubtitle, IonCol, IonRow, IonList, IonButton} from '@ionic/vue'
 import MfpDashboardLastMovementItem from "@/modules/dashboard/component/last-movements/MfpDashboardLastMovementItem.vue"
-import router from "@/router"
+import router from "../../../../infra/router"
 import {onMounted} from "vue"
 import {useMovementStore} from "@/stores/movement/MovementStore"
 import MfpDashboardLastMovementItemSkeletonLoad from "@/modules/dashboard/component/last-movements/MfpDashboardLastMovementItemSkeletonLoad.vue"

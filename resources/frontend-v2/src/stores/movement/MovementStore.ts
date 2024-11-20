@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import {MovementModel} from "@/model/movement/MovementModel"
 import {MovementService} from "@/services/movement/MovementService"
-import {UtilCalendar} from "@/util/UtilCalendar"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 
 interface IMovementStoreState {
     movements: Array<MovementModel>

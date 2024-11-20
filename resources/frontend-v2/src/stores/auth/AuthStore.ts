@@ -1,7 +1,7 @@
 import {defineStore} from "pinia"
 import {Ref, ref} from "vue"
-import {UtilTime} from "@/util/UtilTime"
-import {UtilCookies} from "@/util/UtilCookies"
+import {UtilTime} from "@/modules/@shared/util/UtilTime"
+import {UtilCookies} from "@/modules/@shared/util/UtilCookies"
 
 export const useAuthStore = defineStore({
     id: 'auth',

@@ -1,6 +1,6 @@
 import {describe, it, expect, vitest} from "vitest"
 import {alertController} from "@ionic/vue"
-import {MfpConfirmAlert} from "../../../../src/components/alert/MfpConfirmAlert"
+import {MfpConfirmAlert} from "../../../../src/modules/@shared/components/alert/MfpConfirmAlert"
 
 describe("MfpConfirmAlertV2", () => {
     it("opens with provided message and header", async () => {

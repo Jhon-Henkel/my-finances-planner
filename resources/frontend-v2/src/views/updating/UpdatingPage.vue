@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MfpPage from "@/components/page/MfpPage.vue"
-import AppConfig from "@/config/AppConfig"
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
+import AppConfig from "@/infra/config/AppConfig"
 
 const imageUrl = `${AppConfig.storageBaseUrl}updating.gif`
 </script>

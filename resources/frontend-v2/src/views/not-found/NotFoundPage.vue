@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {IonButton} from '@ionic/vue'
-import router from "@/router"
+import router from "../../infra/router"
 </script>
 
 <template>

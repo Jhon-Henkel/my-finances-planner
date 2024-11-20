@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import {IonDatetime, IonDatetimeButton, IonItem, IonModal, IonText, modalController} from '@ionic/vue'
-import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
-import {UtilCalendar} from "@/util/UtilCalendar"
-import MfpModalContent from "@/components/modal/MfpModalContent.vue"
-import MfpInputToggle from "@/components/input/MfpInputToggle.vue"
+import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
+import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
+import MfpInputToggle from "@/modules/@shared/components/input/MfpInputToggle.vue"
 import {useFinancialHealthStore} from "@/stores/financial-health/financialHealthStore"
 
 const store = useFinancialHealthStore()

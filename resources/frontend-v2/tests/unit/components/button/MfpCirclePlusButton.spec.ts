@@ -1,6 +1,6 @@
 import {describe, expect, it} from "vitest"
 import {shallowMount} from '@vue/test-utils'
-import MfpCirclePlusButton from "../../../../src/components/button/MfpCirclePlusButton.vue"
+import MfpCirclePlusButton from "../../../../src/modules/@shared/components/button/MfpCirclePlusButton.vue"
 
 describe('test render component', () => {
     it("render base component", async () => {

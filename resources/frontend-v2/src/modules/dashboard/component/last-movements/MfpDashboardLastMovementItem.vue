@@ -3,9 +3,9 @@ import {useMovementStore} from "@/stores/movement/MovementStore"
 import {onMounted} from "vue"
 import {IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
 import {MovementService} from "@/services/movement/MovementService"
-import {UtilCalendar} from "@/util/UtilCalendar"
-import {UtilMoney} from "@/util/UtilMoney"
-import {UtilString} from "@/util/UtilString"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
+import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
+import {UtilString} from "@/modules/@shared/util/UtilString"
 
 const movementStore = useMovementStore()
 

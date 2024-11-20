@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {IonGrid} from "@ionic/vue"
 import {arrowDownOutline, arrowForwardOutline, arrowUpOutline, cardOutline, walletOutline} from "ionicons/icons"
-import MfpAccordionGroup from "@/components/accordion/MfpAccordionGroup.vue"
-import MfpAccordion from "@/components/accordion/MfpAccordion.vue"
+import MfpAccordionGroup from "@/modules/@shared/components/accordion/MfpAccordionGroup.vue"
+import MfpAccordion from "@/modules/@shared/components/accordion/MfpAccordion.vue"
 import MfpPanoramaDetailsCardItem from "@/views/panorama/MfpPanoramaDetailsCardItem.vue"
 import {usePanoramaStore} from "@/stores/panorama/PanoramaStore"
 import {IInvoice} from "@/services/invoice/IInvoice"

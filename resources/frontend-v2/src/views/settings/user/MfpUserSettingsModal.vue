@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
+import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
 import {IonCol, IonIcon, IonRow, modalController, IonLabel, IonGrid, IonButton} from "@ionic/vue"
-import MfpModalContent from "@/components/modal/MfpModalContent.vue"
+import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
 import {onMounted, ref} from "vue"
-import MfpInput from "@/components/input/MfpInput.vue"
-import MfpInputToggle from "@/components/input/MfpInputToggle.vue"
+import MfpInput from "@/modules/@shared/components/input/MfpInput.vue"
+import MfpInputToggle from "@/modules/@shared/components/input/MfpInputToggle.vue"
 import {alertCircleOutline} from "ionicons/icons"
-import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
+import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import {UserService} from "@/services/user/UserService"
 import {useAuthStore} from "@/stores/auth/AuthStore"
 import {UserSettingsFormValidation} from "@/form-validation/settings/user/UserSettingsFormValidation"
 import {AuthService} from "@/services/auth/AuthService"
-import router from "@/router"
+import router from "../../../infra/router"
 import {MfpSubscriptionService} from "@/services/subscription/MfpSubscriptionService"
 
 const userSettings = ref(UserService.makeEmptyUser())

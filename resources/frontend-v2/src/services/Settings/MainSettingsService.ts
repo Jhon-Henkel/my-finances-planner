@@ -1,5 +1,5 @@
 import {MainSettingsModel} from "@/model/settings/MainSettingsModel"
-import {ApiRouter} from "@/api/ApiRouter"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 
 export const MainSettingsService = {
     index: async (): Promise<Array<MainSettingsModel>> => {

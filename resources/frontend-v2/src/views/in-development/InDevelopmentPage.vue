@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {IonCol, IonGrid, IonRow, IonImg, IonButton, IonLabel} from '@ionic/vue'
-import MfpPage from "@/components/page/MfpPage.vue"
-import AppConfig from "@/config/AppConfig"
-import router from "@/router"
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
+import AppConfig from "@/infra/config/AppConfig"
+import router from "../../infra/router"
 
 const imageUrl = `${AppConfig.storageBaseUrl}in-development.gif`
 </script>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MfpPage from "@/components/page/MfpPage.vue"
-import MfpFilterButton from "@/components/button/MfpFilterButton.vue"
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
+import MfpFilterButton from "@/modules/@shared/components/button/MfpFilterButton.vue"
 import {IonCol, IonGrid, IonIcon, IonLabel, IonListHeader, IonRow} from "@ionic/vue"
 import {useFinancialHealthStore} from "@/stores/financial-health/financialHealthStore"
 import {onMounted} from "vue"
@@ -10,11 +10,11 @@ import {arrowDownCircleOutline, arrowUpCircleOutline} from "ionicons/icons"
 import MfpFinancialHealthItemsListSkeletonLoad
     from "@/views/financial-health/MfpFinancialHealthItemsListSkeletonLoad.vue"
 import MfpFinancialHealthMonthLabel from "@/views/financial-health/MfpFinancialHealthMonthLabel.vue"
-import {MfpModal} from "@/components/modal/MfpModal"
+import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpFinancialHealthFilterModal from "@/views/financial-health/MfpFinancialHealthFilterModal.vue"
 import MfpFinancialHealthBalanceCard from "@/views/financial-health/MfpFinancialHealthBalanceCard.vue"
-import MfpInfoButton from "@/components/button/MfpInfoButton.vue"
-import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
+import MfpInfoButton from "@/modules/@shared/components/button/MfpInfoButton.vue"
+import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 
 const store = useFinancialHealthStore()
 const filterModal = new MfpModal(MfpFinancialHealthFilterModal)

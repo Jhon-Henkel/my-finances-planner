@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {IonCol, IonIcon, IonItem, IonLabel, IonModal, IonRow, modalController} from "@ionic/vue"
-import MfpModalContent from "@/components/modal/MfpModalContent.vue"
+import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
 import {calendarNumberOutline, cardOutline, cashOutline, swapHorizontalOutline} from "ionicons/icons"
-import {MfpModal} from "@/components/modal/MfpModal"
+import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpMovementsFormModal from "@/views/movement/MfpMovementsFormModal.vue"
 import MfpFutureProfitsFormModal from "@/views/future-profits/MfpFutureProfitsFormModal.vue"
 import MfpPanoramaFormModal from "@/views/panorama/MfpPanoramaFormModal.vue"
-import MfpCardInvoicesFormModal from "@/views/cards/invoice/MfpCardInvoicesFormModal.vue"
+import MfpCardInvoicesFormModal from "@/modules/credit-cards/component/MfpCardInvoicesFormModal.vue"
 
 const modalBreakpoints: Array<number> = [0, 0.85]
 const movementFormModal = new MfpModal(MfpMovementsFormModal)

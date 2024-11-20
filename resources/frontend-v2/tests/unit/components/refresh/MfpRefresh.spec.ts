@@ -1,6 +1,6 @@
 import {describe, it, expect} from "vitest"
 import { shallowMount } from '@vue/test-utils'
-import MfpRefresh from "../../../../src/components/refresh/MfpRefresh.vue"
+import MfpRefresh from "../../../../src/modules/@shared/components/refresh/MfpRefresh.vue"
 
 describe("test MfpRefresher render", () => {
     it("test render", async () => {

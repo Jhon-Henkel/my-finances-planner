@@ -1,6 +1,6 @@
 import {ILoginForm} from "@/services/auth/ILoginForm"
-import {ApiRouter} from "@/api/ApiRouter"
-import {IApiResponse} from "@/api/IApiResponse"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
+import {IApiResponse} from "@/infra/requst/api/IApiResponse"
 import {useAuthStore} from "@/stores/auth/AuthStore"
 import {MfpSubscriptionService} from "@/services/subscription/MfpSubscriptionService"
 

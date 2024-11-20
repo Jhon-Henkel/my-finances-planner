@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {IonCard, IonCardSubtitle, IonCol, IonIcon, IonRow} from '@ionic/vue'
 import {onMounted} from "vue"
-import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
+import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {calendarNumberOutline, cashOutline} from "ionicons/icons"
 import {usePanoramaStore} from "@/stores/panorama/PanoramaStore"
-import router from "@/router"
+import router from "../../../../infra/router"
 
 const panoramaStore = usePanoramaStore()
 

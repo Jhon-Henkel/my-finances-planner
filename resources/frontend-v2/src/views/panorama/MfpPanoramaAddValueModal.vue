@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
-import MfpModalContent from "@/components/modal/MfpModalContent.vue"
+import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
+import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
 import {IonCol, IonIcon, IonLabel, IonRow, modalController} from "@ionic/vue"
-import MfpInputMoney from "@/components/input/MfpInputMoney.vue"
+import MfpInputMoney from "@/modules/@shared/components/input/MfpInputMoney.vue"
 import {ref} from "vue"
 import {FutureExpenseModel} from "@/model/future-expense/FutureExpenseModel"
-import {UtilMoney} from "@/util/UtilMoney"
-import {MfpConfirmAlert} from "@/components/alert/MfpConfirmAlert"
+import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
+import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {FutureExpenseService} from "@/services/future-expense/FutureExpenseService"
 import {PanoramaService} from "@/services/panorama/PanoramaService"
-import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
+import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {informationCircleOutline} from "ionicons/icons"
-import MfpInputToggle from "@/components/input/MfpInputToggle.vue"
+import MfpInputToggle from "@/modules/@shared/components/input/MfpInputToggle.vue"
 
 const props = defineProps({
     futureExpense: {

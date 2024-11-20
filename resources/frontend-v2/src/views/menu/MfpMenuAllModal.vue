@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import router from "@/router"
+import router from "../../infra/router"
 import {IonButton, IonButtons, IonHeader, IonIcon, IonItem, IonTitle, IonToolbar, modalController} from "@ionic/vue"
-import MfpModalContent from "@/components/modal/MfpModalContent.vue"
+import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
 import {AuthService} from "@/services/auth/AuthService"
 import {MenuItems} from "@/views/menu/MenuItems"
 import {logOutOutline} from "ionicons/icons"
-import {MfpModal} from "@/components/modal/MfpModal"
+import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpUserSettingsModal from "@/views/settings/user/MfpUserSettingsModal.vue"
 import MfpMainSettingsModal from "@/views/settings/main/MfpMainSettingsModal.vue"
 

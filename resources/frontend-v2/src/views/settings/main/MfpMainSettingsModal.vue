@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
-import MfpInputMoney from "@/components/input/MfpInputMoney.vue"
+import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
+import MfpInputMoney from "@/modules/@shared/components/input/MfpInputMoney.vue"
 import {ref} from "vue"
 import {modalController, IonContent, IonList, IonNote} from "@ionic/vue"
 import {onMounted} from "vue"
 import {useMainSettingsStore} from "@/stores/settings/MainSettingsStore"
 import {MainSettingsService} from "@/services/Settings/MainSettingsService"
 import {MainSettingsModel} from "@/model/settings/MainSettingsModel"
-import {MfpToast} from "@/components/toast/MfpToast"
+import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
 
 const store = useMainSettingsStore()
 const marketPlannerConfig = ref(0)

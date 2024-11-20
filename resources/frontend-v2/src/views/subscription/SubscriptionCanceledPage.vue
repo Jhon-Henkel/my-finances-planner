@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import MfpPage from "@/components/page/MfpPage.vue"
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 import {IonButton, IonContent, IonHeader, IonTitle, IonToolbar} from "@ionic/vue"
-import router from "@/router"
+import router from "../../infra/router"
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {IonCard, IonCardSubtitle, IonCol, IonIcon, IonRow} from '@ionic/vue'
-import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
+import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {arrowDownCircleOutline, arrowUpCircleOutline} from "ionicons/icons"
 import {useFinancialHealthStore} from "@/stores/financial-health/financialHealthStore"
 

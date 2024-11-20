@@ -9,7 +9,7 @@ import {
     IonRow,
 } from "@ionic/vue"
 import {useFutureProfitsStore} from "@/stores/future-profits/FutureProfitsStore"
-import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
+import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 
 const store = useFutureProfitsStore()
 

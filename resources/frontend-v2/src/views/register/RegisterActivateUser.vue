@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import MfpPage from "@/components/page/MfpPage.vue"
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 import {IonButton, loadingController, IonIcon, IonCol, IonGrid, IonRow, IonText} from "@ionic/vue"
 import {ref} from "vue"
 import {useRoute} from "vue-router"
 import {checkmarkCircleOutline} from "ionicons/icons"
-import {ApiRouter} from "@/api/ApiRouter"
-import {MfpOkAlert} from "@/components/alert/MfpOkAlert"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
+import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 
 const inactive = ref(true)
 const hash = String(useRoute().params.hash)

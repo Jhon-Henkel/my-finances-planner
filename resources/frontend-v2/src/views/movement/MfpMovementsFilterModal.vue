@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import {IonDatetime, IonDatetimeButton, IonItem, IonModal, IonText, modalController} from '@ionic/vue'
 import {ref} from "vue"
-import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
-import {UtilCalendar} from "@/util/UtilCalendar"
-import MfpMovementsTypeSelect from "@/components/select/MfpMovementsTypeSelect.vue"
-import MfpModalContent from "@/components/modal/MfpModalContent.vue"
+import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
+import MfpMovementsTypeSelect from "@/modules/@shared/components/select/MfpMovementsTypeSelect.vue"
+import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
 import {useMovementStore} from "@/stores/movement/MovementStore"
 
 const store = useMovementStore()

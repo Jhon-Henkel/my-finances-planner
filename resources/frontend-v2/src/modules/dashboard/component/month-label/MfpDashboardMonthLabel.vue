@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {IonItem, IonLabel} from "@ionic/vue"
-import {UtilCalendar} from "@/util/UtilCalendar"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 </script>
 
 <template>

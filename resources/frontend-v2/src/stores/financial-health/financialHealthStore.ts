@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import {FinancialHealthModel} from "@/model/financial-health/FinancialHealthModel"
 import {FinancialHealthService} from "@/services/financial-health/FinancialHealthService"
-import {UtilCalendar} from "@/util/UtilCalendar"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 
 interface IFinancialHealthStoreState {
     items: FinancialHealthModel

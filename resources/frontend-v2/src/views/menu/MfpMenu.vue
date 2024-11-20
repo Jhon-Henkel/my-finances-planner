@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {IonIcon, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs} from '@ionic/vue'
-import {MfpModal} from "@/components/modal/MfpModal"
+import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpMenuAddModal from "@/views/menu/MfpMenuAddModal.vue"
 import MfpMenuAllModal from "@/views/menu/MfpMenuAllModal.vue"
 import {addOutline, calendarNumberOutline, homeOutline, menuOutline, swapHorizontalOutline} from "ionicons/icons"
-import router from "@/router"
+import router from "../../infra/router"
 import {ref} from "vue"
 
 const menuModal = new MfpModal(MfpMenuAllModal, true)

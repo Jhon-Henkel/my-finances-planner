@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {IonBadge, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
 import {checkmarkCircleOutline, chevronBackOutline} from "ionicons/icons"
-import {UtilString} from "@/util/UtilString"
-import {UtilMoney} from "@/util/UtilMoney"
+import {UtilString} from "@/modules/@shared/util/UtilString"
+import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {IInvoice} from "@/services/invoice/IInvoice"
-import {UtilCalendar} from "@/util/UtilCalendar"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 
 const props = defineProps({
     invoiceItem: {

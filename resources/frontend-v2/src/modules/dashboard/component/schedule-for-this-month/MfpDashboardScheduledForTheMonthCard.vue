@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {IonBadge, IonCard, IonCardSubtitle, IonCol, IonRow} from '@ionic/vue'
 import {onMounted} from "vue"
-import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
+import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {useMovementStore} from "@/stores/movement/MovementStore"
-import router from "@/router"
+import router from "../../../../infra/router"
 
 const movementStore = useMovementStore()
 

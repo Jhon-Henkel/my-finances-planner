@@ -1,4 +1,4 @@
-import {ApiRouter} from "@/api/ApiRouter"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {PanoramaModel} from "@/model/panorama/PanoramaModel"
 import {IPanoramaView} from "@/services/panorama/IPanoramaView"
 import {usePanoramaStore} from "@/stores/panorama/PanoramaStore"

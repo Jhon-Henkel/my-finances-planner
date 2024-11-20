@@ -1,5 +1,5 @@
 import { IRegisterForm } from '@/services/register/IRegisterForm'
-import {ApiRouter} from "@/api/ApiRouter"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 
 interface IUserRegisterResponse {
     isSuccess: boolean

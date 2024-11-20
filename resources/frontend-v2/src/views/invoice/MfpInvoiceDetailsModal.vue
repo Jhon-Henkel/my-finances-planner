@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import MfpModalHeader from "@/components/modal/MfpModalHeader.vue"
+import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
 import {IonCol, IonGrid, IonRow, modalController} from "@ionic/vue"
 import {FutureExpenseModel} from "@/model/future-expense/FutureExpenseModel"
-import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
-import {UtilCalendar} from "@/util/UtilCalendar"
+import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import {FutureProfitsModel} from "@/model/future-profits/FutureProfitsModel"
 
 defineProps({
