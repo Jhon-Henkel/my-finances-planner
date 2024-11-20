@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Enums\Database\DatabaseConnectionEnum;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class OptimizeDatabaseMaster extends Command
