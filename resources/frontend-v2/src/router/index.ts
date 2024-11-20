@@ -88,7 +88,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'dashboard',
                 name: 'dashboard',
-                component: () => import('@/views/dashboard/DashboardPage.vue')
+                component: () => import('@/modules/dashboard/page/DashboardPage.vue')
             },
             {
                 path: 'saude-financeira',

@@ -33,6 +33,11 @@ http://ionicframework.com/docs/theming/ */
     justify-content: center;
 }
 
+.center-vertical-ion-label-content {
+    display: flex;
+    align-items: center;
+}
+
 .top-icon {
     font-size: 1.8em;
 }
@@ -58,4 +63,8 @@ http://ionicframework.com/docs/theming/ */
 
 .no-margin-top {
     margin-top: 0;
+}
+
+.icon-start {
+    margin-left: 5px;
 }

@@ -124,6 +124,18 @@ export const MovementService = {
             await store.loadMovements()
         }
     },
+    getMarketPlannerDetails: async () => {
+        return await ApiRouter.marketPlanner.showDetails().then((response: any) => {
+            return response.data
+        }, () => {
+            return {
+                total_limit: 0,
+                this_month_spent: 0,
+                this_month_remaining_limit: 0,
+                use_market_planner: false
+            }
+        })
+    },
     incomeType: movementType.income,
     expenseType: movementType.expense,
     transferType: movementType.transfer,
