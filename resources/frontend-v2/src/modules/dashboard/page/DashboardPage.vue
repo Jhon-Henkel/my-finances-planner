@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import MfpPage from "@/components/page/MfpPage.vue"
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 import {IonGrid, IonLabel, IonListHeader} from "@ionic/vue"
-import MfpUserSettingsModal from "@/views/settings/user/MfpUserSettingsModal.vue"
-import {MfpModal} from "@/components/modal/MfpModal"
-import MfpCircleUserButton from "@/components/button/MfpCircleUserButton.vue"
+import MfpUserSettingsModal from "@/modules/setings/modal/user/MfpUserSettingsModal.vue"
+import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
+import MfpCircleUserButton from "@/modules/@shared/components/button/MfpCircleUserButton.vue"
 import MfpDashboardTotalWalletAmountCard from "@/modules/dashboard/component/total-wallet/MfpDashboardTotalWalletAmountCard.vue"
 import MfpDashboardPlannerAmountCard from "@/modules/dashboard/component/planner-amount/MfpDashboardPlannerAmountCard.vue"
 import MfpDashboardMovementAmountCard from "@/modules/dashboard/component/movement-amount/MfpDashboardMovementAmountCard.vue"

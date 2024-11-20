@@ -1,7 +1,7 @@
 import {describe, it, expect, vitest} from "vitest"
 import {toastController} from '@ionic/vue'
 import {checkmarkCircleOutline} from 'ionicons/icons'
-import {MfpToast} from "../../../../src/components/toast/MfpToast"
+import {MfpToast} from "../../../../src/modules/@shared/components/toast/MfpToast"
 
 describe('MfpToastV2', () => {
     it('should create a toast with default parameters', async () => {

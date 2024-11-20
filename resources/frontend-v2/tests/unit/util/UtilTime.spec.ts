@@ -1,5 +1,5 @@
 import {describe, it, expect} from "vitest"
-import {UtilTime} from "../../../src/util/UtilTime"
+import {UtilTime} from "../../../src/modules/@shared/util/UtilTime"
 
 describe('test UtilTime const', () => {
     it('should return one year in ms', () => {

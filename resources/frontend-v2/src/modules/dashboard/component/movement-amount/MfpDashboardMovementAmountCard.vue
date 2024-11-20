@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {IonCard, IonCardSubtitle, IonCol, IonIcon, IonRow} from '@ionic/vue'
 import {onMounted} from "vue"
-import MfpCounterMoney from "@/components/counter/MfpCounterMoney.vue"
+import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {arrowDownCircleOutline, arrowUpCircleOutline} from "ionicons/icons"
-import {useMovementStore} from "@/stores/movement/MovementStore"
-import {MovementService} from "@/services/movement/MovementService"
-import router from "@/router"
+import {useMovementStore} from "@/modules/movement/store/MovementStore"
+import {MovementService} from "@/modules/movement/service/MovementService"
+import router from "../../../../infra/router"
 
 const movementStore = useMovementStore()
 

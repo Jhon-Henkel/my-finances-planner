@@ -1,6 +1,6 @@
 import {describe, it, expect, vitest} from "vitest"
 import {actionSheetController} from "@ionic/vue"
-import {MfpActionSheet} from "../../../../src/components/action-sheet/MfpActionSheet"
+import {MfpActionSheet} from "../../../../src/modules/@shared/components/action-sheet/MfpActionSheet"
 
 describe("MfpActionSheet", () => {
     it("opens with provided buttons", async () => {

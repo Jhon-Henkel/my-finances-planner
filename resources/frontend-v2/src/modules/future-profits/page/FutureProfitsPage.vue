@@ -1,0 +1,114 @@
+<script setup lang="ts">
+import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
+import MfpCirclePlusButton from "@/modules/@shared/components/button/MfpCirclePlusButton.vue"
+import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
+import {
+    IonButton,
+    IonIcon,
+    IonItemOption,
+    IonItemOptions,
+    IonItemSliding,
+    IonLabel,
+    IonList,
+    IonListHeader
+} from "@ionic/vue"
+import {useFutureProfitsStore} from "@/modules/future-profits/store/FutureProfitsStore"
+import {onMounted, ref} from "vue"
+import MfpPeriodSwitcher from "@/modules/@shared/components/switcher/MfpPeriodSwitcher.vue"
+import MfpTotalRegistersRow from "@/modules/@shared/components/page/MfpTotalRegistersRow.vue"
+import MfpFutureProfitsDetailsCard from "@/modules/future-profits/component/MfpFutureProfitsDetailsCard.vue"
+import {FutureProfitsService} from "@/modules/future-profits/service/FutureProfitsService"
+import MfpEmptyListItem from "@/modules/@shared/components/list/MfpEmptyListItem.vue"
+import {ellipsisHorizontal} from "ionicons/icons"
+import {MfpActionSheet} from "@/modules/@shared/components/action-sheet/MfpActionSheet"
+import {UtilActionSheet} from "@/modules/@shared/util/UtilActionSheet"
+import MfpInvoiceListItem from "@/modules/invoice/component/MfpInvoiceListItem.vue"
+import MfpInvoiceListSkeletonLoad from "@/modules/invoice/component/MfpInvoiceListSkeletonLoad.vue"
+import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
+import {IInvoice} from "@/modules/invoice/service/IInvoice"
+import MfpFutureProfitsFormModal from "@/modules/future-profits/component/MfpFutureProfitsFormModal.vue"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
+import MfpInvoiceDetailsModal from "@/modules/invoice/component/MfpInvoiceDetailsModal.vue"
+import {InvoiceService} from "@/modules/invoice/service/InvoiceService"
+import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
+import MfpFutureProfitsReceiveModal from "@/modules/future-profits/component/MfpFutureProfitsReceiveModal.vue"
+import {InvoiceModel} from "@/modules/invoice/model/invoiceModel"
+
+const store = useFutureProfitsStore()
+const formModal = new MfpModal(MfpFutureProfitsFormModal)
+const okAlert = new MfpOkAlert('Ação inválida!')
+const onlyNonReceived = ref(true)
+
+async function optionsAction(item: IInvoice) {
+    const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtonsToFutureProfits())
+    const action = await actionSheet.open()
+    if (action === 'edit') {
+        const futureProfit = await FutureProfitsService.get(item.id)
+        futureProfit.forecast = UtilCalendar.toIso(futureProfit.forecast)
+        await formModal.open({futureProfit: futureProfit})
+    } else if (action === 'delete') {
+        await FutureProfitsService.delete(item)
+    } else if (action === 'receive') {
+        if (store.installmentSelected !== InvoiceService.getNumberOfNextInvoice(item)) {
+            await okAlert.open('Essa não é a próxima parcela a receber!')
+            return
+        }
+        const receiveModal = new MfpModal(MfpFutureProfitsReceiveModal)
+        await receiveModal.open({item: item})
+    } else if (action === 'details') {
+        const futureProfit = await FutureProfitsService.get(item.id)
+        const details = new MfpModal(MfpInvoiceDetailsModal)
+        await details.open({item: futureProfit, totalLabel: 'Total a Receber'})
+    }
+}
+
+function mustShowItem(item: InvoiceModel, onlyNonReceived: boolean): boolean {
+    return ! onlyNonReceived || (onlyNonReceived && InvoiceService.getInvoiceValueByNumber(store.installmentSelected, item) > 0)
+}
+
+async function handleRefresh(event: any) {
+    await FutureProfitsService.forceLoadStore()
+    event.target.complete()
+}
+
+onMounted(async () => {
+    if (!store.isLoaded) {
+        await store.load()
+    }
+})
+</script>
+
+<template>
+    <mfp-page>
+        <mfp-refresh @refresh-content="handleRefresh($event)"/>
+        <ion-list-header>
+            <ion-label>Plano de Receitas</ion-label>
+            <mfp-circle-plus-button @click="formModal.open()"/>
+        </ion-list-header>
+        <mfp-period-switcher :store="store"/>
+        <mfp-future-profits-details-card/>
+        <div class="ion-text-end">
+            <ion-button fill="clear" @click="onlyNonReceived = !onlyNonReceived">
+                {{ onlyNonReceived ? 'Ver Todas' : 'Ver somente a receber' }}
+            </ion-button>
+        </div>
+        <mfp-empty-list-item :nothing-to-show="store.futureProfits.length === 0 && store.isLoaded"/>
+        <mfp-invoice-list-skeleton-load :is-loaded="store.isLoaded"/>
+        <ion-list v-if="store.isLoaded">
+            <ion-item-sliding
+                v-for="(item, index) in store.futureProfits"
+                :key="index"
+                v-show="mustShowItem(item, onlyNonReceived)"
+            >
+                <mfp-invoice-list-item :store="store" :invoice-item="item" fix-installment-label="Receita"/>
+                <ion-item-options side="end">
+                    <ion-item-option color="light" @click="optionsAction(item)">
+                        <ion-icon slot="top" :icon="ellipsisHorizontal"/>
+                        Opções
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
+        <mfp-total-registers-row :total-itens="store.futureProfits.length"/>
+    </mfp-page>
+</template>

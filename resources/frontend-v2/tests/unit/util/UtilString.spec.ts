@@ -1,5 +1,5 @@
 import {describe, it, expect} from "vitest"
-import {UtilString} from "../../../src/util/UtilString"
+import {UtilString} from "../../../src/modules/@shared/util/UtilString"
 
 describe('test UtilString const', () => {
     it('should return text with ellipsis with limit set', () => {

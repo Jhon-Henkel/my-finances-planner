@@ -1,6 +1,6 @@
 import {createApp} from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './infra/router'
 import {IonicVue} from '@ionic/vue'
 import {createPinia} from 'pinia'
 import '@ionic/vue/css/core.css'
@@ -14,8 +14,8 @@ import '@ionic/vue/css/text-transformation.css'
 import '@ionic/vue/css/flex-utils.css'
 import '@ionic/vue/css/display.css'
 import '@ionic/vue/css/palettes/dark.system.css'
-import './theme/variables.css'
-import moneyMask from "@/directives/mask/money/moneyMask"
+import '@/infra/theme/variables.css'
+import moneyMask from "@/infra/directives/mask/money/moneyMask"
 import * as Sentry from "@sentry/vue"
 
 Sentry.init({

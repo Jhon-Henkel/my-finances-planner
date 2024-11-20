@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {useMovementStore} from "@/stores/movement/MovementStore"
+import {useMovementStore} from "@/modules/movement/store/MovementStore"
 import {onMounted} from "vue"
 import {IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
-import {MovementService} from "@/services/movement/MovementService"
-import {UtilCalendar} from "@/util/UtilCalendar"
-import {UtilMoney} from "@/util/UtilMoney"
-import {UtilString} from "@/util/UtilString"
+import {MovementService} from "@/modules/movement/service/MovementService"
+import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
+import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
+import {UtilString} from "@/modules/@shared/util/UtilString"
 
 const movementStore = useMovementStore()
 

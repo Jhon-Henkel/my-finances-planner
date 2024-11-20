@@ -1,5 +1,5 @@
 import {describe, it, expect} from "vitest"
-import {UtilCalendar} from "../../../src/util/UtilCalendar"
+import {UtilCalendar} from "../../../src/modules/@shared/util/UtilCalendar"
 
 describe('test UtilCalendar const', () => {
     it('should return month names labels', () => {
