@@ -14,6 +14,7 @@ use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
+use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
 use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,9 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
     Route::prefix('v2/')->group(function () {
         Route::prefix('spending-plan')->group(function () {
             Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
+        });
+        Route::prefix('market-planner')->group(function () {
+            Route::get('show-details', MarketPlannerShowController::class)->name(RouteEnum::ApiMarketPlannerShow->value);
         });
     });
 

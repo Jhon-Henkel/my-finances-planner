@@ -4,7 +4,7 @@ namespace App\Infra\Shared\Response\VO;
 
 use App\Enums\Response\StatusCodeEnum;
 
-class ResponsePaginateListVO implements IResponseListVO
+class ResponsePaginateListVO implements IResponseVO
 {
     public function __construct(public array $data)
     {

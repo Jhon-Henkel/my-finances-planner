@@ -2,7 +2,7 @@
 
 namespace App\Infra\Shared\Response\VO;
 
-interface IResponseListVO
+interface IResponseVO
 {
     public function toArray(): array;
 }

@@ -70,13 +70,13 @@ class MarketPlannerService
         return max($firstMonthValue, 0);
     }
 
-    protected function getMarketPlannerValue(): float
+    public function getMarketPlannerValue(): float
     {
         $config = $this->configurationService->findConfigByName(ConfigEnum::MarketPlannerValue->value);
         return NumberTools::roundFloatAmount((float)$config->getValue());
     }
 
-    protected function getThisMonthMarketSpentValue(): float
+    public function getThisMonthMarketSpentValue(): float
     {
         return $this->thisMonthMarketSpentValue;
     }
