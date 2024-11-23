@@ -6,13 +6,14 @@ import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpCircleUserButton from "@/modules/@shared/components/button/MfpCircleUserButton.vue"
 import MfpDashboardTotalWalletAmountCard from "@/modules/dashboard/component/total-wallet/MfpDashboardTotalWalletAmountCard.vue"
 import MfpDashboardPlannerAmountCard from "@/modules/dashboard/component/planner-amount/MfpDashboardPlannerAmountCard.vue"
-import MfpDashboardMovementAmountCard from "@/modules/dashboard/component/movement-amount/MfpDashboardMovementAmountCard.vue"
 import MfpDashboardMonthLabel from "@/modules/dashboard/component/month-label/MfpDashboardMonthLabel.vue"
 import MfpDashboardLastMovementsCard from "@/modules/dashboard/component/last-movements/MfpDashboardLastMovementsCard.vue"
 import MfpDashboardMarketPlannerCard
     from "@/modules/dashboard/component/marketplanner/MfpDashboardMarketPlannerCard.vue"
 import {useMovementStore} from "@/modules/movement/store/MovementStore"
 import MfpBalanceCard from "@/modules/@shared/components/card/MfpBalanceCard.vue"
+import MfpExpensesAndIncomesDoubleInlineCards
+    from "@/modules/@shared/components/card/MfpExpensesAndIncomesDoubleInlineCards.vue"
 
 const userModal = new MfpModal(MfpUserSettingsModal)
 const movementStore = useMovementStore()
@@ -27,7 +28,10 @@ const movementStore = useMovementStore()
         <mfp-dashboard-month-label/>
         <ion-grid>
             <mfp-dashboard-total-wallet-amount-card/>
-            <mfp-dashboard-movement-amount-card/>
+            <mfp-expenses-and-incomes-double-inline-cards
+                :incomes="movementStore.thisMonthTotalIncomesValue"
+                :expenses="movementStore.thisMonthTotalExpensesValue"
+            />
             <mfp-dashboard-planner-amount-card/>
             <mfp-dashboard-market-planner-card/>
             <mfp-balance-card :balance="movementStore.thisMonthTotalBalance"/>

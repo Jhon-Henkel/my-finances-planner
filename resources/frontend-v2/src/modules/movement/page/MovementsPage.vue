@@ -16,7 +16,6 @@ import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
 import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 import MfpMovementsListSkeletonLoad from "@/modules/movement/component/MfpMovementsListSkeletonLoad.vue"
 import MfpMovementsListItem from "@/modules/movement/component/MfpMovementsListItem.vue"
-import MfpMovementsDetailsCard from "@/modules/movement/component/MfpMovementsDetailsCard.vue"
 import MfpMovementsFormModal from "@/modules/movement/component/MfpMovementsFormModal.vue"
 import MfpMovementsFilterModal from "@/modules/movement/component/MfpMovementsFilterModal.vue"
 import MfpMovementsFilterPeriodLabel from "@/modules/movement/component/MfpMovementsFilterPeriodLabel.vue"
@@ -33,6 +32,9 @@ import MfpFilterButton from "@/modules/@shared/components/button/MfpFilterButton
 import MfpCirclePlusButton from "@/modules/@shared/components/button/MfpCirclePlusButton.vue"
 import {WalletService} from "@/modules/wallet/service/WalletService"
 import MfpTotalRegistersRow from "@/modules/@shared/components/page/MfpTotalRegistersRow.vue"
+import MfpBalanceCard from "@/modules/@shared/components/card/MfpBalanceCard.vue"
+import MfpExpensesAndIncomesDoubleInlineCards
+    from "@/modules/@shared/components/card/MfpExpensesAndIncomesDoubleInlineCards.vue"
 
 const formModal = new MfpModal(MfpMovementsFormModal)
 const filterModal = new MfpModal(MfpMovementsFilterModal)
@@ -103,7 +105,11 @@ onMounted(async () => {
             <mfp-circle-plus-button @click="formModal.open()"/>
         </ion-list-header>
         <mfp-movements-filter-period-label/>
-        <mfp-movements-details-card/>
+        <mfp-expenses-and-incomes-double-inline-cards
+            :incomes="movementStore.thisMonthTotalIncomesValue"
+            :expenses="movementStore.thisMonthTotalExpensesValue"
+        />
+        <mfp-balance-card :balance="movementStore.thisMonthTotalBalance"/>
         <ion-searchbar :animated="true" placeholder="Buscar por conta ou descrição" @ionInput="filterMovement($event)"/>
         <mfp-empty-list-item :nothing-to-show="movementStore.movements.length === 0 && movementStore.isLoaded"/>
         <mfp-movements-list-skeleton-load :is-loaded="movementStore.isLoaded"/>
