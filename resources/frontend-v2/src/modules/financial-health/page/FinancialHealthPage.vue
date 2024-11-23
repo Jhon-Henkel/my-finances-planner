@@ -46,7 +46,10 @@ onMounted(() => {
             <mfp-financial-health-month-label/>
             <mfp-ai-insight-card :insight="store.items.aiInsight"/>
             <mfp-financial-health-values-card/>
-            <mfp-balance-card :balance="store.items.incomeTotalAmount" :redirectToMovements="false"/>
+            <mfp-balance-card
+                :balance="store.items.incomeTotalAmount - store.items.expenseTotalAmount"
+                :redirectToMovements="false"
+            />
             <ion-row>
                 <ion-col>
                     <ion-list-header>
