@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import {IonCard, IonCardSubtitle, IonCol, IonIcon, IonRow} from '@ionic/vue'
-import {onMounted} from "vue"
 import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {arrowDownCircleOutline, arrowUpCircleOutline} from "ionicons/icons"
-import {useMovementStore} from "@/modules/movement/store/MovementStore"
-import {MovementService} from "@/modules/movement/service/MovementService"
 import router from "../../../../infra/router"
 
-const movementStore = useMovementStore()
-
-onMounted(async () => {
-    await MovementService.forceUpdateMovementList()
+defineProps({
+    incomes: {
+        type: Number,
+        required: true
+    },
+    expenses: {
+        type: Number,
+        required: true
+    }
 })
 </script>
 
@@ -24,7 +26,7 @@ onMounted(async () => {
                     </ion-col>
                     <ion-col size="9">
                         <ion-card-subtitle>Recebido</ion-card-subtitle>
-                        <mfp-counter-money :end="movementStore.thisMonthTotalIncomesValue"/>
+                        <mfp-counter-money :end="incomes"/>
                     </ion-col>
                 </ion-row>
             </ion-card>
@@ -37,7 +39,7 @@ onMounted(async () => {
                     </ion-col>
                     <ion-col size="9">
                         <ion-card-subtitle>Pago</ion-card-subtitle>
-                        <mfp-counter-money :end="movementStore.thisMonthTotalExpensesValue"/>
+                        <mfp-counter-money :end="expenses"/>
                     </ion-col>
                 </ion-row>
             </ion-card>
