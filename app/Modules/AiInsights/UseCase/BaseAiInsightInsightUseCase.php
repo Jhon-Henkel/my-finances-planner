@@ -8,7 +8,7 @@ use App\Modules\AiInsights\Service\AiService;
 
 abstract class BaseAiInsightInsightUseCase
 {
-    abstract protected function getInsightLifeTime(): int;
+    abstract protected function getInsightLifeTimeInDays(): int;
     abstract protected function getType(): AiInsightTypeEnum;
     abstract protected function getInsightTextQuest(array $data): array;
 
@@ -16,18 +16,17 @@ abstract class BaseAiInsightInsightUseCase
     {
     }
 
-    public function execute(array $data): string
+    public function execute(array $data): array
     {
-        $insight = $this->getInsightInDatabase();
-        if ($insight) {
-            return $insight;
+        $insightModel = $this->getInsightInDatabase();
+        if (is_null($insightModel)) {
+            $insight = $this->getAiService()->ask($this->getInsightTextQuest($data));
+            $insightModel = AiInsightModel::query()->create(['type' => $this->getType()->value, 'insight' => $insight]);
         }
-        $insight = $this->getAiService()->ask($this->getInsightTextQuest($data));
-        AiInsightModel::query()->create([
-            'type' => $this->getType()->value,
-            'insight' => $insight,
-        ]);
-        return $insight;
+        $insightModel = $insightModel->toArray();
+        $insightModel['type'] = AiInsightTypeEnum::type($insightModel['type']);
+        $insightModel['life_time_days'] = $this->getInsightLifeTimeInDays();
+        return $insightModel;
     }
 
     protected function getAiService(): AiService
@@ -35,13 +34,13 @@ abstract class BaseAiInsightInsightUseCase
         return $this->aiService;
     }
 
-    protected function getInsightInDatabase(): null|string
+    protected function getInsightInDatabase(): null|AiInsightModel
     {
         $insight = AiInsightModel::query()
             ->where('type', '=', $this->getType()->value)
             ->where('insight', '!=', '')
-            ->where('created_at', '<=', now()->subDays($this->getInsightLifeTime()))
+            ->where('created_at', '>=', now()->subDays($this->getInsightLifeTimeInDays()))
             ->first();
-        return $insight?->insight;
+        return $insight ?? null;
     }
 }

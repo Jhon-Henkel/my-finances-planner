@@ -4,6 +4,7 @@ namespace App\Services\Tools;
 
 use App\DTO\Movement\MovementDTO;
 use App\Enums\MovementEnum;
+use App\Modules\AiInsights\UseCase\GetFinancialHealthAiInsightUseCase\GetFinancialHealthAiInsightInsightUseCase;
 use App\Services\CreditCard\CreditCardMovementService;
 use App\Services\Movement\MovementService;
 use App\Tools\NumberTools;
@@ -14,6 +15,7 @@ class FinancialHealthService
     public function __construct(
         private readonly CreditCardMovementService $creditCardMovementService,
         private readonly MovementService $movementService,
+        private readonly GetFinancialHealthAiInsightInsightUseCase $financialHealthAiInsightUseCase
     ) {
     }
 
@@ -99,6 +101,7 @@ class FinancialHealthService
             }
         }
         $movements['dataForGraph'] = [MovementEnum::Spent->value => $spending, MovementEnum::Gain->value => $gains];
+        $movements['ai_insight'] = $this->financialHealthAiInsightUseCase->execute($movements);
         return $movements;
     }
 }
