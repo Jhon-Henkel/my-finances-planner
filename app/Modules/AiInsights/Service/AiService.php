@@ -33,7 +33,9 @@ class AiService implements IAiService
             'temperature' => config('app.ai_temperature'),
         ]);
 
-        return $result->choices[0]?->message?->content ?? 'Não foi possível obter uma resposta do assistente IA.';
+        return $result->choices[0]->message->content
+            ? str_replace('**', '', $result->choices[0]->message->content)
+            : 'Não foi possível obter uma resposta do assistente IA.';
     }
 
     /** @param AiMessageDTO[] $inputMessages */

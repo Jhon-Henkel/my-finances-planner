@@ -13,7 +13,7 @@ export class FinancialHealthModel {
     expenseTotalAmount: number = 0
     aiInsight: AiInsightDto = {
         type: 'unknown',
-        insight: 'unknown',
+        insight: 'Sem Dicas',
         life_time_days: 0,
         created_at: UtilCalendar.getToday().toISOString()
     }
