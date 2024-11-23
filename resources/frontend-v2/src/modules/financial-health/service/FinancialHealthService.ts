@@ -20,6 +20,7 @@ export const FinancialHealthService = {
         item.incomeItens = incomes
         item.incomeTotalAmount = parseFloat(String(data['dataForGraph']['6']['total']))
         item.expenseTotalAmount = parseFloat(String(data['dataForGraph']['5']['total']))
+        item.aiInsight = data['ai_insight']
         return item
     }
 }

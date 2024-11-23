@@ -15,6 +15,7 @@ import MfpFinancialHealthFilterModal from "@/modules/financial-health/component/
 import MfpFinancialHealthBalanceCard from "@/modules/financial-health/component/MfpFinancialHealthBalanceCard.vue"
 import MfpInfoButton from "@/modules/@shared/components/button/MfpInfoButton.vue"
 import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
+import MfpAiInsightCard from "@/modules/@shared/components/card/MfpAiInsightCard.vue"
 
 const store = useFinancialHealthStore()
 const filterModal = new MfpModal(MfpFinancialHealthFilterModal)
@@ -43,6 +44,7 @@ onMounted(() => {
         </ion-list-header>
         <ion-grid>
             <mfp-financial-health-month-label/>
+            <mfp-ai-insight-card :insight="store.items.aiInsight"/>
             <mfp-financial-health-values-card/>
             <mfp-financial-health-balance-card/>
             <ion-row>
