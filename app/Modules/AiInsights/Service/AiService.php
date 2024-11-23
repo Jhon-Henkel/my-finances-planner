@@ -14,6 +14,9 @@ class AiService implements IAiService
 
     public function __construct()
     {
+        if (! config('app.ai_enabled')) {
+            return;
+        }
         $this->client = OpenAI::client(config('app.ai_token'));
         $this->baseMessage = new AiMessageDTO(
             'Você é um consultor financeiro ajudando um usuário comum com suas finanças pessoais.',

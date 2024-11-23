@@ -21,7 +21,7 @@ class GetFinancialHealthAiInsightInsightUseCase extends BaseAiInsightInsightUseC
 
     protected function getInsightLifeTimeInDays(): int
     {
-        return 3;
+        return 1;
     }
 
     protected function getType(): AiInsightTypeEnum
@@ -35,7 +35,7 @@ class GetFinancialHealthAiInsightInsightUseCase extends BaseAiInsightInsightUseC
         $quest = "Me dê algum insight sobre minha saúde financeira, gastei o seguinte: ";
         $this->addSpentDataToQuest($quest, $data);
         $this->addGainDataToQuest($quest, $data);
-        $this->addCreditCardDataToQuest($quest, $data);
+        $this->addCreditCardDataToQuest($quest);
         return [
             new AiMessageDTO($quest, AiRoleEnum::User),
             new AiMessageDTO("Como posso melhorar essa situação?", AiRoleEnum::User),
@@ -59,13 +59,13 @@ class GetFinancialHealthAiInsightInsightUseCase extends BaseAiInsightInsightUseC
         $quest .= "totalizando {$data['dataForGraph'][MovementEnum::Gain->value]['total']} de ganhos. ";
     }
 
-    protected function addCreditCardDataToQuest(string &$quest, array $data): void
+    protected function addCreditCardDataToQuest(string &$quest): void
     {
         $creditCardMovements = $this->creditCardMovementService->findByPeriod([]);
         if (count($creditCardMovements) === 0) {
             return;
         }
-        $quest .= "As despesas com o nome 'Cartão de crédito' são resultado dos itens: ";
+        $quest .= "O gasto com o nome 'Cartão de crédito' é a soma dos seguintes itens: ";
         foreach ($creditCardMovements as $creditCardMovement) {
             $quest .= "{$creditCardMovement->getDescription()} no valor de {$creditCardMovement->getAmount()}, ";
         }
