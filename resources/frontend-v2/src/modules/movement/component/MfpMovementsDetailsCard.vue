@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {IonCard, IonCardContent, IonCol, IonGrid, IonIcon, IonLabel, IonRow, IonText} from "@ionic/vue"
+import {IonBadge, IonCard, IonCardContent, IonCol, IonGrid, IonIcon, IonLabel, IonRow, IonText} from "@ionic/vue"
 import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
-import {arrowDownOutline, arrowUpOutline, walletOutline} from "ionicons/icons"
+import {arrowDownOutline, arrowUpOutline} from "ionicons/icons"
 import {useMovementStore} from "@/modules/movement/store/MovementStore"
 
 const store = useMovementStore()
@@ -34,10 +34,9 @@ const store = useMovementStore()
                 <ion-row>
                     <ion-col class="ion-text-center">
                         <ion-label class="center-ion-label-content">
-                            <ion-icon :icon="walletOutline" color="primary" class="icon"/>
-                            <ion-text>
+                            <ion-badge :color="store.totalBalanceValue > 0 ? 'success' : 'danger'">
                                 <mfp-counter-money :end="store.totalBalanceValue"/>
-                            </ion-text>
+                            </ion-badge>
                         </ion-label>
                     </ion-col>
                 </ion-row>

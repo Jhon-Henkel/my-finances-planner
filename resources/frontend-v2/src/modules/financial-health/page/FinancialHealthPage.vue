@@ -12,10 +12,10 @@ import MfpFinancialHealthItemsListSkeletonLoad
 import MfpFinancialHealthMonthLabel from "@/modules/financial-health/component/MfpFinancialHealthMonthLabel.vue"
 import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpFinancialHealthFilterModal from "@/modules/financial-health/component/MfpFinancialHealthFilterModal.vue"
-import MfpFinancialHealthBalanceCard from "@/modules/financial-health/component/MfpFinancialHealthBalanceCard.vue"
 import MfpInfoButton from "@/modules/@shared/components/button/MfpInfoButton.vue"
 import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import MfpAiInsightCard from "@/modules/@shared/components/card/MfpAiInsightCard.vue"
+import MfpBalanceCard from "@/modules/@shared/components/card/MfpBalanceCard.vue"
 
 const store = useFinancialHealthStore()
 const filterModal = new MfpModal(MfpFinancialHealthFilterModal)
@@ -46,7 +46,7 @@ onMounted(() => {
             <mfp-financial-health-month-label/>
             <mfp-ai-insight-card :insight="store.items.aiInsight"/>
             <mfp-financial-health-values-card/>
-            <mfp-financial-health-balance-card/>
+            <mfp-balance-card :balance="store.items.incomeTotalAmount" :redirectToMovements="false"/>
             <ion-row>
                 <ion-col>
                     <ion-list-header>
