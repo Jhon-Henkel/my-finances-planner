@@ -10,6 +10,7 @@ enum AiInsightTypeEnum: int
     {
         return match ($value) {
             self::FinancialHealth->value => 'financial_health',
+            default => 'unknown'
         };
     }
 }

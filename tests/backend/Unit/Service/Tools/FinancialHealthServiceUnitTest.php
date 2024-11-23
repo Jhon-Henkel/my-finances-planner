@@ -4,6 +4,7 @@ namespace Tests\backend\Unit\Service\Tools;
 
 use App\DTO\Movement\MovementDTO;
 use App\Enums\MovementEnum;
+use App\Modules\AiInsights\UseCase\GetFinancialHealthAiInsightUseCase\GetFinancialHealthAiInsightInsightUseCase;
 use App\Services\CreditCard\CreditCardMovementService;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\FinancialHealthService;
@@ -136,9 +137,13 @@ class FinancialHealthServiceUnitTest extends Falcon9
         $movementMock = Mockery::mock(MovementService::class)->makePartial();
         $movementMock->shouldReceive('findByFilter')->once()->andReturn([]);
 
+        $aiMock = Mockery::mock(GetFinancialHealthAiInsightInsightUseCase::class)->makePartial();
+        $aiMock->shouldReceive('execute')->andReturn([]);
+
         $mocks = [
             Mockery::mock(CreditCardMovementService::class),
-            $movementMock
+            $movementMock,
+            $aiMock
         ];
 
         $serviceMock = Mockery::mock(FinancialHealthService::class, $mocks)->makePartial();
@@ -150,7 +155,16 @@ class FinancialHealthServiceUnitTest extends Falcon9
 
     public function testFindByFilter()
     {
-        $serviceMock = Mockery::mock(FinancialHealthService::class)->makePartial();
+        $aiMock = Mockery::mock(GetFinancialHealthAiInsightInsightUseCase::class)->makePartial();
+        $aiMock->shouldReceive('execute')->once()->andReturn([]);
+
+        $mocks = [
+            Mockery::mock(CreditCardMovementService::class),
+            Mockery::mock(MovementService::class)->makePartial(),
+            $aiMock
+        ];
+
+        $serviceMock = Mockery::mock(FinancialHealthService::class, $mocks)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
         $serviceMock->shouldReceive('getMovementsByPeriod')->once()->andReturn([]);
         $serviceMock->shouldReceive('categorizeMovements')->once()->andReturn([]);
@@ -185,12 +199,16 @@ class FinancialHealthServiceUnitTest extends Falcon9
     #[TestDox('Testando Agrupando despesas cartão')]
     public function testFindByFilterTestOne()
     {
+        $aiMock = Mockery::mock(GetFinancialHealthAiInsightInsightUseCase::class)->makePartial();
+        $aiMock->shouldReceive('execute')->andReturn([]);
+
         $creditCardMovementServiceMock = Mockery::mock(CreditCardMovementService::class)->makePartial();
         $creditCardMovementServiceMock->shouldReceive('findByPeriod')->never();
 
         $mocks = [
             $creditCardMovementServiceMock,
             Mockery::mock(MovementService::class),
+            $aiMock
         ];
 
         $serviceMock = Mockery::mock(FinancialHealthService::class, $mocks)->makePartial();
@@ -205,12 +223,16 @@ class FinancialHealthServiceUnitTest extends Falcon9
     #[TestDox('Testando Não agrupando despesas cartão')]
     public function testFindByFilterTestTwo()
     {
+        $aiMock = Mockery::mock(GetFinancialHealthAiInsightInsightUseCase::class)->makePartial();
+        $aiMock->shouldReceive('execute')->andReturn([]);
+
         $creditCardMovementServiceMock = Mockery::mock(CreditCardMovementService::class)->makePartial();
         $creditCardMovementServiceMock->shouldReceive('findByPeriod')->once()->andReturn([]);
 
         $mocks = [
             $creditCardMovementServiceMock,
             Mockery::mock(MovementService::class),
+            $aiMock
         ];
 
         $serviceMock = Mockery::mock(FinancialHealthService::class, $mocks)->makePartial();
