@@ -9,11 +9,13 @@ import MfpDashboardPlannerAmountCard from "@/modules/dashboard/component/planner
 import MfpDashboardMovementAmountCard from "@/modules/dashboard/component/movement-amount/MfpDashboardMovementAmountCard.vue"
 import MfpDashboardMonthLabel from "@/modules/dashboard/component/month-label/MfpDashboardMonthLabel.vue"
 import MfpDashboardLastMovementsCard from "@/modules/dashboard/component/last-movements/MfpDashboardLastMovementsCard.vue"
-import MfpDashboardScheduledForTheMonthCard from "@/modules/dashboard/component/schedule-for-this-month/MfpDashboardScheduledForTheMonthCard.vue"
 import MfpDashboardMarketPlannerCard
     from "@/modules/dashboard/component/marketplanner/MfpDashboardMarketPlannerCard.vue"
+import {useMovementStore} from "@/modules/movement/store/MovementStore"
+import MfpBalanceCard from "@/modules/@shared/components/card/MfpBalanceCard.vue"
 
 const userModal = new MfpModal(MfpUserSettingsModal)
+const movementStore = useMovementStore()
 </script>
 
 <template>
@@ -28,7 +30,7 @@ const userModal = new MfpModal(MfpUserSettingsModal)
             <mfp-dashboard-movement-amount-card/>
             <mfp-dashboard-planner-amount-card/>
             <mfp-dashboard-market-planner-card/>
-            <mfp-dashboard-scheduled-for-the-month-card/>
+            <mfp-balance-card :balance="movementStore.thisMonthTotalBalance"/>
             <mfp-dashboard-last-movements-card/>
         </ion-grid>
     </mfp-page>

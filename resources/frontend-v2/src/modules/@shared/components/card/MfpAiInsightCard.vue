@@ -15,9 +15,11 @@ const props = defineProps({
 
 function info() {
     const alert = new MfpOkAlert('Dica da IA')
-    alert.open(
-        `Essa dica foi gerada em ${UtilCalendar.formatStringToBr(props.insight.created_at)}, uma nova dica será gerada em ${props.insight.life_time_days} dias.`
-    )
+    let message = `Essa dica foi gerada em ${UtilCalendar.formatStringToBr(props.insight.created_at)}, uma nova dica será gerada em ${props.insight.life_time_days} dias.`
+    if (props.insight.life_time_days === 1) {
+        message = `As dicas da IA nessa tela são geradas diariamente.`
+    }
+    alert.open(message)
 }
 </script>
 
