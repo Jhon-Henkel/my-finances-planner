@@ -7,13 +7,16 @@ import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 
 const props = defineProps({
-    insight: Object as PropType<AiInsightDto>
+    insight: {
+        type: Object as PropType<AiInsightDto>,
+        required: true
+    }
 })
 
 function info() {
     const alert = new MfpOkAlert('Dica da IA')
     alert.open(
-        `Essa dica foi gerado em ${UtilCalendar.formatStringToBr(props.insight?.created_at)} e tem vida útil de ${props.insight?.life_time_days} dias.`
+        `Essa dica foi gerada em ${UtilCalendar.formatStringToBr(props.insight.created_at)}, uma nova dica será gerada em ${props.insight.life_time_days} dias.`
     )
 }
 </script>
@@ -38,7 +41,7 @@ function info() {
                             />
                         </ion-card-subtitle>
                         <ion-text>
-                            {{ insight?.insight }}
+                            {{ insight.insight }}
                         </ion-text>
                     </ion-col>
                 </ion-row>
