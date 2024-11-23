@@ -29,6 +29,12 @@ return [
     'mail_master_address' => env('MAIL_MASTER_ADDRESS', ''),
     'max_wrong_login_attempts' => 5,
     'use_redis' => env('REDIS_ENABLED', false),
+    'ai_enabled' => env('AI_ENABLED'),
+    'ai_token' => env('AI_TOKEN'),
+    'ai_model' => env('AI_MODEL'),
+    'ai_max_tokens' => (int)env('AI_MAX_TOKENS'),
+    'ai_temperature' => (float)env('AI_TEMPERATURE'),
+    'ai_short_messages' => env('AI_SHORT_MESSAGES'),
     'maintenance' => [
         'driver' => 'file',
     ],
