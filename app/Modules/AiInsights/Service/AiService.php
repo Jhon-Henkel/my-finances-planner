@@ -39,7 +39,8 @@ class AiService implements IAiService
     /** @param AiMessageDTO[] $inputMessages */
     protected function prepareMessages(array $inputMessages): array
     {
-        $messages = [$this->baseMessage->toArray()];
+        $formatSolicitation = new AiMessageDTO('Responda com texto plano.', AiRoleEnum::System);
+        $messages = [$this->baseMessage->toArray(), $formatSolicitation->toArray()];
         foreach ($inputMessages as $inputMessage) {
             $messages = array_merge($messages, [$inputMessage->toArray()]);
         }

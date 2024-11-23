@@ -36,6 +36,7 @@ abstract class BaseAiInsightInsightUseCase
 
     protected function getInsightInDatabase(): null|AiInsightModel
     {
+        return null;
         $insight = AiInsightModel::query()
             ->where('type', '=', $this->getType()->value)
             ->where('insight', '!=', '')
