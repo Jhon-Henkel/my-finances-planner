@@ -36,11 +36,12 @@ abstract class BaseAiInsightInsightUseCase
 
     protected function getInsightInDatabase(): null|AiInsightModel
     {
+        $data = now()->subDays($this->getInsightLifeTimeInDays())->setTime(0, 0);
         $insight = AiInsightModel::query()
             ->where('type', '=', $this->getType()->value)
             ->where('insight', '!=', '')
             ->where('insight', '!=', 'Não foi possível obter uma resposta do assistente IA.')
-            ->where('created_at', '>=', now()->subDays($this->getInsightLifeTimeInDays()))
+            ->where('created_at', '>=', $data)
             ->first();
         return $insight ?? null;
     }
