@@ -20,6 +20,7 @@ import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpCardInvoicesFormModal from "@/modules/credit-cards/component/MfpCardInvoicesFormModal.vue"
 import {CardInvoiceItemService} from "@/modules/credit-cards/service/CardInvoiceItemService"
 import MfpCardInvoicesDetailsCard from "@/modules/credit-cards/component/MfpCardInvoicesDetailsCard.vue"
+import {InvoiceService} from "@/modules/invoice/service/InvoiceService"
 
 const invoiceStore = useCardInvoicesStore()
 const cardStore = useCardsStore()
@@ -51,6 +52,10 @@ async function handleRefresh(event: any) {
     event.target.complete()
 }
 
+function mustShowItem(item: InvoiceModel): boolean {
+    return InvoiceService.getInvoiceValueByNumber(invoiceStore.installmentSelected, item) > 0
+}
+
 onMounted(async () => {
     await loadInvoices()
 })
@@ -68,7 +73,11 @@ onMounted(async () => {
         <mfp-empty-list-item :nothing-to-show="invoiceStore.invoice.length === 0 && invoiceStore.isLoaded"/>
         <mfp-invoice-list-skeleton-load :is-loaded="invoiceStore.isLoaded"/>
         <ion-list v-if="invoiceStore.isLoaded">
-            <ion-item-sliding v-for="(item, index) in invoiceStore.invoice" :key="index">
+            <ion-item-sliding
+                v-for="(item, index) in invoiceStore.invoice"
+                :key="index"
+                v-show="mustShowItem(item)"
+            >
                 <mfp-invoice-list-item :invoice-item="item" :store="invoiceStore" fix-installment-label="Parcela"/>
                 <ion-item-options side="end">
                     <ion-item-option color="light" @click="optionsAction(item)">
