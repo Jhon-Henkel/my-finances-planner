@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Unit\Resource;
 
-use App\Resources\WalletResource;
+use App\Modules\Wallet\Resource\WalletResource;
 use Tests\backend\Falcon9;
 
 class WalletResourceUnitTest extends Falcon9

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTO\InvoiceItemDTO;
 use App\Factory\InvoiceFactory;
+use App\Modules\Wallet\Service\WalletService;
 use App\Services\CreditCard\CreditCardService;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\FutureMovement\FutureGainService;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\VO;
+namespace App\Modules\Wallet\VO;
 
 class WalletVO
 {
@@ -8,6 +8,7 @@ class WalletVO
     public null|string $name;
     public null|int $type;
     public null|float $amount;
+    public bool $hideValue;
     public mixed $createdAt;
     public mixed $updatedAt;
 
@@ -16,6 +17,7 @@ class WalletVO
         null|string $name,
         null|int $type,
         null|float $amount,
+        bool $hideValue,
         mixed $createdAt,
         mixed $updatedAt
     ): self {
@@ -24,6 +26,7 @@ class WalletVO
         $vo->name = $name;
         $vo->type = $type;
         $vo->amount = $amount;
+        $vo->hideValue = $hideValue;
         $vo->createdAt = $createdAt;
         $vo->updatedAt = $updatedAt;
         return $vo;

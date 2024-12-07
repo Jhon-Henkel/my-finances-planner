@@ -13,9 +13,9 @@ use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\WalletController;
 use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
 use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
+use App\Modules\Wallet\Controller\WalletController;
 use Illuminate\Support\Facades\Route;
 
 // Rotas com middleware de autenticação MFP e JWT

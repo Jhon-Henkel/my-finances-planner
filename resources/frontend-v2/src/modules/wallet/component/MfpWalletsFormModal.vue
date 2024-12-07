@@ -12,6 +12,7 @@ import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAler
 import {WalletService} from "@/modules/wallet/service/WalletService"
 import {WalletFormValidation} from "@/modules/wallet/validation/WalletFormValidation"
 import {MovementService} from "@/modules/movement/service/MovementService"
+import MfpInputToggle from "@/modules/@shared/components/input/MfpInputToggle.vue"
 
 const props = defineProps({
     wallet: WalletModel
@@ -59,6 +60,7 @@ function closeModal() {
         <template #list>
             <mfp-input v-model="internalWallet.name" label="Descrição" placeholder="Nome da carteira"/>
             <mfp-input-money v-model="internalWallet.amount" label="Saldo Atual"/>
+            <mfp-input-toggle v-model="internalWallet.hideValue" label="Esconder saldo"/>
         </template>
     </mfp-modal-content>
 </template>

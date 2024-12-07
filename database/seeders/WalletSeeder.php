@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Enums\WalletTypeEnum;
-use App\Models\WalletModel;
+use App\Modules\Wallet\Enum\WalletTypeEnum;
+use App\Modules\Wallet\Model\WalletModel;
 use Illuminate\Database\Seeder;
 
 class WalletSeeder extends Seeder
@@ -31,19 +31,19 @@ class WalletSeeder extends Seeder
         return [
             [
                 'name' => 'Dinheiro',
-                'type' => WalletTypeEnum::Money->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Vale Alimentação',
-                'type' => WalletTypeEnum::MealTicket->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Vale Transporte',
-                'type' => WalletTypeEnum::TransportTicket->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Vale Saúde',
-                'type' => WalletTypeEnum::HealthInsurance->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Gim Pass',
@@ -59,59 +59,59 @@ class WalletSeeder extends Seeder
             ],
             [
                 'name' => 'Banco Caixa',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco Inter',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco Itaú',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco Santander',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco Bradesco',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco Nubank',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco Neon',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco Original',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco C6',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco Next',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco PagBank',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco BTG Pactual',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco BMG',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
             [
                 'name' => 'Banco Pan',
-                'type' => WalletTypeEnum::BankCount->value,
+                'type' => WalletTypeEnum::Other->value,
             ],
         ];
     }

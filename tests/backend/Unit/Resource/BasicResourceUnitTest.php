@@ -2,9 +2,9 @@
 
 namespace Tests\backend\Unit\Resource;
 
-use App\DTO\WalletDTO;
-use App\Resources\WalletResource;
-use App\VO\WalletVO;
+use App\Modules\Wallet\DTO\WalletDTO;
+use App\Modules\Wallet\Resource\WalletResource;
+use App\Modules\Wallet\VO\WalletVO;
 use Tests\backend\Falcon9;
 
 class BasicResourceUnitTest extends Falcon9

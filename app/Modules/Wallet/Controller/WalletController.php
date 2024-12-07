@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\Wallet\Controller;
 
 use App\Enums\Gates\GatesAbilityEnum;
 use App\Exceptions\Plan\LimitExceededException;
-use App\Models\WalletModel;
-use App\Resources\WalletResource;
-use App\Services\WalletService;
-use App\VO\WalletVO;
+use App\Http\Controllers\BasicController;
+use App\Modules\Wallet\Model\WalletModel;
+use App\Modules\Wallet\Resource\WalletResource;
+use App\Modules\Wallet\Service\WalletService;
+use App\Modules\Wallet\VO\WalletVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,8 @@ class WalletController extends BasicController
     {
         return array(
             'name' => 'required|max:255|min:2|string',
-            'amount' => 'required|decimal:0,2'
+            'amount' => 'required|decimal:0,2',
+            'hide_value' => 'boolean'
         );
     }
 
@@ -34,7 +36,8 @@ class WalletController extends BasicController
     {
         return array(
             'name' => 'required|max:255|min:2|string',
-            'amount' => 'required|decimal:0,2'
+            'amount' => 'required|decimal:0,2',
+            'hide_value' => 'boolean'
         );
     }
 

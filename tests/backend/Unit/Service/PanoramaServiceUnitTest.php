@@ -2,12 +2,12 @@
 
 namespace Tests\backend\Unit\Service;
 
+use App\Modules\Wallet\Service\WalletService;
 use App\Services\CreditCard\CreditCardService;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\FutureMovement\FutureGainService;
 use App\Services\FutureMovement\FutureSpentService;
 use App\Services\PanoramaService;
-use App\Services\WalletService;
 use App\VO\InvoiceVO;
 use Mockery;
 use Tests\backend\Falcon9;

@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Resources;
+namespace App\Modules\Wallet\Resource;
 
-use App\DTO\WalletDTO;
-use App\Enums\WalletTypeEnum;
-use App\VO\WalletVO;
+use App\Enums\StatusEnum;
+use App\Modules\Wallet\DTO\WalletDTO;
+use App\Modules\Wallet\Enum\WalletTypeEnum;
+use App\Modules\Wallet\VO\WalletVO;
+use App\Resources\BasicResource;
 
 /**
 * @method WalletVO[] arrayDtoToVoItens(null|array $itens)
@@ -14,26 +16,36 @@ class WalletResource extends BasicResource
 {
     public function arrayToDto(array $item): WalletDTO
     {
+        if (isset($item['hideValue'])) {
+            $item['hide_value'] = $item['hideValue'];
+        }
         $dto = new WalletDTO();
         $dto->setId(isset($item['id']) ? (int)$item['id'] : null);
         $dto->setName($item['name']);
         $dto->setType(isset($item['type']) ? (int)$item['type'] : WalletTypeEnum::Other->value);
         $dto->setAmount((float)$item['amount']);
+        $dto->setHideValue(isset($item['hide_value']) ? (int)$item['hide_value'] : StatusEnum::Inactive->value);
         $dto->setCreatedAt($item['created_at'] ?? null);
         $dto->setUpdatedAt($item['updated_at'] ?? null);
         return $dto;
     }
 
+    /** @param WalletDTO $item */
     public function dtoToArray($item): array
     {
         return array(
             'id' => $item->getId() ?? null,
             'name' => $item->getName(),
             'type' => $item->getType(),
-            'amount' => $item->getAmount()
+            'amount' => $item->getAmount(),
+            'hide_value' => $item->getHideValue(),
         );
     }
 
+    /**
+     * @param WalletDTO $item
+     * @return WalletVO
+     */
     public function dtoToVo($item): WalletVO
     {
         return WalletVO::makeWalletVO(
@@ -41,6 +53,7 @@ class WalletResource extends BasicResource
             $item->getName(),
             $item->getType(),
             $item->getAmount(),
+            $item->mustHideValue(),
             $item->getCreatedAt(),
             $item->getUpdatedAt()
         );

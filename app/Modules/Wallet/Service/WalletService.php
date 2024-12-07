@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Services;
+namespace App\Modules\Wallet\Service;
 
-use App\DTO\WalletDTO;
 use App\Enums\MovementEnum;
 use App\Exceptions\ConstraintException;
-use App\Repositories\WalletRepository;
+use App\Modules\Wallet\DTO\WalletDTO;
+use App\Modules\Wallet\Repository\WalletRepository;
+use App\Services\BasicService;
 use App\Services\Movement\MovementService;
 
+/**
+ * @method WalletDTO[] findAll()
+ */
 class WalletService extends BasicService
 {
     private MovementService $movementService;
@@ -70,6 +74,9 @@ class WalletService extends BasicService
         $wallets = $this->findAll();
         $total = 0;
         foreach ($wallets as $wallet) {
+            if ($wallet->mustHideValue()) {
+                continue;
+            }
             $total += $wallet->getAmount();
         }
         return $total;

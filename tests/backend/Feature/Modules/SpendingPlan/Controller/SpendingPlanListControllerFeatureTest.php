@@ -2,8 +2,8 @@
 
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller;
 
-use App\Models\WalletModel;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
+use App\Modules\Wallet\Model\WalletModel;
 use App\Services\Database\DatabaseConnectionService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\backend\Falcon9Feature;
