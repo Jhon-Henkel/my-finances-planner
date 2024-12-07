@@ -60,7 +60,7 @@ async function handleRefresh(event: any) {
 }
 
 function mustShowItem(item: WalletModel, onlyWithFounds: boolean): boolean {
-    return ! onlyWithFounds || (onlyWithFounds && item.amount > 0)
+    return ! onlyWithFounds || (onlyWithFounds && item.amount === 0)
 }
 
 onMounted(async () => {

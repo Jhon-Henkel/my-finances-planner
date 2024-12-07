@@ -25,14 +25,17 @@ export const WalletService = {
         return {
             id: undefined,
             name: '',
-            amount: 0
+            amount: 0,
+            hideValue: false
         }
     },
     sumTotalBalance: (accounts: Array<WalletModel>): number => {
         let total: number = 0
         if (accounts.length > 0) {
             accounts.forEach((account: WalletModel) => {
-                total += parseFloat(String(account.amount))
+                if (!account.hideValue) {
+                    total += parseFloat(String(account.amount))
+                }
             })
         }
         return parseFloat(total.toFixed(2))
