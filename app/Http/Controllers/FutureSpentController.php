@@ -20,7 +20,7 @@ class FutureSpentController extends BasicController
     {
         return [
             'description' => 'required|max:255|string',
-            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
+            'walletId' => 'required|int|exists:App\Modules\Wallet\Model\WalletModel,id',
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
             'installments' => 'required|int'
@@ -31,7 +31,7 @@ class FutureSpentController extends BasicController
     {
         return [
             'description' => 'required|max:255|string',
-            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
+            'walletId' => 'required|int|exists:App\Modules\Wallet\Model\WalletModel,id',
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
             'installments' => 'required|int'
