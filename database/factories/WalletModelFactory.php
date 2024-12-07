@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\WalletTypeEnum;
-use App\Models\WalletModel;
+use App\Modules\Wallet\Enum\WalletTypeEnum;
+use App\Modules\Wallet\Model\WalletModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +19,7 @@ class WalletModelFactory extends Factory
         return [
             'amount' => $this->faker->randomFloat(2, 1, 10000),
             'name' => $this->faker->name,
-            'type' => $this->faker->randomElement([WalletTypeEnum::Money->value, WalletTypeEnum::Other->value]),
+            'type' => WalletTypeEnum::Other->value,
         ];
     }
 }

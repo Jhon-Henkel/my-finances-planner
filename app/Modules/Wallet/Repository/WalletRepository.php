@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Modules\Wallet\Repository;
 
-use App\Models\WalletModel;
-use App\Resources\WalletResource;
+use App\Modules\Wallet\Model\WalletModel;
+use App\Modules\Wallet\Resource\WalletResource;
+use App\Repositories\BasicRepository;
 
 class WalletRepository extends BasicRepository
 {

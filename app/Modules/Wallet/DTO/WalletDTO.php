@@ -1,8 +1,9 @@
 <?php
 
-namespace App\DTO;
+namespace App\Modules\Wallet\DTO;
 
-use App\Enums\WalletTypeEnum;
+use App\Enums\StatusEnum;
+use App\Modules\Wallet\Enum\WalletTypeEnum;
 
 class WalletDTO
 {
@@ -11,6 +12,7 @@ class WalletDTO
     private int $type = WalletTypeEnum::Other->value;
     private null|bool $movementAlreadyDone = false;
     private float|int $amount;
+    private int $hideValue = StatusEnum::Inactive->value;
     private mixed $createdAt;
     private mixed $updatedAt;
 
@@ -62,6 +64,21 @@ class WalletDTO
     public function setAmount(float|int $amount): void
     {
         $this->amount = $amount;
+    }
+
+    public function setHideValue(int $hideValue): void
+    {
+        $this->hideValue = $hideValue;
+    }
+
+    public function getHideValue(): int
+    {
+        return $this->hideValue;
+    }
+
+    public function mustHideValue(): bool
+    {
+        return $this->hideValue == StatusEnum::Active->value;
     }
 
     public function getCreatedAt(): mixed

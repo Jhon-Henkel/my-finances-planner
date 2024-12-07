@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Modules\Wallet\Model;
 
 use App\Enums\DateFormatEnum;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,7 +16,7 @@ class WalletModel extends Model
     use HasFactory;
 
     protected $table = 'wallets';
-    protected $fillable = ['id', 'name', 'type', 'amount'];
+    protected $fillable = ['id', 'name', 'type', 'amount', 'hide_value'];
     protected $casts = [
         'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value

@@ -8,7 +8,7 @@ use App\Enums\StatusEnum;
 use App\Exceptions\User\TryAlterAnotherUserByRequestException;
 use App\Models\CreditCard;
 use App\Models\User;
-use App\Models\WalletModel;
+use App\Modules\Wallet\Model\WalletModel;
 use App\Policies\CreditCardPolicy;
 use App\Policies\FinancialHealthPolicy;
 use App\Policies\WalletPolicy;

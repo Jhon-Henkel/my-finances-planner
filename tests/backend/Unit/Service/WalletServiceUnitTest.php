@@ -2,10 +2,10 @@
 
 namespace Tests\backend\Unit\Service;
 
-use App\DTO\WalletDTO;
-use App\Repositories\WalletRepository;
+use App\Modules\Wallet\DTO\WalletDTO;
+use App\Modules\Wallet\Repository\WalletRepository;
+use App\Modules\Wallet\Service\WalletService;
 use App\Services\Movement\MovementService;
-use App\Services\WalletService;
 use Mockery;
 use Tests\backend\Falcon9;
 
@@ -62,12 +62,18 @@ class WalletServiceUnitTest extends Falcon9
     {
         $item1 = new WalletDTO();
         $item1->setAmount(1);
+        $item1->setHideValue(0);
 
         $item2 = new WalletDTO();
         $item2->setAmount(2);
+        $item2->setHideValue(0);
+
+        $item3 = new WalletDTO();
+        $item3->setAmount(3);
+        $item3->setHideValue(1);
 
         $repositoryMock = Mockery::mock(WalletRepository::class);
-        $repositoryMock->shouldReceive('findAll')->once()->andReturn([$item1, $item2]);
+        $repositoryMock->shouldReceive('findAll')->once()->andReturn([$item1, $item2, $item3]);
 
         $service = new WalletService($repositoryMock);
 
