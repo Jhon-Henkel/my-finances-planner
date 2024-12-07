@@ -8,7 +8,7 @@ class WalletVO
     public null|string $name;
     public null|int $type;
     public null|float $amount;
-    public int $hideValue;
+    public bool $hideValue;
     public mixed $createdAt;
     public mixed $updatedAt;
 
@@ -17,7 +17,7 @@ class WalletVO
         null|string $name,
         null|int $type,
         null|float $amount,
-        int $hideValue,
+        bool $hideValue,
         mixed $createdAt,
         mixed $updatedAt
     ): self {

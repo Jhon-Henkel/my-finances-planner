@@ -16,6 +16,9 @@ class WalletResource extends BasicResource
 {
     public function arrayToDto(array $item): WalletDTO
     {
+        if (isset($item['hideValue'])) {
+            $item['hide_value'] = $item['hideValue'];
+        }
         $dto = new WalletDTO();
         $dto->setId(isset($item['id']) ? (int)$item['id'] : null);
         $dto->setName($item['name']);
@@ -27,6 +30,7 @@ class WalletResource extends BasicResource
         return $dto;
     }
 
+    /** @param WalletDTO $item */
     public function dtoToArray($item): array
     {
         return array(
@@ -49,7 +53,7 @@ class WalletResource extends BasicResource
             $item->getName(),
             $item->getType(),
             $item->getAmount(),
-            $item->getHideValue(),
+            $item->mustHideValue(),
             $item->getCreatedAt(),
             $item->getUpdatedAt()
         );
