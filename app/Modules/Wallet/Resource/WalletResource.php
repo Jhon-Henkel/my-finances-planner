@@ -59,7 +59,7 @@ class WalletResource extends BasicResource
             $item->getType(),
             $item->getAmount(),
             $item->mustHideValue(),
-            $item->getStatus(),
+            $item->getStatus() === StatusEnum::Active->value,
             $item->getCreatedAt(),
             $item->getUpdatedAt()
         );
