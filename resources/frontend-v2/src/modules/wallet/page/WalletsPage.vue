@@ -9,7 +9,7 @@ import {
     IonList,
     IonListHeader
 } from "@ionic/vue"
-import {ellipsisHorizontal, eyeOffOutline} from "ionicons/icons"
+import {ellipsisHorizontal} from "ionicons/icons"
 import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
 import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 import {onMounted, ref} from "vue"
