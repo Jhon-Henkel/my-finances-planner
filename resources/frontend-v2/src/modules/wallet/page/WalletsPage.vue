@@ -85,7 +85,7 @@ onMounted(async () => {
         <mfp-wallets-list-skeleton-load :is-loaded="walletStore.isLoaded"/>
         <ion-list v-if="walletStore.isLoaded">
             <ion-list-header>
-                <ion-label>Sem saldo oculto</ion-label>
+                <ion-label>Visíveis</ion-label>
             </ion-list-header>
             <ion-item-sliding
                 v-for="wallet in walletStore.notHiddenWallets"
@@ -104,10 +104,7 @@ onMounted(async () => {
         </ion-list>
         <ion-list v-if="walletStore.isLoaded">
             <ion-list-header>
-                <ion-label class="center-vertical-ion-label-content">
-                    <ion-icon :icon="eyeOffOutline" color="danger" class="ion-margin-end"/>
-                    Com saldo oculto
-                </ion-label>
+                <ion-label>Ocultas</ion-label>
             </ion-list-header>
             <ion-item-sliding
                 v-for="wallet in walletStore.hiddenWallets"

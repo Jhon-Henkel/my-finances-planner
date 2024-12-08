@@ -32,6 +32,8 @@ export const useWalletStore = defineStore({
             if (!this.isLoaded) {
                 this.isLoaded = false
                 this.wallets = await WalletService.index()
+                this.hiddenWallets = []
+                this.notHiddenWallets = []
                 for (let i = 0; i < this.wallets.length; i++) {
                     if (this.wallets[i].hideValue) {
                         this.hiddenWallets.push(this.wallets[i])
