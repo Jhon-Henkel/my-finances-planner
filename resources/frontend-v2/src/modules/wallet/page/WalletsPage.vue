@@ -75,7 +75,7 @@ onMounted(async () => {
             <ion-label>Carteiras</ion-label>
             <mfp-circle-plus-button @click="formModal.open()"/>
         </ion-list-header>
-        <mfp-wallets-balance-card :balance="walletStore.getTotalAmount"/>
+        <mfp-wallets-balance-card :store="walletStore"/>
         <div class="ion-text-end">
             <ion-button fill="clear" @click="onlyWithFounds = !onlyWithFounds">
                 {{ onlyWithFounds ? 'Ver Todas' : 'Ver somente com saldo' }}

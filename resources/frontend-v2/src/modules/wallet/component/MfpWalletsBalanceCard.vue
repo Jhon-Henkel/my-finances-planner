@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import {IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonText} from "@ionic/vue"
+import {IonCard, IonCardSubtitle, IonCol, IonIcon, IonRow} from "@ionic/vue"
 import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
+import router from "@/infra/router"
+import {eyeOffOutline, eyeOutline} from "ionicons/icons"
 
 defineProps(
     {
-        balance: {
-            type: Number,
+        store: {
+            type: Object,
             required: true
         }
     }
@@ -13,24 +15,32 @@ defineProps(
 </script>
 
 <template>
-    <ion-card color="light">
-        <ion-card-content class="value">
-            <ion-grid class="ion-no-padding">
-                <ion-row>
-                    <ion-col class="ion-text-center balance-text">
-                        <ion-text>Saldo total</ion-text>
+    <ion-row>
+        <ion-col size="6">
+            <ion-card class="ion-no-margin" color="light" @click="router.push({name: 'movements'})">
+                <ion-row class="ion-margin">
+                    <ion-col size="3">
+                        <ion-icon :icon="eyeOutline" size="large" color="success"/>
+                    </ion-col>
+                    <ion-col size="9">
+                        <ion-card-subtitle>Visível</ion-card-subtitle>
+                        <mfp-counter-money :end="store.totalAmount"/>
                     </ion-col>
                 </ion-row>
-                <ion-row>
-                    <ion-col class="ion-text-center balance-value">
-                        <ion-text>
-                            <strong>
-                                <mfp-counter-money :end="balance"/>
-                            </strong>
-                        </ion-text>
+            </ion-card>
+        </ion-col>
+        <ion-col size="6">
+            <ion-card class="ion-no-margin" color="light" @click="router.push({name: 'movements'})">
+                <ion-row class="ion-margin">
+                    <ion-col size="3">
+                        <ion-icon :icon="eyeOffOutline" size="large" color="danger"/>
+                    </ion-col>
+                    <ion-col size="9">
+                        <ion-card-subtitle>Oculto</ion-card-subtitle>
+                        <mfp-counter-money :end="store.totalAmountHidden"/>
                     </ion-col>
                 </ion-row>
-            </ion-grid>
-        </ion-card-content>
-    </ion-card>
+            </ion-card>
+        </ion-col>
+    </ion-row>
 </template>
