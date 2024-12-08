@@ -28,7 +28,8 @@ class WalletController extends BasicController
         return array(
             'name' => 'required|max:255|min:2|string',
             'amount' => 'required|decimal:0,2',
-            'hide_value' => 'boolean'
+            'hide_value' => 'boolean',
+            'active' => 'required|boolean'
         );
     }
 
@@ -37,7 +38,8 @@ class WalletController extends BasicController
         return array(
             'name' => 'required|max:255|min:2|string',
             'amount' => 'required|decimal:0,2',
-            'hide_value' => 'boolean'
+            'hide_value' => 'boolean',
+            'active' => 'required|boolean'
         );
     }
 

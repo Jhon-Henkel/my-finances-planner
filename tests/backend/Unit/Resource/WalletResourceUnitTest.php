@@ -22,6 +22,7 @@ class WalletResourceUnitTest extends Falcon9
             'name' => 'Test',
             'type' => 1,
             'amount' => 100.00,
+            'status' => 1,
             'created_at' => '2020-01-01 00:00:00',
             'updated_at' => '2020-01-01 00:00:00',
         ];
@@ -34,6 +35,7 @@ class WalletResourceUnitTest extends Falcon9
         $this->assertEquals($array['amount'], $dto->getAmount());
         $this->assertEquals($array['created_at'], $dto->getCreatedAt());
         $this->assertEquals($array['updated_at'], $dto->getUpdatedAt());
+        $this->assertEquals($array['status'], $dto->getStatus());
     }
 
     public function testDtoToArray()
@@ -45,6 +47,7 @@ class WalletResourceUnitTest extends Falcon9
             'amount' => 100.00,
             'created_at' => '2020-01-01 00:00:00',
             'updated_at' => '2020-01-01 00:00:00',
+            'active' => true
         ]);
 
         $array = $this->resource->dtoToArray($dto);
@@ -53,6 +56,7 @@ class WalletResourceUnitTest extends Falcon9
         $this->assertEquals($dto->getName(), $array['name']);
         $this->assertEquals($dto->getType(), $array['type']);
         $this->assertEquals($dto->getAmount(), $array['amount']);
+        $this->assertEquals(1, $dto->getStatus());
     }
 
     public function testDtoToVo()
@@ -64,6 +68,7 @@ class WalletResourceUnitTest extends Falcon9
             'amount' => 100.00,
             'created_at' => '2020-01-01 00:00:00',
             'updated_at' => '2020-01-01 00:00:00',
+            'active' => false
         ]);
 
         $vo = $this->resource->dtoToVo($dto);
@@ -74,5 +79,6 @@ class WalletResourceUnitTest extends Falcon9
         $this->assertEquals($dto->getAmount(), $vo->amount);
         $this->assertEquals($dto->getCreatedAt(), $vo->createdAt);
         $this->assertEquals($dto->getUpdatedAt(), $vo->updatedAt);
+        $this->assertEquals(0, $dto->getStatus());
     }
 }

@@ -24,6 +24,8 @@ class WalletControllerUnitTest extends TestCase
         $this->assertArrayHasKey('amount', $rules);
         $this->assertEquals('required|max:255|min:2|string', $rules['name']);
         $this->assertEquals('required|decimal:0,2', $rules['amount']);
+        $this->assertEquals('boolean', $rules['hide_value']);
+        $this->assertEquals('required|boolean', $rules['active']);
     }
 
     public function testInsertRules()
@@ -40,6 +42,8 @@ class WalletControllerUnitTest extends TestCase
         $this->assertArrayHasKey('amount', $rules);
         $this->assertEquals('required|max:255|min:2|string', $rules['name']);
         $this->assertEquals('required|decimal:0,2', $rules['amount']);
+        $this->assertEquals('boolean', $rules['hide_value']);
+        $this->assertEquals('required|boolean', $rules['active']);
     }
 
     public function testGetService()

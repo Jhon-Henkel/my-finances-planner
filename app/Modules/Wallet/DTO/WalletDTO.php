@@ -13,6 +13,7 @@ class WalletDTO
     private null|bool $movementAlreadyDone = false;
     private float|int $amount;
     private int $hideValue = StatusEnum::Inactive->value;
+    private int $status = StatusEnum::Active->value;
     private mixed $createdAt;
     private mixed $updatedAt;
 
@@ -76,9 +77,24 @@ class WalletDTO
         return $this->hideValue;
     }
 
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
     public function mustHideValue(): bool
     {
         return $this->hideValue == StatusEnum::Active->value;
+    }
+
+    public function isInactive(): bool
+    {
+        return $this->status == StatusEnum::Inactive->value;
     }
 
     public function getCreatedAt(): mixed

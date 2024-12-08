@@ -74,7 +74,7 @@ class WalletService extends BasicService
         $wallets = $this->findAll();
         $total = 0;
         foreach ($wallets as $wallet) {
-            if ($wallet->mustHideValue()) {
+            if ($wallet->mustHideValue() || $wallet->isInactive()) {
                 continue;
             }
             $total += $wallet->getAmount();

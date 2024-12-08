@@ -60,7 +60,8 @@ function closeModal() {
         <template #list>
             <mfp-input v-model="internalWallet.name" label="Descrição" placeholder="Nome da carteira"/>
             <mfp-input-money v-model="internalWallet.amount" label="Saldo Atual"/>
-            <mfp-input-toggle v-model="internalWallet.hideValue" label="Esconder saldo"/>
+            <mfp-input-toggle v-model="internalWallet.hideValue" label="Ocultar saldo"/>
+            <mfp-input-toggle v-model="internalWallet.active" label="Ativar carteira"/>
         </template>
     </mfp-modal-content>
 </template>

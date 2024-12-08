@@ -26,7 +26,8 @@ export const WalletService = {
             id: undefined,
             name: '',
             amount: 0,
-            hideValue: false
+            hideValue: false,
+            active:true
         }
     },
     sumTotalBalance: (accounts: Array<WalletModel>): number => {

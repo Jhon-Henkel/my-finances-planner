@@ -121,6 +121,25 @@ onMounted(async () => {
                 </ion-item-options>
             </ion-item-sliding>
         </ion-list>
+        <ion-list v-if="walletStore.isLoaded">
+            <ion-list-header>
+                <ion-label>Inativas</ion-label>
+            </ion-list-header>
+            <ion-item-sliding
+                v-for="wallet in walletStore.inactiveWallets"
+                :key="wallet.id"
+                class="ion-text-center"
+                v-show="mustShowItem(wallet, onlyWithFounds)"
+            >
+                <mfp-wallets-list-item :wallet="wallet"/>
+                <ion-item-options side="end">
+                    <ion-item-option color="light" expandable @click="optionsAction(wallet)">
+                        <ion-icon slot="top" :icon="ellipsisHorizontal"/>
+                        Opções
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
         <mfp-total-registers-row :total-itens="walletStore.wallets.length"/>
     </mfp-page>
 </template>
