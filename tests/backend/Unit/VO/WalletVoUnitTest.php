@@ -15,6 +15,7 @@ class WalletVoUnitTest extends Falcon9
             2,
             10.99,
             0,
+            true,
             '2022-01-02 00:00:00',
             '2023-10-03 01:30:00'
         );
@@ -26,5 +27,6 @@ class WalletVoUnitTest extends Falcon9
         $this->assertEquals(0, $vo->hideValue);
         $this->assertEquals('2022-01-02 00:00:00', $vo->createdAt);
         $this->assertEquals('2023-10-03 01:30:00', $vo->updatedAt);
+        $this->assertTrue($vo->active);
     }
 }

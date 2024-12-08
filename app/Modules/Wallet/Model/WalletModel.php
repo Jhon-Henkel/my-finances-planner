@@ -16,7 +16,7 @@ class WalletModel extends Model
     use HasFactory;
 
     protected $table = 'wallets';
-    protected $fillable = ['id', 'name', 'type', 'amount', 'hide_value'];
+    protected $fillable = ['id', 'name', 'type', 'amount', 'hide_value', 'status'];
     protected $casts = [
         'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value

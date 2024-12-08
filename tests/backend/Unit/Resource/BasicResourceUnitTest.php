@@ -61,6 +61,7 @@ class BasicResourceUnitTest extends Falcon9
                 'name' => 'Wallet 1',
                 'type' => 1,
                 'amount' => 100.00,
+                'status' => 1,
                 'created_at' => '2021-01-01 00:00:00',
                 'updated_at' => '2021-01-01 00:00:00',
             ],
@@ -69,6 +70,7 @@ class BasicResourceUnitTest extends Falcon9
                 'name' => 'Wallet 2',
                 'type' => 2,
                 'amount' => 200.00,
+                'status' => 0,
                 'created_at' => '2021-01-01 00:00:00',
                 'updated_at' => '2021-01-01 00:00:00',
             ]

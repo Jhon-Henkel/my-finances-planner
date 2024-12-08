@@ -83,7 +83,7 @@ onMounted(async () => {
         </div>
         <mfp-empty-list-item :nothing-to-show="walletStore.wallets.length === 0 && walletStore.isLoaded"/>
         <mfp-wallets-list-skeleton-load :is-loaded="walletStore.isLoaded"/>
-        <ion-list v-if="walletStore.isLoaded">
+        <ion-list v-if="walletStore.isLoaded && walletStore.notHiddenWallets.length > 0">
             <ion-list-header>
                 <ion-label>Visíveis</ion-label>
             </ion-list-header>
@@ -102,12 +102,31 @@ onMounted(async () => {
                 </ion-item-options>
             </ion-item-sliding>
         </ion-list>
-        <ion-list v-if="walletStore.isLoaded">
+        <ion-list v-if="walletStore.isLoaded && walletStore.hiddenWallets.length > 0">
             <ion-list-header>
                 <ion-label>Ocultas</ion-label>
             </ion-list-header>
             <ion-item-sliding
                 v-for="wallet in walletStore.hiddenWallets"
+                :key="wallet.id"
+                class="ion-text-center"
+                v-show="mustShowItem(wallet, onlyWithFounds)"
+            >
+                <mfp-wallets-list-item :wallet="wallet"/>
+                <ion-item-options side="end">
+                    <ion-item-option color="light" expandable @click="optionsAction(wallet)">
+                        <ion-icon slot="top" :icon="ellipsisHorizontal"/>
+                        Opções
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
+        <ion-list v-if="walletStore.isLoaded && walletStore.inactiveWallets.length > 0">
+            <ion-list-header>
+                <ion-label>Inativas</ion-label>
+            </ion-list-header>
+            <ion-item-sliding
+                v-for="wallet in walletStore.inactiveWallets"
                 :key="wallet.id"
                 class="ion-text-center"
                 v-show="mustShowItem(wallet, onlyWithFounds)"

@@ -9,6 +9,7 @@ class WalletVO
     public null|int $type;
     public null|float $amount;
     public bool $hideValue;
+    public bool $active;
     public mixed $createdAt;
     public mixed $updatedAt;
 
@@ -18,6 +19,7 @@ class WalletVO
         null|int $type,
         null|float $amount,
         bool $hideValue,
+        bool $active,
         mixed $createdAt,
         mixed $updatedAt
     ): self {
@@ -26,6 +28,7 @@ class WalletVO
         $vo->name = $name;
         $vo->type = $type;
         $vo->amount = $amount;
+        $vo->active = $active;
         $vo->hideValue = $hideValue;
         $vo->createdAt = $createdAt;
         $vo->updatedAt = $updatedAt;

@@ -27,6 +27,7 @@ class ProPlanWalletLimitationUseCaseTest extends Falcon9Feature
                 [
                     'name' => $this->faker->name,
                     'amount' => $this->faker->randomFloat(2, 0, 1000),
+                    'active' => $this->faker->boolean,
                 ],
                 $this->makeHeaders()
             );
@@ -38,6 +39,7 @@ class ProPlanWalletLimitationUseCaseTest extends Falcon9Feature
             [
                 'name' => $this->faker->name,
                 'amount' => $this->faker->randomFloat(2, 0, 1000),
+                'active' => $this->faker->boolean,
             ],
             $this->makeHeaders()
         );

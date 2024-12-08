@@ -3,4 +3,5 @@ export interface IWalletForm {
     name: string,
     amount: number,
     hideValue: boolean
+    active: boolean
 }

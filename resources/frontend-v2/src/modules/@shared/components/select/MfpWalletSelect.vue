@@ -45,7 +45,7 @@ onMounted(async () => {
             cancel-text="Cancelar"
             @ionChange="updateValue($event.target.value)"
         >
-            <ion-item v-for="(wallet, index) in walletStore.wallets" :key="index">
+            <ion-item v-for="(wallet, index) in walletStore.activeWallets" :key="index">
                 <ion-select-option :value="wallet.id">
                     {{ wallet.name }}
                 </ion-select-option>

@@ -19,10 +19,14 @@ class WalletResource extends BasicResource
         if (isset($item['hideValue'])) {
             $item['hide_value'] = $item['hideValue'];
         }
+        if (isset($item['active'])) {
+            $item['status'] = (int)$item['active'];
+        }
         $dto = new WalletDTO();
         $dto->setId(isset($item['id']) ? (int)$item['id'] : null);
         $dto->setName($item['name']);
         $dto->setType(isset($item['type']) ? (int)$item['type'] : WalletTypeEnum::Other->value);
+        $dto->setStatus($item['status']);
         $dto->setAmount((float)$item['amount']);
         $dto->setHideValue(isset($item['hide_value']) ? (int)$item['hide_value'] : StatusEnum::Inactive->value);
         $dto->setCreatedAt($item['created_at'] ?? null);
@@ -39,6 +43,7 @@ class WalletResource extends BasicResource
             'type' => $item->getType(),
             'amount' => $item->getAmount(),
             'hide_value' => $item->getHideValue(),
+            'status' => $item->getStatus(),
         );
     }
 
@@ -54,6 +59,7 @@ class WalletResource extends BasicResource
             $item->getType(),
             $item->getAmount(),
             $item->mustHideValue(),
+            $item->getStatus() === StatusEnum::Active->value,
             $item->getCreatedAt(),
             $item->getUpdatedAt()
         );
