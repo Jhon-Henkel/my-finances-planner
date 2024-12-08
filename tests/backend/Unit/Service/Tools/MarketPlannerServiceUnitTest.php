@@ -9,6 +9,7 @@ use App\DTO\Movement\MovementDTO;
 use App\Enums\InvoiceInstallmentsEnum;
 use App\Enums\MovementEnum;
 use App\Services\ConfigurationService;
+use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\MarketPlannerService;
 use App\Tools\Calendar\CalendarToolsReal;
@@ -33,7 +34,7 @@ class MarketPlannerServiceUnitTest extends Falcon9
             ->once()
             ->andReturn($config);
 
-        $mocks = [$configMock, $movementServiceMock];
+        $mocks = [$configMock, $movementServiceMock, Mockery::mock(CreditCardTransactionService::class)->makePartial()];
 
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class, $mocks)->makePartial();
 
@@ -54,7 +55,7 @@ class MarketPlannerServiceUnitTest extends Falcon9
             ->once()
             ->andReturn($config);
 
-        $mocks = [$configMock, $movementServiceMock];
+        $mocks = [$configMock, $movementServiceMock, Mockery::mock(CreditCardTransactionService::class)->makePartial()];
 
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class, $mocks)->makePartial();
 
@@ -82,7 +83,10 @@ class MarketPlannerServiceUnitTest extends Falcon9
 
         $configMock = Mockery::mock(ConfigurationService::class)->makePartial();
 
-        $mocks = [$configMock, $movementServiceMock];
+        $creditCardTransactionServiceMock = Mockery::mock(CreditCardTransactionService::class)->makePartial();
+        $creditCardTransactionServiceMock->shouldReceive('findByPeriod')->once()->andReturn([]);
+
+        $mocks = [$configMock, $movementServiceMock, $creditCardTransactionServiceMock];
 
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class, $mocks)->makePartial();
         $marketPlannerMock->shouldAllowMockingProtectedMethods();
@@ -131,12 +135,12 @@ class MarketPlannerServiceUnitTest extends Falcon9
             ->once()
             ->andReturn($config);
 
-        $mocks = [$configMock, $movementServiceMock];
+        $mocks = [$configMock, $movementServiceMock, Mockery::mock(CreditCardTransactionService::class)->makePartial()];
 
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class, $mocks)->makePartial();
         $marketPlannerMock->shouldAllowMockingProtectedMethods();
 
-        $marketPlannerMock->makeThisMonthMarketSpentValue($movements);
+        $marketPlannerMock->makeThisMonthMarketSpentValue($movements, []);
 
         $this->assertEquals(50, $marketPlannerMock->getFirstInstallmentMarket());
     }
@@ -154,7 +158,7 @@ class MarketPlannerServiceUnitTest extends Falcon9
             ->once()
             ->andReturn($config);
 
-        $mocks = [$configMock, $movementServiceMock];
+        $mocks = [$configMock, $movementServiceMock, Mockery::mock(CreditCardTransactionService::class)->makePartial()];
 
         $marketPlannerMock = Mockery::mock(MarketPlannerService::class, $mocks)->makePartial();
         $marketPlannerMock->shouldAllowMockingProtectedMethods();

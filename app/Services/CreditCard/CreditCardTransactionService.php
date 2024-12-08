@@ -3,6 +3,7 @@
 namespace App\Services\CreditCard;
 
 use App\DTO\CreditCard\CreditCardDTO;
+use App\DTO\CreditCard\CreditCardTransactionDTO;
 use App\Enums\DateFormatEnum;
 use App\Factory\InvoiceFactory;
 use App\Repositories\CreditCard\CreditCardTransactionRepository;
@@ -137,28 +138,6 @@ class CreditCardTransactionService extends BasicService
         return $invoice;
     }
 
-    public function getThisYearInvoiceSum(): float
-    {
-        $period = CalendarTools::getThisYearPeriod();
-        $transactions = $this->getRepository()->findByPeriod($period);
-        $total = 0;
-        foreach ($transactions as $transaction) {
-            $total += ($transaction->getValue() * ($transaction->getInstallments() == 0 ? 1 : $transaction->getInstallments()));
-        }
-        return $total;
-    }
-
-    public function getThisMonthInvoiceSum(): float
-    {
-        $period = CalendarTools::getThisMonthPeriod();
-        $transactions = $this->getRepository()->findByPeriod($period);
-        $total = 0;
-        foreach ($transactions as $transaction) {
-            $total += $transaction->getValue();
-        }
-        return $total;
-    }
-
     /** @param CreditCardDTO[] $cards */
     public function getAllNextInvoicesValuesAndTotalValues(array $cards): array
     {
@@ -216,5 +195,12 @@ class CreditCardTransactionService extends BasicService
     public function countByCreditCardId(int $creditCardId): int
     {
         return $this->getRepository()->countByCreditCardId($creditCardId);
+    }
+
+    /** @return CreditCardTransactionDTO[] */
+    public function findByPeriod(array $filterOption): array
+    {
+        $dateRange = CalendarTools::makeDateRangeByDefaultFilterParams($filterOption);
+        return  $this->getRepository()->findByPeriod($dateRange);
     }
 }

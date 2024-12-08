@@ -92,4 +92,9 @@ class CreditCardTransactionDTO
     {
         $this->updatedAt = $updatedAt;
     }
+
+    public function isMarketSpent(): bool
+    {
+        return strtolower($this->getName()) == 'mercado';
+    }
 }
