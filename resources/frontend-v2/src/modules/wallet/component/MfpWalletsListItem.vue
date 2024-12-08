@@ -3,7 +3,7 @@ import {IonCol, IonGrid, IonItem, IonLabel, IonRow, IonIcon} from "@ionic/vue"
 import {WalletModel} from "@/modules/wallet/model/WalletModel"
 import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {UtilString} from "@/modules/@shared/util/UtilString"
-import {chevronBackOutline, eyeOffOutline} from "ionicons/icons"
+import {chevronBackOutline} from "ionicons/icons"
 
 defineProps(
     {
@@ -21,8 +21,7 @@ defineProps(
             <ion-row class="ion-row">
                 <ion-col>
                     <ion-row>
-                        <ion-col size="6" class="center-vertical-ion-label-content">
-                            <ion-icon :icon="eyeOffOutline" v-if="wallet.hideValue" color="danger" class="ion-margin-end"/>
+                        <ion-col size="6">
                             <ion-label>
                                 <strong>
                                     {{ UtilString.ellipsis(wallet.name, 18) }}

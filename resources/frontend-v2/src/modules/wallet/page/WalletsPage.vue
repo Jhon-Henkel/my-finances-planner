@@ -9,7 +9,7 @@ import {
     IonList,
     IonListHeader
 } from "@ionic/vue"
-import {ellipsisHorizontal} from "ionicons/icons"
+import {ellipsisHorizontal, eyeOffOutline} from "ionicons/icons"
 import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
 import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 import {onMounted, ref} from "vue"
@@ -60,7 +60,7 @@ async function handleRefresh(event: any) {
 }
 
 function mustShowItem(item: WalletModel, onlyWithFounds: boolean): boolean {
-    return ! onlyWithFounds || (onlyWithFounds && item.amount > 0)
+    return ! onlyWithFounds || (onlyWithFounds && item.amount !== 0)
 }
 
 onMounted(async () => {
@@ -84,8 +84,33 @@ onMounted(async () => {
         <mfp-empty-list-item :nothing-to-show="walletStore.wallets.length === 0 && walletStore.isLoaded"/>
         <mfp-wallets-list-skeleton-load :is-loaded="walletStore.isLoaded"/>
         <ion-list v-if="walletStore.isLoaded">
+            <ion-list-header>
+                <ion-label>Sem saldo oculto</ion-label>
+            </ion-list-header>
             <ion-item-sliding
-                v-for="wallet in walletStore.wallets"
+                v-for="wallet in walletStore.notHiddenWallets"
+                :key="wallet.id"
+                class="ion-text-center"
+                v-show="mustShowItem(wallet, onlyWithFounds)"
+            >
+                <mfp-wallets-list-item :wallet="wallet"/>
+                <ion-item-options side="end">
+                    <ion-item-option color="light" expandable @click="optionsAction(wallet)">
+                        <ion-icon slot="top" :icon="ellipsisHorizontal"/>
+                        Opções
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
+        <ion-list v-if="walletStore.isLoaded">
+            <ion-list-header>
+                <ion-label class="center-vertical-ion-label-content">
+                    <ion-icon :icon="eyeOffOutline" color="danger" class="ion-margin-end"/>
+                    Com saldo oculto
+                </ion-label>
+            </ion-list-header>
+            <ion-item-sliding
+                v-for="wallet in walletStore.hiddenWallets"
                 :key="wallet.id"
                 class="ion-text-center"
                 v-show="mustShowItem(wallet, onlyWithFounds)"
