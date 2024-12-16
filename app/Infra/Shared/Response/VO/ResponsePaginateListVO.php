@@ -29,6 +29,7 @@ class ResponsePaginateListVO implements IResponseVO
                 'current_page' => $this->data['current_page'],
             ],
             'data' => $this->data['data'],
+            'meta' => $this->data['meta'] ?? [],
         ];
     }
 }

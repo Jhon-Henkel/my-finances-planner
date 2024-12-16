@@ -13,6 +13,7 @@ use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
+use App\Modules\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
 use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
 use App\Modules\Wallet\Controller\WalletController;
@@ -22,8 +23,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->middleware('auth.api:api')->group(function () {
 
     Route::prefix('v2/')->group(function () {
+        // todo - Essa Rota 'spending-plan' não está em uso real, existe somente no backend.
         Route::prefix('spending-plan')->group(function () {
             Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
+        });
+        // todo - Essa Rota 'earnings-plan' não está em uso real, existe somente no backend.
+        Route::prefix('earnings-plan')->group(function () {
+            Route::get('', EarningPlanListController::class)->name(RouteEnum::ApiEarningPlanList->value);
         });
         Route::prefix('market-planner')->group(function () {
             Route::get('show-details', MarketPlannerShowController::class)->name(RouteEnum::ApiMarketPlannerShow->value);
