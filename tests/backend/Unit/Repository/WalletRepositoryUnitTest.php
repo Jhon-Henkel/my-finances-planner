@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Unit\Repository;
 
-use App\Modules\Wallet\Model\WalletModel;
+use App\Models\WalletModel;
 use App\Modules\Wallet\Repository\WalletRepository;
 use App\Modules\Wallet\Resource\WalletResource;
 use Tests\backend\Falcon9;

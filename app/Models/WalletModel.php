@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Wallet\Model;
+namespace App\Models;
 
 use App\Enums\DateFormatEnum;
 use Illuminate\Database\Eloquent\Builder;

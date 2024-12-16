@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Modules\Wallet\Model\WalletModel;
+use App\Models\WalletModel;
 
 class WalletPolicy
 {

@@ -26,7 +26,7 @@ class FutureSpentControllerUnitTest extends Falcon9
         $this->assertArrayHasKey('installments', $rules);
         $this->assertArrayHasKey('forecast', $rules);
         $this->assertEquals('required|max:255|string', $rules['description']);
-        $this->assertEquals('required|int|exists:App\Modules\Wallet\Model\WalletModel,id', $rules['walletId']);
+        $this->assertEquals('required|int|exists:App\Models\WalletModel,id', $rules['walletId']);
         $this->assertEquals('required|decimal:0,2', $rules['amount']);
         $this->assertEquals('required|int', $rules['installments']);
         $this->assertEquals('required|date', $rules['forecast']);
@@ -48,7 +48,7 @@ class FutureSpentControllerUnitTest extends Falcon9
         $this->assertArrayHasKey('installments', $rules);
         $this->assertArrayHasKey('forecast', $rules);
         $this->assertEquals('required|max:255|string', $rules['description']);
-        $this->assertEquals('required|int|exists:App\Modules\Wallet\Model\WalletModel,id', $rules['walletId']);
+        $this->assertEquals('required|int|exists:App\Models\WalletModel,id', $rules['walletId']);
         $this->assertEquals('required|decimal:0,2', $rules['amount']);
         $this->assertEquals('required|int', $rules['installments']);
         $this->assertEquals('required|date', $rules['forecast']);

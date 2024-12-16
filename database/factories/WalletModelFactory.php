@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\WalletModel;
 use App\Modules\Wallet\Enum\WalletTypeEnum;
-use App\Modules\Wallet\Model\WalletModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

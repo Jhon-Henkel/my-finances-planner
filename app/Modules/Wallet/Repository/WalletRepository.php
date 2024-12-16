@@ -2,7 +2,7 @@
 
 namespace App\Modules\Wallet\Repository;
 
-use App\Modules\Wallet\Model\WalletModel;
+use App\Models\WalletModel;
 use App\Modules\Wallet\Resource\WalletResource;
 use App\Repositories\BasicRepository;
 

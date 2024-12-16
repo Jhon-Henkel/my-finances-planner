@@ -28,7 +28,7 @@ class MovementController extends BasicController
         return array(
             'description' => 'max:255|min:2|string',
             'type' => 'required|int',
-            'walletId' => 'required|int|exists:App\Modules\Wallet\Model\WalletModel,id',
+            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
             'amount' => 'required|decimal:0,2'
         );
     }
@@ -38,7 +38,7 @@ class MovementController extends BasicController
         return array(
             'description' => 'max:255|min:2|string',
             'type' => 'required|int',
-            'walletId' => 'required|int|exists:App\Modules\Wallet\Model\WalletModel,id',
+            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
             'amount' => 'required|decimal:0,2'
         );
     }
@@ -46,8 +46,8 @@ class MovementController extends BasicController
     protected function rulesInsertTransfer(): array
     {
         return array(
-            'originId' => 'required|int|exists:App\Modules\Wallet\Model\WalletModel,id',
-            'destinationId' => 'required|int|exists:App\Modules\Wallet\Model\WalletModel,id',
+            'originId' => 'required|int|exists:App\Models\WalletModel,id',
+            'destinationId' => 'required|int|exists:App\Models\WalletModel,id',
             'amount' => 'required|decimal:0,2'
         );
     }

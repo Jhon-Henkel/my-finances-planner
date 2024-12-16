@@ -5,7 +5,7 @@ namespace App\Exceptions\Plan;
 use App\Enums\Gates\GatesAbilityEnum;
 use App\Exceptions\ResponseExceptions\ForbiddenException;
 use App\Models\CreditCard;
-use App\Modules\Wallet\Model\WalletModel;
+use App\Models\WalletModel;
 use Illuminate\Support\Facades\Gate;
 
 class LimitExceededException extends ForbiddenException

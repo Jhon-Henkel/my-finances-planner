@@ -5,7 +5,7 @@ namespace App\Modules\Wallet\Controller;
 use App\Enums\Gates\GatesAbilityEnum;
 use App\Exceptions\Plan\LimitExceededException;
 use App\Http\Controllers\BasicController;
-use App\Modules\Wallet\Model\WalletModel;
+use App\Models\WalletModel;
 use App\Modules\Wallet\Resource\WalletResource;
 use App\Modules\Wallet\Service\WalletService;
 use App\Modules\Wallet\VO\WalletVO;

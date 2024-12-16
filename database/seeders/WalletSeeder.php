@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\WalletModel;
 use App\Modules\Wallet\Enum\WalletTypeEnum;
-use App\Modules\Wallet\Model\WalletModel;
 use Illuminate\Database\Seeder;
 
 class WalletSeeder extends Seeder
