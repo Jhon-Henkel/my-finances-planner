@@ -6,7 +6,7 @@ use App\Enums\CalendarMonthsNumberEnum;
 use App\Enums\DateFormatEnum;
 use App\Enums\MovementEnum;
 use App\Models\MovementModel;
-use App\Modules\Wallet\Model\WalletModel;
+use App\Models\WalletModel;
 use App\Tools\Calendar\CalendarTools;
 use Illuminate\Database\Seeder;
 

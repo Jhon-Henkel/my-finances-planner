@@ -35,6 +35,10 @@ Com a necessidade de algo mais completo e personalizado para controle financeiro
     php artisan key:generate  
     php artisan setup:develop
     ```
+- Setup filas (fora do container):
+    ```bash
+    make rebuild-container container=queue-consumer
+    ```
 - Setup frontend (fora do container):
     ```bash
     make setup-frontend
