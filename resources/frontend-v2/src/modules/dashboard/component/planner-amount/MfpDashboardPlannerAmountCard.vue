@@ -5,6 +5,7 @@ import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMone
 import {calendarNumberOutline, cashOutline} from "ionicons/icons"
 import {usePanoramaStore} from "@/modules/panorama/store/PanoramaStore"
 import router from "../../../../infra/router"
+import {RouteName} from "@/infra/router/routeName"
 
 const panoramaStore = usePanoramaStore()
 

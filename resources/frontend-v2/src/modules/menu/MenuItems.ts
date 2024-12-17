@@ -9,6 +9,7 @@ import {
     swapHorizontalOutline,
     walletOutline
 } from "ionicons/icons"
+import {RouteName} from "@/infra/router/routeName"
 
 export const MenuItems = [
     {
