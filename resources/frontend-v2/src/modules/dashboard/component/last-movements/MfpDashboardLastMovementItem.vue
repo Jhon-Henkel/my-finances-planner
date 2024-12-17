@@ -5,6 +5,7 @@ import {IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
 import {MovementService} from "@/modules/movement/service/MovementService"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
+import {UtilString} from "@/modules/@shared/util/UtilString"
 
 const movementStore = useMovementStore()
 
@@ -32,8 +33,8 @@ onMounted(async () => {
                     </ion-label>
                 </ion-col>
                 <ion-col>
-                    <ion-label class="ion-text-start no-break text-truncate">
-                        {{ movement.description }}
+                    <ion-label class="ion-text-start no-break">
+                        {{ UtilString.ellipsis(movement.description, 10) }}
                     </ion-label>
                 </ion-col>
                 <ion-col class="ion-text-end">
