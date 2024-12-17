@@ -48,12 +48,6 @@ class FutureGainController extends BasicController
         return $this->resource;
     }
 
-    public function nextSixMonths(): JsonResponse
-    {
-        $futureGain = $this->getService()->getNextSixMonthsFutureGain();
-        return response()->json($futureGain, ResponseAlias::HTTP_OK);
-    }
-
     public function receive(int $id, Request $request): JsonResponse
     {
         $gain = $this->getService()->findById($id);
