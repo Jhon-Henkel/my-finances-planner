@@ -1,5 +1,4 @@
 import {ApiRouter} from "@/infra/requst/api/ApiRouter"
-import {useFutureProfitsStore} from "@/modules/future-profits/store/FutureProfitsStore"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import {IFutureProfitForm} from "@/modules/future-profits/service/IFutureProfitForm"
 import {FutureProfitsModel} from "@/modules/future-profits/model/FutureProfitsModel"
