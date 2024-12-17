@@ -23,8 +23,8 @@ class CreditCardTransactionSumUseCase
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
         $date->subMonths();
-        $startOfMonth = "{$date->copy()->startOfMonth()->toDateString()} 00:00:00";
-        $endOfMonth = "{$date->copy()->endOfMonth()->toDateString()} 23:59:59";
+        $startOfMonth = $date->copy()->startOfMonth()->toDateString();
+        $endOfMonth = $date->copy()->endOfMonth()->toDateString();
         return CreditCardTransaction::query()
             ->select('*')
             ->where(function ($query) use ($startOfMonth, $endOfMonth) {
@@ -37,7 +37,6 @@ class CreditCardTransactionSumUseCase
                     ->where('next_installment', '<=', $startOfMonth);
             })
             ->orWhere(function ($query) use ($date) {
-
                 $query->where('installments', '=', InvoiceService::FIX_INSTALLMENT)
                     ->whereMonth('next_installment', '=', $date->month)
                     ->whereYear('next_installment', '=', $date->year);

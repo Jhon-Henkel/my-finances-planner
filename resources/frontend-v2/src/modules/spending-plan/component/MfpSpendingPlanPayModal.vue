@@ -1,21 +1,17 @@
 <script setup lang="ts">
 import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
 import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
-import {modalController} from "@ionic/vue"
+import {IonLabel, modalController} from "@ionic/vue"
 import MfpInputMoney from "@/modules/@shared/components/input/MfpInputMoney.vue"
 import MfpWalletSelect from "@/modules/@shared/components/select/MfpWalletSelect.vue"
 import {PropType, ref} from "vue"
 import MfpInputToggle from "@/modules/@shared/components/input/MfpInputToggle.vue"
-import {PanoramaService} from "@/modules/panorama/service/PanoramaService"
-import {InvoiceModel} from "@/modules/invoice/model/invoiceModel"
-import {IonLabel} from "@ionic/vue"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {PayReceiveModel} from "@/modules/pay-receive/model/PayReceiveModel"
 import {WalletService} from "@/modules/wallet/service/WalletService"
 import {MovementService} from "@/modules/movement/service/MovementService"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
-import {InvoiceService} from "@/modules/invoice/service/InvoiceService"
 import SpendingPlanApiGetDto from "@/modules/spending-plan/dto/spending-plan.api.get.dto"
 
 const props = defineProps({
