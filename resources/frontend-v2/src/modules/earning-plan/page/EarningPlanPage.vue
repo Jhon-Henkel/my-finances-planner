@@ -19,12 +19,10 @@ import MfpEarningPlanFormModal from "@/modules/earning-plan/component/MfpEarning
 import MfpEarningPlanListItem from "@/modules/earning-plan/component/MfpEarningPlanListItem.vue"
 import {ellipsisHorizontal} from "ionicons/icons"
 import EarningPlanApiGetDto from "@/modules/earning-plan/dto/earning-plan.api.get.dto"
-import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import {EarningPlanService} from "@/modules/earning-plan/service/EarningPlanService"
 import MfpEarningPlanReceiveModal from "@/modules/earning-plan/component/MfpEarningPlanReceiveModal.vue"
 
 const store = useEarningPlanStore()
-const okAlert = new MfpOkAlert('Ação inválida!')
 const formModal = new MfpModal(MfpEarningPlanFormModal)
 
 async function optionsAction(item: EarningPlanApiGetDto) {
@@ -37,10 +35,6 @@ async function optionsAction(item: EarningPlanApiGetDto) {
     } else if (action === 'delete') {
         await EarningPlanService.delete(item)
     } else if (action === 'receive') {
-        if (store.isAllowedToProcess(item)) {
-            await okAlert.open('Essa não é a próxima parcela a receber!')
-            return
-        }
         const receiveModal = new MfpModal(MfpEarningPlanReceiveModal)
         await receiveModal.open({item: item})
     } else if (action === 'details') {
