@@ -4,7 +4,7 @@ namespace App\Tools;
 
 class NumberTools
 {
-    public static function roundFloatAmount(float|int $amount): float
+    public static function roundFloatAmount(float|int|string $amount): float
     {
         return round($amount, 2);
     }
