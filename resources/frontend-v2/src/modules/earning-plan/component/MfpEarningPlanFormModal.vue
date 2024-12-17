@@ -9,14 +9,14 @@ import MfpInputToggle from "@/modules/@shared/components/input/MfpInputToggle.vu
 import MfpWalletSelect from "@/modules/@shared/components/select/MfpWalletSelect.vue"
 import MfpInputDate from "@/modules/@shared/components/input/MfpInputDate.vue"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
-import {FutureProfitsModel} from "@/modules/future-profits/model/FutureProfitsModel"
 import {PanoramaService} from "@/modules/panorama/service/PanoramaService"
 import {EarningPlanFormValidation} from "@/modules/earning-plan/validation/EarningPlanFormValidation"
 import {EarningPlanService} from "@/modules/earning-plan/service/EarningPlanService"
 import {useEarningPlanStore} from "@/modules/earning-plan/store/EarningPlanStore"
+import {EarningPlanModel} from "@/modules/earning-plan/model/EarningPlanModel"
 
 const props = defineProps({
-    futureProfit: FutureProfitsModel,
+    futureProfit: EarningPlanModel,
 })
 
 const internalFutureProfit = props.futureProfit ? ref(props.futureProfit) : ref(EarningPlanService.makeEmptyFutureProfit())

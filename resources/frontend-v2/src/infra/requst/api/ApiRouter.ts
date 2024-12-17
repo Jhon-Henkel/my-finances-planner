@@ -157,10 +157,6 @@ export const ApiRouter = {
         }
     },
     futureProfits: {
-        index: async () => {
-            const response = await axios.get(mountApiUrl('future-gain/next-six-months'), makeHeaders())
-            return response.data
-        },
         post: async (data: IFutureExpenseForm) => {
             const response = await axios.post(mountApiUrl('future-gain'), data, makeHeaders())
             return response.data

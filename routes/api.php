@@ -98,8 +98,6 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
     });
 
     Route::prefix('future-gain')->group(function () {
-        Route::get('next-six-months', [FutureGainController::class, 'nextSixMonths'])
-            ->name(RouteEnum::ApiFutureGainNextSixMonths->value);
         Route::get('/{id}', [FutureGainController::class, 'show'])
             ->name(RouteEnum::ApiFutureGainShow->value);
         Route::post('/{id}/receive', [FutureGainController::class, 'receive'])

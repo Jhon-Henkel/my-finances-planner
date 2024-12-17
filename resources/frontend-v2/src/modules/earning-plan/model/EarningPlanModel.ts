@@ -1,4 +1,4 @@
-export class FutureProfitsModel {
+export class EarningPlanModel {
     id: number | null
     description: string
     amount: number

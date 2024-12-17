@@ -1,4 +1,4 @@
-export interface IFutureProfitForm {
+export interface IEarningPlanForm {
     id: any
     description: string
     walletId: number

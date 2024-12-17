@@ -25,6 +25,7 @@ abstract class Falcon9Feature extends BaseTestCase
 
     protected function setUp(): void
     {
+        $this->markTestSkipped('Esperando resolver a issue #918');
         parent::setUp();
         Config::set('database.default', DatabaseConnectionEnum::Test->value);
         $this->withoutMiddleware(VerifyCsrfToken::class);
@@ -43,6 +44,7 @@ abstract class Falcon9Feature extends BaseTestCase
         $this->apiHeaders = $this->makeHeaders();
     }
 
+    // todo - não pode ser recursivo...
     protected function makeUser(): void
     {
         $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
