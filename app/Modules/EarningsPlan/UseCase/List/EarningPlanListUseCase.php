@@ -7,6 +7,7 @@ use App\Enums\RouteEnum;
 use App\Infra\Shared\UseCase\List\IListUseCase;
 use App\Models\FutureGain;
 use App\Tools\NumberTools;
+use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
@@ -64,16 +65,15 @@ class EarningPlanListUseCase implements IListUseCase
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
         $date->addMonth();
-        $route = route(RouteEnum::ApiEarningPlanList) . "?year=$date->year&month=$date->month";
-        return str_replace('http://', 'https://', $route);
+        return RequestTools::mountUrl(RouteEnum::ApiEarningPlanList, "?year=$date->year&month=$date->month");
+
     }
 
     protected function makePrevMonthUrl(array $queryParams): string
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
         $date->subMonth();
-        $route = route(RouteEnum::ApiEarningPlanList) . "?year=$date->year&month=$date->month";
-        return str_replace('http://', 'https://', $route);
+        return RequestTools::mountUrl(RouteEnum::ApiEarningPlanList, "?year=$date->year&month=$date->month");
     }
 
     protected function sumTotalAmount(array $items): float

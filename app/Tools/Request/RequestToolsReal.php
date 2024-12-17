@@ -2,6 +2,8 @@
 
 namespace App\Tools\Request;
 
+use App\Enums\RouteEnum;
+
 class RequestToolsReal
 {
     public function inputGet(null|string $key = null): mixed
@@ -31,5 +33,14 @@ class RequestToolsReal
     public function getUserAgent(): string|null
     {
         return $_SERVER['HTTP_USER_AGENT'] ?? null;
+    }
+
+    public function mountUrl(RouteEnum $route, string $query): string
+    {
+        $route = route(RouteEnum::ApiEarningPlanList) . $query;
+        if (config('app.env') === 'local') {
+            return $route;
+        }
+        return str_replace('http://', 'https://', $route);
     }
 }
