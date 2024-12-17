@@ -5,10 +5,11 @@ import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import EarningPlanApiGetDto from "@/modules/earning-plan/dto/earning-plan.api.get.dto"
 import {UtilNumber} from "../../@shared/util/UtilNumber"
+import SpendingPlanApiGetDto from "@/modules/spending-plan/dto/spending-plan.api.get.dto"
 
 const props = defineProps({
     invoiceItem: {
-        type: Object as () => EarningPlanApiGetDto,
+        type: Object as () => EarningPlanApiGetDto | SpendingPlanApiGetDto,
         required: true
     },
     store: {

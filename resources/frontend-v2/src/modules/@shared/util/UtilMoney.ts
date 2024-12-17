@@ -1,5 +1,5 @@
 export const UtilMoney = {
-    formatValueToBr: (value: number): string => {
+    formatValueToBr: (value: number|string): string => {
         value = parseFloat(String(value))
         return value.toLocaleString(
             'pt-BR',

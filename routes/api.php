@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->middleware('auth.api:api')->group(function () {
 
     Route::prefix('v2/')->group(function () {
-        // todo - Essa Rota 'spending-plan' não está em uso real, existe somente no backend.
         Route::prefix('spending-plan')->group(function () {
             Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
         });

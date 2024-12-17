@@ -279,6 +279,12 @@ export const ApiRouter = {
             return data.data
         }
     },
+    spending_plan: {
+        index: async function (): Promise<ResponseListDefault> {
+            const data = await axios.get(mountApiUrl('v2/spending-plan'), makeHeaders())
+            return data.data
+        }
+    },
     genericListRequestWithAuth: async function (url: string): Promise<ResponseListDefault> {
         const data = await axios.get(url, makeHeaders())
         return data.data
