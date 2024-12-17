@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
-import {UtilString} from "@/modules/@shared/util/UtilString"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {MovementService} from "@/modules/movement/service/MovementService"
