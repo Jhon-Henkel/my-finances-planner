@@ -4,11 +4,11 @@ import {IonCol, IonGrid, IonRow, modalController} from "@ionic/vue"
 import {FutureExpenseModel} from "@/modules/future-expense/model/FutureExpenseModel"
 import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
-import {FutureProfitsModel} from "@/modules/future-profits/model/FutureProfitsModel"
+import {EarningPlanModel} from "@/modules/earning-plan/model/EarningPlanModel"
 
 defineProps({
     item: {
-        type: [FutureExpenseModel, FutureProfitsModel],
+        type: [FutureExpenseModel, EarningPlanModel],
         required: true
     },
     totalLabel: {
