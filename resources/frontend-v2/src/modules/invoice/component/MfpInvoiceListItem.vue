@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {IonBadge, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
 import {checkmarkCircleOutline, chevronBackOutline} from "ionicons/icons"
-import {UtilString} from "@/modules/@shared/util/UtilString"
 import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {IInvoice} from "@/modules/invoice/service/IInvoice"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
@@ -47,9 +46,9 @@ function getColorForNextInstallmentDay(installment: number): string {
                 <ion-col size="6">
                     <ion-row>
                         <ion-col class="ion-padding-start">
-                            <ion-label class="no-break">
+                            <ion-label class="no-break text-truncate">
                                 <strong>
-                                    {{ UtilString.ellipsis(invoiceItem.name, 24) }}
+                                    {{ invoiceItem.name }}
                                 </strong>
                             </ion-label>
                         </ion-col>

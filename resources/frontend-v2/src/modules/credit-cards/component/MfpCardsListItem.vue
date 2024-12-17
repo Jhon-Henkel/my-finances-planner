@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {IonGrid, IonRow, IonCol, IonProgressBar, IonLabel, IonItem, IonIcon, IonBadge} from "@ionic/vue"
 import {CardModel} from "@/modules/credit-cards/model/CardModel"
-import {UtilString} from "@/modules/@shared/util/UtilString"
 import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {ref} from "vue"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
@@ -42,8 +41,8 @@ function getColorForForecast() {
                 <ion-col size="11">
                     <ion-row>
                         <ion-col size="6">
-                            <ion-label>
-                                {{ UtilString.ellipsis(card.name, 30) }}
+                            <ion-label class="text-truncate">
+                                {{ card.name }}
                             </ion-label>
                         </ion-col>
                         <ion-col size="6" class="ion-text-end">

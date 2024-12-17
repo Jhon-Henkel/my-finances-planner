@@ -4,6 +4,7 @@ import {chevronBackOutline} from "ionicons/icons"
 import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import EarningPlanApiGetDto from "@/modules/earning-plan/dto/earning-plan.api.get.dto"
+import {UtilNumber} from "../../@shared/util/UtilNumber"
 
 const props = defineProps({
     invoiceItem: {
@@ -15,6 +16,8 @@ const props = defineProps({
         required: true
     }
 })
+
+const dueDay = UtilCalendar.makeDate(props.invoiceItem.forecast).getDate()
 
 function getColorForNextInstallmentDay(): string {
     const dateToday = UtilCalendar.getToday()
@@ -36,7 +39,7 @@ function getColorForNextInstallmentDay(): string {
             <ion-row class="center-ion-label-content">
                 <ion-col size="1">
                     <ion-badge :color="getColorForNextInstallmentDay()">
-                        {{ UtilCalendar.makeDate(invoiceItem.forecast).getDate() }}
+                        {{ UtilNumber.addZeroBeforeNumberIfMinorOfTen(dueDay) }}
                     </ion-badge>
                 </ion-col>
                 <ion-col size="6">

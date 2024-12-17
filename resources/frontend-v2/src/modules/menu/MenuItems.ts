@@ -28,7 +28,7 @@ export const MenuItems = [
     },
     {
         icon: cashOutline,
-        routeName: 'future-profits',
+        routeName: RouteName.earning_plan,
         label: 'Plano de Receitas',
     },
     {

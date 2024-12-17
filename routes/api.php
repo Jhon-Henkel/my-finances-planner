@@ -27,7 +27,6 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
         Route::prefix('spending-plan')->group(function () {
             Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
         });
-        // todo - Essa Rota 'earnings-plan' não está em uso real, existe somente no backend.
         Route::prefix('earnings-plan')->group(function () {
             Route::get('', EarningPlanListController::class)->name(RouteEnum::ApiEarningPlanList->value);
         });

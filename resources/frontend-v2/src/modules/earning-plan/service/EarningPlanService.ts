@@ -1,11 +1,11 @@
 import {ApiRouter} from "@/infra/requst/api/ApiRouter"
-import {useFutureProfitsStore} from "@/modules/future-profits/store/FutureProfitsStore"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import {IFutureProfitForm} from "@/modules/future-profits/service/IFutureProfitForm"
 import {FutureProfitsModel} from "@/modules/future-profits/model/FutureProfitsModel"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
 import EarningPlanApiGetDto from "@/modules/earning-plan/dto/earning-plan.api.get.dto"
+import {useEarningPlanStore} from "@/modules/earning-plan/store/EarningPlanStore"
 
 export const EarningPlanService = {
     create: async (data: IFutureProfitForm, isFixProfit: boolean): Promise<void> => {
@@ -33,12 +33,11 @@ export const EarningPlanService = {
             await ApiRouter.futureProfits.delete(data.id)
             const toast = new MfpToast()
             await toast.open('Plano de receita deletado com sucesso!')
-            await EarningPlanService.forceLoadStore()
+            await EarningPlanService.reloadStore()
         }
     },
-    forceLoadStore: async (): Promise<void> => {
-        const store = useFutureProfitsStore()
-        store.loadAgainOnNextTick()
+    reloadStore: async (): Promise<void> => {
+        const store = useEarningPlanStore()
         await store.load()
     },
     makeEmptyFutureProfit: (): IFutureProfitForm => {
