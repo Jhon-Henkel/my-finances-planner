@@ -11,7 +11,9 @@ class NumberToolsUnitTest extends Falcon9
     {
         $this->assertEquals(10.12, NumberTools::roundFloatAmount(10.123456));
         $this->assertEquals(10.13, NumberTools::roundFloatAmount(10.129999));
+        $this->assertEquals(10.13, NumberTools::roundFloatAmount("10.129999"));
         $this->assertEquals(10, NumberTools::roundFloatAmount(10));
+        $this->assertEquals(10, NumberTools::roundFloatAmount("10"));
     }
 
     public function testMakeBalance()

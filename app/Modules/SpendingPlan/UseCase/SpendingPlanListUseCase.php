@@ -4,32 +4,35 @@ namespace App\Modules\SpendingPlan\UseCase;
 
 use App\Enums\RouteEnum;
 use App\Infra\Shared\UseCase\List\IListUseCase;
+use App\Modules\CreditCardTransaction\UseCase\Sum\CreditCardTransactionSumUseCase;
+use App\Modules\EarningsPlan\UseCase\Sum\EarningPlanSumUseCase;
+use App\Modules\Invoice\Service\InvoiceService;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
-use App\Modules\SpendingPlan\Exceptions\MonthQueryParamMissingException;
-use App\Modules\SpendingPlan\Exceptions\YearQueryParamMissingException;
+use App\Modules\Wallet\UseCase\Sum\WalletSumUseCase;
+use App\Tools\NumberTools;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class SpendingPlanListUseCase implements IListUseCase
 {
-    public function execute(int $perPage, int $page, array|null $queryParams = null): array
-    {
-        $perPage = 999999;
-        $this->validateQueryParams($queryParams);
-        $result = $this->getList($perPage, $page, $queryParams);
-        $result['next_page_url'] = $this->makeNextMonthUrl($queryParams);
-        $result['prev_page_url'] = $this->makePrevMonthUrl($queryParams);
-        return $result;
+    public function __construct(
+        protected InvoiceService $invoiceService,
+        protected EarningPlanSumUseCase $earningPlanSumUseCase,
+        protected CreditCardTransactionSumUseCase $creditCardTransactionSumUseCase,
+        protected WalletSumUseCase $walletSumUseCase
+    ) {
     }
 
-    protected function validateQueryParams(array|null $queryParams): void
+    public function execute(int $perPage, int $page, array|null $queryParams = null): array
     {
-        if (is_null($queryParams) || ! isset($queryParams['month'])) {
-            throw new MonthQueryParamMissingException();
-        }
-        if (! isset($queryParams['year'])) {
-            throw new YearQueryParamMissingException();
-        }
+        $this->invoiceService->validateFilterDateQueryParams($queryParams);
+        $result = $this->getList(999999, $page, $queryParams);
+        $this->invoiceService->addPaginationUrls($result, RouteEnum::ApiSpendingPlanList, $queryParams);
+        $this->invoiceService->addMetaData($result, $queryParams);
+        $this->addWalletTotalAmountMetadata($result);
+        $this->addEarningsTotalAmountMetadata($result, $queryParams);
+        $this->addCreditCardsTotalAmountMetadata($result, $queryParams);
+        return $result;
     }
 
     protected function getList(int $perPage, int $page, array $queryParams): array
@@ -37,40 +40,45 @@ class SpendingPlanListUseCase implements IListUseCase
         $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
         $startOfMonth = "{$date->copy()->startOfMonth()->toDateString()} 00:00:00";
         $endOfMonth = "{$date->copy()->endOfMonth()->toDateString()} 23:59:59";
-
-        $query = SpendingPlanModel::query();
-        $query->select('*')
+        $query = SpendingPlanModel::query()
+            ->select('*')
             ->where(function ($query) use ($startOfMonth, $endOfMonth) {
                 $query->where('installments', '>', 0)
                     ->where('forecast', '<=', $endOfMonth)
                     ->where(DB::raw('DATE_ADD(forecast, INTERVAL (installments - 1) MONTH)'), '>=', $startOfMonth);
             })
             ->orWhere(function ($query) use ($startOfMonth) {
-                $query->where('installments', '=', 0)
+                $query->where('installments', '=', InvoiceService::FIX_INSTALLMENT)
                     ->where('forecast', '<=', $startOfMonth);
             })
             ->orWhere(function ($query) use ($queryParams) {
-                $query->where('installments', '=', 0)
+                $query->where('installments', '=', InvoiceService::FIX_INSTALLMENT)
                     ->whereMonth('forecast', '=', $queryParams['month'])
                     ->whereYear('forecast', '=', $queryParams['year']);
             })
-            ->join('wallets', 'future_spent.wallet_id', '=', 'wallets.id')
             ->orderByRaw('DAY(forecast)');
 
         return $query->paginate($perPage, ['*'], 'page', $page)->toArray();
     }
 
-    protected function makeNextMonthUrl(array $queryParams): string
+    protected function addWalletTotalAmountMetadata(array &$result): void
     {
-        $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
-        $date->addMonth();
-        return route(RouteEnum::ApiSpendingPlanList) . "?year=$date->year&month=$date->month";
+        $total = 0;
+        if (Date::now()->month === $result['meta']['search_date']->month) {
+            $total = $this->walletSumUseCase->execute();
+        }
+        $result['meta']['total_wallet_amount'] = NumberTools::roundFloatAmount($total);
     }
 
-    protected function makePrevMonthUrl(array $queryParams): string
+    protected function addEarningsTotalAmountMetadata(array &$result, array $queryParams): void
     {
-        $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
-        $date->subMonth();
-        return route(RouteEnum::ApiSpendingPlanList) . "?year=$date->year&month=$date->month";
+        $total = $this->earningPlanSumUseCase->execute($queryParams);
+        $result['meta']['total_earnings_amount'] = NumberTools::roundFloatAmount($total);
+    }
+
+    protected function addCreditCardsTotalAmountMetadata(array &$result, array $queryParams): void
+    {
+        $total = $this->creditCardTransactionSumUseCase->execute($queryParams);
+        $result['meta']['total_credit_cards_amount'] = NumberTools::roundFloatAmount($total);
     }
 }

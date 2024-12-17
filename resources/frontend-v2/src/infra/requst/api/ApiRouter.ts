@@ -265,10 +265,6 @@ export const ApiRouter = {
         cancel: async function (data: any) {
             const response = await axios.post(mountApiUrl('subscription/cancel'), data, makeHeaders())
             return response.data
-        },
-        updateAccount: async function (data: any) {
-            const response = await axios.post('api/mfp/subscription/update-account', data, makeHeadersNonLogged())
-            return response.data
         }
     },
     marketPlanner: {
@@ -280,6 +276,12 @@ export const ApiRouter = {
     earning_plan: {
         index: async function (): Promise<ResponseListDefault> {
             const data = await axios.get(mountApiUrl('v2/earnings-plan'), makeHeaders())
+            return data.data
+        }
+    },
+    spending_plan: {
+        index: async function (): Promise<ResponseListDefault> {
+            const data = await axios.get(mountApiUrl('v2/spending-plan'), makeHeaders())
             return data.data
         }
     },

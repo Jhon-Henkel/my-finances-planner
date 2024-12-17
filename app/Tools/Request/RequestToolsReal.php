@@ -37,8 +37,8 @@ class RequestToolsReal
 
     public function mountUrl(RouteEnum $route, string $query): string
     {
-        $route = route(RouteEnum::ApiEarningPlanList) . $query;
-        if (config('app.env') === 'local') {
+        $route = route($route) . $query;
+        if ($this->isApplicationInDevelopMode()) {
             return $route;
         }
         return str_replace('http://', 'https://', $route);

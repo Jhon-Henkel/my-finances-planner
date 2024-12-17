@@ -1,35 +1,30 @@
 <?php
 
-namespace App\Modules\EarningsPlan\UseCase\List;
+namespace App\Modules\EarningsPlan\UseCase\Sum;
 
-use App\Enums\RouteEnum;
-use App\Infra\Shared\UseCase\List\IListUseCase;
 use App\Models\FutureGain;
 use App\Modules\Invoice\Service\InvoiceService;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
-class EarningPlanListUseCase implements IListUseCase
+class EarningPlanSumUseCase
 {
     public function __construct(protected InvoiceService $invoiceService)
     {
     }
 
-    public function execute(int $perPage, int $page, array|null $queryParams = null): array
+    public function execute(array|null $queryParams = null): string
     {
         $this->invoiceService->validateFilterDateQueryParams($queryParams);
-        $result = $this->getList(999999, $page, $queryParams);
-        $this->invoiceService->addPaginationUrls($result, RouteEnum::ApiEarningPlanList, $queryParams);
-        $this->invoiceService->addMetaData($result, $queryParams);
-        return $result;
+        return $this->getSum($queryParams);
     }
 
-    protected function getList(int $perPage, int $page, array $queryParams): array
+    protected function getSum(array $queryParams): string
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
         $startOfMonth = "{$date->copy()->startOfMonth()->toDateString()} 00:00:00";
         $endOfMonth = "{$date->copy()->endOfMonth()->toDateString()} 23:59:59";
-        $query = FutureGain::query()
+        return FutureGain::query()
             ->select('*')
             ->where(function ($query) use ($startOfMonth, $endOfMonth) {
                 $query->where('installments', '>', 0)
@@ -45,8 +40,6 @@ class EarningPlanListUseCase implements IListUseCase
                     ->whereMonth('forecast', '=', $queryParams['month'])
                     ->whereYear('forecast', '=', $queryParams['year']);
             })
-            ->orderByRaw('DAY(forecast)');
-
-        return $query->paginate($perPage, ['*'], 'page', $page)->toArray();
+            ->sum('amount');
     }
 }

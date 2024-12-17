@@ -5,10 +5,11 @@ import {FutureExpenseModel} from "@/modules/future-expense/model/FutureExpenseMo
 import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import {EarningPlanModel} from "@/modules/earning-plan/model/EarningPlanModel"
+import {SpendingPlanModel} from "@/modules/spending-plan/model/SpendingPlanModel"
 
 defineProps({
     item: {
-        type: [FutureExpenseModel, EarningPlanModel],
+        type: [FutureExpenseModel, EarningPlanModel, SpendingPlanModel],
         required: true
     },
     totalLabel: {
