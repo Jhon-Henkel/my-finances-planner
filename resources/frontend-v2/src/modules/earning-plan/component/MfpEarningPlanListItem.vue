@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {IonBadge, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
-import {calendar, chevronBackOutline} from "ionicons/icons"
+import {chevronBackOutline} from "ionicons/icons"
 import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import EarningPlanApiGetDto from "@/modules/earning-plan/dto/earning-plan.api.get.dto"
