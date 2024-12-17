@@ -18,7 +18,7 @@ onMounted(async () => {
 <template>
     <ion-row>
         <ion-col size="6">
-            <ion-card class="ion-no-margin" color="light" @click="router.push({name: 'future-profits'})">
+            <ion-card class="ion-no-margin" color="light" @click="router.push({name: RouteName.earning_plan})">
                 <ion-row class="ion-margin">
                     <ion-col size="3">
                         <ion-icon :icon="cashOutline" size="large" color="success"/>
