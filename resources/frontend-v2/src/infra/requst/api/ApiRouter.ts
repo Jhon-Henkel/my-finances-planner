@@ -14,6 +14,7 @@ import {UserModel} from "@/modules/user/model/UserModel"
 import {MainSettingsModel} from "@/modules/setings/model/MainSettingsModel"
 import {IRegisterForm} from "@/modules/register/service/IRegisterForm"
 import {MfpSubscriptionService} from "@/modules/subscription/service/MfpSubscriptionService"
+import {ResponseListDefault} from "@/infra/response/response.list.default"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -279,5 +280,15 @@ export const ApiRouter = {
             const response = await axios.get(mountApiUrl('v2/market-planner/show-details'), makeHeaders())
             return response.data
         }
+    },
+    earning_plan: {
+        index: async function (): Promise<ResponseListDefault> {
+            const data = await axios.get(mountApiUrl('v2/earnings-plan'), makeHeaders())
+            return data.data
+        }
+    },
+    genericListRequestWithAuth: async function (url: string): Promise<ResponseListDefault> {
+        const data = await axios.get(url, makeHeaders())
+        return data.data
     }
 }

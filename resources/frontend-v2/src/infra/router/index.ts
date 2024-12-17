@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from '@ionic/vue-router'
 import {RouteRecordRaw} from 'vue-router'
 import RouterAuthMiddleware from "@/infra/router/RouterAuthMiddleware"
 import MfpMenu from "@/modules/menu/MfpMenu.vue"
+import {RouteName} from "@/infra/router/routeName"
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -74,6 +75,11 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'ganhos-futuros',
                 name: 'future-profits',
                 component: () => import('@/modules/future-profits/page/FutureProfitsPage.vue')
+            },
+            {
+                path: 'plano-de-ganhos',
+                name: RouteName.earning_plan,
+                component: () => import('@/modules/earning-plan/page/EarningPlanPage.vue')
             },
             {
                 path: 'gerenciar-cartoes',

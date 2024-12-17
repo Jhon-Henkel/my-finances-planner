@@ -9,7 +9,7 @@ export const UtilMoney = {
             }
         )
     },
-    formatValueToBrReturnStringCaseZero: (value: number, string: string = ''): string => {
+    formatValueToBrReturnStringCaseZero: (value: number|string, string: string = ''): string => {
         value = parseFloat(String(value))
         if (value === 0) {
             return string
