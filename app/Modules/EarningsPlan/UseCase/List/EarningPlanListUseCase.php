@@ -64,14 +64,16 @@ class EarningPlanListUseCase implements IListUseCase
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
         $date->addMonth();
-        return route(RouteEnum::ApiEarningPlanList) . "?year=$date->year&month=$date->month";
+        $route = route(RouteEnum::ApiEarningPlanList) . "?year=$date->year&month=$date->month";
+        return str_replace('http://', 'https://', $route);
     }
 
     protected function makePrevMonthUrl(array $queryParams): string
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
         $date->subMonth();
-        return route(RouteEnum::ApiEarningPlanList) . "?year=$date->year&month=$date->month";
+        $route = route(RouteEnum::ApiEarningPlanList) . "?year=$date->year&month=$date->month";
+        return str_replace('http://', 'https://', $route);
     }
 
     protected function sumTotalAmount(array $items): float
