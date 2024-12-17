@@ -47,9 +47,9 @@ function getColorForNextInstallmentDay(installment: number): string {
                 <ion-col size="6">
                     <ion-row>
                         <ion-col class="ion-padding-start">
-                            <ion-label class="no-break">
+                            <ion-label class="no-break text-truncate">
                                 <strong>
-                                    {{ UtilString.ellipsis(invoiceItem.name, 24) }}
+                                    {{ invoiceItem.name }}
                                 </strong>
                             </ion-label>
                         </ion-col>

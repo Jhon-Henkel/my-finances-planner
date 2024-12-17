@@ -68,3 +68,9 @@ http://ionicframework.com/docs/theming/ */
 .icon-start {
     margin-left: 5px;
 }
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

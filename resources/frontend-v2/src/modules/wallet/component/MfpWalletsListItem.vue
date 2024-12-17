@@ -22,9 +22,9 @@ defineProps(
                 <ion-col>
                     <ion-row>
                         <ion-col size="6">
-                            <ion-label>
+                            <ion-label class="text-truncate">
                                 <strong>
-                                    {{ UtilString.ellipsis(wallet.name, 18) }}
+                                    {{ wallet.name }}
                                 </strong>
                             </ion-label>
                         </ion-col>
