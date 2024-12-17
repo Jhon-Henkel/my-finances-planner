@@ -56,7 +56,7 @@ export const useEarningPlanStore = defineStore('earning-plan', {
             this.prevMonthUrl = data.links.prev
             this.dateSearch = data.meta.search_date
         },
-        isAllowedToProcess(item: EarningPlanApiGetDto): boolean {
+        isAllowedToProcess(): boolean {
             // todo - definir regra
             return false
         }
