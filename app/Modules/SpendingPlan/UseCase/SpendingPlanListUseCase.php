@@ -88,7 +88,7 @@ class SpendingPlanListUseCase implements IListUseCase
     protected function addMarketPlannerInvoiceItem(array &$result, int $monthSearch): void
     {
         $marketPlanner = $this->showDetailsMarketPlannerUseCase->execute(0);
-        if (!$marketPlanner['use_market_planner']) {
+        if (!$marketPlanner['use_market_planner'] || $monthSearch < Date::now()->month) {
             return;
         }
         $value = $marketPlanner['total_limit'];
