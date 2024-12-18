@@ -29,7 +29,7 @@ class SpendingPlanListUseCase implements IListUseCase
     {
         $this->invoiceService->validateFilterDateQueryParams($queryParams);
         $result = $this->getList(999999, $page, $queryParams);
-        $this->addMarketPlannerInvoiceItem($result, $queryParams['month']);
+        $this->addMarketPlannerInvoiceItem($result, $queryParams);
         $this->invoiceService->addPaginationUrls($result, RouteEnum::ApiSpendingPlanList, $queryParams);
         $this->invoiceService->addMetaData($result, $queryParams);
         $this->addWalletTotalAmountMetadata($result);
@@ -85,14 +85,14 @@ class SpendingPlanListUseCase implements IListUseCase
         $result['meta']['total_credit_cards_amount'] = $total;
     }
 
-    protected function addMarketPlannerInvoiceItem(array &$result, int $monthSearch): void
+    protected function addMarketPlannerInvoiceItem(array &$result, array $queryParams): void
     {
         $marketPlanner = $this->showDetailsMarketPlannerUseCase->execute(0);
-        if (!$marketPlanner['use_market_planner'] || $monthSearch < Date::now()->month) {
+        if (!$this->isAllowedToUseMarketPlannerInvoiceItem($marketPlanner, $queryParams)) {
             return;
         }
         $value = $marketPlanner['total_limit'];
-        if (Date::now()->month === $monthSearch) {
+        if (Date::now()->month === $queryParams['month']) {
             $value = $marketPlanner['this_month_remaining_limit'];
         }
         if ($value <= 0) {
@@ -109,5 +109,16 @@ class SpendingPlanListUseCase implements IListUseCase
             "updated_at" => "2024-12-16 19:56:33"
         ];
         $result['total']++;
+    }
+
+    protected function isAllowedToUseMarketPlannerInvoiceItem(array $marketPlanner, array $queryParams): bool
+    {
+        if (!$marketPlanner['use_market_planner']) {
+            return false;
+        }
+        if ($queryParams['month'] < Date::now()->month && $queryParams['year'] <= Date::now()->year) {
+            return false;
+        }
+        return true;
     }
 }
