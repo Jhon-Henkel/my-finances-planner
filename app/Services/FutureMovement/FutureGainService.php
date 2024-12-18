@@ -5,7 +5,6 @@ namespace App\Services\FutureMovement;
 use App\DTO\FutureMovement\FutureGainDTO;
 use App\DTO\FutureMovement\IFutureMovementDTO;
 use App\Repositories\FutureGainRepository;
-use App\Resources\FutureGainResource;
 use App\Services\BasicService;
 use App\Services\Movement\MovementService;
 
@@ -15,7 +14,6 @@ class FutureGainService extends BasicService
 
     public function __construct(
         private readonly FutureGainRepository $repository,
-        private readonly FutureGainResource $resource,
         private readonly MovementService $movementService
     ) {
     }

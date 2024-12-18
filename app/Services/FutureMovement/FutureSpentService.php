@@ -5,10 +5,8 @@ namespace App\Services\FutureMovement;
 use App\DTO\FutureMovement\FutureSpentDTO;
 use App\DTO\FutureMovement\IFutureMovementDTO;
 use App\Repositories\FutureSpentRepository;
-use App\Resources\FutureSpentResource;
 use App\Services\BasicService;
 use App\Services\Movement\MovementService;
-use App\Services\Tools\MarketPlannerService;
 
 class FutureSpentService extends BasicService
 {
@@ -16,8 +14,6 @@ class FutureSpentService extends BasicService
 
     public function __construct(
         private readonly FutureSpentRepository $repository,
-        private readonly MarketPlannerService $marketPlannerService,
-        private readonly FutureSpentResource $resource,
         private readonly MovementService $movementService
     ) {
     }
