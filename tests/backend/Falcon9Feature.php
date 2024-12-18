@@ -25,7 +25,6 @@ abstract class Falcon9Feature extends BaseTestCase
 
     protected function setUp(): void
     {
-        $this->markTestSkipped('Esperando resolver a issue #918');
         parent::setUp();
         Config::set('database.default', DatabaseConnectionEnum::Test->value);
         $this->withoutMiddleware(VerifyCsrfToken::class);
@@ -44,18 +43,11 @@ abstract class Falcon9Feature extends BaseTestCase
         $this->apiHeaders = $this->makeHeaders();
     }
 
-    // todo - não pode ser recursivo...
     protected function makeUser(): void
     {
         $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
         if (empty($user)) {
-            $this->artisan('migrate');
-            $this->artisan('create:user --test-suit=true');
-            $this->artisan('migrate:all-tenants');
-            $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
-        }
-        if (empty($user)) {
-            $this->makeUser();
+            throw new \Exception('User for test not found');
         }
         $this->user = new User((array)$user[0]);
     }
@@ -70,11 +62,11 @@ abstract class Falcon9Feature extends BaseTestCase
     protected function tearDown(): void
     {
         DB::rollBack();
-        $this->connectMaster();
-        DB::statement("DROP DATABASE IF EXISTS {$this->user->tenant()->tenant_hash}");
-        DB::delete("DELETE FROM access_log");
-        DB::delete("DELETE FROM users");
-        DB::delete("DELETE FROM tenants");
+//        $this->connectMaster();
+//        DB::statement("DROP DATABASE IF EXISTS {$this->user->tenant()->tenant_hash}");
+//        DB::delete("DELETE FROM access_log");
+//        DB::delete("DELETE FROM users");
+//        DB::delete("DELETE FROM tenants");
         parent::tearDown();
     }
 

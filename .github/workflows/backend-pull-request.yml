@@ -87,6 +87,8 @@ jobs:
       - name: 🛠 Setup Runner Database
         run: |
           php artisan migrate --database=mysql_testing --force
+          php artisan create:user --test-suit=true
+          php artisan migrate:all-tenants
 
       - name: 👍 Applying permissions
         run: chmod -R 777 storage bootstrap/cache
