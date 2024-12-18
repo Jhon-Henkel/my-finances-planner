@@ -7,6 +7,7 @@ use App\Infra\Shared\UseCase\List\IListUseCase;
 use App\Modules\CreditCardTransaction\UseCase\Sum\CreditCardTransactionSumUseCase;
 use App\Modules\EarningsPlan\UseCase\Sum\EarningPlanSumUseCase;
 use App\Modules\Invoice\Service\InvoiceService;
+use App\Modules\MarketPlanner\UseCase\ShowDetailsMarketPlanner\ShowDetailsMarketPlannerUseCase;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
 use App\Modules\Wallet\UseCase\Sum\WalletSumUseCase;
 use App\Tools\NumberTools;
@@ -19,7 +20,8 @@ class SpendingPlanListUseCase implements IListUseCase
         protected InvoiceService $invoiceService,
         protected EarningPlanSumUseCase $earningPlanSumUseCase,
         protected CreditCardTransactionSumUseCase $creditCardTransactionSumUseCase,
-        protected WalletSumUseCase $walletSumUseCase
+        protected WalletSumUseCase $walletSumUseCase,
+        protected ShowDetailsMarketPlannerUseCase $showDetailsMarketPlannerUseCase
     ) {
     }
 
@@ -27,6 +29,7 @@ class SpendingPlanListUseCase implements IListUseCase
     {
         $this->invoiceService->validateFilterDateQueryParams($queryParams);
         $result = $this->getList(999999, $page, $queryParams);
+        $this->addMarketPlannerInvoiceItem($result, $queryParams['month']);
         $this->invoiceService->addPaginationUrls($result, RouteEnum::ApiSpendingPlanList, $queryParams);
         $this->invoiceService->addMetaData($result, $queryParams);
         $this->addWalletTotalAmountMetadata($result);
@@ -79,6 +82,32 @@ class SpendingPlanListUseCase implements IListUseCase
     protected function addCreditCardsTotalAmountMetadata(array &$result, array $queryParams): void
     {
         $total = $this->creditCardTransactionSumUseCase->execute($queryParams);
-        $result['meta']['total_credit_cards_amount'] = NumberTools::roundFloatAmount($total);
+        $result['meta']['total_credit_cards_amount'] = $total;
+    }
+
+    protected function addMarketPlannerInvoiceItem(array &$result, int $monthSearch): void
+    {
+        $marketPlanner = $this->showDetailsMarketPlannerUseCase->execute(0);
+        if (!$marketPlanner['use_market_planner']) {
+            return;
+        }
+        $value = $marketPlanner['total_limit'];
+        if (Date::now()->month === $monthSearch) {
+            $value = $marketPlanner['this_month_remaining_limit'];
+        }
+        if ($value <= 0) {
+            return;
+        }
+        $result['data'][] = [
+            "id" => InvoiceService::FIX_INSTALLMENT,
+            "wallet_id" => InvoiceService::FIX_INSTALLMENT,
+            "description" => "Mercado",
+            "amount" => NumberTools::roundFloatAmount($value),
+            "installments" => InvoiceService::FIX_INSTALLMENT,
+            "forecast" => Date::now()->endOfMonth()->toDateTimeString(),
+            "created_at" => "2024-12-16 19:56:33",
+            "updated_at" => "2024-12-16 19:56:33"
+        ];
+        $result['total']++;
     }
 }
