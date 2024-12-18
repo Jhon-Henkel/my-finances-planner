@@ -32,12 +32,12 @@ class CreditCardTransactionSumUseCase
         }
         foreach ($allInvoiceItems as $invoiceItem) {
             $creditCard = $creditCards[$invoiceItem->credit_card_id];
-            $invoiceStart = Date::createFromDate($queryParams['year'], $queryParams['month'], $creditCard->closing_day);
-            $invoiceEnd = $invoiceStart->copy()->addMonth();
-            $itemNextInstallment = Date::createFromDate($invoiceItem->next_installment);
+            $invoiceStart = Date::createFromDate($queryParams['year'], $queryParams['month'], 1)->startOfDay();
+            // Está adicionando um mês, pois esse campo é a data da "compra" e não da fatura
+            $itemNextInstallment = Date::createFromDate($invoiceItem->next_installment)->addMonth()->startOfDay();
             if ($invoiceItem->installments === InvoiceInstallmentsEnum::FixedInstallments->value) {
                 if (
-                    $itemNextInstallment->lessThanOrEqualTo($invoiceStart)
+                    $itemNextInstallment->lessThan($invoiceStart)
                     || (
                         $itemNextInstallment->day >= $creditCard->closing_day
                         && $itemNextInstallment->month === $invoiceStart->month
@@ -48,10 +48,16 @@ class CreditCardTransactionSumUseCase
                 }
                 continue;
             }
-            $itemLastInstallment = Date::createFromDate($invoiceItem->next_installment)->addMonths($invoiceItem->installments - 1);
+            $invoiceEnd = $invoiceStart->copy()->addMonth()->subDay()->endOfDay();
+            $itemLastInstallment = $itemNextInstallment->copy()->addMonths($invoiceItem->installments - 1)->subDay()->endOfDay();
             if (
-                $itemNextInstallment->lessThanOrEqualTo($invoiceEnd)
-                && $itemLastInstallment->greaterThanOrEqualTo($invoiceStart)
+                (
+                    $itemNextInstallment->greaterThanOrEqualTo($invoiceStart)
+                    && $itemNextInstallment->lessThanOrEqualTo($invoiceEnd)
+                ) || (
+                    $itemNextInstallment->lessThanOrEqualTo($invoiceEnd)
+                    && $itemLastInstallment->greaterThanOrEqualTo($invoiceStart)
+                )
             ) {
                 $sum += $invoiceItem->value;
             }
