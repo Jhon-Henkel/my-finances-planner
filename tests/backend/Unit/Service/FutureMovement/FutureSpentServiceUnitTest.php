@@ -66,8 +66,6 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureSpentRepository::class),
-            Mockery::mock(MarketPlannerService::class),
-            Mockery::mock(FutureSpentResource::class),
             $movementServiceMock
         ];
 
@@ -88,8 +86,6 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureSpentRepository::class),
-            Mockery::mock(MarketPlannerService::class),
-            Mockery::mock(FutureSpentResource::class),
             $movementServiceMock
         ];
 
@@ -114,8 +110,6 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $mocks = [
             $repositoryMock,
-            Mockery::mock(MarketPlannerService::class),
-            Mockery::mock(FutureSpentResource::class),
             Mockery::mock(MovementService::class)
         ];
 
@@ -144,8 +138,6 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $mocks = [
             $repositoryMock,
-            Mockery::mock(MarketPlannerService::class),
-            Mockery::mock(FutureSpentResource::class),
             Mockery::mock(MovementService::class)
         ];
 
@@ -174,8 +166,6 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $mocks = [
             $repositoryMock,
-            Mockery::mock(MarketPlannerService::class),
-            Mockery::mock(FutureSpentResource::class),
             Mockery::mock(MovementService::class)
         ];
 
@@ -209,8 +199,6 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureSpentRepository::class),
-            Mockery::mock(MarketPlannerService::class),
-            Mockery::mock(FutureSpentResource::class),
             $movementServiceMock
         ];
 
@@ -250,8 +238,6 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureSpentRepository::class),
-            Mockery::mock(MarketPlannerService::class),
-            Mockery::mock(FutureSpentResource::class),
             $movementServiceMock
         ];
 
@@ -288,8 +274,6 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureSpentRepository::class),
-            Mockery::mock(MarketPlannerService::class),
-            Mockery::mock(FutureSpentResource::class),
             $movementServiceMock
         ];
 
@@ -315,8 +299,6 @@ class FutureSpentServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureSpentRepository::class),
-            Mockery::mock(MarketPlannerService::class),
-            Mockery::mock(FutureSpentResource::class),
             Mockery::mock(MovementService::class)
         ];
 

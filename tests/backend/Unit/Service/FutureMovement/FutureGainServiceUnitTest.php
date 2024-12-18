@@ -65,7 +65,6 @@ class FutureGainServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureGainRepository::class),
-            new FutureGainResource(),
             $movementServiceMock
         ];
 
@@ -86,7 +85,6 @@ class FutureGainServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureGainRepository::class),
-            new FutureGainResource(),
             $movementServiceMock
         ];
 
@@ -112,7 +110,6 @@ class FutureGainServiceUnitTest extends Falcon9
 
         $mocks = [
             $repositoryMock,
-            new FutureGainResource(),
             Mockery::mock(MovementService::class)
         ];
 
@@ -141,7 +138,6 @@ class FutureGainServiceUnitTest extends Falcon9
 
         $mocks = [
             $repositoryMock,
-            new FutureGainResource(),
             Mockery::mock(MovementService::class)
         ];
 
@@ -170,7 +166,6 @@ class FutureGainServiceUnitTest extends Falcon9
 
         $mocks = [
             $repositoryMock,
-            new FutureGainResource(),
             Mockery::mock(MovementService::class)
         ];
 
@@ -204,7 +199,6 @@ class FutureGainServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureGainRepository::class),
-            new FutureGainResource(),
             $movementServiceMock
         ];
 
@@ -244,7 +238,6 @@ class FutureGainServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureGainRepository::class),
-            new FutureGainResource(),
             $movementServiceMock
         ];
 
@@ -281,7 +274,6 @@ class FutureGainServiceUnitTest extends Falcon9
 
         $mocks = [
             Mockery::mock(FutureGainRepository::class),
-            new FutureGainResource(),
             $movementServiceMock
         ];
 
