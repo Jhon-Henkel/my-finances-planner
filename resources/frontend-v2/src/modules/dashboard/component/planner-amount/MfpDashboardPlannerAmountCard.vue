@@ -32,7 +32,7 @@ onMounted(async () => {
             </ion-card>
         </ion-col>
         <ion-col size="6">
-            <ion-card class="ion-no-margin" color="light" @click="router.push({name: 'panorama'})">
+            <ion-card class="ion-no-margin" color="light" @click="router.push({name: RouteName.spending_plan})">
                 <ion-row class="ion-margin">
                     <ion-col size="3">
                         <ion-icon :icon="calendarNumberOutline" size="large" color="danger"/>

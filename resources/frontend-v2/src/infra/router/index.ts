@@ -67,11 +67,6 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/modules/movement/page/MovementsPage.vue')
             },
             {
-                path: 'panorama',
-                name: 'panorama',
-                component: () => import('@/modules/panorama/page/PanoramaPage.vue')
-            },
-            {
                 path: 'plano-de-gastos',
                 name: RouteName.spending_plan,
                 component: () => import('@/modules/spending-plan/page/SpendingPlanPage.vue')

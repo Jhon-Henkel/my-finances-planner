@@ -6,6 +6,7 @@ import MfpMenuAllModal from "@/modules/menu/MfpMenuAllModal.vue"
 import {addOutline, calendarNumberOutline, homeOutline, menuOutline, swapHorizontalOutline} from "ionicons/icons"
 import router from "../../infra/router"
 import {ref} from "vue"
+import {RouteName} from "@/infra/router/routeName"
 
 const menuModal = new MfpModal(MfpMenuAllModal, true)
 const dashboardSelected = ref(true)
@@ -23,7 +24,7 @@ function goToRoute(route: string) {
         movementsSelected.value = true
         panoramaSelected.value = false
         router.push({name: route})
-    } else if (route === 'panorama') {
+    } else if (route === RouteName.spending_plan) {
         dashboardSelected.value = false
         movementsSelected.value = false
         panoramaSelected.value = true
@@ -52,7 +53,7 @@ function goToRoute(route: string) {
                 <ion-tab-button id="mfp-tab-plus-modal">
                     <ion-icon :icon="addOutline"/>
                 </ion-tab-button>
-                <ion-tab-button @click="goToRoute('panorama')" :selected="panoramaSelected">
+                <ion-tab-button @click="goToRoute(RouteName.spending_plan)" :selected="panoramaSelected">
                     <ion-icon :icon="calendarNumberOutline"/>
                 </ion-tab-button>
                 <ion-tab-button @click="goToRoute('menu')">

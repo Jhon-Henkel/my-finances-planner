@@ -24,7 +24,7 @@ export const MenuItems = [
     },
     {
         icon: calendarNumberOutline,
-        routeName: 'panorama',
+        routeName: RouteName.spending_plan,
         label: 'Plano de Gastos',
     },
     {

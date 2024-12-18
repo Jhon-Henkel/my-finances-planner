@@ -45,7 +45,10 @@ class InvoiceService
 
     public function validateFilterDateQueryParams(array|null &$queryParams): void
     {
-        if (is_null($queryParams) || ! isset($queryParams['month'])) {
+        if (is_null($queryParams)) {
+            $queryParams = [];
+        }
+        if (! isset($queryParams['month'])) {
             $queryParams['month'] = Date::now()->month;
         }
         if (! isset($queryParams['year'])) {
