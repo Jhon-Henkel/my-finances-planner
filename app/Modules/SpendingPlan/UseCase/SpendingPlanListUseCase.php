@@ -82,7 +82,7 @@ class SpendingPlanListUseCase implements IListUseCase
     protected function addCreditCardsTotalAmountMetadata(array &$result, array $queryParams): void
     {
         $total = $this->creditCardTransactionSumUseCase->execute($queryParams);
-        $result['meta']['total_credit_cards_amount'] = NumberTools::roundFloatAmount($total);
+        $result['meta']['total_credit_cards_amount'] = $total;
     }
 
     protected function addMarketPlannerInvoiceItem(array &$result, int $monthSearch): void
