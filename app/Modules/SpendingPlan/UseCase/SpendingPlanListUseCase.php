@@ -22,8 +22,7 @@ class SpendingPlanListUseCase implements IListUseCase
         protected CreditCardTransactionSumUseCase $creditCardTransactionSumUseCase,
         protected WalletSumUseCase $walletSumUseCase,
         protected ShowDetailsMarketPlannerUseCase $showDetailsMarketPlannerUseCase
-    )
-    {
+    ) {
     }
 
     public function execute(int $perPage, int $page, array|null $queryParams = null): array
