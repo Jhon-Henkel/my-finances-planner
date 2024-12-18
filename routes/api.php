@@ -136,11 +136,6 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
             ->name(RouteEnum::ApiUserUpdate->value);
     });
 
-    Route::prefix('panorama')->group(function () {
-        Route::get('', [PanoramaController::class, 'getPanoramaData'])
-            ->name(RouteEnum::ApiPanoramaIndex->value);
-    });
-
     Route::prefix('financial-health')->group(function () {
         Route::get('/filter', [FinancialHealthController::class, 'indexFiltered'])
             ->name(RouteEnum::ApiFinancialHealthIndexFiltered->value);
