@@ -39,7 +39,6 @@ class CreditCardTransactionSumUseCase
                 if (
                     $itemNextInstallment->lessThan($invoiceStart)
                     || (
-//                        $itemNextInstallment->day >= $creditCard->closing_day
                         $itemNextInstallment->month === $invoiceStart->month
                         && $itemNextInstallment->year === $invoiceStart->year
                     )

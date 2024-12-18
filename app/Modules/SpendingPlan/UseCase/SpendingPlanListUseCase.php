@@ -22,7 +22,8 @@ class SpendingPlanListUseCase implements IListUseCase
         protected CreditCardTransactionSumUseCase $creditCardTransactionSumUseCase,
         protected WalletSumUseCase $walletSumUseCase,
         protected ShowDetailsMarketPlannerUseCase $showDetailsMarketPlannerUseCase
-    ) {
+    )
+    {
     }
 
     public function execute(int $perPage, int $page, array|null $queryParams = null): array
@@ -113,7 +114,7 @@ class SpendingPlanListUseCase implements IListUseCase
 
     protected function isAllowedToUseMarketPlannerInvoiceItem(array $marketPlanner, array $queryParams): bool
     {
-        if (!$marketPlanner['use_market_planner']){
+        if (!$marketPlanner['use_market_planner']) {
             return false;
         }
         if ($queryParams['month'] < Date::now()->month && $queryParams['year'] <= Date::now()->year) {
