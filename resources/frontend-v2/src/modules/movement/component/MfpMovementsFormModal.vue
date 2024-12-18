@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {IonContent, IonLabel, IonList, IonSegment, IonSegmentButton, modalController, IonText} from "@ionic/vue"
+import {IonContent, IonLabel, IonList, IonSegment, IonSegmentButton, IonText, modalController} from "@ionic/vue"
 import {ref, watchEffect} from "vue"
 import MfpInputMoney from "@/modules/@shared/components/input/MfpInputMoney.vue"
 import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
@@ -15,8 +15,8 @@ import {MovementFormValidation} from "@/modules/movement/validation/MovementForm
 import {TransferFormValidation} from "@/modules/movement/validation/TransferFormValidation"
 import {WalletService} from "@/modules/wallet/service/WalletService"
 import {useFinancialHealthStore} from "@/modules/financial-health/store/financialHealthStore"
-import {PanoramaService} from "@/modules/panorama/service/PanoramaService"
 import {useAuthStore} from "@/modules/login/store/AuthStore"
+import {SpendingPlanService} from "@/modules/spending-plan/service/SpendingPlanService"
 
 const props = defineProps(
     {
@@ -52,7 +52,7 @@ async function saveItem() {
                 closeModal()
                 await MovementService.forceUpdateMovementList()
                 await WalletService.forceUpdateWalletList()
-                await PanoramaService.forceReloadStore()
+                await SpendingPlanService.reloadStore()
             }
             return
         }
@@ -72,7 +72,7 @@ async function saveItem() {
         closeModal()
     }
     await MovementService.forceUpdateMovementList()
-    await PanoramaService.forceReloadStore()
+    await SpendingPlanService.reloadStore()
     await WalletService.forceUpdateWalletList()
 }
 

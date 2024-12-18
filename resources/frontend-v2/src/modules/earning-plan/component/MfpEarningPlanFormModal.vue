@@ -9,11 +9,10 @@ import MfpInputToggle from "@/modules/@shared/components/input/MfpInputToggle.vu
 import MfpWalletSelect from "@/modules/@shared/components/select/MfpWalletSelect.vue"
 import MfpInputDate from "@/modules/@shared/components/input/MfpInputDate.vue"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
-import {PanoramaService} from "@/modules/panorama/service/PanoramaService"
 import {EarningPlanFormValidation} from "@/modules/earning-plan/validation/EarningPlanFormValidation"
 import {EarningPlanService} from "@/modules/earning-plan/service/EarningPlanService"
-import {useEarningPlanStore} from "@/modules/earning-plan/store/EarningPlanStore"
 import {EarningPlanModel} from "@/modules/earning-plan/model/EarningPlanModel"
+import {SpendingPlanService} from "@/modules/spending-plan/service/SpendingPlanService"
 
 const props = defineProps({
     futureProfit: EarningPlanModel,
@@ -40,9 +39,8 @@ async function save() {
         closeModal()
     }
     await toast.open(toastMessage)
-    const store = useEarningPlanStore()
-    await store.load()
-    await PanoramaService.forceReloadStore()
+    await EarningPlanService.reloadStore()
+    await SpendingPlanService.reloadStore()
 }
 
 function closeModal() {

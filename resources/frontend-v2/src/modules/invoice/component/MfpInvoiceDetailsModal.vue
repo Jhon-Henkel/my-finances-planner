@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
 import {IonCol, IonGrid, IonRow, modalController} from "@ionic/vue"
-import {FutureExpenseModel} from "@/modules/future-expense/model/FutureExpenseModel"
 import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import {EarningPlanModel} from "@/modules/earning-plan/model/EarningPlanModel"
@@ -9,7 +8,7 @@ import {SpendingPlanModel} from "@/modules/spending-plan/model/SpendingPlanModel
 
 defineProps({
     item: {
-        type: [FutureExpenseModel, EarningPlanModel, SpendingPlanModel],
+        type: [EarningPlanModel, SpendingPlanModel],
         required: true
     },
     totalLabel: {
