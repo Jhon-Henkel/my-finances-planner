@@ -3,16 +3,17 @@ import {IonCard, IonCardSubtitle, IonCol, IonIcon, IonRow} from '@ionic/vue'
 import {onMounted} from "vue"
 import MfpCounterMoney from "@/modules/@shared/components/counter/MfpCounterMoney.vue"
 import {calendarNumberOutline, cashOutline} from "ionicons/icons"
-import {usePanoramaStore} from "@/modules/panorama/store/PanoramaStore"
 import router from "../../../../infra/router"
 import {RouteName} from "@/infra/router/routeName"
+import {useSpendingPlanStore} from "@/modules/spending-plan/store/SpendingPlanStore"
 
-const panoramaStore = usePanoramaStore()
+const spendingPlanStore = useSpendingPlanStore()
+const toReceive = spendingPlanStore.earningsTotalAmount
+const toPay = spendingPlanStore.monthTotalAmount
+const toPayInCreditCard = spendingPlanStore.creditCardsTotalAmount
 
 onMounted(async () => {
-    if (!panoramaStore.isLoaded) {
-        await panoramaStore.load()
-    }
+    await spendingPlanStore.load()
 })
 </script>
 
@@ -26,7 +27,7 @@ onMounted(async () => {
                     </ion-col>
                     <ion-col size="9">
                         <ion-card-subtitle>Receber</ion-card-subtitle>
-                        <mfp-counter-money :end="panoramaStore?.panorama?.totalFutureGains?.firstInstallment ?? 0"/>
+                        <mfp-counter-money :end="toReceive"/>
                     </ion-col>
                 </ion-row>
             </ion-card>
@@ -39,7 +40,7 @@ onMounted(async () => {
                     </ion-col>
                     <ion-col size="9">
                         <ion-card-subtitle>Pagar</ion-card-subtitle>
-                        <mfp-counter-money :end="(panoramaStore?.panorama?.totalFutureExpenses?.firstInstallment ?? 0) + (panoramaStore?.panorama?.totalCreditCardExpenses?.firstInstallment ?? 0)"/>
+                        <mfp-counter-money :end="toPay + toPayInCreditCard"/>
                     </ion-col>
                 </ion-row>
             </ion-card>

@@ -4,9 +4,9 @@ import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {useCardInvoicesStore} from "@/modules/credit-cards/store/CardInvoiceStore"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
-import {PanoramaService} from "@/modules/panorama/service/PanoramaService"
 import {CardsService} from "@/modules/credit-cards/service/CardsService"
 import {InvoiceModel} from "@/modules/invoice/model/invoiceModel"
+import {SpendingPlanService} from "@/modules/spending-plan/service/SpendingPlanService"
 
 export const CardInvoiceItemService = {
     create: async (data: CardInvoiceItemModel, isFixInstallment: boolean): Promise<void> => {
@@ -35,7 +35,7 @@ export const CardInvoiceItemService = {
             const toast = new MfpToast()
             await toast.open('Parcela deletada com sucesso!')
             await CardInvoiceItemService.forceReloadStore(cardId)
-            await PanoramaService.forceReloadStore()
+            await SpendingPlanService.reloadStore()
             await CardsService.forceReloadStore()
         }
     },

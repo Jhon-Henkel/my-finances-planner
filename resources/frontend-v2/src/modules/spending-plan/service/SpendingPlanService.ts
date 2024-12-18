@@ -33,8 +33,7 @@ export const SpendingPlanService = {
             await ApiRouter.futureExpense.delete(data.id)
             const toast = new MfpToast()
             await toast.open('Plano de despesa deletado com sucesso!')
-            const store = useSpendingPlanStore()
-            await store.load()
+            await SpendingPlanService.reloadStore()
         }
     },
     makeEmptySpendingPlan: (): ISpendingPlanForm => {
@@ -46,5 +45,9 @@ export const SpendingPlanService = {
             forecast: UtilCalendar.getTodayIso(),
             installments: 1
         }
+    },
+    reloadStore: async () => {
+        const store = useSpendingPlanStore()
+        await store.load()
     }
 }

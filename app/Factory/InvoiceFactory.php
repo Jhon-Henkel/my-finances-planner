@@ -65,20 +65,4 @@ class InvoiceFactory
     {
         return ($remaining - $key) + 1 == $installments;
     }
-
-    /** @param InvoiceVO[] $invoices */
-    public static function generateInvoiceSumFromInvoicesArray(array $invoices): InvoiceVO
-    {
-        $sum = [];
-        foreach ($invoices as $invoice) {
-            $sum[0] = ($sum[0] ?? 0) + $invoice->firstInstallment;
-            $sum[1] = ($sum[1] ?? 0) + $invoice->secondInstallment;
-            $sum[2] = ($sum[2] ?? 0) + $invoice->thirdInstallment;
-            $sum[3] = ($sum[3] ?? 0) + $invoice->fourthInstallment;
-            $sum[4] = ($sum[4] ?? 0) + $invoice->fifthInstallment;
-            $sum[5] = ($sum[5] ?? 0) + $invoice->sixthInstallment;
-        }
-        $invoiceDto = new InvoiceItemDTO(0, 0, null, 'SumPerMonthOfInvoices', 0, "0", 0);
-        return InvoiceVO::makeInvoice($invoiceDto, $sum, 0);
-    }
 }

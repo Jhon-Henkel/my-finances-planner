@@ -8,13 +8,13 @@ import MfpInputMoney from "@/modules/@shared/components/input/MfpInputMoney.vue"
 import MfpInputToggle from "@/modules/@shared/components/input/MfpInputToggle.vue"
 import MfpInputDate from "@/modules/@shared/components/input/MfpInputDate.vue"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
-import {PanoramaService} from "@/modules/panorama/service/PanoramaService"
 import {CardInvoiceItemModel} from "@/modules/credit-cards/model/CardInvoiceItemModel"
 import {CardInvoiceItemService} from "@/modules/credit-cards/service/CardInvoiceItemService"
 import {CardsInvoiceItemFormValidation} from "@/modules/credit-cards/validation/CardsInvoiceItemFormValidation"
 import MfpCreditCardSelect from "@/modules/@shared/components/select/MfpCreditCardSelect.vue"
 import {useRoute} from "vue-router"
 import {CardsService} from "@/modules/credit-cards/service/CardsService"
+import {SpendingPlanService} from "@/modules/spending-plan/service/SpendingPlanService"
 
 const props = defineProps({
     invoiceItem: CardInvoiceItemModel,
@@ -46,7 +46,7 @@ async function save() {
     await toast.open(toastMessage)
     await CardInvoiceItemService.forceReloadStore(props.cardIdProp ?? parseInt(String(useRoute().params.id)))
     await CardsService.forceReloadStore()
-    await PanoramaService.forceReloadStore()
+    await SpendingPlanService.reloadStore()
 }
 
 function closeModal() {

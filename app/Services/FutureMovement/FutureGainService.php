@@ -4,12 +4,9 @@ namespace App\Services\FutureMovement;
 
 use App\DTO\FutureMovement\FutureGainDTO;
 use App\DTO\FutureMovement\IFutureMovementDTO;
-use App\Factory\InvoiceFactory;
 use App\Repositories\FutureGainRepository;
-use App\Resources\FutureGainResource;
 use App\Services\BasicService;
 use App\Services\Movement\MovementService;
-use App\Tools\Calendar\CalendarTools;
 
 class FutureGainService extends BasicService
 {
@@ -17,7 +14,6 @@ class FutureGainService extends BasicService
 
     public function __construct(
         private readonly FutureGainRepository $repository,
-        private readonly FutureGainResource $resource,
         private readonly MovementService $movementService
     ) {
     }
@@ -25,20 +21,6 @@ class FutureGainService extends BasicService
     protected function getRepository(): FutureGainRepository
     {
         return $this->repository;
-    }
-
-    public function getNextSixMonthsFutureGain(): array
-    {
-        $year = (int)CalendarTools::getThisYear();
-        $month = (int)CalendarTools::getThisMonth();
-        $period = CalendarTools::getIntervalMonthPeriodByMonthAndYear($month, $year, 6);
-        $gains = $this->getRepository()->findByPeriod($period);
-        $gainsPackage = [];
-        foreach ($gains as $gain) {
-            $futureGainDTO = $this->resource->futureGainToInvoiceDTO($gain);
-            $gainsPackage[] = InvoiceFactory::factoryInvoice($futureGainDTO, $month);
-        }
-        return $gainsPackage;
     }
 
     public function receive(FutureGainDTO $gain, array $options): bool
@@ -88,28 +70,5 @@ class FutureGainService extends BasicService
     {
         $description = str_replace('Restante ', '', strtolower($gain->getDescription()));
         return $this->makeFutureMovementForParcialReceive($gain, $value, 'Restante ' . $description);
-    }
-
-    public function getThisYearFutureGainSum(): float
-    {
-        $period = CalendarTools::getThisYearPeriod();
-        $gains = $this->getRepository()->findByPeriod($period);
-        $total = 0;
-        foreach ($gains as $gain) {
-            $installments = $gain->getInstallments() == 0 ? 1 : $gain->getAmount() * $gain->getInstallments();
-            $total += ($gain->getAmount() * $installments);
-        }
-        return $total;
-    }
-
-    public function getThisMonthFutureGainSum(): float
-    {
-        $period = CalendarTools::getThisMonthPeriod();
-        $gains = $this->getRepository()->findByPeriod($period);
-        $total = 0;
-        foreach ($gains as $gain) {
-            $total += $gain->getAmount();
-        }
-        return $total;
     }
 }

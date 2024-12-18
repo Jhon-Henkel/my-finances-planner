@@ -4,13 +4,9 @@ namespace App\Services\FutureMovement;
 
 use App\DTO\FutureMovement\FutureSpentDTO;
 use App\DTO\FutureMovement\IFutureMovementDTO;
-use App\Factory\InvoiceFactory;
 use App\Repositories\FutureSpentRepository;
-use App\Resources\FutureSpentResource;
 use App\Services\BasicService;
 use App\Services\Movement\MovementService;
-use App\Services\Tools\MarketPlannerService;
-use App\Tools\Calendar\CalendarTools;
 
 class FutureSpentService extends BasicService
 {
@@ -18,8 +14,6 @@ class FutureSpentService extends BasicService
 
     public function __construct(
         private readonly FutureSpentRepository $repository,
-        private readonly MarketPlannerService $marketPlannerService,
-        private readonly FutureSpentResource $resource,
         private readonly MovementService $movementService
     ) {
     }
@@ -27,23 +21,6 @@ class FutureSpentService extends BasicService
     protected function getRepository(): FutureSpentRepository
     {
         return $this->repository;
-    }
-
-    public function getNextSixMonthsFutureSpent(): array
-    {
-        $month = (int)CalendarTools::getThisMonth();
-        $year = (int)CalendarTools::getThisYear();
-        $period = CalendarTools::getIntervalMonthPeriodByMonthAndYear($month, $year, 6);
-        $spending = $this->getRepository()->findByPeriod($period);
-        $spentPackage = [];
-        foreach ($spending as $spent) {
-            $invoice = $this->resource->futureSpentToInvoiceDTO($spent);
-            $spentPackage[] = InvoiceFactory::factoryInvoice($invoice, $month);
-        }
-        if ($this->marketPlannerService->useMarketPlanner()) {
-            $spentPackage[] = $this->marketPlannerService->getMarketPlannerInvoice();
-        }
-        return $spentPackage;
     }
 
     public function paySpent(FutureSpentDTO $spent, array $options): bool
@@ -93,30 +70,5 @@ class FutureSpentService extends BasicService
     {
         $description = str_replace('Restante ', '', strtolower($spent->getDescription()));
         return $this->makeFutureMovementForParcialReceive($spent, $value, 'Restante ' . $description);
-    }
-
-    public function getThisYearFutureSpentSum(): float
-    {
-        $period = CalendarTools::getThisYearPeriod();
-        $spending = $this->getRepository()->findByPeriod($period);
-        $total = 0;
-        foreach ($spending as $spent) {
-            $total += ($spent->getAmount() * ($spent->getInstallments() === 0 ? 1 : $spent->getInstallments()));
-        }
-        return $total;
-    }
-
-    public function getThisMonthFutureSpentSum(): float
-    {
-        $period = CalendarTools::getThisMonthPeriod();
-        $spending = $this->getRepository()->findByPeriod($period);
-        $total = 0;
-        foreach ($spending as $spent) {
-            $total += $spent->getAmount();
-        }
-        if ($this->marketPlannerService->useMarketPlanner()) {
-            $total += $this->marketPlannerService->getMarketPlannerInvoice()->firstInstallment;
-        }
-        return $total;
     }
 }
