@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  pint-backend:
+  linter-backend:
     runs-on: ubuntu-latest
 
     container:
@@ -26,30 +26,7 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: ⚡️ Analyzing PHP Code Quality
-        run: composer run pint
-
-  php-stan-backend:
-    runs-on: ubuntu-latest
-
-    container:
-      image: jhowrf/php8.3-apache:latest
-
-    steps:
-      - name: 🔥 Configuring checkout
-        uses: actions/checkout@v4
-
-      - name: 📄 Making .env file
-        run: |
-          echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
-
-      - name: 🛠️ Installing dependencies
-        run: composer install
-
-      - name: 👍 Applying permissions
-        run: chmod -R 777 storage bootstrap/cache
-
-      - name: ⚡️ Analyzing PHP Code Quality
-        run: composer run phpstan
+        run: composer run pint && composer run phpstan
 
   test-unit-backend:
     runs-on: ubuntu-latest
