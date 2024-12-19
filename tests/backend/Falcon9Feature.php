@@ -81,8 +81,8 @@ abstract class Falcon9Feature extends BaseTestCase
     {
         $tenant = $this->user->tenant();
         Config::set('database.default', DatabaseConnectionEnum::Test->value);
-        config(['database.connections.' . DatabaseConnectionEnum::Test->value . '.database' => Crypt::decryptString($tenant->database)]);
-        config(['database.connections.' . DatabaseConnectionEnum::Test->value . '.username' => Crypt::decryptString($tenant->username)]);
-        config(['database.connections.' . DatabaseConnectionEnum::Test->value . '.password' => Crypt::decryptString($tenant->password)]);
+        config(['database.connections.' . DatabaseConnectionEnum::Test->value . '.database' => $tenant->tenant_hash]);
+        config(['database.connections.' . DatabaseConnectionEnum::Test->value . '.username' => 'root']);
+        config(['database.connections.' . DatabaseConnectionEnum::Test->value . '.password' => '123']);
     }
 }
