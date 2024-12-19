@@ -15,7 +15,6 @@ import {CreditCardModel} from "@/modules/credit-card/model/CreditCardModel"
 import {CreditCardPayFormValidation} from "@/modules/credit-card/validation/CreditCardPayFormValidation"
 import {CreditCardService} from "@/modules/credit-card/service/CreditCardService"
 import {CreditCardInvoiceItemService} from "@/modules/credit-card/service/CreditCardInvoiceItemService"
-import {useRoute} from "vue-router"
 
 const props = defineProps({
     item: {
