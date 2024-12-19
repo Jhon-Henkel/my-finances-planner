@@ -3,6 +3,7 @@
 namespace App\Modules\Invoice\Service;
 
 use App\Enums\CalendarMonthsNumberEnum;
+use App\Enums\InvoiceInstallmentsEnum;
 use App\Enums\RouteEnum;
 use App\Tools\NumberTools;
 use App\Tools\Request\RequestTools;
@@ -38,7 +39,11 @@ class InvoiceListService
     {
         $totalAmount = 0;
         foreach ($items as $item) {
-            $totalAmount += $item['amount'];
+            if (isset($item['amount'])) {
+                $totalAmount += $item['amount'];
+            } elseif (isset($item['value'])) {
+                $totalAmount += $item['value'];
+            }
         }
         return NumberTools::roundFloatAmount($totalAmount);
     }
@@ -67,5 +72,37 @@ class InvoiceListService
     {
         $result['next_page_url'] = $this->makeInvoiceNextMonthUrl($route, $queryParams);
         $result['prev_page_url'] = $this->makeInvoicePrevMonthUrl($route, $queryParams);
+    }
+
+    public function creditCardTransactionItemBelongsToInvoice(array $invoiceItem, array $queryParams): bool
+    {
+        $invoiceStart = Date::createFromDate($queryParams['year'], $queryParams['month'], 1)->startOfDay();
+        // Está adicionando um mês, pois esse campo é a data da "compra" e não da fatura
+        $itemNextInstallment = Date::createFromDate($invoiceItem['next_installment'])->addMonth()->startOfDay();
+        if ($invoiceItem['installments'] === InvoiceInstallmentsEnum::FixedInstallments->value) {
+            if (
+                $itemNextInstallment->lessThan($invoiceStart)
+                || (
+                    $itemNextInstallment->month === $invoiceStart->month
+                    && $itemNextInstallment->year === $invoiceStart->year
+                )
+            ) {
+                return true;
+            }
+        }
+        $invoiceEnd = $invoiceStart->copy()->addMonth()->subDay()->endOfDay();
+        $itemLastInstallment = $itemNextInstallment->copy()->addMonths($invoiceItem['installments'] - 1)->subDay()->endOfDay();
+        if (
+            (
+                $itemNextInstallment->greaterThanOrEqualTo($invoiceStart)
+                && $itemNextInstallment->lessThanOrEqualTo($invoiceEnd)
+            ) || (
+                $itemNextInstallment->lessThanOrEqualTo($invoiceEnd)
+                && $itemLastInstallment->greaterThanOrEqualTo($invoiceStart)
+            )
+        ) {
+            return true;
+        }
+        return false;
     }
 }
