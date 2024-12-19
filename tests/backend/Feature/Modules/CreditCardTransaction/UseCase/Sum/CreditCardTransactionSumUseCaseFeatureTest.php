@@ -13,6 +13,7 @@ class CreditCardTransactionSumUseCaseFeatureTest extends Falcon9Feature
     protected function setUp(): void
     {
         parent::setUp();
+        $this->connectUser();
         CreditCardTransaction::query()->delete();
         CreditCard::query()->delete();
         $this->insertData();

@@ -3,14 +3,13 @@
 namespace Tests\backend;
 
 use App\Enums\Database\DatabaseConnectionEnum;
-use App\Enums\StatusEnum;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\User;
-use App\Services\Database\DatabaseConnectionService;
 use App\Tools\Auth\JwtTools;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 abstract class Falcon9Feature extends BaseTestCase
@@ -76,5 +75,14 @@ abstract class Falcon9Feature extends BaseTestCase
     protected function connectMaster(): void
     {
         Config::set('database.default', DatabaseConnectionEnum::Test->value);
+    }
+
+    protected function connectUser(): void
+    {
+        $tenant = $this->user->tenant();
+        Config::set('database.default', DatabaseConnectionEnum::Test->value);
+        config(['database.connections.' . DatabaseConnectionEnum::Test->value . '.database' => Crypt::decryptString($tenant->database)]);
+        config(['database.connections.' . DatabaseConnectionEnum::Test->value . '.username' => Crypt::decryptString($tenant->username)]);
+        config(['database.connections.' . DatabaseConnectionEnum::Test->value . '.password' => Crypt::decryptString($tenant->password)]);
     }
 }
