@@ -18,8 +18,14 @@ class CreditCardInvoiceListUseCase implements IListUseCase
     {
         $this->invoiceService->validateFilterDateQueryParams($queryParams);
         $result = $this->getList(999999, $page, $queryParams);
-        $this->invoiceService->addPaginationUrls($result, RouteEnum::ApiEarningPlanList, $queryParams);
+        $this->invoiceService->addPaginationUrls(
+            $result,
+            RouteEnum::ApiCreditCardInvoiceList,
+            $queryParams,
+            ['credit_card_id' => request()->route('credit_card_id')]
+        );
         $this->invoiceService->addMetaData($result, $queryParams);
+        $result['total'] = count($result['data']);
         return $result;
     }
 
@@ -44,6 +50,12 @@ class CreditCardInvoiceListUseCase implements IListUseCase
             if ($this->invoiceService->creditCardTransactionItemBelongsToInvoice($invoiceItem, $queryParams)) {
                 $itemsFilter[] = $invoiceItem;
             }
+        }
+        foreach ($itemsFilter as $key => $item) {
+            $itemsFilter[$key]['forecast'] = $item['next_installment'];
+            $itemsFilter[$key]['amount'] = $item['value'];
+            $itemsFilter[$key]['description'] = $item['name'];
+            unset($itemsFilter[$key]['next_installment'], $itemsFilter[$key]['value'], $itemsFilter[$key]['name']);
         }
         $invoiceItems['data'] = $itemsFilter;
     }

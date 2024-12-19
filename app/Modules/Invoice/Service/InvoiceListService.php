@@ -13,19 +13,19 @@ class InvoiceListService
 {
     public const int FIX_INSTALLMENT = 0;
 
-    protected function makeInvoiceNextMonthUrl(RouteEnum $route, array $queryParams): string
+    protected function makeInvoiceNextMonthUrl(RouteEnum $route, array $queryParams, array $args = []): string
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
         $date->addMonth();
-        return RequestTools::mountUrl($route, "?year=$date->year&month=$date->month");
+        return RequestTools::mountUrl($route, "?year=$date->year&month=$date->month", $args);
 
     }
 
-    protected function makeInvoicePrevMonthUrl(RouteEnum $route, array $queryParams): string
+    protected function makeInvoicePrevMonthUrl(RouteEnum $route, array $queryParams, array $args = []): string
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
         $date->subMonth();
-        return RequestTools::mountUrl($route, "?year=$date->year&month=$date->month");
+        return RequestTools::mountUrl($route, "?year=$date->year&month=$date->month", $args);
     }
 
     protected function getDateLabel(array $queryParams): string
@@ -39,11 +39,7 @@ class InvoiceListService
     {
         $totalAmount = 0;
         foreach ($items as $item) {
-            if (isset($item['amount'])) {
-                $totalAmount += $item['amount'];
-            } elseif (isset($item['value'])) {
-                $totalAmount += $item['value'];
-            }
+            $totalAmount += $item['amount'];
         }
         return NumberTools::roundFloatAmount($totalAmount);
     }
@@ -68,10 +64,10 @@ class InvoiceListService
         $result['meta']['search_date'] = Date::createFromDate($queryParams['year'], $queryParams['month']);
     }
 
-    public function addPaginationUrls(array &$result, RouteEnum $route, array $queryParams): void
+    public function addPaginationUrls(array &$result, RouteEnum $route, array $queryParams, array $args = []): void
     {
-        $result['next_page_url'] = $this->makeInvoiceNextMonthUrl($route, $queryParams);
-        $result['prev_page_url'] = $this->makeInvoicePrevMonthUrl($route, $queryParams);
+        $result['next_page_url'] = $this->makeInvoiceNextMonthUrl($route, $queryParams, $args);
+        $result['prev_page_url'] = $this->makeInvoicePrevMonthUrl($route, $queryParams, $args);
     }
 
     public function creditCardTransactionItemBelongsToInvoice(array $invoiceItem, array $queryParams): bool

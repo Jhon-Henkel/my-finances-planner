@@ -35,9 +35,9 @@ class RequestToolsReal
         return $_SERVER['HTTP_USER_AGENT'] ?? null;
     }
 
-    public function mountUrl(RouteEnum $route, string $query): string
+    public function mountUrl(RouteEnum $route, string $query, array $args = []): string
     {
-        $route = route($route) . $query;
+        $route = route($route, $args) . $query;
         if ($this->isApplicationInDevelopMode()) {
             return $route;
         }
