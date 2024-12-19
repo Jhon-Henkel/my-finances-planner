@@ -43,7 +43,8 @@ class ErrorReport
     {
         return match ($exception->getMessage()) {
             'Tokens obrigatórios ausentes ou inválidos!',
-            'Service Unavailable' => true,
+            'Service Unavailable',
+            'Não é possível excluir uma carteira que possui movimentações!' => true,
             default => false,
         };
     }

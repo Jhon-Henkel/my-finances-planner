@@ -11,6 +11,8 @@ use App\Exceptions\PaymentMethod\PaymentMethodNotFountException;
 use App\Exceptions\ResponseExceptions\BadRequestException;
 use App\Exceptions\Subscription\PaymentNotificationUserNotFound;
 use App\Models\User;
+use App\Modules\MailNotification\UseCase\Master\NotifyCancelProUser;
+use App\Modules\MailNotification\UseCase\Master\NotifyNewProUser;
 use App\Services\BasicService;
 use App\Services\Database\DatabaseConnectionService;
 use App\Services\Mail\MailService;
@@ -27,8 +29,12 @@ class SubscriptionService extends BasicService
     private IPaymentMethod $paymentMethod;
     private null|DatabaseConnectionService $connection = null;
 
-    public function __construct(private readonly MailService $mailService, private readonly PlanService $planService)
-    {
+    public function __construct(
+        private readonly MailService $mailService,
+        private readonly PlanService $planService,
+        private readonly NotifyCancelProUser $notifyCancelProUser,
+        private readonly NotifyNewProUser $notifyNewProUser
+    ) {
         $this->paymentMethod = $this->getPaymentMethodInstance();
     }
 
@@ -86,6 +92,7 @@ class SubscriptionService extends BasicService
         $template = 'emails.subscription.cancel';
         $data = ['name' => $user->name];
         $this->mailService->sendEmail(new MailMessageDTO($user->email, $user->name, $subject, $template, $data));
+        $this->notifyCancelProUser->execute($user);
     }
 
     public function updateAccount(string $email): void
@@ -150,6 +157,7 @@ class SubscriptionService extends BasicService
         $template = 'emails.subscription.welcome';
         $data = ['name' => $user->name];
         $this->mailService->sendEmail(new MailMessageDTO($user->email, $user->name, $subject, $template, $data));
+        $this->notifyNewProUser->execute($user);
     }
 
     protected function getRepository()

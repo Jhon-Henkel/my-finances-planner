@@ -52,8 +52,18 @@
             </a>
         </li>
         <li>
+            <a href="/develop/test-email-view?email=cancelSubscriptionUser">
+                Assinatura (Master) - Cancelamento
+            </a>
+        </li>
+        <li>
             <a href="/develop/test-email-view?email=paymentLinkSubscription">
                 Assinatura - Link de Pagamento
+            </a>
+        </li>
+        <li>
+            <a href="/develop/test-email-view?email=newSubscriptionUser">
+                Assinatura (Master) - Novo Assinante
             </a>
         </li>
         <li>
