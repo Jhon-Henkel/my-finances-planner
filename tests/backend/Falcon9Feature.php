@@ -3,10 +3,8 @@
 namespace Tests\backend;
 
 use App\Enums\Database\DatabaseConnectionEnum;
-use App\Enums\StatusEnum;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\User;
-use App\Services\Database\DatabaseConnectionService;
 use App\Tools\Auth\JwtTools;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -25,17 +23,12 @@ abstract class Falcon9Feature extends BaseTestCase
 
     protected function setUp(): void
     {
-        $this->markTestSkipped('Esperando resolver a issue #918');
         parent::setUp();
         Config::set('database.default', DatabaseConnectionEnum::Test->value);
         $this->withoutMiddleware(VerifyCsrfToken::class);
         DB::beginTransaction();
         $this->configureServer();
         $this->makeUser();
-        User::query()->where('email', $this->user->email)->update([
-            'status' => StatusEnum::Active->value,
-            'plan_id' => $this->userPlanId,
-        ]);
         $this->headerWithoutUser = [
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
@@ -44,18 +37,11 @@ abstract class Falcon9Feature extends BaseTestCase
         $this->apiHeaders = $this->makeHeaders();
     }
 
-    // todo - não pode ser recursivo...
     protected function makeUser(): void
     {
         $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
         if (empty($user)) {
-            $this->artisan('migrate');
-            $this->artisan('create:user --test-suit=true');
-            $this->artisan('migrate:all-tenants');
-            $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
-        }
-        if (empty($user)) {
-            $this->makeUser();
+            throw new \Exception('Usuário de teste não encontrado! Olhe o pipeline de teste de feature...');
         }
         $this->user = new User((array)$user[0]);
     }
@@ -70,11 +56,8 @@ abstract class Falcon9Feature extends BaseTestCase
     protected function tearDown(): void
     {
         DB::rollBack();
-        $this->connectMaster();
-        DB::statement("DROP DATABASE IF EXISTS {$this->user->tenant()->tenant_hash}");
+        Config::set('database.default', DatabaseConnectionEnum::Test->value);
         DB::delete("DELETE FROM access_log");
-        DB::delete("DELETE FROM users");
-        DB::delete("DELETE FROM tenants");
         parent::tearDown();
     }
 
@@ -90,7 +73,6 @@ abstract class Falcon9Feature extends BaseTestCase
 
     protected function connectMaster(): void
     {
-        $connection = new DatabaseConnectionService();
-        $connection->setMasterConnection();
+        Config::set('database.default', DatabaseConnectionEnum::Test->value);
     }
 }
