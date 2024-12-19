@@ -17,8 +17,11 @@ import {CreditCardInvoiceItemFormValidation} from "@/modules/credit-card/validat
 import {CreditCardService} from "@/modules/credit-card/service/CreditCardService"
 
 const props = defineProps({
-    invoiceItem: CreditCardInvoiceItemModel,
-    cardIdProp: Number
+    invoiceItem: {
+        type: Object as () => CreditCardInvoiceItemModel,
+        default: null,
+    },
+    cardIdProp: Number,
 })
 
 const cardId = props.cardIdProp ?? parseInt(String(useRoute().params.id))
