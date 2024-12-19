@@ -31,7 +31,7 @@ import MfpTotalRegistersRow from "@/modules/@shared/components/page/MfpTotalRegi
 
 const walletStore = useWalletStore()
 const formModal = new MfpModal(MfpWalletsFormModal)
-const onlyWithFounds = ref(true)
+const onlyWithFounds = ref(false)
 
 async function optionsAction(wallet: WalletModel) {
     const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtons(true, true, true))

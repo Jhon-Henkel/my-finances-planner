@@ -51,6 +51,10 @@ Route::prefix('/')->group(function () {
                     return view('emails.subscription.welcome', ['name' => 'Jhon']);
                 } elseif ($email == 'newUserRegistered') {
                     return view('emails.newUserRegistered', ['name' => 'Jhon', 'email' => 'bla@bla.com']);
+                } elseif ($email == 'cancelSubscriptionUser') {
+                    return view('emails.subscription.cancelSubscriptionUser', ['name' => 'Jhon', 'email' => 'bla@bla.com']);
+                } elseif ($email == 'newSubscriptionUser') {
+                    return view('emails.subscription.newSubscriptionUser', ['name' => 'Jhon', 'email' => 'bla@bla.com']);
                 }
                 return view('test.mailView');
             })->name(RouteEnum::WebTestViewEmail->value);
