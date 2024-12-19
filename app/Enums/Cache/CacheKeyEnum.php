@@ -6,4 +6,5 @@ enum CacheKeyEnum: string
 {
     case User = ':user';
     case Tenant = ':tenant';
+    case Config = ':config';
 }
