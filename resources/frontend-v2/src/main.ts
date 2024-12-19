@@ -16,32 +16,6 @@ import '@ionic/vue/css/display.css'
 import '@ionic/vue/css/palettes/dark.system.css'
 import '@/infra/theme/variables.css'
 import moneyMask from "@/infra/directives/mask/money/moneyMask"
-import * as Sentry from "@sentry/vue"
-
-Sentry.init({
-    dsn: process.env.VITE_SENTRY_DSN_PUBLIC,
-    integrations: [
-        Sentry.replayIntegration(),
-        Sentry.browserTracingIntegration()
-    ],
-    tracePropagationTargets: [
-        `${process.env.VITE_API_BASE_URL}`
-    ],
-    replaysSessionSampleRate: 0.1,
-    replaysOnErrorSampleRate: 1.0,
-    beforeSend(event: any) {
-        if (event.exception) {
-            const exception = event.exception.values[0]
-            if (exception.mechanism && exception.mechanism.data && exception.mechanism.data.status_code) {
-                const statusCode = exception.mechanism.data.status_code;
-                if (statusCode === 401 || statusCode === 403 || statusCode === 503) {
-                    return null
-                }
-            }
-        }
-        return event
-    }
-});
 
 const app = createApp(App)
     .directive('money', moneyMask)
