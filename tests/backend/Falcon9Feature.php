@@ -31,10 +31,6 @@ abstract class Falcon9Feature extends BaseTestCase
         DB::beginTransaction();
         $this->configureServer();
         $this->makeUser();
-        User::query()->where('email', $this->user->email)->update([
-            'status' => StatusEnum::Active->value,
-            'plan_id' => $this->userPlanId,
-        ]);
         $this->headerWithoutUser = [
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
@@ -47,7 +43,7 @@ abstract class Falcon9Feature extends BaseTestCase
     {
         $user = DB::select("SELECT * FROM users WHERE email = 'demo@demo.dev'");
         if (empty($user)) {
-            throw new \Exception('User for test not found');
+            throw new \Exception('Usuário de teste não encontrado! Olhe o pipeline de teste de feature...');
         }
         $this->user = new User((array)$user[0]);
     }
@@ -62,11 +58,8 @@ abstract class Falcon9Feature extends BaseTestCase
     protected function tearDown(): void
     {
         DB::rollBack();
-//        $this->connectMaster();
-//        DB::statement("DROP DATABASE IF EXISTS {$this->user->tenant()->tenant_hash}");
-//        DB::delete("DELETE FROM access_log");
-//        DB::delete("DELETE FROM users");
-//        DB::delete("DELETE FROM tenants");
+        Config::set('database.default', DatabaseConnectionEnum::Test->value);
+        DB::delete("DELETE FROM access_log");
         parent::tearDown();
     }
 
@@ -82,7 +75,6 @@ abstract class Falcon9Feature extends BaseTestCase
 
     protected function connectMaster(): void
     {
-        $connection = new DatabaseConnectionService();
-        $connection->setMasterConnection();
+        Config::set('database.default', DatabaseConnectionEnum::Test->value);
     }
 }

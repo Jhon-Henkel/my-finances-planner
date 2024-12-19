@@ -3,6 +3,8 @@
 namespace Tests\backend\Feature\UseCases\Plan\Pro;
 
 use App\Enums\Plan\PlanNameEnum;
+use App\Enums\StatusEnum;
+use App\Models\User;
 use App\Models\User\Plan;
 use Tests\backend\Falcon9Feature;
 
@@ -10,13 +12,26 @@ class ProPlanCreditCardLimitationUseCaseTest extends Falcon9Feature
 {
     private Plan $freePlan;
     private string $baseUrl = '/api/credit-card';
-    protected int $userPlanId = 2;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->connectMaster();
         $this->freePlan = Plan::where('name', PlanNameEnum::Free->value)->first();
+        User::query()->where('email', $this->user->email)->update([
+            'status' => StatusEnum::Active->value,
+            'plan_id' => 2,
+        ]);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->connectMaster();
+        User::query()->where('email', $this->user->email)->update([
+            'status' => StatusEnum::Active->value,
+            'plan_id' => 1,
+        ]);
+        parent::tearDown();
     }
 
     public function testWalletFreePlanLimitation()
