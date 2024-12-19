@@ -14,6 +14,7 @@ class CreditCardTransactionSumUseCaseFeatureTest extends Falcon9Feature
     {
         parent::setUp();
         $this->insertData();
+        $this->connectMaster();
     }
 
     protected function insertData(): void
