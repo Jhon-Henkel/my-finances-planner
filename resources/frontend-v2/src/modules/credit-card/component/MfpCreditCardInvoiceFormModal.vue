@@ -44,7 +44,7 @@ async function save() {
         closeModal()
     }
     await toast.open(toastMessage)
-    await CreditCardInvoiceItemService.reloadStore(props.cardIdProp ?? parseInt(String(useRoute().params.id)))
+    await CreditCardInvoiceItemService.reloadStore(props.cardIdProp ?? null)
     await CreditCardService.reloadStore()
     await SpendingPlanService.reloadStore()
 }

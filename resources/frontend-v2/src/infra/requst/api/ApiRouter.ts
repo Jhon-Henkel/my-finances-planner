@@ -224,7 +224,10 @@ export const ApiRouter = {
     },
     cards_v2: {
         invoices: {
-            index: async (cardId: number | string) => {
+            index: async (cardId: number|string|null) => {
+                if (cardId == null) {
+                    return
+                }
                 const response = await axios.get(mountApiUrl(`v2/credit-card/invoice/${cardId}`), makeHeaders())
                 return response.data
             }

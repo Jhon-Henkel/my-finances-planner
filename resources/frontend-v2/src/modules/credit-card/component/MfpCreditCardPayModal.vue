@@ -14,6 +14,8 @@ import {WalletService} from "@/modules/wallet/service/WalletService"
 import {CreditCardModel} from "@/modules/credit-card/model/CreditCardModel"
 import {CreditCardPayFormValidation} from "@/modules/credit-card/validation/CreditCardPayFormValidation"
 import {CreditCardService} from "@/modules/credit-card/service/CreditCardService"
+import {CreditCardInvoiceItemService} from "@/modules/credit-card/service/CreditCardInvoiceItemService"
+import {useRoute} from "vue-router"
 
 const props = defineProps({
     item: {
@@ -38,6 +40,7 @@ async function pay() {
         const toast = new MfpToast()
         await toast.open('Fatura paga com sucesso!')
         await CreditCardService.reloadStore()
+        await CreditCardInvoiceItemService.reloadStore(null)
         await MovementService.forceUpdateMovementList()
         await WalletService.forceUpdateWalletList()
     }

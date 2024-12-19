@@ -12,6 +12,7 @@ interface ICreditCardInvoiceStoreState {
     prevMonthUrl: string,
     dateLabel: string,
     pageTotalItems: number
+    lastCardId: number|string|null
 }
 
 export const useCreditCardInvoiceStore = defineStore('credit-card-invoice', {
@@ -24,12 +25,17 @@ export const useCreditCardInvoiceStore = defineStore('credit-card-invoice', {
         nextMonthUrl: '',
         prevMonthUrl: '',
         dateLabel: '',
+        lastCardId: null
     }),
     actions: {
-        async load(cardId: string|number) {
+        async load(cardId: string|number|null) {
+            if (cardId == null && this.lastCardId !== null) {
+                cardId = this.lastCardId
+            }
             this.isLoaded = false
             this._storeData(await ApiRouter.cards_v2.invoices.index(cardId))
             this.isLoaded = true
+            this.lastCardId = cardId
         },
         async nextMonth() {
             if (this.nextMonthUrl == '') {

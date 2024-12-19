@@ -49,7 +49,7 @@ export const CreditCardInvoiceItemService = {
             installments: 1
         }
     },
-    reloadStore: async (cardId: number|string): Promise<void> => {
+    reloadStore: async (cardId: number|string|null): Promise<void> => {
         const store = useCreditCardInvoiceStore()
         await store.load(cardId)
     }
