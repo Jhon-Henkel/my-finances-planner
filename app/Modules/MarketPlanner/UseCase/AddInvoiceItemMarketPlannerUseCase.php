@@ -2,7 +2,7 @@
 
 namespace App\Modules\MarketPlanner\UseCase;
 
-use App\Modules\Invoice\Service\InvoiceService;
+use App\Modules\Invoice\Service\InvoiceListService;
 use App\Modules\MarketPlanner\UseCase\ShowDetailsMarketPlanner\ShowDetailsMarketPlannerUseCase;
 use App\Tools\NumberTools;
 use Illuminate\Support\Facades\Date;
@@ -28,11 +28,11 @@ class AddInvoiceItemMarketPlannerUseCase
             return;
         }
         $result['data'][] = [
-            "id" => InvoiceService::FIX_INSTALLMENT,
-            "wallet_id" => InvoiceService::FIX_INSTALLMENT,
+            "id" => InvoiceListService::FIX_INSTALLMENT,
+            "wallet_id" => InvoiceListService::FIX_INSTALLMENT,
             "description" => "Mercado",
             "amount" => NumberTools::roundFloatAmount($value),
-            "installments" => InvoiceService::FIX_INSTALLMENT,
+            "installments" => InvoiceListService::FIX_INSTALLMENT,
             "forecast" => Date::now()->endOfMonth()->toDateTimeString(),
             "created_at" => Date::now()->toDateTimeString(),
             "updated_at" => Date::now()->toDateTimeString()

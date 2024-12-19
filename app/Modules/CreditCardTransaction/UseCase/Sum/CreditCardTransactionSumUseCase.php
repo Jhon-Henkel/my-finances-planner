@@ -5,13 +5,13 @@ namespace App\Modules\CreditCardTransaction\UseCase\Sum;
 use App\Enums\InvoiceInstallmentsEnum;
 use App\Models\CreditCard;
 use App\Models\CreditCardTransaction;
-use App\Modules\Invoice\Service\InvoiceService;
+use App\Modules\Invoice\Service\InvoiceListService;
 use App\Tools\NumberTools;
 use Illuminate\Support\Facades\Date;
 
 class CreditCardTransactionSumUseCase
 {
-    public function __construct(protected InvoiceService $invoiceService)
+    public function __construct(protected InvoiceListService $invoiceService)
     {
     }
 

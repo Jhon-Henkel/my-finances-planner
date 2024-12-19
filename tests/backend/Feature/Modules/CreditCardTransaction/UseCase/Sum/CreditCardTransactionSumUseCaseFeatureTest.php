@@ -5,7 +5,7 @@ namespace Tests\backend\Feature\Modules\CreditCardTransaction\UseCase\Sum;
 use App\Models\CreditCard;
 use App\Models\CreditCardTransaction;
 use App\Modules\CreditCardTransaction\UseCase\Sum\CreditCardTransactionSumUseCase;
-use App\Modules\Invoice\Service\InvoiceService;
+use App\Modules\Invoice\Service\InvoiceListService;
 use Tests\backend\Falcon9Feature;
 
 class CreditCardTransactionSumUseCaseFeatureTest extends Falcon9Feature
@@ -164,7 +164,7 @@ class CreditCardTransactionSumUseCaseFeatureTest extends Falcon9Feature
 
     public function testSum()
     {
-        $useCase = new CreditCardTransactionSumUseCase(new InvoiceService());
+        $useCase = new CreditCardTransactionSumUseCase(new InvoiceListService());
         $this->assertEquals(0, $useCase->execute(['year' => 2024, 'month' => 12]));
         $this->assertEquals(824.91, $useCase->execute(['year' => 2025, 'month' => 1]));
         $this->assertEquals(743.30, $useCase->execute(['year' => 2025, 'month' => 2]));

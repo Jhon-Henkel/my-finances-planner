@@ -8,7 +8,7 @@ use App\Tools\NumberTools;
 use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Date;
 
-class InvoiceService
+class InvoiceListService
 {
     public const int FIX_INSTALLMENT = 0;
 
