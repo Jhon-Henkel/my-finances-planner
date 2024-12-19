@@ -1,5 +1,5 @@
 export class PayReceiveModel {
-    value: number
+    value: number|string
     walletId: number
     partial: boolean
 

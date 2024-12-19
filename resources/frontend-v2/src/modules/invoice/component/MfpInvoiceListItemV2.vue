@@ -6,21 +6,35 @@ import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import EarningPlanApiGetDto from "@/modules/earning-plan/dto/earning-plan.api.get.dto"
 import {UtilNumber} from "../../@shared/util/UtilNumber"
 import SpendingPlanApiGetDto from "@/modules/spending-plan/dto/spending-plan.api.get.dto"
+import ICreditCardInvoiceListDto from "@/modules/credit-card/dto/credit-card.invoice.list.dto"
 
 const props = defineProps({
     invoiceItem: {
-        type: Object as () => EarningPlanApiGetDto | SpendingPlanApiGetDto,
+        type: Object as () => EarningPlanApiGetDto | SpendingPlanApiGetDto | ICreditCardInvoiceListDto,
         required: true
     },
     store: {
         type: Object,
         required: true
+    },
+    fixInstallmentLabel: {
+        type: String,
+        required: false,
+        default: 'Receita'
+    },
+    isCreditCardItem: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 })
 
 const dueDay = UtilCalendar.makeDate(props.invoiceItem.forecast).getDate()
 
 function getColorForNextInstallmentDay(): string {
+    if (props.isCreditCardItem) {
+        return 'success'
+    }
     const dateToday = UtilCalendar.getToday()
     const dateNextInstallment = UtilCalendar.makeDate(props.store.dateSearch)
     dateNextInstallment.setDate(UtilCalendar.makeDate(props.invoiceItem.forecast).getDate())
@@ -60,7 +74,7 @@ function getColorForNextInstallmentDay(): string {
                                 Restam {{ invoiceItem.installments }} parcelas
                             </ion-label>
                             <ion-label class="no-break" v-else>
-                                Receita Fixa
+                                {{ fixInstallmentLabel }} Fixa
                             </ion-label>
                         </ion-col>
                     </ion-row>

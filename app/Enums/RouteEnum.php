@@ -41,9 +41,6 @@ enum RouteEnum: string
     case ApiUserShow = 'apiUserShow';
     case ApiUserUpdate = 'apiUserUpdate';
     case ApiFinancialHealthIndexFiltered = 'apiFinancialHealthIndex';
-    case ApiSpendingPlanList = 'spending-plan.list';
-    case ApiEarningPlanList = 'earning-plan.list';
-    case ApiMarketPlannerShow = 'market-planner.show';
     case ApiSubscribe = 'apiSubscribe';
     case ApiCancelSubscribe = 'apiCancelSubscribe';
     case ApiSubscribeUpdateAccount = 'apiSubscribeUpdateAccount';
@@ -59,4 +56,10 @@ enum RouteEnum: string
     case MfpUserRegisterStepOne = 'userRegisterStepOne';
     case MfpUserRegisterStepTwo = 'userRegisterStepTwo';
     case MfpUserRegisterStepThree = 'userRegisterStepThree';
+
+    //////////// API V2 ////////////
+    case ApiSpendingPlanList = 'spending-plan.list';
+    case ApiEarningPlanList = 'earning-plan.list';
+    case ApiMarketPlannerShow = 'market-planner.show';
+    case ApiCreditCardInvoiceList = 'credit-card-invoice.list';
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
+use App\Modules\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
 use App\Modules\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
 use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
@@ -29,7 +30,14 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
             Route::get('', EarningPlanListController::class)->name(RouteEnum::ApiEarningPlanList->value);
         });
         Route::prefix('market-planner')->group(function () {
-            Route::get('show-details', MarketPlannerShowController::class)->name(RouteEnum::ApiMarketPlannerShow->value);
+            Route::get('show-details', MarketPlannerShowController::class)
+                ->name(RouteEnum::ApiMarketPlannerShow->value);
+        });
+        Route::prefix('credit-card')->group(function () {
+            Route::prefix('invoice')->group(function () {
+                Route::get('{credit_card_id}', CreditCardInvoiceListController::class)
+                    ->name(RouteEnum::ApiCreditCardInvoiceList->value);
+            });
         });
     });
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
 import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
-import {IonLabel, modalController} from "@ionic/vue"
+import {IonLabel, modalController, IonCard, IonCardContent} from "@ionic/vue"
 import MfpInputMoney from "@/modules/@shared/components/input/MfpInputMoney.vue"
 import MfpWalletSelect from "@/modules/@shared/components/select/MfpWalletSelect.vue"
 import {PropType, ref} from "vue"
@@ -51,6 +51,16 @@ function closeModal() {
 
 <template>
     <mfp-modal-header title="Pagar Despesa" @close-action="closeModal" @save-action="pay" save-action-label="Pagar"/>
+    <ion-card class="ion-margin-vertical">
+        <ion-card-content>
+            <ion-label>
+                <p>
+                    Ao pagar a despesa, será pago a <strong>primeira</strong> parcela, independente de qual
+                    parcela esteja selecionada.
+                </p>
+            </ion-label>
+        </ion-card-content>
+    </ion-card>
     <mfp-modal-content :show-content="internalPartial">
         <template #list>
             <mfp-input-money label="Valor" v-model="internalAmount"/>

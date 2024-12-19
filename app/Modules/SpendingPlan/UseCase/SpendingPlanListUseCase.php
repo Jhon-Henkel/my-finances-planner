@@ -6,7 +6,7 @@ use App\Enums\RouteEnum;
 use App\Infra\Shared\UseCase\List\IListUseCase;
 use App\Modules\CreditCardTransaction\UseCase\Sum\CreditCardTransactionSumUseCase;
 use App\Modules\EarningsPlan\UseCase\Sum\EarningPlanSumUseCase;
-use App\Modules\Invoice\Service\InvoiceService;
+use App\Modules\Invoice\Service\InvoiceListService;
 use App\Modules\MarketPlanner\UseCase\AddInvoiceItemMarketPlannerUseCase;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
 use App\Modules\Wallet\UseCase\Sum\WalletSumUseCase;
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 class SpendingPlanListUseCase implements IListUseCase
 {
     public function __construct(
-        protected InvoiceService $invoiceService,
+        protected InvoiceListService $invoiceService,
         protected EarningPlanSumUseCase $earningPlanSumUseCase,
         protected CreditCardTransactionSumUseCase $creditCardTransactionSumUseCase,
         protected WalletSumUseCase $walletSumUseCase,
@@ -51,11 +51,11 @@ class SpendingPlanListUseCase implements IListUseCase
                     ->where(DB::raw('DATE_ADD(forecast, INTERVAL (installments - 1) MONTH)'), '>=', $startOfMonth);
             })
             ->orWhere(function ($query) use ($startOfMonth) {
-                $query->where('installments', '=', InvoiceService::FIX_INSTALLMENT)
+                $query->where('installments', '=', InvoiceListService::FIX_INSTALLMENT)
                     ->where('forecast', '<=', $startOfMonth);
             })
             ->orWhere(function ($query) use ($queryParams) {
-                $query->where('installments', '=', InvoiceService::FIX_INSTALLMENT)
+                $query->where('installments', '=', InvoiceListService::FIX_INSTALLMENT)
                     ->whereMonth('forecast', '=', $queryParams['month'])
                     ->whereYear('forecast', '=', $queryParams['year']);
             })

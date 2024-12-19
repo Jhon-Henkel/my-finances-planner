@@ -3,13 +3,13 @@
 namespace App\Modules\EarningsPlan\UseCase\Sum;
 
 use App\Models\FutureGain;
-use App\Modules\Invoice\Service\InvoiceService;
+use App\Modules\Invoice\Service\InvoiceListService;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class EarningPlanSumUseCase
 {
-    public function __construct(protected InvoiceService $invoiceService)
+    public function __construct(protected InvoiceListService $invoiceService)
     {
     }
 
@@ -32,11 +32,11 @@ class EarningPlanSumUseCase
                     ->where(DB::raw('DATE_ADD(forecast, INTERVAL (installments - 1) MONTH)'), '>=', $startOfMonth);
             })
             ->orWhere(function ($query) use ($startOfMonth) {
-                $query->where('installments', '=', InvoiceService::FIX_INSTALLMENT)
+                $query->where('installments', '=', InvoiceListService::FIX_INSTALLMENT)
                     ->where('forecast', '<=', $startOfMonth);
             })
             ->orWhere(function ($query) use ($queryParams) {
-                $query->where('installments', '=', InvoiceService::FIX_INSTALLMENT)
+                $query->where('installments', '=', InvoiceListService::FIX_INSTALLMENT)
                     ->whereMonth('forecast', '=', $queryParams['month'])
                     ->whereYear('forecast', '=', $queryParams['year']);
             })

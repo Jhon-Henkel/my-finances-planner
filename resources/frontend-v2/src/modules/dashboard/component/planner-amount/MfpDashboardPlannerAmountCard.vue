@@ -8,9 +8,6 @@ import {RouteName} from "@/infra/router/routeName"
 import {useSpendingPlanStore} from "@/modules/spending-plan/store/SpendingPlanStore"
 
 const spendingPlanStore = useSpendingPlanStore()
-const toReceive = spendingPlanStore.earningsTotalAmount
-const toPay = spendingPlanStore.monthTotalAmount
-const toPayInCreditCard = spendingPlanStore.creditCardsTotalAmount
 
 onMounted(async () => {
     await spendingPlanStore.load()
@@ -27,7 +24,7 @@ onMounted(async () => {
                     </ion-col>
                     <ion-col size="9">
                         <ion-card-subtitle>Receber</ion-card-subtitle>
-                        <mfp-counter-money :end="toReceive"/>
+                        <mfp-counter-money :end="spendingPlanStore.earningsThisMonthTotalAmount"/>
                     </ion-col>
                 </ion-row>
             </ion-card>
@@ -40,7 +37,7 @@ onMounted(async () => {
                     </ion-col>
                     <ion-col size="9">
                         <ion-card-subtitle>Pagar</ion-card-subtitle>
-                        <mfp-counter-money :end="toPay + toPayInCreditCard"/>
+                        <mfp-counter-money :end="spendingPlanStore.thisMonthTotalAmount + spendingPlanStore.creditCardsThisMonthTotalAmount"/>
                     </ion-col>
                 </ion-row>
             </ion-card>

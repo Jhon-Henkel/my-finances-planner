@@ -80,7 +80,7 @@ onMounted(async () => {
         <mfp-invoice-list-skeleton-load :is-loaded="store.isLoaded"/>
         <ion-list v-if="store.isLoaded">
             <ion-item-sliding v-for="(item, index) in store.spendingPlan" :key="index">
-                <mfp-invoice-list-item-v2 :store="store" :invoice-item="item"/>
+                <mfp-invoice-list-item-v2 :store="store" :invoice-item="item" fix-installment-label="Despesa"/>
                 <ion-item-options side="end">
                     <ion-item-option color="light" @click="optionsAction(item)">
                         <ion-icon slot="top" :icon="ellipsisHorizontal"/>
