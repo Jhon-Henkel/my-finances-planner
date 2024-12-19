@@ -6,9 +6,12 @@ import {ResponseListDefault} from "@/infra/response/response.list.default"
 interface ISpendingPlanState {
     spendingPlan: Array<SpendingPlanApiGetDto>
     monthTotalAmount: number,
+    thisMonthTotalAmount: number,
     walletTotalAmount: number,
     earningsTotalAmount: number,
+    earningsThisMonthTotalAmount: number,
     creditCardsTotalAmount: number,
+    creditCardsThisMonthTotalAmount: number,
     nextMonthUrl: string,
     prevMonthUrl: string,
     dateLabel: string,
@@ -21,9 +24,12 @@ export const useSpendingPlanStore = defineStore('spending-plan', {
     state: (): ISpendingPlanState => ({
         spendingPlan: [],
         monthTotalAmount: 0,
+        thisMonthTotalAmount: 0,
         walletTotalAmount: 0,
         earningsTotalAmount: 0,
+        earningsThisMonthTotalAmount: 0,
         creditCardsTotalAmount: 0,
+        creditCardsThisMonthTotalAmount: 0,
         nextMonthUrl: '',
         prevMonthUrl: '',
         dateLabel: '',
@@ -35,6 +41,9 @@ export const useSpendingPlanStore = defineStore('spending-plan', {
         async load() {
             this.isLoaded = false
             this._storeData(await ApiRouter.spending_plan.index())
+            this.earningsThisMonthTotalAmount = this.earningsTotalAmount
+            this.thisMonthTotalAmount = this.monthTotalAmount
+            this.creditCardsThisMonthTotalAmount = this.creditCardsTotalAmount
             this.isLoaded = true
         },
         async nextMonth() {
