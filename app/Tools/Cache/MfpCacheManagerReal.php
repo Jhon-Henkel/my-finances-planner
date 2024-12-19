@@ -57,7 +57,7 @@ class MfpCacheManagerReal
             return;
         }
         $key = $this->makeKey($user->email, CacheKeyEnum::Config);
-        Cache::put("$key:{$config->getName()}", serialize($config), TimeNumberEnum::OneDayInSeconds->value);
+        Cache::put("$key:{$config->getName()}", serialize($config), TimeNumberEnum::OneWeekInSeconds->value);
     }
 
     public function getConfig(string $configName): null|ConfigurationDTO
