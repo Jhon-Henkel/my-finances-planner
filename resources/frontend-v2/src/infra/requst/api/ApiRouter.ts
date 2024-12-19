@@ -5,7 +5,6 @@ import {IWalletForm} from "@/modules/wallet/service/IWalletForm"
 import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import {IMovementForm} from "@/modules/movement/service/IMovementForm"
 import {ITransferForm} from "@/modules/movement/service/ITransferForm"
-import {IFutureExpenseForm} from "@/modules/future-expense/service/IFutureExpenseForm"
 import {PayReceiveModel} from "@/modules/pay-receive/model/PayReceiveModel"
 import {ICardForm} from "@/modules/credit-cards/service/ICardForm"
 import router from "../../router"
@@ -15,6 +14,7 @@ import {MainSettingsModel} from "@/modules/setings/model/MainSettingsModel"
 import {IRegisterForm} from "@/modules/register/service/IRegisterForm"
 import {MfpSubscriptionService} from "@/modules/subscription/service/MfpSubscriptionService"
 import {ResponseListDefault} from "@/infra/response/response.list.default"
+import {ISpendingPlanForm} from "@/modules/spending-plan/model/ISpendingPlanForm"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -135,7 +135,7 @@ export const ApiRouter = {
         }
     },
     futureExpense: {
-        post: async (data: IFutureExpenseForm) => {
+        post: async (data: ISpendingPlanForm) => {
             const response = await axios.post(mountApiUrl('future-spent'), data, makeHeaders())
             return response.data
         },
@@ -143,7 +143,7 @@ export const ApiRouter = {
             const response = await axios.get(mountApiUrl('future-spent', id), makeHeaders())
             return response.data
         },
-        put: async (id: number, data: IFutureExpenseForm) => {
+        put: async (id: number, data: ISpendingPlanForm) => {
             const response = await axios.put(mountApiUrl('future-spent', id), data, makeHeaders())
             return response.data
         },
@@ -157,11 +157,11 @@ export const ApiRouter = {
         }
     },
     futureProfits: {
-        post: async (data: IFutureExpenseForm) => {
+        post: async (data: ISpendingPlanForm) => {
             const response = await axios.post(mountApiUrl('future-gain'), data, makeHeaders())
             return response.data
         },
-        put: async (id: number, data: IFutureExpenseForm) => {
+        put: async (id: number, data: ISpendingPlanForm) => {
             const response = await axios.put(mountApiUrl('future-gain', id), data, makeHeaders())
             return response.data
         },
@@ -218,6 +218,14 @@ export const ApiRouter = {
             },
             delete: async (id: number) => {
                 const response = await axios.delete(mountApiUrl(`credit-card/transaction/${id}`), makeHeaders())
+                return response.data
+            }
+        }
+    },
+    cards_v2: {
+        invoices: {
+            index: async (cardId: number | string) => {
+                const response = await axios.get(mountApiUrl(`v2/credit-card/invoice/${cardId}`), makeHeaders())
                 return response.data
             }
         }

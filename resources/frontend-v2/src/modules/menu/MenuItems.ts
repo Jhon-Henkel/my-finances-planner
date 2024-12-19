@@ -39,7 +39,7 @@ export const MenuItems = [
     },
     {
         icon: cardOutline,
-        routeName: 'manage-cards',
+        routeName: RouteName.credit_cards,
         label: 'Cartões',
     },
     {

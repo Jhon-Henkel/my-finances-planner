@@ -1,45 +1,45 @@
-import {CardInvoiceItemModel} from "@/modules/credit-cards/model/CardInvoiceItemModel"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import {ApiRouter} from "@/infra/requst/api/ApiRouter"
-import {useCardInvoicesStore} from "@/modules/credit-cards/store/CardInvoiceStore"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
-import {CardsService} from "@/modules/credit-cards/service/CardsService"
+import {InvoiceModel} from "@/modules/invoice/model/invoiceModel"
 import {SpendingPlanService} from "@/modules/spending-plan/service/SpendingPlanService"
-import ICreditCardInvoiceListDto from "@/modules/credit-card/dto/credit-card.invoice.list.dto"
+import {CreditCardInvoiceItemModel} from "@/modules/credit-card/model/CreditCardInvoiceItemModel"
+import {useCreditCardInvoiceStore} from "@/modules/credit-card/store/CreditCardInvoiceStore"
+import {CreditCardService} from "@/modules/credit-card/service/CreditCardService"
 
-export const CardInvoiceItemService = {
-    create: async (data: CardInvoiceItemModel, isFixInstallment: boolean): Promise<void> => {
+export const CreditCardInvoiceItemService = {
+    create: async (data: CreditCardInvoiceItemModel, isFixInstallment: boolean): Promise<void> => {
         if (isFixInstallment) {
             data.installments = 0
         }
         data.nextInstallment = data.nextInstallment.slice(0, 10)
         await ApiRouter.cards.invoices.post(data)
     },
-    update: async (data: CardInvoiceItemModel, isFixInstallment: boolean): Promise<void> => {
+    update: async (data: CreditCardInvoiceItemModel, isFixInstallment: boolean): Promise<void> => {
         if (isFixInstallment) {
             data.installments = 0
         }
         data.nextInstallment = data.nextInstallment.slice(0, 10)
         await ApiRouter.cards.invoices.put(data.id, data)
     },
-    get: async (id: number): Promise<CardInvoiceItemModel> => {
+    get: async (id: number): Promise<CreditCardInvoiceItemModel> => {
         const data = await ApiRouter.cards.invoices.get(id)
-        return new CardInvoiceItemModel(data)
+        return new CreditCardInvoiceItemModel(data)
     },
-    delete: async (data: ICreditCardInvoiceListDto, cardId: number): Promise<void> => {
+    delete: async (data: InvoiceModel, cardId: number): Promise<void> => {
         const deleteConfirmAlert = new MfpConfirmAlert('Deseja realmente deletar a parcela?')
-        const confirmDelete = await deleteConfirmAlert.open(`Deseja realmente excluir a parcela ${data.description}?`)
+        const confirmDelete = await deleteConfirmAlert.open(`Deseja realmente excluir a parcela ${data.name}?`)
         if (confirmDelete) {
             await ApiRouter.cards.invoices.delete(data.id)
             const toast = new MfpToast()
             await toast.open('Parcela deletada com sucesso!')
-            await CardInvoiceItemService.forceReloadStore(cardId)
+            await CreditCardInvoiceItemService.reloadStore(cardId)
             await SpendingPlanService.reloadStore()
-            await CardsService.forceReloadStore()
+            await CreditCardService.reloadStore()
         }
     },
-    makeEmptyInvoiceItem(): CardInvoiceItemModel {
+    makeEmptyInvoiceItem(): CreditCardInvoiceItemModel {
         return {
             id: null,
             name: '',
@@ -49,8 +49,8 @@ export const CardInvoiceItemService = {
             installments: 1
         }
     },
-    forceReloadStore: async (cardId: number|string): Promise<void> => {
-        const store = useCardInvoicesStore()
+    reloadStore: async (cardId: number|string): Promise<void> => {
+        const store = useCreditCardInvoiceStore()
         await store.load(cardId)
     }
 }
