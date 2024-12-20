@@ -16,6 +16,7 @@ import MfpInfoButton from "@/modules/@shared/components/button/MfpInfoButton.vue
 import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import MfpAiInsightCard from "@/modules/@shared/components/card/MfpAiInsightCard.vue"
 import MfpBalanceCard from "@/modules/@shared/components/card/MfpBalanceCard.vue"
+import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
 
 const store = useFinancialHealthStore()
 const filterModal = new MfpModal(MfpFinancialHealthFilterModal)
@@ -24,8 +25,13 @@ function infoText() {
     const okAlert = new MfpOkAlert('Dica')
     okAlert.open(
         'Aqui é agrupado todas as descrições de movimentações, no caso de desagrupar o cartão de crédito, ' +
-        'será exibido os itens das faturas referente a fatura paga nesse mesmo mês.'
+        'será exibido os itens das faturas referente a fatura paga nesse mesmo mês e não a fatura vigente.'
     )
+}
+
+async function handleRefresh(event: any) {
+    await store.load()
+    event.target.complete()
 }
 
 onMounted(() => {
@@ -37,6 +43,7 @@ onMounted(() => {
 
 <template>
     <mfp-page>
+        <mfp-refresh @refresh-content="handleRefresh($event)"/>
         <ion-list-header>
             <ion-label>Saúde Financeira</ion-label>
             <mfp-info-button @click="infoText"/>
