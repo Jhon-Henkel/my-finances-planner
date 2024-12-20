@@ -87,8 +87,6 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
         });
 
         Route::prefix('{id}/invoices')->group(function () {
-            Route::get('', [CreditCardTransactionController::class, 'invoices'])
-                ->name(RouteEnum::ApiCreditCardInvoices->value);
             Route::put('/{walletId}', [CreditCardTransactionController::class, 'payInvoice'])
                 ->name(RouteEnum::ApiCreditCardPayInvoice->value);
         });

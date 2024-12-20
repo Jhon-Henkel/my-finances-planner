@@ -28,7 +28,6 @@ class RouteEnumUnitTest extends Falcon9
         $this->assertEquals('apiCreditCardTransactionInsert', RouteEnum::ApiCreditCardTransactionInsert->value);
         $this->assertEquals('apiCreditCardTransactionUpdate', RouteEnum::ApiCreditCardTransactionUpdate->value);
         $this->assertEquals('apiCreditCardTransactionDelete', RouteEnum::ApiCreditCardTransactionDelete->value);
-        $this->assertEquals('apiCreditCardInvoices', RouteEnum::ApiCreditCardInvoices->value);
         $this->assertEquals('apiCreditCardPayInvoice', RouteEnum::ApiCreditCardPayInvoice->value);
         $this->assertEquals('apiFutureGainShow', RouteEnum::ApiFutureGainShow->value);
         $this->assertEquals('apiFutureGainInsert', RouteEnum::ApiFutureGainInsert->value);
