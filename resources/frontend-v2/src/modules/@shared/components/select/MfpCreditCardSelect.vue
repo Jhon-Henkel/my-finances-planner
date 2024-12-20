@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {IonItem, IonSelect, IonSelectOption} from "@ionic/vue"
 import {onMounted} from "vue"
-import {useCardsStore} from "@/modules/credit-cards/store/CardsStore"
+import {useCreditCardStore} from "@/modules/credit-card/store/CreditCardStore"
 
 defineProps(
     {
@@ -19,7 +19,7 @@ defineProps(
 )
 
 const emit = defineEmits(['update:modelValue'])
-const cardStore = useCardsStore()
+const cardStore = useCreditCardStore()
 const cardsSelectOptions = {header: 'Cartões', subHeader: 'Selecione o cartão'}
 
 function updateValue(value: any) {

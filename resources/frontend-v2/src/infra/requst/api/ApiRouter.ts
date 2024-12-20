@@ -6,15 +6,15 @@ import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import {IMovementForm} from "@/modules/movement/service/IMovementForm"
 import {ITransferForm} from "@/modules/movement/service/ITransferForm"
 import {PayReceiveModel} from "@/modules/pay-receive/model/PayReceiveModel"
-import {ICardForm} from "@/modules/credit-cards/service/ICardForm"
 import router from "../../router"
-import {CardInvoiceItemModel} from "@/modules/credit-cards/model/CardInvoiceItemModel"
 import {UserModel} from "@/modules/user/model/UserModel"
 import {MainSettingsModel} from "@/modules/setings/model/MainSettingsModel"
 import {IRegisterForm} from "@/modules/register/service/IRegisterForm"
 import {MfpSubscriptionService} from "@/modules/subscription/service/MfpSubscriptionService"
 import {ResponseListDefault} from "@/infra/response/response.list.default"
 import {ISpendingPlanForm} from "@/modules/spending-plan/model/ISpendingPlanForm"
+import {ICreditCardForm} from "@/modules/credit-card/service/ICreditCardForm"
+import {CreditCardInvoiceItemModel} from "@/modules/credit-card/model/CreditCardInvoiceItemModel"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 
@@ -128,12 +128,6 @@ export const ApiRouter = {
             }
         }
     },
-    panorama: {
-        index: async () => {
-            const response = await axios.get(mountApiUrl('panorama'), makeHeaders())
-            return response.data
-        }
-    },
     futureExpense: {
         post: async (data: ISpendingPlanForm) => {
             const response = await axios.post(mountApiUrl('future-spent'), data, makeHeaders())
@@ -183,11 +177,11 @@ export const ApiRouter = {
             const response = await axios.get(mountApiUrl('credit-card'), makeHeaders())
             return response.data
         },
-        put: async (id: number, data: ICardForm) => {
+        put: async (id: number, data: ICreditCardForm) => {
             const response = await axios.put(mountApiUrl('credit-card', id), data, makeHeaders())
             return response.data
         },
-        post: async (data: ICardForm) => {
+        post: async (data: ICreditCardForm) => {
             const response = await axios.post(mountApiUrl('credit-card'), data, makeHeaders())
             return response.data
         },
@@ -195,20 +189,16 @@ export const ApiRouter = {
             const response = await axios.delete(mountApiUrl('credit-card', id), makeHeaders())
             return response.data
         },
-        payNextInvoice: async (data: ICardForm, walletId: number) => {
+        payNextInvoice: async (data: ICreditCardForm, walletId: number) => {
             const response = await axios.put(mountApiUrl(`credit-card/${data.id}/invoices/${walletId}`), null, makeHeaders())
             return response.data
         },
         invoices: {
-            index: async (cardId: number | string) => {
-                const response = await axios.get(mountApiUrl(`credit-card/${cardId}/invoices`), makeHeaders())
-                return response.data
-            },
-            post: async (data: CardInvoiceItemModel) => {
+            post: async (data: CreditCardInvoiceItemModel) => {
                 const response = await axios.post(mountApiUrl('credit-card/transaction'), data, makeHeaders())
                 return response.data
             },
-            put: async (cardId: number | string, data: CardInvoiceItemModel) => {
+            put: async (cardId: number | string, data: CreditCardInvoiceItemModel) => {
                 const response = await axios.put(mountApiUrl(`credit-card/transaction/${cardId}`), data, makeHeaders())
                 return response.data
             },

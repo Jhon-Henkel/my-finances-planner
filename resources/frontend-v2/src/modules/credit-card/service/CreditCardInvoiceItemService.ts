@@ -2,11 +2,11 @@ import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
-import {InvoiceModel} from "@/modules/invoice/model/invoiceModel"
 import {SpendingPlanService} from "@/modules/spending-plan/service/SpendingPlanService"
 import {CreditCardInvoiceItemModel} from "@/modules/credit-card/model/CreditCardInvoiceItemModel"
 import {useCreditCardInvoiceStore} from "@/modules/credit-card/store/CreditCardInvoiceStore"
 import {CreditCardService} from "@/modules/credit-card/service/CreditCardService"
+import ICreditCardInvoiceListDto from "@/modules/credit-card/dto/credit-card.invoice.list.dto"
 
 export const CreditCardInvoiceItemService = {
     create: async (data: CreditCardInvoiceItemModel, isFixInstallment: boolean): Promise<void> => {
@@ -27,9 +27,9 @@ export const CreditCardInvoiceItemService = {
         const data = await ApiRouter.cards.invoices.get(id)
         return new CreditCardInvoiceItemModel(data)
     },
-    delete: async (data: InvoiceModel, cardId: number): Promise<void> => {
+    delete: async (data: ICreditCardInvoiceListDto, cardId: number): Promise<void> => {
         const deleteConfirmAlert = new MfpConfirmAlert('Deseja realmente deletar a parcela?')
-        const confirmDelete = await deleteConfirmAlert.open(`Deseja realmente excluir a parcela ${data.name}?`)
+        const confirmDelete = await deleteConfirmAlert.open(`Deseja realmente excluir a parcela ${data.description}?`)
         if (confirmDelete) {
             await ApiRouter.cards.invoices.delete(data.id)
             const toast = new MfpToast()

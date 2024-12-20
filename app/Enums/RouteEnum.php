@@ -24,7 +24,6 @@ enum RouteEnum: string
     case ApiCreditCardTransactionInsert = 'apiCreditCardTransactionInsert';
     case ApiCreditCardTransactionUpdate = 'apiCreditCardTransactionUpdate';
     case ApiCreditCardTransactionDelete = 'apiCreditCardTransactionDelete';
-    case ApiCreditCardInvoices = 'apiCreditCardInvoices';
     case ApiCreditCardPayInvoice = 'apiCreditCardPayInvoice';
     case ApiFutureGainShow = 'apiFutureGainShow';
     case ApiFutureGainInsert = 'apiFutureGainInsert';

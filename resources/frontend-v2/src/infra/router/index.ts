@@ -77,16 +77,6 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/modules/earning-plan/page/EarningPlanPage.vue')
             },
             {
-                path: 'gerenciar-cartoes',
-                name: 'manage-cards',
-                component: () => import('@/modules/credit-cards/page/CardsPage.vue')
-            },
-            {
-                path: 'gerenciar-cartoes/fatura-cartao/:id',
-                name: 'card-invoices',
-                component: () => import('@/modules/credit-cards/page/CardInvoicesPage.vue')
-            },
-            {
                 path: 'cartoes-de-credito',
                 name: RouteName.credit_cards,
                 component: () => import('@/modules/credit-card/page/CreditCardsPage.vue')

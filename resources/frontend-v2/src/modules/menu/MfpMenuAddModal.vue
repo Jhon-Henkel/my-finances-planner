@@ -4,15 +4,15 @@ import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.
 import {calendarNumberOutline, cardOutline, cashOutline, swapHorizontalOutline} from "ionicons/icons"
 import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpMovementsFormModal from "@/modules/movement/component/MfpMovementsFormModal.vue"
-import MfpCardInvoicesFormModal from "@/modules/credit-cards/component/MfpCardInvoicesFormModal.vue"
 import MfpEarningPlanFormModal from "@/modules/earning-plan/component/MfpEarningPlanFormModal.vue"
 import MfpSpendingPlanFormModal from "@/modules/spending-plan/component/MfpSpendingPlanFormModal.vue"
+import MfpCreditCardInvoiceFormModal from "@/modules/credit-card/component/MfpCreditCardInvoiceFormModal.vue"
 
 const modalBreakpoints: Array<number> = [0, 0.85]
 const movementFormModal = new MfpModal(MfpMovementsFormModal)
 const panoramaFormModal = new MfpModal(MfpSpendingPlanFormModal)
 const futureProfitFormModal = new MfpModal(MfpEarningPlanFormModal)
-const cardInstallmentFormModal = new MfpModal(MfpCardInvoicesFormModal)
+const cardInstallmentFormModal = new MfpModal(MfpCreditCardInvoiceFormModal)
 
 function openModal(modal: MfpModal) {
     modalController.dismiss()

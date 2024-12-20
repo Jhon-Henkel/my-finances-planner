@@ -20,7 +20,6 @@ import {ellipsisHorizontal} from "ionicons/icons"
 import {MfpActionSheet} from "@/modules/@shared/components/action-sheet/MfpActionSheet"
 import {UtilActionSheet} from "@/modules/@shared/util/UtilActionSheet"
 import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
-import {CardInvoiceItemService} from "@/modules/credit-cards/service/CardInvoiceItemService"
 import {useCreditCardInvoiceStore} from "@/modules/credit-card/store/CreditCardInvoiceStore"
 import {useCreditCardStore} from "@/modules/credit-card/store/CreditCardStore"
 import MfpCreditCardInvoiceFormModal from "@/modules/credit-card/component/MfpCreditCardInvoiceFormModal.vue"
@@ -31,6 +30,7 @@ import MfpInvoiceListItemV2 from "@/modules/invoice/component/MfpInvoiceListItem
 import ICreditCardInvoiceListDto from "@/modules/credit-card/dto/credit-card.invoice.list.dto"
 import MfpTotalRegistersRowV2 from "@/modules/@shared/components/page/MfpTotalRegistersRowV2.vue"
 import MfpCreditCardPayModal from "@/modules/credit-card/component/MfpCreditCardPayModal.vue"
+import {CreditCardInvoiceItemService} from "@/modules/credit-card/service/CreditCardInvoiceItemService"
 
 const invoiceStore = useCreditCardInvoiceStore()
 const cardStore = useCreditCardStore()
@@ -43,10 +43,10 @@ async function optionsAction(item: ICreditCardInvoiceListDto) {
     const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtons(true, true, true))
     const action = await actionSheet.open()
     if (action == 'edit') {
-        const invoiceItem = await CardInvoiceItemService.get(item.id)
+        const invoiceItem = await CreditCardInvoiceItemService.get(item.id)
         await formModal.open({invoiceItem})
     } else if (action == 'delete') {
-        await CardInvoiceItemService.delete(item, parseInt(String(cardId.value)))
+        await CreditCardInvoiceItemService.delete(item, parseInt(String(cardId.value)))
         await loadInvoices()
     }
 }
