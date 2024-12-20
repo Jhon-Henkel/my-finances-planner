@@ -3,8 +3,7 @@ import {Ref, ref} from "vue"
 import {UtilTime} from "@/modules/@shared/util/UtilTime"
 import {UtilCookies} from "@/modules/@shared/util/UtilCookies"
 
-export const useAuthStore = defineStore({
-    id: 'auth',
+export const useAuthStore = defineStore('auth', {
     state: (): { token: any, user: any | null } => ({
         token: ref(UtilCookies.getCookie('mfp-token')) ?? null,
         user: ref(UtilCookies.getCookieObject('mfp-user')) ?? null,
@@ -19,7 +18,9 @@ export const useAuthStore = defineStore({
             this.user = userValue
         },
         logout(): void {
-            this.user.plan = null
+            if (this.user) {
+                this.user.plan = null
+            }
             UtilCookies.removeCookie('mfp-token')
         },
         isAuthUser(): boolean {
@@ -30,8 +31,10 @@ export const useAuthStore = defineStore({
                 this.logout()
                 return false
             }
-            this.token = sessionToken
-            this.user = sessionUser
+            if (sessionToken !== this.token || sessionUser !== this.user) {
+                this.token = sessionToken
+                this.user = sessionUser
+            }
             return true
         }
     },
