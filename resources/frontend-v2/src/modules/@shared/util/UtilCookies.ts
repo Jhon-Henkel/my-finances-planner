@@ -12,7 +12,7 @@ export const UtilCookies = {
     },
     getCookieObject(name: string): string | undefined {
         const cookieValue = Cookies.get(name)
-        return cookieValue ? JSON.parse(cookieValue) : undefined
+        return cookieValue !== undefined ? JSON.parse(cookieValue) : undefined
     },
     removeCookie(name: string): void {
         Cookies.remove(name)

@@ -1,4 +1,5 @@
 import {useAuthStore} from "@/modules/login/store/AuthStore"
+import {RouteName} from "@/infra/router/routeName"
 
 export default async function RouterAuthMiddleware(to: any, from: any, next: any): Promise<void> {
     try {
@@ -9,21 +10,16 @@ export default async function RouterAuthMiddleware(to: any, from: any, next: any
                     next()
                 } else {
                     auth.logout()
-                    next({ name: 'login', query: { redirect: to.name } }).then(() => {
-                        window.location.reload();
-                    });
+                    next({ name: RouteName.login, query: { redirect: to.name } })
                 }
             } else {
                 auth.logout()
-                next({ name: 'login', query: { redirect: to.name } }).then(() => {
-                    window.location.reload();
-                });            }
+                next({ name: RouteName.login, query: { redirect: to.name } })
+            }
         } else {
             next()
         }
     } catch (error) {
-        next({ name: 'login', query: { redirect: to.name } }).then(() => {
-            window.location.reload();
-        });
+        next({ name: RouteName.login, query: { redirect: to.name } })
     }
 }

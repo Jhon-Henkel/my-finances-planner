@@ -23,6 +23,9 @@ export const AuthService = {
             }
             return {isSuccess: true, data: response}
         }).catch((response: any): IApiResponse => {
+            if (response.status === 419) {
+                window.location.href = '/v2/login'
+            }
             return {isSuccess: false, data: response?.data?.message ?? 'Usuário ou senha inválidos!'}
         })
     },

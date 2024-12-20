@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
-import {IonButton, loadingController, IonIcon, IonCol, IonGrid, IonRow, IonText} from "@ionic/vue"
-import {ref} from "vue"
+import {IonButton, IonCol, IonGrid, IonIcon, IonRow, IonText, loadingController} from "@ionic/vue"
+import {onMounted, ref} from "vue"
 import {useRoute} from "vue-router"
 import {checkmarkCircleOutline} from "ionicons/icons"
 import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
+import {RouteName} from "@/infra/router/routeName"
+import router from "@/infra/router"
 
 const inactive = ref(true)
 const hash = String(useRoute().params.hash)
+const seconds = ref(10)
 
 async function activateAccount() {
     const loading = await loadingController.create({
@@ -20,10 +23,24 @@ async function activateAccount() {
         inactive.value = false
     }).catch(() => {
         const okAlert = new MfpOkAlert('Ocorreu um erro!')
-        okAlert.open('Não foi possível ativar sua conta. Tente novamente mais tarde.')
+        okAlert.open('Não foi possível ativar sua conta. Tente novamente mais tarde ou entre em contato via e-mail contato@financasnamao.com.br')
     })
     await loading.dismiss()
+    const interval = setInterval(() => {
+        if (seconds.value > 0) {
+            seconds.value--;
+        } else {
+            clearInterval(interval);
+        }
+    }, 1000);
+    setTimeout(() => {
+        router.push({name: RouteName.login})
+    }, 10000)
 }
+
+onMounted(() => {
+    activateAccount()
+})
 </script>
 
 <template>
@@ -38,7 +55,8 @@ async function activateAccount() {
                         </ion-text>
                         <ion-text>
                             <p>
-                                Para ativar a sua conta e ter acesso ao App, basta clivar no botão abaixo.
+                                Estamos ativando sua conta no finanças na mão, caso não aconteça automaticamente, você
+                                pode clicar no botão "Ativar Conta" abaixo.
                             </p>
                         </ion-text>
                         <ion-button id="open-loading" @click="activateAccount">
@@ -66,8 +84,9 @@ async function activateAccount() {
                         </ion-text>
                         <ion-text>
                             <p>Sua conta foi ativada com sucesso. Agora você já pode fazer o login &#128515;</p>
+                            <p>Redirecionando para o login em <strong>{{ seconds }} segundos</strong>...</p>
                         </ion-text>
-                        <ion-button routerLink="/v2/login" expand="block" class="ion-padding-top">
+                        <ion-button routerLink="/v2/login" expand="block">
                             Fazer Login
                         </ion-button>
                     </ion-col>
