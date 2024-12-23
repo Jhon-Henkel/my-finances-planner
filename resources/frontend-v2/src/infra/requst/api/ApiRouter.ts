@@ -15,8 +15,10 @@ import {ResponseListDefault} from "@/infra/response/response.list.default"
 import {ISpendingPlanForm} from "@/modules/spending-plan/model/ISpendingPlanForm"
 import {ICreditCardForm} from "@/modules/credit-card/service/ICreditCardForm"
 import {CreditCardInvoiceItemModel} from "@/modules/credit-card/model/CreditCardInvoiceItemModel"
+import {UtilTime} from "@/modules/@shared/util/UtilTime"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
+const requestTimeout: number = UtilTime.threeSecondsInMs
 
 function mountApiUrl(uri: string, id: null | number = null): string {
     const url: string = `${baseApiUrl}${uri}`
@@ -30,7 +32,8 @@ function makeHeaders(): object {
             'Accept': 'application/json',
             'X-MFP-USER-TOKEN': `Bearer ${AuthService.getToken()}`,
             'MFP-TOKEN': process.env.VITE_MFP_TOKEN,
-        }
+        },
+        timeout: requestTimeout
     }
 }
 
@@ -40,7 +43,8 @@ function makeHeadersNonLogged(): object {
             'content-type': 'application/json',
             'Accept': 'application/json',
             'MFP-TOKEN': process.env.VITE_MFP_TOKEN,
-        }
+        },
+        timeout: requestTimeout
     }
 }
 
@@ -70,11 +74,11 @@ axios.interceptors.response.use(response => {
 export const ApiRouter = {
     auth: {
         login: async function (data: ILoginForm) {
-            const response = await axios.post(mountApiUrl('auth'), data)
+            const response = await axios.post(mountApiUrl('auth'), data, {timeout: requestTimeout})
             return response.data
         },
         logout: async function () {
-            return await axios.get(mountApiUrl('logout'))
+            return await axios.get(mountApiUrl('logout'), {timeout: requestTimeout})
         }
     },
     wallet: {

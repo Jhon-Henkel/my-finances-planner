@@ -26,7 +26,14 @@ export const AuthService = {
             if (response.status === 419) {
                 window.location.href = '/v2/login'
             }
-            return {isSuccess: false, data: response?.data?.message ?? 'Usuário ou senha inválidos!'}
+            let message = response?.data?.message
+            if (response.message) {
+                message = response.message
+                if (message.includes('timeout of ')) {
+                    message = 'Tempo limite excedido, tente novamente...'
+                }
+            }
+            return {isSuccess: false, data: message ?? 'Usuário ou senha inválidos!'}
         })
     },
     logout: async (): Promise<IApiResponse> => {
