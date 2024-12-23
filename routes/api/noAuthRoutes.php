@@ -4,7 +4,6 @@ use App\Enums\RouteEnum;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Rotas que não requer autenticação
