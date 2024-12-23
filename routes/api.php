@@ -191,16 +191,12 @@ Route::prefix('notification')->group(function () {
 // Ao usar em prod tem que descomentar o route name, o interessante tbm é renomear para Api
 Route::prefix('auth')->group(function () {
     Route::post('', [AuthController::class, 'auth']);
-//        ->name(RouteEnum::WebMakeLogin->value);
 });
 
 Route::prefix('user')->group(function () {
     Route::post('/register', [UserRegisterController::class, 'registerStepZero']);
-//        ->name(RouteEnum::WebUserRegisterStepZero->value);
 });
 
 Route::get('logout', [AuthController::class, 'logout']);
-//    ->name(RouteEnum::WebLogout->value);
 
 Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser']);
-//    ->name(RouteEnum::WebActiveUser->value);
