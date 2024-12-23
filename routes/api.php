@@ -162,7 +162,7 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
 
 // Rotas com middleware de autenticação MFP
 Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
-        Route::prefix('/subscription')->group(function () {
+    Route::prefix('/subscription')->group(function () {
         Route::post('/update-account', [SubscribeController::class, 'updateAccount'])
             ->name(RouteEnum::ApiSubscribeUpdateAccount->value);
     });
