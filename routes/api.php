@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\RouteEnum;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
@@ -161,7 +162,7 @@ Route::prefix('/')->middleware('auth.api:api')->group(function () {
 
 // Rotas com middleware de autenticação MFP
 Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
-    Route::prefix('/subscription')->group(function () {
+        Route::prefix('/subscription')->group(function () {
         Route::post('/update-account', [SubscribeController::class, 'updateAccount'])
             ->name(RouteEnum::ApiSubscribeUpdateAccount->value);
     });
@@ -185,3 +186,21 @@ Route::prefix('notification')->group(function () {
             ->name(RouteEnum::ApiSubscribePaymentComplete->value);
     });
 });
+
+// todo -> daqui para baixo é só rotas para o teste de separar o backend do frontend, ainda não é oficial
+// Ao usar em prod tem que descomentar o route name, o interessante tbm é renomear para Api
+Route::prefix('auth')->group(function () {
+    Route::post('', [AuthController::class, 'auth']);
+//        ->name(RouteEnum::WebMakeLogin->value);
+});
+
+Route::prefix('user')->group(function () {
+    Route::post('/register', [UserRegisterController::class, 'registerStepZero']);
+//        ->name(RouteEnum::WebUserRegisterStepZero->value);
+});
+
+Route::get('logout', [AuthController::class, 'logout']);
+//    ->name(RouteEnum::WebLogout->value);
+
+Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser']);
+//    ->name(RouteEnum::WebActiveUser->value);
