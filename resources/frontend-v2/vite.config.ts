@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import {defineConfig, loadEnv} from 'vite'
 import {VitePWA} from "vite-plugin-pwa"
-import { codecovVitePlugin } from "@codecov/vite-plugin";
 
 export default defineConfig((): any => {
     const env = loadEnv('', process.cwd())
@@ -11,12 +10,27 @@ export default defineConfig((): any => {
         plugins: [
             vue(),
             VitePWA({
-                registerType: 'autoUpdate'
-            }),
-            codecovVitePlugin({
-                enableBundleAnalysis: env.VITE_CODECOV_TOKEN !== undefined,
-                bundleName: "my-finances-planner",
-                uploadToken: env.VITE_CODECOV_TOKEN,
+                registerType: 'autoUpdate',
+                manifest: {
+                    name: "Finanças na Mão",
+                    short_name: "Finanças na Mão",
+                    start_url: "/v2/dashboard",
+                    icons: [
+                        {
+                            src: "/public/android-chrome-192x192.png",
+                            sizes: "192x192",
+                            type: "image/png"
+                        },
+                        {
+                            src: "/public/android-chrome-512x512.png",
+                            sizes: "512x512",
+                            type: "image/png"
+                        }
+                    ],
+                    theme_color: "#ffffff",
+                    background_color: "#ffffff",
+                    display: "standalone"
+                }
             })
         ],
         define: {
