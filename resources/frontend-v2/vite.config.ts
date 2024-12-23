@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import {defineConfig, loadEnv} from 'vite'
 import {VitePWA} from "vite-plugin-pwa"
-import { codecovVitePlugin } from "@codecov/vite-plugin";
 
 export default defineConfig((): any => {
     const env = loadEnv('', process.cwd())
@@ -32,11 +31,6 @@ export default defineConfig((): any => {
                     background_color: "#ffffff",
                     display: "standalone"
                 }
-            }),
-            codecovVitePlugin({
-                enableBundleAnalysis: env.VITE_CODECOV_TOKEN !== undefined,
-                bundleName: "my-finances-planner",
-                uploadToken: env.VITE_CODECOV_TOKEN,
             })
         ],
         define: {
