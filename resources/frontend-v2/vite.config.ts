@@ -10,7 +10,16 @@ export default defineConfig((): any => {
         plugins: [
             vue(),
             VitePWA({
-                registerType: 'autoUpdate'
+                registerType: 'autoUpdate',
+                workbox: {
+                    cleanupOutdatedCaches: true,
+                    runtimeCaching: [
+                        {
+                            urlPattern: /\/api\//,
+                            handler: 'NetworkFirst',
+                        }
+                    ]
+                }
             })
         ],
         define: {
