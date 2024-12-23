@@ -1,9 +1,7 @@
 <?php
 
 use App\Enums\RouteEnum;
-use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\UserController;
 use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Route;
@@ -13,18 +11,9 @@ Route::prefix('/')->group(function () {
         return view('landingPage.landingPage');
     });
 
-    Route::prefix('user')->group(function () {
-        Route::post('/register', [UserRegisterController::class, 'registerStepZero'])
-            ->name(RouteEnum::WebUserRegisterStepZero->value);
-    });
-
-    Route::prefix('auth')->group(function () {
-        Route::post('', [AuthController::class, 'auth'])
-            ->name(RouteEnum::WebMakeLogin->value);
-    });
-
-    Route::get('logout', [AuthController::class, 'logout'])
-        ->name(RouteEnum::WebLogout->value);
+    Route::get('login', function () {
+        return redirect('/v2/login');
+    })->name(RouteEnum::WebMakeLogin->value);
 
     Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser'])
         ->name(RouteEnum::WebActiveUser->value);

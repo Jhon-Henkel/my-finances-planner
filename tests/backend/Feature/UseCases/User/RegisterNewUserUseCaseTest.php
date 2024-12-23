@@ -30,7 +30,7 @@ class RegisterNewUserUseCaseTest extends Falcon9Feature
             }
         );
 
-        $responseStepZero = $this->postJson('/user/register', $userData);
+        $responseStepZero = $this->postJson('api/user/register', $userData);
         $data = json_decode($queueData, true);
 
         $message = '=> Step zero failed';
