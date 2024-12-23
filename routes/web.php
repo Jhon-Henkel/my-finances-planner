@@ -11,6 +11,13 @@ Route::prefix('/')->group(function () {
         return view('landingPage.landingPage');
     });
 
+    Route::get('login', function () {
+        return redirect('/v2/login');
+    })->name(RouteEnum::WebMakeLogin->value);
+
+    Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser'])
+        ->name(RouteEnum::WebActiveUser->value);
+
     if (RequestTools::isApplicationInDevelopMode()) {
         Route::prefix('develop')->group(function () {
             Route::get('get-tokens', [UserController::class, 'developGetTokens'])

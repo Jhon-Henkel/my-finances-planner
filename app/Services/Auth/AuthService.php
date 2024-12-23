@@ -6,6 +6,7 @@ use App\DTO\Log\AccessLogDTO;
 use App\DTO\Mail\MailMessageDTO;
 use App\Enums\Cache\CacheKeyEnum;
 use App\Enums\ConfigEnum;
+use App\Enums\RouteEnum;
 use App\Enums\StatusEnum;
 use App\Models\User;
 use App\Services\ConfigurationService;
@@ -87,7 +88,7 @@ class AuthService
         $subject = 'Ativação de usuário';
         $template = 'emails.activeUser';
         $data = [
-            'linkToActiveUser' => route('activeUser', ['verifyHash' => $user->verify_hash]),
+            'linkToActiveUser' => route(RouteEnum::WebActiveUser->value, ['verifyHash' => $user->verify_hash]),
             'name' => $user->name,
         ];
         return new MailMessageDTO($user->email, $user->name, $subject, $template, $data);

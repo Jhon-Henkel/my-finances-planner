@@ -57,7 +57,7 @@
     <div class="content">
         <h1>Usuário Ativado com Sucesso!</h1>
         <p>Parabéns, sua conta foi ativada com sucesso. Clique no botão abaixo para fazer login.</p>
-        <a href="{{ route('login') }}" class="button">Fazer Login</a>
+        <a href="{{ route(\App\Enums\RouteEnum::WebMakeLogin->value) }}" class="button">Fazer Login</a>
     </div>
 </div>
 </body>

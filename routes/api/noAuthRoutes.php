@@ -24,7 +24,4 @@ return function () {
 
     Route::get('logout', [AuthController::class, 'logout'])
         ->name(RouteEnum::ApiLogout->value);
-
-    Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser'])
-        ->name(RouteEnum::ApiActiveUser->value);
 };

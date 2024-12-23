@@ -48,9 +48,10 @@ enum RouteEnum: string
     case ApiUserRegisterStepZero = 'apiUserRegisterStepZero';
     case ApiMakeLogin = 'apiMakeLogin';
     case ApiLogout = 'apiLogout';
-    case ApiActiveUser = 'apiActiveUser';
+    case WebActiveUser = 'webActiveUser';
     case WebSendTestEmail = 'sendTestEmail';
     case WebTestViewEmail = 'testViewEmail';
+    case WebMakeLogin = 'login';
     case DevelopGetTokens = 'developGetTokens';
     case MfpUserRegisterStepOne = 'userRegisterStepOne';
     case MfpUserRegisterStepTwo = 'userRegisterStepTwo';
