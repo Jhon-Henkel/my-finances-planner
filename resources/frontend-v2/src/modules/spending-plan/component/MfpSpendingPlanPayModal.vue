@@ -54,6 +54,11 @@ function closeModal() {
     <ion-card class="ion-margin-vertical">
         <ion-card-content>
             <ion-label>
+                <p>Pagar: <strong>{{ item.description }}</strong></p>
+            </ion-label>
+        </ion-card-content>
+        <ion-card-content>
+            <ion-label>
                 <p>
                     Ao pagar a despesa, será pago a <strong>primeira</strong> parcela, independente de qual
                     parcela esteja selecionada.

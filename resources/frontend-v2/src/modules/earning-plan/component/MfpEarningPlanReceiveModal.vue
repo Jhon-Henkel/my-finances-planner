@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
 import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
-import {IonLabel, modalController} from "@ionic/vue"
+import {IonCardContent, IonLabel, modalController} from "@ionic/vue"
 import MfpInputMoney from "@/modules/@shared/components/input/MfpInputMoney.vue"
 import MfpWalletSelect from "@/modules/@shared/components/select/MfpWalletSelect.vue"
 import {PropType, ref} from "vue"
@@ -49,6 +49,11 @@ function closeModal() {
 <template>
     <mfp-modal-header title="Receber Receita" @close-action="closeModal" @save-action="receive" save-action-label="Receber"/>
     <ion-card class="ion-margin">
+        <ion-card-content>
+            <ion-label>
+                <p>Receber: <strong>{{ item.description }}</strong></p>
+            </ion-label>
+        </ion-card-content>
         <ion-card-content>
             <ion-label>
                 <p>
