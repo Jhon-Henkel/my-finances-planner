@@ -45,13 +45,13 @@ enum RouteEnum: string
     case ApiSubscribeUpdateAccount = 'apiSubscribeUpdateAccount';
     case ApiSubscribePaymentComplete = 'apiSubscribePaymentComplete';
     case ApiPlanIndex = 'apiPlanIndex';
-    case WebLogout = 'logout';
-    case WebMakeLogin = 'makeLogin';
+    case ApiUserRegisterStepZero = 'apiUserRegisterStepZero';
+    case ApiMakeLogin = 'apiMakeLogin';
+    case ApiLogout = 'apiLogout';
+    case ApiActiveUser = 'apiActiveUser';
     case WebSendTestEmail = 'sendTestEmail';
     case WebTestViewEmail = 'testViewEmail';
-    case WebActiveUser = 'activeUser';
     case DevelopGetTokens = 'developGetTokens';
-    case WebUserRegisterStepZero = 'userRegisterStepZero';
     case MfpUserRegisterStepOne = 'userRegisterStepOne';
     case MfpUserRegisterStepTwo = 'userRegisterStepTwo';
     case MfpUserRegisterStepThree = 'userRegisterStepThree';

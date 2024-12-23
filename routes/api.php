@@ -179,7 +179,7 @@ Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
     });
 });
 
-// Rotas sem middleware de autenticação
+// Rotas sem middleware de autenticação "/api/..."
 Route::prefix('notification')->group(function () {
     Route::prefix('stripe')->group(function () {
         Route::post('checkout-session-complete', [SubscribeController::class, 'paymentCompletedNotification'])
@@ -187,16 +187,18 @@ Route::prefix('notification')->group(function () {
     });
 });
 
-// todo -> daqui para baixo é só rotas para o teste de separar o backend do frontend, ainda não é oficial
-// Ao usar em prod tem que descomentar o route name, o interessante tbm é renomear para Api
 Route::prefix('auth')->group(function () {
-    Route::post('', [AuthController::class, 'auth']);
+    Route::post('', [AuthController::class, 'auth'])
+        ->name(RouteEnum::ApiMakeLogin->value);
 });
 
 Route::prefix('user')->group(function () {
-    Route::post('/register', [UserRegisterController::class, 'registerStepZero']);
+    Route::post('/register', [UserRegisterController::class, 'registerStepZero'])
+        ->name(RouteEnum::ApiUserRegisterStepZero->value);
 });
 
-Route::get('logout', [AuthController::class, 'logout']);
+Route::get('logout', [AuthController::class, 'logout'])
+    ->name(RouteEnum::ApiLogout->value);
 
-Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser']);
+Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser'])
+    ->name(RouteEnum::ApiActiveUser->value);

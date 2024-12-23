@@ -43,10 +43,7 @@ class RouteEnumUnitTest extends Falcon9
         $this->assertEquals('apiUserShow', RouteEnum::ApiUserShow->value);
         $this->assertEquals('apiUserUpdate', RouteEnum::ApiUserUpdate->value);
         $this->assertEquals('apiFinancialHealthIndex', RouteEnum::ApiFinancialHealthIndexFiltered->value);
-        $this->assertEquals('logout', RouteEnum::WebLogout->value);
-        $this->assertEquals('makeLogin', RouteEnum::WebMakeLogin->value);
         $this->assertEquals('sendTestEmail', RouteEnum::WebSendTestEmail->value);
-        $this->assertEquals('activeUser', RouteEnum::WebActiveUser->value);
         $this->assertEquals('developGetTokens', RouteEnum::DevelopGetTokens->value);
         $this->assertEquals('spending-plan.list', RouteEnum::ApiSpendingPlanList->value);
     }
