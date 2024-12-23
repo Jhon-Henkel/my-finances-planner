@@ -70,11 +70,11 @@ axios.interceptors.response.use(response => {
 export const ApiRouter = {
     auth: {
         login: async function (data: ILoginForm) {
-            const response = await axios.post('/auth', data)
+            const response = await axios.post(mountApiUrl('auth'), data)
             return response.data
         },
         logout: async function () {
-            return await axios.get('/logout')
+            return await axios.get(mountApiUrl('logout'))
         }
     },
     wallet: {
@@ -233,11 +233,11 @@ export const ApiRouter = {
             return response.data
         },
         register: async function (user: IRegisterForm) {
-            const response = await axios.post('/user/register', user)
+            const response = await axios.post(mountApiUrl('user/register'), user)
             return response.data
         },
         activateAccount: async function (hash: string) {
-            const response = await axios.post(`/api/mfp/user/register/activate/${hash}`, {}, makeHeadersNonLogged())
+            const response = await axios.post(mountApiUrl(`mfp/user/register/activate/${hash}`), {}, makeHeadersNonLogged())
             return response.data
         }
     },

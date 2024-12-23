@@ -34,10 +34,8 @@ async function handleRefresh(event: any) {
     event.target.complete()
 }
 
-onMounted(() => {
-    if (!store.isLoaded) {
-        store.load()
-    }
+onMounted(async () => {
+    await store.load()
 })
 </script>
 

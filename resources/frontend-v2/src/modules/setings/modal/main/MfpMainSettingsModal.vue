@@ -23,7 +23,7 @@ async function save() {
     await MainSettingsService.update(item)
     const toast = new MfpToast()
     await toast.open('Configurações salvas com sucesso!')
-    store.load()
+    await store.load()
 }
 
 function closeModal() {
@@ -31,9 +31,7 @@ function closeModal() {
 }
 
 onMounted(async () => {
-    if (! store.isLoaded) {
-        await store.load()
-    }
+    await store.load()
     marketPlannerConfig.value = parseFloat(String(store.getSettingByName('market_planner_value')?.value))
 })
 </script>
