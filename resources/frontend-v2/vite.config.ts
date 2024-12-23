@@ -10,27 +10,7 @@ export default defineConfig((): any => {
         plugins: [
             vue(),
             VitePWA({
-                registerType: 'autoUpdate',
-                manifest: {
-                    name: "Finanças na Mão",
-                    short_name: "Finanças na Mão",
-                    start_url: "/v2/dashboard",
-                    icons: [
-                        {
-                            src: "/public/android-chrome-192x192.png",
-                            sizes: "192x192",
-                            type: "image/png"
-                        },
-                        {
-                            src: "/public/android-chrome-512x512.png",
-                            sizes: "512x512",
-                            type: "image/png"
-                        }
-                    ],
-                    theme_color: "#ffffff",
-                    background_color: "#ffffff",
-                    display: "standalone"
-                }
+                registerType: 'autoUpdate'
             })
         ],
         define: {
