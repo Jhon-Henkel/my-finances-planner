@@ -56,6 +56,11 @@ function closeModal() {
     <ion-card class="ion-margin-vertical">
         <ion-card-content>
             <ion-label>
+                <p>Pagar Fatura: <strong>{{ item.name }}</strong></p>
+            </ion-label>
+        </ion-card-content>
+        <ion-card-content>
+            <ion-label>
                 <p>
                     Ao pagar a fatura, será pago a <strong>primeira</strong> fatura, independente de qual
                     fatura esteja selecionada.
