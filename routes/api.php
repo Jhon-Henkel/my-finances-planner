@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\RouteEnum;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\CreditCardTransactionController;
@@ -185,3 +186,17 @@ Route::prefix('notification')->group(function () {
             ->name(RouteEnum::ApiSubscribePaymentComplete->value);
     });
 });
+
+// todo -> daqui para baixo é só rotas para o teste de separar o backend do frontend, ainda não é oficial
+// Ao usar em prod tem que descomentar o route name, o interessante tbm é renomear para Api
+Route::prefix('auth')->group(function () {
+    Route::post('', [AuthController::class, 'auth']);
+});
+
+Route::prefix('user')->group(function () {
+    Route::post('/register', [UserRegisterController::class, 'registerStepZero']);
+});
+
+Route::get('logout', [AuthController::class, 'logout']);
+
+Route::get('active-user/{verifyHash}', [UserController::class, 'activeUser']);
