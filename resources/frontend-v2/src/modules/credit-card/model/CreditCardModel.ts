@@ -20,4 +20,8 @@ export class CreditCardModel {
         this.nextInvoiceValue = data.nextInvoiceValue
         this.active = data.active
     }
+
+    get totalRemainingLimit() {
+        return this.limit - this.totalValueSpending
+    }
 }

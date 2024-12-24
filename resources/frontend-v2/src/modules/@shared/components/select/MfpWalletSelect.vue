@@ -27,9 +27,7 @@ function updateValue(value: any) {
 }
 
 onMounted(async () => {
-    if (!walletStore.isLoadedOnStore) {
-        await walletStore.getWallets
-    }
+    await walletStore.getWallets
 })
 </script>
 
