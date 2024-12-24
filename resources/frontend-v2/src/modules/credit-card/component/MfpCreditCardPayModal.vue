@@ -69,7 +69,7 @@ watch(() => internalWalletId.value, () => {
         <ion-card-content>
             <ion-label>
                 <p>Pagar Fatura: <strong>{{ item.name }}</strong></p>
-                <p>Saldo carteira selecionada: <strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></p>
+                <p>Saldo conta selecionada: <strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></p>
                 <br>
                 <p>
                     Ao pagar a fatura, será pago a <strong>primeira</strong> fatura, independente de qual
