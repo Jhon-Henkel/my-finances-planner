@@ -2,6 +2,8 @@
 
 namespace App\DTO\CreditCard;
 
+use App\Enums\StatusEnum;
+
 class CreditCardDTO
 {
     private ?int $id;
@@ -9,6 +11,7 @@ class CreditCardDTO
     private float $limit;
     private int $dueDate;
     private int $closingDay;
+    private int $status = StatusEnum::Active->value;
     private null|float $totalValueSpending;
     private null|float $nextInvoiceValue;
     private null|bool $isThinsMouthInvoicePayed = false;
@@ -113,5 +116,15 @@ class CreditCardDTO
     public function setUpdatedAt(mixed $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
     }
 }

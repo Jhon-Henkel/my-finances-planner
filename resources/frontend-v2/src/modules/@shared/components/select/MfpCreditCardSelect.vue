@@ -45,7 +45,7 @@ onMounted(async () => {
             cancel-text="Cancelar"
             @ionChange="updateValue($event.target.value)"
         >
-            <ion-item v-for="(card, index) in cardStore.cards" :key="index">
+            <ion-item v-for="(card, index) in cardStore.activeCards" :key="index">
                 <ion-select-option :value="card.id">
                     {{ card.name }}
                 </ion-select-option>

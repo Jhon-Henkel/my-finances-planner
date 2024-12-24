@@ -15,7 +15,7 @@ class CreditCard extends Model
     use HasFactory;
 
     protected $table = 'credit_card';
-    protected $fillable = ['id', 'name', 'limit', 'due_date', 'closing_day'];
+    protected $fillable = ['id', 'name', 'limit', 'due_date', 'closing_day', 'status'];
     protected $casts = [
         'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value

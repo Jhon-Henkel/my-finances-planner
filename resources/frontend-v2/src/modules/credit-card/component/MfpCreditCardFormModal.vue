@@ -9,6 +9,7 @@ import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
 import {CreditCardModel} from "@/modules/credit-card/model/CreditCardModel"
 import {CreditCardService} from "@/modules/credit-card/service/CreditCardService"
 import {CreditCardFormValidation} from "@/modules/credit-card/validation/CreditCardFormValidation"
+import MfpInputToggle from "@/modules/@shared/components/input/MfpInputToggle.vue"
 
 const props = defineProps({
     card: CreditCardModel
@@ -62,6 +63,7 @@ function closeModal() {
                 placeholder="Dia que a fatura fecha"
                 type="number"
             />
+            <mfp-input-toggle v-model="internalCard.active" label="Ativar cartão"/>
         </template>
     </mfp-modal-content>
 </template>

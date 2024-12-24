@@ -14,6 +14,7 @@ class CreditCardVO
     public null|bool $isThinsMouthInvoicePayed;
     public null|float $totalValueSpending;
     public null|float $nextInvoiceValue;
+    public bool $active;
 
     public static function makeCreditCardVO(
         ?int $id,
@@ -25,7 +26,8 @@ class CreditCardVO
         mixed $updatedAt,
         null|float $totalValueSpending,
         null|float $nextInvoiceValue,
-        null|bool $isThinsMouthInvoicePayed
+        null|bool $isThinsMouthInvoicePayed,
+        bool $active,
     ): self {
         $vo =  new self();
         $vo->id = $id;
@@ -38,6 +40,7 @@ class CreditCardVO
         $vo->totalValueSpending = $totalValueSpending;
         $vo->nextInvoiceValue = $nextInvoiceValue;
         $vo->isThinsMouthInvoicePayed = $isThinsMouthInvoicePayed;
+        $vo->active = $active;
         return $vo;
     }
 }
