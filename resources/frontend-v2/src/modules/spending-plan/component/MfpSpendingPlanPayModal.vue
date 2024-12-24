@@ -72,7 +72,7 @@ watch(() => internalWalletId.value, () => {
         <ion-card-content>
             <ion-label>
                 <p>Pagar: <strong>{{ item.description }}</strong></p>
-                <p>Saldo carteira selecionada: <strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></p>
+                <p>Saldo conta selecionada: <strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></p>
                 <br>
                 <p>
                     Ao pagar a despesa, será pago a <strong>primeira parcela</strong>, independente de qual

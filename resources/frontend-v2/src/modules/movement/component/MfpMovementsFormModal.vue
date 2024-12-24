@@ -1,6 +1,16 @@
 <script setup lang="ts">
-import {IonContent, IonLabel, IonList, IonSegment, IonSegmentButton, IonText, modalController} from "@ionic/vue"
-import {ref, watchEffect} from "vue"
+import {
+    IonCard,
+    IonCardContent,
+    IonContent,
+    IonLabel,
+    IonList,
+    IonSegment,
+    IonSegmentButton,
+    IonText,
+    modalController
+} from "@ionic/vue"
+import {ref, watch, watchEffect} from "vue"
 import MfpInputMoney from "@/modules/@shared/components/input/MfpInputMoney.vue"
 import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
@@ -17,6 +27,7 @@ import {WalletService} from "@/modules/wallet/service/WalletService"
 import {useFinancialHealthStore} from "@/modules/financial-health/store/financialHealthStore"
 import {useAuthStore} from "@/modules/login/store/AuthStore"
 import {SpendingPlanService} from "@/modules/spending-plan/service/SpendingPlanService"
+import {useWalletStore} from "@/modules/wallet/store/WalletStore"
 
 const props = defineProps(
     {
@@ -32,6 +43,16 @@ const title = ref('Nova Movimentação')
 const insertType = ref('movement')
 const movementType = ref('expense')
 const editMode = ref(false)
+const walletStore = useWalletStore()
+const walletAmount = ref(0)
+
+async function updateWalletAmount() {
+    if (editMode.value) {
+        return
+    }
+    await walletStore.getWallets
+    walletAmount.value = walletStore.searchWallet(internalMovement.value.walletId)?.amount ?? 0
+}
 
 async function saveItem() {
     const toast = new MfpToast()
@@ -111,6 +132,10 @@ watchEffect(() => {
         editMode.value = true
     }
 })
+
+watch(() => internalMovement.value.walletId, () => {
+    updateWalletAmount()
+})
 </script>
 
 <template>
@@ -141,6 +166,13 @@ watchEffect(() => {
                         </ion-text>
                     </ion-label>
                 </div>
+                <ion-card class="ion-margin-vertical" v-show="!editMode">
+                    <ion-card-content>
+                        <ion-label>
+                            <p>Saldo conta selecionada: <strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></p>
+                        </ion-label>
+                    </ion-card-content>
+                </ion-card>
                 <ion-list :inset="true">
                     <mfp-input
                         v-model="internalMovement.description"
