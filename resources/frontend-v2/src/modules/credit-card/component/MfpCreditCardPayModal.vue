@@ -3,7 +3,7 @@ import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vu
 import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
 import {IonCard, IonCardContent, IonCol, IonIcon, IonLabel, IonRow, modalController} from "@ionic/vue"
 import MfpWalletSelect from "@/modules/@shared/components/select/MfpWalletSelect.vue"
-import {PropType, ref} from "vue"
+import {PropType, ref, watch} from "vue"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {ApiRouter} from "@/infra/requst/api/ApiRouter"
@@ -15,6 +15,7 @@ import {CreditCardModel} from "@/modules/credit-card/model/CreditCardModel"
 import {CreditCardPayFormValidation} from "@/modules/credit-card/validation/CreditCardPayFormValidation"
 import {CreditCardService} from "@/modules/credit-card/service/CreditCardService"
 import {CreditCardInvoiceItemService} from "@/modules/credit-card/service/CreditCardInvoiceItemService"
+import {useWalletStore} from "@/modules/wallet/store/WalletStore"
 
 const props = defineProps({
     item: {
@@ -25,6 +26,13 @@ const props = defineProps({
 
 const internalAmount = ref(props.item.nextInvoiceValue)
 const internalWalletId = ref(0)
+const walletStore = useWalletStore()
+const walletAmount = ref(0)
+
+async function updateWalletAmount() {
+    await walletStore.getWallets
+    walletAmount.value = walletStore.searchWallet(internalWalletId.value)?.amount ?? 0
+}
 
 async function pay() {
     const validationResults = CreditCardPayFormValidation.validate({walletId: internalWalletId.value})
@@ -49,6 +57,10 @@ function closeModal() {
     internalAmount.value = 0
     modalController.dismiss()
 }
+
+watch(() => internalWalletId.value, () => {
+    updateWalletAmount()
+})
 </script>
 
 <template>
@@ -57,10 +69,8 @@ function closeModal() {
         <ion-card-content>
             <ion-label>
                 <p>Pagar Fatura: <strong>{{ item.name }}</strong></p>
-            </ion-label>
-        </ion-card-content>
-        <ion-card-content>
-            <ion-label>
+                <p>Saldo carteira selecionada: <strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></p>
+                <br>
                 <p>
                     Ao pagar a fatura, será pago a <strong>primeira</strong> fatura, independente de qual
                     fatura esteja selecionada.

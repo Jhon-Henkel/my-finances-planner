@@ -4,7 +4,7 @@ import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.
 import {IonLabel, modalController, IonCard, IonCardContent} from "@ionic/vue"
 import MfpInputMoney from "@/modules/@shared/components/input/MfpInputMoney.vue"
 import MfpWalletSelect from "@/modules/@shared/components/select/MfpWalletSelect.vue"
-import {PropType, ref} from "vue"
+import {PropType, ref, watch} from "vue"
 import MfpInputToggle from "@/modules/@shared/components/input/MfpInputToggle.vue"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {ApiRouter} from "@/infra/requst/api/ApiRouter"
@@ -13,6 +13,8 @@ import {WalletService} from "@/modules/wallet/service/WalletService"
 import {MovementService} from "@/modules/movement/service/MovementService"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
 import SpendingPlanApiGetDto from "@/modules/spending-plan/dto/spending-plan.api.get.dto"
+import {useWalletStore} from "@/modules/wallet/store/WalletStore"
+import {UtilMoney} from "../../@shared/util/UtilMoney"
 
 const props = defineProps({
     item: {
@@ -28,6 +30,17 @@ const props = defineProps({
 const internalAmount = ref(props.item.amount)
 const internalWalletId = ref(props.item.wallet_id)
 const internalPartial = ref(false)
+const walletStore = useWalletStore()
+const walletAmount = ref(0)
+
+if (internalWalletId.value > 0) {
+    updateWalletAmount()
+}
+
+async function updateWalletAmount() {
+    await walletStore.getWallets
+    walletAmount.value = walletStore.searchWallet(internalWalletId.value)?.amount ?? 0
+}
 
 async function pay() {
     const confirm = new MfpConfirmAlert('Pagar Despesa')
@@ -47,6 +60,10 @@ async function pay() {
 function closeModal() {
     modalController.dismiss()
 }
+
+watch(() => internalWalletId.value, () => {
+    updateWalletAmount()
+})
 </script>
 
 <template>
@@ -55,12 +72,10 @@ function closeModal() {
         <ion-card-content>
             <ion-label>
                 <p>Pagar: <strong>{{ item.description }}</strong></p>
-            </ion-label>
-        </ion-card-content>
-        <ion-card-content>
-            <ion-label>
+                <p>Saldo carteira selecionada: <strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></p>
+                <br>
                 <p>
-                    Ao pagar a despesa, será pago a <strong>primeira</strong> parcela, independente de qual
+                    Ao pagar a despesa, será pago a <strong>primeira parcela</strong>, independente de qual
                     parcela esteja selecionada.
                 </p>
             </ion-label>

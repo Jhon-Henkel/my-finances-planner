@@ -31,7 +31,10 @@ export const useWalletStore = defineStore({
         loadAgainOnNextTick() {
             this.isLoaded = false
             this.totalAmount = 0
-        }
+        },
+        searchWallet(id: number): WalletModel|undefined {
+            return this.wallets.find(wallet => wallet.id == id)
+        },
     },
     getters: {
         async getWallets(): Promise<Array<WalletModel>> {
