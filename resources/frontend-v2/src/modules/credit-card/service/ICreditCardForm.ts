@@ -4,4 +4,5 @@ export interface ICreditCardForm {
     limit: number
     dueDate: number|undefined
     closingDay: number|undefined
+    active: boolean
 }

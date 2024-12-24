@@ -70,7 +70,26 @@ onMounted(async () => {
         <mfp-empty-list-item-v2 :store="store"/>
         <mfp-credit-card-list-skeleton-load :store="store"/>
         <ion-list v-if="store.isLoaded">
-            <ion-item-sliding v-for="(item, index) in store.cards" :key="index">
+            <ion-list-header v-show="store.activeCards.length > 0">
+                <ion-label>Ativo</ion-label>
+            </ion-list-header>
+            <ion-item-sliding v-for="(item, index) in store.activeCards" :key="index">
+                <mfp-credit-card-list-item :card="item"/>
+                <ion-item-options side="end">
+                    <ion-item-option color="primary" @click="goToInvoice(item.id)">
+                        <ion-icon slot="top" :icon="documentTextOutline"/>
+                        Faturas
+                    </ion-item-option>
+                    <ion-item-option color="light" @click="optionsAction(item)">
+                        <ion-icon slot="top" :icon="ellipsisHorizontal"/>
+                        Opções
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+            <ion-list-header v-show="store.inactiveCards.length > 0">
+                <ion-label>Inativo</ion-label>
+            </ion-list-header>
+            <ion-item-sliding v-for="(item, index) in store.inactiveCards" :key="index">
                 <mfp-credit-card-list-item :card="item"/>
                 <ion-item-options side="end">
                     <ion-item-option color="primary" @click="goToInvoice(item.id)">

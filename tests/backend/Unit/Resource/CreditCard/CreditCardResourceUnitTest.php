@@ -26,6 +26,7 @@ class CreditCardResourceUnitTest extends Falcon9
         $item['closing_day'] = 1;
         $item['created_at'] = '2021-01-01';
         $item['updated_at'] = '2021-01-01';
+        $item['status'] = true;
 
         $dto = $this->resource->arrayToDto($item);
 
@@ -36,6 +37,7 @@ class CreditCardResourceUnitTest extends Falcon9
         $this->assertEquals($item['closing_day'], $dto->getClosingDay());
         $this->assertEquals($item['created_at'], $dto->getCreatedAt());
         $this->assertEquals($item['updated_at'], $dto->getUpdatedAt());
+        $this->assertEquals($item['status'], $dto->getStatus());
     }
 
     public function testDtoToArray()

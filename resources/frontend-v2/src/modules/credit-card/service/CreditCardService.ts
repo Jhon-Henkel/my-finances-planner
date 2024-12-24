@@ -38,7 +38,8 @@ export const CreditCardService = {
             name: '',
             limit: 0,
             dueDate: undefined,
-            closingDay: undefined
+            closingDay: undefined,
+            active: true
         }
     }
 }

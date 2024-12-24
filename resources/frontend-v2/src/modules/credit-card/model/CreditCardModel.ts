@@ -7,6 +7,7 @@ export class CreditCardModel {
     isThisMonthInvoicePayed: boolean
     totalValueSpending: number
     nextInvoiceValue: number
+    active: boolean
 
     constructor(data: any) {
         this.id = data.id
@@ -17,5 +18,6 @@ export class CreditCardModel {
         this.isThisMonthInvoicePayed = data.isThinsMouthInvoicePayed
         this.totalValueSpending = data.totalValueSpending
         this.nextInvoiceValue = data.nextInvoiceValue
+        this.active = data.active
     }
 }

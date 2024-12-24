@@ -4,6 +4,7 @@ namespace App\Resources\CreditCard;
 
 use App\DTO\CreditCard\CreditCardDTO;
 use App\DTO\InvoiceItemDTO;
+use App\Enums\StatusEnum;
 use App\Resources\BasicResource;
 use App\VO\CreditCard\CreditCardVO;
 
@@ -11,10 +12,14 @@ class CreditCardResource extends BasicResource
 {
     public function arrayToDto(array $item): CreditCardDTO
     {
+        if (isset($item['active'])) {
+            $item['status'] = (int)$item['active'];
+        }
         $dto = new CreditCardDTO();
         $dto->setId($item['id'] ?? null);
         $dto->setName($item['name']);
         $dto->setLimit($item['limit']);
+        $dto->setStatus($item['status']);
         $dto->setDueDate($item['due_date'] ?? $item['dueDate']);
         $dto->setClosingDay($item['closing_day'] ?? $item['closingDay']);
         $dto->setNextInvoiceValue(null);
@@ -32,6 +37,7 @@ class CreditCardResource extends BasicResource
             'limit' => $item->getLimit(),
             'due_date' => $item->getDueDate(),
             'closing_day' => $item->getClosingDay(),
+            'status' => $item->getStatus(),
         ];
     }
 
@@ -48,7 +54,8 @@ class CreditCardResource extends BasicResource
             $item->getUpdatedAt(),
             $item->getTotalValueSpending(),
             $item->getNextInvoiceValue(),
-            $item->getIsThinsMouthInvoicePayed()
+            $item->getIsThinsMouthInvoicePayed(),
+            $item->getStatus() === StatusEnum::Active->value
         );
     }
 
