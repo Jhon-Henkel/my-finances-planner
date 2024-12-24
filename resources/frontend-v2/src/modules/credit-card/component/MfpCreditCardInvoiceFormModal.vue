@@ -42,7 +42,11 @@ async function updateCardLimit() {
     if (! cardStore.isLoaded) {
         await cardStore.load()
     }
-    cardLimit.value = cardStore.searchCard(internalInvoiceItem.value.creditCardId)?.limit ?? 0
+    const card = cardStore.searchCard(internalInvoiceItem.value.creditCardId)
+    if (card == undefined) {
+        return
+    }
+    cardLimit.value = card.totalRemainingLimit
 }
 async function save() {
     const validationResult = CreditCardInvoiceItemFormValidation.validate(internalInvoiceItem.value)

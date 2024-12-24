@@ -27,9 +27,7 @@ function updateValue(value: any) {
 }
 
 onMounted(async () => {
-    if (!cardStore.isLoaded) {
-        await cardStore.load()
-    }
+    await cardStore.load()
 })
 </script>
 
