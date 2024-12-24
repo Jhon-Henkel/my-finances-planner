@@ -24,6 +24,9 @@ export const useCreditCardStore = defineStore('credit-card', {
             this.cards = items
             this.pageTotalItems = items.length
             this.isLoaded = true
+        },
+        searchCard(id: number): CreditCardModel | undefined {
+            return this.cards.find(card => card.id === id)
         }
     }
 })
