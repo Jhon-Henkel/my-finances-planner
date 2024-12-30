@@ -25,7 +25,7 @@ function goToDashboard() {
     <mfp-row col-class="ion-margin-top ion-margin-bottom">
         <ion-text>
             Tudo que você cadastrar deve ser considerado as parcelas faltantes, então se você
-            faz uma compra em 10 vezes e ja pagou duas parcelas, não precisa cadastrar 10 parcelas, e sim 8, ok?
+            faz uma compra em 10 vezes e já pagou duas parcelas, não precisa cadastrar 10 parcelas, e sim 8, ok?
         </ion-text>
     </mfp-row>
     <mfp-row col-class="ion-margin-bottom">
