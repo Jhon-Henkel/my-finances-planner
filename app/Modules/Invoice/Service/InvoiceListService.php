@@ -15,7 +15,7 @@ class InvoiceListService
 
     protected function makeInvoiceNextMonthUrl(RouteEnum $route, array $queryParams, array $args = []): string
     {
-        $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
+        $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
         $date->addMonth();
         return RequestTools::mountUrl($route, "?year=$date->year&month=$date->month", $args);
 
@@ -23,14 +23,14 @@ class InvoiceListService
 
     protected function makeInvoicePrevMonthUrl(RouteEnum $route, array $queryParams, array $args = []): string
     {
-        $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
+        $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
         $date->subMonth();
         return RequestTools::mountUrl($route, "?year=$date->year&month=$date->month", $args);
     }
 
     protected function getDateLabel(array $queryParams): string
     {
-        $date = Date::createFromDate($queryParams['year'], $queryParams['month']);
+        $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
         $month = CalendarMonthsNumberEnum::getMonthName($date->month);
         return "$month de $date->year";
     }
