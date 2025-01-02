@@ -112,6 +112,9 @@ class CreditCardTransactionService extends BasicService
         $invoice = [];
         $transactions = $this->getRepository()->getExpenses($card->getId());
         $thisMonth = ((int)CalendarTools::getThisMonth() - 1);
+        if ($thisMonth <= 0) {
+            $thisMonth = 12;
+        }
         foreach ($transactions as $transaction) {
             $expenseDTO = $this->resource->transactionToInvoiceDTO($transaction);
             $invoice[] = InvoiceFactory::factoryInvoice($expenseDTO, $thisMonth);
