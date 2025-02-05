@@ -9,7 +9,7 @@ import {
     IonList,
     IonListHeader
 } from "@ionic/vue"
-import {ellipsisHorizontal} from "ionicons/icons"
+import {pencilOutline, trashOutline} from "ionicons/icons"
 import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
 import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 import {onMounted, ref} from "vue"
@@ -22,8 +22,6 @@ import MfpWalletsListItem from "@/modules/wallet/component/MfpWalletsListItem.vu
 import MfpWalletsListSkeletonLoad from "@/modules/wallet/component/MfpWalletsListSkeletonLoad.vue"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
 import {WalletModel} from "@/modules/wallet/model/WalletModel"
-import {MfpActionSheet} from "@/modules/@shared/components/action-sheet/MfpActionSheet"
-import {UtilActionSheet} from "@/modules/@shared/util/UtilActionSheet"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {WalletService} from "@/modules/wallet/service/WalletService"
 import {useWalletStore} from "@/modules/wallet/store/WalletStore"
@@ -32,16 +30,6 @@ import MfpTotalRegistersRow from "@/modules/@shared/components/page/MfpTotalRegi
 const walletStore = useWalletStore()
 const formModal = new MfpModal(MfpWalletsFormModal)
 const onlyWithFounds = ref(false)
-
-async function optionsAction(wallet: WalletModel) {
-    const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtons(true, true, true))
-    const action = await actionSheet.open()
-    if (action === 'edit') {
-        await formModal.open({wallet: wallet})
-    } else if (action === 'delete') {
-        await deleteWallet(wallet)
-    }
-}
 
 async function deleteWallet(wallet: WalletModel) {
     const deleteConfirmAlert = new MfpConfirmAlert('Deseja realmente deletar a carteira?')
@@ -95,9 +83,13 @@ onMounted(async () => {
             >
                 <mfp-wallets-list-item :wallet="wallet"/>
                 <ion-item-options side="end">
-                    <ion-item-option color="light" expandable @click="optionsAction(wallet)">
-                        <ion-icon slot="top" :icon="ellipsisHorizontal"/>
-                        Opções
+                    <ion-item-option color="primary" @click="formModal.open({wallet: wallet})">
+                        <ion-icon slot="top" :icon="pencilOutline"/>
+                        Editar
+                    </ion-item-option>
+                    <ion-item-option color="danger" @click="deleteWallet(wallet)">
+                        <ion-icon slot="top" :icon="trashOutline"/>
+                        Deletar
                     </ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>
@@ -114,9 +106,13 @@ onMounted(async () => {
             >
                 <mfp-wallets-list-item :wallet="wallet"/>
                 <ion-item-options side="end">
-                    <ion-item-option color="light" expandable @click="optionsAction(wallet)">
-                        <ion-icon slot="top" :icon="ellipsisHorizontal"/>
-                        Opções
+                    <ion-item-option color="primary" @click="formModal.open({wallet: wallet})">
+                        <ion-icon slot="top" :icon="pencilOutline"/>
+                        Editar
+                    </ion-item-option>
+                    <ion-item-option color="danger" @click="deleteWallet(wallet)">
+                        <ion-icon slot="top" :icon="trashOutline"/>
+                        Deletar
                     </ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>
@@ -133,9 +129,13 @@ onMounted(async () => {
             >
                 <mfp-wallets-list-item :wallet="wallet"/>
                 <ion-item-options side="end">
-                    <ion-item-option color="light" expandable @click="optionsAction(wallet)">
-                        <ion-icon slot="top" :icon="ellipsisHorizontal"/>
-                        Opções
+                    <ion-item-option color="primary" @click="formModal.open({wallet: wallet})">
+                        <ion-icon slot="top" :icon="pencilOutline"/>
+                        Editar
+                    </ion-item-option>
+                    <ion-item-option color="danger" @click="deleteWallet(wallet)">
+                        <ion-icon slot="top" :icon="trashOutline"/>
+                        Deletar
                     </ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>
