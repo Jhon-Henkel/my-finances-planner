@@ -35,6 +35,7 @@ return [
     'ai_max_tokens' => (int)env('AI_MAX_TOKENS'),
     'ai_temperature' => (float)env('AI_TEMPERATURE'),
     'ai_short_messages' => env('AI_SHORT_MESSAGES', true),
+    'market_control_hash' => env('MARKET_CONTROL_HASH'),
     'maintenance' => [
         'driver' => 'file',
     ],

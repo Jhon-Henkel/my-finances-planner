@@ -32,6 +32,14 @@ class DatabaseConnectionService
         $this->setDefaultDatabase($tenant->tenant_hash);
     }
 
+    public function connectTenantByTenantHash(string $hash): void
+    {
+        $this->setMasterConnection();
+        $tenant = Tenant::where('tenant_hash', $hash)->first();
+        $this->makeTenantConnection($tenant);
+        $this->setDefaultDatabase($tenant->tenant_hash);
+    }
+
     protected function makeTenantConnection(Tenant $tenant): void
     {
         $connection = config('database.connections.' . DatabaseConnectionEnum::Tenant->value);
