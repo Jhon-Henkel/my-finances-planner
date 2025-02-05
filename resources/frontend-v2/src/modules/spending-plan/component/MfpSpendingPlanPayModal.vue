@@ -32,6 +32,7 @@ const internalWalletId = ref(props.item.wallet_id)
 const internalPartial = ref(false)
 const walletStore = useWalletStore()
 const walletAmount = ref(0)
+const walletAmountColor = ref('medium')
 
 if (internalWalletId.value > 0) {
     updateWalletAmount()
@@ -40,6 +41,11 @@ if (internalWalletId.value > 0) {
 async function updateWalletAmount() {
     await walletStore.getWallets
     walletAmount.value = walletStore.searchWallet(internalWalletId.value)?.amount ?? 0
+    if (walletAmount.value - internalAmount.value < 0) {
+        walletAmountColor.value = 'danger'
+    } else {
+        walletAmountColor.value = 'success'
+    }
 }
 
 async function pay() {
@@ -72,7 +78,7 @@ watch(() => internalWalletId.value, () => {
         <ion-card-content>
             <ion-label>
                 <p>Pagar: <strong>{{ item.description }}</strong></p>
-                <p>Saldo conta selecionada: <strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></p>
+                <p>Saldo conta selecionada: <ion-text :color="walletAmountColor"><strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></ion-text></p>
                 <br>
                 <p>
                     Ao pagar a despesa, será pago a <strong>primeira parcela</strong>, independente de qual
