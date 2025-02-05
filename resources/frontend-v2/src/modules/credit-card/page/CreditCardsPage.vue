@@ -3,7 +3,7 @@ import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 import MfpCirclePlusButton from "@/modules/@shared/components/button/MfpCirclePlusButton.vue"
 import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
 import {IonIcon, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonListHeader} from "@ionic/vue"
-import {documentTextOutline, ellipsisHorizontal} from "ionicons/icons"
+import {checkmarkOutline, documentTextOutline, ellipsisHorizontal} from "ionicons/icons"
 import {MfpActionSheet} from "@/modules/@shared/components/action-sheet/MfpActionSheet"
 import {UtilActionSheet} from "@/modules/@shared/util/UtilActionSheet"
 import {onMounted} from "vue"
@@ -38,12 +38,16 @@ async function optionsAction(item: CreditCardModel) {
     } else if (action === 'see-invoices') {
         await goToInvoice(item.id)
     } else if (action === 'pay') {
-        const payModal = new MfpModal(MfpCreditCardPayModal)
-        await payModal.open({item: item})
+        await pay(item)
     } else if (action == 'details') {
         const detailsModal = new MfpModal(MfpCreditCardDetailsModal)
         await detailsModal.open({item: item})
     }
+}
+
+async function pay(item: CreditCardModel) {
+    const payModal = new MfpModal(MfpCreditCardPayModal)
+    await payModal.open({item: item})
 }
 
 async function handleRefresh(event: any) {
@@ -76,6 +80,10 @@ onMounted(async () => {
             <ion-item-sliding v-for="(item, index) in store.activeCards" :key="index">
                 <mfp-credit-card-list-item :card="item"/>
                 <ion-item-options side="end">
+                    <ion-item-option color="success" @click="pay(item)">
+                        <ion-icon slot="top" :icon="checkmarkOutline"/>
+                        Pagar
+                    </ion-item-option>
                     <ion-item-option color="primary" @click="goToInvoice(item.id)">
                         <ion-icon slot="top" :icon="documentTextOutline"/>
                         Faturas
@@ -92,6 +100,10 @@ onMounted(async () => {
             <ion-item-sliding v-for="(item, index) in store.inactiveCards" :key="index">
                 <mfp-credit-card-list-item :card="item"/>
                 <ion-item-options side="end">
+                    <ion-item-option color="success" @click="pay(item)">
+                        <ion-icon slot="top" :icon="checkmarkOutline"/>
+                        Pagar
+                    </ion-item-option>
                     <ion-item-option color="primary" @click="goToInvoice(item.id)">
                         <ion-icon slot="top" :icon="documentTextOutline"/>
                         Faturas

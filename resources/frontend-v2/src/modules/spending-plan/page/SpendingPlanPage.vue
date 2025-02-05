@@ -3,7 +3,7 @@ import MfpPage from "@/modules/@shared/components/page/MfpPage.vue"
 import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
 import {IonIcon, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonListHeader} from "@ionic/vue"
 import MfpCirclePlusButton from "@/modules/@shared/components/button/MfpCirclePlusButton.vue"
-import {ellipsisHorizontal} from "ionicons/icons"
+import {checkmarkOutline, ellipsisHorizontal} from "ionicons/icons"
 import {MfpActionSheet} from "@/modules/@shared/components/action-sheet/MfpActionSheet"
 import {UtilActionSheet} from "@/modules/@shared/util/UtilActionSheet"
 import {onMounted} from "vue"
@@ -44,8 +44,7 @@ async function optionsAction(item: SpendingPlanApiGetDto) {
     } else if (action === 'delete') {
         await SpendingPlanService.delete(item)
     } else if (action === 'pay') {
-        const payModal = new MfpModal(MfpSpendingPlanPayModal)
-        await payModal.open({item: item, store: store})
+        await pay(item)
     } else if (action === 'add-value') {
         const futureExpense = await SpendingPlanService.get(item.id)
         const addValueModal = new MfpModal(MfpSpendingPlanAddValueModal)
@@ -55,6 +54,11 @@ async function optionsAction(item: SpendingPlanApiGetDto) {
         const details = new MfpModal(MfpInvoiceDetailsModal)
         await details.open({item: futureExpense})
     }
+}
+
+async function pay(item: SpendingPlanApiGetDto) {
+    const payModal = new MfpModal(MfpSpendingPlanPayModal)
+    await payModal.open({item: item, store: store})
 }
 
 async function handleRefresh(event: any) {
@@ -82,6 +86,10 @@ onMounted(async () => {
             <ion-item-sliding v-for="(item, index) in store.spendingPlan" :key="index">
                 <mfp-invoice-list-item-v2 :store="store" :invoice-item="item" fix-installment-label="Despesa"/>
                 <ion-item-options side="end">
+                    <ion-item-option color="success" @click="pay(item)">
+                        <ion-icon slot="top" :icon="checkmarkOutline"/>
+                        Pagar
+                    </ion-item-option>
                     <ion-item-option color="light" @click="optionsAction(item)">
                         <ion-icon slot="top" :icon="ellipsisHorizontal"/>
                         Opções

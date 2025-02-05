@@ -16,7 +16,7 @@ import MfpPeriodSwitcherV2 from "@/modules/@shared/components/switcher/MfpPeriod
 import MfpEarningPlanDetailsCard from "@/modules/earning-plan/component/MfpEarningPlanDetailsCard.vue"
 import MfpEmptyListItemV2 from "@/modules/@shared/components/list/MfpEmptyListItemV2.vue"
 import MfpEarningPlanFormModal from "@/modules/earning-plan/component/MfpEarningPlanFormModal.vue"
-import {ellipsisHorizontal} from "ionicons/icons"
+import {checkmarkOutline, ellipsisHorizontal} from "ionicons/icons"
 import EarningPlanApiGetDto from "@/modules/earning-plan/dto/earning-plan.api.get.dto"
 import {EarningPlanService} from "@/modules/earning-plan/service/EarningPlanService"
 import MfpEarningPlanReceiveModal from "@/modules/earning-plan/component/MfpEarningPlanReceiveModal.vue"
@@ -44,6 +44,11 @@ async function optionsAction(item: EarningPlanApiGetDto) {
     }
 }
 
+async function receive(item: EarningPlanApiGetDto) {
+    const receiveModal = new MfpModal(MfpEarningPlanReceiveModal)
+    await receiveModal.open({item: item})
+}
+
 async function handleRefresh(event: any) {
     await store.load()
     event.target.complete()
@@ -69,6 +74,10 @@ onMounted(async () => {
             <ion-item-sliding v-for="(item, index) in store.earningPlan" :key="index">
                 <mfp-invoice-list-item-v2 :store="store" :invoice-item="item"/>
                 <ion-item-options side="end">
+                    <ion-item-option color="success" @click="receive(item)">
+                        <ion-icon slot="top" :icon="checkmarkOutline"/>
+                        Receber
+                    </ion-item-option>
                     <ion-item-option color="light" @click="optionsAction(item)">
                         <ion-icon slot="top" :icon="ellipsisHorizontal"/>
                         Opções

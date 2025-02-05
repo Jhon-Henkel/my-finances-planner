@@ -9,7 +9,7 @@ import {
     IonListHeader,
     IonSearchbar
 } from "@ionic/vue"
-import {ellipsisHorizontal} from 'ionicons/icons'
+import {pencilOutline, trashOutline} from 'ionicons/icons'
 import {onMounted} from "vue"
 import MfpEmptyListItem from "@/modules/@shared/components/list/MfpEmptyListItem.vue"
 import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
@@ -19,8 +19,6 @@ import MfpMovementsListItem from "@/modules/movement/component/MfpMovementsListI
 import MfpMovementsFormModal from "@/modules/movement/component/MfpMovementsFormModal.vue"
 import MfpMovementsFilterModal from "@/modules/movement/component/MfpMovementsFilterModal.vue"
 import MfpMovementsFilterPeriodLabel from "@/modules/movement/component/MfpMovementsFilterPeriodLabel.vue"
-import {MfpActionSheet} from "@/modules/@shared/components/action-sheet/MfpActionSheet"
-import {UtilActionSheet} from "@/modules/@shared/util/UtilActionSheet"
 import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
@@ -43,16 +41,6 @@ const movementStore = useMovementStore()
 function filterMovement(event: any) {
     const query = event.target.value
     movementStore.filterMovementsOnStore(query)
-}
-
-async function optionsAction(movement: MovementModel) {
-    const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtons(true, true, true))
-    const action = await actionSheet.open()
-    if (action === 'edit') {
-        await editMovement(movement)
-    } else if (action === 'delete') {
-        await deleteMovement(movement)
-    }
 }
 
 async function editMovement(movement: MovementModel) {
@@ -117,9 +105,13 @@ onMounted(async () => {
             <ion-item-sliding v-for="(movement, index) in movementStore.movements" :key="index" class="ion-text-center">
                 <mfp-movements-list-item :movement="movement"/>
                 <ion-item-options side="end">
-                    <ion-item-option color="light" @click="optionsAction(movement)">
-                        <ion-icon slot="top" :icon="ellipsisHorizontal"/>
-                        Opções
+                    <ion-item-option color="primary" @click="editMovement(movement)">
+                        <ion-icon slot="top" :icon="pencilOutline"/>
+                        Editar
+                    </ion-item-option>
+                    <ion-item-option color="danger" @click="deleteMovement(movement)">
+                        <ion-icon slot="top" :icon="trashOutline"/>
+                        Deletar
                     </ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>

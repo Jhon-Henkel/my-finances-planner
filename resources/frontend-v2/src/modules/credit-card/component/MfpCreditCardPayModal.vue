@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import MfpModalHeader from "@/modules/@shared/components/modal/MfpModalHeader.vue"
 import MfpModalContent from "@/modules/@shared/components/modal/MfpModalContent.vue"
-import {IonCard, IonCardContent, IonCol, IonIcon, IonLabel, IonRow, modalController} from "@ionic/vue"
+import {IonCard, IonCardContent, IonCol, IonIcon, IonLabel, IonRow, IonText, modalController} from "@ionic/vue"
 import MfpWalletSelect from "@/modules/@shared/components/select/MfpWalletSelect.vue"
 import {PropType, ref, watch} from "vue"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
@@ -28,10 +28,16 @@ const internalAmount = ref(props.item.nextInvoiceValue)
 const internalWalletId = ref(0)
 const walletStore = useWalletStore()
 const walletAmount = ref(0)
+const walletAmountColor = ref('medium')
 
 async function updateWalletAmount() {
     await walletStore.getWallets
     walletAmount.value = walletStore.searchWallet(internalWalletId.value)?.amount ?? 0
+    if (walletAmount.value - internalAmount.value < 0) {
+        walletAmountColor.value = 'danger'
+    } else {
+        walletAmountColor.value = 'success'
+    }
 }
 
 async function pay() {
@@ -69,7 +75,7 @@ watch(() => internalWalletId.value, () => {
         <ion-card-content>
             <ion-label>
                 <p>Pagar Fatura: <strong>{{ item.name }}</strong></p>
-                <p>Saldo conta selecionada: <strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></p>
+                <p>Saldo conta selecionada: <ion-text :color="walletAmountColor"><strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></ion-text></p>
                 <br>
                 <p>
                     Ao pagar a fatura, será pago a <strong>primeira</strong> fatura, independente de qual

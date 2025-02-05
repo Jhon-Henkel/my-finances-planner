@@ -45,6 +45,7 @@ const movementType = ref('expense')
 const editMode = ref(false)
 const walletStore = useWalletStore()
 const walletAmount = ref(0)
+const walletAmountColor = ref('medium')
 
 async function updateWalletAmount() {
     if (editMode.value) {
@@ -52,6 +53,11 @@ async function updateWalletAmount() {
     }
     await walletStore.getWallets
     walletAmount.value = walletStore.searchWallet(internalMovement.value.walletId)?.amount ?? 0
+    if (walletAmount.value - internalMovement.value.amount < 0) {
+        walletAmountColor.value = 'danger'
+    } else {
+        walletAmountColor.value = 'success'
+    }
 }
 
 async function saveItem() {
@@ -169,7 +175,7 @@ watch(() => internalMovement.value.walletId, () => {
                 <ion-card class="ion-margin-vertical" v-show="!editMode">
                     <ion-card-content>
                         <ion-label>
-                            <p>Saldo conta selecionada: <strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></p>
+                            <p>Saldo conta selecionada: <ion-text :color="walletAmountColor"><strong>{{ UtilMoney.formatValueToBr(walletAmount) }}</strong></ion-text></p>
                         </ion-label>
                     </ion-card-content>
                 </ion-card>
