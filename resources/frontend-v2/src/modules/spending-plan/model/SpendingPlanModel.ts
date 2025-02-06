@@ -5,6 +5,7 @@ export class SpendingPlanModel {
     walletId: number
     forecast: string
     installments: number
+    bankSlipCode: null|string
 
     constructor(data: any) {
         this.id = data.id
@@ -13,5 +14,6 @@ export class SpendingPlanModel {
         this.walletId = data.walletId
         this.forecast = data.forecast
         this.installments = data.installments
+        this.bankSlipCode = data?.bankSlipCode
     }
 }

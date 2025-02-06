@@ -13,6 +13,7 @@ class FutureSpentDTO implements IFutureMovementDTO
     private mixed $forecast;
     private mixed $createdAt;
     private mixed $updatedAt;
+    private null|string $bankSlipCode;
 
     public function getId(): null|int
     {
@@ -102,5 +103,15 @@ class FutureSpentDTO implements IFutureMovementDTO
     public function setUpdatedAt(mixed $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getBankSlipCode(): null|string
+    {
+        return $this->bankSlipCode;
+    }
+
+    public function setBankSlipCode(null|string $bankSlipCode): void
+    {
+        $this->bankSlipCode = $bankSlipCode;
     }
 }

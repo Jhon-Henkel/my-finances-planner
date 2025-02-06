@@ -38,8 +38,9 @@ describe('test UtilActionSheet const', () => {
         const buttons = UtilActionSheet.makeButtonsToPanorama()
         expect(buttons).toEqual([
             { text: 'Pagar', data: { action: 'pay' } },
-            { text: 'Adicionar Valor', data: { action: 'add-value' } },
             { text: 'Editar', data: { action: 'edit' } },
+            { text: 'Adicionar Valor', data: { action: 'add-value' } },
+            { text: 'Adicionar Boleto', data: { action: 'add-bank-slip' } },
             { text: 'Detalhes', data: { action: 'details' } },
             { text: 'Deletar', role: 'destructive', data: { action: 'delete' } },
             { text: 'Cancelar', role: 'cancel', data: { action: 'cancel' } }

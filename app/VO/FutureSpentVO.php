@@ -15,6 +15,7 @@ class FutureSpentVO
     public mixed $forecast;
     public mixed $createdAt;
     public mixed $updatedAt;
+    public null|string $bankSlipCode;
 
     public function __construct(FutureSpentDTO $item)
     {
@@ -27,5 +28,6 @@ class FutureSpentVO
         $this->forecast = $item->getForecast();
         $this->createdAt = $item->getCreatedAt();
         $this->updatedAt = $item->getUpdatedAt();
+        $this->bankSlipCode = $item->getBankSlipCode();
     }
 }

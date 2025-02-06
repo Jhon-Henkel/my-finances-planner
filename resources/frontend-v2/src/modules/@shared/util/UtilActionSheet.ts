@@ -60,13 +60,19 @@ export const UtilActionSheet = {
     makeButtonsToPanorama(): Array<IActionSheetItem> {
         const buttons: Array<IActionSheetItem> = []
         buttons.push(payObject)
+        buttons.push(editObject)
         buttons.push({
             text: 'Adicionar Valor',
             data: {
                 action: 'add-value'
             }
         })
-        buttons.push(editObject)
+        buttons.push({
+            text: 'Adicionar Boleto',
+            data: {
+                action: 'add-bank-slip'
+            }
+        })
         buttons.push(detailsObject)
         buttons.push(deleteObject)
         buttons.push(cancelObject)

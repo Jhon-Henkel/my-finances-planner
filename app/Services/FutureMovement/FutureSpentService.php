@@ -27,6 +27,7 @@ class FutureSpentService extends BasicService
     {
         $isEqualsValue = $options['value'] === $spent->getAmount();
         $isEqualsWallet = $options['walletId'] === $spent->getWalletId();
+        $spent->setBankSlipCode('');
         if (! $options['partial'] && $isEqualsValue && $isEqualsWallet) {
             return $this->payFullSpent($spent);
         }

@@ -23,6 +23,7 @@ import MfpTotalRegistersRowV2 from "@/modules/@shared/components/page/MfpTotalRe
 import MfpSpendingPlanDetailsCard from "@/modules/spending-plan/component/MfpSpendingPlanDetailsCard.vue"
 import MfpSpendingPlanAddValueModal from "@/modules/spending-plan/component/MfpSpendingPlanAddValueModal.vue"
 import MfpInvoiceListItemV2 from "@/modules/invoice/component/MfpInvoiceListItemV2.vue"
+import MfpSpendingPlanAddBankSlipModal from "@/modules/spending-plan/component/MfpSpendingPlanAddBankSlipModal.vue"
 
 const store = useSpendingPlanStore()
 const formModal = new MfpModal(MfpSpendingPlanFormModal)
@@ -53,6 +54,10 @@ async function optionsAction(item: SpendingPlanApiGetDto) {
         const futureExpense = await SpendingPlanService.get(item.id)
         const details = new MfpModal(MfpInvoiceDetailsModal)
         await details.open({item: futureExpense})
+    } else if (action === 'add-bank-slip') {
+        const futureExpense = await SpendingPlanService.get(item.id)
+        const addBankSlipModal = new MfpModal(MfpSpendingPlanAddBankSlipModal)
+        await addBankSlipModal.open({futureExpense: futureExpense})
     }
 }
 
