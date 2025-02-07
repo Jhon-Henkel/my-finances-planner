@@ -18,14 +18,7 @@ export default defineConfig((): any => {
                     runtimeCaching: [
                         {
                             urlPattern: /\/api\//,
-                            handler: 'StaleWhileRevalidate',
-                            options: {
-                                cacheName: 'api-cache',
-                                expiration: {
-                                    maxEntries: 50,
-                                    maxAgeSeconds: 60 * 60,
-                                },
-                            },
+                            handler: 'NetworkOnly'
                         },
                         { // cache para assets
                             urlPattern: /\.(?:png|jpg|jpeg|svg|gif|ico|woff2|woff|ttf|css|js)$/,
