@@ -36,7 +36,7 @@ class FutureSpentController extends BasicController
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
             'installments' => 'required|int',
-            'bankSlipCode' => 'string'
+            'bankSlipCode' => 'string|nullable'
         ];
     }
 
