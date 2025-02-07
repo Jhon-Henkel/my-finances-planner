@@ -23,7 +23,8 @@ class FutureSpentController extends BasicController
             'walletId' => 'required|int|exists:App\Models\WalletModel,id',
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
-            'installments' => 'required|int'
+            'installments' => 'required|int',
+            'bankSlipCode' => 'string|nullable'
         ];
     }
 
@@ -34,7 +35,8 @@ class FutureSpentController extends BasicController
             'walletId' => 'required|int|exists:App\Models\WalletModel,id',
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
-            'installments' => 'required|int'
+            'installments' => 'required|int',
+            'bankSlipCode' => 'string'
         ];
     }
 

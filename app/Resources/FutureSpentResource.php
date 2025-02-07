@@ -20,6 +20,13 @@ class FutureSpentResource extends BasicResource
         $dto->setInstallments($item['installments']);
         $dto->setCreatedAt($item['created_at'] ?? null);
         $dto->setUpdatedAt($item['updated_at'] ?? null);
+        $bankSlip = null;
+        if (isset($item['bank_slip_code'])) {
+            $bankSlip = $item['bank_slip_code'];
+        } elseif (isset($item['bankSlipCode'])) {
+            $bankSlip = $item['bankSlipCode'];
+        }
+        $dto->setBankSlipCode($bankSlip);
         return $dto;
     }
 
@@ -35,6 +42,7 @@ class FutureSpentResource extends BasicResource
             'installments' => $item->getInstallments(),
             'created_at' => $item->getCreatedAt(),
             'updated_at' => $item->getUpdatedAt(),
+            'bank_slip_code' => $item->getBankSlipCode(),
         ];
     }
 

@@ -43,7 +43,8 @@ export const SpendingPlanService = {
             amount: 0,
             walletId: 0,
             forecast: UtilCalendar.getTodayIso(),
-            installments: 1
+            installments: 1,
+            bankSlipCode: null,
         }
     },
     reloadStore: async () => {

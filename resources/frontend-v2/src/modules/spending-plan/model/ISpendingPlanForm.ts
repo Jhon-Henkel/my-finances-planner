@@ -5,4 +5,5 @@ export interface ISpendingPlanForm {
     forecast: string
     amount: number
     installments: number
+    bankSlipCode: string | null
 }

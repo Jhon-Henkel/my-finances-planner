@@ -20,6 +20,7 @@ class FutureSpentVoUnitTest extends Falcon9
         $item->setForecast('2022-01-01');
         $item->setCreatedAt('2021-07-15');
         $item->setUpdatedAt('2022-03-28');
+        $item->setBankSlipCode('123456');
 
         $vo = new FutureSpentVO($item);
 
@@ -32,5 +33,6 @@ class FutureSpentVoUnitTest extends Falcon9
         $this->assertEquals('2022-01-01', $vo->forecast);
         $this->assertEquals('2021-07-15', $vo->createdAt);
         $this->assertEquals('2022-03-28', $vo->updatedAt);
+        $this->assertEquals('123456', $vo->bankSlipCode);
     }
 }
