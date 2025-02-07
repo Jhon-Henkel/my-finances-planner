@@ -20,13 +20,14 @@ const props = defineProps({
 const bankSlipCode = ref(props.futureExpense.bankSlipCode ?? '');
 
 async function add() {
+    const data = props.futureExpense
     const confirm = new MfpConfirmAlert('Revisão')
-    const result = await confirm.open(`Adicionar o código de barras no boleto ${props.futureExpense.description}?`)
+    const result = await confirm.open(`Adicionar o código de barras no boleto ${data.description}?`)
     if (!result) {
         return
     }
-    props.futureExpense.bankSlipCode = bankSlipCode.value
-    await SpendingPlanService.update(props.futureExpense, props.futureExpense.installments == 0)
+    data.bankSlipCode = bankSlipCode.value
+    await SpendingPlanService.update(data, data.installments == 0)
     closeModal()
     const store = useSpendingPlanStore()
     await store.load()
