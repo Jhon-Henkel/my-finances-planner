@@ -113,10 +113,10 @@ watch(() => internalWalletId.value, () => {
             <ion-card class="" v-if="item.bank_slip_code">
                 <ion-card-content class="ion-no-margin ion-no-padding">
                     <ion-row class="ion-justify-content-between ion-no-margin ion-no-padding">
-                        <ion-col class="ion-text-center ion-align-self-center" size="10">
+                        <ion-col class="ion-text-center ion-align-self-center" size="9">
                             <ion-text>{{ item.bank_slip_code }}</ion-text>
                         </ion-col>
-                        <ion-col class="ion-text-right ion-no-margin ion-no-padding">
+                        <ion-col class="ion-text-right ion-no-margin ion-no-padding ion-align-self-center">
                             <ion-button @click="copyToClipboard">Copiar</ion-button>
                         </ion-col>
                     </ion-row>
