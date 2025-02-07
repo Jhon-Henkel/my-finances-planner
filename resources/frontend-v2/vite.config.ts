@@ -13,10 +13,30 @@ export default defineConfig((): any => {
                 registerType: 'autoUpdate',
                 workbox: {
                     cleanupOutdatedCaches: true,
+                    clientsClaim: true,
+                    skipWaiting: true,
                     runtimeCaching: [
                         {
                             urlPattern: /\/api\//,
-                            handler: 'NetworkFirst',
+                            handler: 'StaleWhileRevalidate',
+                            options: {
+                                cacheName: 'api-cache',
+                                expiration: {
+                                    maxEntries: 50,
+                                    maxAgeSeconds: 60 * 60,
+                                },
+                            },
+                        },
+                        { // cache para assets
+                            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|ico|woff2|woff|ttf|css|js)$/,
+                            handler: 'CacheFirst',
+                            options: {
+                                cacheName: 'assets-cache',
+                                expiration: {
+                                    maxEntries: 100,
+                                    maxAgeSeconds: 30 * 24 * 60 * 60, // 30 dias
+                                },
+                            },
                         }
                     ]
                 }
