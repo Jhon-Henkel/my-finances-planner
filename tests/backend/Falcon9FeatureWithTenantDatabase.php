@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
-abstract class Falcon9FeatureWithDatabase extends BaseTestCase
+abstract class Falcon9FeatureWithTenantDatabase extends BaseTestCase
 {
     use CreatesApplication;
     use WithFaker;
@@ -23,15 +23,11 @@ abstract class Falcon9FeatureWithDatabase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Config::set('database.default', DatabaseConnectionEnum::Test->value);
+        $this->connectOnTenant();
         $this->withoutMiddleware(VerifyCsrfToken::class);
-        DB::beginTransaction();
         $this->configureServer();
-        $this->headerWithoutUser = [
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'MFP-TOKEN' => config('app.mfp_token'),
-        ];
+        DB::beginTransaction();
+        $this->headerWithoutUser = ['Content-Type' => 'application/json', 'Accept' => 'application/json', 'MFP-TOKEN' => config('app.mfp_token')];
         $user = User::where('name', '=', 'Pipeline User')->first();
         if (is_null($user)) {
             $this->fail('Usuário não encontrado, veja o arquivo github-pipeline-test.sql para criar o usuário');

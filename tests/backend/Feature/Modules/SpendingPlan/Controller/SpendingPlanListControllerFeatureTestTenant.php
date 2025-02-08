@@ -6,9 +6,9 @@ use App\Models\WalletModel;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
 use App\Services\Database\DatabaseConnectionService;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\backend\Falcon9FeatureWithDatabase;
+use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
-class SpendingPlanListControllerFeatureTest extends Falcon9FeatureWithDatabase
+class SpendingPlanListControllerFeatureTestTenant extends Falcon9FeatureWithTenantDatabase
 {
     protected function setUp(): void
     {
