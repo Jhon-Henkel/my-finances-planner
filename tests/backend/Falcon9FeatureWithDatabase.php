@@ -69,4 +69,14 @@ abstract class Falcon9FeatureWithDatabase extends BaseTestCase
     {
         Config::set('database.default', DatabaseConnectionEnum::Test->value);
     }
+
+    protected function connectOnTenant(): void
+    {
+        Config::set('database.default', DatabaseConnectionEnum::Test->value);
+        $tenant = $this->user->tenant();
+        $connection['database'] = $tenant->database;
+        $connection['username'] = $tenant->username;
+        $connection['password'] = $tenant->password;
+        Config::set(["database.connections.$tenant->tenant_hash" => $connection]);
+    }
 }
