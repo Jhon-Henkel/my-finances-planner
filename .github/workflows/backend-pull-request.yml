@@ -94,7 +94,7 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: 📥 Importing SQL file
-        run: mysql -h 127.0.0.1 -P 33306 -u testing -p123 testing < ./config/docker/develop/database/github-pipeline-test.sql
+        run: docker exec $(docker ps -qf "ancestor=mysql:8.0") mysql -h 127.0.0.1 -P 3306 -u testing -p123 testing < ./config/docker/develop/database/github-pipeline-test.sql
 
       - name: ⚡️ Executing PHP Feature tests
         run: composer run test:feature
