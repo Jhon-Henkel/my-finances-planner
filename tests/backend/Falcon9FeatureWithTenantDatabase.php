@@ -23,7 +23,6 @@ abstract class Falcon9FeatureWithTenantDatabase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->connectOnTenant();
         $this->withoutMiddleware(VerifyCsrfToken::class);
         $this->configureServer();
         DB::beginTransaction();
@@ -33,6 +32,7 @@ abstract class Falcon9FeatureWithTenantDatabase extends BaseTestCase
             $this->fail('Usuário não encontrado, veja o arquivo github-pipeline-test.sql para criar o usuário');
         }
         $this->user = $user;
+        $this->connectOnTenant();
         $this->apiHeaders = $this->makeApiHeaders();
     }
 
