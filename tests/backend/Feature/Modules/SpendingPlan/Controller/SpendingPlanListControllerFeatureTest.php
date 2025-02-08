@@ -6,9 +6,9 @@ use App\Models\WalletModel;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
 use App\Services\Database\DatabaseConnectionService;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\backend\Falcon9Feature;
+use Tests\backend\Falcon9FeatureWithDatabase;
 
-class SpendingPlanListControllerFeatureTest extends Falcon9Feature
+class SpendingPlanListControllerFeatureTest extends Falcon9FeatureWithDatabase
 {
     protected function setUp(): void
     {
@@ -23,43 +23,13 @@ class SpendingPlanListControllerFeatureTest extends Falcon9Feature
 
         SpendingPlanModel::query()->delete();
 
-        $wallet = WalletModel::create([
-            'name' => 'Test Wallet',
-            'amount' => 1000,
-            'type' => 1
-        ]);
+        /** @var WalletModel $wallet **/
+        $wallet = WalletModel::create(['name' => 'Test Wallet', 'amount' => 1000, 'type' => 1]);
 
-        SpendingPlanModel::create([
-            'wallet_id' => $wallet->id,
-            'description' => 'Spending Plan 1',
-            'amount' => 100,
-            'forecast' => '2021-01-28',
-            'installments' => 1
-        ]);
-
-        SpendingPlanModel::create([
-            'wallet_id' => $wallet->id,
-            'description' => 'Spending Plan 2',
-            'amount' => 100,
-            'forecast' => '2021-02-05',
-            'installments' => 12
-        ]);
-
-        SpendingPlanModel::create([
-            'wallet_id' => $wallet->id,
-            'description' => 'Spending Plan 3',
-            'amount' => 100,
-            'forecast' => '2021-03-15',
-            'installments' => 0
-        ]);
-
-        SpendingPlanModel::create([
-            'wallet_id' => $wallet->id,
-            'description' => 'Spending Plan 4',
-            'amount' => 100,
-            'forecast' => '2021-04-20',
-            'installments' => 2
-        ]);
+        SpendingPlanModel::create(['wallet_id' => $wallet->id, 'description' => 'Spending Plan 1', 'amount' => 100, 'forecast' => '2021-01-28', 'installments' => 1]);
+        SpendingPlanModel::create(['wallet_id' => $wallet->id, 'description' => 'Spending Plan 2', 'amount' => 100, 'forecast' => '2021-02-05', 'installments' => 12]);
+        SpendingPlanModel::create(['wallet_id' => $wallet->id, 'description' => 'Spending Plan 3', 'amount' => 100, 'forecast' => '2021-03-15', 'installments' => 0]);
+        SpendingPlanModel::create(['wallet_id' => $wallet->id, 'description' => 'Spending Plan 4', 'amount' => 100, 'forecast' => '2021-04-20', 'installments' => 2]);
 
         $this->connectMaster();
     }
@@ -67,7 +37,7 @@ class SpendingPlanListControllerFeatureTest extends Falcon9Feature
     #[DataProvider('dataProviderListEndpoint')]
     public function testListEndpoint(string $month, string $year, string $nextUrlContains, string $provUrlContains, int $totalItemsExpected, array $itemsName)
     {
-        $response = $this->getJson("/api/v2/spending-plan?month=$month&year=$year", $this->makeHeaders());
+        $response = $this->getJson("/api/v2/spending-plan?month=$month&year=$year", $this->makeApiHeaders());
 
         $response->assertStatus(200);
 
