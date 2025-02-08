@@ -1,12 +1,10 @@
 <?php
 
-use App\Enums\Response\StatusCodeEnum;
 use App\Enums\RouteEnum;
 use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\User\UserRegisterController;
-use App\Modules\MarketControl\UseCase\GetWalletList\GetWalletListUseCase;
-use App\Modules\MarketControl\UseCase\MarkMarketSpent\MarkMarketSpentUseCase;
-use App\Services\Database\DatabaseConnectionService;
+use App\Modules\MarketControl\Controller\GetWalletListController;
+use App\Modules\MarketControl\Controller\MarkSpentController;
 use Illuminate\Support\Facades\Route;
 
 // Rotas que requer somente token MFP
@@ -29,17 +27,11 @@ return function () {
         });
 
         Route::prefix('/market-control-app')->group(function () {
-            Route::get('/wallets', function () {
-                $useCase = new GetWalletListUseCase(new DatabaseConnectionService());
-                $wallets = $useCase->execute();
-                return response()->json($wallets);
-            });
+            Route::get('/wallets', GetWalletListController::class)
+                ->name(RouteEnum::ApiMarketControlWalletList->value);
 
-            Route::post('/movement', function () {
-                $useCase = new MarkMarketSpentUseCase(new DatabaseConnectionService());
-                $result = $useCase->execute(request()->all());
-                return response()->json($result, StatusCodeEnum::HttpCreated->value);
-            });
+            Route::post('/movement', MarkSpentController::class)
+                ->name(RouteEnum::ApiMarketControlMarkSpent->value);
         });
     });
 };

@@ -2,14 +2,17 @@
 
 namespace App\Modules\MarketControl\UseCase\MarkMarketSpent;
 
+use App\DTO\Movement\MovementDTO;
 use App\Enums\MovementEnum;
-use App\Models\MovementModel;
 use App\Services\Database\DatabaseConnectionService;
+use App\Services\Movement\MovementService;
 
 readonly class MarkMarketSpentUseCase
 {
-    public function __construct(private DatabaseConnectionService $databaseConnectionService)
-    {
+    public function __construct(
+        private DatabaseConnectionService $databaseConnectionService,
+        private MovementService $movementService
+    ) {
     }
 
     public function execute(array $data): array
@@ -20,12 +23,14 @@ readonly class MarkMarketSpentUseCase
             return ['status' => 'error'];
         }
         $this->databaseConnectionService->connectTenantByTenantHash(config('app.market_control_hash'));
-        MovementModel::create([
-            'wallet_id' => $data['wallet_id'],
-            'description' => 'Mercado',
-            'type' => MovementEnum::Spent->value,
-            'amount' => $data['amount']
-        ]);
+
+        $data = new MovementDTO();
+        $data->setWalletId($data['wallet_id']);
+        $data->setAmount($data['amount']);
+        $data->setDescription('Mercado');
+        $data->setType(MovementEnum::Spent->value);
+
+        $this->movementService->insert($data);
 
         $this->databaseConnectionService->setMasterConnection();
         return ['status' => 'ok'];
