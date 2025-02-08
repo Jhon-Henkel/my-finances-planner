@@ -11,7 +11,7 @@ use App\Services\Movement\MovementService;
 
 /**
  * @method WalletDTO[] findAll()
- * @method WalletDTO findById()
+ * @method WalletDTO findById(int $id)
  */
 class WalletService extends BasicService
 {
