@@ -98,7 +98,9 @@ jobs:
 
       - name: 📥 Importing SQL file
         run: |
+          mysql -h mysql -P 3306 -u root -p123 -e "CREATE DATABASE IF NOT EXISTS 370171777f0ef09ea68fd2915adb6703;"
           mysql -h mysql -P 3306 -u root -p123 -e "GRANT ALL PRIVILEGES ON testing.* TO 'testing'@'%'; FLUSH PRIVILEGES;"
+          mysql -h mysql -P 3306 -u root -p123 -e "GRANT ALL PRIVILEGES ON testing.* TO 'root'@'%'; FLUSH PRIVILEGES;"
           mysql -h mysql -P 3306 -u testing -p123 testing < ./config/docker/develop/database/github-pipeline-test.sql
           php artisan migrate:all-tenants
 
