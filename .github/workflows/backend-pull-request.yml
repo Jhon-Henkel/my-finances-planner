@@ -93,5 +93,8 @@ jobs:
       - name: 👍 Applying permissions
         run: chmod -R 777 storage bootstrap/cache
 
+      - name: 📥 Importing SQL file
+        run: mysql -h 127.0.0.1 -P 33306 -u testing -p123 testing < ../../config/docker/develop/database/github-pipeline-test.sql
+
       - name: ⚡️ Executing PHP Feature tests
         run: composer run test:feature
