@@ -62,4 +62,9 @@ enum RouteEnum: string
     case ApiEarningPlanList = 'earning-plan.list';
     case ApiMarketPlannerShow = 'market-planner.show';
     case ApiCreditCardInvoiceList = 'credit-card-invoice.list';
+
+
+    //////////// API MARKET CONTROL ////////////]
+    case ApiMarketControlWalletList = 'market-control.wallet.list';
+    case ApiMarketControlMarkSpent = 'market-control.mark-spent';
 }

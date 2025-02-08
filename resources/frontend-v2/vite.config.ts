@@ -21,7 +21,7 @@ export default defineConfig((): any => {
                             handler: 'NetworkOnly'
                         },
                         { // cache para assets
-                            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|ico|woff2|woff|ttf|css|js)$/,
+                            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|ico|woff2|woff|ttf|css)$/,
                             handler: 'CacheFirst',
                             options: {
                                 cacheName: 'assets-cache',
