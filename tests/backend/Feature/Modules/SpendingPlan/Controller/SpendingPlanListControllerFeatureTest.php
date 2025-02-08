@@ -8,7 +8,7 @@ use App\Services\Database\DatabaseConnectionService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
-class SpendingPlanListControllerFeatureTestTenant extends Falcon9FeatureWithTenantDatabase
+class SpendingPlanListControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
 {
     protected function setUp(): void
     {

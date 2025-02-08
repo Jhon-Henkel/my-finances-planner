@@ -8,7 +8,7 @@ use App\Modules\CreditCardTransaction\UseCase\Sum\CreditCardTransactionSumUseCas
 use App\Modules\Invoice\Service\InvoiceListService;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
-class CreditCardTransactionSumUseCaseFeatureTestTenant extends Falcon9FeatureWithTenantDatabase
+class CreditCardTransactionSumUseCaseFeatureTest extends Falcon9FeatureWithTenantDatabase
 {
     protected function setUp(): void
     {
