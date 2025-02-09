@@ -4,7 +4,6 @@ namespace Tests\backend\Feature\Modules\EarningPlan\Controller;
 
 use App\Models\FutureGain;
 use App\Models\WalletModel;
-use App\Services\Database\DatabaseConnectionService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
