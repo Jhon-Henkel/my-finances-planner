@@ -4,7 +4,6 @@ namespace Tests\backend\Feature\Modules\SpendingPlan\Controller;
 
 use App\Models\WalletModel;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
-use App\Services\Database\DatabaseConnectionService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
@@ -18,9 +17,6 @@ class SpendingPlanListControllerFeatureTest extends Falcon9FeatureWithTenantData
 
     private function insertSpendingPlan(): void
     {
-        $connection = new DatabaseConnectionService();
-        $connection->connectTenant($this->user->tenant());
-
         SpendingPlanModel::query()->delete();
 
         /** @var WalletModel $wallet **/
@@ -30,8 +26,6 @@ class SpendingPlanListControllerFeatureTest extends Falcon9FeatureWithTenantData
         SpendingPlanModel::create(['wallet_id' => $wallet->id, 'description' => 'Spending Plan 2', 'amount' => 100, 'forecast' => '2021-02-05', 'installments' => 12]);
         SpendingPlanModel::create(['wallet_id' => $wallet->id, 'description' => 'Spending Plan 3', 'amount' => 100, 'forecast' => '2021-03-15', 'installments' => 0]);
         SpendingPlanModel::create(['wallet_id' => $wallet->id, 'description' => 'Spending Plan 4', 'amount' => 100, 'forecast' => '2021-04-20', 'installments' => 2]);
-
-        $this->connectMaster();
     }
 
     #[DataProvider('dataProviderListEndpoint')]
@@ -39,7 +33,6 @@ class SpendingPlanListControllerFeatureTest extends Falcon9FeatureWithTenantData
     {
         $response = $this->getJson("/api/v2/spending-plan?month=$month&year=$year", $this->makeApiHeaders());
 
-        $response->dump();
         $response->assertStatus(200);
 
         $this->assertStringContainsString($nextUrlContains, $response->json('links.next'));

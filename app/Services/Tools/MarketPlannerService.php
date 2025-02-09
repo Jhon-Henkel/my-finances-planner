@@ -86,6 +86,9 @@ class MarketPlannerService
     public function getMarketPlannerValue(): float
     {
         $config = $this->configurationService->findConfigByName(ConfigEnum::MarketPlannerValue->value);
+        if (is_null($config)) {
+            return 0;
+        }
         return NumberTools::roundFloatAmount((float)$config->getValue());
     }
 

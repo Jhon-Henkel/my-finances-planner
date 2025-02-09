@@ -18,9 +18,6 @@ class EarningPlanListControllerFeatureTest extends Falcon9FeatureWithTenantDatab
 
     private function insertEarningsPlan(): void
     {
-        $connection = new DatabaseConnectionService();
-        $connection->connectTenant($this->user->tenant());
-
         FutureGain::query()->delete();
 
         /** @var WalletModel $wallet **/
@@ -30,8 +27,6 @@ class EarningPlanListControllerFeatureTest extends Falcon9FeatureWithTenantDatab
         FutureGain::create(['wallet_id' => $wallet->id, 'description' => 'Earning Plan 2', 'amount' => 100, 'forecast' => '2021-02-05', 'installments' => 12]);
         FutureGain::create(['wallet_id' => $wallet->id, 'description' => 'Earning Plan 3', 'amount' => 100, 'forecast' => '2021-03-15', 'installments' => 0]);
         FutureGain::create(['wallet_id' => $wallet->id, 'description' => 'Earning Plan 4', 'amount' => 100, 'forecast' => '2021-04-20', 'installments' => 2]);
-
-        $this->connectMaster();
     }
 
     #[DataProvider('dataProviderListEndpoint')]
