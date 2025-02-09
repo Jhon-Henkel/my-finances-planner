@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
+ * @property float $amount
+ *
  * @mixin Builder
+ * @method static WalletModel create(array $attributes)
  */
 class WalletModel extends Model
 {
