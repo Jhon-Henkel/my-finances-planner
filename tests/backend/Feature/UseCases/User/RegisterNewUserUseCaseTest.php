@@ -8,7 +8,6 @@ use App\Enums\StatusEnum;
 use App\Models\User\Plan;
 use App\Services\Mail\MailService;
 use App\Services\Queue\QueueProducerService;
-use Tests\backend\Falcon9Feature;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class RegisterNewUserUseCaseTest extends Falcon9FeatureWithTenantDatabase

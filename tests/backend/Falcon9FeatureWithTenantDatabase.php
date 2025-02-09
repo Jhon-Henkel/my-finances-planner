@@ -6,6 +6,7 @@ use App\Enums\Database\DatabaseConnectionEnum;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\User;
 use App\Tools\Auth\JwtTools;
+use App\Tools\Cache\MfpCacheManager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
@@ -75,5 +76,14 @@ abstract class Falcon9FeatureWithTenantDatabase extends BaseTestCase
         $connection['password'] = $tenant->password;
         Config::set(["database.connections.$tenant->tenant_hash" => $connection]);
         Config::set('database.default', $tenant->tenant_hash);
+    }
+
+    protected function mockCacheManager(): void
+    {
+        MfpCacheManager::shouldReceive('getModel')->andReturnNull();
+        MfpCacheManager::shouldReceive('setModel')->andReturn();
+        MfpCacheManager::shouldReceive('delete')->andReturn();
+        MfpCacheManager::shouldReceive('getConfig')->andReturnNull();
+        MfpCacheManager::shouldReceive('setConfig')->andReturn();
     }
 }
