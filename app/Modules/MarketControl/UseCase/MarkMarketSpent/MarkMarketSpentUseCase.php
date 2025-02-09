@@ -24,13 +24,13 @@ readonly class MarkMarketSpentUseCase
         }
         $this->databaseConnectionService->connectTenantByTenantHash(config('app.market_control_hash'));
 
-        $data = new MovementDTO();
-        $data->setWalletId($data['wallet_id']);
-        $data->setAmount($data['amount']);
-        $data->setDescription('Mercado');
-        $data->setType(MovementEnum::Spent->value);
+        $dto = new MovementDTO();
+        $dto->setWalletId($data['wallet_id']);
+        $dto->setAmount($data['amount']);
+        $dto->setDescription('Mercado');
+        $dto->setType(MovementEnum::Spent->value);
 
-        $this->movementService->insert($data);
+        $this->movementService->insert($dto);
 
         $this->databaseConnectionService->setMasterConnection();
         return ['status' => 'ok'];
