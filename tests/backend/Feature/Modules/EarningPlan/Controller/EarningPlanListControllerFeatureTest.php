@@ -4,11 +4,10 @@ namespace Tests\backend\Feature\Modules\EarningPlan\Controller;
 
 use App\Models\FutureGain;
 use App\Models\WalletModel;
-use App\Services\Database\DatabaseConnectionService;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\backend\Falcon9Feature;
+use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
-class EarningPlanListControllerFeatureTest extends Falcon9Feature
+class EarningPlanListControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
 {
     protected function setUp(): void
     {
@@ -18,56 +17,21 @@ class EarningPlanListControllerFeatureTest extends Falcon9Feature
 
     private function insertEarningsPlan(): void
     {
-        $connection = new DatabaseConnectionService();
-        $connection->connectTenant($this->user->tenant());
-
         FutureGain::query()->delete();
 
-        $wallet = WalletModel::create([
-            'name' => 'Test Wallet',
-            'amount' => 1000,
-            'type' => 1
-        ]);
+        /** @var WalletModel $wallet **/
+        $wallet = WalletModel::create(['name' => 'Test Wallet', 'amount' => 1000, 'type' => 1]);
 
-        FutureGain::create([
-            'wallet_id' => $wallet->id,
-            'description' => 'Earning Plan 1',
-            'amount' => 100,
-            'forecast' => '2021-01-28',
-            'installments' => 1
-        ]);
-
-        FutureGain::create([
-            'wallet_id' => $wallet->id,
-            'description' => 'Earning Plan 2',
-            'amount' => 100,
-            'forecast' => '2021-02-05',
-            'installments' => 12
-        ]);
-
-        FutureGain::create([
-            'wallet_id' => $wallet->id,
-            'description' => 'Earning Plan 3',
-            'amount' => 100,
-            'forecast' => '2021-03-15',
-            'installments' => 0
-        ]);
-
-        FutureGain::create([
-            'wallet_id' => $wallet->id,
-            'description' => 'Earning Plan 4',
-            'amount' => 100,
-            'forecast' => '2021-04-20',
-            'installments' => 2
-        ]);
-
-        $this->connectMaster();
+        FutureGain::create(['wallet_id' => $wallet->id, 'description' => 'Earning Plan 1', 'amount' => 100, 'forecast' => '2021-01-28', 'installments' => 1]);
+        FutureGain::create(['wallet_id' => $wallet->id, 'description' => 'Earning Plan 2', 'amount' => 100, 'forecast' => '2021-02-05', 'installments' => 12]);
+        FutureGain::create(['wallet_id' => $wallet->id, 'description' => 'Earning Plan 3', 'amount' => 100, 'forecast' => '2021-03-15', 'installments' => 0]);
+        FutureGain::create(['wallet_id' => $wallet->id, 'description' => 'Earning Plan 4', 'amount' => 100, 'forecast' => '2021-04-20', 'installments' => 2]);
     }
 
     #[DataProvider('dataProviderListEndpoint')]
     public function testListEndpoint(string $month, string $year, string $nextUrlContains, string $provUrlContains, int $totalItemsExpected, array $itemsName)
     {
-        $response = $this->getJson("/api/v2/earnings-plan?month=$month&year=$year", $this->makeHeaders());
+        $response = $this->getJson("/api/v2/earnings-plan?month=$month&year=$year", $this->makeApiHeaders());
 
         $response->assertStatus(200);
 
