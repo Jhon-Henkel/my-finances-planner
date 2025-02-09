@@ -18,7 +18,6 @@ class BlockUserByWrongLoginUseCaseTest extends Falcon9FeatureWithTenantDatabase
         $userCorrectLogin = ['email' => $this->user->email, 'password' => '12345678'];
         $responseCorrectLogin = $this->postJson('/api/auth', $userCorrectLogin, $this->headerWithoutUser)->json();
 
-        dd($responseCorrectLogin);
         $this->assertArrayHasKey('token', $responseCorrectLogin, 'Primeira Etapa');
         $this->assertArrayHasKey('user', $responseCorrectLogin, 'Primeira Etapa');
 
