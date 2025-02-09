@@ -4,9 +4,6 @@ namespace Tests\backend\Feature\UseCases\User;
 
 use App\Enums\StatusEnum;
 use App\Models\User;
-use App\Tools\Cache\MfpCacheManager;
-use App\Tools\Cache\MfpCacheManagerReal;
-use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
@@ -21,8 +18,8 @@ class BlockUserByWrongLoginUseCaseTest extends Falcon9FeatureWithTenantDatabase
         $userCorrectLogin = ['email' => 'pipeline@pipeline.dev', 'password' => '12345678'];
         $responseCorrectLogin = $this->postJson('/api/auth', $userCorrectLogin, $this->headerWithoutUser)->json();
 
-        $this->assertArrayHasKey('token', $responseCorrectLogin);
-        $this->assertArrayHasKey('user', $responseCorrectLogin);
+        $this->assertArrayHasKey('token', $responseCorrectLogin, 'Primeira Etapa');
+        $this->assertArrayHasKey('user', $responseCorrectLogin, 'Primeira Etapa');
 
         // Testando login errado até bloquear o usuário
         $userWrongLogin = ['email' => 'pipeline@pipeline.dev', 'password' => $this->faker->text];
@@ -36,6 +33,7 @@ class BlockUserByWrongLoginUseCaseTest extends Falcon9FeatureWithTenantDatabase
         $responseWrongLogin = $this->postJson('/api/auth', $userWrongLogin, $this->headerWithoutUser)->json();
         $this->assertEquals('Usuário inativo! Verifique seu e-mail para ativar sua conta.', $responseWrongLogin['message']);
 
+        /** @var User $userDB */
         $userDB = User::where('email', 'pipeline@pipeline.dev')->first();
         $this->assertEquals(StatusEnum::Inactive->value, $userDB->status);
 
@@ -43,7 +41,7 @@ class BlockUserByWrongLoginUseCaseTest extends Falcon9FeatureWithTenantDatabase
         $this->get("/active-user/{$userDB->verify_hash}", $this->headerWithoutUser);
         $responseCorrectLogin = $this->postJson('/api/auth', $userCorrectLogin, $this->headerWithoutUser)->json();
 
-        $this->assertArrayHasKey('token', $responseCorrectLogin);
-        $this->assertArrayHasKey('user', $responseCorrectLogin);
+        $this->assertArrayHasKey('token', $responseCorrectLogin, 'Segunda Etapa');
+        $this->assertArrayHasKey('user', $responseCorrectLogin, 'Segunda Etapa');
     }
 }
