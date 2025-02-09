@@ -15,14 +15,15 @@ class BlockUserByWrongLoginUseCaseTest extends Falcon9FeatureWithTenantDatabase
         $this->mockCacheManager();
 
         // Testando login com sucesso
-        $userCorrectLogin = ['email' => 'pipeline@pipeline.dev', 'password' => '12345678'];
+        $userCorrectLogin = ['email' => $this->user->email, 'password' => '12345678'];
         $responseCorrectLogin = $this->postJson('/api/auth', $userCorrectLogin, $this->headerWithoutUser)->json();
 
+        dd($responseCorrectLogin);
         $this->assertArrayHasKey('token', $responseCorrectLogin, 'Primeira Etapa');
         $this->assertArrayHasKey('user', $responseCorrectLogin, 'Primeira Etapa');
 
         // Testando login errado até bloquear o usuário
-        $userWrongLogin = ['email' => 'pipeline@pipeline.dev', 'password' => $this->faker->text];
+        $userWrongLogin = ['email' => $this->user->email, 'password' => $this->faker->text];
 
         for ($i = 0; $i <= config('app.max_wrong_login_attempts'); $i++) {
             $responseWrongLogin = $this->postJson('/api/auth', $userWrongLogin, $this->headerWithoutUser)->json()['message'];
@@ -34,7 +35,7 @@ class BlockUserByWrongLoginUseCaseTest extends Falcon9FeatureWithTenantDatabase
         $this->assertEquals('Usuário inativo! Verifique seu e-mail para ativar sua conta.', $responseWrongLogin['message']);
 
         /** @var User $userDB */
-        $userDB = User::where('email', 'pipeline@pipeline.dev')->first();
+        $userDB = User::where('email', $this->user->email)->first();
         $this->assertEquals(StatusEnum::Inactive->value, $userDB->status);
 
         // Desbloqueando usuário e testando login com sucesso
