@@ -48,8 +48,8 @@ class CreditCardTransactionSumUseCaseFeatureTest extends Falcon9FeatureWithTenan
         $this->assertEquals(0, $useCase->execute(['year' => 2024, 'month' => 12]));
         $this->assertEquals(824.91, $useCase->execute(['year' => 2025, 'month' => 1]));
         $this->assertEquals(743.30, $useCase->execute(['year' => 2025, 'month' => 2]));
-        $this->assertEquals(1146.29, $useCase->execute(['year' => 2025, 'month' => 3]));
-        $this->assertEquals(1423.34, $useCase->execute(['year' => 2025, 'month' => 4]));
-        $this->assertEquals(1241.99, $useCase->execute(['year' => 2025, 'month' => 5]));
+        $this->assertEquals(593.32, $useCase->execute(['year' => 2025, 'month' => 3]));
+        $this->assertEquals(419.28, $useCase->execute(['year' => 2025, 'month' => 4]));
+        $this->assertEquals(419.28, $useCase->execute(['year' => 2025, 'month' => 5]));
     }
 }

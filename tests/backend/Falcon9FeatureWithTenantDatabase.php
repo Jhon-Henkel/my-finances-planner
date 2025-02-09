@@ -25,7 +25,6 @@ abstract class Falcon9FeatureWithTenantDatabase extends BaseTestCase
         parent::setUp();
         $this->withoutMiddleware(VerifyCsrfToken::class);
         $this->configureServer();
-        DB::beginTransaction();
         $this->headerWithoutUser = ['Content-Type' => 'application/json', 'Accept' => 'application/json', 'MFP-TOKEN' => config('app.mfp_token')];
         $user = User::where('name', '=', 'Pipeline User')->first();
         if (is_null($user)) {
@@ -34,6 +33,7 @@ abstract class Falcon9FeatureWithTenantDatabase extends BaseTestCase
         $this->user = $user;
         $this->connectOnTenant();
         $this->apiHeaders = $this->makeApiHeaders();
+        DB::beginTransaction();
     }
 
     protected function configureServer(): void
@@ -68,11 +68,12 @@ abstract class Falcon9FeatureWithTenantDatabase extends BaseTestCase
 
     protected function connectOnTenant(): void
     {
-        Config::set('database.default', DatabaseConnectionEnum::Test->value);
+        $connection = config('database.connections.' . DatabaseConnectionEnum::Tenant->value);
         $tenant = $this->user->tenant();
         $connection['database'] = $tenant->database;
         $connection['username'] = $tenant->username;
         $connection['password'] = $tenant->password;
         Config::set(["database.connections.$tenant->tenant_hash" => $connection]);
+        Config::set('database.default', $tenant->tenant_hash);
     }
 }
