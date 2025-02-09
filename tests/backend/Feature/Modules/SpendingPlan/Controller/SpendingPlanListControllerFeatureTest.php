@@ -39,6 +39,7 @@ class SpendingPlanListControllerFeatureTest extends Falcon9FeatureWithTenantData
     {
         $response = $this->getJson("/api/v2/spending-plan?month=$month&year=$year", $this->makeApiHeaders());
 
+        $response->dump();
         $response->assertStatus(200);
 
         $this->assertStringContainsString($nextUrlContains, $response->json('links.next'));
