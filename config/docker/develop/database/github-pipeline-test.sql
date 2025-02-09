@@ -32,3 +32,8 @@ INSERT INTO 370171777f0ef09ea68fd2915adb6703.migrations (migration, batch) VALUE
 INSERT INTO 370171777f0ef09ea68fd2915adb6703.migrations (migration, batch) VALUES ('2024_12_08_143336_add_status_column_on_wallets', 1);
 INSERT INTO 370171777f0ef09ea68fd2915adb6703.migrations (migration, batch) VALUES ('2024_12_24_143336_add_status_column_on_credit_card', 1);
 INSERT INTO 370171777f0ef09ea68fd2915adb6703.migrations (migration, batch) VALUES ('2025_02_05_201245_added_column_bank_slip_code_on_future_spent', 1);
+
+-- Populate tenant configurations
+INSERT INTO 370171777f0ef09ea68fd2915adb6703.configurations (name, value) VALUES ('market_planner_value', '0');
+INSERT INTO 370171777f0ef09ea68fd2915adb6703.configurations (name, value) VALUES ('must_show_welcome_page', '1');
+
