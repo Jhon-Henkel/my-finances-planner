@@ -24,7 +24,9 @@ function makeDueDate() {
 
 function getColorForForecast() {
     const today = UtilCalendar.getToday().getDate()
-    if (props.card.isThisMonthInvoicePayed) {
+    if (! props.card.active) {
+        return 'medium'
+    } else if (props.card.isThisMonthInvoicePayed) {
         return 'success'
     } else if (props.card.dueDate < today) {
         return 'danger'
@@ -70,7 +72,7 @@ function getColorForForecast() {
                     </ion-row>
                     <ion-row>
                         <ion-col>
-                            <ion-progress-bar :value="usedLimitPercentage"/>
+                            <ion-progress-bar :value="usedLimitPercentage" :color="props.card.active ? 'primary' : 'medium'"/>
                         </ion-col>
                     </ion-row>
                     <ion-row>

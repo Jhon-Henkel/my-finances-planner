@@ -100,14 +100,6 @@ onMounted(async () => {
             <ion-item-sliding v-for="(item, index) in store.inactiveCards" :key="index">
                 <mfp-credit-card-list-item :card="item"/>
                 <ion-item-options side="end">
-                    <ion-item-option color="success" @click="pay(item)">
-                        <ion-icon slot="top" :icon="checkmarkOutline"/>
-                        Pagar
-                    </ion-item-option>
-                    <ion-item-option color="primary" @click="goToInvoice(item.id)">
-                        <ion-icon slot="top" :icon="documentTextOutline"/>
-                        Faturas
-                    </ion-item-option>
                     <ion-item-option color="light" @click="optionsAction(item)">
                         <ion-icon slot="top" :icon="ellipsisHorizontal"/>
                         Opções
