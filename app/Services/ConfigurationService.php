@@ -32,7 +32,7 @@ class ConfigurationService extends BasicService
         }
     }
 
-    public function findConfigByName(string $configName, User $userToConnect = null): null|ConfigurationDTO
+    public function findConfigByName(string $configName, User|null $userToConnect = null): null|ConfigurationDTO
     {
         $configCache = MfpCacheManager::getConfig($configName);
         if ($configCache) {
