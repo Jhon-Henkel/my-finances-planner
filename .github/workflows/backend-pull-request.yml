@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: jhowrf/php8.3-apache:latest
+      image: jhowrf/php:8.4
 
     steps:
       - name: 🔥 Configuring checkout
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: jhowrf/php8.3-apache:latest
+      image: jhowrf/php:8.4
 
     steps:
       - name: 🔥 Configuring checkout
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: jhowrf/php8.3-apache:latest
+      image: jhowrf/php:8.4
 
     services:
       mysql:

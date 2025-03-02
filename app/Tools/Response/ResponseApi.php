@@ -12,7 +12,7 @@ class ResponseApi
         return response()->json(null, StatusCodeEnum::HttpCreated->value);
     }
 
-    public static function renderOk(array $data = null): JsonResponse
+    public static function renderOk(array|null $data = null): JsonResponse
     {
         return response()->json($data, StatusCodeEnum::HttpOk->value);
     }
