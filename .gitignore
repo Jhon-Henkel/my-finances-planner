@@ -33,5 +33,5 @@ spec/coverage
 .env.bkp
 /public/build-ionic
 .jetclient
-docker-compose.yml
+/docker-compose.yml
 market_control
