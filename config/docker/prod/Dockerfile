@@ -1,6 +1,6 @@
 FROM composer AS composer-php
 
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 COPY ../../.. .
 COPY --from=composer-php /usr/bin/composer /usr/bin/composer
@@ -20,7 +20,7 @@ RUN addgroup --gid 1000 appuser; \
     sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf; \
     service apache2 restart;
 
-ENV DOCKERIZE_VERSION v0.6.1
+ENV DOCKERIZE_VERSION=v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
