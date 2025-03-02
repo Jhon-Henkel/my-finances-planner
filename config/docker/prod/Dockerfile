@@ -6,7 +6,7 @@ COPY ../../.. .
 COPY --from=composer-php /usr/bin/composer /usr/bin/composer
 
 RUN docker-php-ext-install opcache
-COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY config/docker/prod/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 RUN apt-get update && apt-get install -y zlib1g-dev libzip-dev unzip
 RUN docker-php-ext-install zip
