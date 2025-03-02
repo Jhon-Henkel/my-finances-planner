@@ -6,10 +6,6 @@ backend-stop:
 	@echo "Stopping container..."
 	docker compose stop
 
-backend-restart:
-	@echo "Restarting container..."
-	docker compose restart
-
 backend-bash:
 	@echo "Starting bash..."
 	docker compose start && docker exec -it mfp_app bash
@@ -33,4 +29,8 @@ create-production-queue-vhost $(username):
 	docker exec mfp_rabbitmq /bin/bash -c "rabbitmqctl delete_vhost /" && \
 	docker exec mfp_rabbitmq /bin/bash -c "rabbitmqctl set_permissions -p production $(username) \".*\" \".*\" \".*\""
 
-.PHONY: backend-start backend-stop backend-restart backend-bash front-dev setup-frontend rebuild-container create-production-queue-vhost
+tail:
+	@echo "Tailing logs..."
+	tail -f -n 100 storage/logs/laravel.log
+
+.PHONY: backend-start backend-stop backend-bash front-dev setup-frontend rebuild-container create-production-queue-vhost tail
