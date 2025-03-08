@@ -16,6 +16,7 @@ import {ISpendingPlanForm} from "@/modules/spending-plan/model/ISpendingPlanForm
 import {ICreditCardForm} from "@/modules/credit-card/service/ICreditCardForm"
 import {CreditCardInvoiceItemModel} from "@/modules/credit-card/model/CreditCardInvoiceItemModel"
 import {UtilTime} from "@/modules/@shared/util/UtilTime"
+import {IEarningPlanForm} from "@/modules/earning-plan/service/IEarningPlanForm"
 
 const baseApiUrl: string = process.env.VITE_API_BASE_URL ?? ''
 const requestTimeout: number = UtilTime.threeSecondsInMs
@@ -133,16 +134,8 @@ export const ApiRouter = {
         }
     },
     futureExpense: {
-        post: async (data: ISpendingPlanForm) => {
-            const response = await axios.post(mountApiUrl('future-spent'), data, makeHeaders())
-            return response.data
-        },
         get: async (id: number) => {
             const response = await axios.get(mountApiUrl('future-spent', id), makeHeaders())
-            return response.data
-        },
-        put: async (id: number, data: ISpendingPlanForm) => {
-            const response = await axios.put(mountApiUrl('future-spent', id), data, makeHeaders())
             return response.data
         },
         delete: async (id: number) => {
@@ -155,11 +148,11 @@ export const ApiRouter = {
         }
     },
     futureProfits: {
-        post: async (data: ISpendingPlanForm) => {
+        post: async (data: IEarningPlanForm) => {
             const response = await axios.post(mountApiUrl('future-gain'), data, makeHeaders())
             return response.data
         },
-        put: async (id: number, data: ISpendingPlanForm) => {
+        put: async (id: number, data: IEarningPlanForm) => {
             const response = await axios.put(mountApiUrl('future-gain', id), data, makeHeaders())
             return response.data
         },
@@ -288,7 +281,15 @@ export const ApiRouter = {
         index: async function (): Promise<ResponseListDefault> {
             const data = await axios.get(mountApiUrl('v2/spending-plan'), makeHeaders())
             return data.data
-        }
+        },
+        post: async (data: ISpendingPlanForm) => {
+            const response = await axios.post(mountApiUrl('v2/spending-plan'), data, makeHeaders())
+            return response.data
+        },
+        put: async (id: number, data: ISpendingPlanForm) => {
+            const response = await axios.put(mountApiUrl('v2/spending-plan', id), data, makeHeaders())
+            return response.data
+        },
     },
     genericListRequestWithAuth: async function (url: string): Promise<ResponseListDefault> {
         const data = await axios.get(url, makeHeaders())

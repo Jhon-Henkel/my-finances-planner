@@ -21,4 +21,9 @@ class ResponseApi
     {
         return response()->json(null, StatusCodeEnum::HttpUnauthorized->value);
     }
+
+    public static function renderInternalServerError(string $error): JsonResponse
+    {
+        return response()->json($error, StatusCodeEnum::HttpInternalServerError->value);
+    }
 }

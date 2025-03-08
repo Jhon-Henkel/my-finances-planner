@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\backend\Feature\Modules\SpendingPlan\Controller;
+namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\List;
 
 use App\Models\WalletModel;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;

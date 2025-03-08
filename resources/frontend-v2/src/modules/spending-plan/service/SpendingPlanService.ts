@@ -13,7 +13,7 @@ export const SpendingPlanService = {
             data.installments = 0
         }
         data.forecast = data.forecast.slice(0, 10)
-        await ApiRouter.futureExpense.post(data)
+        await ApiRouter.spending_plan.post(data)
     },
     get: async (id: number): Promise<SpendingPlanModel> => {
         const data = await ApiRouter.futureExpense.get(id)
@@ -24,7 +24,7 @@ export const SpendingPlanService = {
             data.installments = 0
         }
         data.forecast = data.forecast.slice(0, 10)
-        await ApiRouter.futureExpense.put(data.id, data)
+        await ApiRouter.spending_plan.put(data.id, data)
     },
     delete: async (data: SpendingPlanApiGetDto): Promise<void> => {
         const deleteConfirmAlert = new MfpConfirmAlert('Deseja realmente deletar o plano de despesa?')
