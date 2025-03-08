@@ -68,7 +68,7 @@ function getColorForNextInstallmentDay(): string {
                     <ion-row>
                         <ion-col size="6" class="ion-padding-start">
                             <ion-label class="no-break" v-if="invoiceItem.installments > 0">
-                                Restam {{ invoiceItem.installments }} parcela{{invoiceItem.installments > 1 ? 's' : ''}}
+                                {{ invoiceItem.installments }} parcela{{invoiceItem.installments > 1 ? 's' : ''}}
                                 <ion-icon :icon="receiptOutline" class="icon-start-list-item" color="primary" v-if="invoiceItem.bank_slip_code"/>
                             </ion-label>
                             <ion-label class="no-break" v-else>
