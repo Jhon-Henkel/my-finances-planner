@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {IonBadge, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow} from "@ionic/vue"
-import {chevronBackOutline, receiptOutline} from "ionicons/icons"
+import {analyticsOutline, chevronBackOutline, receiptOutline} from "ionicons/icons"
 import {UtilMoney} from "@/modules/@shared/util/UtilMoney"
 import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
 import EarningPlanApiGetDto from "@/modules/earning-plan/dto/earning-plan.api.get.dto"
@@ -70,10 +70,12 @@ function getColorForNextInstallmentDay(): string {
                             <ion-label class="no-break" v-if="invoiceItem.installments > 0">
                                 {{ invoiceItem.installments }} parcela{{invoiceItem.installments > 1 ? 's' : ''}}
                                 <ion-icon :icon="receiptOutline" class="icon-start-list-item" color="primary" v-if="invoiceItem.bank_slip_code"/>
+                                <ion-icon :icon="analyticsOutline" class="icon-start-list-item" color="danger" v-if="invoiceItem.variable_spending == 1"/>
                             </ion-label>
                             <ion-label class="no-break" v-else>
                                 {{ fixInstallmentLabel }} Fixa
                                 <ion-icon :icon="receiptOutline" class="icon-start-list-item" color="primary" v-if="invoiceItem.bank_slip_code"/>
+                                <ion-icon :icon="analyticsOutline" class="icon-start-list-item" color="danger" v-if="invoiceItem.variable_spending == 1"/>
                             </ion-label>
                         </ion-col>
                     </ion-row>

@@ -8,4 +8,6 @@ export default interface SpendingPlanApiGetDto {
     created_at: string
     updated_at: string
     bank_slip_code: string|null
+    observations: string|null
+    variable_spending: number
 }

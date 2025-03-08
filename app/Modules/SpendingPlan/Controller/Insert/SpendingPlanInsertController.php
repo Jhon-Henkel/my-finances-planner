@@ -24,7 +24,9 @@ class SpendingPlanInsertController extends BaseInsertController
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
             'installments' => 'required|int',
-            'bankSlipCode' => 'string|nullable'
+            'bankSlipCode' => 'string|nullable',
+            'observations' => 'string|nullable',
+            'variableSpending' => 'required|integer',
         ];
     }
 }

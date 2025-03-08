@@ -3,6 +3,7 @@
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Insert;
 
 use App\Enums\Response\StatusCodeEnum;
+use App\Enums\StatusEnum;
 use App\Models\WalletModel;
 use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
@@ -22,8 +23,10 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'forecast' => '2021-05-20',
             'amount' => 100,
             'installments' => 2,
-            'bankSlipCode' => null
-        ], $this->makeApiHeaders())->dump();
+            'bankSlipCode' => null,
+            'observations' => null,
+            'variableSpending' => StatusEnum::Inactive->value
+        ], $this->makeApiHeaders());
 
         $response->assertStatus(StatusCodeEnum::HttpCreated->value);
 
@@ -35,6 +38,9 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
         $this->assertEquals('2021-05-20 00:00:00', $item->forecast);
         $this->assertEquals(100, $item->amount);
         $this->assertEquals(2, $item->installments);
+        $this->assertNull($item->bank_slip_code);
+        $this->assertNull($item->observations);
+        $this->assertEquals(StatusEnum::Inactive->value, $item->variable_spending);
     }
 
     public function testRules(): void
@@ -48,7 +54,9 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
             'installments' => 'required|int',
-            'bankSlipCode' => 'string|nullable'
+            'bankSlipCode' => 'string|nullable',
+            'observations' => 'string|nullable',
+            'variableSpending' => 'required|integer'
         ], $controller->getRules());
     }
 }

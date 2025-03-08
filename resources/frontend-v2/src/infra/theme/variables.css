@@ -71,6 +71,7 @@ http://ionicframework.com/docs/theming/ */
 
 .icon-start-list-item {
     margin-left: 2px;
+    margin-right: 4px;
     height: 1em;
     width: 1em;
     vertical-align: middle;
