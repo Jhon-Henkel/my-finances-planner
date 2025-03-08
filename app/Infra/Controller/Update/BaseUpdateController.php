@@ -3,7 +3,6 @@
 namespace App\Infra\Controller\Update;
 
 use App\Http\Controllers\Controller;
-use App\Infra\Shared\UseCase\Insert\IInsertUseCase;
 use App\Infra\Shared\UseCase\Update\IUpdateUseCase;
 use App\Tools\Response\ResponseApi;
 use App\Tools\Validator\MfpValidator;
