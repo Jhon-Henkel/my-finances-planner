@@ -13,8 +13,6 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
 {
     public function testInsertEndpoint(): void
     {
-        WalletModel::query()->delete();
-
         /** @var WalletModel $wallet */
         $wallet = WalletModel::factory()->create();
 
