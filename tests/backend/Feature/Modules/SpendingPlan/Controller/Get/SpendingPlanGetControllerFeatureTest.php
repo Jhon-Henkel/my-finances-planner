@@ -50,7 +50,7 @@ class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatab
             "id" => $item->id,
             "walletName" => $wallet->name,
             "walletId" => $wallet->id,
-            "amount" => "100.00",
+            "amount" => 100.00,
             "description" => "Spending Plan 5",
             "installments" => 2,
             "forecast" => "2021-05-20 00:00:00",
