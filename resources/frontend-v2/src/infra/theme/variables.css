@@ -69,6 +69,13 @@ http://ionicframework.com/docs/theming/ */
     margin-left: 5px;
 }
 
+.icon-start-list-item {
+    margin-left: 5px;
+    height: 1em;
+    width: 1em;
+    vertical-align: middle;
+}
+
 .text-truncate {
     overflow: hidden;
     text-overflow: ellipsis;
