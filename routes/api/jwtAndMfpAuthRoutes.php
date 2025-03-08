@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Modules\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
 use App\Modules\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
+use App\Modules\SpendingPlan\Controller\Get\SpendingPlanGetController;
 use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
 use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
 use App\Modules\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
@@ -24,11 +25,12 @@ use Illuminate\Support\Facades\Route;
 return function () {
     Route::prefix('/')->middleware('auth.api:api')->group(function () {
 
-        Route::prefix('v2/')->group(function () {
+        Route::prefix('v2')->group(function () {
             Route::prefix('spending-plan')->group(function () {
                 Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
                 Route::post('', SpendingPlanInsertController::class)->name(RouteEnum::ApiSpendingPlanInsert->value);
                 Route::put('{id}', SpendingPlanUpdateController::class)->name(RouteEnum::ApiSpendingPlanUpdate->value);
+                Route::get('{id}', SpendingPlanGetController::class)->name(RouteEnum::ApiSpendingPlanGet->value);
             });
             Route::prefix('earnings-plan')->group(function () {
                 Route::get('', EarningPlanListController::class)->name(RouteEnum::ApiEarningPlanList->value);
@@ -119,8 +121,6 @@ return function () {
         });
 
         Route::prefix('future-spent')->group(function () {
-            Route::get('/{id}', [FutureSpentController::class, 'show'])
-                ->name(RouteEnum::ApiFutureSpentShow->value);
             Route::post('/{id}/pay', [FutureSpentController::class, 'paySpent'])
                 ->name(RouteEnum::ApiFutureSpentPay->value);
             Route::delete('/{id}', [FutureSpentController::class, 'delete'])

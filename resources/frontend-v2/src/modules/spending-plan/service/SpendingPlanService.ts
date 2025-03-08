@@ -16,7 +16,7 @@ export const SpendingPlanService = {
         await ApiRouter.spending_plan.post(data)
     },
     get: async (id: number): Promise<SpendingPlanModel> => {
-        const data = await ApiRouter.futureExpense.get(id)
+        const data = await ApiRouter.spending_plan.get(id)
         return new SpendingPlanModel(data)
     },
     update: async (data: ISpendingPlanForm, isFixExpense: boolean): Promise<void> => {

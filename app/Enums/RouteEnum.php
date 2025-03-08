@@ -30,7 +30,6 @@ enum RouteEnum: string
     case ApiFutureGainUpdate = 'apiFutureGainUpdate';
     case ApiFutureGainDelete = 'apiFutureGainDelete';
     case ApiFutureGainReceive = 'apiFutureGainReceive';
-    case ApiFutureSpentShow = 'apiFutureSpentShow';
     case ApiFutureSpentDelete = 'apiFutureSpentDelete';
     case ApiFutureSpentPay = 'apiFutureSpentPay';
     case ApiConfigurationUpdate = 'apiConfigurationUpdate';
@@ -59,8 +58,12 @@ enum RouteEnum: string
     case ApiSpendingPlanList = 'spending-plan.list';
     case ApiSpendingPlanInsert = 'spending-plan.insert';
     case ApiSpendingPlanUpdate = 'spending-plan.update';
+    case ApiSpendingPlanGet = 'spending-plan.get';
+
     case ApiEarningPlanList = 'earning-plan.list';
+
     case ApiMarketPlannerShow = 'market-planner.show';
+
     case ApiCreditCardInvoiceList = 'credit-card-invoice.list';
 
     //////////// API MARKET CONTROL ////////////]

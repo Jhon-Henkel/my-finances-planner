@@ -23,7 +23,7 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'amount' => 100,
             'installments' => 2,
             'bankSlipCode' => null
-        ], $this->makeApiHeaders())->dump();
+        ], $this->makeApiHeaders());
 
         $response->assertStatus(StatusCodeEnum::HttpCreated->value);
 

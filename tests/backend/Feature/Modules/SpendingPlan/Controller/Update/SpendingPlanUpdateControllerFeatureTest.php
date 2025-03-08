@@ -11,7 +11,7 @@ use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
 {
-    public function testInsertEndpoint(): void
+    public function testUpdateEndpoint(): void
     {
         /** @var WalletModel $wallet */
         $wallet = WalletModel::factory()->create();
