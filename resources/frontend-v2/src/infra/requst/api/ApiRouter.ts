@@ -138,10 +138,6 @@ export const ApiRouter = {
             const response = await axios.get(mountApiUrl('future-spent', id), makeHeaders())
             return response.data
         },
-        put: async (id: number, data: ISpendingPlanForm) => {
-            const response = await axios.put(mountApiUrl('future-spent', id), data, makeHeaders())
-            return response.data
-        },
         delete: async (id: number) => {
             const response = await axios.delete(mountApiUrl('future-spent', id), makeHeaders())
             return response.data
@@ -288,6 +284,10 @@ export const ApiRouter = {
         },
         post: async (data: ISpendingPlanForm) => {
             const response = await axios.post(mountApiUrl('v2/spending-plan'), data, makeHeaders())
+            return response.data
+        },
+        put: async (id: number, data: ISpendingPlanForm) => {
+            const response = await axios.put(mountApiUrl('v2/spending-plan', id), data, makeHeaders())
             return response.data
         },
     },

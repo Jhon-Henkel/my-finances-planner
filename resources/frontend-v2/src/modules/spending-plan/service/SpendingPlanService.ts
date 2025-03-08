@@ -24,7 +24,7 @@ export const SpendingPlanService = {
             data.installments = 0
         }
         data.forecast = data.forecast.slice(0, 10)
-        await ApiRouter.futureExpense.put(data.id, data)
+        await ApiRouter.spending_plan.put(data.id, data)
     },
     delete: async (data: SpendingPlanApiGetDto): Promise<void> => {
         const deleteConfirmAlert = new MfpConfirmAlert('Deseja realmente deletar o plano de despesa?')

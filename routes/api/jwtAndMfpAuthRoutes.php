@@ -16,6 +16,7 @@ use App\Modules\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
 use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
 use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
+use App\Modules\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
 use App\Modules\Wallet\Controller\WalletController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ return function () {
             Route::prefix('spending-plan')->group(function () {
                 Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
                 Route::post('', SpendingPlanInsertController::class)->name(RouteEnum::ApiSpendingPlanInsert->value);
+                Route::put('{id}', SpendingPlanUpdateController::class)->name(RouteEnum::ApiSpendingPlanUpdate->value);
             });
             Route::prefix('earnings-plan')->group(function () {
                 Route::get('', EarningPlanListController::class)->name(RouteEnum::ApiEarningPlanList->value);
@@ -121,8 +123,6 @@ return function () {
                 ->name(RouteEnum::ApiFutureSpentShow->value);
             Route::post('/{id}/pay', [FutureSpentController::class, 'paySpent'])
                 ->name(RouteEnum::ApiFutureSpentPay->value);
-            Route::put('/{id}', [FutureSpentController::class, 'update'])
-                ->name(RouteEnum::ApiFutureSpentUpdate->value);
             Route::delete('/{id}', [FutureSpentController::class, 'delete'])
                 ->name(RouteEnum::ApiFutureSpentDelete->value);
         });

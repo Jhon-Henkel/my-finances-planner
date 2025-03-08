@@ -35,7 +35,6 @@ class RouteEnumUnitTest extends Falcon9
         $this->assertEquals('apiFutureGainDelete', RouteEnum::ApiFutureGainDelete->value);
         $this->assertEquals('apiFutureGainReceive', RouteEnum::ApiFutureGainReceive->value);
         $this->assertEquals('apiFutureSpentShow', RouteEnum::ApiFutureSpentShow->value);
-        $this->assertEquals('apiFutureSpentUpdate', RouteEnum::ApiFutureSpentUpdate->value);
         $this->assertEquals('apiFutureSpentDelete', RouteEnum::ApiFutureSpentDelete->value);
         $this->assertEquals('apiFutureSpentPay', RouteEnum::ApiFutureSpentPay->value);
         $this->assertEquals('apiConfigurationUpdate', RouteEnum::ApiConfigurationUpdate->value);
