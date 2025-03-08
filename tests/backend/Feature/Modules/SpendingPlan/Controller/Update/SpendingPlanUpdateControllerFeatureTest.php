@@ -4,7 +4,6 @@ namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Update;
 
 use App\Enums\Response\StatusCodeEnum;
 use App\Models\WalletModel;
-use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
 use App\Modules\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
 use Mockery;
