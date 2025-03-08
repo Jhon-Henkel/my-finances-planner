@@ -31,8 +31,7 @@ import MfpCirclePlusButton from "@/modules/@shared/components/button/MfpCirclePl
 import {WalletService} from "@/modules/wallet/service/WalletService"
 import MfpTotalRegistersRow from "@/modules/@shared/components/page/MfpTotalRegistersRow.vue"
 import MfpBalanceCard from "@/modules/@shared/components/card/MfpBalanceCard.vue"
-import MfpExpensesAndIncomesDoubleInlineCards
-    from "@/modules/@shared/components/card/MfpExpensesAndIncomesDoubleInlineCards.vue"
+import MfpExpensesAndIncomesDoubleInlineCards from "@/modules/@shared/components/card/MfpExpensesAndIncomesDoubleInlineCards.vue"
 
 const formModal = new MfpModal(MfpMovementsFormModal)
 const filterModal = new MfpModal(MfpMovementsFilterModal)
@@ -80,7 +79,7 @@ async function handleRefresh(event: any) {
 }
 
 onMounted(async () => {
-    await updateMovements()
+    await MovementService.updateMovementList()
 })
 </script>
 

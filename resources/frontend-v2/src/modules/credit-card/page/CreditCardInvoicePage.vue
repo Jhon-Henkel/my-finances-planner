@@ -16,9 +16,7 @@ import {
 import MfpCirclePlusButton from "@/modules/@shared/components/button/MfpCirclePlusButton.vue"
 import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
 import MfpInvoiceListSkeletonLoad from "@/modules/invoice/component/MfpInvoiceListSkeletonLoad.vue"
-import {ellipsisHorizontal} from "ionicons/icons"
-import {MfpActionSheet} from "@/modules/@shared/components/action-sheet/MfpActionSheet"
-import {UtilActionSheet} from "@/modules/@shared/util/UtilActionSheet"
+import {pencilOutline, trashOutline} from "ionicons/icons"
 import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import {useCreditCardInvoiceStore} from "@/modules/credit-card/store/CreditCardInvoiceStore"
 import {useCreditCardStore} from "@/modules/credit-card/store/CreditCardStore"
@@ -36,19 +34,16 @@ const invoiceStore = useCreditCardInvoiceStore()
 const cardStore = useCreditCardStore()
 const cardId = ref(useRoute().params.id)
 const formModal = new MfpModal(MfpCreditCardInvoiceFormModal)
-
 const card = ref()
 
-async function optionsAction(item: ICreditCardInvoiceListDto) {
-    const actionSheet = new MfpActionSheet(UtilActionSheet.makeButtons(true, true, true))
-    const action = await actionSheet.open()
-    if (action == 'edit') {
-        const invoiceItem = await CreditCardInvoiceItemService.get(item.id)
-        await formModal.open({invoiceItem})
-    } else if (action == 'delete') {
-        await CreditCardInvoiceItemService.delete(item, parseInt(String(cardId.value)))
-        await loadInvoices()
-    }
+async function delete_item(item: ICreditCardInvoiceListDto): Promise<void> {
+    await CreditCardInvoiceItemService.delete(item, parseInt(String(cardId.value)))
+    await loadInvoices()
+}
+
+async function edit_item(item: ICreditCardInvoiceListDto): Promise<void> {
+    const invoiceItem = await CreditCardInvoiceItemService.get(item.id)
+    await formModal.open({invoiceItem})
 }
 
 async function loadInvoices(): Promise<void> {
@@ -97,9 +92,13 @@ onIonViewDidEnter(() => {
             <ion-item-sliding v-for="(item, index) in invoiceStore.invoice" :key="index">
                 <mfp-invoice-list-item-v2 :invoice-item="item" :store="invoiceStore" fix-installment-label="Parcela" :is-credit-card-item="true"/>
                 <ion-item-options side="end">
-                    <ion-item-option color="light" @click="optionsAction(item)">
-                        <ion-icon slot="top" :icon="ellipsisHorizontal"/>
-                        Opções
+                    <ion-item-option color="primary" @click="edit_item(item)">
+                        <ion-icon slot="top" :icon="pencilOutline"/>
+                        Editar
+                    </ion-item-option>
+                    <ion-item-option color="danger" @click="delete_item(item)">
+                        <ion-icon slot="top" :icon="trashOutline"/>
+                        Deletar
                     </ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>
