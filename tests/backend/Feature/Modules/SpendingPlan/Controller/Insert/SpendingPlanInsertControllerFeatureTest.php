@@ -18,6 +18,7 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'forecast' => '2021-05-20',
             'amount' => 100,
             'installments' => 2,
+            'bankSlipCode' => null
         ], $this->makeApiHeaders());
 
         $response->assertStatus(StatusCodeEnum::HttpCreated->value);
@@ -35,6 +36,7 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
     public function testRules(): void
     {
         $controller = Mockery::mock(SpendingPlanInsertController::class)->makePartial();
+        $controller->shouldAllowMockingProtectedMethods();
 
         $this->assertEquals([
             'description' => 'required|max:255|string',

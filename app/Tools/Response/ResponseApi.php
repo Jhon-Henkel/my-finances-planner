@@ -4,7 +4,6 @@ namespace App\Tools\Response;
 
 use App\Enums\Response\StatusCodeEnum;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ResponseApi
 {
