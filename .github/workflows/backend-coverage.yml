@@ -38,7 +38,7 @@ jobs:
       - name: 🛠️ Installing dependencies
         run: |
           composer install
-          apt-get update && apt-get install -y default-mysql-client
+          apt-get update && apt-get install -y default-mysql-client git gnupg
 
       - name: 🛠 Setup Runner Database
         run: |
@@ -64,6 +64,6 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./tests/backend/coverage/clover.xml
+          files: ./clover.xml
           flags: backend
           name: Backend Test
