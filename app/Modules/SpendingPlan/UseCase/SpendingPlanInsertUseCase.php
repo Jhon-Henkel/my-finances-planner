@@ -15,7 +15,9 @@ class SpendingPlanInsertUseCase implements IInsertUseCase
             'forecast' => $data['forecast'],
             'amount' => $data['amount'],
             'installments' => $data['installments'],
-            'bank_slip_code' => $data['bankSlipCode'] ?? null
+            'bank_slip_code' => $data['bankSlipCode'] ?? null,
+            'observations' => $data['observations'] ?? null,
+            'variable_spending' => $data['variableSpending'],
         ]);
     }
 }

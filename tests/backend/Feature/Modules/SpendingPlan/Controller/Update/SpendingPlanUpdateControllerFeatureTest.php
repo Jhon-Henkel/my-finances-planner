@@ -3,6 +3,7 @@
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Update;
 
 use App\Enums\Response\StatusCodeEnum;
+use App\Enums\StatusEnum;
 use App\Models\WalletModel;
 use App\Modules\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
@@ -22,7 +23,9 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'forecast' => '2021-05-20',
             'amount' => 100,
             'installments' => 2,
-            'bankSlipCode' => null
+            'bankSlipCode' => null,
+            'observations' => 'Observations',
+            'variableSpending' => StatusEnum::Inactive->value
         ], $this->makeApiHeaders());
 
         $response->assertStatus(StatusCodeEnum::HttpCreated->value);
@@ -42,7 +45,9 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'forecast' => '2021-05-20',
             'amount' => 100,
             'installments' => 2,
-            'bankSlipCode' => '123456'
+            'bankSlipCode' => '123456',
+            'observations' => 'Observations Updated',
+            'variableSpending' => StatusEnum::Active->value
         ], $this->makeApiHeaders());
 
         $response->assertStatus(StatusCodeEnum::HttpOk->value);
@@ -55,6 +60,9 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
         $this->assertEquals('2021-05-20 00:00:00', $item->forecast);
         $this->assertEquals(100, $item->amount);
         $this->assertEquals(2, $item->installments);
+        $this->assertEquals('123456', $item->bank_slip_code);
+        $this->assertEquals('Observations Updated', $item->observations);
+        $this->assertEquals(StatusEnum::Active->value, $item->variable_spending);
     }
 
     public function testRules(): void
@@ -68,7 +76,9 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
             'installments' => 'required|int',
-            'bankSlipCode' => 'string|nullable'
+            'bankSlipCode' => 'string|nullable',
+            'observations' => 'string|nullable',
+            'variableSpending' => 'required|integer'
         ], $controller->getRules());
     }
 }

@@ -18,7 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  * @property string $bank_slip_code
- *
+ * @property string $observations
+ * @property int $variable_spending
  *
  * @mixin Builder
  */
@@ -27,7 +28,17 @@ class SpendingPlanModel extends Model
     use HasFactory;
 
     protected $table = 'future_spent';
-    protected $fillable = ['id', 'wallet_id', 'description', 'amount', 'forecast', 'installments'];
+    protected $fillable = [
+        'id',
+        'wallet_id',
+        'description',
+        'amount',
+        'forecast',
+        'installments',
+        'bank_slip_code',
+        'observations',
+        'variable_spending'
+    ];
     protected $casts = [
         'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value

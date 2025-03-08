@@ -3,6 +3,7 @@
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Get;
 
 use App\Enums\Response\StatusCodeEnum;
+use App\Enums\StatusEnum;
 use App\Models\WalletModel;
 use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
@@ -20,7 +21,9 @@ class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatab
             'forecast' => '2021-05-20',
             'amount' => 100,
             'installments' => 2,
-            'bankSlipCode' => null
+            'bankSlipCode' => null,
+            'observations' => null,
+            'variableSpending' => StatusEnum::Inactive->value
         ], $this->makeApiHeaders());
 
         $response->assertStatus(StatusCodeEnum::HttpCreated->value);
@@ -31,7 +34,9 @@ class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatab
             'forecast' => '2021-05-20',
             'amount' => 100,
             'installments' => 2,
-            'bankSlipCode' => null
+            'bankSlipCode' => null,
+            'observations' => null,
+            'variableSpending' => StatusEnum::Inactive->value
         ], $this->makeApiHeaders());
 
         $response->assertStatus(StatusCodeEnum::HttpCreated->value);
@@ -49,7 +54,9 @@ class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatab
             "description" => "Spending Plan 5",
             "installments" => 2,
             "forecast" => "2021-05-20 00:00:00",
-            "bankSlipCode" => null
+            "bankSlipCode" => null,
+            "observations" => null,
+            "variable_spending" => StatusEnum::Inactive->value
         ]);
     }
 }
