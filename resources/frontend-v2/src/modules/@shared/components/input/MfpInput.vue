@@ -41,7 +41,7 @@ function updateValue(value: any) {
             :placeholder="placeholder"
             :clear-input="clearInput"
             label-placement="floating"
-            @input="updateValue($event.target.value)"
+            @change="updateValue($event.target.value)"
             :autocorrect="type == 'text' ? 'on' : 'off'"
             :autocomplete="type == 'text' ? 'on' : 'off'"
         >
