@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Modules\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
 use App\Modules\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
+use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
 use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
 use App\Modules\Wallet\Controller\WalletController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ return function () {
         Route::prefix('v2/')->group(function () {
             Route::prefix('spending-plan')->group(function () {
                 Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
+                Route::post('', SpendingPlanInsertController::class)->name(RouteEnum::ApiSpendingPlanInsert->value);
             });
             Route::prefix('earnings-plan')->group(function () {
                 Route::get('', EarningPlanListController::class)->name(RouteEnum::ApiEarningPlanList->value);
@@ -117,8 +119,6 @@ return function () {
         Route::prefix('future-spent')->group(function () {
             Route::get('/{id}', [FutureSpentController::class, 'show'])
                 ->name(RouteEnum::ApiFutureSpentShow->value);
-            Route::post('', [FutureSpentController::class, 'insert'])
-                ->name(RouteEnum::ApiFutureSpentInsert->value);
             Route::post('/{id}/pay', [FutureSpentController::class, 'paySpent'])
                 ->name(RouteEnum::ApiFutureSpentPay->value);
             Route::put('/{id}', [FutureSpentController::class, 'update'])

@@ -4,6 +4,7 @@ namespace App\Tools\Response;
 
 use App\Enums\Response\StatusCodeEnum;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ResponseApi
 {
@@ -20,5 +21,10 @@ class ResponseApi
     public static function renderUnauthorized(): JsonResponse
     {
         return response()->json(null, StatusCodeEnum::HttpUnauthorized->value);
+    }
+
+    public static function renderInternalServerError(string $error): JsonResponse
+    {
+        return response()->json($error, StatusCodeEnum::HttpInternalServerError->value);
     }
 }
