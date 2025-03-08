@@ -36,12 +36,12 @@ const cardId = ref(useRoute().params.id)
 const formModal = new MfpModal(MfpCreditCardInvoiceFormModal)
 const card = ref()
 
-async function delete_item(item: ICreditCardInvoiceListDto): void {
+async function delete_item(item: ICreditCardInvoiceListDto): Promise<void> {
     await CreditCardInvoiceItemService.delete(item, parseInt(String(cardId.value)))
     await loadInvoices()
 }
 
-async function edit_item(item: ICreditCardInvoiceListDto): void {
+async function edit_item(item: ICreditCardInvoiceListDto): Promise<void> {
     const invoiceItem = await CreditCardInvoiceItemService.get(item.id)
     await formModal.open({invoiceItem})
 }
