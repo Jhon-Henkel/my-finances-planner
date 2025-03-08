@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {IonButton, IonButtons, IonHeader, IonTitle, IonToolbar} from "@ionic/vue"
+import {ref, watch} from "vue"
 
-defineProps(
+const props = defineProps(
     {
         title: {
             type: String,
@@ -26,6 +27,16 @@ defineProps(
 )
 
 const emits = defineEmits(['close-action', 'save-action'])
+const isButtonDisabled = ref(props.saveActionButtonDisabled);
+
+function saveAction() {
+    emits('save-action')
+    isButtonDisabled.value = true
+}
+
+watch(() => props.saveActionButtonDisabled, (newVal) => {
+    isButtonDisabled.value = newVal;
+});
 </script>
 
 <template>
@@ -38,7 +49,7 @@ const emits = defineEmits(['close-action', 'save-action'])
                 </ion-button>
             </ion-buttons>
             <ion-buttons slot="end" v-if="!saveActionHidden">
-                <ion-button @click="emits('save-action')" :disabled="saveActionButtonDisabled">
+                <ion-button @click="saveAction" :disabled="isButtonDisabled">
                     {{ saveActionLabel }}
                 </ion-button>
             </ion-buttons>
