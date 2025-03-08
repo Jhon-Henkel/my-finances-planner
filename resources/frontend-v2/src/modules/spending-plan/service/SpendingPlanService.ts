@@ -12,6 +12,11 @@ export const SpendingPlanService = {
         if (isFixExpense) {
             data.installments = 0
         }
+        if (!data.variableSpending) {
+            data.variableSpending = 0
+        } else {
+            data.variableSpending = 1
+        }
         data.forecast = data.forecast.slice(0, 10)
         await ApiRouter.spending_plan.post(data)
     },
@@ -22,6 +27,11 @@ export const SpendingPlanService = {
     update: async (data: ISpendingPlanForm, isFixExpense: boolean): Promise<void> => {
         if (isFixExpense) {
             data.installments = 0
+        }
+        if (!data.variableSpending) {
+            data.variableSpending = 0
+        } else {
+            data.variableSpending = 1
         }
         data.forecast = data.forecast.slice(0, 10)
         await ApiRouter.spending_plan.put(data.id, data)
@@ -45,6 +55,8 @@ export const SpendingPlanService = {
             forecast: UtilCalendar.getTodayIso(),
             installments: 1,
             bankSlipCode: null,
+            observations: undefined,
+            variableSpending: false
         }
     },
     reloadStore: async () => {

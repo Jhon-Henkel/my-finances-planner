@@ -6,6 +6,8 @@ export class SpendingPlanModel {
     forecast: string
     installments: number
     bankSlipCode: null|string
+    observations: string|undefined
+    variableSpending: boolean
 
     constructor(data: any) {
         this.id = data.id
@@ -15,5 +17,7 @@ export class SpendingPlanModel {
         this.forecast = data.forecast
         this.installments = data.installments
         this.bankSlipCode = data?.bankSlipCode
+        this.observations = data.observations == undefined ? '' : data.observations
+        this.variableSpending = data.variable_spending == 1
     }
 }

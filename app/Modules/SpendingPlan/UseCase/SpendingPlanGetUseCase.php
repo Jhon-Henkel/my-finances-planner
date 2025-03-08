@@ -14,7 +14,7 @@ class SpendingPlanGetUseCase implements IGetUseCase
             'id' => $item->id,
             'walletName' => $item->wallet()->name,
             'walletId' => $item->wallet_id,
-            'amount' => $item->amount,
+            'amount' => floatval($item->amount),
             'description' => $item->description,
             'installments' => $item->installments,
             'forecast' => $item->forecast,

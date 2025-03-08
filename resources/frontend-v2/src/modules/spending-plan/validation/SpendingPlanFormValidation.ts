@@ -8,6 +8,8 @@ const futureExpenseSchema = z.object({
     amount: z.number().min(0, {message: 'Campo "Valor da Parcela" deve ser maior ou igual a zero'}),
     walletId: z.number().min(1, {message: 'Campo "Carteira" deve ser selecionado'}),
     forecast: z.string().min(10, {message: 'Campo "Próximo Pagamento" é obrigatório'}),
+    variableSpending: z.boolean(),
+    observations: z.string().optional(),
 })
 
 export const SpendingPlanFormValidation: IFormValidation = {

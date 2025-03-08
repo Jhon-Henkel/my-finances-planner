@@ -71,6 +71,8 @@ onMounted(() => {
                 v-if="!fixExpense"
             />
             <mfp-wallet-select label="Carteira Preferencial" v-model="internalFutureExpense.walletId"/>
+            <mfp-input-toggle v-model="internalFutureExpense.variableSpending" label="Despesa Variável"/>
+            <mfp-input v-model="internalFutureExpense.observations" label="Observações" placeholder="Observações Gerais"/>
         </template>
     </mfp-modal-content>
 </template>

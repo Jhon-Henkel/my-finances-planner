@@ -6,4 +6,6 @@ export interface ISpendingPlanForm {
     amount: number
     installments: number
     bankSlipCode: string | null
+    observations: string | undefined
+    variableSpending: boolean|number
 }
