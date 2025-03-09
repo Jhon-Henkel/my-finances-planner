@@ -15,7 +15,6 @@ class RouteEnumUnitTest extends Falcon9
         $this->assertEquals('apiWalletDelete', RouteEnum::ApiWalletDelete->value);
         $this->assertEquals('apiMovementIndex', RouteEnum::ApiMovementIndex->value);
         $this->assertEquals('apiMovementIndexFiltered', RouteEnum::ApiMovementIndexFiltered->value);
-        $this->assertEquals('apiMovementDelete', RouteEnum::ApiMovementDelete->value);
         $this->assertEquals('apiMovementInsertTransfer', RouteEnum::ApiMovementInsertTransfer->value);
         $this->assertEquals('apiMovementDeleteTransfer', RouteEnum::ApiMovementDeleteTransfer->value);
         $this->assertEquals('apiCreditCardIndex', RouteEnum::ApiCreditCardIndex->value);

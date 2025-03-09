@@ -116,50 +116,6 @@ class MovementServiceUnitTest extends Falcon9
         $this->assertEquals('Pagamento description', $result->getDescription());
     }
 
-    public function testDeleteById()
-    {
-        $item = new MovementDTO();
-        $item->setAmount(10);
-        $item->setId(1);
-        $item->setWalletId(1);
-        $item->setType(5);
-        $item->setDescription('description');
-
-        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
-        $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
-
-        $repositoryMock = Mockery::mock(MovementRepository::class);
-        $repositoryMock->shouldReceive('deleteById')->once()->andReturn(true);
-        $repositoryMock->shouldReceive('findById')->once()->andReturn($item);
-
-        $service = new MovementService(
-            $repositoryMock,
-            new MovementResource(),
-            $mockWalletService
-        );
-
-        $result = $service->deleteById(1);
-
-        $this->assertTrue($result);
-    }
-
-    public function testDeleteByIdWithFalseReturn()
-    {
-        $repositoryMock = Mockery::mock(MovementRepository::class);
-        $repositoryMock->shouldReceive('deleteById')->never()->andReturn(true);
-        $repositoryMock->shouldReceive('findById')->once()->andReturn(false);
-
-        $service = new MovementService(
-            $repositoryMock,
-            new MovementResource(),
-            Mockery::mock(WalletService::class)->makePartial()
-        );
-
-        $result = $service->deleteById(1);
-
-        $this->assertFalse($result);
-    }
-
     public function testInsert()
     {
         $item = new MovementDTO();

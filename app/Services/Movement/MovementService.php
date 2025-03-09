@@ -91,17 +91,6 @@ class MovementService extends BasicService
         return $movement;
     }
 
-    public function deleteById(int $id)
-    {
-        $movement = $this->findById($id);
-        if (! $movement) {
-            return false;
-        }
-        $type = $movement->getType() == MovementEnum::Gain->value ? MovementEnum::Spent->value : MovementEnum::Gain->value;
-        $this->walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), $type, true);
-        return parent::deleteById($id);
-    }
-
     public function deleteTransferById(int $id)
     {
         $movement = $this->findById($id);

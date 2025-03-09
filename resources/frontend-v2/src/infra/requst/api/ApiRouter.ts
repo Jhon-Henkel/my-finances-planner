@@ -119,7 +119,7 @@ export const ApiRouter = {
             return response.data
         },
         delete: async (id: number) => {
-            const response = await axios.delete(mountApiUrl('movement', id), makeHeaders())
+            const response = await axios.delete(mountApiUrl('v2/movement', id), makeHeaders())
             return response.data
         },
         transfer: {
