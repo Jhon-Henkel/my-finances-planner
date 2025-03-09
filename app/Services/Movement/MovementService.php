@@ -9,14 +9,12 @@ use App\DTO\Movement\MovementDTO;
 use App\DTO\Movement\MovementSumValuesDTO;
 use App\Enums\CalendarMonthsNumberEnum;
 use App\Enums\MovementEnum;
-use App\Exceptions\MovementException;
 use App\Factory\DataGraph\Movement\DataGraphMovementFactory;
 use App\Modules\Wallet\Service\WalletService;
 use App\Repositories\Movement\MovementRepository;
 use App\Resources\Movement\MovementResource;
 use App\Services\BasicService;
 use App\Tools\Calendar\CalendarTools;
-use App\Tools\NumberTools;
 use App\VO\Movement\MovementVO;
 
 class MovementService extends BasicService
@@ -89,25 +87,6 @@ class MovementService extends BasicService
         $movement->setType(MovementEnum::Spent->value);
         $movement->setAmount($spent->getAmount());
         return $movement;
-    }
-
-    public function deleteTransferById(int $id)
-    {
-        $movement = $this->findById($id);
-        if (! $movement || $movement->getType() != MovementEnum::Transfer->value) {
-            return false;
-        }
-        if (str_contains($movement->getDescription(), 'Saída')) {
-            $this->walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::Gain->value, true);
-        } elseif (str_contains($movement->getDescription(), 'Entrada')) {
-            $this->walletService->updateWalletValue($movement->getAmount(), $movement->getWalletId(), MovementEnum::Spent->value, true);
-        }
-        return $this->parentDeleteById($id);
-    }
-
-    protected function parentDeleteById(int $id)
-    {
-        return parent::deleteById($id);
     }
 
     public function insert($item)

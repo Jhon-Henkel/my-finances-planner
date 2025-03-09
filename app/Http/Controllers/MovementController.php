@@ -43,10 +43,4 @@ class MovementController extends BasicController
         $itens = $this->getResource()->arrayDtoToVoItens($find);
         return response()->json($itens, ResponseAlias::HTTP_OK);
     }
-
-    public function deleteTransfer(int $id): JsonResponse
-    {
-        $this->getService()->deleteTransferById($id);
-        return response()->json(null, ResponseAlias::HTTP_OK);
-    }
 }

@@ -8,7 +8,6 @@ use App\DTO\FutureMovement\FutureSpentDTO;
 use App\DTO\Movement\MovementDTO;
 use App\DTO\Movement\MovementSumValuesDTO;
 use App\Enums\MovementEnum;
-use App\Exceptions\MovementException;
 use App\Modules\Wallet\Service\WalletService;
 use App\Repositories\Movement\MovementRepository;
 use App\Resources\Movement\MovementResource;
@@ -292,93 +291,6 @@ class MovementServiceUnitTest extends Falcon9
         $serviceMock->insertWithWalletUpdateType($movement, 1);
 
         $this->assertTrue(true);
-    }
-
-    public function testDeleteTransferByIdWithTypeDifferentOfTransfer()
-    {
-        $movement = new MovementDTO();
-        $movement->setAmount(10);
-        $movement->setType(5);
-        $movement->setWalletId(1);
-
-        $serviceMock = Mockery::mock(MovementService::class)->makePartial();
-        $serviceMock->shouldReceive('findById')->once()->andReturn($movement);
-
-        $this->assertFalse($serviceMock->deleteTransferById(1));
-    }
-
-    public function testDeleteTransferByIdWithNullMovementReturn()
-    {
-        $serviceMock = Mockery::mock(MovementService::class)->makePartial();
-        $serviceMock->shouldReceive('findById')->once()->andReturn(null);
-
-        $this->assertFalse($serviceMock->deleteTransferById(1));
-    }
-
-    public function testDeleteTransferByIdSpentRefundType()
-    {
-        $movement = new MovementDTO();
-        $movement->setAmount(10);
-        $movement->setType(MovementEnum::Transfer->value);
-        $movement->setWalletId(1);
-        $movement->setDescription('Entrada de transferência');
-
-        $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
-        $walletServiceMock->shouldReceive('updateWalletValue')->once()->andReturnUsing(
-            function ($value, $walletId, $type, $movementAlreadyDone) {
-                Falcon9::assertEquals(10, $value);
-                Falcon9::assertEquals(1, $walletId);
-                Falcon9::assertEquals(MovementEnum::Spent->value, $type);
-                Falcon9::assertTrue($movementAlreadyDone);
-                return true;
-            }
-        );
-
-        $mocks = [
-            Mockery::mock(MovementRepository::class),
-            new MovementResource(),
-            $walletServiceMock
-        ];
-
-        $serviceMock = Mockery::mock(MovementService::class, $mocks)->makePartial();
-        $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('findById')->once()->andReturn($movement);
-        $serviceMock->shouldReceive('parentDeleteById')->once()->andReturnTrue();
-
-        $this->assertTrue($serviceMock->deleteTransferById(1));
-    }
-
-    public function testDeleteTransferByIdGainRefundType()
-    {
-        $movement = new MovementDTO();
-        $movement->setAmount(10);
-        $movement->setType(MovementEnum::Transfer->value);
-        $movement->setWalletId(1);
-        $movement->setDescription('Saída de transferência');
-
-        $walletServiceMock = Mockery::mock(WalletService::class)->makePartial();
-        $walletServiceMock->shouldReceive('updateWalletValue')->once()->andReturnUsing(
-            function ($value, $walletId, $type, $movementAlreadyDone) {
-                Falcon9::assertEquals(10, $value);
-                Falcon9::assertEquals(1, $walletId);
-                Falcon9::assertEquals(MovementEnum::Gain->value, $type);
-                Falcon9::assertTrue($movementAlreadyDone);
-                return true;
-            }
-        );
-
-        $mocks = [
-            Mockery::mock(MovementRepository::class),
-            new MovementResource(),
-            $walletServiceMock
-        ];
-
-        $serviceMock = Mockery::mock(MovementService::class, $mocks)->makePartial();
-        $serviceMock->shouldAllowMockingProtectedMethods();
-        $serviceMock->shouldReceive('findById')->once()->andReturn($movement);
-        $serviceMock->shouldReceive('parentDeleteById')->once()->andReturnTrue();
-
-        $this->assertTrue($serviceMock->deleteTransferById(1));
     }
 
     public function testValidateType()

@@ -15,6 +15,7 @@ use App\Modules\CreditCardInvoice\Controller\List\CreditCardInvoiceListControlle
 use App\Modules\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
 use App\Modules\Movements\Controller\Delete\MovementDeleteController;
+use App\Modules\Movements\Controller\DeleteTransfer\MovementTransferDeleteController;
 use App\Modules\Movements\Controller\Insert\InsertMovementController;
 use App\Modules\Movements\Controller\InsertTransfer\MovementTransferInsertController;
 use App\Modules\Movements\Controller\Update\MovementUpdateController;
@@ -49,6 +50,7 @@ return function () {
             Route::prefix('movement')->group(function () {
                 Route::prefix('transfer')->group(function () {
                     Route::post('', MovementTransferInsertController::class)->name(RouteEnum::ApiMovementInsertTransfer->value);
+                    Route::delete('{id}', MovementTransferDeleteController::class)->name(RouteEnum::ApiMovementDeleteTransfer->value);
                 });
                 Route::post('', InsertMovementController::class)->name(RouteEnum::ApiMovementInsert->value);
                 Route::put('{id}', MovementUpdateController::class)->name(RouteEnum::ApiMovementUpdate->value);
@@ -70,11 +72,6 @@ return function () {
         });
 
         Route::prefix('movement')->group(function () {
-            Route::prefix('transfer')->group(function () {
-                Route::delete('/{id}', [MovementController::class, 'deleteTransfer'])
-                    ->name(RouteEnum::ApiMovementDeleteTransfer->value);
-            });
-
             Route::get('', [MovementController::class, 'index'])
                 ->name(RouteEnum::ApiMovementIndex->value);
             Route::get('/filter', [MovementController::class, 'indexFiltered'])

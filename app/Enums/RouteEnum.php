@@ -11,7 +11,6 @@ enum RouteEnum: string
     case ApiWalletDelete = 'apiWalletDelete';
     case ApiMovementIndex = 'apiMovementIndex';
     case ApiMovementIndexFiltered = 'apiMovementIndexFiltered';
-    case ApiMovementDeleteTransfer = 'apiMovementDeleteTransfer';
     case ApiCreditCardIndex = 'apiCreditCardIndex';
     case ApiCreditCardInsert = 'apiCreditCardInsert';
     case ApiCreditCardUpdate = 'apiCreditCardUpdate';
@@ -66,6 +65,7 @@ enum RouteEnum: string
     case ApiMovementUpdate = 'movement.update';
     case ApiMovementDelete = 'movement.delete';
     case ApiMovementInsertTransfer = 'movement.transfer.insert';
+    case ApiMovementDeleteTransfer = 'movement.transfer.delete';
 
     //////////// API MARKET CONTROL ////////////]
     case ApiMarketControlWalletList = 'market-control.wallet.list';

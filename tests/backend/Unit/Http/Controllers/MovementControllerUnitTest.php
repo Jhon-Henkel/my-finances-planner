@@ -2,9 +2,6 @@
 
 namespace Tests\backend\Unit\Http\Controllers;
 
-use App\DTO\Movement\MovementDTO;
-use App\Enums\MovementEnum;
-use App\Exceptions\Validator\InvalidRequestDataException;
 use App\Http\Controllers\MovementController;
 use App\Resources\Movement\MovementResource;
 use App\Services\Movement\MovementService;
@@ -50,19 +47,5 @@ class MovementControllerUnitTest extends Falcon9
         $resource = $controllerMock->getResource();
 
         $this->assertInstanceOf(MovementResource::class, $resource);
-    }
-
-    public function testDeleteTransfer()
-    {
-        $serviceMock = Mockery::mock(MovementService::class);
-        $serviceMock->shouldReceive('deleteTransferById')->once()->andReturn(true);
-        $mocks = [$serviceMock, new MovementResource()];
-
-        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
-        $controllerMock->shouldAllowMockingProtectedMethods();
-
-        $response = $controllerMock->deleteTransfer(1);
-
-        $this->assertEquals(200, $response->getStatusCode());
     }
 }
