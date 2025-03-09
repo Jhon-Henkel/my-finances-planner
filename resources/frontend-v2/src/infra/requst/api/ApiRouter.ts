@@ -115,7 +115,7 @@ export const ApiRouter = {
             return response.data
         },
         put: async (id: number, data: IMovementForm) => {
-            const response = await axios.put(mountApiUrl('movement', id), data, makeHeaders())
+            const response = await axios.put(mountApiUrl('v2/movement', id), data, makeHeaders())
             return response.data
         },
         delete: async (id: number) => {

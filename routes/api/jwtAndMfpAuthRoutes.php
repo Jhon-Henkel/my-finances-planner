@@ -15,6 +15,7 @@ use App\Modules\CreditCardInvoice\Controller\List\CreditCardInvoiceListControlle
 use App\Modules\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
 use App\Modules\Movements\Controller\Insert\InsertMovementController;
+use App\Modules\Movements\Controller\Update\MovementUpdateController;
 use App\Modules\SpendingPlan\Controller\Get\SpendingPlanGetController;
 use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
 use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
@@ -24,8 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 // Rotas que requer autenticação JWT e token MFP
 return function () {
-    Route::prefix('/')->middleware('auth.api:api')->group(function () {
-
+    Route::prefix('')->middleware('auth.api:api')->group(function () {
         Route::prefix('v2')->group(function () {
             Route::prefix('spending-plan')->group(function () {
                 Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
@@ -46,6 +46,7 @@ return function () {
             });
             Route::prefix('movement')->group(function () {
                 Route::post('', InsertMovementController::class)->name(RouteEnum::ApiMovementInsert->value);
+                Route::put('{id}', MovementUpdateController::class)->name(RouteEnum::ApiMovementUpdate->value);
             });
         });
 
@@ -74,8 +75,6 @@ return function () {
                 ->name(RouteEnum::ApiMovementIndex->value);
             Route::get('/filter', [MovementController::class, 'indexFiltered'])
                 ->name(RouteEnum::ApiMovementIndexFiltered->value);
-            Route::put('/{id}', [MovementController::class, 'update'])
-                ->name(RouteEnum::ApiMovementUpdate->value);
             Route::delete('/{id}', [MovementController::class, 'delete'])
                 ->name(RouteEnum::ApiMovementDelete->value);
         });

@@ -25,22 +25,12 @@ class MovementController extends BasicController
 
     protected function rulesInsert(): array
     {
-        return array(
-            'description' => 'max:255|min:2|string',
-            'type' => 'required|int',
-            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
-            'amount' => 'required|decimal:0,2'
-        );
+        return [];
     }
 
     protected function rulesUpdate(): array
     {
-        return array(
-            'description' => 'max:255|min:2|string',
-            'type' => 'required|int',
-            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
-            'amount' => 'required|decimal:0,2'
-        );
+        return [];
     }
 
     protected function rulesInsertTransfer(): array

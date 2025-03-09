@@ -138,37 +138,6 @@ class MovementService extends BasicService
         return parent::insert($item);
     }
 
-    public function update(int $id, $item)
-    {
-        $movement = $this->findById($id);
-        if ($movement->getAmount() != $item->getAmount()) {
-            $type = $this->getTypeForMovementUpdate($movement, $item);
-            if ($type == MovementEnum::Gain->value) {
-                $value = NumberTools::roundFloatAmount($item->getAmount() - $movement->getAmount());
-            } else {
-                $value = NumberTools::roundFloatAmount($movement->getAmount() - $item->getAmount());
-            }
-            $this->walletService->updateWalletValue(abs($value), $movement->getWalletId(), $type, true);
-        } elseif ($movement->getType() != $item->getType()) {
-            $this->walletService->updateWalletValue($item->getAmount(), $item->getWalletId(), $item->getType(), true);
-        }
-        return parent::update($id, $item);
-    }
-
-    protected function getTypeForMovementUpdate(MovementDTO $movement, MovementDTO $item): int
-    {
-        if ($movement->getType() == MovementEnum::Gain->value && $movement->getAmount() > $item->getAmount()) {
-            return MovementEnum::Spent->value;
-        } elseif ($movement->getType() == MovementEnum::Gain->value && $movement->getAmount() < $item->getAmount()) {
-            return MovementEnum::Gain->value;
-        } elseif ($movement->getType() == MovementEnum::Spent->value && $movement->getAmount() > $item->getAmount()) {
-            return MovementEnum::Gain->value;
-        } elseif ($movement->getType() == MovementEnum::Spent->value && $movement->getAmount() < $item->getAmount()) {
-            return MovementEnum::Spent->value;
-        }
-        throw new MovementException('Tipo de movimento não identificado!');
-    }
-
     public function launchMovementForWalletUpdate(float $value, int $walletId): bool
     {
         $movement = $this->resource->populateMovementForWalletUpdate($value, $walletId);

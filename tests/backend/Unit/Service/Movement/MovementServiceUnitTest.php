@@ -186,74 +186,6 @@ class MovementServiceUnitTest extends Falcon9
         $this->assertTrue($result);
     }
 
-    public function testUUpdateWithValuesDifferent()
-    {
-        $item = new MovementDTO();
-        $item->setAmount(10);
-        $item->setId(1);
-        $item->setWalletId(1);
-        $item->setType(5);
-        $item->setDescription('description');
-
-        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
-        $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
-
-        $repositoryMock = Mockery::mock(MovementRepository::class);
-        $repositoryMock->shouldReceive('findById')->once()->andReturn($item);
-        $repositoryMock->shouldReceive('update')->once()->andReturn(true);
-
-        $service = new MovementService(
-            $repositoryMock,
-            new MovementResource(),
-            $mockWalletService
-        );
-
-        $item2 = new MovementDTO();
-        $item2->setAmount(11);
-        $item2->setId(1);
-        $item2->setWalletId(1);
-        $item2->setType(5);
-        $item2->setDescription('description');
-
-        $result = $service->update($item->getId(), $item2);
-
-        $this->assertTrue($result);
-    }
-
-    public function testUUpdateWithTypesDifferent()
-    {
-        $item = new MovementDTO();
-        $item->setAmount(11);
-        $item->setId(1);
-        $item->setWalletId(1);
-        $item->setType(6);
-        $item->setDescription('description');
-
-        $mockWalletService = Mockery::mock(WalletService::class)->makePartial();
-        $mockWalletService->shouldReceive('updateWalletValue')->once()->andReturn(true);
-
-        $repositoryMock = Mockery::mock(MovementRepository::class);
-        $repositoryMock->shouldReceive('findById')->once()->andReturn($item);
-        $repositoryMock->shouldReceive('update')->once()->andReturn(true);
-
-        $service = new MovementService(
-            $repositoryMock,
-            new MovementResource(),
-            $mockWalletService
-        );
-
-        $item2 = new MovementDTO();
-        $item2->setAmount(11);
-        $item2->setId(1);
-        $item2->setWalletId(1);
-        $item2->setType(5);
-        $item2->setDescription('description');
-
-        $result = $service->update($item->getId(), $item2);
-
-        $this->assertTrue($result);
-    }
-
     public function testLaunchMovementForWalletUpdate()
     {
         $repositoryMock = Mockery::mock(MovementRepository::class);
@@ -343,48 +275,6 @@ class MovementServiceUnitTest extends Falcon9
         $this->assertEquals(20, $result['spentData'][0]);
         $this->assertEquals(30, $result['spentData'][1]);
         $this->assertEquals(30, $result['balanceData'][1]);
-    }
-
-    public function testGetTypeForMovementUpdate()
-    {
-        $movement = new MovementDTO();
-        $movement->setType(5);
-        $movement->setAmount(11);
-
-        $item = new MovementDTO();
-        $item->setType(5);
-        $item->setAmount(10);
-
-        $service = Mockery::mock(MovementService::class)->makePartial();
-        $service->shouldAllowMockingProtectedMethods();
-        $result = $service->getTypeForMovementUpdate($movement, $item);
-
-        $this->assertEquals(6, $result);
-
-        $movement->setAmount(10);
-        $item->setAmount(11);
-        $result = $service->getTypeForMovementUpdate($movement, $item);
-
-        $this->assertEquals(5, $result);
-
-        $movement->setType(6);
-        $item->setType(6);
-        $result = $service->getTypeForMovementUpdate($movement, $item);
-
-        $this->assertEquals(6, $result);
-
-        $movement->setAmount(11);
-        $item->setAmount(10);
-        $result = $service->getTypeForMovementUpdate($movement, $item);
-
-        $this->assertEquals(5, $result);
-
-        $this->expectException(MovementException::class);
-        $this->expectExceptionMessage('Tipo de movimento não identificado!');
-
-        $movement->setType(7);
-        $item->setType(7);
-        $service->getTypeForMovementUpdate($movement, $item);
     }
 
     public function testLaunchMovementForCreditCardInvoicePay()

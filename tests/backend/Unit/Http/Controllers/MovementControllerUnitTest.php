@@ -26,27 +26,6 @@ class MovementControllerUnitTest extends Falcon9
         return $request;
     }
 
-    public function testInsertRules()
-    {
-        $serviceMock = Mockery::mock(MovementService::class);
-        $mocks = [$serviceMock, new MovementResource()];
-
-        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
-        $controllerMock->shouldAllowMockingProtectedMethods();
-
-        $rules = $controllerMock->rulesInsert();
-
-        $this->assertIsArray($rules);
-        $this->assertArrayHasKey('description', $rules);
-        $this->assertArrayHasKey('type', $rules);
-        $this->assertArrayHasKey('walletId', $rules);
-        $this->assertArrayHasKey('amount', $rules);
-        $this->assertEquals('max:255|min:2|string', $rules['description']);
-        $this->assertEquals('required|int', $rules['type']);
-        $this->assertEquals('required|int|exists:App\Models\WalletModel,id', $rules['walletId']);
-        $this->assertEquals('required|decimal:0,2', $rules['amount']);
-    }
-
     public function testInsertTransferRules()
     {
         $serviceMock = Mockery::mock(MovementService::class);
@@ -63,27 +42,6 @@ class MovementControllerUnitTest extends Falcon9
         $this->assertArrayHasKey('amount', $rules);
         $this->assertEquals('required|int|exists:App\Models\WalletModel,id', $rules['originId']);
         $this->assertEquals('required|int|exists:App\Models\WalletModel,id', $rules['destinationId']);
-        $this->assertEquals('required|decimal:0,2', $rules['amount']);
-    }
-
-    public function testUpdateRules()
-    {
-        $serviceMock = Mockery::mock(MovementService::class);
-        $mocks = [$serviceMock, new MovementResource()];
-
-        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
-        $controllerMock->shouldAllowMockingProtectedMethods();
-
-        $rules = $controllerMock->rulesUpdate();
-
-        $this->assertIsArray($rules);
-        $this->assertArrayHasKey('description', $rules);
-        $this->assertArrayHasKey('type', $rules);
-        $this->assertArrayHasKey('walletId', $rules);
-        $this->assertArrayHasKey('amount', $rules);
-        $this->assertEquals('max:255|min:2|string', $rules['description']);
-        $this->assertEquals('required|int', $rules['type']);
-        $this->assertEquals('required|int|exists:App\Models\WalletModel,id', $rules['walletId']);
         $this->assertEquals('required|decimal:0,2', $rules['amount']);
     }
 
