@@ -22,4 +22,14 @@ enum MovementEnum: int
             MovementEnum::InvestmentCdb->value,
         ];
     }
+
+    public static function isGain(int $type): bool
+    {
+        return $type == MovementEnum::Gain->value;
+    }
+
+    public static function isSpent(int $type): bool
+    {
+        return $type == MovementEnum::Spent->value;
+    }
 }

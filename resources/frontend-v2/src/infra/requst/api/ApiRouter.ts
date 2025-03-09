@@ -111,7 +111,7 @@ export const ApiRouter = {
             return response.data
         },
         post: async (data: IMovementForm) => {
-            const response = await axios.post(mountApiUrl('movement'), data, makeHeaders())
+            const response = await axios.post(mountApiUrl('v2/movement'), data, makeHeaders())
             return response.data
         },
         put: async (id: number, data: IMovementForm) => {

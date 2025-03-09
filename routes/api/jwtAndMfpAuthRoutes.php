@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Modules\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
 use App\Modules\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
+use App\Modules\Movements\Controller\Insert\InsertMovementController;
 use App\Modules\SpendingPlan\Controller\Get\SpendingPlanGetController;
 use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
 use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
@@ -36,14 +37,15 @@ return function () {
                 Route::get('', EarningPlanListController::class)->name(RouteEnum::ApiEarningPlanList->value);
             });
             Route::prefix('market-planner')->group(function () {
-                Route::get('show-details', MarketPlannerShowController::class)
-                    ->name(RouteEnum::ApiMarketPlannerShow->value);
+                Route::get('show-details', MarketPlannerShowController::class)->name(RouteEnum::ApiMarketPlannerShow->value);
             });
             Route::prefix('credit-card')->group(function () {
                 Route::prefix('invoice')->group(function () {
-                    Route::get('{credit_card_id}', CreditCardInvoiceListController::class)
-                        ->name(RouteEnum::ApiCreditCardInvoiceList->value);
+                    Route::get('{credit_card_id}', CreditCardInvoiceListController::class)->name(RouteEnum::ApiCreditCardInvoiceList->value);
                 });
+            });
+            Route::prefix('movement')->group(function () {
+                Route::post('', InsertMovementController::class)->name(RouteEnum::ApiMovementInsert->value);
             });
         });
 
@@ -72,8 +74,6 @@ return function () {
                 ->name(RouteEnum::ApiMovementIndex->value);
             Route::get('/filter', [MovementController::class, 'indexFiltered'])
                 ->name(RouteEnum::ApiMovementIndexFiltered->value);
-            Route::post('', [MovementController::class, 'insert'])
-                ->name(RouteEnum::ApiMovementInsert->value);
             Route::put('/{id}', [MovementController::class, 'update'])
                 ->name(RouteEnum::ApiMovementUpdate->value);
             Route::delete('/{id}', [MovementController::class, 'delete'])
