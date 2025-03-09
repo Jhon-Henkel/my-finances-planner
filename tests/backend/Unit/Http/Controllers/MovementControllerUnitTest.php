@@ -26,25 +26,6 @@ class MovementControllerUnitTest extends Falcon9
         return $request;
     }
 
-    public function testInsertTransferRules()
-    {
-        $serviceMock = Mockery::mock(MovementService::class);
-        $mocks = [$serviceMock, new MovementResource()];
-
-        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
-        $controllerMock->shouldAllowMockingProtectedMethods();
-
-        $rules = $controllerMock->rulesInsertTransfer();
-
-        $this->assertIsArray($rules);
-        $this->assertArrayHasKey('originId', $rules);
-        $this->assertArrayHasKey('destinationId', $rules);
-        $this->assertArrayHasKey('amount', $rules);
-        $this->assertEquals('required|int|exists:App\Models\WalletModel,id', $rules['originId']);
-        $this->assertEquals('required|int|exists:App\Models\WalletModel,id', $rules['destinationId']);
-        $this->assertEquals('required|decimal:0,2', $rules['amount']);
-    }
-
     public function testGetService()
     {
         $serviceMock = Mockery::mock(MovementService::class);
@@ -83,45 +64,5 @@ class MovementControllerUnitTest extends Falcon9
         $response = $controllerMock->deleteTransfer(1);
 
         $this->assertEquals(200, $response->getStatusCode());
-    }
-
-    public function testInsertTransferWithInvalidRequest()
-    {
-        $serviceMock = Mockery::mock(MovementService::class);
-        $serviceMock->shouldReceive('insertWithWalletUpdateType')->never();
-        $mocks = [$serviceMock, new MovementResource()];
-
-        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
-        $controllerMock->shouldAllowMockingProtectedMethods();
-        $controllerMock->shouldReceive('rulesInsertTransfer')->once()->andReturn(['aaa' => 'required']);
-
-        $this->expectException(InvalidRequestDataException::class);
-
-        $controllerMock->insertTransfer($this->getTransferRequest());
-    }
-
-    public function testInsertTransferWithValidData()
-    {
-        $serviceMock = Mockery::mock(MovementService::class);
-        $serviceMock->shouldReceive('insertWithWalletUpdateType')->times(2)->andReturnUsing(
-            function ($transfer, $type) {
-                Falcon9::assertEquals(MovementEnum::Spent->value, $type);
-                $this->assertInstanceOf(MovementDTO::class, $transfer);
-                return true;
-            },
-            function ($transfer, $type) {
-                Falcon9::assertEquals(MovementEnum::Gain->value, $type);
-                $this->assertInstanceOf(MovementDTO::class, $transfer);
-            }
-        );
-        $mocks = [$serviceMock, new MovementResource()];
-
-        $controllerMock = Mockery::mock(MovementController::class, $mocks)->makePartial();
-        $controllerMock->shouldAllowMockingProtectedMethods();
-        $controllerMock->shouldReceive('rulesInsertTransfer')->once()->andReturn([]);
-
-        $response = $controllerMock->insertTransfer($this->getTransferRequest());
-
-        $this->assertEquals(201, $response->getStatusCode());
     }
 }

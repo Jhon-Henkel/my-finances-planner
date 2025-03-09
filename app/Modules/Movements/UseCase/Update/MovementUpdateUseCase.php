@@ -5,12 +5,16 @@ namespace App\Modules\Movements\UseCase\Update;
 use App\Enums\MovementEnum;
 use App\Infra\Shared\UseCase\Update\IUpdateUseCase;
 use App\Models\MovementModel;
-use App\Models\WalletModel;
 use App\Modules\Movements\Exceptions\MovementTypeDontIdentifiedException;
+use App\Modules\Wallet\UseCase\UpdateWalletByMovement\UpdateWalletByMovementUseCase;
 use App\Tools\NumberTools;
 
 class MovementUpdateUseCase implements IUpdateUseCase
 {
+    public function __construct(protected UpdateWalletByMovementUseCase $updateWalletByMovementUseCase)
+    {
+    }
+
     public function execute(array $data, int $id): bool
     {
         $movement = MovementModel::query()->findOrFail($id);
@@ -21,9 +25,9 @@ class MovementUpdateUseCase implements IUpdateUseCase
             } else {
                 $newAmount = NumberTools::roundFloatAmount($movement->amount - $data['amount']);
             }
-            $this->updateWallet($movement->wallet_id, abs($newAmount), $type);
+            $this->updateWalletByMovementUseCase->execute($movement->wallet_id, abs($newAmount), $type->value);
         } elseif ($movement->type != $data['type']) {
-            $this->updateWallet($movement->wallet_id, $data['amount'], $data['type']);
+            $this->updateWalletByMovementUseCase->execute($movement->wallet_id, $data['amount'], $data['type']);
         }
         return $movement->update([
             'description' => $data['description'],
@@ -31,17 +35,6 @@ class MovementUpdateUseCase implements IUpdateUseCase
             'wallet_id' => $data['walletId'],
             'amount' => $data['amount']
         ]);
-    }
-
-    protected function updateWallet(int $walletId, float $amount, MovementEnum $type): void
-    {
-        $wallet = WalletModel::query()->findOrFail($walletId);
-        if (MovementEnum::isGain($type->value)) {
-            $wallet->amount += $amount;
-        } elseif (MovementEnum::isSpent($type->value)) {
-            $wallet->amount -= $amount;
-        }
-        $wallet->save();
     }
 
     protected function getTypeForMovementUpdate(MovementModel $movement, array $data): MovementEnum
