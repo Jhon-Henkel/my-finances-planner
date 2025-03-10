@@ -65,16 +65,23 @@ class MovementListUseCase implements IListUseCase
 
     protected function makeInvoiceNextMonthUrl(array $queryParams, array $args = []): string
     {
+        if ($queryParams['month'] == Date::now()->month) {
+            return '';
+        }
         $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
         $date->addMonth();
-        return RequestTools::mountUrl(RouteEnum::ApiMovementList, "?year=$date->year&month=$date->month", $args);
+        $args['month'] = $date->month;
+        $args['year'] = $date->year;
+        return RequestTools::mountUrl(RouteEnum::ApiMovementList, '', $args);
     }
 
     protected function makeInvoicePrevMonthUrl(array $queryParams, array $args = []): string
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
         $date->subMonth();
-        return RequestTools::mountUrl(RouteEnum::ApiMovementList, "?year=$date->year&month=$date->month", $args);
+        $args['month'] = $date->month;
+        $args['year'] = $date->year;
+        return RequestTools::mountUrl(RouteEnum::ApiMovementList, '', $args);
     }
 
     public function addMetaData(array &$result, array $queryParams): void

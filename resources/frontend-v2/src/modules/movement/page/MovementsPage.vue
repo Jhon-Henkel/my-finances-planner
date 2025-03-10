@@ -18,7 +18,6 @@ import MfpMovementsListSkeletonLoad from "@/modules/movement/component/MfpMoveme
 import MfpMovementsListItem from "@/modules/movement/component/MfpMovementsListItem.vue"
 import MfpMovementsFormModal from "@/modules/movement/component/MfpMovementsFormModal.vue"
 import MfpMovementsFilterModal from "@/modules/movement/component/MfpMovementsFilterModal.vue"
-import MfpMovementsFilterPeriodLabel from "@/modules/movement/component/MfpMovementsFilterPeriodLabel.vue"
 import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import {MfpConfirmAlert} from "@/modules/@shared/components/alert/MfpConfirmAlert"
 import {MfpToast} from "@/modules/@shared/components/toast/MfpToast"
@@ -29,9 +28,10 @@ import {useMovementStore} from "@/modules/movement/store/MovementStore"
 import MfpFilterButton from "@/modules/@shared/components/button/MfpFilterButton.vue"
 import MfpCirclePlusButton from "@/modules/@shared/components/button/MfpCirclePlusButton.vue"
 import {WalletService} from "@/modules/wallet/service/WalletService"
-import MfpTotalRegistersRow from "@/modules/@shared/components/page/MfpTotalRegistersRow.vue"
 import MfpBalanceCard from "@/modules/@shared/components/card/MfpBalanceCard.vue"
 import MfpExpensesAndIncomesDoubleInlineCards from "@/modules/@shared/components/card/MfpExpensesAndIncomesDoubleInlineCards.vue"
+import MfpPeriodSwitcherV2 from "@/modules/@shared/components/switcher/MfpPeriodSwitcherV2.vue"
+import MfpTotalRegistersRowV2 from "@/modules/@shared/components/page/MfpTotalRegistersRowV2.vue"
 
 const formModal = new MfpModal(MfpMovementsFormModal)
 const filterModal = new MfpModal(MfpMovementsFilterModal)
@@ -91,11 +91,8 @@ onMounted(async () => {
             <mfp-filter-button @click="filterModal.open()"/>
             <mfp-circle-plus-button @click="formModal.open()"/>
         </ion-list-header>
-        <mfp-movements-filter-period-label/>
-        <mfp-expenses-and-incomes-double-inline-cards
-            :incomes="movementStore.thisMonthTotalIncomesValue"
-            :expenses="movementStore.thisMonthTotalExpensesValue"
-        />
+        <mfp-period-switcher-v2 :store="movementStore"/>
+        <mfp-expenses-and-incomes-double-inline-cards :incomes="movementStore.thisMonthTotalIncomesValue" :expenses="movementStore.thisMonthTotalExpensesValue"/>
         <mfp-balance-card :balance="movementStore.thisMonthTotalBalance"/>
         <ion-searchbar :animated="true" placeholder="Buscar por conta ou descrição" @ionInput="filterMovement($event)"/>
         <mfp-empty-list-item :nothing-to-show="movementStore.movements.length === 0 && movementStore.isLoaded"/>
@@ -115,6 +112,6 @@ onMounted(async () => {
                 </ion-item-options>
             </ion-item-sliding>
         </ion-list>
-        <mfp-total-registers-row :total-itens="movementStore.movements.length"/>
+        <mfp-total-registers-row-v2 :store="movementStore"/>
     </mfp-page>
 </template>

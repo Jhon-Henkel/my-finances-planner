@@ -34,18 +34,6 @@ export const UtilCalendar = {
 
         return `dateStart=${dateStartString}&dateEnd=${dateEndString}`
     },
-    getNextSixMonths(currentMonth: number): Array<number> {
-        const months: number[] = []
-        let month: number = parseInt(String(currentMonth))
-        for (let index: number = 0; index < 6; index++) {
-            if (month > 11) {
-                month = 0
-            }
-            months.push(month)
-            month++
-        }
-        return months
-    },
     getCurrentMonth(): number {
         const date: Date = this.getToday()
         return date.getMonth()
