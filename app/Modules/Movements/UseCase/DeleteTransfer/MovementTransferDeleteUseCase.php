@@ -15,7 +15,7 @@ class MovementTransferDeleteUseCase implements IDeleteUseCase
 
     public function execute(int $id): void
     {
-        /** @var  MovementModel $movement */
+        /** @var  MovementModel|null $movement */
         $movement = MovementModel::find($id);
         if (! $movement || $movement->type != MovementEnum::Transfer->value) {
             return;

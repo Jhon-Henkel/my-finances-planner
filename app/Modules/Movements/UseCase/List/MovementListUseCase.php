@@ -23,11 +23,8 @@ class MovementListUseCase implements IListUseCase
         return $result;
     }
 
-    protected function validateFilterDateQueryParams(array|null &$queryParams): void
+    protected function validateFilterDateQueryParams(array &$queryParams): void
     {
-        if (is_null($queryParams)) {
-            $queryParams = [];
-        }
         if (! isset($queryParams['month'])) {
             $queryParams['month'] = Date::now()->month;
         }
