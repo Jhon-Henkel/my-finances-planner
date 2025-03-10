@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int $id
+ * @property int $wallet_id
+ * @property string $description
+ * @property int $type
+ * @property float $amount
+ *
  * @mixin Builder
  */
 class MovementModel extends Model

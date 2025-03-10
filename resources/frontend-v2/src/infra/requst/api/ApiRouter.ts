@@ -101,34 +101,34 @@ export const ApiRouter = {
         }
     },
     movement: {
-        index: async () => {
-            const response = await axios.get(mountApiUrl('movement'), makeHeaders())
-            return response.data
-        },
-        indexFiltered: async (quest: null | string = null) => {
-            quest = quest ? `?${quest}` : ''
-            const response = await axios.get(mountApiUrl(`movement/filter${quest}`), makeHeaders())
+        index: async (quest: string | null) => {
+            if (quest == null) {
+                quest = ''
+            } else {
+                quest = `?${quest}`
+            }
+            const response = await axios.get(mountApiUrl(`v2/movement${quest}`), makeHeaders())
             return response.data
         },
         post: async (data: IMovementForm) => {
-            const response = await axios.post(mountApiUrl('movement'), data, makeHeaders())
+            const response = await axios.post(mountApiUrl('v2/movement'), data, makeHeaders())
             return response.data
         },
         put: async (id: number, data: IMovementForm) => {
-            const response = await axios.put(mountApiUrl('movement', id), data, makeHeaders())
+            const response = await axios.put(mountApiUrl('v2/movement', id), data, makeHeaders())
             return response.data
         },
         delete: async (id: number) => {
-            const response = await axios.delete(mountApiUrl('movement', id), makeHeaders())
+            const response = await axios.delete(mountApiUrl('v2/movement', id), makeHeaders())
             return response.data
         },
         transfer: {
             post: async (data: ITransferForm) => {
-                const response = await axios.post(mountApiUrl('movement/transfer'), data, makeHeaders())
+                const response = await axios.post(mountApiUrl('v2/movement/transfer'), data, makeHeaders())
                 return response.data
             },
             delete: async (id: number) => {
-                const response = await axios.delete(mountApiUrl('movement/transfer', id), makeHeaders())
+                const response = await axios.delete(mountApiUrl('v2/movement/transfer', id), makeHeaders())
                 return response.data
             }
         }

@@ -7,13 +7,18 @@ use App\Http\Controllers\CreditCardTransactionController;
 use App\Http\Controllers\FinancialHealthController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
-use App\Http\Controllers\MovementController;
 use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\UserController;
 use App\Modules\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
 use App\Modules\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
+use App\Modules\Movements\Controller\Delete\MovementDeleteController;
+use App\Modules\Movements\Controller\DeleteTransfer\MovementTransferDeleteController;
+use App\Modules\Movements\Controller\Insert\InsertMovementController;
+use App\Modules\Movements\Controller\InsertTransfer\MovementTransferInsertController;
+use App\Modules\Movements\Controller\List\MovementListController;
+use App\Modules\Movements\Controller\Update\MovementUpdateController;
 use App\Modules\SpendingPlan\Controller\Get\SpendingPlanGetController;
 use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
 use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
@@ -23,8 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 // Rotas que requer autenticação JWT e token MFP
 return function () {
-    Route::prefix('/')->middleware('auth.api:api')->group(function () {
-
+    Route::prefix('')->middleware('auth.api:api')->group(function () {
         Route::prefix('v2')->group(function () {
             Route::prefix('spending-plan')->group(function () {
                 Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
@@ -36,14 +40,22 @@ return function () {
                 Route::get('', EarningPlanListController::class)->name(RouteEnum::ApiEarningPlanList->value);
             });
             Route::prefix('market-planner')->group(function () {
-                Route::get('show-details', MarketPlannerShowController::class)
-                    ->name(RouteEnum::ApiMarketPlannerShow->value);
+                Route::get('show-details', MarketPlannerShowController::class)->name(RouteEnum::ApiMarketPlannerShow->value);
             });
             Route::prefix('credit-card')->group(function () {
                 Route::prefix('invoice')->group(function () {
-                    Route::get('{credit_card_id}', CreditCardInvoiceListController::class)
-                        ->name(RouteEnum::ApiCreditCardInvoiceList->value);
+                    Route::get('{credit_card_id}', CreditCardInvoiceListController::class)->name(RouteEnum::ApiCreditCardInvoiceList->value);
                 });
+            });
+            Route::prefix('movement')->group(function () {
+                Route::prefix('transfer')->group(function () {
+                    Route::post('', MovementTransferInsertController::class)->name(RouteEnum::ApiMovementInsertTransfer->value);
+                    Route::delete('{id}', MovementTransferDeleteController::class)->name(RouteEnum::ApiMovementDeleteTransfer->value);
+                });
+                Route::get('', MovementListController::class)->name(RouteEnum::ApiMovementList->value);
+                Route::post('', InsertMovementController::class)->name(RouteEnum::ApiMovementInsert->value);
+                Route::put('{id}', MovementUpdateController::class)->name(RouteEnum::ApiMovementUpdate->value);
+                Route::delete('{id}', MovementDeleteController::class)->name(RouteEnum::ApiMovementDelete->value);
             });
         });
 
@@ -58,26 +70,6 @@ return function () {
                 ->name(RouteEnum::ApiWalletUpdate->value);
             Route::delete('/{id}', [WalletController::class, 'delete'])
                 ->name(RouteEnum::ApiWalletDelete->value);
-        });
-
-        Route::prefix('movement')->group(function () {
-            Route::prefix('transfer')->group(function () {
-                Route::post('', [MovementController::class, 'insertTransfer'])
-                    ->name(RouteEnum::ApiMovementInsertTransfer->value);
-                Route::delete('/{id}', [MovementController::class, 'deleteTransfer'])
-                    ->name(RouteEnum::ApiMovementDeleteTransfer->value);
-            });
-
-            Route::get('', [MovementController::class, 'index'])
-                ->name(RouteEnum::ApiMovementIndex->value);
-            Route::get('/filter', [MovementController::class, 'indexFiltered'])
-                ->name(RouteEnum::ApiMovementIndexFiltered->value);
-            Route::post('', [MovementController::class, 'insert'])
-                ->name(RouteEnum::ApiMovementInsert->value);
-            Route::put('/{id}', [MovementController::class, 'update'])
-                ->name(RouteEnum::ApiMovementUpdate->value);
-            Route::delete('/{id}', [MovementController::class, 'delete'])
-                ->name(RouteEnum::ApiMovementDelete->value);
         });
 
         Route::prefix('credit-card')->group(function () {

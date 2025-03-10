@@ -61,26 +61,4 @@ class MovementResource extends BasicResource
         $movement->setAmount(round($value, 2));
         return $movement;
     }
-
-    public function makeTransferSpentMovement(array $data): MovementDTO
-    {
-        $transferSpent = new MovementDTO();
-        $transferSpent->setAmount($data['amount']);
-        $transferSpent->setWalletId($data['originId']);
-        $transferSpent->setType(MovementEnum::Transfer->value);
-        $description = 'Saída transferência';
-        $transferSpent->setDescription($description);
-        return $transferSpent;
-    }
-
-    public function makeTransferGainMovement(array $data): MovementDTO
-    {
-        $transferSpent = new MovementDTO();
-        $transferSpent->setAmount($data['amount']);
-        $transferSpent->setWalletId($data['destinationId']);
-        $transferSpent->setType(MovementEnum::Transfer->value);
-        $description = 'Entrada transferência';
-        $transferSpent->setDescription($description);
-        return $transferSpent;
-    }
 }

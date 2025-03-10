@@ -1,7 +1,8 @@
 import {defineStore} from 'pinia'
 import {MovementModel} from "@/modules/movement/model/MovementModel"
 import {MovementService} from "@/modules/movement/service/MovementService"
-import {UtilCalendar} from "@/modules/@shared/util/UtilCalendar"
+import {ApiRouter} from "@/infra/requst/api/ApiRouter"
+import {ResponseListDefault} from "@/infra/response/response.list.default"
 
 interface IMovementStoreState {
     movements: Array<MovementModel>
@@ -25,7 +26,12 @@ interface IMovementStoreState {
         this_month_remaining_limit: number,
         percent_used: number,
         use_market_planner: boolean
-    }
+    },
+    nextMonthUrl: string
+    prevMonthUrl: string
+    dateLabel: string
+    pageTotalItems: number
+    dateSearch: string
 }
 
 export const useMovementStore = defineStore({
@@ -52,37 +58,62 @@ export const useMovementStore = defineStore({
             this_month_remaining_limit: 0,
             percent_used: 0,
             use_market_planner: false
-        }
+        },
+        nextMonthUrl: '',
+        prevMonthUrl: '',
+        dateLabel: '',
+        pageTotalItems: 0,
+        dateSearch: ''
     }),
     actions: {
         loadAgainOnNextTick() {
             this.isLoaded = false
         },
         async loadMovements(quest: string | null = null): Promise<Array<MovementModel>> {
-            const questIsNull = quest === null
             if (! quest) {
-                const dateFilterString: string = UtilCalendar.makeStringFilterDate(UtilCalendar.getTodayIso())
-                quest = `type=${MovementService.allType}&${dateFilterString}`
+                quest = `type=${MovementService.allType}`
             }
             if (!this.isLoaded) {
                 this.isLoaded = false
-                this.movements = this.originalMovements = await MovementService.index(quest)
+                await this._storeData(await ApiRouter.movement.index(quest))
                 this.isLoaded = true
-                this.dateOfResults = UtilCalendar.makeLabelFilterDate(quest)
-                const totals = MovementService.sumTotalValues(this.movements)
-                this.totalIncomesValue = this.originalThisMonthTotalBalance = totals.incomes
-                this.totalExpensesValue = this.originalThisMonthTotalExpensesValue = totals.expenses
-                this.totalBalanceValue = this.originalThisMonthTotalIncomesValue = totals.balance
-                if (questIsNull) {
-                    this.thisMonthMovements = this.movements
-                    this.thisMonthTotalIncomesValue = this.totalIncomesValue
-                    this.thisMonthTotalExpensesValue = this.totalExpensesValue
-                    this.thisMonthTotalBalance = this.totalBalanceValue
-                }
-                this.marketPlannerDetails = await MovementService.getMarketPlannerDetails()
-                this.marketPlannerDetails.percent_used = this.marketPlannerDetails.this_month_spent / this.marketPlannerDetails.total_limit
             }
             return this.movements
+        },
+        async nextMonth() {
+            if (this.nextMonthUrl == '') {
+                return
+            }
+            this.isLoaded = false
+            await this._storeData(await ApiRouter.genericListRequestWithAuth(this.nextMonthUrl))
+            this.isLoaded = true
+        },
+        async prevMonth() {
+            if (this.prevMonthUrl == '') {
+                return
+            }
+            this.isLoaded = false
+            await this._storeData(await ApiRouter.genericListRequestWithAuth(this.prevMonthUrl))
+            this.isLoaded = true
+        },
+        async _storeData(request: ResponseListDefault) {
+            this.movements = this.originalMovements = request.data.map((item: any) => new MovementModel(item))
+            this.isLoaded = true
+            this.dateOfResults = request.meta.date_label
+            this.totalBalanceValue = this.originalThisMonthTotalBalance = request.meta.total_month
+            this.totalExpensesValue = this.originalThisMonthTotalExpensesValue = request.meta.total_month_spent
+            this.totalIncomesValue = this.originalThisMonthTotalIncomesValue = request.meta.total_month_gain
+            this.dateLabel = request.meta.date_label
+            this.pageTotalItems = request.page.total
+            this.nextMonthUrl = request.links.next
+            this.prevMonthUrl = request.links.prev
+            this.dateSearch = request.meta.search_date
+            this.thisMonthMovements = this.movements
+            this.thisMonthTotalIncomesValue = this.totalIncomesValue
+            this.thisMonthTotalExpensesValue = this.totalExpensesValue
+            this.thisMonthTotalBalance = this.totalBalanceValue
+            this.marketPlannerDetails = await MovementService.getMarketPlannerDetails()
+            this.marketPlannerDetails.percent_used = this.marketPlannerDetails.this_month_spent / this.marketPlannerDetails.total_limit
         },
         setLastMovementFilterType(filter: number) {
             this.lastMovementFilterType = filter

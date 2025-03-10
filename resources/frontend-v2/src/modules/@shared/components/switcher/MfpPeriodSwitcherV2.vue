@@ -30,7 +30,7 @@ defineProps(
                 </ion-col>
                 <ion-col size="1" class="center-ion-label-content">
                     <div class="ion-padding-end">
-                        <ion-button @click="store.nextMonth()">
+                        <ion-button @click="store.nextMonth()" :disabled="store.nextMonthUrl == ''">
                             <ion-icon :icon="chevronForwardOutline"/>
                         </ion-button>
                     </div>

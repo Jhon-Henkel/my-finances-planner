@@ -2,9 +2,9 @@
 
 namespace App\Modules\Invoice\Service;
 
-use App\Enums\CalendarMonthsNumberEnum;
 use App\Enums\InvoiceInstallmentsEnum;
 use App\Enums\RouteEnum;
+use App\Tools\Calendar\CalendarTools;
 use App\Tools\NumberTools;
 use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Date;
@@ -18,7 +18,6 @@ class InvoiceListService
         $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
         $date->addMonth();
         return RequestTools::mountUrl($route, "?year=$date->year&month=$date->month", $args);
-
     }
 
     protected function makeInvoicePrevMonthUrl(RouteEnum $route, array $queryParams, array $args = []): string
@@ -26,13 +25,6 @@ class InvoiceListService
         $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
         $date->subMonth();
         return RequestTools::mountUrl($route, "?year=$date->year&month=$date->month", $args);
-    }
-
-    protected function getDateLabel(array $queryParams): string
-    {
-        $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
-        $month = CalendarMonthsNumberEnum::getMonthName($date->month);
-        return "$month de $date->year";
     }
 
     protected function sumTotalAmount(array $items): float
@@ -60,7 +52,7 @@ class InvoiceListService
     public function addMetaData(array &$result, array $queryParams): void
     {
         $result['meta']['total_month_amount'] = $this->sumTotalAmount($result['data']);
-        $result['meta']['date_label'] = $this->getDateLabel($queryParams);
+        $result['meta']['date_label'] = CalendarTools::getDateLabelByQueryParams($queryParams);
         $result['meta']['search_date'] = Date::createFromDate($queryParams['year'], $queryParams['month']);
     }
 
