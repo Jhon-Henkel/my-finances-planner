@@ -8,6 +8,7 @@ use App\Enums\DateFormatEnum;
 use DateInterval;
 use DateTime;
 use Exception;
+use Illuminate\Support\Facades\Date;
 
 class CalendarToolsReal
 {
@@ -166,5 +167,12 @@ class CalendarToolsReal
     public function mountDateTimeByDateString(string $date): DateTime
     {
         return new DateTime($date);
+    }
+
+    public function getDateLabelByQueryParams(array $queryParams): string
+    {
+        $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
+        $month = CalendarMonthsNumberEnum::getMonthName($date->month);
+        return "$month de $date->year";
     }
 }

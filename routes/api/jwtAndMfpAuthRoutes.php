@@ -7,7 +7,6 @@ use App\Http\Controllers\CreditCardTransactionController;
 use App\Http\Controllers\FinancialHealthController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
-use App\Http\Controllers\MovementController;
 use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Subscribe\SubscribeController;
 use App\Http\Controllers\UserController;
@@ -18,6 +17,7 @@ use App\Modules\Movements\Controller\Delete\MovementDeleteController;
 use App\Modules\Movements\Controller\DeleteTransfer\MovementTransferDeleteController;
 use App\Modules\Movements\Controller\Insert\InsertMovementController;
 use App\Modules\Movements\Controller\InsertTransfer\MovementTransferInsertController;
+use App\Modules\Movements\Controller\List\MovementListController;
 use App\Modules\Movements\Controller\Update\MovementUpdateController;
 use App\Modules\SpendingPlan\Controller\Get\SpendingPlanGetController;
 use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
@@ -52,6 +52,7 @@ return function () {
                     Route::post('', MovementTransferInsertController::class)->name(RouteEnum::ApiMovementInsertTransfer->value);
                     Route::delete('{id}', MovementTransferDeleteController::class)->name(RouteEnum::ApiMovementDeleteTransfer->value);
                 });
+                Route::get('', MovementListController::class)->name(RouteEnum::ApiMovementList->value);
                 Route::post('', InsertMovementController::class)->name(RouteEnum::ApiMovementInsert->value);
                 Route::put('{id}', MovementUpdateController::class)->name(RouteEnum::ApiMovementUpdate->value);
                 Route::delete('{id}', MovementDeleteController::class)->name(RouteEnum::ApiMovementDelete->value);
@@ -69,13 +70,6 @@ return function () {
                 ->name(RouteEnum::ApiWalletUpdate->value);
             Route::delete('/{id}', [WalletController::class, 'delete'])
                 ->name(RouteEnum::ApiWalletDelete->value);
-        });
-
-        Route::prefix('movement')->group(function () {
-            Route::get('', [MovementController::class, 'index'])
-                ->name(RouteEnum::ApiMovementIndex->value);
-            Route::get('/filter', [MovementController::class, 'indexFiltered'])
-                ->name(RouteEnum::ApiMovementIndexFiltered->value);
         });
 
         Route::prefix('credit-card')->group(function () {

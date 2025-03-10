@@ -101,13 +101,13 @@ export const ApiRouter = {
         }
     },
     movement: {
-        index: async () => {
-            const response = await axios.get(mountApiUrl('movement'), makeHeaders())
-            return response.data
-        },
-        indexFiltered: async (quest: null | string = null) => {
-            quest = quest ? `?${quest}` : ''
-            const response = await axios.get(mountApiUrl(`movement/filter${quest}`), makeHeaders())
+        index: async (quest: string | null) => {
+            if (quest == null) {
+                quest = ''
+            } else {
+                quest = `?${quest}`
+            }
+            const response = await axios.get(mountApiUrl(`v2/movement${quest}`), makeHeaders())
             return response.data
         },
         post: async (data: IMovementForm) => {

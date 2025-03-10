@@ -1,6 +1,4 @@
-import {endOfMonth, startOfMonth, subDays, format, addDays} from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-import {UtilString} from "@/modules/@shared/util/UtilString"
+import {endOfMonth, startOfMonth, subDays} from 'date-fns'
 
 export const UtilCalendar = {
     getToday: function(): Date {
@@ -35,17 +33,6 @@ export const UtilCalendar = {
         const dateEndString: string = new Date(subDays(dateEnd, 1)).toISOString().slice(0, 10)
 
         return `dateStart=${dateStartString}&dateEnd=${dateEndString}`
-    },
-    makeLabelFilterDate: function(quest: string|null = null): string {
-        if (quest === null) {
-            const today: Date = this.getToday()
-            const string: string = format(today, 'MMMM - yyyy', { locale: ptBR })
-            return UtilString.capitalizeFirstLetter(string)
-        }
-        const slice: string = quest.slice(17, 27)
-        const date: Date = new Date(slice)
-        const string: string = format(addDays(date, 1), 'MMMM - yyyy', { locale: ptBR })
-        return UtilString.capitalizeFirstLetter(string)
     },
     getNextSixMonths(currentMonth: number): Array<number> {
         const months: number[] = []
