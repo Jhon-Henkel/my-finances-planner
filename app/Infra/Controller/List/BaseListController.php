@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 abstract class BaseListController extends Controller
 {
     private const int DEFAULT_PAGE = 1;
-    private const int DEFAULT_PER_PAGE = 100;
+    private const int DEFAULT_PER_PAGE = 10000;
 
     abstract protected function getUseCase(): IListUseCase;
 
