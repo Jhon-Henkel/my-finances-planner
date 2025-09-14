@@ -18,7 +18,6 @@ class Kernel extends ConsoleKernel
         Commands\OptimizeDatabase::class,
         Commands\OptimizeDatabaseMaster::class,
         Commands\OptimizeDatabaseAll::class,
-        Commands\AiInsightPurge::class,
     ];
 
     protected function schedule(Schedule $schedule): void
@@ -47,6 +46,5 @@ class Kernel extends ConsoleKernel
     protected function runThursdaysSchedules(Schedule $schedule): void
     {
         $schedule->command('app:optimize-database-all')->thursdays()->at('00:00');
-        $schedule->command('purge:ai-insight')->thursdays()->at('03:00');
     }
 }
