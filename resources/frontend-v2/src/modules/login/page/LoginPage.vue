@@ -2,7 +2,6 @@
 import {IonCol, IonGrid, IonRow} from "@ionic/vue"
 import {onMounted, ref} from "vue"
 import {lockClosedOutline, mailOutline} from "ionicons/icons"
-import MfpCreateAccountLink from "@/modules/login/component/MfpCreateAccountLink.vue"
 import MfpForgottenPasswordLink from "@/modules/login/component/MfpForgottenPasswordLink.vue"
 import MfpLoginTopText from "@/modules/login/component/MfpLoginTopText.vue"
 import MfpLoginButton from "@/modules/login/component/MfpLoginButton.vue"
@@ -82,7 +81,6 @@ onMounted(async () => {
                 </ion-row>
                 <mfp-forgotten-password-link v-show="false"/>
                 <mfp-login-button :loading="loading" @loginPressed="submit"/>
-                <mfp-create-account-link/>
             </div>
             <ion-row class="footer">
                 <ion-col size="1"/>

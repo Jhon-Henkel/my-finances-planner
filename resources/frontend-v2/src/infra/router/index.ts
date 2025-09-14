@@ -15,21 +15,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/modules/login/page/LoginPage.vue')
     },
     {
-        path: '/v2/registrar-se',
-        name: 'register',
-        component: () => import('@/modules/register/page/RegisterPage.vue')
-    },
-    {
-        path: '/v2/registrado',
-        name: 'register-done',
-        component: () => import('@/modules/register/page/RegisterSuccessPage.vue')
-    },
-    {
-        path: '/v2/ativar/:hash',
-        name: 'activate-register',
-        component: () => import('@/modules/register/component/RegisterActivateUser.vue')
-    },
-    {
         path: '/v2/assinatura-cancelada',
         name: 'subscribe-canceled',
         component: () => import('@/modules/subscription/page/SubscriptionCanceledPage.vue')

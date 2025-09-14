@@ -3,7 +3,6 @@
 use App\Enums\RouteEnum;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Subscribe\SubscribeController;
-use App\Http\Controllers\User\UserRegisterController;
 use Illuminate\Support\Facades\Route;
 
 // Rotas que não requer autenticação
@@ -17,9 +16,6 @@ return function () {
 
     Route::post('auth', [AuthController::class, 'auth'])
         ->name(RouteEnum::ApiMakeLogin->value);
-
-    Route::post('user/register', [UserRegisterController::class, 'registerStepZero'])
-        ->name(RouteEnum::ApiUserRegisterStepZero->value);
 
     Route::get('logout', [AuthController::class, 'logout'])
         ->name(RouteEnum::ApiLogout->value);
