@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\CreditCard;
+use App\Models\CreditCard\CreditCard;
 use Illuminate\Database\Seeder;
 
 class CreditCardSeeder extends Seeder

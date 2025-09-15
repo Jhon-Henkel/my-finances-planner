@@ -31,6 +31,11 @@ use App\Modules\Wallet\Controller\WalletDeleteController;
 use App\Modules\Wallet\Controller\WalletGetController;
 use App\Modules\Wallet\Controller\WalletListController;
 use App\Modules\Wallet\Controller\WalletUpdateController;
+use App\Modules\CreditCard\Controller\CreditCardCreateController;
+use App\Modules\CreditCard\Controller\CreditCardListController;
+use App\Modules\CreditCard\Controller\CreditCardGetController;
+use App\Modules\CreditCard\Controller\CreditCardDeleteController;
+use App\Modules\CreditCard\Controller\CreditCardUpdateController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v3')->group(function () {
@@ -42,6 +47,16 @@ Route::prefix('v3')->group(function () {
                 Route::put('', WalletUpdateController::class)->name(RouteNameEnum::ApiV3WalletUpdate);
                 Route::get('', WalletGetController::class)->name(RouteNameEnum::ApiV3WalletGet);
                 Route::delete('', WalletDeleteController::class)->name(RouteNameEnum::ApiV3WalletDelete);
+            });
+        });
+
+        Route::prefix('credit-card')->group(function () {
+            Route::post('', CreditCardCreateController::class)->name(RouteNameEnum::ApiV3CreditCardCreate);
+            Route::get('', CreditCardListController::class)->name(RouteNameEnum::ApiV3CreditCardList);
+            Route::prefix('{id}')->group(function () {
+                Route::put('', CreditCardUpdateController::class)->name(RouteNameEnum::ApiV3CreditCardUpdate);
+                Route::get('', CreditCardGetController::class)->name(RouteNameEnum::ApiV3CreditCardGet);
+                Route::delete('', CreditCardDeleteController::class)->name(RouteNameEnum::ApiV3CreditCardDelete);
             });
         });
     });

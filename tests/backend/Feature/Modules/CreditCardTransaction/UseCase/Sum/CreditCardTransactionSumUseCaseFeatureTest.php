@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Feature\Modules\CreditCardTransaction\UseCase\Sum;
 
-use App\Models\CreditCard;
+use App\Models\CreditCard\CreditCard;
 use App\Models\CreditCardTransaction;
 use App\Modules\Old\CreditCardTransaction\UseCase\Sum\CreditCardTransactionSumUseCase;
 use App\Modules\Old\Invoice\Service\InvoiceListService;

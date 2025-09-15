@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Unit\Repository\CreditCard;
 
-use App\Models\CreditCard;
+use App\Models\CreditCard\CreditCard;
 use App\Repositories\CreditCard\CreditCardRepository;
 use App\Resources\CreditCard\CreditCardResource;
 use Tests\backend\Falcon9;

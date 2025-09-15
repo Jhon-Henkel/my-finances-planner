@@ -76,5 +76,11 @@ enum RouteNameEnum: string
     case ApiV3WalletDelete = 'api.v3.wallet.delete';
     case ApiV3WalletUpdate = 'api.v3.wallet.update';
 
+    case ApiV3CreditCardCreate = 'api.v3.credit-card.create';
+    case ApiV3CreditCardList = 'api.v3.credit-card.list';
+    case ApiV3CreditCardGet = 'api.v3.credit-card.get';
+    case ApiV3CreditCardDelete = 'api.v3.credit-card.delete';
+    case ApiV3CreditCardUpdate = 'api.v3.credit-card.update';
+
     case ApiV3AuthLogin = 'api.v3.auth.login';
 }

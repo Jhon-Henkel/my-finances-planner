@@ -2,7 +2,7 @@
 
 namespace App\Repositories\CreditCard;
 
-use App\Models\CreditCard;
+use App\Models\CreditCard\CreditCard;
 use App\Repositories\BasicRepository;
 use App\Resources\CreditCard\CreditCardResource;
 

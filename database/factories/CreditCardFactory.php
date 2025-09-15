@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\CreditCard;
+use App\Models\CreditCard\CreditCard;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
