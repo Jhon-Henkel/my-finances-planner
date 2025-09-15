@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DateFormatEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,8 +19,10 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $verify_hash
  * @property int $wrong_login_attempts
  * @property string $email_verified_at
+ * @property string $created_at
+ * @property string $updated_at
  *
- * @mixin Builder
+ * @mixin Builder<User>
  */
 class User extends Authenticatable
 {
@@ -46,4 +49,14 @@ class User extends Authenticatable
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value,
         'email_verified_at' => DateFormatEnum::ModelDefaultDateFormat->value
     ];
+
+    public function isInactiveUser(): bool
+    {
+        return $this->status === StatusActiveInactiveEnum::Inactive->value;
+    }
+
+    public function noLoginAttemptsRemaining(): bool
+    {
+        return $this->wrong_login_attempts >= (int)config('app.max_wrong_login_attempts');
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Modules\Old\MarketControl\Controller;
 
-use App\Enums\Response\HttpStatusCodeEnum;
+use App\Infra\Response\Enum\HttpStatusCodeEnum;
 use App\Modules\Old\MarketControl\UseCase\MarkMarketSpent\MarkMarketSpentUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

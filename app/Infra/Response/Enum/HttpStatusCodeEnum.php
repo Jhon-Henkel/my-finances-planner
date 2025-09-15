@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\Response;
+namespace App\Infra\Response\Enum;
 
 enum HttpStatusCodeEnum: int
 {

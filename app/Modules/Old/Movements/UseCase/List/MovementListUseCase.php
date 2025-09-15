@@ -3,7 +3,7 @@
 namespace App\Modules\Old\Movements\UseCase\List;
 
 use App\Enums\MovementEnum;
-use App\Enums\RouteEnum;
+use App\Enums\RouteNameEnum;
 use App\Infra\Request\RequestTools;
 use App\Infra\UseCase\Read\IListUseCase;
 use App\Models\MovementModel;
@@ -69,7 +69,7 @@ class MovementListUseCase implements IListUseCase
         $date->addMonth();
         $args['month'] = $date->month;
         $args['year'] = $date->year;
-        return RequestTools::mountUrl(RouteEnum::ApiMovementList, '', $args);
+        return RequestTools::mountUrl(RouteNameEnum::ApiMovementList, '', $args);
     }
 
     protected function makeInvoicePrevMonthUrl(array $queryParams, array $args = []): string
@@ -78,7 +78,7 @@ class MovementListUseCase implements IListUseCase
         $date->subMonth();
         $args['month'] = $date->month;
         $args['year'] = $date->year;
-        return RequestTools::mountUrl(RouteEnum::ApiMovementList, '', $args);
+        return RequestTools::mountUrl(RouteNameEnum::ApiMovementList, '', $args);
     }
 
     public function addMetaData(array &$result, array $queryParams): void

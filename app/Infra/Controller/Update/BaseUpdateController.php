@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
+/**
+ * @deprecated
+ */
 abstract class BaseUpdateController extends Controller
 {
     abstract protected function getUseCase(): IUpdateUseCase;

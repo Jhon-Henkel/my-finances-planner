@@ -3,7 +3,7 @@
 namespace App\Modules\Old\Invoice\Service;
 
 use App\Enums\InvoiceInstallmentsEnum;
-use App\Enums\RouteEnum;
+use App\Enums\RouteNameEnum;
 use App\Infra\Request\RequestTools;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\NumberTools;
@@ -13,14 +13,14 @@ class InvoiceListService
 {
     public const int FIX_INSTALLMENT = 0;
 
-    protected function makeInvoiceNextMonthUrl(RouteEnum $route, array $queryParams, array $args = []): string
+    protected function makeInvoiceNextMonthUrl(RouteNameEnum $route, array $queryParams, array $args = []): string
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
         $date->addMonth();
         return RequestTools::mountUrl($route, "?year=$date->year&month=$date->month", $args);
     }
 
-    protected function makeInvoicePrevMonthUrl(RouteEnum $route, array $queryParams, array $args = []): string
+    protected function makeInvoicePrevMonthUrl(RouteNameEnum $route, array $queryParams, array $args = []): string
     {
         $date = Date::createFromDate($queryParams['year'], $queryParams['month'], 1);
         $date->subMonth();
@@ -56,7 +56,7 @@ class InvoiceListService
         $result['meta']['search_date'] = Date::createFromDate($queryParams['year'], $queryParams['month']);
     }
 
-    public function addPaginationUrls(array &$result, RouteEnum $route, array $queryParams, array $args = []): void
+    public function addPaginationUrls(array &$result, RouteNameEnum $route, array $queryParams, array $args = []): void
     {
         $result['next_page_url'] = $this->makeInvoiceNextMonthUrl($route, $queryParams, $args);
         $result['prev_page_url'] = $this->makeInvoicePrevMonthUrl($route, $queryParams, $args);

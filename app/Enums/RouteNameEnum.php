@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum RouteEnum: string
+enum RouteNameEnum: string
 {
     case ApiWalletIndex = 'apiWalletIndex';
     case ApiWalletShow = 'apiWalletShow';
@@ -75,4 +75,6 @@ enum RouteEnum: string
     case ApiV3WalletGet = 'api.v3.wallet.get';
     case ApiV3WalletDelete = 'api.v3.wallet.delete';
     case ApiV3WalletUpdate = 'api.v3.wallet.update';
+
+    case ApiV3AuthLogin = 'api.v3.auth.login';
 }

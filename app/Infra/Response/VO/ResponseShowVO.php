@@ -2,7 +2,7 @@
 
 namespace App\Infra\Response\VO;
 
-use App\Enums\Response\HttpStatusCodeEnum;
+use App\Infra\Response\Enum\HttpStatusCodeEnum;
 
 /**
  * @deprecated - deletar ao deletar o BaseShowController

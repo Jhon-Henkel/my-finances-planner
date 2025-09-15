@@ -3,8 +3,8 @@
 namespace App\Infra\Controller\Create;
 
 use App\Http\Controllers\Controller;
+use App\Infra\Response\Api\ResponseApi;
 use App\Infra\UseCase\Create\ICreateUseCaseV2;
-use App\Tools\Response\ResponseApi;
 use App\Tools\Validator\MfpValidator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

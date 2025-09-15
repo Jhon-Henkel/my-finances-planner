@@ -2,7 +2,7 @@
 
 namespace App\Modules\Old\EarningsPlan\UseCase\List;
 
-use App\Enums\RouteEnum;
+use App\Enums\RouteNameEnum;
 use App\Infra\UseCase\Read\IListUseCase;
 use App\Models\FutureGain;
 use App\Modules\Old\Invoice\Service\InvoiceListService;
@@ -19,7 +19,7 @@ class EarningPlanListUseCase implements IListUseCase
     {
         $this->invoiceService->validateFilterDateQueryParams($queryParams);
         $result = $this->getList(999999, $page, $queryParams);
-        $this->invoiceService->addPaginationUrls($result, RouteEnum::ApiEarningPlanList, $queryParams);
+        $this->invoiceService->addPaginationUrls($result, RouteNameEnum::ApiEarningPlanList, $queryParams);
         $this->invoiceService->addMetaData($result, $queryParams);
         return $result;
     }

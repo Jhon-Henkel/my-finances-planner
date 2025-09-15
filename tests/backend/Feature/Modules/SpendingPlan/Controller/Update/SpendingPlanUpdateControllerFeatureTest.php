@@ -2,8 +2,8 @@
 
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Update;
 
-use App\Enums\Response\HttpStatusCodeEnum;
 use App\Infra\Enum\StatusActiveInactiveEnum;
+use App\Infra\Response\Enum\HttpStatusCodeEnum;
 use App\Models\Wallet\Wallet;
 use App\Modules\Old\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
 use App\Modules\Old\SpendingPlan\Domain\SpendingPlanModel;

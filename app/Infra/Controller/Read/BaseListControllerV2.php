@@ -3,8 +3,8 @@
 namespace App\Infra\Controller\Read;
 
 use App\Http\Controllers\Controller;
+use App\Infra\Response\Api\ResponseApi;
 use App\Infra\UseCase\Read\IListUseCaseV2;
-use App\Tools\Response\ResponseApi;
 use Illuminate\Http\JsonResponse;
 
 abstract class BaseListControllerV2 extends Controller

@@ -7,6 +7,9 @@ use App\Infra\UseCase\Delete\IDeleteUseCase;
 use App\Tools\Response\ResponseApi;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @deprecated
+ */
 abstract class BaseDeleteController extends Controller
 {
     abstract protected function getUseCase(): IDeleteUseCase;

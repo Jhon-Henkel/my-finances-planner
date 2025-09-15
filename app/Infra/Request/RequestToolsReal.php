@@ -2,7 +2,7 @@
 
 namespace App\Infra\Request;
 
-use App\Enums\RouteEnum;
+use App\Enums\RouteNameEnum;
 
 class RequestToolsReal
 {
@@ -25,7 +25,7 @@ class RequestToolsReal
             $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
             $ip = trim($ipList[0]);
         } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
+            $ip = $_SERVER['REMOTE_ADDR'] ?? '';
         }
         return $ip;
     }
@@ -35,7 +35,7 @@ class RequestToolsReal
         return $_SERVER['HTTP_USER_AGENT'] ?? null;
     }
 
-    public function mountUrl(RouteEnum $route, string $query, array $args = []): string
+    public function mountUrl(RouteNameEnum $route, string $query, array $args = []): string
     {
         $route = route($route, $args) . $query;
         if ($this->isApplicationInDevelopMode()) {

@@ -3,8 +3,8 @@
 namespace Tests\backend\Feature\UseCases\User;
 
 use App\Enums\Plan\PlanNameEnum;
-use App\Enums\Response\HttpStatusCodeEnum;
 use App\Infra\Enum\StatusActiveInactiveEnum;
+use App\Infra\Response\Enum\HttpStatusCodeEnum;
 use App\Models\User\Plan;
 use App\Services\Mail\MailService;
 use App\Services\Queue\QueueProducerService;

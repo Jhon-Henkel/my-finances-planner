@@ -2,7 +2,7 @@
 
 namespace App\Modules\Old\CreditCardInvoice\UseCase\List;
 
-use App\Enums\RouteEnum;
+use App\Enums\RouteNameEnum;
 use App\Infra\UseCase\Read\IListUseCase;
 use App\Models\CreditCardTransaction;
 use App\Modules\Old\CreditCardInvoice\Exceptions\CreditCardIdNotFountInRoute;
@@ -20,7 +20,7 @@ class CreditCardInvoiceListUseCase implements IListUseCase
         $result = $this->getList(999999, $page, $queryParams);
         $this->invoiceService->addPaginationUrls(
             $result,
-            RouteEnum::ApiCreditCardInvoiceList,
+            RouteNameEnum::ApiCreditCardInvoiceList,
             $queryParams,
             ['credit_card_id' => request()->route('credit_card_id')]
         );

@@ -2,10 +2,10 @@
 
 namespace App\Modules\Wallet\UseCase;
 
-use App\Infra\UseCase\Update\IUpdateUseCase;
+use App\Infra\UseCase\Update\IUpdateUseCaseV2;
 use App\Models\Wallet\Wallet;
 
-class WalletUpdateUseCase implements IUpdateUseCase
+class WalletUpdateUseCase implements IUpdateUseCaseV2
 {
     public function execute(array $data, int $id): array
     {

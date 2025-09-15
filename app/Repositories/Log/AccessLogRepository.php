@@ -2,19 +2,19 @@
 
 namespace App\Repositories\Log;
 
-use App\Models\Log\AccessLogModel;
+use App\Models\Log\AccessLog;
 use App\Repositories\BasicRepository;
 use App\Resources\Log\AccessLogResource;
 
 class AccessLogRepository extends BasicRepository
 {
     public function __construct(
-        private readonly AccessLogModel $model,
+        private readonly AccessLog $model,
         private readonly AccessLogResource $resource
     ) {
     }
 
-    protected function getModel(): AccessLogModel
+    protected function getModel(): AccessLog
     {
         return $this->model;
     }

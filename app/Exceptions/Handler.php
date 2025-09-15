@@ -2,15 +2,16 @@
 
 namespace App\Exceptions;
 
-use App\Enums\Response\HttpStatusCodeEnum;
 use App\Exceptions\ResponseExceptions\BadRequestException;
 use App\Exceptions\ResponseExceptions\ForbiddenException;
 use App\Exceptions\ResponseExceptions\NotFoundException;
 use App\Http\Response\ApiResponse;
+use App\Infra\Response\Enum\HttpStatusCodeEnum;
 use App\Tools\ErrorReport;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\UnauthorizedException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -60,6 +61,10 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (NotFoundException $exception) {
             return ApiResponse::responseError($exception->getMessage(), HttpStatusCodeEnum::HttpNotFound->value);
+        });
+
+        $this->renderable(function (UnauthorizedException $e) {
+            return ApiResponse::renderUnauthorized($e->getMessage());
         });
 
         $this->renderable(function (QueryException $exception) {

@@ -2,9 +2,12 @@
 
 namespace App\Tools\Response;
 
-use App\Enums\Response\HttpStatusCodeEnum;
+use App\Infra\Response\Enum\HttpStatusCodeEnum;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @deprecated
+ */
 class ResponseApi
 {
     public static function renderCreated(): JsonResponse

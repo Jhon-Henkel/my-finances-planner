@@ -2,7 +2,7 @@
 
 namespace App\Modules\Old\SpendingPlan\UseCase;
 
-use App\Enums\RouteEnum;
+use App\Enums\RouteNameEnum;
 use App\Infra\UseCase\Read\IListUseCase;
 use App\Modules\Old\CreditCardTransaction\UseCase\Sum\CreditCardTransactionSumUseCase;
 use App\Modules\Old\EarningsPlan\UseCase\Sum\EarningPlanSumUseCase;
@@ -30,7 +30,7 @@ class SpendingPlanListUseCase implements IListUseCase
         $this->invoiceService->validateFilterDateQueryParams($queryParams);
         $result = $this->getList(999999, $page, $queryParams);
         $this->addInvoiceItemMarketPlannerUseCase->execute($result, $queryParams);
-        $this->invoiceService->addPaginationUrls($result, RouteEnum::ApiSpendingPlanList, $queryParams);
+        $this->invoiceService->addPaginationUrls($result, RouteNameEnum::ApiSpendingPlanList, $queryParams);
         $this->invoiceService->addMetaData($result, $queryParams);
         $this->addWalletTotalAmountMetadata($result);
         $this->addEarningsTotalAmountMetadata($result, $queryParams);
