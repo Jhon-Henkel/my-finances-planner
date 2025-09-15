@@ -21,8 +21,6 @@ class GenerateDemoUser extends Command
                 'password' => bcrypt('12345678'),
                 'status' => StatusEnum::Active->value,
                 'wrong_login_attempts' => 0,
-                'plan_id' => 1,
-                'tenant_id' => 1
             ]);
             $user->save();
 

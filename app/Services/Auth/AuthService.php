@@ -3,10 +3,8 @@
 namespace App\Services\Auth;
 
 use App\DTO\Log\AccessLogDTO;
-use App\Enums\ConfigEnum;
 use App\Enums\StatusEnum;
 use App\Models\User;
-use App\Services\ConfigurationService;
 use App\Services\Log\AccessLogService;
 use App\Services\UserService;
 use App\Tools\Auth\JwtTools;
@@ -23,7 +21,6 @@ class AuthService
     public function __construct(
         private readonly UserService $userService,
         private readonly AccessLogService $accessLogService,
-        private readonly ConfigurationService $configService
     ) {
     }
 
@@ -73,10 +70,9 @@ class AuthService
 
     public function makeAuthUserResponseData(User $user): array
     {
-        $config = $this->configService->findConfigByName(ConfigEnum::MustShowWelcomePage->value, $user);
         return [
             'token' => JwtTools::createJWT($user),
-            'must_show_welcome_page' => $config->getValue() == StatusEnum::Active->value,
+            'must_show_welcome_page' => false,
             'user' => [
                 'name' => $user->name,
                 'id' => $user->id,
