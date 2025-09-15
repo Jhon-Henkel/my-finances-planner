@@ -11,13 +11,3 @@ exit
 make setup-frontend
 make frontend
 ```
-  
-## Commands
-- Start e Acessar o container:
-    ```bash
-    make backend-bash
-    ```
-- Start o frontend (hot reload):
-    ```bash
-    make frontend
-    ```
