@@ -10,7 +10,7 @@ use Tests\FeatureTestCase;
 class AuthExpirationFeatureTest extends FeatureTestCase
 {
     #[TestDox("Verificando que o token expira após 4 horas")]
-    public function testOne()
+    public function test()
     {
         $this->assertEquals(240, Config::get('session.lifetime'));
         $this->assertEquals(240, Config::get('sanctum.expiration'));
