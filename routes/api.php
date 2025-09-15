@@ -9,29 +9,29 @@ use App\Http\Controllers\FinancialHealthController;
 use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\UserController;
-use App\Modules\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
-use App\Modules\EarningsPlan\Controller\List\EarningPlanListController;
-use App\Modules\MarketControl\Controller\GetWalletListController;
-use App\Modules\MarketControl\Controller\MarkSpentController;
-use App\Modules\MarketPlanner\Controller\Show\MarketPlannerShowController;
-use App\Modules\Movements\Controller\Delete\MovementDeleteController;
-use App\Modules\Movements\Controller\DeleteTransfer\MovementTransferDeleteController;
-use App\Modules\Movements\Controller\Insert\InsertMovementController;
-use App\Modules\Movements\Controller\InsertTransfer\MovementTransferInsertController;
-use App\Modules\Movements\Controller\List\MovementListController;
-use App\Modules\Movements\Controller\Update\MovementUpdateController;
-use App\Modules\SpendingPlan\Controller\Get\SpendingPlanGetController;
-use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
-use App\Modules\SpendingPlan\Controller\List\SpendingPlanListController;
-use App\Modules\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
-use App\Modules\Wallet\Controller\WalletController;
+use App\Modules\Old\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
+use App\Modules\Old\EarningsPlan\Controller\List\EarningPlanListController;
+use App\Modules\Old\MarketControl\Controller\GetWalletListController;
+use App\Modules\Old\MarketControl\Controller\MarkSpentController;
+use App\Modules\Old\MarketPlanner\Controller\Show\MarketPlannerShowController;
+use App\Modules\Old\Movements\Controller\Delete\MovementDeleteController;
+use App\Modules\Old\Movements\Controller\DeleteTransfer\MovementTransferDeleteController;
+use App\Modules\Old\Movements\Controller\Insert\CreateMovementController;
+use App\Modules\Old\Movements\Controller\InsertTransfer\MovementTransferCreateController;
+use App\Modules\Old\Movements\Controller\List\MovementListController;
+use App\Modules\Old\Movements\Controller\Update\MovementUpdateController;
+use App\Modules\Old\SpendingPlan\Controller\Get\SpendingPlanGetController;
+use App\Modules\Old\SpendingPlan\Controller\Insert\SpendingPlanCreateController;
+use App\Modules\Old\SpendingPlan\Controller\List\SpendingPlanListController;
+use App\Modules\Old\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
+use App\Modules\Old\Wallet\Controller\WalletController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('')->middleware('auth.api:api')->group(function () {
     Route::prefix('v2')->group(function () {
         Route::prefix('spending-plan')->group(function () {
             Route::get('', SpendingPlanListController::class)->name(RouteEnum::ApiSpendingPlanList->value);
-            Route::post('', SpendingPlanInsertController::class)->name(RouteEnum::ApiSpendingPlanInsert->value);
+            Route::post('', SpendingPlanCreateController::class)->name(RouteEnum::ApiSpendingPlanInsert->value);
             Route::put('{id}', SpendingPlanUpdateController::class)->name(RouteEnum::ApiSpendingPlanUpdate->value);
             Route::get('{id}', SpendingPlanGetController::class)->name(RouteEnum::ApiSpendingPlanGet->value);
         });
@@ -48,11 +48,11 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
         });
         Route::prefix('movement')->group(function () {
             Route::prefix('transfer')->group(function () {
-                Route::post('', MovementTransferInsertController::class)->name(RouteEnum::ApiMovementInsertTransfer->value);
+                Route::post('', MovementTransferCreateController::class)->name(RouteEnum::ApiMovementInsertTransfer->value);
                 Route::delete('{id}', MovementTransferDeleteController::class)->name(RouteEnum::ApiMovementDeleteTransfer->value);
             });
             Route::get('', MovementListController::class)->name(RouteEnum::ApiMovementList->value);
-            Route::post('', InsertMovementController::class)->name(RouteEnum::ApiMovementInsert->value);
+            Route::post('', CreateMovementController::class)->name(RouteEnum::ApiMovementInsert->value);
             Route::put('{id}', MovementUpdateController::class)->name(RouteEnum::ApiMovementUpdate->value);
             Route::delete('{id}', MovementDeleteController::class)->name(RouteEnum::ApiMovementDelete->value);
         });

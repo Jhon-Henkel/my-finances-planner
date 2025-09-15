@@ -3,7 +3,7 @@
 namespace Tests\backend\Feature\UseCases\User;
 
 use App\Enums\Plan\PlanNameEnum;
-use App\Enums\Response\StatusCodeEnum;
+use App\Enums\Response\HttpStatusCodeEnum;
 use App\Enums\StatusEnum;
 use App\Models\User\Plan;
 use App\Services\Mail\MailService;
@@ -34,10 +34,10 @@ class RegisterNewUserUseCaseTest extends Falcon9FeatureWithTenantDatabase
         $data = json_decode($queueData, true);
 
         $message = '=> Step zero failed';
-        $this->assertEquals(StatusCodeEnum::HttpCreated->value, $responseStepZero->status(), $message);
+        $this->assertEquals(HttpStatusCodeEnum::HttpCreated->value, $responseStepZero->status(), $message);
         $this->assertEquals('http://mfp_app/api/mfp/user/register/step-one', $data['url'], $message);
         $this->assertEquals('POST', $data['method'], $message);
-        $this->assertEquals(StatusCodeEnum::HttpCreated->value, $data['expected_response_code'], $message);
+        $this->assertEquals(HttpStatusCodeEnum::HttpCreated->value, $data['expected_response_code'], $message);
         $this->assertnotEmpty($data['data'], $message);
         $this->assertnotEmpty($data['queue_addition_date'], $message);
 
@@ -45,10 +45,10 @@ class RegisterNewUserUseCaseTest extends Falcon9FeatureWithTenantDatabase
         $data = json_decode($queueData, true);
 
         $message = '=> Step one failed';
-        $this->assertEquals(StatusCodeEnum::HttpCreated->value, $responseStepOne->status(), $message);
+        $this->assertEquals(HttpStatusCodeEnum::HttpCreated->value, $responseStepOne->status(), $message);
         $this->assertEquals('http://mfp_app/api/mfp/user/register/step-two', $data['url'], $message);
         $this->assertEquals('POST', $data['method'], $message);
-        $this->assertEquals(StatusCodeEnum::HttpOk->value, $data['expected_response_code'], $message);
+        $this->assertEquals(HttpStatusCodeEnum::HttpOk->value, $data['expected_response_code'], $message);
         $this->assertnotEmpty($data['data'], $message);
         $this->assertnotEmpty($data['queue_addition_date'], $message);
 
@@ -62,12 +62,12 @@ class RegisterNewUserUseCaseTest extends Falcon9FeatureWithTenantDatabase
 
         $responseStepOne = $this->postJson('/api/mfp/user/register/step-two', [$data['data']], $this->headerWithoutUser);
 
-        $this->assertEquals(StatusCodeEnum::HttpOk->value, $responseStepOne->status(), '=> Step two failed');
+        $this->assertEquals(HttpStatusCodeEnum::HttpOk->value, $responseStepOne->status(), '=> Step two failed');
 
         $url = "/api/mfp/user/register/activate/{$mailData->getParams()['hash']}";
         $responseStepTwo = $this->postJson($url, [], $this->headerWithoutUser);
 
-        $this->assertEquals(StatusCodeEnum::HttpOk->value, $responseStepTwo->status(), '=> Step three failed');
+        $this->assertEquals(HttpStatusCodeEnum::HttpOk->value, $responseStepTwo->status(), '=> Step three failed');
 
         $this->assertDatabaseHas('users', [
             'email' => $userData['email'],

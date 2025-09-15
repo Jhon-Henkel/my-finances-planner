@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use App\Enums\Response\StatusCodeEnum;
+use App\Enums\Response\HttpStatusCodeEnum;
 use App\Exceptions\ResponseExceptions\BadRequestException;
 use App\Exceptions\ResponseExceptions\ForbiddenException;
 use App\Exceptions\ResponseExceptions\NotFoundException;
@@ -51,21 +51,21 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->renderable(function (BadRequestException|DecryptException $exception) {
-            return ApiResponse::responseError($exception->getMessage(), StatusCodeEnum::HttpBadRequest->value);
+            return ApiResponse::responseError($exception->getMessage(), HttpStatusCodeEnum::HttpBadRequest->value);
         });
 
         $this->renderable(function (ForbiddenException $exception) {
-            return ApiResponse::responseError($exception->getMessage(), StatusCodeEnum::HttpForbidden->value);
+            return ApiResponse::responseError($exception->getMessage(), HttpStatusCodeEnum::HttpForbidden->value);
         });
 
         $this->renderable(function (NotFoundException $exception) {
-            return ApiResponse::responseError($exception->getMessage(), StatusCodeEnum::HttpNotFound->value);
+            return ApiResponse::responseError($exception->getMessage(), HttpStatusCodeEnum::HttpNotFound->value);
         });
 
         $this->renderable(function (QueryException $exception) {
             ErrorReport::report(new DatabaseException($exception->getMessage()));
             $message = 'Erro ao se conectar com o banco de dados!';
-            return ApiResponse::responseError($message, StatusCodeEnum::HttpInternalServerError->value);
+            return ApiResponse::responseError($message, HttpStatusCodeEnum::HttpInternalServerError->value);
         });
 
         $this->reportable(function (Throwable $exception) {

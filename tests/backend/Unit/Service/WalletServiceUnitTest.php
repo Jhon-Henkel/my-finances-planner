@@ -2,9 +2,9 @@
 
 namespace Tests\backend\Unit\Service;
 
-use App\Modules\Wallet\DTO\WalletDTO;
-use App\Modules\Wallet\Repository\WalletRepository;
-use App\Modules\Wallet\Service\WalletService;
+use App\Modules\Old\Wallet\DTO\WalletDTO;
+use App\Modules\Old\Wallet\Repository\WalletRepository;
+use App\Modules\Old\Wallet\Service\WalletService;
 use App\Services\Movement\MovementService;
 use Mockery;
 use Tests\backend\Falcon9;

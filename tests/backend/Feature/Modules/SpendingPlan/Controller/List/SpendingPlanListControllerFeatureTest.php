@@ -3,7 +3,7 @@
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\List;
 
 use App\Models\WalletModel;
-use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
+use App\Modules\Old\SpendingPlan\Domain\SpendingPlanModel;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 

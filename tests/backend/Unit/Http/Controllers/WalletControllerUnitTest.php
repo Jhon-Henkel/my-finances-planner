@@ -2,9 +2,9 @@
 
 namespace Tests\backend\Unit\Http\Controllers;
 
-use App\Modules\Wallet\Controller\WalletController;
-use App\Modules\Wallet\Resource\WalletResource;
-use App\Modules\Wallet\Service\WalletService;
+use App\Modules\Old\Wallet\Controller\WalletController;
+use App\Modules\Old\Wallet\Resource\WalletResource;
+use App\Modules\Old\Wallet\Service\WalletService;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 

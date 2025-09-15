@@ -3,8 +3,8 @@
 namespace Tests\backend\Unit\Repository;
 
 use App\Models\WalletModel;
-use App\Modules\Wallet\Repository\WalletRepository;
-use App\Modules\Wallet\Resource\WalletResource;
+use App\Modules\Old\Wallet\Repository\WalletRepository;
+use App\Modules\Old\Wallet\Resource\WalletResource;
 use Tests\backend\Falcon9;
 
 class WalletRepositoryUnitTest extends Falcon9

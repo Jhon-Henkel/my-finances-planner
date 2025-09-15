@@ -3,7 +3,7 @@
 namespace App\Infra\Controller\Delete;
 
 use App\Http\Controllers\Controller;
-use App\Infra\Shared\UseCase\Delete\IDeleteUseCase;
+use App\Infra\UseCase\Delete\IDeleteUseCase;
 use App\Tools\Response\ResponseApi;
 use Illuminate\Http\JsonResponse;
 

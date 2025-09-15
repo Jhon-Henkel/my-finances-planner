@@ -4,8 +4,8 @@ namespace Tests\backend\Unit\Modules\Movement\UseCase;
 
 use App\Enums\MovementEnum;
 use App\Models\MovementModel;
-use App\Modules\Movements\Exceptions\MovementTypeDontIdentifiedException;
-use App\Modules\Movements\UseCase\Update\MovementUpdateUseCase;
+use App\Modules\Old\Movements\Exceptions\MovementTypeDontIdentifiedException;
+use App\Modules\Old\Movements\UseCase\Update\MovementUpdateUseCase;
 use Mockery;
 use Tests\backend\Falcon9;
 

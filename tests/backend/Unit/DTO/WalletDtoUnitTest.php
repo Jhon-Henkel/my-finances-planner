@@ -3,7 +3,7 @@
 namespace Tests\backend\Unit\DTO;
 
 use App\Enums\StatusEnum;
-use App\Modules\Wallet\DTO\WalletDTO;
+use App\Modules\Old\Wallet\DTO\WalletDTO;
 use Tests\backend\Falcon9;
 
 class WalletDtoUnitTest extends Falcon9

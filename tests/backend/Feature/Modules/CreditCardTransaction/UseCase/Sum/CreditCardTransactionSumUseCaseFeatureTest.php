@@ -4,8 +4,8 @@ namespace Tests\backend\Feature\Modules\CreditCardTransaction\UseCase\Sum;
 
 use App\Models\CreditCard;
 use App\Models\CreditCardTransaction;
-use App\Modules\CreditCardTransaction\UseCase\Sum\CreditCardTransactionSumUseCase;
-use App\Modules\Invoice\Service\InvoiceListService;
+use App\Modules\Old\CreditCardTransaction\UseCase\Sum\CreditCardTransactionSumUseCase;
+use App\Modules\Old\Invoice\Service\InvoiceListService;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class CreditCardTransactionSumUseCaseFeatureTest extends Falcon9FeatureWithTenantDatabase

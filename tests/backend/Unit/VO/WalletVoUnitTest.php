@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Unit\VO;
 
-use App\Modules\Wallet\VO\WalletVO;
+use App\Modules\Old\Wallet\VO\WalletVO;
 use Tests\backend\Falcon9;
 
 class WalletVoUnitTest extends Falcon9

@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Unit\Enums;
 
-use App\Modules\Wallet\Enum\WalletTypeEnum;
+use App\Modules\Old\Wallet\Enum\WalletTypeEnum;
 use Tests\backend\Falcon9;
 
 class WalletTypeEnumUnitTest extends Falcon9

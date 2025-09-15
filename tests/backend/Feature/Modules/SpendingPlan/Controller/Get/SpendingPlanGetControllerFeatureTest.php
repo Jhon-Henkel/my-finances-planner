@@ -2,10 +2,10 @@
 
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Get;
 
-use App\Enums\Response\StatusCodeEnum;
+use App\Enums\Response\HttpStatusCodeEnum;
 use App\Enums\StatusEnum;
 use App\Models\WalletModel;
-use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
+use App\Modules\Old\SpendingPlan\Domain\SpendingPlanModel;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
@@ -26,7 +26,7 @@ class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatab
             'variableSpending' => StatusEnum::Inactive->value
         ], $this->makeApiHeaders());
 
-        $response->assertStatus(StatusCodeEnum::HttpCreated->value);
+        $response->assertStatus(HttpStatusCodeEnum::HttpCreated->value);
 
         $response = $this->postJson('/api/v2/spending-plan', [
             'walletId' => $wallet->id,
@@ -39,13 +39,13 @@ class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatab
             'variableSpending' => StatusEnum::Inactive->value
         ], $this->makeApiHeaders());
 
-        $response->assertStatus(StatusCodeEnum::HttpCreated->value);
+        $response->assertStatus(HttpStatusCodeEnum::HttpCreated->value);
 
         $item = SpendingPlanModel::query()->where('description', 'Spending Plan 5')->first();
 
         $response = $this->get("/api/v2/spending-plan/$item->id", $this->makeApiHeaders());
 
-        $response->assertStatus(StatusCodeEnum::HttpOk->value);
+        $response->assertStatus(HttpStatusCodeEnum::HttpOk->value);
         $response->assertJsonFragment([
             "id" => $item->id,
             "walletName" => $wallet->name,

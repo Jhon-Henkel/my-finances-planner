@@ -2,11 +2,11 @@
 
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Insert;
 
-use App\Enums\Response\StatusCodeEnum;
+use App\Enums\Response\HttpStatusCodeEnum;
 use App\Enums\StatusEnum;
 use App\Models\WalletModel;
-use App\Modules\SpendingPlan\Controller\Insert\SpendingPlanInsertController;
-use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
+use App\Modules\Old\SpendingPlan\Controller\Insert\SpendingPlanCreateController;
+use App\Modules\Old\SpendingPlan\Domain\SpendingPlanModel;
 use Mockery;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
@@ -28,7 +28,7 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'variableSpending' => StatusEnum::Inactive->value
         ], $this->makeApiHeaders());
 
-        $response->assertStatus(StatusCodeEnum::HttpCreated->value);
+        $response->assertStatus(HttpStatusCodeEnum::HttpCreated->value);
 
         $item = SpendingPlanModel::query()->where('description', 'Spending Plan 5')->first();
 
@@ -45,7 +45,7 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
 
     public function testRules(): void
     {
-        $controller = Mockery::mock(SpendingPlanInsertController::class)->makePartial();
+        $controller = Mockery::mock(SpendingPlanCreateController::class)->makePartial();
         $controller->shouldAllowMockingProtectedMethods();
 
         $this->assertEquals([

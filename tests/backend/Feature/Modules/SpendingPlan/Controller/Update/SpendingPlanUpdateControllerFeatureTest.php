@@ -2,11 +2,11 @@
 
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Update;
 
-use App\Enums\Response\StatusCodeEnum;
+use App\Enums\Response\HttpStatusCodeEnum;
 use App\Enums\StatusEnum;
 use App\Models\WalletModel;
-use App\Modules\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
-use App\Modules\SpendingPlan\Domain\SpendingPlanModel;
+use App\Modules\Old\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
+use App\Modules\Old\SpendingPlan\Domain\SpendingPlanModel;
 use Mockery;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
@@ -28,7 +28,7 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'variableSpending' => StatusEnum::Inactive->value
         ], $this->makeApiHeaders());
 
-        $response->assertStatus(StatusCodeEnum::HttpCreated->value);
+        $response->assertStatus(HttpStatusCodeEnum::HttpCreated->value);
 
         $item = SpendingPlanModel::query()->where('description', 'Spending Plan 5')->first();
 
@@ -50,7 +50,7 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'variableSpending' => StatusEnum::Active->value
         ], $this->makeApiHeaders());
 
-        $response->assertStatus(StatusCodeEnum::HttpOk->value);
+        $response->assertStatus(HttpStatusCodeEnum::HttpOk->value);
 
         $item = SpendingPlanModel::query()->where('description', 'Spending Plan 5 Updated')->first();
 

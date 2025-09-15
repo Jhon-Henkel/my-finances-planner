@@ -6,7 +6,7 @@ use App\DTO\FutureMovement\FutureGainDTO;
 use App\DTO\FutureMovement\FutureSpentDTO;
 use App\DTO\Movement\MovementDTO;
 use App\Enums\MovementEnum;
-use App\Modules\Wallet\Service\WalletService;
+use App\Modules\Old\Wallet\Service\WalletService;
 use App\Repositories\Movement\MovementRepository;
 use App\Resources\Movement\MovementResource;
 use App\Services\BasicService;

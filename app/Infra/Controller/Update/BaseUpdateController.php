@@ -3,11 +3,13 @@
 namespace App\Infra\Controller\Update;
 
 use App\Http\Controllers\Controller;
-use App\Infra\Shared\UseCase\Update\IUpdateUseCase;
+use App\Infra\UseCase\Update\IUpdateUseCase;
 use App\Tools\Response\ResponseApi;
 use App\Tools\Validator\MfpValidator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 abstract class BaseUpdateController extends Controller
 {
@@ -17,10 +19,17 @@ abstract class BaseUpdateController extends Controller
     public function __invoke(Request $request, int $id): JsonResponse
     {
         MfpValidator::validateRequest($request, $this->getRules());
-        $result = $this->getUseCase()->execute($request->json()->all(), $id);
-        if ($result) {
+        DB::beginTransaction();
+        try {
+
+            $this->getUseCase()->execute($request->json()->all(), $id);
             return ResponseApi::renderOk();
+
+        } catch (Throwable $e) {
+
+            DB::rollBack();
+            throw $e;
+
         }
-        return ResponseApi::renderInternalServerError('Erro ao atualizar item.');
     }
 }

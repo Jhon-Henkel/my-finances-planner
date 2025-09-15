@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\WalletModel;
-use App\Modules\Wallet\Enum\WalletTypeEnum;
+use App\Modules\Old\Wallet\Enum\WalletTypeEnum;
 use Illuminate\Database\Seeder;
 
 class WalletSeeder extends Seeder
