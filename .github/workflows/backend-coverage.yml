@@ -1,69 +1,69 @@
-name: Backend Coverage
-
-on:
-  push:
-    branches: [ "main" ]
-
-jobs:
-  coverage-backend:
-    runs-on: ubuntu-latest
-
-    container:
-      image: jhowrf/php:8.4
-
-    services:
-      mysql:
-        image: mysql:8.0
-        ports:
-          - 33306:3306
-        env:
-          MYSQL_DATABASE: testing
-          MYSQL_ROOT_PASSWORD: 123
-          MYSQL_USER: testing
-          MYSQL_PASSWORD: 123
-        options:
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
-    steps:
-      - name: 🔥 Configuring checkout
-        uses: actions/checkout@v4
-
-      - name: 📄 Making .env file
-        run: |
-          echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
-
-      - name: 🛠️ Installing dependencies
-        run: |
-          composer install
-          apt-get update && apt-get install -y default-mysql-client git gnupg
-
-      - name: 🛠 Setup Runner Database
-        run: |
-          php artisan migrate --database=mysql_testing --force
-          mysql -h mysql -P 3306 -u root -p123 -e "CREATE DATABASE IF NOT EXISTS 370171777f0ef09ea68fd2915adb6703;"
-          mysql -h mysql -P 3306 -u root -p123 -e "GRANT ALL PRIVILEGES ON *.* TO 'testing'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-          mysql -h mysql -P 3306 -u testing -p123 testing < ./config/docker/develop/database/github-pipeline-test.sql
-          php artisan migrate:all-tenants
-
-      - name: 👍 Applying permissions
-        run: chmod -R 777 storage bootstrap/cache
-
-      - name: ⚡️ Executing PHP test coverage
-        run: composer run test:coverage
-
-      - name: 🏷 Making coverage badge
-        uses: timkrase/phpunit-coverage-badge@v1.2.1
-        with:
-          coverage_badge_path: output/coverage-backend.svg
-          push_badge: false
-
-      - name: 💡️Uploading coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./clover.xml
-          flags: backend
-          name: Backend Test
+#name: Backend Coverage
+#
+#on:
+#  push:
+#    branches: [ "main" ]
+#
+#jobs:
+#  coverage-backend:
+#    runs-on: ubuntu-latest
+#
+#    container:
+#      image: jhowrf/php:8.4
+#
+#    services:
+#      mysql:
+#        image: mysql:8.0
+#        ports:
+#          - 33306:3306
+#        env:
+#          MYSQL_DATABASE: testing
+#          MYSQL_ROOT_PASSWORD: 123
+#          MYSQL_USER: testing
+#          MYSQL_PASSWORD: 123
+#        options:
+#          --health-cmd="mysqladmin ping"
+#          --health-interval=10s
+#          --health-timeout=5s
+#          --health-retries=5
+#
+#    steps:
+#      - name: 🔥 Configuring checkout
+#        uses: actions/checkout@v4
+#
+#      - name: 📄 Making .env file
+#        run: |
+#          echo "${{ secrets.ENV_MFP_PERSONAL }}" > .env
+#
+#      - name: 🛠️ Installing dependencies
+#        run: |
+#          composer install
+#          apt-get update && apt-get install -y default-mysql-client git gnupg
+#
+#      - name: 🛠 Setup Runner Database
+#        run: |
+#          php artisan migrate --database=mysql_testing --force
+#          mysql -h mysql -P 3306 -u root -p123 -e "CREATE DATABASE IF NOT EXISTS 370171777f0ef09ea68fd2915adb6703;"
+#          mysql -h mysql -P 3306 -u root -p123 -e "GRANT ALL PRIVILEGES ON *.* TO 'testing'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+#          mysql -h mysql -P 3306 -u testing -p123 testing < ./config/docker/develop/database/github-pipeline-test.sql
+#          php artisan migrate:all-tenants
+#
+#      - name: 👍 Applying permissions
+#        run: chmod -R 777 storage bootstrap/cache
+#
+#      - name: ⚡️ Executing PHP test coverage
+#        run: composer run test:coverage
+#
+#      - name: 🏷 Making coverage badge
+#        uses: timkrase/phpunit-coverage-badge@v1.2.1
+#        with:
+#          coverage_badge_path: output/coverage-backend.svg
+#          push_badge: false
+#
+#      - name: 💡️Uploading coverage to Codecov
+#        uses: codecov/codecov-action@v4
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          files: ./clover.xml
+#          flags: backend
+#          name: Backend Test

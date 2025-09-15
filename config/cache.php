@@ -1,7 +1,5 @@
 <?php
 
-use App\Tools\Cache\MfpCacheManagerReal;
-
 return [
     'default' => env('CACHE_DRIVER', 'file'),
     'stores' => [
@@ -57,5 +55,5 @@ return [
             'driver' => 'octane',
         ],
     ],
-    'prefix' => MfpCacheManagerReal::CACHE_PREFIX,
+    'prefix' => 'mfp-',
 ];

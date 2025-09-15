@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\DTO\UserDTO;
 use App\Models\User;
 use App\Resources\UserResource;
-use App\Services\Database\DatabaseConnectionService;
 
 class UserRepository extends BasicRepository
 {
@@ -36,8 +35,6 @@ class UserRepository extends BasicRepository
 
     public function findByEmail(string $email)
     {
-        $connection = new DatabaseConnectionService();
-        $connection->setMasterConnection();
         return $this->getModel()->where('email', $email)->first();
     }
 
@@ -48,15 +45,5 @@ class UserRepository extends BasicRepository
             return null;
         }
         return $this->getResource()->arrayToDto($user->toArray());
-    }
-
-    public function activeUser(int $id): void
-    {
-        $user = $this->getModel()->findOrFail($id);
-        $user->status = 1;
-        $user->verify_hash = '';
-        $user->email_verified_at = now();
-        $user->wrong_login_attempts = 0;
-        $user->save();
     }
 }

@@ -2,10 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\Database\DatabaseConnectionEnum;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class StartDevelopProject extends Command
@@ -47,34 +44,16 @@ class StartDevelopProject extends Command
             $this->call('cache:clear');
             $this->call('config:clear');
 
-            $this->info('=> Preparing master database...');
-            system('php artisan migrate --database=' . DatabaseConnectionEnum::Master->value . ' --force');
-            $this->info('');
-
-            $this->info('=> Preparing test database...');
-            system('php artisan migrate --database=' . DatabaseConnectionEnum::Test->value . ' --force');
-            system('php artisan migrate --database=' . DatabaseConnectionEnum::Test->value . ' --force --path=database/migrations/tenant --seed');
+            $this->info('=> Preparing database...');
+            system('php artisan migrate --force --seed');
             $this->info('');
 
             $this->info('=> Creating user...');
             system('php artisan create:user');
             $this->info('');
 
-            $this->info('=> Preparing tenant database...');
-            $result = DB::connection(DatabaseConnectionEnum::Master->value)->select('SELECT * FROM tenants ORDER BY id DESC LIMIT 1');
-
-            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.database' => Crypt::decryptString($result[0]->database)]);
-            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.username' => Crypt::decryptString($result[0]->username)]);
-            config(['database.connections.' . DatabaseConnectionEnum::Tenant->value . '.password' => Crypt::decryptString($result[0]->password)]);
-            $this->call('migrate', ['--database' => DatabaseConnectionEnum::Tenant->value, '--path' => 'database/migrations/tenant', '--seed' => true]);
-            $this->info('');
-
             $this->info('=> Configuring frontend keys...');
             $this->addTokenOnFrontendEnv();
-            $this->info('');
-
-            $this->info('=> Configuring queue consumer keys...');
-            $this->addTokenOnConsumerEnv();
             $this->info('');
 
             $this->info('=> Cleaning caches...');
@@ -104,20 +83,6 @@ class StartDevelopProject extends Command
         $replaced = str_replace('VITE_MFP_TOKEN=', "VITE_MFP_TOKEN=$key", $input);
         if ($replaced === $input) {
             $this->error('Unable to set MFP-key key. No VITE_MFP_TOKEN variable was found in the frontend .env file.');
-            return;
-        }
-        file_put_contents($filepath, $replaced);
-    }
-
-    private function addTokenOnConsumerEnv(): void
-    {
-        $inputBackend = file_get_contents('.env');
-        $key = explode('PUSHER_APP_SECRET', explode('PUSHER_APP_KEY=', $inputBackend)[1])[0];
-        $filepath = 'queue-consumer/.env';
-        $input = file_get_contents($filepath);
-        $replaced = str_replace('APP_TOKEN=', "APP_TOKEN=$key", $input);
-        if ($replaced === $input) {
-            $this->error('Unable to set MFP-key key. No APP_TOKEN variable was found in the queue consumer .env file.');
             return;
         }
         file_put_contents($filepath, $replaced);

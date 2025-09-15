@@ -20,9 +20,9 @@ class MarketPlannerService
     private float $thisMonthMarketSpentValue = 0;
 
     public function __construct(
-        readonly private ConfigurationService $configurationService,
-        readonly private MovementService $movementService,
-        readonly private CreditCardTransactionService $creditCardTransactionService
+        private readonly ConfigurationService $configurationService,
+        private readonly MovementService $movementService,
+        private readonly CreditCardTransactionService $creditCardTransactionService
     ) {
     }
 

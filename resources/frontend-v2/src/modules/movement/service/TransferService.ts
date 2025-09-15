@@ -10,8 +10,8 @@ export const TransferService = {
     emptyTransfer: (): ITransferForm => {
         return {
             amount: 0,
-            origin_id: 0,
-            destination_id: 0
+            originId: 0,
+            destinationId: 0
         }
     }
 }

@@ -12,7 +12,6 @@ import {useAuthStore} from "@/modules/login/store/AuthStore"
 import {UserSettingsFormValidation} from "@/modules/user/validation/UserSettingsFormValidation"
 import {AuthService} from "@/modules/login/service/AuthService"
 import router from "../../../../infra/router"
-import {MfpSubscriptionService} from "@/modules/subscription/service/MfpSubscriptionService"
 
 const userSettings = ref(UserService.makeEmptyUser())
 const alterPassword = ref(false)
@@ -96,20 +95,6 @@ onMounted(async () => {
                     </ion-label>
                 </ion-col>
             </ion-row>
-        </template>
-        <template #footer>
-            <ion-grid>
-                <ion-row>
-                    <ion-col>
-                        <ion-button
-                            expand="block"
-                            @click="MfpSubscriptionService.openModal('', false)"
-                        >
-                            Gerenciar Plano
-                        </ion-button>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
         </template>
     </mfp-modal-content>
 </template>

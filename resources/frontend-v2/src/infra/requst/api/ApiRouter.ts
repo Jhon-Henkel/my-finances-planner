@@ -9,8 +9,6 @@ import {PayReceiveModel} from "@/modules/pay-receive/model/PayReceiveModel"
 import router from "../../router"
 import {UserModel} from "@/modules/user/model/UserModel"
 import {MainSettingsModel} from "@/modules/setings/model/MainSettingsModel"
-import {IRegisterForm} from "@/modules/register/service/IRegisterForm"
-import {MfpSubscriptionService} from "@/modules/subscription/service/MfpSubscriptionService"
 import {ResponseListDefault} from "@/infra/response/response.list.default"
 import {ISpendingPlanForm} from "@/modules/spending-plan/model/ISpendingPlanForm"
 import {ICreditCardForm} from "@/modules/credit-card/service/ICreditCardForm"
@@ -38,17 +36,6 @@ function makeHeaders(): object {
     }
 }
 
-function makeHeadersNonLogged(): object {
-    return {
-        headers: {
-            'content-type': 'application/json',
-            'Accept': 'application/json',
-            'MFP-TOKEN': process.env.VITE_MFP_TOKEN,
-        },
-        timeout: requestTimeout
-    }
-}
-
 axios.interceptors.response.use(response => {
     return response
 }, async (error) => {
@@ -59,12 +46,8 @@ axios.interceptors.response.use(response => {
         });
     }
     if (error.response && (error.response.status === 400 || error.response.status === 403)) {
-        if (error.response.data.message.includes('atingido para o seu plano')) {
-            await MfpSubscriptionService.openModal(error.response.data.message)
-        } else {
-            const okAlert: MfpOkAlert = new MfpOkAlert("Ocorreu um erro!")
-            await okAlert.open(error.response.data.message)
-        }
+        const okAlert: MfpOkAlert = new MfpOkAlert("Ocorreu um erro!")
+        await okAlert.open(error.response.data.message)
     }
     if (error.response && error.response.status === 503) {
         await router.push({name: 'updating'})
@@ -225,14 +208,6 @@ export const ApiRouter = {
             const response = await axios.put(mountApiUrl('user', id), user, makeHeaders())
             return response.data
         },
-        register: async function (user: IRegisterForm) {
-            const response = await axios.post(mountApiUrl('user/register'), user)
-            return response.data
-        },
-        activateAccount: async function (hash: string) {
-            const response = await axios.post(mountApiUrl(`mfp/user/register/activate/${hash}`), {}, makeHeadersNonLogged())
-            return response.data
-        }
     },
     financialHealth: {
         getFiltered: async (quest: null | string = null) => {
@@ -248,16 +223,6 @@ export const ApiRouter = {
         },
         update: async function (settings: Array<MainSettingsModel>) {
             const response = await axios.put(mountApiUrl('configurations'), settings, makeHeaders())
-            return response.data
-        }
-    },
-    subscription: {
-        subscribe: async function () {
-            const response = await axios.post(mountApiUrl('subscription/subscribe'), [], makeHeaders())
-            return response.data
-        },
-        cancel: async function (data: any) {
-            const response = await axios.post(mountApiUrl('subscription/cancel'), data, makeHeaders())
             return response.data
         }
     },

@@ -2,7 +2,6 @@
 
 namespace App\Tools;
 
-use App\Exceptions\Plan\LimitExceededException;
 use App\Tools\Request\RequestTools;
 use Sentry\State\HubInterface;
 use Sentry\State\Scope;
@@ -17,9 +16,6 @@ class ErrorReport
             return;
         }
         if (self::mustIgnoreExceptionByMessage($exception)) {
-            return;
-        }
-        if (self::mustIgnoreExceptionByInstance($exception)) {
             return;
         }
         $sentry = app(HubInterface::class);
@@ -45,14 +41,6 @@ class ErrorReport
             'Tokens obrigatórios ausentes ou inválidos!',
             'Service Unavailable',
             'Não é possível excluir uma carteira que possui movimentações!' => true,
-            default => false,
-        };
-    }
-
-    protected static function mustIgnoreExceptionByInstance(Throwable $exception): bool
-    {
-        return match (get_class($exception)) {
-            LimitExceededException::class => true,
             default => false,
         };
     }

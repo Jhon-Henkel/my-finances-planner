@@ -3,18 +3,13 @@
 namespace App\Services\Auth;
 
 use App\DTO\Log\AccessLogDTO;
-use App\DTO\Mail\MailMessageDTO;
-use App\Enums\Cache\CacheKeyEnum;
 use App\Enums\ConfigEnum;
-use App\Enums\RouteEnum;
 use App\Enums\StatusEnum;
 use App\Models\User;
 use App\Services\ConfigurationService;
 use App\Services\Log\AccessLogService;
-use App\Services\Mail\MailService;
 use App\Services\UserService;
 use App\Tools\Auth\JwtTools;
-use App\Tools\Cache\MfpCacheManager;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Hash;
@@ -27,7 +22,6 @@ class AuthService
 
     public function __construct(
         private readonly UserService $userService,
-        private readonly MailService $mailService,
         private readonly AccessLogService $accessLogService,
         private readonly ConfigurationService $configService
     ) {
@@ -35,12 +29,7 @@ class AuthService
 
     public function findUserForAuth(string $email): User|null
     {
-        $user = MfpCacheManager::getModel($email, CacheKeyEnum::User);
-        if (is_null($user)) {
-            $user = $this->userService->findUserByEmail($email);
-            MfpCacheManager::setModel($email, CacheKeyEnum::User, $user);
-        }
-        return $user;
+        return $this->userService->findUserByEmail($email);
     }
 
     public function validateLogin(?User $user, string $password): int
@@ -53,7 +42,6 @@ class AuthService
         }
         if ($user->wrong_login_attempts > config('app.max_wrong_login_attempts')) {
             $this->inactiveUser($user);
-            $this->sendEmailInactiveUser($user);
             return self::INACTIVE_USER_CODE;
         }
         if (Hash::check($password, $user->password)) {
@@ -77,23 +65,6 @@ class AuthService
         $user->save();
     }
 
-    protected function sendEmailInactiveUser(User $user): void
-    {
-        $email = $this->generateDataForEmailInactiveUser($user);
-        $this->mailService->sendEmail($email);
-    }
-
-    protected function generateDataForEmailInactiveUser(User $user): MailMessageDTO
-    {
-        $subject = 'Ativação de usuário';
-        $template = 'emails.activeUser';
-        $data = [
-            'linkToActiveUser' => route(RouteEnum::WebActiveUser->value, ['verifyHash' => $user->verify_hash]),
-            'name' => $user->name,
-        ];
-        return new MailMessageDTO($user->email, $user->name, $subject, $template, $data);
-    }
-
     protected function incrementWrongLoginAttempts(User $user): void
     {
         $user->wrong_login_attempts++;
@@ -109,7 +80,6 @@ class AuthService
             'user' => [
                 'name' => $user->name,
                 'id' => $user->id,
-                'plan' => $user->plan()->name,
                 'salutation' => CalendarTools::salutation($user->name, (int)date('H')),
                 'email' => $user->email,
             ]

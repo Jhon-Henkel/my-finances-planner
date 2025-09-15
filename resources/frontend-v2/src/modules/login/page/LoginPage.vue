@@ -2,8 +2,6 @@
 import {IonCol, IonGrid, IonRow} from "@ionic/vue"
 import {onMounted, ref} from "vue"
 import {lockClosedOutline, mailOutline} from "ionicons/icons"
-import MfpCreateAccountLink from "@/modules/login/component/MfpCreateAccountLink.vue"
-import MfpForgottenPasswordLink from "@/modules/login/component/MfpForgottenPasswordLink.vue"
 import MfpLoginTopText from "@/modules/login/component/MfpLoginTopText.vue"
 import MfpLoginButton from "@/modules/login/component/MfpLoginButton.vue"
 import MfpInput from "@/modules/@shared/components/input/MfpInput.vue"
@@ -13,7 +11,6 @@ import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
 import {LoginFormValidation} from "@/modules/login/validation/LoginFormValidation"
 import {UtilApp} from "@/modules/@shared/util/UtilApp"
 import router from "../../../infra/router"
-import MfpTermsAndPrivacyText from "@/modules/terms-and-policy/MfpTermsAndPrivacyText.vue"
 
 const loginData = ref(AuthService.emptyLoginObject())
 loginData.value.email = AuthService.getRememberedEmail()
@@ -80,17 +77,8 @@ onMounted(async () => {
                     </ion-col>
                     <ion-col size="1"/>
                 </ion-row>
-                <mfp-forgotten-password-link v-show="false"/>
                 <mfp-login-button :loading="loading" @loginPressed="submit"/>
-                <mfp-create-account-link/>
             </div>
-            <ion-row class="footer">
-                <ion-col size="1"/>
-                <ion-col size="10">
-                    <mfp-terms-and-privacy-text action="entrar"/>
-                </ion-col>
-                <ion-col size="1"/>
-            </ion-row>
         </ion-grid>
     </mfp-page>
 </template>

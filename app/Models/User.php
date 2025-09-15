@@ -2,12 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\Cache\CacheKeyEnum;
 use App\Enums\DateFormatEnum;
-use App\Enums\Plan\PlanNameEnum;
-use App\Models\User\Plan;
-use App\Models\User\Tenant;
-use App\Tools\Cache\MfpCacheManager;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -55,35 +50,4 @@ class User extends Authenticatable
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value,
         'email_verified_at' => DateFormatEnum::ModelDefaultDateFormat->value
     ];
-
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::saving(function (User $user) {
-            MfpCacheManager::delete($user->email, CacheKeyEnum::User);
-        });
-        static::updating(function (User $user) {
-            MfpCacheManager::delete($user->email, CacheKeyEnum::User);
-        });
-    }
-
-    public function tenant(): Tenant
-    {
-        return $this->belongsTo(Tenant::class)->first();
-    }
-
-    public function plan(): Plan
-    {
-        return $this->belongsTo(Plan::class)->first();
-    }
-
-    public function isFreePlan(): bool
-    {
-        return $this->plan()->name === PlanNameEnum::Free->value;
-    }
-
-    public function isProPlan(): bool
-    {
-        return $this->plan()->name === PlanNameEnum::Pro->value;
-    }
 }

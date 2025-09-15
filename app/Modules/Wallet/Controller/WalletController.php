@@ -2,15 +2,10 @@
 
 namespace App\Modules\Wallet\Controller;
 
-use App\Enums\Gates\GatesAbilityEnum;
-use App\Exceptions\Plan\LimitExceededException;
 use App\Http\Controllers\BasicController;
-use App\Models\WalletModel;
 use App\Modules\Wallet\Resource\WalletResource;
 use App\Modules\Wallet\Service\WalletService;
 use App\Modules\Wallet\VO\WalletVO;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * @method WalletVO[] showByType()
@@ -51,11 +46,5 @@ class WalletController extends BasicController
     protected function getResource(): WalletResource
     {
         return $this->resource;
-    }
-
-    public function insert(Request $request): JsonResponse
-    {
-        LimitExceededException::validateExceeded(GatesAbilityEnum::Create, WalletModel::class);
-        return parent::insert($request);
     }
 }

@@ -6,8 +6,6 @@ use App\DTO\UserDTO;
 use App\Exceptions\User\InvalidCurrentPasswordException;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use App\Services\Auth\AuthService;
-use App\Tools\Auth\JwtTools;
 
 class UserService extends BasicService
 {
@@ -44,26 +42,5 @@ class UserService extends BasicService
     public function findUserByEmail(string $email): User|null
     {
         return $this->getRepository()->findByEmail($email);
-    }
-
-    public function findByVerifyHash(string $verifyHash): null|UserDTO
-    {
-        return $this->getRepository()->findByVerifyHash($verifyHash);
-    }
-
-    public function activeUser(int $id): void
-    {
-        $this->getRepository()->activeUser($id);
-    }
-
-    /** @codeCoverageIgnore */
-    public function developGetTokens(): array
-    {
-        return [
-            'MFP-TOKEN' => config('app.mfp_token'),
-            'X-MFP-USER-TOKEN' => JwtTools::createJWT(
-                app(AuthService::class)->findUserForAuth('demo@demo.dev')
-            )
-        ];
     }
 }

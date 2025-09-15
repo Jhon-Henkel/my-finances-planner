@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\Database\DatabaseConnectionEnum;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -22,15 +21,15 @@ class OptimizeDatabaseMaster extends Command
 
     protected function optimizeMasterDatabase(): void
     {
-        $tables = DB::connection(DatabaseConnectionEnum::Master->value)->select("SHOW TABLES");
+        $tables = DB::select("SHOW TABLES");
         foreach ($tables as $table) {
             $this->info("");
             $tableName = reset($table);
             $this->info("  => Master - Repair table $tableName");
-            DB::connection(DatabaseConnectionEnum::Master->value)->statement("REPAIR TABLE $tableName QUICK");
+            DB::statement("REPAIR TABLE $tableName QUICK");
             $this->info("  => Master - Ok");
             $this->info("  => Master - Optimize table $tableName");
-            DB::connection(DatabaseConnectionEnum::Master->value)->statement("OPTIMIZE TABLE $tableName");
+            DB::statement("OPTIMIZE TABLE $tableName");
             $this->info("  => Master - Ok");
         }
     }

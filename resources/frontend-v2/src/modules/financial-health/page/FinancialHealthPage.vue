@@ -14,7 +14,6 @@ import {MfpModal} from "@/modules/@shared/components/modal/MfpModal"
 import MfpFinancialHealthFilterModal from "@/modules/financial-health/component/MfpFinancialHealthFilterModal.vue"
 import MfpInfoButton from "@/modules/@shared/components/button/MfpInfoButton.vue"
 import {MfpOkAlert} from "@/modules/@shared/components/alert/MfpOkAlert"
-import MfpAiInsightCard from "@/modules/@shared/components/card/MfpAiInsightCard.vue"
 import MfpBalanceCard from "@/modules/@shared/components/card/MfpBalanceCard.vue"
 import MfpRefresh from "@/modules/@shared/components/refresh/MfpRefresh.vue"
 
@@ -49,7 +48,6 @@ onMounted(async () => {
         </ion-list-header>
         <ion-grid>
             <mfp-financial-health-month-label/>
-            <mfp-ai-insight-card :insight="store.items.aiInsight"/>
             <mfp-financial-health-values-card/>
             <mfp-balance-card
                 :balance="store.items.incomeTotalAmount - store.items.expenseTotalAmount"

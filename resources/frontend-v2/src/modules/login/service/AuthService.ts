@@ -2,7 +2,6 @@ import {ILoginForm} from "@/modules/login/service/ILoginForm"
 import {ApiRouter} from "@/infra/requst/api/ApiRouter"
 import {IApiResponse} from "@/infra/requst/api/IApiResponse"
 import {useAuthStore} from "@/modules/login/store/AuthStore"
-import {MfpSubscriptionService} from "@/modules/subscription/service/MfpSubscriptionService"
 
 let authStore: any = null
 
@@ -18,9 +17,6 @@ export const AuthService = {
         return await ApiRouter.auth.login(data).then((response: any): IApiResponse => {
             getAuthStore().setUser(response.user)
             getAuthStore().setToken(response.token)
-            if (response.user.plan === 'Free' && response.must_show_welcome_page === false) {
-                MfpSubscriptionService.openModal('Você tem limitações de uso no plano gratuito.')
-            }
             return {isSuccess: true, data: response}
         }).catch((response: any): IApiResponse => {
             if (response.status === 419) {
