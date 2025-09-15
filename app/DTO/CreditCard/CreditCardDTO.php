@@ -2,7 +2,7 @@
 
 namespace App\DTO\CreditCard;
 
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 
 class CreditCardDTO
 {
@@ -11,7 +11,7 @@ class CreditCardDTO
     private float $limit;
     private int $dueDate;
     private int $closingDay;
-    private int $status = StatusEnum::Active->value;
+    private int $status = StatusActiveInactiveEnum::Active->value;
     private null|float $totalValueSpending;
     private null|float $nextInvoiceValue;
     private null|bool $isThinsMouthInvoicePayed = false;

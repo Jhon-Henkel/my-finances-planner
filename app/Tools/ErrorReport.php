@@ -2,7 +2,7 @@
 
 namespace App\Tools;
 
-use App\Tools\Request\RequestTools;
+use App\Infra\Request\RequestTools;
 use Sentry\State\HubInterface;
 use Sentry\State\Scope;
 use Throwable;

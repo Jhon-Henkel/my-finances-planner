@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Throwable;
@@ -19,7 +19,7 @@ class GenerateDemoUser extends Command
                 'name' => 'Demo User',
                 'email' => 'demo@demo.dev',
                 'password' => bcrypt('12345678'),
-                'status' => StatusEnum::Active->value,
+                'status' => StatusActiveInactiveEnum::Active->value,
                 'wrong_login_attempts' => 0,
             ]);
             $user->save();

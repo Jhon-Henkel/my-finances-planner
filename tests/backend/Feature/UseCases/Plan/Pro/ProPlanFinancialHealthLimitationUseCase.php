@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Feature\UseCases\Plan\Pro;
 
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Models\User;
 use Tests\backend\Falcon9Feature;
 
@@ -15,7 +15,7 @@ class ProPlanFinancialHealthLimitationUseCase extends Falcon9Feature
         $this->markTestSkipped('Teste quebrando no pipeline de coverage do Git Hub');
         parent::setUp();
         User::query()->where('email', $this->user->email)->update([
-            'status' => StatusEnum::Active->value,
+            'status' => StatusActiveInactiveEnum::Active->value,
             'plan_id' => 2,
         ]);
     }
@@ -24,7 +24,7 @@ class ProPlanFinancialHealthLimitationUseCase extends Falcon9Feature
     {
         $this->connectMaster();
         User::query()->where('email', $this->user->email)->update([
-            'status' => StatusEnum::Active->value,
+            'status' => StatusActiveInactiveEnum::Active->value,
             'plan_id' => 1,
         ]);
         parent::tearDown();

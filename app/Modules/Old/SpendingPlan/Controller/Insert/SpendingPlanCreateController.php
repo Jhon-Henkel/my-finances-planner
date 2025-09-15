@@ -20,7 +20,7 @@ class SpendingPlanCreateController extends BaseCreateController
     {
         return [
             'description' => 'required|max:255|string',
-            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
+            'walletId' => 'required|int|exists:App\Models\Wallet,id',
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
             'installments' => 'required|int',

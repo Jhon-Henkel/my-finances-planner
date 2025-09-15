@@ -2,7 +2,7 @@
 
 namespace App\Modules\Old\Wallet\DTO;
 
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Modules\Old\Wallet\Enum\WalletTypeEnum;
 
 class WalletDTO
@@ -12,8 +12,8 @@ class WalletDTO
     private int $type = WalletTypeEnum::Other->value;
     private null|bool $movementAlreadyDone = false;
     private float|int $amount;
-    private int $hideValue = StatusEnum::Inactive->value;
-    private int $status = StatusEnum::Active->value;
+    private int $hideValue = StatusActiveInactiveEnum::Inactive->value;
+    private int $status = StatusActiveInactiveEnum::Active->value;
     private mixed $createdAt;
     private mixed $updatedAt;
 
@@ -89,12 +89,12 @@ class WalletDTO
 
     public function mustHideValue(): bool
     {
-        return $this->hideValue == StatusEnum::Active->value;
+        return $this->hideValue == StatusActiveInactiveEnum::Active->value;
     }
 
     public function isInactive(): bool
     {
-        return $this->status == StatusEnum::Inactive->value;
+        return $this->status == StatusActiveInactiveEnum::Inactive->value;
     }
 
     public function getCreatedAt(): mixed

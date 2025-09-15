@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Enums\ConfigEnum;
-use App\Enums\StatusEnum;
 use App\Exceptions\User\TryAlterAnotherUserByRequestException;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Models\User;
 use App\Tools\Auth\JwtTools;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -28,7 +28,7 @@ final class AuthServiceProvider extends ServiceProvider
             $isValidToken = password_verify($mfpApiToken, $mfpApiTokenEncrypted);
             $userDB = $this->getUserDB($userJWT->data->email);
             $this->validateIsAllowedRequest($userDB, $request);
-            if ($isValidToken && $userDB->status === StatusEnum::Active->value) {
+            if ($isValidToken && $userDB->status === StatusActiveInactiveEnum::Active->value) {
                 return $userDB;
             }
             return null;

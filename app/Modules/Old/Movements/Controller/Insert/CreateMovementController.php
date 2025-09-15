@@ -21,7 +21,7 @@ class CreateMovementController extends BaseCreateController
         return [
             'description' => 'max:255|min:2|string',
             'type' => 'required|int',
-            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
+            'walletId' => 'required|int|exists:App\Models\Wallet,id',
             'amount' => 'required|decimal:0,2'
         ];
     }

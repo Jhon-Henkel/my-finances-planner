@@ -32,4 +32,9 @@ abstract class BaseUpdateController extends Controller
 
         }
     }
+
+    protected function getId(): object|string|null
+    {
+        return request()->route('id');
+    }
 }

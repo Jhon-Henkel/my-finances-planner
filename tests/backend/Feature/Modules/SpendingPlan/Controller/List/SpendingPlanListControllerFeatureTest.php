@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\List;
 
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use App\Modules\Old\SpendingPlan\Domain\SpendingPlanModel;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
@@ -19,8 +19,8 @@ class SpendingPlanListControllerFeatureTest extends Falcon9FeatureWithTenantData
     {
         SpendingPlanModel::query()->delete();
 
-        /** @var WalletModel $wallet **/
-        $wallet = WalletModel::create(['name' => 'Test Wallet', 'amount' => 1000, 'type' => 1]);
+        /** @var Wallet $wallet **/
+        $wallet = Wallet::create(['name' => 'Test Wallet', 'amount' => 1000, 'type' => 1]);
 
         SpendingPlanModel::create(['wallet_id' => $wallet->id, 'description' => 'Spending Plan 1', 'amount' => 100, 'forecast' => '2021-01-28', 'installments' => 1]);
         SpendingPlanModel::create(['wallet_id' => $wallet->id, 'description' => 'Spending Plan 2', 'amount' => 100, 'forecast' => '2021-02-05', 'installments' => 12]);

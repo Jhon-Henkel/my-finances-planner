@@ -3,7 +3,7 @@
 namespace App\Modules\Old\SpendingPlan\Domain;
 
 use App\Enums\DateFormatEnum;
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,8 +44,8 @@ class SpendingPlanModel extends Model
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value
     ];
 
-    public function wallet(): WalletModel
+    public function wallet(): Wallet
     {
-        return $this->belongsTo(WalletModel::class, 'wallet_id', 'id')->first();
+        return $this->belongsTo(Wallet::class, 'wallet_id', 'id')->first();
     }
 }

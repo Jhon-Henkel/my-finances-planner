@@ -10,13 +10,12 @@ use Illuminate\Http\JsonResponse;
 abstract class BaseListControllerV2 extends Controller
 {
     protected const int DEFAULT_PAGE = 1;
-    protected const int DEFAULT_PER_PAGE = 100;
+    protected const int DEFAULT_PER_PAGE = 10000;
     protected const string DEFAULT_SEARCH = '';
     protected const string DEFAULT_ORDER_BY = 'id';
     protected const string DEFAULT_ORDER_BY_DIRECTION = 'desc';
 
     abstract protected function getUseCase(): IListUseCaseV2;
-    abstract protected function getModelName(): string;
 
     public function __invoke(): JsonResponse
     {

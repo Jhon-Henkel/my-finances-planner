@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Unit\Tools;
 
-use App\Tools\Request\RequestTools;
+use App\Infra\Request\RequestTools;
 use Tests\backend\Falcon9;
 
 class RequestToolsUnitTest extends Falcon9

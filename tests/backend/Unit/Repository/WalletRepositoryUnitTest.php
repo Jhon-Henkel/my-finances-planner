@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Unit\Repository;
 
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use App\Modules\Old\Wallet\Repository\WalletRepository;
 use App\Modules\Old\Wallet\Resource\WalletResource;
 use Tests\backend\Falcon9;
@@ -11,18 +11,18 @@ class WalletRepositoryUnitTest extends Falcon9
 {
     public function testGetModel()
     {
-        $mockModel = \Mockery::mock(WalletModel::class);
+        $mockModel = \Mockery::mock(Wallet::class);
         $mocks = [$mockModel, new WalletResource()];
 
         $mockRepository = \Mockery::mock(WalletRepository::class, $mocks)->makePartial();
         $mockRepository->shouldAllowMockingProtectedMethods();
 
-        $this->assertInstanceOf(WalletModel::class, $mockRepository->getModel());
+        $this->assertInstanceOf(Wallet::class, $mockRepository->getModel());
     }
 
     public function testGetResource()
     {
-        $mockModel = \Mockery::mock(WalletModel::class);
+        $mockModel = \Mockery::mock(Wallet::class);
         $mocks = [$mockModel, new WalletResource()];
 
         $mockRepository = \Mockery::mock(WalletRepository::class, $mocks)->makePartial();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tools\Request;
+namespace App\Infra\Request;
 
 use App\Enums\RouteEnum;
 
@@ -42,5 +42,10 @@ class RequestToolsReal
             return $route;
         }
         return str_replace('http://', 'https://', $route);
+    }
+
+    public function getEnumKeysForValidation(mixed $enum): string
+    {
+        return implode(',', array_map(fn ($case) => $case->value, $enum::cases()));
     }
 }

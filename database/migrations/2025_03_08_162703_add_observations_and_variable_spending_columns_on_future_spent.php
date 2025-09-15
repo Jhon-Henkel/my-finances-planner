@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,7 +10,7 @@ return new class () extends Migration {
     {
         Schema::table('future_spent', function (Blueprint $table) {
             $table->string('observations')->nullable()->default(null)->after('bank_slip_code');
-            $table->integer('variable_spending')->nullable()->default(StatusEnum::Inactive)->after('observations');
+            $table->integer('variable_spending')->nullable()->default(StatusActiveInactiveEnum::Inactive)->after('observations');
         });
     }
 

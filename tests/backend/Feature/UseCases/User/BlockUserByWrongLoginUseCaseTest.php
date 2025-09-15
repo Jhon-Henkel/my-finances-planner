@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Feature\UseCases\User;
 
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
@@ -35,7 +35,7 @@ class BlockUserByWrongLoginUseCaseTest extends Falcon9FeatureWithTenantDatabase
 
         /** @var User $userDB */
         $userDB = User::where('email', $this->user->email)->first();
-        $this->assertEquals(StatusEnum::Inactive->value, $userDB->status);
+        $this->assertEquals(StatusActiveInactiveEnum::Inactive->value, $userDB->status);
 
         // Desbloqueando usuário e testando login com sucesso
         $this->get("/active-user/{$userDB->verify_hash}", $this->headerWithoutUser);

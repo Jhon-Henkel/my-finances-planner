@@ -3,7 +3,7 @@
 namespace Tests\backend\Feature\Modules\EarningPlan\Controller;
 
 use App\Models\FutureGain;
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
@@ -19,8 +19,8 @@ class EarningPlanListControllerFeatureTest extends Falcon9FeatureWithTenantDatab
     {
         FutureGain::query()->delete();
 
-        /** @var WalletModel $wallet **/
-        $wallet = WalletModel::create(['name' => 'Test Wallet', 'amount' => 1000, 'type' => 1]);
+        /** @var Wallet $wallet **/
+        $wallet = Wallet::create(['name' => 'Test Wallet', 'amount' => 1000, 'type' => 1]);
 
         FutureGain::create(['wallet_id' => $wallet->id, 'description' => 'Earning Plan 1', 'amount' => 100, 'forecast' => '2021-01-28', 'installments' => 1]);
         FutureGain::create(['wallet_id' => $wallet->id, 'description' => 'Earning Plan 2', 'amount' => 100, 'forecast' => '2021-02-05', 'installments' => 12]);

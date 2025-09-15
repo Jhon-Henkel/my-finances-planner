@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Feature\Modules\MarketControl\Controller;
 
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class MarkSpentControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
@@ -18,7 +18,7 @@ class MarkSpentControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
 
     public function testShouldReturnOkWhenDataIsValid(): void
     {
-        $wallet = WalletModel::create(['name' => 'Test Wallet', 'amount' => 1000, 'type' => 1]);
+        $wallet = Wallet::create(['name' => 'Test Wallet', 'amount' => 1000, 'type' => 1]);
 
         $response = $this->postJson($this->uri, [
             'wallet_id' => $wallet->id,

@@ -4,7 +4,7 @@ namespace App\Resources\CreditCard;
 
 use App\DTO\CreditCard\CreditCardDTO;
 use App\DTO\InvoiceItemDTO;
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Resources\BasicResource;
 use App\VO\CreditCard\CreditCardVO;
 
@@ -55,7 +55,7 @@ class CreditCardResource extends BasicResource
             $item->getTotalValueSpending(),
             $item->getNextInvoiceValue(),
             $item->getIsThinsMouthInvoicePayed(),
-            $item->getStatus() === StatusEnum::Active->value
+            $item->getStatus() === StatusActiveInactiveEnum::Active->value
         );
     }
 

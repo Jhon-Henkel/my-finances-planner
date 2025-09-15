@@ -4,7 +4,7 @@ namespace Tests\backend\Feature\UseCases\User;
 
 use App\Enums\Plan\PlanNameEnum;
 use App\Enums\Response\HttpStatusCodeEnum;
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Models\User\Plan;
 use App\Services\Mail\MailService;
 use App\Services\Queue\QueueProducerService;
@@ -73,7 +73,7 @@ class RegisterNewUserUseCaseTest extends Falcon9FeatureWithTenantDatabase
             'email' => $userData['email'],
             'name' => $userData['name'],
             'plan_id' => Plan::where('name', PlanNameEnum::Free->name)->first()->id,
-            'status' => StatusEnum::Active->value,
+            'status' => StatusActiveInactiveEnum::Active->value,
         ]);
     }
 }

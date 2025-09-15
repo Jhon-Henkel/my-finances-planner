@@ -68,4 +68,11 @@ enum RouteEnum: string
     //////////// API MARKET CONTROL ////////////]
     case ApiMarketControlWalletList = 'market-control.wallet.list';
     case ApiMarketControlMarkSpent = 'market-control.mark-spent';
+
+    //////////// API V3 ////////////
+    case ApiV3WalletCreate = 'api.v3.wallet.create';
+    case ApiV3WalletList = 'api.v3.wallet.list';
+    case ApiV3WalletGet = 'api.v3.wallet.get';
+    case ApiV3WalletDelete = 'api.v3.wallet.delete';
+    case ApiV3WalletUpdate = 'api.v3.wallet.update';
 }

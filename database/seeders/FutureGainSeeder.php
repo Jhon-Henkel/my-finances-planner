@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\DateFormatEnum;
 use App\Models\FutureGain;
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use App\Tools\Calendar\CalendarTools;
 use Illuminate\Database\Seeder;
 
@@ -29,7 +29,7 @@ class FutureGainSeeder extends Seeder
 
     protected function getWalletIds(): array
     {
-        $wallets = WalletModel::all();
+        $wallets = Wallet::all();
         $ids = [];
         foreach ($wallets as $wallet) {
             $ids[] = $wallet->id;

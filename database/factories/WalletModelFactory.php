@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use App\Modules\Old\Wallet\Enum\WalletTypeEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<WalletModel>
+ * @extends Factory<Wallet>
  */
 class WalletModelFactory extends Factory
 {

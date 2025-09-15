@@ -3,15 +3,15 @@
 namespace Tests\backend\Feature\Modules\Movement\Controller\Insert;
 
 use App\Enums\MovementEnum;
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class MovementInsertControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
 {
     public function testInsertSpent(): void
     {
-        /** @var WalletModel $wallet */
-        $wallet = WalletModel::factory()->create();
+        /** @var Wallet $wallet */
+        $wallet = Wallet::factory()->create();
         $wallet->amount = 1500;
         $wallet->save();
 
@@ -37,8 +37,8 @@ class MovementInsertControllerFeatureTest extends Falcon9FeatureWithTenantDataba
 
     public function testInsertGain()
     {
-        /** @var WalletModel $wallet */
-        $wallet = WalletModel::factory()->create();
+        /** @var Wallet $wallet */
+        $wallet = Wallet::factory()->create();
         $wallet->amount = 1500;
         $wallet->save();
 

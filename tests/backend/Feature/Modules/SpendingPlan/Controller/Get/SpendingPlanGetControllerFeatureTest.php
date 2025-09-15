@@ -3,8 +3,8 @@
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Get;
 
 use App\Enums\Response\HttpStatusCodeEnum;
-use App\Enums\StatusEnum;
-use App\Models\WalletModel;
+use App\Infra\Enum\StatusActiveInactiveEnum;
+use App\Models\Wallet\Wallet;
 use App\Modules\Old\SpendingPlan\Domain\SpendingPlanModel;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
@@ -12,8 +12,8 @@ class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatab
 {
     public function testGetEndpoint(): void
     {
-        /** @var WalletModel $wallet */
-        $wallet = WalletModel::factory()->create();
+        /** @var Wallet $wallet */
+        $wallet = Wallet::factory()->create();
 
         $response = $this->postJson('/api/v2/spending-plan', [
             'walletId' => $wallet->id,
@@ -23,7 +23,7 @@ class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatab
             'installments' => 2,
             'bankSlipCode' => null,
             'observations' => null,
-            'variableSpending' => StatusEnum::Inactive->value
+            'variableSpending' => StatusActiveInactiveEnum::Inactive->value
         ], $this->makeApiHeaders());
 
         $response->assertStatus(HttpStatusCodeEnum::HttpCreated->value);
@@ -36,7 +36,7 @@ class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatab
             'installments' => 2,
             'bankSlipCode' => null,
             'observations' => null,
-            'variableSpending' => StatusEnum::Inactive->value
+            'variableSpending' => StatusActiveInactiveEnum::Inactive->value
         ], $this->makeApiHeaders());
 
         $response->assertStatus(HttpStatusCodeEnum::HttpCreated->value);
@@ -56,7 +56,7 @@ class SpendingPlanGetControllerFeatureTest extends Falcon9FeatureWithTenantDatab
             "forecast" => "2021-05-20 00:00:00",
             "bankSlipCode" => null,
             "observations" => null,
-            "variable_spending" => StatusEnum::Inactive->value
+            "variable_spending" => StatusActiveInactiveEnum::Inactive->value
         ]);
     }
 }

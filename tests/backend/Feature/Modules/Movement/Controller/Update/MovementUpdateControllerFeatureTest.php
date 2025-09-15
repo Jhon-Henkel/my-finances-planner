@@ -4,15 +4,15 @@ namespace Tests\backend\Feature\Modules\Movement\Controller\Update;
 
 use App\Enums\MovementEnum;
 use App\Models\MovementModel;
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class MovementUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
 {
     public function testUpdateRoute()
     {
-        /** @var WalletModel $wallet */
-        $wallet = WalletModel::factory()->create();
+        /** @var Wallet $wallet */
+        $wallet = Wallet::factory()->create();
         $wallet->amount = 1500;
         $wallet->save();
 

@@ -2,7 +2,7 @@
 
 namespace App\Modules\Old\Wallet\Resource;
 
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Modules\Old\Wallet\DTO\WalletDTO;
 use App\Modules\Old\Wallet\Enum\WalletTypeEnum;
 use App\Modules\Old\Wallet\VO\WalletVO;
@@ -28,7 +28,7 @@ class WalletResource extends BasicResource
         $dto->setType(isset($item['type']) ? (int)$item['type'] : WalletTypeEnum::Other->value);
         $dto->setStatus($item['status']);
         $dto->setAmount((float)$item['amount']);
-        $dto->setHideValue(isset($item['hide_value']) ? (int)$item['hide_value'] : StatusEnum::Inactive->value);
+        $dto->setHideValue(isset($item['hide_value']) ? (int)$item['hide_value'] : StatusActiveInactiveEnum::Inactive->value);
         $dto->setCreatedAt($item['created_at'] ?? null);
         $dto->setUpdatedAt($item['updated_at'] ?? null);
         return $dto;
@@ -59,7 +59,7 @@ class WalletResource extends BasicResource
             $item->getType(),
             $item->getAmount(),
             $item->mustHideValue(),
-            $item->getStatus() === StatusEnum::Active->value,
+            $item->getStatus() === StatusActiveInactiveEnum::Active->value,
             $item->getCreatedAt(),
             $item->getUpdatedAt()
         );

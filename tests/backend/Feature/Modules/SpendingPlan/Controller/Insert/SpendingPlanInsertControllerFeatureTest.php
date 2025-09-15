@@ -3,8 +3,8 @@
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Insert;
 
 use App\Enums\Response\HttpStatusCodeEnum;
-use App\Enums\StatusEnum;
-use App\Models\WalletModel;
+use App\Infra\Enum\StatusActiveInactiveEnum;
+use App\Models\Wallet\Wallet;
 use App\Modules\Old\SpendingPlan\Controller\Insert\SpendingPlanCreateController;
 use App\Modules\Old\SpendingPlan\Domain\SpendingPlanModel;
 use Mockery;
@@ -14,8 +14,8 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
 {
     public function testInsertEndpoint(): void
     {
-        /** @var WalletModel $wallet */
-        $wallet = WalletModel::factory()->create();
+        /** @var Wallet $wallet */
+        $wallet = Wallet::factory()->create();
 
         $response = $this->postJson('/api/v2/spending-plan', [
             'walletId' => $wallet->id,
@@ -25,7 +25,7 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'installments' => 2,
             'bankSlipCode' => null,
             'observations' => null,
-            'variableSpending' => StatusEnum::Inactive->value
+            'variableSpending' => StatusActiveInactiveEnum::Inactive->value
         ], $this->makeApiHeaders());
 
         $response->assertStatus(HttpStatusCodeEnum::HttpCreated->value);
@@ -40,7 +40,7 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
         $this->assertEquals(2, $item->installments);
         $this->assertNull($item->bank_slip_code);
         $this->assertNull($item->observations);
-        $this->assertEquals(StatusEnum::Inactive->value, $item->variable_spending);
+        $this->assertEquals(StatusActiveInactiveEnum::Inactive->value, $item->variable_spending);
     }
 
     public function testRules(): void
@@ -50,7 +50,7 @@ class SpendingPlanInsertControllerFeatureTest extends Falcon9FeatureWithTenantDa
 
         $this->assertEquals([
             'description' => 'required|max:255|string',
-            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
+            'walletId' => 'required|int|exists:App\Models\Wallet,id',
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
             'installments' => 'required|int',

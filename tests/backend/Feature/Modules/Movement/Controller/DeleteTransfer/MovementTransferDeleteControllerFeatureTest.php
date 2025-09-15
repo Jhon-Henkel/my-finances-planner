@@ -4,20 +4,20 @@ namespace Tests\backend\Feature\Modules\Movement\Controller\DeleteTransfer;
 
 use App\Enums\MovementEnum;
 use App\Models\MovementModel;
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class MovementTransferDeleteControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
 {
     public function testDeleteTransferRoute()
     {
-        /** @var WalletModel $originWallet */
-        $originWallet = WalletModel::factory()->create();
+        /** @var Wallet $originWallet */
+        $originWallet = Wallet::factory()->create();
         $originWallet->amount = 1500;
         $originWallet->save();
 
-        /** @var WalletModel $destinationWallet */
-        $destinationWallet = WalletModel::factory()->create();
+        /** @var Wallet $destinationWallet */
+        $destinationWallet = Wallet::factory()->create();
         $destinationWallet->amount = 1500;
         $destinationWallet->save();
 

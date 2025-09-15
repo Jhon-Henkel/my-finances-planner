@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
+/**
+ * @deprecated - excluir
+ */
 abstract class BaseCreateController extends Controller
 {
     abstract protected function getUseCase(): ICreateUseCase;

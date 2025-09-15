@@ -3,8 +3,8 @@
 namespace Tests\backend\Feature\Modules\SpendingPlan\Controller\Update;
 
 use App\Enums\Response\HttpStatusCodeEnum;
-use App\Enums\StatusEnum;
-use App\Models\WalletModel;
+use App\Infra\Enum\StatusActiveInactiveEnum;
+use App\Models\Wallet\Wallet;
 use App\Modules\Old\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
 use App\Modules\Old\SpendingPlan\Domain\SpendingPlanModel;
 use Mockery;
@@ -14,8 +14,8 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
 {
     public function testUpdateEndpoint(): void
     {
-        /** @var WalletModel $wallet */
-        $wallet = WalletModel::factory()->create();
+        /** @var Wallet $wallet */
+        $wallet = Wallet::factory()->create();
 
         $response = $this->postJson('/api/v2/spending-plan', [
             'walletId' => $wallet->id,
@@ -25,7 +25,7 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'installments' => 2,
             'bankSlipCode' => null,
             'observations' => 'Observations',
-            'variableSpending' => StatusEnum::Inactive->value
+            'variableSpending' => StatusActiveInactiveEnum::Inactive->value
         ], $this->makeApiHeaders());
 
         $response->assertStatus(HttpStatusCodeEnum::HttpCreated->value);
@@ -47,7 +47,7 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
             'installments' => 2,
             'bankSlipCode' => '123456',
             'observations' => 'Observations Updated',
-            'variableSpending' => StatusEnum::Active->value
+            'variableSpending' => StatusActiveInactiveEnum::Active->value
         ], $this->makeApiHeaders());
 
         $response->assertStatus(HttpStatusCodeEnum::HttpOk->value);
@@ -62,7 +62,7 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
         $this->assertEquals(2, $item->installments);
         $this->assertEquals('123456', $item->bank_slip_code);
         $this->assertEquals('Observations Updated', $item->observations);
-        $this->assertEquals(StatusEnum::Active->value, $item->variable_spending);
+        $this->assertEquals(StatusActiveInactiveEnum::Active->value, $item->variable_spending);
     }
 
     public function testRules(): void
@@ -72,7 +72,7 @@ class SpendingPlanUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDa
 
         $this->assertEquals([
             'description' => 'required|max:255|string',
-            'walletId' => 'required|int|exists:App\Models\WalletModel,id',
+            'walletId' => 'required|int|exists:App\Models\Wallet,id',
             'forecast' => 'required|date',
             'amount' => 'required|decimal:0,2',
             'installments' => 'required|int',

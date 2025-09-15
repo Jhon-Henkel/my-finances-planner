@@ -19,8 +19,8 @@ class MovementTransferCreateController extends BaseCreateController
     protected function getRules(): array
     {
         return [
-            'originId' => 'required|int|exists:App\Models\WalletModel,id',
-            'destinationId' => 'required|int|exists:App\Models\WalletModel,id',
+            'originId' => 'required|int|exists:App\Models\Wallet,id',
+            'destinationId' => 'required|int|exists:App\Models\Wallet,id',
             'amount' => 'required|decimal:0,2'
         ];
     }

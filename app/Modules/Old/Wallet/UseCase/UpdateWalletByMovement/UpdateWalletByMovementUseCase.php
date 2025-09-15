@@ -3,13 +3,13 @@
 namespace App\Modules\Old\Wallet\UseCase\UpdateWalletByMovement;
 
 use App\Enums\MovementEnum;
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 
 class UpdateWalletByMovementUseCase
 {
     public function execute(int $walletId, float $amount, int $type): void
     {
-        $wallet = WalletModel::query()->findOrFail($walletId);
+        $wallet = Wallet::query()->findOrFail($walletId);
         if (MovementEnum::isGain($type)) {
             $wallet->amount += $amount;
         } elseif (MovementEnum::isSpent($type)) {

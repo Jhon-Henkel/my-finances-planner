@@ -25,7 +25,26 @@ use App\Modules\Old\SpendingPlan\Controller\Insert\SpendingPlanCreateController;
 use App\Modules\Old\SpendingPlan\Controller\List\SpendingPlanListController;
 use App\Modules\Old\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
 use App\Modules\Old\Wallet\Controller\WalletController;
+use App\Modules\Wallet\Controller\WalletCreateController;
+use App\Modules\Wallet\Controller\WalletDeleteController;
+use App\Modules\Wallet\Controller\WalletGetController;
+use App\Modules\Wallet\Controller\WalletListController;
+use App\Modules\Wallet\Controller\WalletUpdateController;
 use Illuminate\Support\Facades\Route;
+
+Route::prefix('')->middleware('auth.api:api')->group(function () {
+    Route::prefix('v3')->group(function () {
+        Route::prefix('wallet')->group(function () {
+            Route::post('', WalletCreateController::class)->name(RouteEnum::ApiV3WalletCreate->value);
+            Route::get('', WalletListController::class)->name(RouteEnum::ApiV3WalletList->value);
+            Route::prefix('{id}')->group(function () {
+                Route::put('', WalletUpdateController::class)->name(RouteEnum::ApiV3WalletUpdate->value);
+                Route::get('', WalletGetController::class)->name(RouteEnum::ApiV3WalletGet->value);
+                Route::delete('', WalletDeleteController::class)->name(RouteEnum::ApiV3WalletDelete->value);
+            });
+        });
+    });
+});
 
 Route::prefix('')->middleware('auth.api:api')->group(function () {
     Route::prefix('v2')->group(function () {

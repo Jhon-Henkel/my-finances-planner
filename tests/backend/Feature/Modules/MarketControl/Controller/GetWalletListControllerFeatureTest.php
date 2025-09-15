@@ -2,7 +2,7 @@
 
 namespace Tests\backend\Feature\Modules\MarketControl\Controller;
 
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class GetWalletListControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
@@ -11,9 +11,9 @@ class GetWalletListControllerFeatureTest extends Falcon9FeatureWithTenantDatabas
 
     public function testShouldReturnOkWhenDataIsValid(): void
     {
-        WalletModel::create(['name' => 'Test Wallet 1', 'amount' => 11, 'type' => 1]);
-        WalletModel::create(['name' => 'Test Wallet 2', 'amount' => 22, 'type' => 1]);
-        WalletModel::create(['name' => 'Test Wallet 3', 'amount' => 33, 'type' => 1]);
+        Wallet::create(['name' => 'Test Wallet 1', 'amount' => 11, 'type' => 1]);
+        Wallet::create(['name' => 'Test Wallet 2', 'amount' => 22, 'type' => 1]);
+        Wallet::create(['name' => 'Test Wallet 3', 'amount' => 33, 'type' => 1]);
 
         $response = $this->getJson($this->uri, $this->makeApiHeaders());
 

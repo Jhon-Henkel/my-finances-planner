@@ -3,20 +3,20 @@
 namespace Tests\backend\Feature\Modules\Movement\Controller\InsertTransfer;
 
 use App\Enums\MovementEnum;
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class MovementTransferInsertControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
 {
     public function testInsertTransferRoute()
     {
-        /** @var WalletModel $originWallet */
-        $originWallet = WalletModel::factory()->create();
+        /** @var Wallet $originWallet */
+        $originWallet = Wallet::factory()->create();
         $originWallet->amount = 1500;
         $originWallet->save();
 
-        /** @var WalletModel $destinationWallet */
-        $destinationWallet = WalletModel::factory()->create();
+        /** @var Wallet $destinationWallet */
+        $destinationWallet = Wallet::factory()->create();
         $destinationWallet->amount = 1500;
         $destinationWallet->save();
 

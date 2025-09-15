@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\WalletModel;
+use App\Models\Wallet\Wallet;
 use App\Modules\Old\Wallet\Enum\WalletTypeEnum;
 use Illuminate\Database\Seeder;
 
@@ -12,7 +12,7 @@ class WalletSeeder extends Seeder
     {
         for ($index = 0; $index < 7; $index++) {
             $data = $this->geDataToInsert();
-            WalletModel::factory()->create(['name' => $data['name'], 'type' => $data['type']]);
+            Wallet::factory()->create(['name' => $data['name'], 'type' => $data['type']]);
         }
     }
 
@@ -20,7 +20,7 @@ class WalletSeeder extends Seeder
     {
         $dataGroup = $this->getArrayData();
         $data = $dataGroup[array_rand($dataGroup)];
-        if (WalletModel::where('name', $data['name'])->exists()) {
+        if (Wallet::where('name', $data['name'])->exists()) {
             return $this->geDataToInsert();
         }
         return $data;

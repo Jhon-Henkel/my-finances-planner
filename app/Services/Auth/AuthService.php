@@ -3,13 +3,13 @@
 namespace App\Services\Auth;
 
 use App\DTO\Log\AccessLogDTO;
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
+use App\Infra\Request\RequestTools;
 use App\Models\User;
 use App\Services\Log\AccessLogService;
 use App\Services\UserService;
 use App\Tools\Auth\JwtTools;
 use App\Tools\Calendar\CalendarTools;
-use App\Tools\Request\RequestTools;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
@@ -34,7 +34,7 @@ class AuthService
         if (! $user) {
             return self::INVALID_LOGIN_OR_PASSWORD_CODE;
         }
-        if ($user->status === StatusEnum::Inactive->value) {
+        if ($user->status === StatusActiveInactiveEnum::Inactive->value) {
             return self::INACTIVE_USER_CODE;
         }
         if ($user->wrong_login_attempts > config('app.max_wrong_login_attempts')) {
@@ -54,11 +54,11 @@ class AuthService
 
     protected function inactiveUser(User $user): void
     {
-        if ($user->status == StatusEnum::Inactive->value) {
+        if ($user->status == StatusActiveInactiveEnum::Inactive->value) {
             return;
         }
         $user->verify_hash = md5(uniqid($user->email) . time());
-        $user->status = StatusEnum::Inactive->value;
+        $user->status = StatusActiveInactiveEnum::Inactive->value;
         $user->save();
     }
 

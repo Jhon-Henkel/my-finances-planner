@@ -3,7 +3,7 @@
 namespace Tests\backend\Feature\UseCases\Plan\Pro;
 
 use App\Enums\Plan\PlanNameEnum;
-use App\Enums\StatusEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Models\User;
 use App\Models\User\Plan;
 use Tests\backend\Falcon9Feature;
@@ -20,7 +20,7 @@ class ProPlanCreditCardLimitationUseCaseTest extends Falcon9Feature
         $this->connectMaster();
         $this->freePlan = Plan::where('name', PlanNameEnum::Free->value)->first();
         User::query()->where('email', $this->user->email)->update([
-            'status' => StatusEnum::Active->value,
+            'status' => StatusActiveInactiveEnum::Active->value,
             'plan_id' => 2,
         ]);
     }
@@ -29,7 +29,7 @@ class ProPlanCreditCardLimitationUseCaseTest extends Falcon9Feature
     {
         $this->connectMaster();
         User::query()->where('email', $this->user->email)->update([
-            'status' => StatusEnum::Active->value,
+            'status' => StatusActiveInactiveEnum::Active->value,
             'plan_id' => 1,
         ]);
         parent::tearDown();
