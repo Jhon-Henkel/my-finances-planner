@@ -87,6 +87,16 @@ Route::prefix('v3')->group(function () {
                 Route::put('', \App\Modules\SpendingPlan\Controller\SpendingPlanUpdateController::class)->name(RouteNameEnum::ApiV3SpendingPlanUpdate);
             });
         });
+
+        Route::prefix('earning-plan')->group(function () {
+            Route::post('', \App\Modules\EarningPlan\Controller\EarningPlanCreateController::class)->name(RouteNameEnum::ApiV3EarningPlanCreate);
+            Route::get('', \App\Modules\EarningPlan\Controller\EarningPlanListController::class)->name(RouteNameEnum::ApiV3EarningPlanList);
+            Route::prefix('{id}')->group(function () {
+                Route::get('', \App\Modules\EarningPlan\Controller\EarningPlanGetController::class)->name(RouteNameEnum::ApiV3EarningPlanGet);
+                Route::delete('', \App\Modules\EarningPlan\Controller\EarningPlanDeleteController::class)->name(RouteNameEnum::ApiV3EarningPlanDelete);
+                Route::put('', \App\Modules\EarningPlan\Controller\EarningPlanUpdateController::class)->name(RouteNameEnum::ApiV3EarningPlanUpdate);
+            });
+        });
     });
 
     Route::prefix('auth')->group(function () {
@@ -106,13 +116,13 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
             Route::put('{id}', SpendingPlanUpdateController::class)->name(RouteNameEnum::ApiSpendingPlanUpdate->value);
             Route::get('{id}', SpendingPlanGetController::class)->name(RouteNameEnum::ApiSpendingPlanGet->value);
         });
-        /**
-         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         */
 
         Route::prefix('earnings-plan')->group(function () {
             Route::get('', EarningPlanListController::class)->name(RouteNameEnum::ApiEarningPlanList->value);
         });
+        /**
+         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
 
         Route::prefix('market-planner')->group(function () {
             Route::get('show-details', MarketPlannerShowController::class)->name(RouteNameEnum::ApiMarketPlannerShow->value);
@@ -180,12 +190,20 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
          */
     });
 
+
     Route::prefix('future-gain')->group(function () {
+        /**
+         * @deprecated - Migrado para V3
+         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
         Route::get('/{id}', [FutureGainController::class, 'show'])->name(RouteNameEnum::ApiFutureGainShow->value);
-        Route::post('/{id}/receive', [FutureGainController::class, 'receive'])->name(RouteNameEnum::ApiFutureGainReceive->value);
         Route::post('', [FutureGainController::class, 'insert'])->name(RouteNameEnum::ApiFutureGainInsert->value);
         Route::put('/{id}', [FutureGainController::class, 'update'])->name(RouteNameEnum::ApiFutureGainUpdate->value);
         Route::delete('/{id}', [FutureGainController::class, 'delete'])->name(RouteNameEnum::ApiFutureGainDelete->value);
+        /**
+         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
+        Route::post('/{id}/receive', [FutureGainController::class, 'receive'])->name(RouteNameEnum::ApiFutureGainReceive->value);
     });
 
     Route::prefix('future-spent')->group(function () {
