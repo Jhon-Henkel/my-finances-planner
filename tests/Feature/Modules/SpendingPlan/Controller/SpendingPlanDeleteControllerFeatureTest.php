@@ -7,7 +7,6 @@ use App\Models\SpendingPlan\SpendingPlan;
 use App\Models\SpendingPlan\SpendingPlanInstallment;
 use Carbon\Carbon;
 use Tests\FeatureTestCase;
-use Tests\Trait\WalletTrait;
 
 class SpendingPlanDeleteControllerFeatureTest extends FeatureTestCase
 {
