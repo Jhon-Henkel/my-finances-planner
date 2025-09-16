@@ -73,6 +73,7 @@ Route::prefix('v3')->group(function () {
 
             Route::prefix('transfer')->group(function () {
                 Route::post('', \App\Modules\Movement\Controller\MovementTransferCreateController::class)->name(RouteNameEnum::ApiV3MovementTransferCreate);
+                Route::delete('{id}', \App\Modules\Movement\Controller\MovementTransferDeleteController::class)->name(RouteNameEnum::ApiV3MovementTransferDelete);
             });
         });
     });
