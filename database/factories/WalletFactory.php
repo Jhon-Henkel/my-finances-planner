@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Movement\Movement;
+use App\Models\Wallet\Wallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Movement>
+ * @extends Factory<Wallet>
  */
-class MovementModelFactory extends Factory
+class WalletFactory extends Factory
 {
     /**
      * @return array<string, mixed>
@@ -16,7 +16,8 @@ class MovementModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'amount' => $this->faker->randomFloat(2, 1000, 5000),
+            'amount' => $this->faker->randomFloat(2, 1, 10000),
+            'name' => $this->faker->name,
         ];
     }
 }
