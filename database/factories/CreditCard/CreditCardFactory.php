@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\CreditCard;
 
 use App\Models\CreditCard\CreditCard;
 use Illuminate\Database\Eloquent\Factories\Factory;

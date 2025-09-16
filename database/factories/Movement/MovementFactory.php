@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Movement;
 
 use App\Models\Movement\Movement;
 use Illuminate\Database\Eloquent\Factories\Factory;

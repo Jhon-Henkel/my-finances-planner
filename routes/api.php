@@ -28,6 +28,7 @@ use App\Modules\Old\SpendingPlan\Controller\Insert\SpendingPlanCreateController;
 use App\Modules\Old\SpendingPlan\Controller\List\SpendingPlanListController;
 use App\Modules\Old\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
 use App\Modules\Old\Wallet\Controller\WalletController;
+use App\Modules\SpendingPlan\Controller\SpendingPlanDeleteController;
 use App\Modules\Wallet\Controller\WalletCreateController;
 use App\Modules\Wallet\Controller\WalletDeleteController;
 use App\Modules\Wallet\Controller\WalletGetController;
@@ -76,6 +77,16 @@ Route::prefix('v3')->group(function () {
                 Route::delete('{id}', \App\Modules\Movement\Controller\MovementTransferDeleteController::class)->name(RouteNameEnum::ApiV3MovementTransferDelete);
             });
         });
+
+        Route::prefix('spending-plan')->group(function () {
+            Route::post('', \App\Modules\SpendingPlan\Controller\SpendingPlanCreateController::class)->name(RouteNameEnum::ApiV3SpendingPlanCreate);
+            Route::get('', \App\Modules\SpendingPlan\Controller\SpendingPlanListController::class)->name(RouteNameEnum::ApiV3SpendingPlanList);
+            Route::prefix('{id}')->group(function () {
+                Route::get('', \App\Modules\SpendingPlan\Controller\SpendingPlanGetController::class)->name(RouteNameEnum::ApiV3SpendingPlanGet);
+                Route::delete('', SpendingPlanDeleteController::class)->name(RouteNameEnum::ApiV3SpendingPlanDelete);
+                Route::put('', \App\Modules\SpendingPlan\Controller\SpendingPlanUpdateController::class)->name(RouteNameEnum::ApiV3SpendingPlanUpdate);
+            });
+        });
     });
 
     Route::prefix('auth')->group(function () {
@@ -85,12 +96,19 @@ Route::prefix('v3')->group(function () {
 
 Route::prefix('')->middleware('auth.api:api')->group(function () {
     Route::prefix('v2')->group(function () {
+        /**
+         * @deprecated - Migrado para V3
+         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
         Route::prefix('spending-plan')->group(function () {
             Route::get('', SpendingPlanListController::class)->name(RouteNameEnum::ApiSpendingPlanList->value);
             Route::post('', SpendingPlanCreateController::class)->name(RouteNameEnum::ApiSpendingPlanInsert->value);
             Route::put('{id}', SpendingPlanUpdateController::class)->name(RouteNameEnum::ApiSpendingPlanUpdate->value);
             Route::get('{id}', SpendingPlanGetController::class)->name(RouteNameEnum::ApiSpendingPlanGet->value);
         });
+        /**
+         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
 
         Route::prefix('earnings-plan')->group(function () {
             Route::get('', EarningPlanListController::class)->name(RouteNameEnum::ApiEarningPlanList->value);
@@ -172,7 +190,15 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
 
     Route::prefix('future-spent')->group(function () {
         Route::post('/{id}/pay', [FutureSpentController::class, 'paySpent'])->name(RouteNameEnum::ApiFutureSpentPay->value);
+
+        /**
+         * @deprecated - Migrado para V3
+         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
         Route::delete('/{id}', [FutureSpentController::class, 'delete'])->name(RouteNameEnum::ApiFutureSpentDelete->value);
+        /**
+         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
     });
 
     Route::prefix('configurations')->group(function () {
