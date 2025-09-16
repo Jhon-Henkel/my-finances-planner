@@ -5,7 +5,7 @@ namespace App\Modules\Wallet\UseCase;
 use App\Models\Wallet\Wallet;
 use App\Modules\Movement\Enum\MovementTypeEnum;
 
-class WalletUpdateByMovementUseCase
+class WalletUpdateByMovementTypeUseCase
 {
     public function execute(int $walletId, float $amount, int $type): void
     {

@@ -4,11 +4,11 @@ namespace App\Modules\Old\Movements\UseCase\Insert;
 
 use App\Infra\UseCase\Create\ICreateUseCase;
 use App\Models\Movement\Movement;
-use App\Modules\Wallet\UseCase\WalletUpdateByMovementUseCase;
+use App\Modules\Wallet\UseCase\WalletUpdateByMovementTypeUseCase;
 
 class MovementCreateUseCase implements ICreateUseCase
 {
-    public function __construct(protected WalletUpdateByMovementUseCase $updateWalletByMovementUseCase)
+    public function __construct(protected WalletUpdateByMovementTypeUseCase $updateWalletByMovementUseCase)
     {
     }
 

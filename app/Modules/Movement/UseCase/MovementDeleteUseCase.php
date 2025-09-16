@@ -5,12 +5,12 @@ namespace App\Modules\Movement\UseCase;
 use App\Infra\UseCase\Delete\IDeleteUseCase;
 use App\Models\Movement\Movement;
 use App\Modules\Movement\Enum\MovementTypeEnum;
-use App\Modules\Wallet\UseCase\WalletUpdateByMovementUseCase;
+use App\Modules\Wallet\UseCase\WalletUpdateByMovementTypeUseCase;
 use InvalidArgumentException;
 
 class MovementDeleteUseCase implements IDeleteUseCase
 {
-    public function __construct(protected WalletUpdateByMovementUseCase $updateWalletByMovementUseCase)
+    public function __construct(protected WalletUpdateByMovementTypeUseCase $updateWalletByMovementUseCase)
     {
     }
 

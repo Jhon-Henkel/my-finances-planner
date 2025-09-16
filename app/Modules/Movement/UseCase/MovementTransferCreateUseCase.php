@@ -5,11 +5,11 @@ namespace App\Modules\Movement\UseCase;
 use App\Infra\UseCase\Create\ICreateUseCaseV2;
 use App\Models\Movement\Movement;
 use App\Modules\Movement\Enum\MovementTypeEnum;
-use App\Modules\Wallet\UseCase\WalletUpdateByMovementUseCase;
+use App\Modules\Wallet\UseCase\WalletUpdateByMovementTypeUseCase;
 
 class MovementTransferCreateUseCase implements ICreateUseCaseV2
 {
-    public function __construct(private WalletUpdateByMovementUseCase $updateWalletByMovementUseCase)
+    public function __construct(private WalletUpdateByMovementTypeUseCase $updateWalletByMovementUseCase)
     {
     }
 
