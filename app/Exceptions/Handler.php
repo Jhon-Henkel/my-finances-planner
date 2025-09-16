@@ -12,6 +12,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\UnauthorizedException;
+use InvalidArgumentException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -51,7 +52,7 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(function (BadRequestException|DecryptException $exception) {
+        $this->renderable(function (BadRequestException|DecryptException|InvalidArgumentException $exception) {
             return ApiResponse::responseError($exception->getMessage(), HttpStatusCodeEnum::HttpBadRequest->value);
         });
 

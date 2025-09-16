@@ -83,6 +83,10 @@ enum RouteNameEnum: string
     case ApiV3CreditCardUpdate = 'api.v3.credit-card.update';
 
     case ApiV3MovementCreate = 'api.v3.movement.create';
+    case ApiV3MovementList = 'api.v3.movement.list';
+    case ApiV3MovementGet = 'api.v3.movement.get';
+    case ApiV3MovementDelete = 'api.v3.movement.delete';
+    case ApiV3MovementUpdate = 'api.v3.movement.update';
     case ApiV3MovementTransferCreate = 'api.v3.movement.transfer.create';
 
     case ApiV3AuthLogin = 'api.v3.auth.login';

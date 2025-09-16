@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  *
- * @mixin Builder
+ * @mixin Builder<Movement>
  */
 class Movement extends Model
 {

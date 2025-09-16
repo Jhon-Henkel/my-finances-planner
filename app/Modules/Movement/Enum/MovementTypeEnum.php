@@ -36,4 +36,9 @@ enum MovementTypeEnum: int
     {
         return $type == MovementTypeEnum::Spent->value;
     }
+
+    public static function isTransfer(int $type): bool
+    {
+        return $type == MovementTypeEnum::Transfer->value;
+    }
 }

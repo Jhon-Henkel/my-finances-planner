@@ -23,6 +23,7 @@ abstract class BaseUpdateControllerV2 extends Controller
         try {
 
             $this->getUseCase()->execute($request->json()->all(), $id);
+            DB::commit();
             return ResponseApi::renderOk();
 
         } catch (Throwable $e) {

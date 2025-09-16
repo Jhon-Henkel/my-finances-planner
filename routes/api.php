@@ -11,6 +11,7 @@ use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\UserController;
 use App\Modules\Auth\Controller\Login\LoginController;
 use App\Modules\Movement\Controller\MovementCreateController;
+use App\Modules\Movement\Controller\MovementGetController;
 use App\Modules\Old\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
 use App\Modules\Old\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\Old\MarketControl\Controller\GetWalletListController;
@@ -63,6 +64,12 @@ Route::prefix('v3')->group(function () {
 
         Route::prefix('movement')->group(function () {
             Route::post('', MovementCreateController::class)->name(RouteNameEnum::ApiV3MovementCreate);
+            Route::get('', \App\Modules\Movement\Controller\MovementListController::class)->name(RouteNameEnum::ApiV3MovementList);
+            Route::prefix('{id}')->group(function () {
+                Route::get('', MovementGetController::class)->name(RouteNameEnum::ApiV3MovementGet);
+                Route::delete('', \App\Modules\Movement\Controller\MovementDeleteController::class)->name(RouteNameEnum::ApiV3MovementDelete);
+                Route::put('', \App\Modules\Movement\Controller\MovementUpdateController::class)->name(RouteNameEnum::ApiV3MovementUpdate);
+            });
 
             Route::prefix('transfer')->group(function () {
                 Route::post('', \App\Modules\Movement\Controller\MovementTransferCreateController::class)->name(RouteNameEnum::ApiV3MovementTransferCreate);
