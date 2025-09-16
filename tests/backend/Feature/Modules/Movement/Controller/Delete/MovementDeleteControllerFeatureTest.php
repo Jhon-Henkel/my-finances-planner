@@ -2,9 +2,9 @@
 
 namespace Tests\backend\Feature\Modules\Movement\Controller\Delete;
 
-use App\Enums\MovementEnum;
-use App\Models\MovementModel;
+use App\Models\Movement\Movement;
 use App\Models\Wallet\Wallet;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class MovementDeleteControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
@@ -19,7 +19,7 @@ class MovementDeleteControllerFeatureTest extends Falcon9FeatureWithTenantDataba
         $response = $this->postJson('/api/v2/movement', [
             'walletId' => $wallet->id,
             'description' => 'Movement 1',
-            'type' => MovementEnum::Spent->value,
+            'type' => MovementTypeEnum::Spent->value,
             'amount' => 100,
         ], $this->makeApiHeaders());
 
@@ -27,7 +27,7 @@ class MovementDeleteControllerFeatureTest extends Falcon9FeatureWithTenantDataba
 
         $this->assertDatabaseHas('movements', [
             'description' => 'Movement 1',
-            'type' => MovementEnum::Spent->value,
+            'type' => MovementTypeEnum::Spent->value,
             'amount' => 100,
         ]);
 
@@ -35,7 +35,7 @@ class MovementDeleteControllerFeatureTest extends Falcon9FeatureWithTenantDataba
 
         $this->assertEquals(1400, $wallet->amount);
 
-        $movement = MovementModel::query()->where('description', 'Movement 1')->first();
+        $movement = Movement::query()->where('description', 'Movement 1')->first();
 
         $response = $this->deleteJson('/api/v2/movement/' . $movement->id, [], $this->makeApiHeaders());
 
@@ -43,7 +43,7 @@ class MovementDeleteControllerFeatureTest extends Falcon9FeatureWithTenantDataba
 
         $this->assertDatabaseMissing('movements', [
             'description' => 'Movement 1',
-            'type' => MovementEnum::Spent->value,
+            'type' => MovementTypeEnum::Spent->value,
             'amount' => 100,
         ]);
 

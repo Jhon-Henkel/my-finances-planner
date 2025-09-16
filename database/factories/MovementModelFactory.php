@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\MovementModel;
+use App\Models\Movement\Movement;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<MovementModel>
+ * @extends Factory<Movement>
  */
 class MovementModelFactory extends Factory
 {

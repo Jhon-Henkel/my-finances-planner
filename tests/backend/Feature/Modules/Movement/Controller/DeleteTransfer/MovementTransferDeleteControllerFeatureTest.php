@@ -2,9 +2,9 @@
 
 namespace Tests\backend\Feature\Modules\Movement\Controller\DeleteTransfer;
 
-use App\Enums\MovementEnum;
-use App\Models\MovementModel;
+use App\Models\Movement\Movement;
 use App\Models\Wallet\Wallet;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class MovementTransferDeleteControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
@@ -31,14 +31,14 @@ class MovementTransferDeleteControllerFeatureTest extends Falcon9FeatureWithTena
 
         $this->assertDatabaseHas('movements', [
             'wallet_id' => $originWallet->id,
-            'type' => MovementEnum::Transfer->value,
+            'type' => MovementTypeEnum::Transfer->value,
             'amount' => 100,
             'description' => 'Saída transferência',
         ]);
 
         $this->assertDatabaseHas('movements', [
             'wallet_id' => $destinationWallet->id,
-            'type' => MovementEnum::Transfer->value,
+            'type' => MovementTypeEnum::Transfer->value,
             'amount' => 100,
             'description' => 'Entrada transferência',
         ]);
@@ -50,12 +50,12 @@ class MovementTransferDeleteControllerFeatureTest extends Falcon9FeatureWithTena
         $this->assertEquals(1600, $destinationWallet->amount);
 
 
-        $spent = MovementModel::query()->where('description', 'Saída transferência')->first();
+        $spent = Movement::query()->where('description', 'Saída transferência')->first();
         $result = $this->deleteJson('/api/v2/movement/transfer/' . $spent->id, [], $this->makeApiHeaders());
 
         $result->assertStatus(200);
 
-        $gain = MovementModel::query()->where('description', 'Entrada transferência')->first();
+        $gain = Movement::query()->where('description', 'Entrada transferência')->first();
         $result = $this->deleteJson('/api/v2/movement/transfer/' . $gain->id, [], $this->makeApiHeaders());
 
         $result->assertStatus(200);

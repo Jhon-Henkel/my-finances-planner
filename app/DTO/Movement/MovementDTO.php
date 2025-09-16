@@ -2,7 +2,7 @@
 
 namespace App\DTO\Movement;
 
-use App\Enums\MovementEnum;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 
 class MovementDTO
 {
@@ -97,17 +97,17 @@ class MovementDTO
 
     public function isGain(): bool
     {
-        return $this->getType() == MovementEnum::Gain->value;
+        return $this->getType() == MovementTypeEnum::Gain->value;
     }
 
     public function isSpent(): bool
     {
-        return $this->getType() == MovementEnum::Spent->value;
+        return $this->getType() == MovementTypeEnum::Spent->value;
     }
 
     public function isTransfer(): bool
     {
-        return $this->getType() == MovementEnum::Transfer->value;
+        return $this->getType() == MovementTypeEnum::Transfer->value;
     }
 
     public function isMarketSpent(): bool

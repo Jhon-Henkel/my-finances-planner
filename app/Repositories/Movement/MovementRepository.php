@@ -5,7 +5,7 @@ namespace App\Repositories\Movement;
 use App\DTO\Date\DatePeriodDTO;
 use App\DTO\Movement\MovementDTO;
 use App\Enums\DateFormatEnum;
-use App\Models\MovementModel;
+use App\Models\Movement\Movement;
 use App\Repositories\BasicRepository;
 use App\Resources\Movement\MovementResource;
 use App\Tools\Calendar\CalendarTools;
@@ -13,12 +13,12 @@ use App\Tools\Calendar\CalendarTools;
 class MovementRepository extends BasicRepository
 {
     public function __construct(
-        private readonly MovementModel $model,
+        private readonly Movement $model,
         private readonly MovementResource $resource
     ) {
     }
 
-    protected function getModel(): MovementModel
+    protected function getModel(): Movement
     {
         return $this->model;
     }

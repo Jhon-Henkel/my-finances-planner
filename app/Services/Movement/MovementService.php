@@ -5,7 +5,7 @@ namespace App\Services\Movement;
 use App\DTO\FutureMovement\FutureGainDTO;
 use App\DTO\FutureMovement\FutureSpentDTO;
 use App\DTO\Movement\MovementDTO;
-use App\Enums\MovementEnum;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Modules\Old\Wallet\Service\WalletService;
 use App\Repositories\Movement\MovementRepository;
 use App\Resources\Movement\MovementResource;
@@ -30,7 +30,7 @@ class MovementService extends BasicService
     /** @return MovementDTO[] */
     public function findByFilter(array $filterOption): array
     {
-        $type = MovementEnum::All->value;
+        $type = MovementTypeEnum::All->value;
         if (isset($filterOption['type'])) {
             $type = $this->validateType($filterOption['type']);
         }
@@ -41,10 +41,10 @@ class MovementService extends BasicService
     protected function validateType(null|int $type): int
     {
         if (! $type) {
-            return MovementEnum::All->value;
+            return MovementTypeEnum::All->value;
         }
-        if (! in_array($type, MovementEnum::getTypesValidForFilter())) {
-            return MovementEnum::All->value;
+        if (! in_array($type, MovementTypeEnum::getTypesValidForFilter())) {
+            return MovementTypeEnum::All->value;
         }
         return $type;
     }
@@ -54,7 +54,7 @@ class MovementService extends BasicService
         $movement = new MovementDTO();
         $movement->setWalletId($gain->getWalletId());
         $movement->setDescription('Recebimento ' . $gain->getDescription());
-        $movement->setType(MovementEnum::Gain->value);
+        $movement->setType(MovementTypeEnum::Gain->value);
         $movement->setAmount($gain->getAmount());
         return $movement;
     }
@@ -64,7 +64,7 @@ class MovementService extends BasicService
         $movement = new MovementDTO();
         $movement->setWalletId($spent->getWalletId());
         $movement->setDescription('Pagamento ' . $spent->getDescription());
-        $movement->setType(MovementEnum::Spent->value);
+        $movement->setType(MovementTypeEnum::Spent->value);
         $movement->setAmount($spent->getAmount());
         return $movement;
     }
@@ -87,7 +87,7 @@ class MovementService extends BasicService
         $movement = new MovementDTO();
         $movement->setWalletId($walletId);
         $movement->setDescription('Fatura cartão ' . $cardName);
-        $movement->setType(MovementEnum::Spent->value);
+        $movement->setType(MovementTypeEnum::Spent->value);
         $movement->setAmount($totalValue);
         $this->insert($movement);
         return true;

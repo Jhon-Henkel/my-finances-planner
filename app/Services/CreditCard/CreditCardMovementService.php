@@ -5,7 +5,7 @@ namespace App\Services\CreditCard;
 use App\DTO\CreditCard\CreditCardMovementDTO;
 use App\DTO\CreditCard\CreditCardTransactionDTO;
 use App\DTO\Movement\MovementDTO;
-use App\Enums\MovementEnum;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Repositories\CreditCard\CreditCardMovementRepository;
 use App\Resources\CreditCard\CreditCardMovementResource;
 use App\Services\BasicService;
@@ -35,7 +35,7 @@ class CreditCardMovementService extends BasicService
             null,
             $creditCardId,
             $transaction->getName(),
-            (string)MovementEnum::Spent->value,
+            (string)MovementTypeEnum::Spent->value,
             $transaction->getValue()
         );
         $this->insert($movement);

@@ -2,8 +2,8 @@
 
 namespace App\Modules\Old\Wallet\Service;
 
-use App\Enums\MovementEnum;
 use App\Exceptions\ConstraintException;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Modules\Old\Wallet\DTO\WalletDTO;
 use App\Modules\Old\Wallet\Repository\WalletRepository;
 use App\Services\BasicService;
@@ -50,9 +50,9 @@ class WalletService extends BasicService
     {
         $wallet = $this->findById($walletId);
         $amount = $wallet->getAmount();
-        if ($type == MovementEnum::Gain->value) {
+        if ($type == MovementTypeEnum::Gain->value) {
             $amount += $value;
-        } elseif ($type == MovementEnum::Spent->value) {
+        } elseif ($type == MovementTypeEnum::Spent->value) {
             $amount -= $value;
         }
         $wallet->setAmount($amount);

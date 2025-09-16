@@ -2,11 +2,11 @@
 
 namespace App\Modules\Old\Movements\UseCase\List;
 
-use App\Enums\MovementEnum;
 use App\Enums\RouteNameEnum;
 use App\Infra\Request\RequestTools;
 use App\Infra\UseCase\Read\IListUseCase;
-use App\Models\MovementModel;
+use App\Models\Movement\Movement;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Tools\Calendar\CalendarTools;
 use App\Tools\NumberTools;
 use Illuminate\Support\Facades\Date;
@@ -39,7 +39,7 @@ class MovementListUseCase implements IListUseCase
         $startOfMonth = "{$date->copy()->startOfMonth()->toDateString()} 00:00:00";
         $endOfMonth = "{$date->copy()->endOfMonth()->toDateString()} 23:59:59";
 
-        $result = MovementModel::query()
+        $result = Movement::query()
             ->select(
                 'movements.id',
                 'movements.wallet_id as walletId',
@@ -94,7 +94,7 @@ class MovementListUseCase implements IListUseCase
     {
         $totalAmount = 0;
         foreach ($items as $item) {
-            if (MovementEnum::isGain($item['type'])) {
+            if (MovementTypeEnum::isGain($item['type'])) {
                 $totalAmount += $item['amount'];
             }
         }
@@ -105,7 +105,7 @@ class MovementListUseCase implements IListUseCase
     {
         $totalAmount = 0;
         foreach ($items as $item) {
-            if (MovementEnum::isSpent($item['type'])) {
+            if (MovementTypeEnum::isSpent($item['type'])) {
                 $totalAmount += $item['amount'];
             }
         }

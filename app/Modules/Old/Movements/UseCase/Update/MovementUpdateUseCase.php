@@ -2,9 +2,9 @@
 
 namespace App\Modules\Old\Movements\UseCase\Update;
 
-use App\Enums\MovementEnum;
 use App\Infra\UseCase\Update\IUpdateUseCase;
-use App\Models\MovementModel;
+use App\Models\Movement\Movement;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Modules\Old\Movements\Exceptions\MovementTypeDontIdentifiedException;
 use App\Modules\Old\Wallet\UseCase\UpdateWalletByMovement\UpdateWalletByMovementUseCase;
 use App\Tools\NumberTools;
@@ -17,10 +17,10 @@ class MovementUpdateUseCase implements IUpdateUseCase
 
     public function execute(array $data, int $id): bool
     {
-        $movement = MovementModel::query()->findOrFail($id);
+        $movement = Movement::query()->findOrFail($id);
         if ($movement->amount != $data['amount']) {
             $type = $this->getTypeForMovementUpdate($movement, $data);
-            if (MovementEnum::isGain($type->value)) {
+            if (MovementTypeEnum::isGain($type->value)) {
                 $newAmount = NumberTools::roundFloatAmount($data['amount'] - $movement->amount);
             } else {
                 $newAmount = NumberTools::roundFloatAmount($movement->amount - $data['amount']);
@@ -37,16 +37,16 @@ class MovementUpdateUseCase implements IUpdateUseCase
         ]);
     }
 
-    protected function getTypeForMovementUpdate(MovementModel $movement, array $data): MovementEnum
+    protected function getTypeForMovementUpdate(Movement $movement, array $data): MovementTypeEnum
     {
-        if (MovementEnum::isGain($movement->type) && $movement->amount > $data['amount']) {
-            return MovementEnum::Spent;
-        } elseif (MovementEnum::isGain($movement->type) && $movement->amount < $data['amount']) {
-            return MovementEnum::Gain;
-        } elseif (MovementEnum::isSpent($movement->type) && $movement->amount > $data['amount']) {
-            return MovementEnum::Gain;
-        } elseif (MovementEnum::isSpent($movement->type) && $movement->amount < $data['amount']) {
-            return MovementEnum::Spent;
+        if (MovementTypeEnum::isGain($movement->type) && $movement->amount > $data['amount']) {
+            return MovementTypeEnum::Spent;
+        } elseif (MovementTypeEnum::isGain($movement->type) && $movement->amount < $data['amount']) {
+            return MovementTypeEnum::Gain;
+        } elseif (MovementTypeEnum::isSpent($movement->type) && $movement->amount > $data['amount']) {
+            return MovementTypeEnum::Gain;
+        } elseif (MovementTypeEnum::isSpent($movement->type) && $movement->amount < $data['amount']) {
+            return MovementTypeEnum::Spent;
         }
         throw new MovementTypeDontIdentifiedException();
     }

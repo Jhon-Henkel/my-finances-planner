@@ -2,8 +2,8 @@
 
 namespace Tests\backend\Feature\Modules\Movement\Controller\InsertTransfer;
 
-use App\Enums\MovementEnum;
 use App\Models\Wallet\Wallet;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class MovementTransferInsertControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
@@ -30,14 +30,14 @@ class MovementTransferInsertControllerFeatureTest extends Falcon9FeatureWithTena
 
         $this->assertDatabaseHas('movements', [
             'wallet_id' => $originWallet->id,
-            'type' => MovementEnum::Transfer->value,
+            'type' => MovementTypeEnum::Transfer->value,
             'amount' => 100,
             'description' => 'Saída transferência',
         ]);
 
         $this->assertDatabaseHas('movements', [
             'wallet_id' => $destinationWallet->id,
-            'type' => MovementEnum::Transfer->value,
+            'type' => MovementTypeEnum::Transfer->value,
             'amount' => 100,
             'description' => 'Entrada transferência',
         ]);

@@ -2,9 +2,9 @@
 
 namespace Tests\backend\Feature\Modules\Movement\Controller\Update;
 
-use App\Enums\MovementEnum;
-use App\Models\MovementModel;
+use App\Models\Movement\Movement;
 use App\Models\Wallet\Wallet;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class MovementUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
@@ -16,17 +16,17 @@ class MovementUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDataba
         $wallet->amount = 1500;
         $wallet->save();
 
-        $movement = MovementModel::query()->create([
+        $movement = Movement::query()->create([
             'wallet_id'  => $wallet->id,
             'description' => 'Movement 1',
-            'type' => MovementEnum::Gain->value,
+            'type' => MovementTypeEnum::Gain->value,
             'amount' => 100,
         ]);
 
         $response = $this->putJson('/api/v2/movement/' . $movement->id, [
             'walletId' => $wallet->id,
             'description' => 'Movement 2',
-            'type' => MovementEnum::Gain->value,
+            'type' => MovementTypeEnum::Gain->value,
             'amount' => 200,
         ], $this->makeApiHeaders());
 
@@ -34,7 +34,7 @@ class MovementUpdateControllerFeatureTest extends Falcon9FeatureWithTenantDataba
 
         $this->assertDatabaseHas('movements', [
             'description' => 'Movement 2',
-            'type' => MovementEnum::Gain->value,
+            'type' => MovementTypeEnum::Gain->value,
             'amount' => 200,
         ]);
 

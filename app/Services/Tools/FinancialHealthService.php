@@ -3,7 +3,7 @@
 namespace App\Services\Tools;
 
 use App\DTO\Movement\MovementDTO;
-use App\Enums\MovementEnum;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Services\CreditCard\CreditCardMovementService;
 use App\Services\Movement\MovementService;
 use App\Tools\NumberTools;
@@ -82,23 +82,23 @@ class FinancialHealthService
     {
         $spending = ['label' => [], 'data' => [], 'color' => [], 'total' => 0];
         $gains = ['label' => [], 'data' => [], 'color' => [], 'total' => 0];
-        if (isset($movements[MovementEnum::Gain->value])) {
-            foreach ($movements[MovementEnum::Gain->value] as $title => $amount) {
+        if (isset($movements[MovementTypeEnum::Gain->value])) {
+            foreach ($movements[MovementTypeEnum::Gain->value] as $title => $amount) {
                 $gains['label'][] = $title;
                 $gains['data'][] = $amount;
                 $gains['color'][] = StringTools::generateRandomHexColor();
                 $gains['total'] += $amount;
             }
         }
-        if (isset($movements[MovementEnum::Spent->value])) {
-            foreach ($movements[MovementEnum::Spent->value] as $title => $amount) {
+        if (isset($movements[MovementTypeEnum::Spent->value])) {
+            foreach ($movements[MovementTypeEnum::Spent->value] as $title => $amount) {
                 $spending['label'][] = $title;
                 $spending['data'][] = $amount;
                 $spending['color'][] = StringTools::generateRandomHexColor();
                 $spending['total'] += $amount;
             }
         }
-        $movements['dataForGraph'] = [MovementEnum::Spent->value => $spending, MovementEnum::Gain->value => $gains];
+        $movements['dataForGraph'] = [MovementTypeEnum::Spent->value => $spending, MovementTypeEnum::Gain->value => $gains];
         return $movements;
     }
 }

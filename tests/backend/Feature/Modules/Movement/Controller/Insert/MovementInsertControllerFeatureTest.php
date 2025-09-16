@@ -2,8 +2,8 @@
 
 namespace Tests\backend\Feature\Modules\Movement\Controller\Insert;
 
-use App\Enums\MovementEnum;
 use App\Models\Wallet\Wallet;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use Tests\backend\Falcon9FeatureWithTenantDatabase;
 
 class MovementInsertControllerFeatureTest extends Falcon9FeatureWithTenantDatabase
@@ -18,7 +18,7 @@ class MovementInsertControllerFeatureTest extends Falcon9FeatureWithTenantDataba
         $response = $this->postJson('/api/v2/movement', [
             'walletId' => $wallet->id,
             'description' => 'Movement 1',
-            'type' => MovementEnum::Spent->value,
+            'type' => MovementTypeEnum::Spent->value,
             'amount' => 100,
         ], $this->makeApiHeaders());
 
@@ -26,7 +26,7 @@ class MovementInsertControllerFeatureTest extends Falcon9FeatureWithTenantDataba
 
         $this->assertDatabaseHas('movements', [
             'description' => 'Movement 1',
-            'type' => MovementEnum::Spent->value,
+            'type' => MovementTypeEnum::Spent->value,
             'amount' => 100,
         ]);
 
@@ -45,7 +45,7 @@ class MovementInsertControllerFeatureTest extends Falcon9FeatureWithTenantDataba
         $response = $this->postJson('/api/v2/movement', [
             'walletId' => $wallet->id,
             'description' => 'Movement 1',
-            'type' => MovementEnum::Gain->value,
+            'type' => MovementTypeEnum::Gain->value,
             'amount' => 100,
         ], $this->makeApiHeaders());
 
@@ -53,7 +53,7 @@ class MovementInsertControllerFeatureTest extends Falcon9FeatureWithTenantDataba
 
         $this->assertDatabaseHas('movements', [
             'description' => 'Movement 1',
-            'type' => MovementEnum::Gain->value,
+            'type' => MovementTypeEnum::Gain->value,
             'amount' => 100,
         ]);
 

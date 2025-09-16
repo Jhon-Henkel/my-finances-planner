@@ -2,9 +2,9 @@
 
 namespace App\Modules\Old\Movements\UseCase\InsertTransfer;
 
-use App\Enums\MovementEnum;
 use App\Infra\UseCase\Create\ICreateUseCase;
-use App\Models\MovementModel;
+use App\Models\Movement\Movement;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Modules\Old\Wallet\UseCase\UpdateWalletByMovement\UpdateWalletByMovementUseCase;
 
 class MovementTransferCreateUseCase implements ICreateUseCase
@@ -22,25 +22,25 @@ class MovementTransferCreateUseCase implements ICreateUseCase
 
     protected function insertSpent(array $data): void
     {
-        /** @var MovementModel $spent */
-        $spent = MovementModel::create([
+        /** @var Movement $spent */
+        $spent = Movement::create([
             'description' => 'Saída transferência',
-            'type' => MovementEnum::Transfer->value,
+            'type' => MovementTypeEnum::Transfer->value,
             'wallet_id' => $data['originId'],
             'amount' => $data['amount'],
         ]);
-        $this->updateWalletByMovementUseCase->execute($spent->wallet_id, $spent->amount, MovementEnum::Spent->value);
+        $this->updateWalletByMovementUseCase->execute($spent->wallet_id, $spent->amount, MovementTypeEnum::Spent->value);
     }
 
     protected function insertGain(array $data): void
     {
-        /** @var MovementModel $gain */
-        $gain = MovementModel::create([
+        /** @var Movement $gain */
+        $gain = Movement::create([
             'description' => 'Entrada transferência',
-            'type' => MovementEnum::Transfer->value,
+            'type' => MovementTypeEnum::Transfer->value,
             'wallet_id' => $data['destinationId'],
             'amount' => $data['amount'],
         ]);
-        $this->updateWalletByMovementUseCase->execute($gain->wallet_id, $gain->amount, MovementEnum::Gain->value);
+        $this->updateWalletByMovementUseCase->execute($gain->wallet_id, $gain->amount, MovementTypeEnum::Gain->value);
     }
 }

@@ -7,7 +7,7 @@ use App\DTO\Date\DatePeriodDTO;
 use App\DTO\InvoiceItemDTO;
 use App\DTO\Movement\MovementDTO;
 use App\Enums\InvoiceInstallmentsEnum;
-use App\Enums\MovementEnum;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Services\ConfigurationService;
 use App\Services\CreditCard\CreditCardTransactionService;
 use App\Services\Movement\MovementService;
@@ -109,17 +109,17 @@ class MarketPlannerServiceUnitTest extends Falcon9
     {
         $movementOne = new MovementDTO();
         $movementOne->setAmount(10);
-        $movementOne->setType(MovementEnum::Spent->value);
+        $movementOne->setType(MovementTypeEnum::Spent->value);
         $movementOne->setDescription('Mercado');
 
         $movementTwo = new MovementDTO();
         $movementTwo->setAmount(40);
-        $movementTwo->setType(MovementEnum::Spent->value);
+        $movementTwo->setType(MovementTypeEnum::Spent->value);
         $movementTwo->setDescription('Mercado');
 
         $movementThree = new MovementDTO();
         $movementThree->setAmount(50);
-        $movementThree->setType(MovementEnum::Gain->value);
+        $movementThree->setType(MovementTypeEnum::Gain->value);
         $movementThree->setDescription('Mercado');
 
         $movements = [$movementOne, $movementTwo, $movementThree];

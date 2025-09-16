@@ -3,7 +3,7 @@
 namespace Tests\backend\Unit\DTO\Movement;
 
 use App\DTO\Movement\MovementDTO;
-use App\Enums\MovementEnum;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use Tests\backend\Falcon9;
 
 class MovementDtoUnitTest extends Falcon9
@@ -44,23 +44,23 @@ class MovementDtoUnitTest extends Falcon9
     public function testIsMarketSpent()
     {
         $dto = new MovementDTO();
-        $dto->setType(MovementEnum::Spent->value);
+        $dto->setType(MovementTypeEnum::Spent->value);
         $dto->setDescription('Mercado');
         $this->assertTrue($dto->isMarketSpent());
 
-        $dto->setType(MovementEnum::Spent->value);
+        $dto->setType(MovementTypeEnum::Spent->value);
         $dto->setDescription('mercado');
         $this->assertTrue($dto->isMarketSpent());
 
-        $dto->setType(MovementEnum::Gain->value);
+        $dto->setType(MovementTypeEnum::Gain->value);
         $dto->setDescription('Venda de ações');
         $this->assertFalse($dto->isMarketSpent());
 
-        $dto->setType(MovementEnum::Spent->value);
+        $dto->setType(MovementTypeEnum::Spent->value);
         $dto->setDescription('Compra de ações');
         $this->assertFalse($dto->isMarketSpent());
 
-        $dto->setType(MovementEnum::Gain->value);
+        $dto->setType(MovementTypeEnum::Gain->value);
         $dto->setDescription('Mercado');
         $this->assertFalse($dto->isMarketSpent());
     }
@@ -68,10 +68,10 @@ class MovementDtoUnitTest extends Falcon9
     public function testIsTransfer()
     {
         $dto = new MovementDTO();
-        $dto->setType(MovementEnum::Transfer->value);
+        $dto->setType(MovementTypeEnum::Transfer->value);
         $this->assertTrue($dto->isTransfer());
 
-        $dto->setType(MovementEnum::Spent->value);
+        $dto->setType(MovementTypeEnum::Spent->value);
         $this->assertFalse($dto->isTransfer());
     }
 }

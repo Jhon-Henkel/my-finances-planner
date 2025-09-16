@@ -3,7 +3,7 @@
 namespace App\Modules\Old\MarketControl\UseCase\MarkMarketSpent;
 
 use App\DTO\Movement\MovementDTO;
-use App\Enums\MovementEnum;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Services\Database\DatabaseConnectionService;
 use App\Services\Movement\MovementService;
 
@@ -28,7 +28,7 @@ readonly class MarkMarketSpentUseCase
         $dto->setWalletId($data['wallet_id']);
         $dto->setAmount($data['amount']);
         $dto->setDescription('Mercado');
-        $dto->setType(MovementEnum::Spent->value);
+        $dto->setType(MovementTypeEnum::Spent->value);
 
         $this->movementService->insert($dto);
 

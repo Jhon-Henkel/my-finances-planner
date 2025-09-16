@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use App\Enums\CalendarMonthsNumberEnum;
 use App\Enums\DateFormatEnum;
-use App\Enums\MovementEnum;
-use App\Models\MovementModel;
+use App\Models\Movement\Movement;
 use App\Models\Wallet\Wallet;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Tools\Calendar\CalendarTools;
 use Illuminate\Database\Seeder;
 
@@ -20,7 +20,7 @@ class MovementsSeeder extends Seeder
         $amounts = $this->makeAmounts();
         $dates = $this->getCreatedAtDates();
         for ($index = 0; $index < 13 * 3; $index++) {
-            MovementModel::factory()->create(
+            Movement::factory()->create(
                 [
                     'description' => $descriptions[$index],
                     'type' => $types[$index],
@@ -65,19 +65,19 @@ class MovementsSeeder extends Seeder
     protected function makeTypes(): array
     {
         $types = [
-            MovementEnum::Gain->value,
-            MovementEnum::Gain->value,
-            MovementEnum::Gain->value,
-            MovementEnum::Gain->value,
-            MovementEnum::Spent->value,
-            MovementEnum::Spent->value,
-            MovementEnum::Spent->value,
-            MovementEnum::Spent->value,
-            MovementEnum::Spent->value,
-            MovementEnum::Spent->value,
-            MovementEnum::Spent->value,
-            MovementEnum::Spent->value,
-            MovementEnum::Spent->value
+            MovementTypeEnum::Gain->value,
+            MovementTypeEnum::Gain->value,
+            MovementTypeEnum::Gain->value,
+            MovementTypeEnum::Gain->value,
+            MovementTypeEnum::Spent->value,
+            MovementTypeEnum::Spent->value,
+            MovementTypeEnum::Spent->value,
+            MovementTypeEnum::Spent->value,
+            MovementTypeEnum::Spent->value,
+            MovementTypeEnum::Spent->value,
+            MovementTypeEnum::Spent->value,
+            MovementTypeEnum::Spent->value,
+            MovementTypeEnum::Spent->value
         ];
         return array_merge($types, $types, $types);
     }

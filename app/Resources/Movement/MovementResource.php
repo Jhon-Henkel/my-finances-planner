@@ -3,7 +3,7 @@
 namespace App\Resources\Movement;
 
 use App\DTO\Movement\MovementDTO;
-use App\Enums\MovementEnum;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Resources\BasicResource;
 use App\VO\Movement\MovementVO;
 
@@ -53,7 +53,7 @@ class MovementResource extends BasicResource
 
     public function populateMovementForWalletUpdate(float $value, int $walletId): MovementDTO
     {
-        $type = $value > 0 ? MovementEnum::Gain->value : MovementEnum::Spent->value;
+        $type = $value > 0 ? MovementTypeEnum::Gain->value : MovementTypeEnum::Spent->value;
         $movement = new MovementDTO();
         $movement->setDescription('Atualização de carteira');
         $movement->setWalletId($walletId);

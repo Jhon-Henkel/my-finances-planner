@@ -6,7 +6,7 @@ use App\DTO\Date\DatePeriodDTO;
 use App\DTO\FutureMovement\FutureGainDTO;
 use App\DTO\FutureMovement\FutureSpentDTO;
 use App\DTO\Movement\MovementDTO;
-use App\Enums\MovementEnum;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Modules\Old\Wallet\Service\WalletService;
 use App\Repositories\Movement\MovementRepository;
 use App\Resources\Movement\MovementResource;
@@ -161,11 +161,11 @@ class MovementServiceUnitTest extends Falcon9
         $serviceMock = Mockery::mock(MovementService::class, $mocks)->makePartial();
         $serviceMock->shouldAllowMockingProtectedMethods();
 
-        $this->assertEquals(MovementEnum::All->value, $serviceMock->validateType(null));
-        $this->assertEquals(MovementEnum::All->value, $serviceMock->validateType(100));
-        $this->assertEquals(MovementEnum::Transfer->value, $serviceMock->validateType(MovementEnum::Transfer->value));
-        $this->assertEquals(MovementEnum::Gain->value, $serviceMock->validateType(MovementEnum::Gain->value));
-        $this->assertEquals(MovementEnum::Spent->value, $serviceMock->validateType(MovementEnum::Spent->value));
-        $this->assertEquals(MovementEnum::InvestmentCdb->value, $serviceMock->validateType(MovementEnum::InvestmentCdb->value));
+        $this->assertEquals(MovementTypeEnum::All->value, $serviceMock->validateType(null));
+        $this->assertEquals(MovementTypeEnum::All->value, $serviceMock->validateType(100));
+        $this->assertEquals(MovementTypeEnum::Transfer->value, $serviceMock->validateType(MovementTypeEnum::Transfer->value));
+        $this->assertEquals(MovementTypeEnum::Gain->value, $serviceMock->validateType(MovementTypeEnum::Gain->value));
+        $this->assertEquals(MovementTypeEnum::Spent->value, $serviceMock->validateType(MovementTypeEnum::Spent->value));
+        $this->assertEquals(MovementTypeEnum::InvestmentCdb->value, $serviceMock->validateType(MovementTypeEnum::InvestmentCdb->value));
     }
 }

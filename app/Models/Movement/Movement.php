@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Movement;
 
 use App\Enums\DateFormatEnum;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,19 +13,28 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property int $type
  * @property float $amount
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @mixin Builder
  */
-class MovementModel extends Model
+class Movement extends Model
 {
     use HasFactory;
 
     protected $table = 'movements';
-    protected $fillable = ['id', 'wallet_id', 'description', 'type', 'amount'];
+    public $timestamps = false;
+
+    protected $fillable = [
+        'id',
+        'wallet_id',
+        'description',
+        'type',
+        'amount'
+    ];
+
     protected $casts = [
         'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
         'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value
     ];
-    protected $hidden = [];
-    public $timestamps = false;
 }

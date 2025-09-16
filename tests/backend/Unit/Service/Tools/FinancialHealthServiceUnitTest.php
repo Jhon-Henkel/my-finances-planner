@@ -3,7 +3,7 @@
 namespace Tests\backend\Unit\Service\Tools;
 
 use App\DTO\Movement\MovementDTO;
-use App\Enums\MovementEnum;
+use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Services\CreditCard\CreditCardMovementService;
 use App\Services\Movement\MovementService;
 use App\Services\Tools\FinancialHealthService;
@@ -42,27 +42,27 @@ class FinancialHealthServiceUnitTest extends Falcon9
     public function testCategorizeMovementsTestOne()
     {
         $movementOne = new MovementDTO();
-        $movementOne->setType(MovementEnum::Spent->value);
+        $movementOne->setType(MovementTypeEnum::Spent->value);
         $movementOne->setDescription('Cartão de crédito');
         $movementOne->setAmount(100);
 
         $movementTwo = new MovementDTO();
-        $movementTwo->setType(MovementEnum::Spent->value);
+        $movementTwo->setType(MovementTypeEnum::Spent->value);
         $movementTwo->setDescription('Pagamento Energia');
         $movementTwo->setAmount(200);
 
         $movementThree = new MovementDTO();
-        $movementThree->setType(MovementEnum::Gain->value);
+        $movementThree->setType(MovementTypeEnum::Gain->value);
         $movementThree->setDescription('Recebimento Salário');
         $movementThree->setAmount(300);
 
         $movementFour = new MovementDTO();
-        $movementFour->setType(MovementEnum::Gain->value);
+        $movementFour->setType(MovementTypeEnum::Gain->value);
         $movementFour->setDescription('Recebimento Salário');
         $movementFour->setAmount(400);
 
         $movementFive = new MovementDTO();
-        $movementFive->setType(MovementEnum::Spent->value);
+        $movementFive->setType(MovementTypeEnum::Spent->value);
         $movementFive->setDescription('Pagamento Energia');
         $movementFive->setAmount(500);
 
@@ -73,43 +73,43 @@ class FinancialHealthServiceUnitTest extends Falcon9
         $result = $serviceMock->categorizeMovements($movements, false);
 
         $this->assertCount(2, $result);
-        $this->assertCount(2, $result[MovementEnum::Spent->value]);
-        $this->assertCount(1, $result[MovementEnum::Gain->value]);
-        $this->assertArrayHasKey(MovementEnum::Spent->value, $result);
-        $this->assertArrayHasKey(MovementEnum::Gain->value, $result);
-        $this->assertArrayHasKey('Cartão de crédito', $result[MovementEnum::Spent->value]);
-        $this->assertArrayHasKey('Energia', $result[MovementEnum::Spent->value]);
-        $this->assertArrayHasKey('Salário', $result[MovementEnum::Gain->value]);
-        $this->assertEquals(100, $result[MovementEnum::Spent->value]['Cartão de crédito']);
-        $this->assertEquals(700, $result[MovementEnum::Spent->value]['Energia']);
-        $this->assertEquals(700, $result[MovementEnum::Gain->value]['Salário']);
+        $this->assertCount(2, $result[MovementTypeEnum::Spent->value]);
+        $this->assertCount(1, $result[MovementTypeEnum::Gain->value]);
+        $this->assertArrayHasKey(MovementTypeEnum::Spent->value, $result);
+        $this->assertArrayHasKey(MovementTypeEnum::Gain->value, $result);
+        $this->assertArrayHasKey('Cartão de crédito', $result[MovementTypeEnum::Spent->value]);
+        $this->assertArrayHasKey('Energia', $result[MovementTypeEnum::Spent->value]);
+        $this->assertArrayHasKey('Salário', $result[MovementTypeEnum::Gain->value]);
+        $this->assertEquals(100, $result[MovementTypeEnum::Spent->value]['Cartão de crédito']);
+        $this->assertEquals(700, $result[MovementTypeEnum::Spent->value]['Energia']);
+        $this->assertEquals(700, $result[MovementTypeEnum::Gain->value]['Salário']);
     }
 
     #[TestDox('Testando Não agrupando despesas cartão')]
     public function testCategorizeMovementsTestTwo()
     {
         $movementOne = new MovementDTO();
-        $movementOne->setType(MovementEnum::Spent->value);
+        $movementOne->setType(MovementTypeEnum::Spent->value);
         $movementOne->setDescription('Cartão de crédito');
         $movementOne->setAmount(100);
 
         $movementTwo = new MovementDTO();
-        $movementTwo->setType(MovementEnum::Spent->value);
+        $movementTwo->setType(MovementTypeEnum::Spent->value);
         $movementTwo->setDescription('Pagamento Energia');
         $movementTwo->setAmount(200);
 
         $movementThree = new MovementDTO();
-        $movementThree->setType(MovementEnum::Gain->value);
+        $movementThree->setType(MovementTypeEnum::Gain->value);
         $movementThree->setDescription('Recebimento Salário');
         $movementThree->setAmount(300);
 
         $movementFour = new MovementDTO();
-        $movementFour->setType(MovementEnum::Gain->value);
+        $movementFour->setType(MovementTypeEnum::Gain->value);
         $movementFour->setDescription('Recebimento Salário');
         $movementFour->setAmount(400);
 
         $movementFive = new MovementDTO();
-        $movementFive->setType(MovementEnum::Spent->value);
+        $movementFive->setType(MovementTypeEnum::Spent->value);
         $movementFive->setDescription('Pagamento Energia');
         $movementFive->setAmount(500);
 
@@ -120,15 +120,15 @@ class FinancialHealthServiceUnitTest extends Falcon9
         $result = $serviceMock->categorizeMovements($movements, true);
 
         $this->assertCount(2, $result);
-        $this->assertCount(1, $result[MovementEnum::Spent->value]);
-        $this->assertCount(1, $result[MovementEnum::Gain->value]);
-        $this->assertArrayHasKey(MovementEnum::Spent->value, $result);
-        $this->assertArrayHasKey(MovementEnum::Gain->value, $result);
-        $this->assertArrayNotHasKey('Cartão de crédito', $result[MovementEnum::Spent->value]);
-        $this->assertArrayHasKey('Energia', $result[MovementEnum::Spent->value]);
-        $this->assertArrayHasKey('Salário', $result[MovementEnum::Gain->value]);
-        $this->assertEquals(700, $result[MovementEnum::Spent->value]['Energia']);
-        $this->assertEquals(700, $result[MovementEnum::Gain->value]['Salário']);
+        $this->assertCount(1, $result[MovementTypeEnum::Spent->value]);
+        $this->assertCount(1, $result[MovementTypeEnum::Gain->value]);
+        $this->assertArrayHasKey(MovementTypeEnum::Spent->value, $result);
+        $this->assertArrayHasKey(MovementTypeEnum::Gain->value, $result);
+        $this->assertArrayNotHasKey('Cartão de crédito', $result[MovementTypeEnum::Spent->value]);
+        $this->assertArrayHasKey('Energia', $result[MovementTypeEnum::Spent->value]);
+        $this->assertArrayHasKey('Salário', $result[MovementTypeEnum::Gain->value]);
+        $this->assertEquals(700, $result[MovementTypeEnum::Spent->value]['Energia']);
+        $this->assertEquals(700, $result[MovementTypeEnum::Gain->value]['Salário']);
     }
 
     public function testGetMovementsByPeriod()
