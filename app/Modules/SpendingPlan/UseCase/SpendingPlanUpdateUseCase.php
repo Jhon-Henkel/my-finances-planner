@@ -6,7 +6,6 @@ use App\Infra\UseCase\Update\IUpdateUseCaseV2;
 use App\Models\SpendingPlan\SpendingPlan;
 use App\Models\SpendingPlan\SpendingPlanInstallment;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 
 class SpendingPlanUpdateUseCase implements IUpdateUseCaseV2
 {
