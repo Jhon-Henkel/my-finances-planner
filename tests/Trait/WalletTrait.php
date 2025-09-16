@@ -10,7 +10,7 @@ trait WalletTrait
 {
     use WithFaker;
 
-    const string WALLET_NAME = 'wallet_php_unit';
+    public const string WALLET_NAME = 'wallet_php_unit';
 
     public function createWallet(): Wallet
     {

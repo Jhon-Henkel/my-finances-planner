@@ -24,7 +24,7 @@ class MovementDeleteUseCase implements IDeleteUseCase
 
         if (MovementTypeEnum::isGain($movement->type)) {
             $this->updateWalletByMovementUseCase->execute($movement->wallet_id, $movement->amount, MovementTypeEnum::Spent->value);
-        } else if (MovementTypeEnum::isSpent($movement->type)) {
+        } elseif (MovementTypeEnum::isSpent($movement->type)) {
             $this->updateWalletByMovementUseCase->execute($movement->wallet_id, $movement->amount, MovementTypeEnum::Gain->value);
         }
 

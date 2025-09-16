@@ -10,7 +10,7 @@ trait CreditCardTrait
 {
     use WithFaker;
 
-    const string CREDIT_CARD_NAME = 'credit_card_php_unit';
+    public const string CREDIT_CARD_NAME = 'credit_card_php_unit';
 
     public function createCreditCard(): CreditCard
     {
