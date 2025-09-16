@@ -95,12 +95,14 @@ enum RouteNameEnum: string
     case ApiV3SpendingPlanGet = 'api.v3.spending-plan.get';
     case ApiV3SpendingPlanDelete = 'api.v3.spending-plan.delete';
     case ApiV3SpendingPlanUpdate = 'api.v3.spending-plan.update';
+    case ApiV3SpendingPlanPay = 'api.v3.spending-plan.pay';
 
     case ApiV3EarningPlanCreate = 'api.v3.earning-plan.create';
     case ApiV3EarningPlanList = 'api.v3.earning-plan.list';
     case ApiV3EarningPlanGet = 'api.v3.earning-plan.get';
     case ApiV3EarningPlanDelete = 'api.v3.earning-plan.delete';
     case ApiV3EarningPlanUpdate = 'api.v3.earning-plan.update';
+    case ApiV3EarningPlanReceive = 'api.v3.earning-plan.receive';
 
     case ApiV3AuthLogin = 'api.v3.auth.login';
 }

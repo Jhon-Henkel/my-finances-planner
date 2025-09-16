@@ -10,6 +10,11 @@ use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\UserController;
 use App\Modules\Auth\Controller\Login\LoginController;
+use App\Modules\EarningPlan\Controller\EarningPlanCreateController;
+use App\Modules\EarningPlan\Controller\EarningPlanDeleteController;
+use App\Modules\EarningPlan\Controller\EarningPlanGetController;
+use App\Modules\EarningPlan\Controller\EarningPlanReceiveController;
+use App\Modules\EarningPlan\Controller\EarningPlanUpdateController;
 use App\Modules\Movement\Controller\MovementCreateController;
 use App\Modules\Movement\Controller\MovementGetController;
 use App\Modules\Old\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
@@ -29,6 +34,7 @@ use App\Modules\Old\SpendingPlan\Controller\List\SpendingPlanListController;
 use App\Modules\Old\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
 use App\Modules\Old\Wallet\Controller\WalletController;
 use App\Modules\SpendingPlan\Controller\SpendingPlanDeleteController;
+use App\Modules\SpendingPlan\Controller\SpendingPlanPayController;
 use App\Modules\Wallet\Controller\WalletCreateController;
 use App\Modules\Wallet\Controller\WalletDeleteController;
 use App\Modules\Wallet\Controller\WalletGetController;
@@ -81,6 +87,7 @@ Route::prefix('v3')->group(function () {
         Route::prefix('spending-plan')->group(function () {
             Route::post('', \App\Modules\SpendingPlan\Controller\SpendingPlanCreateController::class)->name(RouteNameEnum::ApiV3SpendingPlanCreate);
             Route::get('', \App\Modules\SpendingPlan\Controller\SpendingPlanListController::class)->name(RouteNameEnum::ApiV3SpendingPlanList);
+            Route::post('pay', SpendingPlanPayController::class)->name(RouteNameEnum::ApiV3SpendingPlanPay);
             Route::prefix('{id}')->group(function () {
                 Route::get('', \App\Modules\SpendingPlan\Controller\SpendingPlanGetController::class)->name(RouteNameEnum::ApiV3SpendingPlanGet);
                 Route::delete('', SpendingPlanDeleteController::class)->name(RouteNameEnum::ApiV3SpendingPlanDelete);
@@ -89,12 +96,13 @@ Route::prefix('v3')->group(function () {
         });
 
         Route::prefix('earning-plan')->group(function () {
-            Route::post('', \App\Modules\EarningPlan\Controller\EarningPlanCreateController::class)->name(RouteNameEnum::ApiV3EarningPlanCreate);
+            Route::post('', EarningPlanCreateController::class)->name(RouteNameEnum::ApiV3EarningPlanCreate);
             Route::get('', \App\Modules\EarningPlan\Controller\EarningPlanListController::class)->name(RouteNameEnum::ApiV3EarningPlanList);
+            Route::post('receive', EarningPlanReceiveController::class)->name(RouteNameEnum::ApiV3EarningPlanReceive);
             Route::prefix('{id}')->group(function () {
-                Route::get('', \App\Modules\EarningPlan\Controller\EarningPlanGetController::class)->name(RouteNameEnum::ApiV3EarningPlanGet);
-                Route::delete('', \App\Modules\EarningPlan\Controller\EarningPlanDeleteController::class)->name(RouteNameEnum::ApiV3EarningPlanDelete);
-                Route::put('', \App\Modules\EarningPlan\Controller\EarningPlanUpdateController::class)->name(RouteNameEnum::ApiV3EarningPlanUpdate);
+                Route::get('', EarningPlanGetController::class)->name(RouteNameEnum::ApiV3EarningPlanGet);
+                Route::delete('', EarningPlanDeleteController::class)->name(RouteNameEnum::ApiV3EarningPlanDelete);
+                Route::put('', EarningPlanUpdateController::class)->name(RouteNameEnum::ApiV3EarningPlanUpdate);
             });
         });
     });
@@ -107,8 +115,15 @@ Route::prefix('v3')->group(function () {
 Route::prefix('')->middleware('auth.api:api')->group(function () {
     Route::prefix('v2')->group(function () {
         /**
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
          * @deprecated - Migrado para V3
-         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
          */
         Route::prefix('spending-plan')->group(function () {
             Route::get('', SpendingPlanListController::class)->name(RouteNameEnum::ApiSpendingPlanList->value);
@@ -121,7 +136,10 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
             Route::get('', EarningPlanListController::class)->name(RouteNameEnum::ApiEarningPlanList->value);
         });
         /**
-         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
         Route::prefix('market-planner')->group(function () {
@@ -135,9 +153,16 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
         });
 
         /**
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
          * @deprecated - Migrado para V3
-         * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         */
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        */
         Route::prefix('movement')->group(function () {
             Route::prefix('transfer')->group(function () {
                 Route::post('', MovementTransferCreateController::class)->name(RouteNameEnum::ApiMovementInsertTransfer->value);
@@ -149,11 +174,7 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
             Route::delete('{id}', MovementDeleteController::class)->name(RouteNameEnum::ApiMovementDelete->value);
         });
     });
-    /**
-     * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * @deprecated - Migrado para V3
-     * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
+
     Route::prefix('wallet')->group(function () {
         Route::get('{id}', [WalletController::class, 'show'])->name(RouteNameEnum::ApiWalletShow->value);
         Route::get('', [WalletController::class, 'index'])->name(RouteNameEnum::ApiWalletIndex->value);
@@ -162,7 +183,10 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
         Route::delete('/{id}', [WalletController::class, 'delete'])->name(RouteNameEnum::ApiWalletDelete->value);
     });
     /**
-     * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
     Route::prefix('credit-card')->group(function () {
@@ -178,46 +202,40 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
         });
 
         /**
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
          * @deprecated - Migrado para V3
-         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
          */
         Route::get('', [CreditCardController::class, 'index'])->name(RouteNameEnum::ApiCreditCardIndex->value);
         Route::post('', [CreditCardController::class, 'insert'])->name(RouteNameEnum::ApiCreditCardInsert->value);
         Route::put('/{id}', [CreditCardController::class, 'update'])->name(RouteNameEnum::ApiCreditCardUpdate->value);
         Route::delete('/{id}', [CreditCardController::class, 'delete'])->name(RouteNameEnum::ApiCreditCardDelete->value);
-        /**
-         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         */
     });
 
-
     Route::prefix('future-gain')->group(function () {
-        /**
-         * @deprecated - Migrado para V3
-         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         */
         Route::get('/{id}', [FutureGainController::class, 'show'])->name(RouteNameEnum::ApiFutureGainShow->value);
         Route::post('', [FutureGainController::class, 'insert'])->name(RouteNameEnum::ApiFutureGainInsert->value);
         Route::put('/{id}', [FutureGainController::class, 'update'])->name(RouteNameEnum::ApiFutureGainUpdate->value);
         Route::delete('/{id}', [FutureGainController::class, 'delete'])->name(RouteNameEnum::ApiFutureGainDelete->value);
-        /**
-         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         */
         Route::post('/{id}/receive', [FutureGainController::class, 'receive'])->name(RouteNameEnum::ApiFutureGainReceive->value);
     });
 
     Route::prefix('future-spent')->group(function () {
         Route::post('/{id}/pay', [FutureSpentController::class, 'paySpent'])->name(RouteNameEnum::ApiFutureSpentPay->value);
-
-        /**
-         * @deprecated - Migrado para V3
-         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         */
         Route::delete('/{id}', [FutureSpentController::class, 'delete'])->name(RouteNameEnum::ApiFutureSpentDelete->value);
-        /**
-         * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         */
     });
+    /**
+     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
 
     Route::prefix('configurations')->group(function () {
         Route::put('', [ConfigurationsController::class, 'updateConfigs'])->name(RouteNameEnum::ApiConfigurationUpdate->value);
