@@ -6,12 +6,12 @@ use App\Infra\UseCase\Update\IUpdateUseCase;
 use App\Models\Movement\Movement;
 use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Modules\Old\Movements\Exceptions\MovementTypeDontIdentifiedException;
-use App\Modules\Old\Wallet\UseCase\UpdateWalletByMovement\UpdateWalletByMovementUseCase;
+use App\Modules\Wallet\UseCase\WalletUpdateByMovementUseCase;
 use App\Tools\NumberTools;
 
 class MovementUpdateUseCase implements IUpdateUseCase
 {
-    public function __construct(protected UpdateWalletByMovementUseCase $updateWalletByMovementUseCase)
+    public function __construct(protected WalletUpdateByMovementUseCase $updateWalletByMovementUseCase)
     {
     }
 

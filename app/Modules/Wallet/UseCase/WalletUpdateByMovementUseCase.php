@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Modules\Old\Wallet\UseCase\UpdateWalletByMovement;
+namespace App\Modules\Wallet\UseCase;
 
 use App\Models\Wallet\Wallet;
 use App\Modules\Movement\Enum\MovementTypeEnum;
 
-class UpdateWalletByMovementUseCase
+class WalletUpdateByMovementUseCase
 {
     public function execute(int $walletId, float $amount, int $type): void
     {

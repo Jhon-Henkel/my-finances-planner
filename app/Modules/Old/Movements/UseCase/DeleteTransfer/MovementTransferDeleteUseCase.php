@@ -5,11 +5,11 @@ namespace App\Modules\Old\Movements\UseCase\DeleteTransfer;
 use App\Infra\UseCase\Delete\IDeleteUseCase;
 use App\Models\Movement\Movement;
 use App\Modules\Movement\Enum\MovementTypeEnum;
-use App\Modules\Old\Wallet\UseCase\UpdateWalletByMovement\UpdateWalletByMovementUseCase;
+use App\Modules\Wallet\UseCase\WalletUpdateByMovementUseCase;
 
 class MovementTransferDeleteUseCase implements IDeleteUseCase
 {
-    public function __construct(protected UpdateWalletByMovementUseCase $updateWalletByMovementUseCase)
+    public function __construct(protected WalletUpdateByMovementUseCase $updateWalletByMovementUseCase)
     {
     }
 

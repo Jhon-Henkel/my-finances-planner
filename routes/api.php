@@ -10,6 +10,7 @@ use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\UserController;
 use App\Modules\Auth\Controller\Login\LoginController;
+use App\Modules\Movement\Controller\MovementCreateController;
 use App\Modules\Old\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
 use App\Modules\Old\EarningsPlan\Controller\List\EarningPlanListController;
 use App\Modules\Old\MarketControl\Controller\GetWalletListController;
@@ -57,6 +58,14 @@ Route::prefix('v3')->group(function () {
                 Route::put('', CreditCardUpdateController::class)->name(RouteNameEnum::ApiV3CreditCardUpdate);
                 Route::get('', CreditCardGetController::class)->name(RouteNameEnum::ApiV3CreditCardGet);
                 Route::delete('', CreditCardDeleteController::class)->name(RouteNameEnum::ApiV3CreditCardDelete);
+            });
+        });
+
+        Route::prefix('movement')->group(function () {
+            Route::post('', MovementCreateController::class)->name(RouteNameEnum::ApiV3MovementCreate);
+
+            Route::prefix('transfer')->group(function () {
+                Route::post('', \App\Modules\Movement\Controller\MovementTransferCreateController::class)->name(RouteNameEnum::ApiV3MovementTransferCreate);
             });
         });
     });
