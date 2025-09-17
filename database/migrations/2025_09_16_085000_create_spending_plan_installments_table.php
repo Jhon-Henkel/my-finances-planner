@@ -15,7 +15,8 @@ return new class () extends Migration {
             $table->date('due_date');
             $table->string('bank_slip_code')->nullable();
             $table->boolean('is_paid')->default(false);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 
             $table->foreign('spending_plan_id')->references('id')->on('spending_plan')->cascadeOnDelete();
         });

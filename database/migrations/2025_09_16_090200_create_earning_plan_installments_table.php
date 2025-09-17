@@ -14,7 +14,8 @@ return new class () extends Migration {
             $table->decimal('amount', 12, 2);
             $table->date('due_date');
             $table->boolean('is_received')->default(false);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 
             $table->foreign('earning_plan_id')->references('id')->on('earning_plan')->cascadeOnDelete();
         });
