@@ -105,6 +105,26 @@ Route::prefix('v3')->group(function () {
                 Route::put('', EarningPlanUpdateController::class)->name(RouteNameEnum::ApiV3EarningPlanUpdate);
             });
         });
+
+        Route::prefix('credit-card-invoice')->group(function () {
+            Route::post('', \App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceCreateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceCreate);
+            Route::get('', \App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceListController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceList);
+            Route::prefix('{id}')->group(function () {
+                Route::get('', \App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceGetController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceGet);
+                Route::put('', \App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceUpdateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceUpdate);
+                Route::delete('', \App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceDeleteController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceDelete);
+            });
+        });
+
+        Route::prefix('credit-card-invoice-item')->group(function () {
+            Route::post('', \App\Modules\CreditCardInvoiceItem\Controller\CreditCardInvoiceItemCreateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceItemCreate);
+            Route::prefix('{id}')->group(function () {
+                Route::put('', \App\Modules\CreditCardInvoiceItem\Controller\CreditCardInvoiceItemUpdateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceItemUpdate);
+                Route::delete('', \App\Modules\CreditCardInvoiceItem\Controller\CreditCardInvoiceItemDeleteController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceItemDelete);
+            });
+        });
+
+        Route::get('financial-health', \App\Modules\FinancialHealth\Controller\FinancialHealthGetController::class)->name(RouteNameEnum::ApiV3FinancialHealthGet);
     });
 
     Route::prefix('auth')->group(function () {

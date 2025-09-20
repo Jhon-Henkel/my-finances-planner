@@ -105,4 +105,16 @@ enum RouteNameEnum: string
     case ApiV3EarningPlanReceive = 'api.v3.earning-plan.receive';
 
     case ApiV3AuthLogin = 'api.v3.auth.login';
+
+    case ApiV3CreditCardInvoiceCreate = 'api.v3.credit-card-invoice.create';
+    case ApiV3CreditCardInvoiceList = 'api.v3.credit-card-invoice.list';
+    case ApiV3CreditCardInvoiceGet = 'api.v3.credit-card-invoice.get';
+    case ApiV3CreditCardInvoiceDelete = 'api.v3.credit-card-invoice.delete';
+    case ApiV3CreditCardInvoiceUpdate = 'api.v3.credit-card-invoice.update';
+
+    case ApiV3CreditCardInvoiceItemCreate = 'api.v3.credit-card-invoice-item.create';
+    case ApiV3CreditCardInvoiceItemDelete = 'api.v3.credit-card-invoice-item.delete';
+    case ApiV3CreditCardInvoiceItemUpdate = 'api.v3.credit-card-invoice-item.update';
+
+    case ApiV3FinancialHealthGet = 'api.v3.financial-health.get';
 }
