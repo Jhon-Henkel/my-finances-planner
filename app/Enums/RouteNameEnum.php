@@ -117,4 +117,12 @@ enum RouteNameEnum: string
     case ApiV3CreditCardInvoiceItemUpdate = 'api.v3.credit-card-invoice-item.update';
 
     case ApiV3FinancialHealthGet = 'api.v3.financial-health.get';
+
+    case ApiV3UserGet = 'api.v3.user.get';
+    case ApiV3UserUpdate = 'api.v3.user.update';
+
+    case ApiV3ConfigurationsGet = 'api.v3.configurations.get';
+    case ApiV3ConfigurationsUpdate = 'api.v3.configurations.update';
+
+    case ApiV3MarketPlannerShow = 'api.v3.market-planner.show';
 }

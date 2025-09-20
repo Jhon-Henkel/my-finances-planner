@@ -125,6 +125,18 @@ Route::prefix('v3')->group(function () {
         });
 
         Route::get('financial-health', \App\Modules\FinancialHealth\Controller\FinancialHealthGetController::class)->name(RouteNameEnum::ApiV3FinancialHealthGet);
+
+        Route::prefix('user')->group(function () {
+            Route::get('{id}', \App\Modules\User\Controller\UserGetController::class)->name(RouteNameEnum::ApiV3UserGet);
+            Route::put('{id}', \App\Modules\User\Controller\UserUpdateController::class)->name(RouteNameEnum::ApiV3UserUpdate);
+        });
+
+        Route::prefix('configurations')->group(function () {
+            Route::get('', \App\Modules\Configurations\Controller\ConfigurationsGetController::class)->name(RouteNameEnum::ApiV3ConfigurationsGet);
+            Route::put('', \App\Modules\Configurations\Controller\ConfigurationsUpdateController::class)->name(RouteNameEnum::ApiV3ConfigurationsUpdate);
+        });
+
+        Route::get('market-planner', \App\Modules\MarketPlanner\Controller\MarketPlannerShowController::class)->name(RouteNameEnum::ApiV3MarketPlannerShow);
     });
 
     Route::prefix('auth')->group(function () {
