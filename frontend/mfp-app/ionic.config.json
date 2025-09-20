@@ -1,0 +1,7 @@
+{
+  "name": "mfp-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}

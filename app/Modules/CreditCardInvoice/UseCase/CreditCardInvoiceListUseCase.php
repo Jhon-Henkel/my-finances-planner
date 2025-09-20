@@ -10,7 +10,7 @@ class CreditCardInvoiceListUseCase implements IListUseCaseV2
 {
     public function execute(int $page, int $perPage, ?string $filter = null): LengthAwarePaginator
     {
-        $query = CreditCardInvoice::query();
+        $query = CreditCardInvoice::with('items');
         if ($filter) {
             $query->where('name', 'like', "%{$filter}%");
         }
