@@ -3,7 +3,7 @@
 namespace App\Modules\CreditCardInvoice\Controller;
 
 use App\Infra\Controller\Read\BaseGetControllerV2;
-use App\Infra\UseCase\Read\IShowUseCaseV2;
+use App\Infra\UseCase\Read\IGetUseCase;
 use App\Modules\CreditCardInvoice\UseCase\CreditCardInvoiceGetUseCase;
 
 class CreditCardInvoiceGetController extends BaseGetControllerV2
@@ -12,7 +12,7 @@ class CreditCardInvoiceGetController extends BaseGetControllerV2
     {
     }
 
-    protected function getUseCase(): IShowUseCaseV2
+    protected function getUseCase(): IGetUseCase
     {
         return $this->useCase;
     }

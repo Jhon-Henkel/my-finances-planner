@@ -3,7 +3,7 @@
 namespace App\Modules\CreditCardInvoice\Controller;
 
 use App\Infra\Controller\Delete\BaseDeleteControllerV2;
-use App\Infra\UseCase\Delete\IDeleteUseCaseV2;
+use App\Infra\UseCase\Delete\IDeleteUseCase;
 use App\Modules\CreditCardInvoice\UseCase\CreditCardInvoiceDeleteUseCase;
 
 class CreditCardInvoiceDeleteController extends BaseDeleteControllerV2
@@ -12,7 +12,7 @@ class CreditCardInvoiceDeleteController extends BaseDeleteControllerV2
     {
     }
 
-    protected function getUseCase(): IDeleteUseCaseV2
+    protected function getUseCase(): IDeleteUseCase
     {
         return $this->useCase;
     }

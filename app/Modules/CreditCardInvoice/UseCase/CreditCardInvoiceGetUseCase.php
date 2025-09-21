@@ -2,10 +2,10 @@
 
 namespace App\Modules\CreditCardInvoice\UseCase;
 
-use App\Infra\UseCase\Read\IShowUseCaseV2;
+use App\Infra\UseCase\Read\IGetUseCase;
 use App\Models\CreditCard\CreditCardInvoice;
 
-class CreditCardInvoiceGetUseCase implements IShowUseCaseV2
+class CreditCardInvoiceGetUseCase implements IGetUseCase
 {
     public function execute(int $id): array
     {

@@ -2,14 +2,14 @@
 
 namespace App\Modules\CreditCardInvoice\UseCase;
 
-use App\Infra\UseCase\Delete\IDeleteUseCaseV2;
+use App\Infra\UseCase\Delete\IDeleteUseCase;
 use App\Models\CreditCard\CreditCardInvoice;
 
-class CreditCardInvoiceDeleteUseCase implements IDeleteUseCaseV2
+class CreditCardInvoiceDeleteUseCase implements IDeleteUseCase
 {
-    public function execute(int $id): bool
+    public function execute(int $id): void
     {
         $invoice = CreditCardInvoice::findOrFail($id);
-        return $invoice->delete();
+        $invoice->delete();
     }
 }
