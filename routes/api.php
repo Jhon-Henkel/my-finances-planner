@@ -10,11 +10,21 @@ use App\Http\Controllers\FutureGainController;
 use App\Http\Controllers\FutureSpentController;
 use App\Http\Controllers\UserController;
 use App\Modules\Auth\Controller\Login\LoginController;
+use App\Modules\Configurations\Controller\ConfigurationsGetController;
+use App\Modules\Configurations\Controller\ConfigurationsUpdateController;
+use App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceCreateController;
+use App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceDeleteController;
+use App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceGetController;
+use App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceUpdateController;
+use App\Modules\CreditCardInvoiceItem\Controller\CreditCardInvoiceItemCreateController;
+use App\Modules\CreditCardInvoiceItem\Controller\CreditCardInvoiceItemDeleteController;
+use App\Modules\CreditCardInvoiceItem\Controller\CreditCardInvoiceItemUpdateController;
 use App\Modules\EarningPlan\Controller\EarningPlanCreateController;
 use App\Modules\EarningPlan\Controller\EarningPlanDeleteController;
 use App\Modules\EarningPlan\Controller\EarningPlanGetController;
 use App\Modules\EarningPlan\Controller\EarningPlanReceiveController;
 use App\Modules\EarningPlan\Controller\EarningPlanUpdateController;
+use App\Modules\FinancialHealth\Controller\FinancialHealthGetController;
 use App\Modules\Movement\Controller\MovementCreateController;
 use App\Modules\Movement\Controller\MovementGetController;
 use App\Modules\Old\CreditCardInvoice\Controller\List\CreditCardInvoiceListController;
@@ -35,6 +45,8 @@ use App\Modules\Old\SpendingPlan\Controller\Update\SpendingPlanUpdateController;
 use App\Modules\Old\Wallet\Controller\WalletController;
 use App\Modules\SpendingPlan\Controller\SpendingPlanDeleteController;
 use App\Modules\SpendingPlan\Controller\SpendingPlanPayController;
+use App\Modules\User\Controller\UserGetController;
+use App\Modules\User\Controller\UserUpdateController;
 use App\Modules\Wallet\Controller\WalletCreateController;
 use App\Modules\Wallet\Controller\WalletDeleteController;
 use App\Modules\Wallet\Controller\WalletGetController;
@@ -107,33 +119,33 @@ Route::prefix('v3')->group(function () {
         });
 
         Route::prefix('credit-card-invoice')->group(function () {
-            Route::post('', \App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceCreateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceCreate);
+            Route::post('', CreditCardInvoiceCreateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceCreate);
             Route::get('', \App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceListController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceList);
             Route::prefix('{id}')->group(function () {
-                Route::get('', \App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceGetController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceGet);
-                Route::put('', \App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceUpdateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceUpdate);
-                Route::delete('', \App\Modules\CreditCardInvoice\Controller\CreditCardInvoiceDeleteController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceDelete);
+                Route::get('', CreditCardInvoiceGetController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceGet);
+                Route::put('', CreditCardInvoiceUpdateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceUpdate);
+                Route::delete('', CreditCardInvoiceDeleteController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceDelete);
             });
         });
 
         Route::prefix('credit-card-invoice-item')->group(function () {
-            Route::post('', \App\Modules\CreditCardInvoiceItem\Controller\CreditCardInvoiceItemCreateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceItemCreate);
+            Route::post('', CreditCardInvoiceItemCreateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceItemCreate);
             Route::prefix('{id}')->group(function () {
-                Route::put('', \App\Modules\CreditCardInvoiceItem\Controller\CreditCardInvoiceItemUpdateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceItemUpdate);
-                Route::delete('', \App\Modules\CreditCardInvoiceItem\Controller\CreditCardInvoiceItemDeleteController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceItemDelete);
+                Route::put('', CreditCardInvoiceItemUpdateController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceItemUpdate);
+                Route::delete('', CreditCardInvoiceItemDeleteController::class)->name(RouteNameEnum::ApiV3CreditCardInvoiceItemDelete);
             });
         });
 
-        Route::get('financial-health', \App\Modules\FinancialHealth\Controller\FinancialHealthGetController::class)->name(RouteNameEnum::ApiV3FinancialHealthGet);
+        Route::get('financial-health', FinancialHealthGetController::class)->name(RouteNameEnum::ApiV3FinancialHealthGet);
 
         Route::prefix('user')->group(function () {
-            Route::get('{id}', \App\Modules\User\Controller\UserGetController::class)->name(RouteNameEnum::ApiV3UserGet);
-            Route::put('{id}', \App\Modules\User\Controller\UserUpdateController::class)->name(RouteNameEnum::ApiV3UserUpdate);
+            Route::get('{id}', UserGetController::class)->name(RouteNameEnum::ApiV3UserGet);
+            Route::put('{id}', UserUpdateController::class)->name(RouteNameEnum::ApiV3UserUpdate);
         });
 
         Route::prefix('configurations')->group(function () {
-            Route::get('', \App\Modules\Configurations\Controller\ConfigurationsGetController::class)->name(RouteNameEnum::ApiV3ConfigurationsGet);
-            Route::put('', \App\Modules\Configurations\Controller\ConfigurationsUpdateController::class)->name(RouteNameEnum::ApiV3ConfigurationsUpdate);
+            Route::get('', ConfigurationsGetController::class)->name(RouteNameEnum::ApiV3ConfigurationsGet);
+            Route::put('', ConfigurationsUpdateController::class)->name(RouteNameEnum::ApiV3ConfigurationsUpdate);
         });
 
         Route::get('market-planner', \App\Modules\MarketPlanner\Controller\MarketPlannerShowController::class)->name(RouteNameEnum::ApiV3MarketPlannerShow);
@@ -144,19 +156,19 @@ Route::prefix('v3')->group(function () {
     });
 });
 
+/**
+ * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+ * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+ * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+ * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+ * @deprecated - Migrado para V3
+ * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+ * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+ * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+ * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+ */
 Route::prefix('')->middleware('auth.api:api')->group(function () {
     Route::prefix('v2')->group(function () {
-        /**
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * @deprecated - Migrado para V3
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         */
         Route::prefix('spending-plan')->group(function () {
             Route::get('', SpendingPlanListController::class)->name(RouteNameEnum::ApiSpendingPlanList->value);
             Route::post('', SpendingPlanCreateController::class)->name(RouteNameEnum::ApiSpendingPlanInsert->value);
@@ -167,12 +179,6 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
         Route::prefix('earnings-plan')->group(function () {
             Route::get('', EarningPlanListController::class)->name(RouteNameEnum::ApiEarningPlanList->value);
         });
-        /**
-         * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         */
 
         Route::prefix('market-planner')->group(function () {
             Route::get('show-details', MarketPlannerShowController::class)->name(RouteNameEnum::ApiMarketPlannerShow->value);
@@ -184,17 +190,6 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
             });
         });
 
-        /**
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * @deprecated - Migrado para V3
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-        */
         Route::prefix('movement')->group(function () {
             Route::prefix('transfer')->group(function () {
                 Route::post('', MovementTransferCreateController::class)->name(RouteNameEnum::ApiMovementInsertTransfer->value);
@@ -214,12 +209,6 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
         Route::put('/{id}', [WalletController::class, 'update'])->name(RouteNameEnum::ApiWalletUpdate->value);
         Route::delete('/{id}', [WalletController::class, 'delete'])->name(RouteNameEnum::ApiWalletDelete->value);
     });
-    /**
-     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
 
     Route::prefix('credit-card')->group(function () {
         Route::prefix('transaction')->group(function () {
@@ -233,17 +222,6 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
             Route::put('/{walletId}', [CreditCardTransactionController::class, 'payInvoice'])->name(RouteNameEnum::ApiCreditCardPayInvoice->value);
         });
 
-        /**
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * @deprecated - Migrado para V3
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         * --------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-         */
         Route::get('', [CreditCardController::class, 'index'])->name(RouteNameEnum::ApiCreditCardIndex->value);
         Route::post('', [CreditCardController::class, 'insert'])->name(RouteNameEnum::ApiCreditCardInsert->value);
         Route::put('/{id}', [CreditCardController::class, 'update'])->name(RouteNameEnum::ApiCreditCardUpdate->value);
@@ -262,12 +240,6 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
         Route::post('/{id}/pay', [FutureSpentController::class, 'paySpent'])->name(RouteNameEnum::ApiFutureSpentPay->value);
         Route::delete('/{id}', [FutureSpentController::class, 'delete'])->name(RouteNameEnum::ApiFutureSpentDelete->value);
     });
-    /**
-     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
 
     Route::prefix('configurations')->group(function () {
         Route::put('', [ConfigurationsController::class, 'updateConfigs'])->name(RouteNameEnum::ApiConfigurationUpdate->value);
@@ -284,12 +256,18 @@ Route::prefix('')->middleware('auth.api:api')->group(function () {
     });
 });
 
+Route::post('auth', [AuthController::class, 'auth'])->name(RouteNameEnum::ApiMakeLogin->value);
+Route::get('logout', [AuthController::class, 'logout'])->name(RouteNameEnum::ApiLogout->value);
+/**
+ * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * <---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ */
+
 Route::prefix('/mfp')->middleware('auth.mfp:api')->group(function () {
     Route::prefix('/market-control-app')->group(function () {
         Route::get('/wallets', GetWalletListController::class)->name(RouteNameEnum::ApiMarketControlWalletList->value);
         Route::post('/movement', MarkSpentController::class)->name(RouteNameEnum::ApiMarketControlMarkSpent->value);
     });
 });
-
-Route::post('auth', [AuthController::class, 'auth'])->name(RouteNameEnum::ApiMakeLogin->value);
-Route::get('logout', [AuthController::class, 'logout'])->name(RouteNameEnum::ApiLogout->value);
