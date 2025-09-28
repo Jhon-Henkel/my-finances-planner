@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Movement\UseCase;
+namespace App\Modules\Movement\UseCase\Transfer;
 
 use App\Infra\UseCase\Create\ICreateUseCase;
 use App\Models\Movement\Movement;

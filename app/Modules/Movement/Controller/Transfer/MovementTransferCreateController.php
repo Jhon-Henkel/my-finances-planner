@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Movement\Controller;
+namespace App\Modules\Movement\Controller\Transfer;
 
 use App\Infra\Controller\Create\BaseCreateController;
 use App\Infra\UseCase\Create\ICreateUseCase;
-use App\Modules\Movement\UseCase\MovementTransferCreateUseCase;
+use App\Modules\Movement\UseCase\Transfer\MovementTransferCreateUseCase;
 
 class MovementTransferCreateController extends BaseCreateController
 {
