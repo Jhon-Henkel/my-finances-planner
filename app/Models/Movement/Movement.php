@@ -2,9 +2,7 @@
 
 namespace App\Models\Movement;
 
-use App\Infra\Enum\DateFormatEnum;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,8 +18,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Movement extends Model
 {
-    use HasFactory;
-
     protected $table = 'movements';
     public $timestamps = false;
 
@@ -34,7 +30,7 @@ class Movement extends Model
     ];
 
     protected $casts = [
-        'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
-        'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s'
     ];
 }

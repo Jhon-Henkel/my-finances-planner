@@ -2,9 +2,7 @@
 
 namespace App\Models\Wallet;
 
-use App\Infra\Enum\DateFormatEnum;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,8 +18,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Wallet extends Model
 {
-    use HasFactory;
-
     protected $table = 'wallets';
     public $timestamps = false;
 
@@ -34,8 +30,8 @@ class Wallet extends Model
     ];
 
     protected $casts = [
-        'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
-        'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value,
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
         'hide_value' => 'boolean'
     ];
 }

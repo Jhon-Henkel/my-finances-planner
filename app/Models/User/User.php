@@ -2,10 +2,8 @@
 
 namespace App\Models\User;
 
-use App\Infra\Enum\DateFormatEnum;
 use App\Infra\Enum\StatusActiveInactiveEnum;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -27,7 +25,6 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens;
-    use HasFactory;
     use Notifiable;
 
     protected $fillable = [
@@ -45,9 +42,9 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
-        'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value,
-        'email_verified_at' => DateFormatEnum::ModelDefaultDateFormat->value
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
+        'email_verified_at' => 'datetime:Y-m-d H:i:s'
     ];
 
     public function isInactiveUser(): bool

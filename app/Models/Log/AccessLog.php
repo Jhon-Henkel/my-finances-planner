@@ -2,7 +2,6 @@
 
 namespace App\Models\Log;
 
-use App\Infra\Enum\DateFormatEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,7 +31,7 @@ class AccessLog extends Model
     ];
 
     protected $casts = [
-        'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
+        'created_at' => 'datetime:Y-m-d H:i:s',
         'logged' => 'boolean'
     ];
 }
