@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Modules\Movement\Controller;
+namespace Tests\Feature\Modules\Movement\Controller;
 
 use App\Infra\Enum\RouteNameEnum;
 use App\Models\Movement\Movement;

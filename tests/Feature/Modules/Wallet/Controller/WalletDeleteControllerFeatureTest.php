@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Modules\Wallet\Controller;
+namespace Tests\Feature\Modules\Wallet\Controller;
 
 use App\Infra\Enum\RouteNameEnum;
 use App\Models\Wallet\Wallet;
