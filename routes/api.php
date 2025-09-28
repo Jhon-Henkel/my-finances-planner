@@ -34,17 +34,17 @@ Route::prefix('v3')->middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::prefix('movement')->group(function () {
+        Route::prefix('transfer')->group(function () {
+            Route::post('', MovementTransferCreateController::class)->name(RouteNameEnum::ApiV3MovementTransferCreate);
+            Route::delete('{id}', MovementTransferDeleteController::class)->name(RouteNameEnum::ApiV3MovementTransferDelete);
+        });
+
         Route::get('', MovementListController::class)->name(RouteNameEnum::ApiV3MovementList);
         Route::post('', MovementCreateController::class)->name(RouteNameEnum::ApiV3MovementCreate);
         Route::prefix('{id}')->group(function () {
             Route::get('', MovementGetController::class)->name(RouteNameEnum::ApiV3MovementGet);
             Route::put('', MovementUpdateController::class)->name(RouteNameEnum::ApiV3MovementUpdate);
             Route::delete('', MovementDeleteController::class)->name(RouteNameEnum::ApiV3MovementDelete);
-        });
-
-        Route::prefix('transfer')->group(function () {
-            Route::post('', MovementTransferCreateController::class)->name(RouteNameEnum::ApiV3MovementTransferCreate);
-            Route::delete('{id}', MovementTransferDeleteController::class)->name(RouteNameEnum::ApiV3MovementTransferDelete);
         });
     });
 
