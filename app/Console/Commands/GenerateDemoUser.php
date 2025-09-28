@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Infra\Enum\StatusActiveInactiveEnum;
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Console\Command;
 use Throwable;
 

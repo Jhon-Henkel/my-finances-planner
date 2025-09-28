@@ -8,10 +8,9 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-        Commands\GenerateMfpKey::class,
         Commands\GenerateDemoUser::class,
         Commands\StartDevelopProject::class,
-        Commands\OptimizeDatabaseMaster::class,
+        Commands\OptimizeDatabase::class,
     ];
 
     protected function schedule(Schedule $schedule): void

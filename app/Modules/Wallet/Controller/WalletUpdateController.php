@@ -2,19 +2,19 @@
 
 namespace App\Modules\Wallet\Controller;
 
-use App\Infra\Controller\Update\BaseUpdateControllerV2;
+use App\Infra\Controller\Update\BaseUpdateController;
 use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Infra\Request\RequestTools;
-use App\Infra\UseCase\Update\IUpdateUseCaseV2;
+use App\Infra\UseCase\Update\IUpdateUseCase;
 use App\Modules\Wallet\UseCase\WalletUpdateUseCase;
 
-class WalletUpdateController extends BaseUpdateControllerV2
+class WalletUpdateController extends BaseUpdateController
 {
     public function __construct(private WalletUpdateUseCase $useCase)
     {
     }
 
-    protected function getUseCase(): IUpdateUseCaseV2
+    protected function getUseCase(): IUpdateUseCase
     {
         return $this->useCase;
     }

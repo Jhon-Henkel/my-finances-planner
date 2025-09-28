@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Modules\Auth\Controller\Login;
 
-use App\Enums\RouteNameEnum;
+use App\Infra\Enum\RouteNameEnum;
 use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Infra\Response\Enum\HttpStatusCodeEnum;
 use App\Models\Log\AccessLog;

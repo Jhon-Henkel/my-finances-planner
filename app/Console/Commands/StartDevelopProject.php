@@ -29,10 +29,6 @@ class StartDevelopProject extends Command
             $this->warn('<====================================>');
             $this->info('');
 
-            $this->info('=> Configuring backend keys...');
-            system('php artisan key:mfp-key');
-            $this->info('');
-
             $this->info('=> Applying permissions...');
             system('chown www-data:www-data -R storage/logs/');
             system('chown www-data:www-data -R storage/framework');
@@ -52,10 +48,6 @@ class StartDevelopProject extends Command
             system('php artisan create:user');
             $this->info('');
 
-            $this->info('=> Configuring frontend keys...');
-            $this->addTokenOnFrontendEnv();
-            $this->info('');
-
             $this->info('=> Cleaning caches...');
             $this->call('cache:clear');
             $this->call('config:clear');
@@ -72,19 +64,5 @@ class StartDevelopProject extends Command
         } catch (Throwable $e) {
             $this->error($e->getMessage());
         }
-    }
-
-    private function addTokenOnFrontendEnv(): void
-    {
-        $inputBackend = file_get_contents('.env');
-        $key = explode('PUSHER_APP_SECRET', explode('PUSHER_APP_KEY=', $inputBackend)[1])[0];
-        $filepath = 'resources/frontend-v2/.env';
-        $input = file_get_contents($filepath);
-        $replaced = str_replace('VITE_MFP_TOKEN=', "VITE_MFP_TOKEN=$key", $input);
-        if ($replaced === $input) {
-            $this->error('Unable to set MFP-key key. No VITE_MFP_TOKEN variable was found in the frontend .env file.');
-            return;
-        }
-        file_put_contents($filepath, $replaced);
     }
 }

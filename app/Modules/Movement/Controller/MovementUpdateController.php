@@ -2,18 +2,18 @@
 
 namespace App\Modules\Movement\Controller;
 
-use App\Infra\Controller\Update\BaseUpdateControllerV2;
-use App\Infra\UseCase\Update\IUpdateUseCaseV2;
+use App\Infra\Controller\Update\BaseUpdateController;
+use App\Infra\UseCase\Update\IUpdateUseCase;
 use App\Modules\Movement\Enum\MovementTypeEnum;
 use App\Modules\Movement\UseCase\MovementUpdateUseCase;
 
-class MovementUpdateController extends BaseUpdateControllerV2
+class MovementUpdateController extends BaseUpdateController
 {
     public function __construct(private MovementUpdateUseCase $useCase)
     {
     }
 
-    protected function getUseCase(): IUpdateUseCaseV2
+    protected function getUseCase(): IUpdateUseCase
     {
         return $this->useCase;
     }

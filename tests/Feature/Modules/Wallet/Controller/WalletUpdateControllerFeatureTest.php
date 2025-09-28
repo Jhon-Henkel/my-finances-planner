@@ -2,7 +2,7 @@
 
 namespace Feature\Modules\Wallet\Controller;
 
-use App\Enums\RouteNameEnum;
+use App\Infra\Enum\RouteNameEnum;
 use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Infra\Enum\StatusYesNoEnum;
 use App\Models\Movement\Movement;

@@ -2,10 +2,10 @@
 
 namespace App\Modules\Wallet\UseCase;
 
-use App\Infra\UseCase\Read\IListUseCaseV2;
+use App\Infra\UseCase\Read\IListUseCase;
 use App\Models\Wallet\Wallet;
 
-class WalletListUseCase implements IListUseCaseV2
+class WalletListUseCase implements IListUseCase
 {
     public function execute(int $perPage, int $page, string $search, string $orderBy, string $orderByDirection, array|null $queryParams = null): array
     {

@@ -7,17 +7,14 @@ return [
     'env' => env('APP_ENV', 'production'),
     'debug' => (bool) env('APP_DEBUG', false),
     'url' => env('APP_URL', 'http://localhost'),
-    'url_container_app' => env('APP_CONTAINER_URL'),
     'asset_url' => env('ASSET_URL', '/public'),
     'timezone' => 'America/Sao_Paulo',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'key' => env('APP_KEY'),
-    'mfp_token' => env('PUSHER_APP_KEY'),
     'cipher' => 'AES-256-CBC',
     'max_wrong_login_attempts' => 5,
-    'market_control_hash' => env('MARKET_CONTROL_HASH'),
     'maintenance' => [
         'driver' => 'file',
     ],
@@ -44,14 +41,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
-        /*
-         * Package Service Providers...
-         */
-
-        /*
-         * Application Service Providers...
-         */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,

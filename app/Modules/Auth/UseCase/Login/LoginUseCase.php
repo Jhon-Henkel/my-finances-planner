@@ -3,7 +3,7 @@
 namespace App\Modules\Auth\UseCase\Login;
 
 use App\Infra\Enum\StatusActiveInactiveEnum;
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Validation\UnauthorizedException;
 
 class LoginUseCase

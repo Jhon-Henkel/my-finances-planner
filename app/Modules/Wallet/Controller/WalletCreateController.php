@@ -2,19 +2,19 @@
 
 namespace App\Modules\Wallet\Controller;
 
-use App\Infra\Controller\Create\BaseCreateControllerV2;
+use App\Infra\Controller\Create\BaseCreateController;
 use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Infra\Request\RequestTools;
-use App\Infra\UseCase\Create\ICreateUseCaseV2;
+use App\Infra\UseCase\Create\ICreateUseCase;
 use App\Modules\Wallet\UseCase\WalletCreateUseCase;
 
-class WalletCreateController extends BaseCreateControllerV2
+class WalletCreateController extends BaseCreateController
 {
     public function __construct(private WalletCreateUseCase $useCase)
     {
     }
 
-    protected function getUseCase(): ICreateUseCaseV2
+    protected function getUseCase(): ICreateUseCase
     {
         return $this->useCase;
     }

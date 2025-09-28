@@ -2,7 +2,7 @@
 
 namespace Feature\Modules\Movement\Controller;
 
-use App\Enums\RouteNameEnum;
+use App\Infra\Enum\RouteNameEnum;
 use App\Models\Movement\Movement;
 use App\Modules\Movement\Enum\MovementTypeEnum;
 use Tests\FeatureTestCase;

@@ -2,7 +2,7 @@
 
 namespace Feature\Modules\Wallet\Controller;
 
-use App\Enums\RouteNameEnum;
+use App\Infra\Enum\RouteNameEnum;
 use App\Models\Wallet\Wallet;
 use Tests\FeatureTestCase;
 use Tests\Trait\WalletTrait;

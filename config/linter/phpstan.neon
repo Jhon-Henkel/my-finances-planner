@@ -8,5 +8,3 @@ parameters:
     level: 5
 
     ignoreErrors:
-        - '#Match expression does not handle remaining values: int<min, 0>\|int<13, max>#'
-        - '#Unreachable statement - code above always terminates.#'

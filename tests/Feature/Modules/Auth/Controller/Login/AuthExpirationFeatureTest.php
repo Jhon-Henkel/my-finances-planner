@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Modules\Auth\Controller\Login;
 
-use App\Enums\RouteNameEnum;
+use App\Infra\Enum\RouteNameEnum;
 use Illuminate\Support\Facades\Config;
 use PHPUnit\Framework\Attributes\TestDox;
 use Tests\FeatureTestCase;

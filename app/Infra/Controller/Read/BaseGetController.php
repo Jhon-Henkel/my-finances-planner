@@ -2,13 +2,10 @@
 
 namespace App\Infra\Controller\Read;
 
+use App\Infra\Response\Api\ResponseApi;
 use App\Infra\UseCase\Read\IGetUseCase;
-use App\Tools\Response\ResponseApi;
 use Illuminate\Http\JsonResponse;
 
-/**
- * @deprecated
- */
 abstract class BaseGetController
 {
     abstract protected function getUseCase(): IGetUseCase;

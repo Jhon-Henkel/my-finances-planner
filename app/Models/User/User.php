@@ -1,0 +1,62 @@
+<?php
+
+namespace App\Models\User;
+
+use App\Infra\Enum\DateFormatEnum;
+use App\Infra\Enum\StatusActiveInactiveEnum;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property int $status
+ * @property string $verify_hash
+ * @property int $wrong_login_attempts
+ * @property string $email_verified_at
+ * @property string $created_at
+ * @property string $updated_at
+ *
+ * @mixin Builder<User>
+ */
+class User extends Authenticatable
+{
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'status',
+        'verify_hash',
+        'wrong_login_attempts',
+        'email_verified_at'
+    ];
+
+    protected $hidden = [
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'created_at' => DateFormatEnum::ModelDefaultDateFormat->value,
+        'updated_at' => DateFormatEnum::ModelDefaultDateFormat->value,
+        'email_verified_at' => DateFormatEnum::ModelDefaultDateFormat->value
+    ];
+
+    public function isInactiveUser(): bool
+    {
+        return $this->status === StatusActiveInactiveEnum::Inactive->value;
+    }
+
+    public function noLoginAttemptsRemaining(): bool
+    {
+        return $this->wrong_login_attempts >= (int)config('app.max_wrong_login_attempts');
+    }
+}

@@ -2,14 +2,11 @@
 
 namespace App\Infra\Controller\Delete;
 
-use App\Http\Controllers\Controller;
+use App\Infra\Controller\Controller;
+use App\Infra\Response\Api\ResponseApi;
 use App\Infra\UseCase\Delete\IDeleteUseCase;
-use App\Tools\Response\ResponseApi;
 use Illuminate\Http\JsonResponse;
 
-/**
- * @deprecated
- */
 abstract class BaseDeleteController extends Controller
 {
     abstract protected function getUseCase(): IDeleteUseCase;
@@ -17,6 +14,6 @@ abstract class BaseDeleteController extends Controller
     public function __invoke(int $id): JsonResponse
     {
         $this->getUseCase()->execute($id);
-        return ResponseApi::renderOk();
+        return ResponseApi::renderNoContent();
     }
 }

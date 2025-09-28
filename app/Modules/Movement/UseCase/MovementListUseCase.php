@@ -2,10 +2,10 @@
 
 namespace App\Modules\Movement\UseCase;
 
-use App\Infra\UseCase\Read\IListUseCaseV2;
+use App\Infra\UseCase\Read\IListUseCase;
 use App\Models\Movement\Movement;
 
-class MovementListUseCase implements IListUseCaseV2
+class MovementListUseCase implements IListUseCase
 {
     public function execute(int $perPage, int $page, string $search, string $orderBy, string $orderByDirection, array|null $queryParams = null): array
     {

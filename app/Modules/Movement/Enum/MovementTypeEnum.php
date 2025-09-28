@@ -4,19 +4,9 @@ namespace App\Modules\Movement\Enum;
 
 enum MovementTypeEnum: int
 {
-    case All = 0;
     case Spent = 5;
     case Gain = 6;
     case Transfer = 7;
-
-    public static function getTypesValidForFilter(): array
-    {
-        return [
-            MovementTypeEnum::Transfer->value,
-            MovementTypeEnum::Gain->value,
-            MovementTypeEnum::Spent->value,
-        ];
-    }
 
     public static function getForValidation(): string
     {

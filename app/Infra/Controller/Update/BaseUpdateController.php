@@ -2,18 +2,15 @@
 
 namespace App\Infra\Controller\Update;
 
-use App\Http\Controllers\Controller;
+use App\Infra\Controller\Controller;
+use App\Infra\Request\Validator\AppValidator;
+use App\Infra\Response\Api\ResponseApi;
 use App\Infra\UseCase\Update\IUpdateUseCase;
-use App\Tools\Response\ResponseApi;
-use App\Tools\Validator\MfpValidator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-/**
- * @deprecated
- */
 abstract class BaseUpdateController extends Controller
 {
     abstract protected function getUseCase(): IUpdateUseCase;
@@ -21,7 +18,7 @@ abstract class BaseUpdateController extends Controller
 
     public function __invoke(Request $request, int $id): JsonResponse
     {
-        MfpValidator::validateRequest($request, $this->getRules());
+        AppValidator::validateRequest($request, $this->getRules());
         DB::beginTransaction();
         try {
 

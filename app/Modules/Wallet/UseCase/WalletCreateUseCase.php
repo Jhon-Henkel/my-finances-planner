@@ -2,10 +2,10 @@
 
 namespace App\Modules\Wallet\UseCase;
 
-use App\Infra\UseCase\Create\ICreateUseCaseV2;
+use App\Infra\UseCase\Create\ICreateUseCase;
 use App\Models\Wallet\Wallet;
 
-class WalletCreateUseCase implements ICreateUseCaseV2
+class WalletCreateUseCase implements ICreateUseCase
 {
     public function execute(array $data): array
     {

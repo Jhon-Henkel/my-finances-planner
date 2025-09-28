@@ -2,7 +2,7 @@
 
 namespace App\Models\Movement;
 
-use App\Enums\DateFormatEnum;
+use App\Infra\Enum\DateFormatEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

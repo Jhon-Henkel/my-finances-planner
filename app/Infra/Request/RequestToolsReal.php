@@ -2,7 +2,7 @@
 
 namespace App\Infra\Request;
 
-use App\Enums\RouteNameEnum;
+use App\Infra\Enum\RouteNameEnum;
 
 class RequestToolsReal
 {

@@ -2,18 +2,15 @@
 
 namespace App\Infra\Controller\Create;
 
-use App\Http\Controllers\Controller;
+use App\Infra\Controller\Controller;
+use App\Infra\Request\Validator\AppValidator;
+use App\Infra\Response\Api\ResponseApi;
 use App\Infra\UseCase\Create\ICreateUseCase;
-use App\Tools\Response\ResponseApi;
-use App\Tools\Validator\MfpValidator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-/**
- * @deprecated - excluir
- */
 abstract class BaseCreateController extends Controller
 {
     abstract protected function getUseCase(): ICreateUseCase;
@@ -21,7 +18,7 @@ abstract class BaseCreateController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        MfpValidator::validateRequest($request, $this->getRules());
+        AppValidator::validateRequest($request, $this->getRules());
         DB::beginTransaction();
         try {
 

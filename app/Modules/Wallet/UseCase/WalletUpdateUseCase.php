@@ -2,12 +2,12 @@
 
 namespace App\Modules\Wallet\UseCase;
 
-use App\Infra\UseCase\Update\IUpdateUseCaseV2;
+use App\Infra\UseCase\Update\IUpdateUseCase;
 use App\Models\Wallet\Wallet;
 use App\Models\Movement\Movement;
 use App\Modules\Movement\Enum\MovementTypeEnum;
 
-class WalletUpdateUseCase implements IUpdateUseCaseV2
+class WalletUpdateUseCase implements IUpdateUseCase
 {
     public function execute(array $data, int $id): array
     {

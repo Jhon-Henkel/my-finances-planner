@@ -2,11 +2,11 @@
 
 namespace App\Modules\Movement\UseCase;
 
-use App\Infra\UseCase\Create\ICreateUseCaseV2;
+use App\Infra\UseCase\Create\ICreateUseCase;
 use App\Models\Movement\Movement;
 use App\Modules\Wallet\UseCase\WalletUpdateByMovementTypeUseCase;
 
-class MovementCreateUseCase implements ICreateUseCaseV2
+class MovementCreateUseCase implements ICreateUseCase
 {
     public function __construct(private WalletUpdateByMovementTypeUseCase $updateWalletByMovementUseCase)
     {

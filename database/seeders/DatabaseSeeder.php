@@ -8,15 +8,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call(
-            [
-                WalletSeeder::class,
-                CreditCardSeeder::class,
-                CreditCardTransactionSeeder::class,
-                FutureGainSeeder::class,
-                FutureSpentSeeder::class,
-                MovementsSeeder::class,
-            ]
-        );
+        //
     }
 }

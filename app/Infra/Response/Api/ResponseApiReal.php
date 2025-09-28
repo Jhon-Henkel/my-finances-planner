@@ -18,11 +18,6 @@ class ResponseApiReal
         return $this->responseJson($data, HttpStatusCodeEnum::HttpOk);
     }
 
-    public function renderExpiredToken(): JsonResponse
-    {
-        return $this->responseJson(Lang::get('expired_token'), HttpStatusCodeEnum::HttpUnauthorized);
-    }
-
     public function renderOkList(array|null $data = null): JsonResponse
     {
         if (is_array($data)) {

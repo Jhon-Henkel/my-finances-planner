@@ -4,7 +4,7 @@ namespace Tests;
 
 use App\Infra\Enum\StatusActiveInactiveEnum;
 use App\Models\Log\AccessLog;
-use App\Models\User;
+use App\Models\User\User;
 use App\Modules\Auth\UseCase\Login\LoginLogUseCase;
 use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;

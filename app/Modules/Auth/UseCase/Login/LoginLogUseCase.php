@@ -4,7 +4,7 @@ namespace App\Modules\Auth\UseCase\Login;
 
 use App\Infra\Request\RequestTools;
 use App\Models\Log\AccessLog;
-use App\Models\User;
+use App\Models\User\User;
 
 class LoginLogUseCase
 {
