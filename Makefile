@@ -1,6 +1,6 @@
 backend-bash:
 	@echo "Starting bash..."
-	docker compose start && docker exec -it mfp_app bash
+	docker compose start && docker exec -it mfp_backend bash
 
 frontend:
 	@echo "Starting front v2..."

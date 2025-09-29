@@ -1,15 +1,15 @@
 services:
-  app:
-    container_name: "mfp_app"
+  backend:
+    container_name: "mfp_backend"
     build:
       context: .
       dockerfile: ./config/docker/develop/Dockerfile
     ports:
-      - "80:80"
+      - "8080:80"
       - "443:443"
     networks:
       mfp_network:
-        ipv4_address: 192.168.152.55
+        ipv4_address: 192.168.152.50
     entrypoint: dockerize -wait tcp://mfp_db:3306 -timeout 60s apache2-foreground
     volumes:
       - .:/var/www/html
@@ -35,6 +35,24 @@ services:
       MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: 123
     command: --default-authentication-plugin=mysql_native_password
+
+  frontend:
+    container_name: "mfp_frontend"
+    build:
+      context: ./frontend
+      dockerfile: ./config/docker/develop/Dockerfile
+    restart: always
+    tty: true
+    stdin_open: true
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    networks:
+      mfp_network:
+        ipv4_address: 192.168.152.52
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
 
 networks:
   mfp_network:
