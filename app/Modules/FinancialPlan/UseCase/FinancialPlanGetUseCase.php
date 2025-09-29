@@ -4,7 +4,6 @@ namespace App\Modules\FinancialPlan\UseCase;
 
 use App\Infra\UseCase\Read\IGetUseCase;
 use App\Models\FinancialPlan\FinancialPlan;
-use App\Models\Wallet\Wallet;
 
 class FinancialPlanGetUseCase implements IGetUseCase
 {

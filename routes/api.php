@@ -2,6 +2,7 @@
 
 use App\Infra\Enum\RouteNameEnum;
 use App\Modules\Auth\Controller\Login\LoginController;
+use App\Modules\FinancialPlan\Controller\FinancialPlanCreateController;
 use App\Modules\FinancialPlan\Controller\FinancialPlanGetController;
 use App\Modules\FinancialPlan\Controller\FinancialPlanListController;
 use App\Modules\Movement\Controller\MovementCreateController;
@@ -50,6 +51,7 @@ Route::prefix('v3')->middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('financial-plan')->group(function () {
         Route::get('', FinancialPlanListController::class)->name(RouteNameEnum::ApiV3FinancialPlanList);
+        Route::post('', FinancialPlanCreateController::class)->name(RouteNameEnum::ApiV3FinancialPlanCreate);
         Route::prefix('{id}')->group(function () {
             Route::get('', FinancialPlanGetController::class)->name(RouteNameEnum::ApiV3FinancialPlanGet);
         });

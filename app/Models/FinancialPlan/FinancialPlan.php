@@ -2,6 +2,7 @@
 
 namespace App\Models\FinancialPlan;
 
+use App\Modules\FinancialPlan\Enum\FinancialPlanInstallmentEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -50,5 +51,10 @@ class FinancialPlan extends Model
     public function installments_data(): HasMany
     {
         return $this->hasMany(FinancialPlanInstallment::class, 'financial_plan_id', 'id');
+    }
+
+    public function isFixInstallment(): bool
+    {
+        return $this->installments === FinancialPlanInstallmentEnum::Fix->value;
     }
 }
